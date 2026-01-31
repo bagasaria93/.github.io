@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bagas Aria Sativa - Full Stack Web Developer specializing in Laravel, CodeIgniter, and Manufacturing ERP Systems. Fresh graduate with 3.95 GPA and professional experience.">
+    <meta name="keywords" content="Full Stack Developer, Laravel Developer, CodeIgniter Expert, Manufacturing ERP, Web Developer Indonesia">
+    <meta name="author" content="Bagas Aria Sativa">
+    <title>Bagas Aria Sativa - Full Stack Web Developer</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/custom.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'dark-blue': '#1e3a8a',
+                        'medium-blue': '#3b82f6',
+                        'light-blue': '#60a5fa',
+                        'dark-slate': '#0f172a',
+                        'slate-gray': '#334155',
+                        'light-gray': '#64748b',
+                        'accent-cyan': '#06b6d4',
+                        'success-green': '#10b981'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                        'heading': ['Poppins', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-300 bg-dark-slate">
+
+    <nav id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <img src="assets/images/logo.png" alt="Logo" class="h-8 w-8 rounded-lg" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 fill=%22%233b82f6%22 rx=%228%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22 font-weight=%22bold%22 font-family=%22Arial%22%3EBA%3C/text%3E%3C/svg%3E'">
+                    <span class="text-lg font-heading font-bold text-white">Bagas<span class="text-medium-blue">Dev</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Home</a>
+                    <a href="#about" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">About</a>
+                    <a href="#skills" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Skills</a>
+                    <a href="#experience" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Experience</a>
+                    <a href="#projects" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Projects</a>
+                    <a href="#contact" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Contact</a>
+                    <a href="assets/files/Bagas-Aria-Sativa-CV.pdf" download class="px-4 py-2 bg-gradient-to-r from-medium-blue to-accent-cyan text-white rounded-lg font-medium text-sm hover:shadow-lg hover:shadow-medium-blue/50 transition-all duration-300">Download CV</a>
+                </div>
+                
+                <button id="mobile-menu-btn" class="md:hidden text-white focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div id="mobile-menu" class="hidden md:hidden mt-3 pb-3">
+                <div class="flex flex-col space-y-2">
+                    <a href="#home" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Home</a>
+                    <a href="#about" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">About</a>
+                    <a href="#skills" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Skills</a>
+                    <a href="#experience" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Experience</a>
+                    <a href="#projects" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Projects</a>
+                    <a href="#contact" class="nav-link text-sm font-medium hover:text-medium-blue transition-colors">Contact</a>
+                    <a href="assets/files/Bagas-Aria-Sativa-CV.pdf" download class="px-4 py-2 bg-gradient-to-r from-medium-blue to-accent-cyan text-white rounded-lg font-medium text-sm text-center hover:shadow-lg hover:shadow-medium-blue/50 transition-all duration-300">Download CV</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-blue-900 via-slate-900 to-blue-900 pt-16">
+        <div class="absolute inset-0 opacity-20">
+            <div class="particles"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto">
+                <div data-aos="fade-right">
+                    <p class="text-medium-blue font-medium mb-2 text-sm">Hello, I'm</p>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-4 leading-tight">
+                        Bagas Aria<br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-medium-blue to-accent-cyan">Sativa</span>
+                    </h1>
+                    <div class="mb-4">
+                        <span class="text-lg md:text-xl text-light-blue font-medium">
+                            <span id="typed-text"></span>
+                            <span class="typed-cursor">|</span>
+                        </span>
+                    </div>
+                    <p class="text-base text-gray-400 mb-6 leading-relaxed">
+                        Fresh Graduate with Professional Experience specializing in Multi-Industry ERP Systems, Laravel & CodeIgniter Development.
+                    </p>
+                    <div class="flex flex-wrap gap-3">
+                        <a href="#projects" class="px-6 py-3 bg-gradient-to-r from-medium-blue to-accent-cyan text-white rounded-lg font-medium text-sm hover:shadow-xl hover:shadow-medium-blue/50 transition-all duration-300 transform hover:-translate-y-1">
+                            View My Work
+                        </a>
+                        <a href="assets/files/Bagas-Aria-Sativa-CV.pdf" download class="px-6 py-3 bg-white/10 backdrop-blur-sm text-white rounded-lg font-medium text-sm border border-white/20 hover:bg-white/20 transition-all duration-300 transform hover:-translate-y-1">
+                            Download CV
+                        </a>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left" class="hidden md:flex justify-center">
+                    <div class="relative">
+                        <div class="absolute inset-0 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-full blur-3xl opacity-30 animate-pulse"></div>
+                        <img src="assets/images/profile-photo.jpg" alt="Bagas Aria Sativa" class="relative w-64 h-64 rounded-full profile-photo border-4 border-white/10 shadow-2xl" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 256 256%22%3E%3Ccircle cx=%22128%22 cy=%22128%22 r=%22128%22 fill=%22%233b82f6%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2296%22 font-weight=%22bold%22 font-family=%22Arial%22%3EBA%3C/text%3E%3C/svg%3E'">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="h-screen flex items-center bg-slate-900/50 pt-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
+                    About <span class="text-transparent bg-clip-text bg-gradient-to-r from-medium-blue to-accent-cyan">Me</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-medium-blue to-accent-cyan mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="max-w-5xl mx-auto">
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10 mb-5" data-aos="fade-up" data-aos-delay="100">
+                    <p class="text-sm text-gray-300 mb-3 leading-relaxed">
+                        Passionate Full Stack Web Developer with strong academic foundation (GPA 3.95) and hands-on professional experience across multiple industries. I have developed comprehensive ERP systems for both manufacturing and beauty retail sectors, serving clients from automotive industries to multi-branch salon businesses.
+                    </p>
+                    <p class="text-sm text-gray-300 leading-relaxed">
+                        With 8 successfully completed projects, I specialize in building scalable web applications using Laravel and CodeIgniter, combined with modern frontend technologies. My diverse industry experience enables me to understand and translate complex business requirements into efficient, maintainable solutions.
+                    </p>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div class="bg-gradient-to-br from-medium-blue/20 to-accent-cyan/20 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="150">
+                        <div class="text-2xl font-heading font-bold text-white mb-1">3.95</div>
+                        <div class="text-xs text-gray-400">GPA Score</div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-medium-blue/20 to-accent-cyan/20 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="175">
+                        <div class="text-2xl font-heading font-bold text-white mb-1">8+</div>
+                        <div class="text-xs text-gray-400">Projects</div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-medium-blue/20 to-accent-cyan/20 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="200">
+                        <div class="text-2xl font-heading font-bold text-white mb-1">590</div>
+                        <div class="text-xs text-gray-400">TOEFL</div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-medium-blue/20 to-accent-cyan/20 backdrop-blur-sm rounded-lg p-3 border border-white/10 text-center" data-aos="fade-up" data-aos-delay="225">
+                        <div class="text-xl font-heading font-bold text-white mb-1">Multi</div>
+                        <div class="text-xs text-gray-400">Industry</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="h-screen flex items-center bg-gradient-to-br from-blue-900 via-slate-900 to-blue-900 pt-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
+                    Technical <span class="text-transparent bg-clip-text bg-gradient-to-r from-medium-blue to-accent-cyan">Skills</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-medium-blue to-accent-cyan mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-lg flex items-center justify-center mr-2">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-base font-heading font-bold text-white">Backend</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="skill-badge text-xs">PHP</span>
+                            <span class="skill-badge text-xs">Python</span>
+                            <span class="skill-badge text-xs">Django</span>
+                            <span class="skill-badge text-xs">Laravel</span>
+                            <span class="skill-badge text-xs">CodeIgniter</span>
+                            <span class="skill-badge text-xs">MySQL</span>
+                            <span class="skill-badge text-xs">REST API</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="125">
+                        <div class="flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-lg flex items-center justify-center mr-2">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-base font-heading font-bold text-white">Frontend</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="skill-badge text-xs">React JS</span>
+                            <span class="skill-badge text-xs">Vue.JS</span>
+                            <span class="skill-badge text-xs">JavaScript</span>
+                            <span class="skill-badge text-xs">HTML/CSS</span>
+                            <span class="skill-badge text-xs">Tailwind</span>
+                            <span class="skill-badge text-xs">Bootstrap</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="150">
+                        <div class="flex items-center mb-3">
+                            <div class="w-8 h-8 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-lg flex items-center justify-center mr-2">
+                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                </svg>
+                            </div>
+                            <h3 class="text-base font-heading font-bold text-white">Tools</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="skill-badge text-xs">Git</span>
+                            <span class="skill-badge text-xs">GitHub</span>
+                            <span class="skill-badge text-xs">Figma</span>
+                            <span class="skill-badge text-xs">Canva</span>
+                            <span class="skill-badge text-xs">Chart.js</span>
+                            <span class="skill-badge text-xs">PDF Gen</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="175">
+                    <h3 class="text-base font-heading font-bold text-white mb-3 text-center">Specializations</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-1.5 h-1.5 bg-medium-blue rounded-full flex-shrink-0"></div>
+                            <span class="text-xs text-gray-300">ERP Development</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-1.5 h-1.5 bg-medium-blue rounded-full flex-shrink-0"></div>
+                            <span class="text-xs text-gray-300">Manufacturing Solutions</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-1.5 h-1.5 bg-medium-blue rounded-full flex-shrink-0"></div>
+                            <span class="text-xs text-gray-300">Retail Management</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-1.5 h-1.5 bg-medium-blue rounded-full flex-shrink-0"></div>
+                            <span class="text-xs text-gray-300">POS Applications</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-1.5 h-1.5 bg-medium-blue rounded-full flex-shrink-0"></div>
+                            <span class="text-xs text-gray-300">DB Optimization</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-1.5 h-1.5 bg-medium-blue rounded-full flex-shrink-0"></div>
+                            <span class="text-xs text-gray-300">System Integration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="h-screen flex items-center bg-slate-900/50 pt-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
+                    Professional <span class="text-transparent bg-clip-text bg-gradient-to-r from-medium-blue to-accent-cyan">Experience</span>
+                </h2>
+                <div class="w-20 h-1 bg-gradient-to-r from-medium-blue to-accent-cyan mx-auto rounded-full"></div>
+            </div>
+            
+            <div class="max-w-5xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10 relative" data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex items-start justify-between mb-3">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-heading font-bold text-white mb-1">Full Stack Web Developer</h3>
+                                <p class="text-sm text-medium-blue font-medium mb-1">Manufacturing Company</p>
+                                <p class="text-xs text-gray-400">Cikarang, Bekasi • 2025 - Present</p>
+                            </div>
+                            <span class="px-2 py-1 bg-success-green/20 text-success-green rounded-full text-xs font-medium border border-success-green/30">Current</span>
+                        </div>
+                        
+                        <div class="space-y-2 mb-3">
+                            <div class="flex items-start">
+                                <svg class="w-3 h-3 text-medium-blue mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-xs text-gray-300">Developed ERP systems for automotive & materials industry</span>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-3 h-3 text-medium-blue mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-xs text-gray-300">Built Master Production Schedule (MPS) systems</span>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-3 h-3 text-medium-blue mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-xs text-gray-300">Created admin dashboards & workflow automation</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2 py-0.5 bg-medium-blue/20 text-medium-blue rounded text-xs font-medium border border-medium-blue/30">Laravel 10</span>
+                            <span class="px-2 py-0.5 bg-medium-blue/20 text-medium-blue rounded text-xs font-medium border border-medium-blue/30">MySQL</span>
+                            <span class="px-2 py-0.5 bg-medium-blue/20 text-medium-blue rounded text-xs font-medium border border-medium-blue/30">React JS</span>
+                            <span class="px-2 py-0.5 bg-medium-blue/20 text-medium-blue rounded text-xs font-medium border border-medium-blue/30">Tailwind</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10" data-aos="fade-up" data-aos-delay="125">
+                        <div class="mb-3">
+                            <h3 class="text-lg font-heading font-bold text-white mb-1">Full Stack Web Developer</h3>
+                            <p class="text-sm text-medium-blue font-medium mb-1">Beauty & Retail Industry</p>
+                            <p class="text-xs text-gray-400">Kelapa Gading, Jakarta Utara</p>
+                        </div>
+                        
+                        <div class="space-y-2 mb-3">
+                            <div class="flex items-start">
+                                <svg class="w-3 h-3 text-medium-blue mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-xs text-gray-300">Multi-branch customer management (20+ locations)</span>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-3 h-3 text-medium-blue mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-xs text-gray-300">WhatsApp integration for automated feedback</span>
+                            </div>
+                            <div class="flex items-start">
+                                <svg class="w-3 h-3 text-medium-blue mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                                </svg>
+                                <span class="text-xs text-gray-300">Performance tracking & inventory management</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-1.5">
+                            <span class="px-2 py-0.5 bg-medium-blue/20 text-medium-blue rounded text-xs font-medium border border-medium-blue/30">CodeIgniter 3</span>
+                            <span class="px-2 py-0.5 bg-medium-blue/20 text-medium-blue rounded text-xs font-medium border border-medium-blue/30">MySQL</span>
+                            <span class="px-2 py-0.5 bg-medium-blue/20 text-medium-blue rounded text-xs font-medium border border-medium-blue/30">Bootstrap</span>
+                            <span class="px-2 py-0.5 bg-medium-blue/20 text-medium-blue rounded text-xs font-medium border border-medium-blue/30">WhatsApp API</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="150">
+                        <h3 class="text-base font-heading font-bold text-white mb-2">Education</h3>
+                        <p class="text-sm text-medium-blue font-medium mb-1">Bachelor's in Information Technology</p>
+                        <p class="text-xs text-gray-400 mb-2">Universitas Bina Sarana Informatika - 2025</p>
+                        <div class="bg-gradient-to-r from-medium-blue/20 to-accent-cyan/20 rounded p-2 border border-medium-blue/30">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-gray-300">GPA</span>
+                                <span class="text-lg font-heading font-bold text-white">3.95</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="175">
+                        <h3 class="text-base font-heading font-bold text-white mb-2">Certifications</h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <div class="w-1.5 h-1.5 bg-medium-blue rounded-full mr-2"></div>
+                                <span class="text-xs text-gray-300">TOEFL ITP Score: 590 (2024)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-1.5 h-1.5 bg-medium-blue rounded-full mr-2"></div>
+                                <span class="text-xs text-gray-300">PHP Development Certificate</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-1.5 h-1.5 bg-medium-blue rounded-full mr-2"></div>
+                                <span class="text-xs text-gray-300">Frontend Development Certificate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="h-screen flex items-center bg-gradient-to-br from-blue-900 via-slate-900 to-blue-900 pt-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
+                    Featured <span class="text-transparent bg-clip-text bg-gradient-to-r from-medium-blue to-accent-cyan">Projects</span>
+                </h2>
+                <p class="text-sm text-gray-400">Live Demonstrations of My Work</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-medium-blue to-accent-cyan mx-auto rounded-full mt-2"></div>
+            </div>
+            
+            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-4">
+                <div class="project-card bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/images/company-profile-preview.png" alt="Company Profile" class="w-full h-32 object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22128%22 viewBox=%220 0 400 128%22%3E%3Crect width=%22400%22 height=%22128%22 fill=%22%231e3a8a%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22 font-family=%22Arial%22%3ECompany Profile%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-sm font-heading font-bold text-white mb-2 group-hover:text-medium-blue transition-colors">PT Karya Presisi Indonesia</h3>
+                        <div class="flex flex-wrap gap-1 mb-2">
+                            <span class="tech-badge">HTML5</span>
+                            <span class="tech-badge">Tailwind</span>
+                            <span class="tech-badge">JS</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">Corporate website with 6 pages & modern design</p>
+                        <div class="flex gap-2">
+                            <a href="https://bagasaria93.github.io/company-profile" target="_blank" class="flex-1 px-3 py-1.5 bg-gradient-to-r from-medium-blue to-accent-cyan text-white rounded text-xs font-medium text-center hover:shadow-lg transition-all">
+                                Live Demo
+                            </a>
+                            <a href="https://github.com/bagasaria93/company-profile" target="_blank" class="flex-1 px-3 py-1.5 bg-white/10 text-white rounded text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="125">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/images/inventory-system-preview.png" alt="Inventory System" class="w-full h-32 object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22128%22 viewBox=%220 0 400 128%22%3E%3Crect width=%22400%22 height=%22128%22 fill=%22%231e3a8a%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22 font-family=%22Arial%22%3EInventory System%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-sm font-heading font-bold text-white mb-2 group-hover:text-medium-blue transition-colors">Inventory Management System</h3>
+                        <div class="flex flex-wrap gap-1 mb-2">
+                            <span class="tech-badge">HTML5</span>
+                            <span class="tech-badge">Tailwind</span>
+                            <span class="tech-badge">Chart.js</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">Stock tracking with analytics dashboard</p>
+                        <div class="flex gap-2">
+                            <a href="https://bagasaria93.github.io/inventory-system" target="_blank" class="flex-1 px-3 py-1.5 bg-gradient-to-r from-medium-blue to-accent-cyan text-white rounded text-xs font-medium text-center hover:shadow-lg transition-all">
+                                Live Demo
+                            </a>
+                            <a href="https://github.com/bagasaria93/inventory-system" target="_blank" class="flex-1 px-3 py-1.5 bg-white/10 text-white rounded text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="150">
+                    <div class="relative overflow-hidden">
+                        <img src="assets/images/ecommerce-preview.png" alt="E-Commerce" class="w-full h-32 object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22128%22 viewBox=%220 0 400 128%22%3E%3Crect width=%22400%22 height=%22128%22 fill=%22%231e3a8a%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22 font-family=%22Arial%22%3EE-Commerce%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-sm font-heading font-bold text-white mb-2 group-hover:text-medium-blue transition-colors">Belanja Elektronik</h3>
+                        <div class="flex flex-wrap gap-1 mb-2">
+                            <span class="tech-badge">HTML5</span>
+                            <span class="tech-badge">Tailwind</span>
+                            <span class="tech-badge">JS</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3">Complete e-commerce with cart & admin</p>
+                        <div class="flex gap-2">
+                            <a href="https://bagasaria93.github.io/ecommerce-platform" target="_blank" class="flex-1 px-3 py-1.5 bg-gradient-to-r from-medium-blue to-accent-cyan text-white rounded text-xs font-medium text-center hover:shadow-lg transition-all">
+                                Live Demo
+                            </a>
+                            <a href="https://github.com/bagasaria93/ecommerce-platform" target="_blank" class="flex-1 px-3 py-1.5 bg-white/10 text-white rounded text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
+                                Code
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="h-screen flex items-center bg-slate-900/50 pt-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-6" data-aos="fade-up">
+                <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
+                    Get In <span class="text-transparent bg-clip-text bg-gradient-to-r from-medium-blue to-accent-cyan">Touch</span>
+                </h2>
+                <p class="text-sm text-gray-400">Open to full-time opportunities as Full Stack Developer</p>
+                <div class="w-20 h-1 bg-gradient-to-r from-medium-blue to-accent-cyan mx-auto rounded-full mt-2"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
+                <div data-aos="fade-right">
+                    <div class="space-y-3">
+                        <a href="mailto:bagasativa@gmail.com" class="flex items-center space-x-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-white/10 transition-all group">
+                            <div class="w-10 h-10 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">Email</p>
+                                <p class="text-sm text-white font-medium group-hover:text-medium-blue transition-colors">bagasativa@gmail.com</p>
+                            </div>
+                        </a>
+                        
+                        <a href="https://linkedin.com/in/bagasaria" target="_blank" class="flex items-center space-x-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-white/10 transition-all group">
+                            <div class="w-10 h-10 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">LinkedIn</p>
+                                <p class="text-sm text-white font-medium group-hover:text-medium-blue transition-colors">linkedin.com/in/bagasaria</p>
+                            </div>
+                        </a>
+                        
+                        <a href="https://github.com/bagasaria93" target="_blank" class="flex items-center space-x-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-white/10 transition-all group">
+                            <div class="w-10 h-10 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">GitHub</p>
+                                <p class="text-sm text-white font-medium group-hover:text-medium-blue transition-colors">github.com/bagasaria93</p>
+                            </div>
+                        </a>
+                        
+                        <a href="https://wa.me/6281284275655" target="_blank" class="flex items-center space-x-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-white/10 transition-all group">
+                            <div class="w-10 h-10 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400">WhatsApp</p>
+                                <p class="text-sm text-white font-medium group-hover:text-medium-blue transition-colors">+62 812-8427-5655</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div data-aos="fade-left">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
+                        <h3 class="text-lg font-heading font-bold text-white mb-4">Send Message</h3>
+                        <form class="space-y-3">
+                            <div>
+                                <input type="text" placeholder="Your Name" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-medium-blue transition-colors">
+                            </div>
+                            <div>
+                                <input type="email" placeholder="Your Email" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-medium-blue transition-colors">
+                            </div>
+                            <div>
+                                <textarea rows="4" placeholder="Your Message" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-medium-blue transition-colors resize-none"></textarea>
+                            </div>
+                            <button type="button" onclick="alert('This is a demo form. Please contact me directly via email or WhatsApp!')" class="w-full px-6 py-2.5 bg-gradient-to-r from-medium-blue to-accent-cyan text-white rounded-lg font-medium text-sm hover:shadow-xl hover:shadow-medium-blue/50 transition-all duration-300">
+                                Send Message
+                            </button>
+                            <p class="text-center text-gray-400 text-xs">Or reach me directly via email or WhatsApp</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark-slate border-t border-white/10 py-6">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <p class="text-gray-400 text-sm mb-3 md:mb-0">© 2025 Bagas Aria Sativa. All rights reserved.</p>
+                <div class="flex space-x-4">
+                    <a href="https://linkedin.com/in/bagasaria" target="_blank" class="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center hover:bg-medium-blue transition-colors">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/bagasaria93" target="_blank" class="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center hover:bg-medium-blue transition-colors">
+                        <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+                        </svg>
+                    </a>
+                    <a href="mailto:bagasativa@gmail.com" class="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center hover:bg-medium-blue transition-colors">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-10 h-10 bg-gradient-to-r from-medium-blue to-accent-cyan rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 pointer-events-none z-50">
+        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+        </svg>
+    </button>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="assets/js/typing.js"></script>
+    <script src="assets/js/animations.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
