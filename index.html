@@ -24,17 +24,18 @@
             theme: {
                 extend: {
                     colors: {
-                        'primary-indigo': '#4F46E5',
+                        'primary-indigo': '#5B21B6',
                         'indigo-light': '#6366F1',
                         'indigo-dark': '#4338CA',
-                        'success-green': '#10B981',
-                        'green-light': '#34D399',
-                        'accent-orange': '#F59E0B',
-                        'orange-light': '#FBBF24',
+                        'success-green': '#059669',
+                        'green-light': '#10B981',
+                        'accent-orange': '#F97316',
+                        'orange-light': '#FB923C',
+                        'accent-cyan': '#06B6D4',
+                        'cyan-light': '#22D3EE',
                         'dark-slate': '#0f172a',
                         'slate-gray': '#334155',
-                        'light-gray': '#64748b',
-                        'accent-teal': '#14B8A6'
+                        'light-gray': '#64748b'
                     },
                     fontFamily: {
                         'sans': ['Inter', 'sans-serif'],
@@ -51,7 +52,7 @@
         <div class="container mx-auto px-6 py-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-3">
-                    <img src="BagasDev.png" alt="Logo" class="h-8 w-8 rounded-lg" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 fill=%22%234F46E5%22 rx=%228%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22 font-weight=%22bold%22 font-family=%22Arial%22%3EBA%3C/text%3E%3C/svg%3E'">
+                    <img src="BagasDev.png" alt="Logo" class="h-8 w-8 rounded-lg" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 fill=%22%235B21B6%22 rx=%228%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2220%22 font-weight=%22bold%22 font-family=%22Arial%22%3EBA%3C/text%3E%3C/svg%3E'">
                     <span class="text-lg font-heading font-bold text-white">Bagas<span class="text-primary-indigo">Dev</span></span>
                 </div>
                 
@@ -86,51 +87,79 @@
         </div>
     </nav>
 
-    <section id="home" class="h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900 pt-16">
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900 pt-24 pb-16">
         <div class="absolute inset-0 opacity-20">
             <div class="particles"></div>
         </div>
         
         <div class="container mx-auto px-6 relative z-10">
             <div class="grid md:grid-cols-2 gap-8 items-center max-w-6xl mx-auto">
-                <div data-aos="fade-right">
+                <div data-aos="fade-right" class="order-2 md:order-1">
+                    <div class="inline-flex items-center space-x-2 px-3 py-1.5 bg-success-green/20 border border-success-green/30 rounded-full mb-4">
+                        <div class="w-2 h-2 bg-success-green rounded-full animate-pulse"></div>
+                        <span class="text-success-green text-xs font-medium">Available for Full-time Position</span>
+                    </div>
+                    
                     <p class="text-success-green font-medium mb-2 text-sm">Hello, I'm</p>
-                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-4 leading-tight">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-white mb-3 leading-tight">
                         Bagas Aria<br>
                         <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-indigo to-accent-orange">Sativa</span>
                     </h1>
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <span class="text-lg md:text-xl text-indigo-light font-medium">
                             <span id="typed-text"></span>
                             <span class="typed-cursor">|</span>
                         </span>
                     </div>
-                    <p class="text-base text-gray-400 mb-6 leading-relaxed">
+                    
+                    <div class="flex flex-wrap items-center gap-2 mb-6 text-sm">
+                        <div class="flex items-center space-x-1.5 px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                            <svg class="w-4 h-4 text-success-green" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                            </svg>
+                            <span class="text-white font-semibold">3.95 GPA</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5 px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                            <svg class="w-4 h-4 text-indigo-light" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"></path>
+                                <path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-white font-semibold">8+ Projects</span>
+                        </div>
+                        <div class="flex items-center space-x-1.5 px-3 py-1.5 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                            <svg class="w-4 h-4 text-accent-orange" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-white font-semibold">TOEFL 590</span>
+                        </div>
+                    </div>
+                    
+                    <p class="text-base md:text-lg text-gray-400 mb-6 leading-relaxed max-w-xl">
                         Fresh Graduate with Professional Experience specializing in Multi-Industry ERP Systems, Laravel & CodeIgniter Development.
                     </p>
                     <div class="flex flex-wrap gap-3">
-                        <a href="#projects" class="px-6 py-3 bg-gradient-to-r from-primary-indigo to-indigo-light text-white rounded-lg font-medium text-sm hover:shadow-xl hover:shadow-primary-indigo/50 transition-all duration-300 transform hover:-translate-y-1">
+                        <a href="#projects" class="px-6 py-3 bg-gradient-to-r from-primary-indigo to-indigo-light text-white rounded-lg font-medium text-sm hover:shadow-xl hover:shadow-primary-indigo/50 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
                             View My Work
                         </a>
-                        <a href="assets/files/CV Bagas Aria Sativa - 2026.pdf" download class="px-6 py-3 bg-gradient-to-r from-accent-orange to-orange-light text-white rounded-lg font-medium text-sm hover:shadow-xl hover:shadow-accent-orange/50 transition-all duration-300 transform hover:-translate-y-1">
+                        <a href="assets/files/CV Bagas Aria Sativa - 2026.pdf" download class="px-6 py-3 bg-gradient-to-r from-accent-orange to-orange-light text-white rounded-lg font-medium text-sm hover:shadow-xl hover:shadow-accent-orange/50 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105">
                             Download CV
                         </a>
                     </div>
                 </div>
                 
-                <div data-aos="fade-left" class="hidden md:flex justify-center">
+                <div data-aos="fade-left" class="flex justify-center order-1 md:order-2">
                     <div class="relative">
                         <div class="absolute inset-0 bg-gradient-to-r from-primary-indigo to-accent-orange rounded-full blur-3xl opacity-30 animate-pulse"></div>
-                        <img src="assets/images/profile-photo.jpg" alt="Bagas Aria Sativa" class="relative w-64 h-64 rounded-full profile-photo border-4 border-white/10 shadow-2xl" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 256 256%22%3E%3Ccircle cx=%22128%22 cy=%22128%22 r=%22128%22 fill=%22%234F46E5%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2296%22 font-weight=%22bold%22 font-family=%22Arial%22%3EBA%3C/text%3E%3C/svg%3E'">
+                        <img src="assets/images/profile-photo.png" alt="Bagas Aria Sativa" class="relative w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full profile-photo border-4 border-white/10 shadow-2xl" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22 viewBox=%220 0 256 256%22%3E%3Ccircle cx=%22128%22 cy=%22128%22 r=%22128%22 fill=%22%235B21B6%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2296%22 font-weight=%22bold%22 font-family=%22Arial%22%3EBA%3C/text%3E%3C/svg%3E'">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="about" class="h-screen flex items-center bg-slate-900/50 pt-16">
+    <section id="about" class="min-h-screen flex items-center bg-slate-900/50 pt-20 pb-12">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-6" data-aos="fade-up">
+            <div class="text-center mb-8" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
                     About <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-indigo to-success-green">Me</span>
                 </h2>
@@ -138,43 +167,77 @@
             </div>
             
             <div class="max-w-5xl mx-auto">
-                <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10 mb-5" data-aos="fade-up" data-aos-delay="100">
-                    <p class="text-sm text-gray-300 mb-3 leading-relaxed">
-                        Passionate Full Stack Web Developer with strong academic foundation (GPA 3.95) and hands-on professional experience across multiple industries. I have developed comprehensive ERP systems for both manufacturing and beauty retail sectors, serving clients from automotive industries to multi-branch salon businesses.
-                    </p>
-                    <p class="text-sm text-gray-300 leading-relaxed">
-                        With 8 successfully completed projects, I specialize in building scalable web applications using Laravel and CodeIgniter, combined with modern frontend technologies. My diverse industry experience enables me to understand and translate complex business requirements into efficient, maintainable solutions.
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-gradient-to-br from-success-green/20 to-green-light/20 backdrop-blur-sm rounded-xl p-5 border border-success-green/30 text-center transform hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="100">
+                        <div class="text-4xl font-heading font-bold text-white mb-2">3.95</div>
+                        <div class="text-sm text-gray-400">Cumulative GPA</div>
+                        <div class="mt-2 text-xs text-success-green">Top Performer</div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-primary-indigo/20 to-indigo-light/20 backdrop-blur-sm rounded-xl p-5 border border-primary-indigo/30 text-center transform hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="150">
+                        <div class="text-4xl font-heading font-bold text-white mb-2">8+</div>
+                        <div class="text-sm text-gray-400">Completed Projects</div>
+                        <div class="mt-2 text-xs text-indigo-light">Multi-Industry</div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-accent-orange/20 to-orange-light/20 backdrop-blur-sm rounded-xl p-5 border border-accent-orange/30 text-center transform hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="200">
+                        <div class="text-4xl font-heading font-bold text-white mb-2">590</div>
+                        <div class="text-sm text-gray-400">TOEFL ITP Score</div>
+                        <div class="mt-2 text-xs text-accent-orange">Proficient</div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-accent-cyan/20 to-cyan-light/20 backdrop-blur-sm rounded-xl p-5 border border-accent-cyan/30 text-center transform hover:scale-105 transition-transform" data-aos="fade-up" data-aos-delay="250">
+                        <div class="text-3xl font-heading font-bold text-white mb-2">2025</div>
+                        <div class="text-sm text-gray-400">Fresh Graduate</div>
+                        <div class="mt-2 text-xs text-accent-cyan">IT Bachelor</div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 mb-6" data-aos="fade-up" data-aos-delay="300">
+                    <p class="text-base text-gray-300 leading-relaxed text-center">
+                        Passionate <span class="text-white font-semibold">Full Stack Web Developer</span> with proven professional experience building comprehensive <span class="text-indigo-light font-semibold">ERP systems</span> for manufacturing and retail industries. Combining strong academic foundation (3.95 GPA) with hands-on expertise in <span class="text-success-green font-semibold">Laravel, CodeIgniter, and React JS</span>, I specialize in translating complex business requirements into scalable, maintainable solutions.
                     </p>
                 </div>
                 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                    <div class="bg-gradient-to-br from-success-green/20 to-green-light/20 backdrop-blur-sm rounded-lg p-3 border border-success-green/30 text-center" data-aos="fade-up" data-aos-delay="150">
-                        <div class="text-2xl font-heading font-bold text-white mb-1">3.95</div>
-                        <div class="text-xs text-gray-400">GPA Score</div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" data-aos="fade-up" data-aos-delay="350">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <svg class="w-5 h-5 text-success-green" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+                            </svg>
+                            <h3 class="text-sm font-heading font-bold text-white">Academic Excellence</h3>
+                        </div>
+                        <p class="text-xs text-gray-400">Top performer with 3.95 GPA from Universitas Bina Sarana Informatika</p>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-primary-indigo/20 to-indigo-light/20 backdrop-blur-sm rounded-lg p-3 border border-primary-indigo/30 text-center" data-aos="fade-up" data-aos-delay="175">
-                        <div class="text-2xl font-heading font-bold text-white mb-1">8+</div>
-                        <div class="text-xs text-gray-400">Projects</div>
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <svg class="w-5 h-5 text-indigo-light" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                                <path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path>
+                            </svg>
+                            <h3 class="text-sm font-heading font-bold text-white">Professional Experience</h3>
+                        </div>
+                        <p class="text-xs text-gray-400">Real-world ERP development for automotive and beauty industries</p>
                     </div>
                     
-                    <div class="bg-gradient-to-br from-accent-orange/20 to-orange-light/20 backdrop-blur-sm rounded-lg p-3 border border-accent-orange/30 text-center" data-aos="fade-up" data-aos-delay="200">
-                        <div class="text-2xl font-heading font-bold text-white mb-1">590</div>
-                        <div class="text-xs text-gray-400">TOEFL</div>
-                    </div>
-                    
-                    <div class="bg-gradient-to-br from-accent-teal/20 to-success-green/20 backdrop-blur-sm rounded-lg p-3 border border-accent-teal/30 text-center" data-aos="fade-up" data-aos-delay="225">
-                        <div class="text-xl font-heading font-bold text-white mb-1">Multi</div>
-                        <div class="text-xs text-gray-400">Industry</div>
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <svg class="w-5 h-5 text-accent-orange" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path>
+                            </svg>
+                            <h3 class="text-sm font-heading font-bold text-white">Technical Versatility</h3>
+                        </div>
+                        <p class="text-xs text-gray-400">Full-stack expertise across Laravel, CodeIgniter, React, and modern tools</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="skills" class="h-screen flex items-center bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900 pt-16">
+    <section id="skills" class="min-h-screen flex items-center bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900 pt-20 pb-12">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-6" data-aos="fade-up">
+            <div class="text-center mb-8" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
                     Technical <span class="text-transparent bg-clip-text bg-gradient-to-r from-success-green to-accent-orange">Skills</span>
                 </h2>
@@ -182,93 +245,93 @@
             </div>
             
             <div class="max-w-6xl mx-auto">
-                <div class="grid md:grid-cols-3 gap-4 mb-4">
-                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="100">
-                        <div class="flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-r from-primary-indigo to-indigo-light rounded-lg flex items-center justify-center mr-2">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-5 border border-white/10" data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-primary-indigo to-indigo-light rounded-lg flex items-center justify-center mr-3">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-base font-heading font-bold text-white">Backend</h3>
+                            <h3 class="text-lg font-heading font-bold text-white">Backend</h3>
                         </div>
-                        <div class="flex flex-wrap gap-1.5">
-                            <span class="skill-badge text-xs">PHP</span>
-                            <span class="skill-badge text-xs">Python</span>
-                            <span class="skill-badge text-xs">Django</span>
-                            <span class="skill-badge text-xs">Laravel</span>
-                            <span class="skill-badge text-xs">CodeIgniter</span>
-                            <span class="skill-badge text-xs">MySQL</span>
-                            <span class="skill-badge text-xs">REST API</span>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">PHP</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Python</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Django</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Laravel</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">CodeIgniter</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">MySQL</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">REST API</span>
                         </div>
                     </div>
                     
-                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="125">
-                        <div class="flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-r from-success-green to-green-light rounded-lg flex items-center justify-center mr-2">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-5 border border-white/10" data-aos="fade-up" data-aos-delay="150">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-success-green to-green-light rounded-lg flex items-center justify-center mr-3">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-base font-heading font-bold text-white">Frontend</h3>
+                            <h3 class="text-lg font-heading font-bold text-white">Frontend</h3>
                         </div>
-                        <div class="flex flex-wrap gap-1.5">
-                            <span class="skill-badge text-xs">React JS</span>
-                            <span class="skill-badge text-xs">Vue.JS</span>
-                            <span class="skill-badge text-xs">JavaScript</span>
-                            <span class="skill-badge text-xs">HTML/CSS</span>
-                            <span class="skill-badge text-xs">Tailwind</span>
-                            <span class="skill-badge text-xs">Bootstrap</span>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">React JS</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Vue.JS</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">JavaScript</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">HTML/CSS</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Tailwind</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Bootstrap</span>
                         </div>
                     </div>
                     
-                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="150">
-                        <div class="flex items-center mb-3">
-                            <div class="w-8 h-8 bg-gradient-to-r from-accent-orange to-orange-light rounded-lg flex items-center justify-center mr-2">
-                                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-5 border border-white/10" data-aos="fade-up" data-aos-delay="200">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 bg-gradient-to-r from-accent-orange to-orange-light rounded-lg flex items-center justify-center mr-3">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                 </svg>
                             </div>
-                            <h3 class="text-base font-heading font-bold text-white">Tools</h3>
+                            <h3 class="text-lg font-heading font-bold text-white">Tools</h3>
                         </div>
-                        <div class="flex flex-wrap gap-1.5">
-                            <span class="skill-badge text-xs">Git</span>
-                            <span class="skill-badge text-xs">GitHub</span>
-                            <span class="skill-badge text-xs">Figma</span>
-                            <span class="skill-badge text-xs">Canva</span>
-                            <span class="skill-badge text-xs">Chart.js</span>
-                            <span class="skill-badge text-xs">PDF Gen</span>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Git</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">GitHub</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Figma</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Canva</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">Chart.js</span>
+                            <span class="skill-badge hover:bg-white/10 transition-colors cursor-pointer">PDF Gen</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="175">
-                    <h3 class="text-base font-heading font-bold text-white mb-3 text-center">Specializations</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div class="bg-white/5 backdrop-blur-sm rounded-lg p-5 border border-white/10" data-aos="fade-up" data-aos-delay="250">
+                    <h3 class="text-lg font-heading font-bold text-white mb-4 text-center">Core Specializations</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                         <div class="flex items-center space-x-2">
-                            <div class="w-1.5 h-1.5 bg-success-green rounded-full flex-shrink-0"></div>
-                            <span class="text-xs text-gray-300">ERP Development</span>
+                            <div class="w-2 h-2 bg-success-green rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">ERP Development</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <div class="w-1.5 h-1.5 bg-success-green rounded-full flex-shrink-0"></div>
-                            <span class="text-xs text-gray-300">Manufacturing Solutions</span>
+                            <div class="w-2 h-2 bg-success-green rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">Manufacturing Solutions</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <div class="w-1.5 h-1.5 bg-success-green rounded-full flex-shrink-0"></div>
-                            <span class="text-xs text-gray-300">Retail Management</span>
+                            <div class="w-2 h-2 bg-success-green rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">Retail Management</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <div class="w-1.5 h-1.5 bg-success-green rounded-full flex-shrink-0"></div>
-                            <span class="text-xs text-gray-300">POS Applications</span>
+                            <div class="w-2 h-2 bg-success-green rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">POS Applications</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <div class="w-1.5 h-1.5 bg-success-green rounded-full flex-shrink-0"></div>
-                            <span class="text-xs text-gray-300">DB Optimization</span>
+                            <div class="w-2 h-2 bg-success-green rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">DB Optimization</span>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <div class="w-1.5 h-1.5 bg-success-green rounded-full flex-shrink-0"></div>
-                            <span class="text-xs text-gray-300">System Integration</span>
+                            <div class="w-2 h-2 bg-success-green rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">System Integration</span>
                         </div>
                     </div>
                 </div>
@@ -276,23 +339,23 @@
         </div>
     </section>
 
-    <section id="experience" class="h-screen flex items-center bg-slate-900/50 pt-16">
+    <section id="experience" class="min-h-screen flex items-center bg-slate-900/50 pt-20 pb-12">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-6" data-aos="fade-up">
+            <div class="text-center mb-8" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
-                    Professional <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-indigo via-success-green to-accent-orange">Experience</span>
+                    Professional <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-indigo via-success-green to-accent-orange">Journey</span>
                 </h2>
                 <div class="w-20 h-1 bg-gradient-to-r from-primary-indigo via-success-green to-accent-orange mx-auto rounded-full"></div>
             </div>
             
-            <div class="max-w-5xl mx-auto">
-                <div class="grid md:grid-cols-2 gap-4 mb-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                     <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10 relative" data-aos="fade-up" data-aos-delay="100">
                         <div class="flex items-start justify-between mb-3">
                             <div class="flex-1">
-                                <h3 class="text-lg font-heading font-bold text-white mb-1">Full Stack Web Developer</h3>
+                                <h3 class="text-base font-heading font-bold text-white mb-1">Full Stack Developer</h3>
                                 <p class="text-sm text-primary-indigo font-medium mb-1">Manufacturing Company</p>
-                                <p class="text-xs text-gray-400">Cikarang, Bekasi • 2025 - Present</p>
+                                <p class="text-xs text-gray-400">Cikarang • 2025 - Present</p>
                             </div>
                             <span class="px-2 py-1 bg-success-green/20 text-success-green rounded-full text-xs font-medium border border-success-green/30">Current</span>
                         </div>
@@ -302,35 +365,34 @@
                                 <svg class="w-3 h-3 text-success-green mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-xs text-gray-300">Developed ERP systems for automotive & materials industry</span>
+                                <span class="text-xs text-gray-300">ERP systems for automotive industry</span>
                             </div>
                             <div class="flex items-start">
                                 <svg class="w-3 h-3 text-success-green mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-xs text-gray-300">Built Master Production Schedule (MPS) systems</span>
+                                <span class="text-xs text-gray-300">MPS scheduling systems</span>
                             </div>
                             <div class="flex items-start">
                                 <svg class="w-3 h-3 text-success-green mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-xs text-gray-300">Created admin dashboards & workflow automation</span>
+                                <span class="text-xs text-gray-300">Workflow automation</span>
                             </div>
                         </div>
                         
                         <div class="flex flex-wrap gap-1.5">
-                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30">Laravel 10</span>
-                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30">MySQL</span>
-                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30">React JS</span>
-                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30">Tailwind</span>
+                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30 hover:bg-primary-indigo/30 transition-colors cursor-pointer">Laravel 10</span>
+                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30 hover:bg-primary-indigo/30 transition-colors cursor-pointer">React JS</span>
+                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30 hover:bg-primary-indigo/30 transition-colors cursor-pointer">MySQL</span>
                         </div>
                     </div>
                     
-                    <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10" data-aos="fade-up" data-aos-delay="125">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10" data-aos="fade-up" data-aos-delay="150">
                         <div class="mb-3">
-                            <h3 class="text-lg font-heading font-bold text-white mb-1">Full Stack Web Developer</h3>
+                            <h3 class="text-base font-heading font-bold text-white mb-1">Full Stack Developer</h3>
                             <p class="text-sm text-primary-indigo font-medium mb-1">Beauty & Retail Industry</p>
-                            <p class="text-xs text-gray-400">Kelapa Gading, Jakarta Utara</p>
+                            <p class="text-xs text-gray-400">Jakarta • Multi-branch</p>
                         </div>
                         
                         <div class="space-y-2 mb-3">
@@ -338,59 +400,70 @@
                                 <svg class="w-3 h-3 text-success-green mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-xs text-gray-300">Multi-branch customer management (20+ locations)</span>
+                                <span class="text-xs text-gray-300">20+ branch management</span>
                             </div>
                             <div class="flex items-start">
                                 <svg class="w-3 h-3 text-success-green mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-xs text-gray-300">WhatsApp integration for automated feedback</span>
+                                <span class="text-xs text-gray-300">WhatsApp integration</span>
                             </div>
                             <div class="flex items-start">
                                 <svg class="w-3 h-3 text-success-green mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
                                 </svg>
-                                <span class="text-xs text-gray-300">Performance tracking & inventory management</span>
+                                <span class="text-xs text-gray-300">Performance tracking</span>
                             </div>
                         </div>
                         
                         <div class="flex flex-wrap gap-1.5">
-                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30">CodeIgniter 3</span>
-                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30">MySQL</span>
-                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30">Bootstrap</span>
-                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30">WhatsApp API</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="grid md:grid-cols-2 gap-4">
-                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="150">
-                        <h3 class="text-base font-heading font-bold text-white mb-2">Education</h3>
-                        <p class="text-sm text-success-green font-medium mb-1">Bachelor's in Information Technology</p>
-                        <p class="text-xs text-gray-400 mb-2">Universitas Bina Sarana Informatika - 2025</p>
-                        <div class="bg-gradient-to-r from-success-green/20 to-green-light/20 rounded p-2 border border-success-green/30">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs text-gray-300">GPA</span>
-                                <span class="text-lg font-heading font-bold text-white">3.95</span>
-                            </div>
+                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30 hover:bg-primary-indigo/30 transition-colors cursor-pointer">CodeIgniter</span>
+                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30 hover:bg-primary-indigo/30 transition-colors cursor-pointer">Bootstrap</span>
+                            <span class="px-2 py-0.5 bg-primary-indigo/20 text-indigo-light rounded text-xs font-medium border border-primary-indigo/30 hover:bg-primary-indigo/30 transition-colors cursor-pointer">MySQL</span>
                         </div>
                     </div>
                     
-                    <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="175">
-                        <h3 class="text-base font-heading font-bold text-white mb-2">Certifications</h3>
-                        <div class="space-y-2">
-                            <div class="flex items-center">
-                                <div class="w-1.5 h-1.5 bg-accent-orange rounded-full mr-2"></div>
-                                <span class="text-xs text-gray-300">TOEFL ITP Score: 590 (2024)</span>
+                    <div class="bg-gradient-to-br from-success-green/10 to-green-light/10 backdrop-blur-sm rounded-xl p-5 border-2 border-success-green/40" data-aos="fade-up" data-aos-delay="200">
+                        <div class="flex items-center space-x-2 mb-3">
+                            <svg class="w-5 h-5 text-success-green" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+                            </svg>
+                            <h3 class="text-base font-heading font-bold text-white">Education</h3>
+                        </div>
+                        <p class="text-sm text-success-green font-semibold mb-1">Bachelor of Information Technology</p>
+                        <p class="text-xs text-gray-400 mb-3">Universitas Bina Sarana Informatika</p>
+                        <div class="bg-gradient-to-r from-success-green/20 to-green-light/20 rounded-lg p-3 border border-success-green/30 mb-3">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs text-gray-300">Cumulative GPA</span>
+                                <span class="text-2xl font-heading font-bold text-white">3.95</span>
                             </div>
-                            <div class="flex items-center">
-                                <div class="w-1.5 h-1.5 bg-accent-orange rounded-full mr-2"></div>
-                                <span class="text-xs text-gray-300">PHP Development Certificate</span>
+                            <div class="w-full bg-white/10 rounded-full h-1.5">
+                                <div class="bg-gradient-to-r from-success-green to-green-light h-1.5 rounded-full" style="width: 99%"></div>
                             </div>
-                            <div class="flex items-center">
-                                <div class="w-1.5 h-1.5 bg-accent-orange rounded-full mr-2"></div>
-                                <span class="text-xs text-gray-300">Frontend Development Certificate</span>
-                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2 px-3 py-1.5 bg-accent-orange/20 border border-accent-orange/30 rounded-lg">
+                            <svg class="w-4 h-4 text-accent-orange" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                            <span class="text-xs text-white font-semibold">TOEFL ITP: 590</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-white/10" data-aos="fade-up" data-aos-delay="250">
+                    <h3 class="text-base font-heading font-bold text-white mb-3 text-center">Additional Certifications</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-accent-orange rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">PHP Development Certificate</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-accent-orange rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">Frontend Development Certificate</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-2 h-2 bg-accent-orange rounded-full flex-shrink-0"></div>
+                            <span class="text-sm text-gray-300">Database Management Certificate</span>
                         </div>
                     </div>
                 </div>
@@ -398,92 +471,102 @@
         </div>
     </section>
 
-    <section id="projects" class="h-screen flex items-center bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900 pt-16">
+    <section id="projects" class="min-h-screen flex items-center bg-gradient-to-br from-indigo-900 via-slate-900 to-purple-900 pt-20 pb-12">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-6" data-aos="fade-up">
+            <div class="text-center mb-8" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
                     Featured <span class="text-transparent bg-clip-text bg-gradient-to-r from-accent-orange to-success-green">Projects</span>
                 </h2>
-                <p class="text-sm text-gray-400">Live Demonstrations of My Work</p>
+                <p class="text-sm text-gray-400">Live Demonstrations & Portfolio Pieces</p>
                 <div class="w-20 h-1 bg-gradient-to-r from-accent-orange to-success-green mx-auto rounded-full mt-2"></div>
             </div>
             
-            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-4">
-                <div class="project-card bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="100">
-                    <div class="relative overflow-hidden">
-                        <img src="https://thumbs.dreamstime.com/b/company-profile-abstract-flat-background-design-illustration-isolated-129661599.jpg" alt="Company Profile" class="w-full h-32 object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22128%22 viewBox=%220 0 400 128%22%3E%3Crect width=%22400%22 height=%22128%22 fill=%22%234F46E5%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22 font-family=%22Arial%22%3ECompany Profile%3C/text%3E%3C/svg%3E'">
+            <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+                <div class="project-card project-card-indigo bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group min-h-[420px] flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative overflow-hidden h-40">
+                        <img src="https://images.unsplash.com/photo-1517502884422-41eaead166d4?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGNvbXBhbnklMjBwcm9maWxlfGVufDB8fDB8fHww" alt="Company Profile" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22160%22 viewBox=%220 0 400 160%22%3E%3Crect width=%22400%22 height=%22160%22 fill=%22%235B21B6%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2218%22 font-family=%22Arial%22%3ECompany Profile%3C/text%3E%3C/svg%3E'">
                     </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-heading font-bold text-white mb-2 group-hover:text-primary-indigo transition-colors">PT Karya Presisi Indonesia</h3>
-                        <div class="flex flex-wrap gap-1 mb-2">
-                            <span class="tech-badge">HTML5</span>
-                            <span class="tech-badge">Tailwind</span>
-                            <span class="tech-badge">JS</span>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h3 class="text-base font-heading font-bold text-white mb-2 group-hover:text-primary-indigo transition-colors">Company Profile</h3>
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">HTML5</span>
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">Tailwind</span>
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">JavaScript</span>
                         </div>
-                        <p class="text-xs text-gray-400 mb-3">Corporate website with 6 pages & modern design</p>
+                        <p class="text-xs text-gray-400 mb-4 flex-1">Professional corporate website with 6 pages, modern animations & responsive design</p>
                         <div class="flex gap-2">
-                            <a href="https://bagasaria93.github.io/company-profile" target="_blank" class="flex-1 px-3 py-1.5 bg-gradient-to-r from-primary-indigo to-indigo-light text-white rounded text-xs font-medium text-center hover:shadow-lg transition-all">
+                            <a href="https://bagasaria93.github.io/company-profile" target="_blank" class="flex-1 px-3 py-2 bg-gradient-to-r from-primary-indigo to-indigo-light text-white rounded-lg text-xs font-medium text-center hover:shadow-lg hover:shadow-primary-indigo/50 transition-all">
                                 Live Demo
                             </a>
-                            <a href="https://github.com/bagasaria93/company-profile" target="_blank" class="flex-1 px-3 py-1.5 bg-white/10 text-white rounded text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
+                            <a href="https://github.com/bagasaria93/company-profile" target="_blank" class="flex-1 px-3 py-2 bg-white/10 text-white rounded-lg text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
                                 Code
                             </a>
                         </div>
                     </div>
                 </div>
                 
-                <div class="project-card bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="125">
-                    <div class="relative overflow-hidden">
-                        <img src="https://thumbs.dreamstime.com/b/inventory-management-yellow-word-concept-efficient-planning-company-supplies-usage-horizontal-vector-image-headline-text-400258885.jpg" alt="Inventory System" class="w-full h-32 object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22128%22 viewBox=%220 0 400 128%22%3E%3Crect width=%22400%22 height=%22128%22 fill=%22%2310B981%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22 font-family=%22Arial%22%3EInventory System%3C/text%3E%3C/svg%3E'">
+                <div class="project-card project-card-green bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group min-h-[420px] flex flex-col" data-aos="fade-up" data-aos-delay="150">
+                    <div class="relative overflow-hidden h-40">
+                        <img src="https://images.unsplash.com/photo-1764795849885-e226e3cabe87?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fGludmVudG9yeSUyMG1hbmFnZW1lbnQlMjBzeXN0ZW18ZW58MHx8MHx8fDA%3D" alt="Inventory System" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22160%22 viewBox=%220 0 400 160%22%3E%3Crect width=%22400%22 height=%22160%22 fill=%22%2310B981%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2218%22 font-family=%22Arial%22%3EInventory System%3C/text%3E%3C/svg%3E'">
                     </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-heading font-bold text-white mb-2 group-hover:text-success-green transition-colors">Inventory Management System</h3>
-                        <div class="flex flex-wrap gap-1 mb-2">
-                            <span class="tech-badge">HTML5</span>
-                            <span class="tech-badge">Tailwind</span>
-                            <span class="tech-badge">Chart.js</span>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h3 class="text-base font-heading font-bold text-white mb-2 group-hover:text-success-green transition-colors">Inventory Management System</h3>
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">HTML5</span>
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">Tailwind</span>
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">Chart.js</span>
                         </div>
-                        <p class="text-xs text-gray-400 mb-3">Stock tracking with analytics dashboard</p>
+                        <p class="text-xs text-gray-400 mb-4 flex-1">Real-time stock tracking with analytics dashboard & reporting features</p>
                         <div class="flex gap-2">
-                            <a href="https://bagasaria93.github.io/inventory-system" target="_blank" class="flex-1 px-3 py-1.5 bg-gradient-to-r from-success-green to-green-light text-white rounded text-xs font-medium text-center hover:shadow-lg transition-all">
+                            <a href="https://bagasaria93.github.io/inventory-system" target="_blank" class="flex-1 px-3 py-2 bg-gradient-to-r from-success-green to-green-light text-white rounded-lg text-xs font-medium text-center hover:shadow-lg hover:shadow-success-green/50 transition-all">
                                 Live Demo
                             </a>
-                            <a href="https://github.com/bagasaria93/inventory-system" target="_blank" class="flex-1 px-3 py-1.5 bg-white/10 text-white rounded text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
+                            <a href="https://github.com/bagasaria93/inventory-system" target="_blank" class="flex-1 px-3 py-2 bg-white/10 text-white rounded-lg text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
                                 Code
                             </a>
                         </div>
                     </div>
                 </div>
                 
-                <div class="project-card bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group" data-aos="fade-up" data-aos-delay="150">
-                    <div class="relative overflow-hidden">
-                        <img src="https://www.shutterstock.com/image-vector/ecommerce-online-shopping-concept-word-260nw-1287792094.jpg" alt="E-Commerce" class="w-full h-32 object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22128%22 viewBox=%220 0 400 128%22%3E%3Crect width=%22400%22 height=%22128%22 fill=%22%23F59E0B%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2216%22 font-family=%22Arial%22%3EE-Commerce%3C/text%3E%3C/svg%3E'">
+                <div class="project-card project-card-orange bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 group min-h-[420px] flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                    <div class="relative overflow-hidden h-40">
+                        <img src="https://images.unsplash.com/photo-1688561807440-8a57dfa77ee3?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZS1jb21tZXJjZXxlbnwwfHwwfHx8MA%3D%3D" alt="E-Commerce" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22160%22 viewBox=%220 0 400 160%22%3E%3Crect width=%22400%22 height=%22160%22 fill=%22%23F97316%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2218%22 font-family=%22Arial%22%3EE-Commerce%3C/text%3E%3C/svg%3E'">
                     </div>
-                    <div class="p-4">
-                        <h3 class="text-sm font-heading font-bold text-white mb-2 group-hover:text-accent-orange transition-colors">Belanja Elektronik</h3>
-                        <div class="flex flex-wrap gap-1 mb-2">
-                            <span class="tech-badge">HTML5</span>
-                            <span class="tech-badge">Tailwind</span>
-                            <span class="tech-badge">JS</span>
+                    <div class="p-4 flex-1 flex flex-col">
+                        <h3 class="text-base font-heading font-bold text-white mb-2 group-hover:text-accent-orange transition-colors">E-commerce Platform</h3>
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">HTML5</span>
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">Tailwind</span>
+                            <span class="tech-badge hover:bg-white/10 transition-colors cursor-pointer">JavaScript</span>
                         </div>
-                        <p class="text-xs text-gray-400 mb-3">Complete e-commerce with cart & admin</p>
+                        <p class="text-xs text-gray-400 mb-4 flex-1">Full-featured e-commerce with cart, checkout & admin dashboard</p>
                         <div class="flex gap-2">
-                            <a href="https://bagasaria93.github.io/ecommerce-platform" target="_blank" class="flex-1 px-3 py-1.5 bg-gradient-to-r from-accent-orange to-orange-light text-white rounded text-xs font-medium text-center hover:shadow-lg transition-all">
+                            <a href="https://bagasaria93.github.io/ecommerce-platform" target="_blank" class="flex-1 px-3 py-2 bg-gradient-to-r from-accent-orange to-orange-light text-white rounded-lg text-xs font-medium text-center hover:shadow-lg hover:shadow-accent-orange/50 transition-all">
                                 Live Demo
                             </a>
-                            <a href="https://github.com/bagasaria93/ecommerce-platform" target="_blank" class="flex-1 px-3 py-1.5 bg-white/10 text-white rounded text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
+                            <a href="https://github.com/bagasaria93/ecommerce-platform" target="_blank" class="flex-1 px-3 py-2 bg-white/10 text-white rounded-lg text-xs font-medium text-center border border-white/20 hover:bg-white/20 transition-all">
                                 Code
                             </a>
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            <div class="text-center mt-8" data-aos="fade-up" data-aos-delay="400">
+                <p class="text-sm text-gray-400 mb-3">More projects available on GitHub</p>
+                <a href="https://github.com/bagasaria93" target="_blank" class="inline-flex items-center space-x-2 px-5 py-2.5 bg-white/10 backdrop-blur-sm text-white rounded-lg font-medium text-sm border border-white/20 hover:bg-white/20 transition-all">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+                    </svg>
+                    <span>View All Projects on GitHub</span>
+                </a>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="h-screen flex items-center bg-slate-900/50 pt-16">
+    <section id="contact" class="min-h-screen flex items-center bg-slate-900/50 pt-20 pb-12">
         <div class="container mx-auto px-6">
-            <div class="text-center mb-6" data-aos="fade-up">
+            <div class="text-center mb-8" data-aos="fade-up">
                 <h2 class="text-3xl md:text-4xl font-heading font-bold text-white mb-3">
                     Get In <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-indigo to-accent-orange">Touch</span>
                 </h2>
@@ -491,7 +574,7 @@
                 <div class="w-20 h-1 bg-gradient-to-r from-primary-indigo to-accent-orange mx-auto rounded-full mt-2"></div>
             </div>
             
-            <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
+            <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div data-aos="fade-right">
                     <div class="space-y-3">
                         <a href="mailto:bagasativa@gmail.com" class="flex items-center space-x-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 hover:bg-white/10 transition-all group">
@@ -557,19 +640,19 @@
                 </div>
                 
                 <div data-aos="fade-left">
-                    <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/10">
+                    <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
                         <h3 class="text-lg font-heading font-bold text-white mb-4">Send Message</h3>
                         <form class="space-y-3">
                             <div>
-                                <input type="text" placeholder="Your Name" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-primary-indigo transition-colors">
+                                <input type="text" placeholder="Your Name" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-primary-indigo transition-colors">
                             </div>
                             <div>
-                                <input type="email" placeholder="Your Email" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-primary-indigo transition-colors">
+                                <input type="email" placeholder="Your Email" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-primary-indigo transition-colors">
                             </div>
                             <div>
-                                <textarea rows="4" placeholder="Your Message" class="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-primary-indigo transition-colors resize-none"></textarea>
+                                <textarea rows="4" placeholder="Your Message" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-500 focus:outline-none focus:border-primary-indigo transition-colors resize-none"></textarea>
                             </div>
-                            <button type="button" onclick="alert('This is a demo form. Please contact me directly via email or WhatsApp!')" class="w-full px-6 py-2.5 bg-gradient-to-r from-accent-orange to-orange-light text-white rounded-lg font-medium text-sm hover:shadow-xl hover:shadow-accent-orange/50 transition-all duration-300">
+                            <button type="button" onclick="alert('This is a demo form. Please contact me directly via email or WhatsApp!')" class="w-full px-6 py-3 bg-gradient-to-r from-accent-orange to-orange-light text-white rounded-lg font-medium text-sm hover:shadow-xl hover:shadow-accent-orange/50 transition-all duration-300">
                                 Send Message
                             </button>
                             <p class="text-center text-gray-400 text-xs">Or reach me directly via email or WhatsApp</p>
@@ -605,8 +688,8 @@
         </div>
     </footer>
 
-    <button id="back-to-top" class="fixed bottom-8 right-8 w-10 h-10 bg-gradient-to-r from-accent-orange to-orange-light rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 pointer-events-none z-50">
-        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 bg-gradient-to-r from-accent-orange to-orange-light rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 pointer-events-none z-50">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
         </svg>
     </button>
