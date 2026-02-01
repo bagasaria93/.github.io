@@ -2,7 +2,7 @@
 
 > Modern portfolio website built with HTML5, Tailwind CSS, and Vanilla JavaScript.
 
-**[Live Demo](https://bagasaria93.github.io/portfolio)** | **[View CV](assets/files/CV%20Bagas%20Aria%20Sativa%20-%202026.pdf)**
+**[Live Demo](https://bagasaria93.github.io/)** | **[View CV](assets/files/CV%20Bagas%20Aria%20Sativa%20-%202026.pdf)**
 
 ---
 
