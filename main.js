@@ -6,13 +6,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.querySelectorAll('.nav-link');
 
     window.addEventListener('scroll', function() {
-        const navbar = document.getElementById('navbar');
-        if (window.scrollY > 50) {
-            navbar.classList.add('bg-navy-dark/95', 'shadow-xl', 'shadow-primary-cyan/10');
-            navbar.classList.remove('bg-navy-dark/80', 'shadow-lg', 'shadow-primary-cyan/5');
+        if (window.scrollY > 100) {
+            navbar.classList.add('scrolled');
+            backToTopBtn.classList.add('show');
         } else {
-            navbar.classList.remove('bg-navy-dark/95', 'shadow-xl', 'shadow-primary-cyan/10');
-            navbar.classList.add('bg-navy-dark/80', 'shadow-lg', 'shadow-primary-cyan/5');
+            navbar.classList.remove('scrolled');
+            backToTopBtn.classList.remove('show');
         }
     });
 
