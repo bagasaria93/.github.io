@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
             'Full Stack Web Developer',
             'Laravel &amp; CodeIgniter Expert',
             'Manufacturing ERP Specialist',
-            'React JS Developer',
+            'React JS &amp; Next.js Developer',
+            'TypeScript Developer',
             'Database Designer'
         ],
         typeSpeed: 50,
