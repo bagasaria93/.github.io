@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevStack Studio - Code Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bg: '#111318',
+                        surface: '#1a1d24',
+                        border: '#2a2d36',
+                        violet: {
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['JetBrains Mono', 'monospace'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body class="bg-bg text-gray-300 font-sans min-h-screen">
+
+    <nav class="fixed top-0 left-0 right-0 z-50 border-b border-border bg-bg/90 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center">
+                        <span class="font-mono font-bold text-white text-sm">&lt;/&gt;</span>
+                    </div>
+                    <div>
+                        <span class="font-mono font-bold text-white text-lg">DevStack</span>
+                        <span class="font-mono font-bold text-violet-400 text-lg">Studio</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-1" id="main-tabs">
+                    <button class="main-tab-btn active" data-tab="laravel">
+                        <span class="tab-dot bg-red-400"></span>
+                        Laravel v11
+                    </button>
+                    <button class="main-tab-btn" data-tab="codeigniter">
+                        <span class="tab-dot bg-orange-400"></span>
+                        CodeIgniter v4
+                    </button>
+                    <button class="main-tab-btn" data-tab="python">
+                        <span class="tab-dot bg-blue-400"></span>
+                        Python
+                    </button>
+                    <button class="main-tab-btn" data-tab="mysql">
+                        <span class="tab-dot bg-yellow-400"></span>
+                        MySQL
+                    </button>
+                    <button class="main-tab-btn" data-tab="cicd">
+                        <span class="tab-dot bg-green-400"></span>
+                        CI/CD
+                    </button>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg border border-border text-gray-400 hover:text-white hover:border-violet-500 transition-colors">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden border-t border-border bg-bg">
+            <div class="px-4 py-3 flex flex-col gap-1">
+                <button class="main-tab-btn active w-full justify-start" data-tab="laravel">
+                    <span class="tab-dot bg-red-400"></span>Laravel v11
+                </button>
+                <button class="main-tab-btn w-full justify-start" data-tab="codeigniter">
+                    <span class="tab-dot bg-orange-400"></span>CodeIgniter v4
+                </button>
+                <button class="main-tab-btn w-full justify-start" data-tab="python">
+                    <span class="tab-dot bg-blue-400"></span>Python
+                </button>
+                <button class="main-tab-btn w-full justify-start" data-tab="mysql">
+                    <span class="tab-dot bg-yellow-400"></span>MySQL
+                </button>
+                <button class="main-tab-btn w-full justify-start" data-tab="cicd">
+                    <span class="tab-dot bg-green-400"></span>CI/CD
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pt-16">
+        <div class="border-b border-border bg-surface/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div class="flex items-start gap-4">
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="text-xs font-mono text-violet-400 uppercase tracking-widest">Interactive Code Showcase</span>
+                            <span class="w-1 h-1 rounded-full bg-violet-400 animate-pulse"></span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">
+                            Backend & DevOps <span class="text-violet-400">Stack</span>
+                        </h1>
+                        <p class="text-gray-400 text-sm sm:text-base max-w-2xl">
+                            Eksplorasi implementasi nyata PHP, Python, SQL, dan CI/CD pipeline dengan konteks data bisnis Indonesia. Klik Run untuk melihat output simulasi.
+                        </p>
+                    </div>
+                    <div class="hidden sm:flex flex-col gap-1 text-right">
+                        <span class="text-xs font-mono text-gray-500">total scripts</span>
+                        <span class="text-2xl font-mono font-bold text-violet-400">14</span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-2 mt-4">
+                    <span class="skill-badge">PHP 8.3</span>
+                    <span class="skill-badge">Laravel 11</span>
+                    <span class="skill-badge">CodeIgniter 4</span>
+                    <span class="skill-badge">Python 3.12</span>
+                    <span class="skill-badge">MySQL 8</span>
+                    <span class="skill-badge">PostgreSQL 16</span>
+                    <span class="skill-badge">GitHub Actions</span>
+                    <span class="skill-badge">highlight.js</span>
+                    <span class="skill-badge">Chart.js</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+
+                <div class="flex flex-col gap-4">
+                    <div class="editor-panel rounded-xl border border-border overflow-hidden">
+                        <div class="editor-titlebar flex items-center gap-2 px-4 py-3 border-b border-border bg-surface">
+                            <div class="flex gap-1.5">
+                                <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+                            </div>
+                            <span class="flex-1 text-center text-xs font-mono text-gray-500" id="editor-filename">ProductController.php</span>
+                            <div class="flex items-center gap-2">
+                                <button id="copy-btn" class="toolbar-btn" title="Copy code">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                    <span id="copy-label">Copy</span>
+                                </button>
+                                <button id="run-btn" class="run-btn">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                    Run
+                                </button>
+                            </div>
+                        </div>
+                        <div class="sub-tabs flex gap-0 border-b border-border overflow-x-auto" id="sub-tabs"></div>
+                        <div class="relative" style="max-height: 520px; overflow-y: auto;">
+                            <div class="line-numbers absolute left-0 top-0 bottom-0 w-10 bg-surface border-r border-border flex flex-col pt-4 pb-4 select-none z-10" id="line-numbers"></div>
+                            <pre class="pl-12 pr-4 pt-4 pb-4 m-0 overflow-x-auto" style="background: transparent;"><code class="font-mono text-sm leading-6" id="code-display"></code></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <div class="output-panel rounded-xl border border-border overflow-hidden">
+                        <div class="flex items-center border-b border-border bg-surface">
+                            <button class="output-tab-btn active" data-output="result">Output</button>
+                            <button class="output-tab-btn" data-output="explanation">Explanation</button>
+                            <div class="ml-auto px-4">
+                                <span class="status-dot" id="status-dot"></span>
+                            </div>
+                        </div>
+                        <div id="output-result" class="output-content p-4" style="min-height: 520px; max-height: 580px; overflow-y: auto;">
+                            <div class="flex flex-col items-center justify-center h-64 text-center">
+                                <div class="w-16 h-16 rounded-2xl bg-violet-600/10 border border-violet-600/20 flex items-center justify-center mb-4">
+                                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                                </div>
+                                <p class="text-gray-500 text-sm">Klik <span class="text-violet-400 font-mono">Run</span> untuk menjalankan script</p>
+                                <p class="text-gray-600 text-xs mt-1">Output akan muncul di sini</p>
+                            </div>
+                        </div>
+                        <div id="output-explanation" class="output-content p-4 hidden" style="min-height: 520px; max-height: 580px; overflow-y: auto;"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="border-t border-border mt-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-7 h-7 rounded-lg bg-violet-600 flex items-center justify-center">
+                        <span class="font-mono font-bold text-white text-xs">&lt;/&gt;</span>
+                    </div>
+                    <span class="font-mono text-sm text-gray-400">DevStack Studio</span>
+                </div>
+                <p class="text-xs text-gray-600 font-mono text-center">
+                    Demo project by
+                    <a href="https://bagasaria93.github.io" target="_blank" class="text-violet-400 hover:text-violet-300 transition-colors">Bagas Aria Sativa</a>
+                    - Portfolio Demo
+                </p>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs font-mono text-gray-600">PHP 8.3 | Laravel 11 | CI4 | Python 3.12</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden">
+        <div class="bg-surface border border-violet-500/50 rounded-lg px-4 py-3 flex items-center gap-3 shadow-xl">
+            <span class="w-2 h-2 rounded-full bg-violet-400"></span>
+            <span class="text-sm font-mono text-gray-300" id="toast-msg"></span>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/codes.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

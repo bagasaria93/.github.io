@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SDM Pro - Sistem Manajemen SDM</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-light: #3b82f6;
+  --primary-dark: #1d4ed8;
+  --primary-bg: rgba(37,99,235,0.08);
+  --success: #16a34a;
+  --success-bg: rgba(22,163,74,0.1);
+  --warning: #d97706;
+  --warning-bg: rgba(217,119,6,0.1);
+  --danger: #dc2626;
+  --danger-bg: rgba(220,38,38,0.1);
+  --info: #0891b2;
+  --info-bg: rgba(8,145,178,0.1);
+  --purple: #7c3aed;
+  --purple-bg: rgba(124,58,237,0.1);
+  --sidebar-bg: #0f1729;
+  --sidebar-text: #94a3b8;
+  --body-bg: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --font: 'Plus Jakarta Sans', sans-serif;
+}
+* { box-sizing: border-box; }
+body { font-family: var(--font); background: var(--body-bg); color: var(--text-primary); margin: 0; }
+.fade-in { animation: fadeIn 0.4s ease forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.spinner-inline { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 8px; }
+.spinner-block { width: 32px; height: 32px; border: 3px solid rgba(37,99,235,0.2); border-top-color: #2563eb; border-radius: 50%; animation: spin 0.7s linear infinite; display: block; margin: 0 auto 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.logout-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+.logout-modal-box { background: white; border-radius: 16px; padding: 28px; width: 320px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); animation: fadeIn 0.2s ease forwards; }
+.logout-modal-icon { width: 48px; height: 48px; border-radius: 50%; background: rgba(220,38,38,0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+.sidebar { width: 240px; min-height: 100vh; background: var(--sidebar-bg); position: fixed; top: 0; left: 0; z-index: 100; display: flex; flex-direction: column; transition: transform 0.3s; }
+.sidebar-brand { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.brand-logo { width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 14px; flex-shrink: 0; }
+.brand-name { color: white; font-weight: 700; font-size: 15px; margin-left: 10px; }
+.brand-sub { color: var(--sidebar-text); font-size: 11px; margin-left: 10px; }
+.sidebar-nav { padding: 12px 0; flex: 1; overflow-y: auto; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 20px; color: var(--sidebar-text); text-decoration: none; font-size: 13px; font-weight: 500; transition: all 0.2s; cursor: pointer; border: none; background: none; width: 100%; text-align: left; border-right: 3px solid transparent; }
+.nav-item:hover { color: white; background: rgba(255,255,255,0.06); }
+.nav-item.active { color: white; background: rgba(37,99,235,0.25); border-right-color: var(--primary-light); }
+.nav-item svg { flex-shrink: 0; opacity: 0.7; }
+.nav-item.active svg, .nav-item:hover svg { opacity: 1; }
+.nav-badge { margin-left: auto; background: var(--danger); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); }
+.user-info { display: flex; align-items: center; gap: 10px; }
+.user-avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: white; flex-shrink: 0; }
+.user-name { color: white; font-size: 13px; font-weight: 600; }
+.user-role { color: var(--sidebar-text); font-size: 11px; }
+.main-content { margin-left: 240px; min-height: 100vh; }
+.topbar { background: white; border-bottom: 1px solid var(--border-color); padding: 0 24px; height: 60px; display: flex; align-items: center; gap: 16px; position: sticky; top: 0; z-index: 99; }
+.topbar-title { font-weight: 700; font-size: 16px; color: var(--text-primary); }
+.topbar-sub { color: var(--text-secondary); font-size: 13px; margin-top: 1px; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+.content-area { padding: 24px; }
+.page-section { display: none; }
+.page-section.active { display: block; animation: fadeIn 0.25s ease forwards; }
+.stat-card { background: white; border-radius: 14px; padding: 20px; border: 1px solid var(--border-color); transition: box-shadow 0.2s; }
+.stat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+.stat-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.stat-val { font-size: 26px; font-weight: 800; color: var(--text-primary); line-height: 1.1; }
+.stat-label { color: var(--text-secondary); font-size: 13px; margin-top: 2px; }
+.card-section { background: white; border-radius: 14px; border: 1px solid var(--border-color); overflow: hidden; }
+.card-header-custom { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.card-header-title { font-weight: 700; font-size: 14px; color: var(--text-primary); }
+.card-body-custom { padding: 20px; }
+.chart-container { position: relative; height: 240px; }
+.badge-status { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-hadir { background: var(--success-bg); color: var(--success); }
+.badge-terlambat { background: var(--warning-bg); color: var(--warning); }
+.badge-absen { background: var(--danger-bg); color: var(--danger); }
+.badge-wfh { background: var(--info-bg); color: var(--info); }
+.badge-izin { background: var(--purple-bg); color: var(--purple); }
+.badge-pending { background: var(--warning-bg); color: var(--warning); }
+.badge-approved { background: var(--success-bg); color: var(--success); }
+.badge-rejected { background: var(--danger-bg); color: var(--danger); }
+.badge-active { background: var(--success-bg); color: var(--success); }
+.badge-inactive { background: rgba(100,116,139,0.1); color: #64748b; }
+.badge-dept { background: var(--primary-bg); color: var(--primary); }
+.table-custom { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table-custom th { padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text-secondary); border-bottom: 2px solid var(--border-color); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; background: #f8fafc; }
+.table-custom td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+.table-custom tr:last-child td { border-bottom: none; }
+.table-custom tr:hover td { background: #f8fafc; }
+.emp-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; color: white; flex-shrink: 0; }
+.search-input { border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
+.search-input:focus { border-color: var(--primary-light); }
+.btn-primary-custom { background: var(--primary); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-primary-custom:hover { background: var(--primary-dark); }
+.btn-primary-custom:disabled { opacity: 0.7; cursor: not-allowed; }
+.btn-outline-custom { background: white; color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-outline-custom:hover { border-color: var(--primary-light); color: var(--primary); }
+.btn-sm-icon { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border-color); background: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.2s; }
+.btn-sm-icon:hover { border-color: var(--primary-light); color: var(--primary); }
+.login-screen { min-height: 100vh; background: linear-gradient(135deg, #0f1729 0%, #1e3a5f 100%); display: flex; align-items: center; justify-content: center; }
+.login-card { background: white; border-radius: 20px; padding: 40px; width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: fadeIn 0.4s ease forwards; }
+.login-logo { width: 52px; height: 52px; background: var(--primary); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 20px; margin-bottom: 20px; }
+.login-title { font-size: 22px; font-weight: 800; color: var(--text-primary); margin-bottom: 4px; }
+.login-sub { color: var(--text-secondary); font-size: 14px; margin-bottom: 28px; }
+.form-group { margin-bottom: 16px; }
+.form-label-custom { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.form-control-custom { width: 100%; border: 1.5px solid var(--border-color); border-radius: 10px; padding: 11px 14px; font-size: 14px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
+.form-control-custom:focus { border-color: var(--primary-light); }
+.role-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 20px; }
+.role-opt { border: 1.5px solid var(--border-color); border-radius: 10px; padding: 10px 8px; text-align: center; cursor: pointer; transition: all 0.2s; }
+.role-opt:hover { border-color: var(--primary-light); }
+.role-opt.selected { border-color: var(--primary); background: var(--primary-bg); }
+.role-opt-name { font-size: 12px; font-weight: 700; color: var(--text-primary); }
+.role-opt-sub { font-size: 10px; color: var(--text-secondary); }
+.activity-item { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border-color); }
+.activity-item:last-child { border-bottom: none; }
+.activity-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.activity-text { font-size: 13px; color: var(--text-primary); }
+.activity-time { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+.training-card { border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; transition: box-shadow 0.2s; }
+.training-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.training-progress { height: 6px; background: var(--border-color); border-radius: 3px; overflow: hidden; margin-top: 8px; }
+.training-progress-bar { height: 100%; border-radius: 3px; transition: width 0.5s; }
+.leave-form { background: #f8fafc; border-radius: 12px; padding: 16px; border: 1px solid var(--border-color); }
+.notif-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--danger); position: absolute; top: 2px; right: 2px; }
+.slip-gaji { display: none; }
+@media print {
+  body * { visibility: hidden; }
+  .slip-gaji, .slip-gaji * { visibility: visible; display: block !important; }
+  .slip-gaji { position: absolute; left: 0; top: 0; width: 100%; background: white; padding: 40px; }
+}
+@media (max-width: 991px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.mob-open { transform: translateX(0); }
+  .main-content { margin-left: 0; }
+  .mob-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; display: none; }
+  .mob-overlay.show { display: block; }
+}
+.filter-select { border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; font-size: 13px; font-family: var(--font); outline: none; cursor: pointer; background: white; }
+.filter-select:focus { border-color: var(--primary-light); }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
+.empty-state svg { margin-bottom: 12px; opacity: 0.3; }
+.empty-state p { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-logo">S</div>
+    <div class="login-title">SDM Pro</div>
+    <div class="login-sub">Sistem Manajemen SDM - PT Maju Bersama Indonesia</div>
+    <div class="form-group">
+      <label class="form-label-custom">Email</label>
+      <input type="email" id="login-email" class="form-control-custom" placeholder="email@majubersama.co.id" value="admin@majubersama.co.id">
+    </div>
+    <div class="form-group">
+      <label class="form-label-custom">Password</label>
+      <input type="password" id="login-pass" class="form-control-custom" placeholder="Password" value="password123">
+    </div>
+    <div class="form-group">
+      <label class="form-label-custom">Login sebagai</label>
+      <div class="role-selector">
+        <div class="role-opt selected" data-role="admin" onclick="selectRole(this)">
+          <div class="role-opt-name">Admin</div>
+          <div class="role-opt-sub">Full access</div>
+        </div>
+        <div class="role-opt" data-role="hr" onclick="selectRole(this)">
+          <div class="role-opt-name">HR Staff</div>
+          <div class="role-opt-sub">HR access</div>
+        </div>
+        <div class="role-opt" data-role="employee" onclick="selectRole(this)">
+          <div class="role-opt-name">Karyawan</div>
+          <div class="role-opt-sub">Self service</div>
+        </div>
+      </div>
+    </div>
+    <button class="btn-primary-custom w-100 justify-content-center py-3" id="login-btn" onclick="doLogin()">Masuk</button>
+    <div id="login-error" class="mt-2 text-center" style="font-size:13px;color:#dc2626;display:none;"></div>
+  </div>
+</div>
+
+<div id="app-screen" style="display:none;">
+  <div class="mob-overlay" id="mob-overlay" onclick="closeMobSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="d-flex align-items-center">
+        <div class="brand-logo">S</div>
+        <div>
+          <div class="brand-name">SDM Pro</div>
+          <div class="brand-sub">PT Maju Bersama Indonesia</div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-nav" id="sidebar-nav"></div>
+    <div class="sidebar-footer">
+      <div class="user-info">
+        <div class="user-avatar" id="user-avatar-sidebar"></div>
+        <div>
+          <div class="user-name" id="user-name-sidebar"></div>
+          <div class="user-role" id="user-role-sidebar"></div>
+        </div>
+      </div>
+      <button class="nav-item mt-3" onclick="doLogout()" style="color:#f87171;">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        Keluar
+      </button>
+    </div>
+  </div>
+  <div class="main-content">
+    <div class="topbar">
+      <button class="d-lg-none btn-sm-icon me-2" onclick="toggleMobSidebar()">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <div>
+        <div class="topbar-title" id="topbar-title">Dashboard</div>
+        <div class="topbar-sub" id="topbar-sub">Selamat datang di SDM Pro</div>
+      </div>
+      <div class="topbar-right">
+        <div class="position-relative">
+          <button class="btn-sm-icon" id="notif-btn" onclick="toggleNotif()">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span class="notif-dot" id="notif-dot"></span>
+          </button>
+          <div id="notif-dropdown" style="display:none;position:absolute;right:0;top:38px;width:300px;background:white;border:1px solid var(--border-color);border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.12);z-index:200;">
+            <div style="padding:14px 16px;border-bottom:1px solid var(--border-color);font-weight:700;font-size:13px;">Notifikasi</div>
+            <div id="notif-list" style="max-height:280px;overflow-y:auto;padding:8px 0;"></div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:var(--text-secondary);" id="topbar-date"></div>
+      </div>
+    </div>
+    <div class="content-area">
+      <div id="section-dashboard" class="page-section"></div>
+      <div id="section-karyawan" class="page-section"></div>
+      <div id="section-absensi" class="page-section"></div>
+      <div id="section-cuti" class="page-section"></div>
+      <div id="section-pelatihan" class="page-section"></div>
+      <div id="section-analitik" class="page-section"></div>
+      <div id="section-gaji" class="page-section"></div>
+      <div id="section-profil" class="page-section"></div>
+    </div>
+  </div>
+</div>
+
+<div class="slip-gaji" id="slip-print"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+var currentRole = 'admin';
+var currentUser = null;
+var activeSection = 'dashboard';
+var charts = {};
+
+var USERS = {
+  admin: { name: 'Budi Santoso', role: 'Admin', dept: 'Manajemen', email: 'admin@majubersama.co.id', color: '#7c3aed' },
+  hr: { name: 'Sari Dewi', role: 'HR Staff', dept: 'HR & GA', email: 'hr@majubersama.co.id', color: '#0891b2' },
+  employee: { name: 'Rizki Pratama', role: 'Staff IT', dept: 'Teknologi Informasi', email: 'rizki@majubersama.co.id', color: '#16a34a' }
+};
+
+var MENUS = {
+  admin: [
+    { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
+    { id: 'karyawan', label: 'Karyawan', icon: 'users' },
+    { id: 'absensi', label: 'Absensi', icon: 'clock' },
+    { id: 'cuti', label: 'Pengajuan Cuti', icon: 'calendar', badge: true },
+    { id: 'pelatihan', label: 'Pelatihan', icon: 'book' },
+    { id: 'analitik', label: 'Analitik', icon: 'bar-chart' },
+    { id: 'gaji', label: 'Slip Gaji', icon: 'dollar' }
+  ],
+  hr: [
+    { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
+    { id: 'karyawan', label: 'Karyawan', icon: 'users' },
+    { id: 'absensi', label: 'Absensi', icon: 'clock' },
+    { id: 'cuti', label: 'Pengajuan Cuti', icon: 'calendar', badge: true },
+    { id: 'pelatihan', label: 'Pelatihan', icon: 'book' },
+    { id: 'analitik', label: 'Analitik', icon: 'bar-chart' }
+  ],
+  employee: [
+    { id: 'dashboard', label: 'Dashboard', icon: 'grid' },
+    { id: 'absensi', label: 'Absensi Saya', icon: 'clock' },
+    { id: 'cuti', label: 'Ajukan Cuti', icon: 'calendar' },
+    { id: 'pelatihan', label: 'Pelatihan Saya', icon: 'book' },
+    { id: 'gaji', label: 'Slip Gaji', icon: 'dollar' },
+    { id: 'profil', label: 'Profil', icon: 'user' }
+  ]
+};
+
+var KARYAWAN = [
+  { id: 'K001', nama: 'Budi Santoso', dept: 'Manajemen', jabatan: 'Direktur Operasional', status: 'active', join: '2018-03-01', gaji: 25000000, color: '#7c3aed' },
+  { id: 'K002', nama: 'Sari Dewi', dept: 'HR & GA', jabatan: 'HR Manager', status: 'active', join: '2019-06-15', gaji: 18000000, color: '#0891b2' },
+  { id: 'K003', nama: 'Rizki Pratama', dept: 'Teknologi Informasi', jabatan: 'Staff IT', status: 'active', join: '2022-01-10', gaji: 10000000, color: '#16a34a' },
+  { id: 'K004', nama: 'Dewi Rahayu', dept: 'Keuangan', jabatan: 'Finance Manager', status: 'active', join: '2020-04-20', gaji: 16000000, color: '#d97706' },
+  { id: 'K005', nama: 'Andi Wijaya', dept: 'Pemasaran', jabatan: 'Marketing Specialist', status: 'active', join: '2021-09-01', gaji: 11000000, color: '#dc2626' },
+  { id: 'K006', nama: 'Rina Kusuma', dept: 'Operasional', jabatan: 'Supervisor Produksi', status: 'active', join: '2020-11-15', gaji: 13000000, color: '#2563eb' },
+  { id: 'K007', nama: 'Hendra Putra', dept: 'Teknologi Informasi', jabatan: 'Senior Developer', status: 'active', join: '2021-02-28', gaji: 15000000, color: '#059669' },
+  { id: 'K008', nama: 'Maya Sari', dept: 'Keuangan', jabatan: 'Staff Akuntansi', status: 'active', join: '2022-07-01', gaji: 9000000, color: '#7c3aed' },
+  { id: 'K009', nama: 'Fajar Nugroho', dept: 'Pemasaran', jabatan: 'Digital Marketing', status: 'active', join: '2023-01-16', gaji: 10500000, color: '#0891b2' },
+  { id: 'K010', nama: 'Indah Permata', dept: 'HR & GA', jabatan: 'Recruitment Staff', status: 'inactive', join: '2021-05-03', gaji: 9500000, color: '#d97706' },
+  { id: 'K011', nama: 'Wahyu Hidayat', dept: 'Operasional', jabatan: 'Staff Logistik', status: 'active', join: '2022-10-01', gaji: 8500000, color: '#16a34a' },
+  { id: 'K012', nama: 'Laras Wulandari', dept: 'Manajemen', jabatan: 'Executive Secretary', status: 'active', join: '2020-08-17', gaji: 12000000, color: '#dc2626' }
+];
+
+var ABSENSI_SEED = [
+  ['hadir','hadir','hadir','terlambat','wfh'],
+  ['hadir','hadir','hadir','hadir','hadir'],
+  ['hadir','wfh','hadir','hadir','terlambat'],
+  ['hadir','hadir','izin','hadir','hadir'],
+  ['terlambat','hadir','hadir','wfh','hadir'],
+  ['hadir','hadir','hadir','hadir','absen'],
+  ['hadir','hadir','hadir','hadir','hadir'],
+  ['wfh','hadir','hadir','terlambat','hadir'],
+  ['hadir','hadir','absen','hadir','hadir'],
+  ['hadir','izin','hadir','hadir','wfh'],
+  ['hadir','hadir','hadir','hadir','hadir'],
+  ['hadir','hadir','terlambat','hadir','hadir']
+];
+
+var ABSENSI = [];
+(function() {
+  var now = new Date();
+  var dayCount = 0;
+  for (var d = 6; d >= 0; d--) {
+    var dt = new Date(now);
+    dt.setDate(dt.getDate() - d);
+    if (dt.getDay() === 0 || dt.getDay() === 6) continue;
+    var tgl = dt.toISOString().split('T')[0];
+    for (var k = 0; k < KARYAWAN.length; k++) {
+      var statusIdx = dayCount % 5;
+      var status = ABSENSI_SEED[k][statusIdx] || 'hadir';
+      ABSENSI.push({
+        id: KARYAWAN[k].id,
+        nama: KARYAWAN[k].nama,
+        dept: KARYAWAN[k].dept,
+        tanggal: tgl,
+        status: status,
+        masuk: status === 'terlambat' ? '09:' + String(15 + (k % 30)).padStart(2,'0') : '08:' + String(5 + (k % 25)).padStart(2,'0'),
+        keluar: '17:' + String(10 + (k % 40)).padStart(2,'0')
+      });
+    }
+    dayCount++;
+  }
+})();
+
+var CUTI = [
+  { id: 'C001', empId: 'K003', nama: 'Rizki Pratama', dept: 'Teknologi Informasi', jenis: 'Cuti Tahunan', dari: '2026-03-20', sampai: '2026-03-22', hari: 3, alasan: 'Acara keluarga', status: 'pending' },
+  { id: 'C002', empId: 'K005', nama: 'Andi Wijaya', dept: 'Pemasaran', jenis: 'Cuti Sakit', dari: '2026-03-17', sampai: '2026-03-17', hari: 1, alasan: 'Demam tinggi', status: 'pending' },
+  { id: 'C003', empId: 'K007', nama: 'Hendra Putra', dept: 'Teknologi Informasi', jenis: 'Cuti Tahunan', dari: '2026-03-25', sampai: '2026-03-28', hari: 4, alasan: 'Liburan keluarga', status: 'approved' },
+  { id: 'C004', empId: 'K008', nama: 'Maya Sari', dept: 'Keuangan', jenis: 'Cuti Melahirkan', dari: '2026-04-01', sampai: '2026-07-01', hari: 90, alasan: 'Melahirkan', status: 'approved' },
+  { id: 'C005', empId: 'K009', nama: 'Fajar Nugroho', dept: 'Pemasaran', jenis: 'Cuti Tahunan', dari: '2026-03-10', sampai: '2026-03-11', hari: 2, alasan: 'Keperluan pribadi', status: 'rejected' }
+];
+
+var PELATIHAN = [
+  { id: 'P001', judul: 'Leadership & Manajemen Tim', penyelenggara: 'Prasetiya Mulya Executive Learning', tanggal: '2026-04-05', durasi: '2 hari', peserta: ['K001','K002','K004'], selesai: [], wajib: true },
+  { id: 'P002', judul: 'Digital Marketing Strategy 2026', penyelenggara: 'MarkPlus Institute', tanggal: '2026-04-12', durasi: '1 hari', peserta: ['K005','K009'], selesai: [], wajib: false },
+  { id: 'P003', judul: 'Laravel & React.js Advanced', penyelenggara: 'BuildWith Angga Academy', tanggal: '2026-03-25', durasi: '3 hari', peserta: ['K003','K007'], selesai: ['K007'], wajib: true },
+  { id: 'P004', judul: 'Akuntansi & Perpajakan Terbaru', penyelenggara: 'IAI Professional Development', tanggal: '2026-03-18', durasi: '1 hari', peserta: ['K004','K008'], selesai: ['K004','K008'], wajib: true },
+  { id: 'P005', judul: 'K3 & Keselamatan Kerja', penyelenggara: 'Internal Training', tanggal: '2026-04-20', durasi: '1 hari', peserta: ['K006','K011'], selesai: [], wajib: true }
+];
+
+var NOTIF = [
+  { text: '2 pengajuan cuti menunggu persetujuan', time: '10 menit lalu' },
+  { text: 'Pelatihan K3 dijadwalkan 20 April 2026', time: '1 jam lalu' },
+  { text: 'Rizki Pratama mengajukan cuti 3 hari', time: '2 jam lalu' },
+  { text: 'Laporan absensi bulan Maret siap diunduh', time: 'Kemarin' }
+];
+
+function fmtRupiah(n) {
+  return 'Rp ' + n.toLocaleString('id-ID');
+}
+
+function fmtTgl(str) {
+  if (!str) return '-';
+  return new Date(str).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function initials(name) {
+  return name.split(' ').slice(0,2).map(function(w){ return w[0]; }).join('').toUpperCase();
+}
+
+function getIconSvg(icon) {
+  var icons = {
+    grid: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>',
+    users: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+    clock: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+    calendar: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>',
+    book: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>',
+    'bar-chart': '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>',
+    dollar: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>',
+    user: '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>'
+  };
+  return icons[icon] || '';
+}
+
+function selectRole(el) {
+  document.querySelectorAll('.role-opt').forEach(function(o){ o.classList.remove('selected'); });
+  el.classList.add('selected');
+  currentRole = el.dataset.role;
+}
+
+function doLogin() {
+  var email = document.getElementById('login-email').value.trim();
+  var pass = document.getElementById('login-pass').value.trim();
+  var errEl = document.getElementById('login-error');
+  if (!email || !pass) {
+    errEl.textContent = 'Email dan password wajib diisi.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  var btn = document.getElementById('login-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-inline"></span>Memverifikasi...';
+  setTimeout(function() {
+    currentUser = USERS[currentRole];
+    localStorage.setItem('sdmpro_role', currentRole);
+    document.getElementById('login-screen').style.display = 'none';
+    var appScreen = document.getElementById('app-screen');
+    appScreen.style.display = 'block';
+    appScreen.classList.add('fade-in');
+    setTimeout(function(){ appScreen.classList.remove('fade-in'); }, 400);
+    btn.disabled = false;
+    btn.innerHTML = 'Masuk';
+    initApp();
+  }, 1400);
+}
+
+function doLogout() {
+  var overlay = document.createElement('div');
+  overlay.className = 'logout-modal-overlay';
+  overlay.innerHTML = '<div class="logout-modal-box" id="logout-box"><div class="logout-modal-icon"><svg width="22" height="22" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></div><div style="font-weight:700;font-size:16px;margin-bottom:8px;">Keluar dari SDM Pro?</div><div style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;line-height:1.5;">Sesi Anda akan diakhiri dan Anda akan diarahkan kembali ke halaman login.</div><div style="display:flex;gap:10px;"><button id="logout-cancel" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--border-color);background:white;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;">Batal</button><button id="logout-confirm" style="flex:1;padding:10px;border-radius:10px;border:none;background:#dc2626;color:white;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;">Ya, Keluar</button></div></div>';
+  document.body.appendChild(overlay);
+  document.getElementById('logout-cancel').addEventListener('click', function() {
+    document.body.removeChild(overlay);
+  });
+  document.getElementById('logout-confirm').addEventListener('click', function() {
+    document.getElementById('logout-box').innerHTML = '<div style="text-align:center;padding:16px 0;"><div class="spinner-block"></div><div style="font-size:14px;color:var(--text-secondary);">Mengakhiri sesi...</div></div>';
+    setTimeout(function() {
+      localStorage.removeItem('sdmpro_role');
+      currentUser = null;
+      Object.keys(charts).forEach(function(k){ if (charts[k]) { charts[k].destroy(); delete charts[k]; } });
+      document.body.removeChild(overlay);
+      document.getElementById('app-screen').style.display = 'none';
+      var loginScreen = document.getElementById('login-screen');
+      loginScreen.style.display = 'flex';
+      loginScreen.classList.add('fade-in');
+      setTimeout(function(){ loginScreen.classList.remove('fade-in'); }, 400);
+    }, 1000);
+  });
+}
+
+function toggleMobSidebar() {
+  document.getElementById('sidebar').classList.toggle('mob-open');
+  document.getElementById('mob-overlay').classList.toggle('show');
+}
+
+function closeMobSidebar() {
+  document.getElementById('sidebar').classList.remove('mob-open');
+  document.getElementById('mob-overlay').classList.remove('show');
+}
+
+function toggleNotif() {
+  var dd = document.getElementById('notif-dropdown');
+  dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#notif-btn') && !e.target.closest('#notif-dropdown')) {
+    var dd = document.getElementById('notif-dropdown');
+    if (dd) dd.style.display = 'none';
+  }
+});
+
+function initApp() {
+  var av = document.getElementById('user-avatar-sidebar');
+  av.style.background = currentUser.color;
+  av.textContent = initials(currentUser.name);
+  document.getElementById('user-name-sidebar').textContent = currentUser.name;
+  document.getElementById('user-role-sidebar').textContent = currentUser.role;
+  document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('id-ID', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+  var notifList = document.getElementById('notif-list');
+  notifList.innerHTML = NOTIF.map(function(n){
+    return '<div style="padding:10px 16px;border-bottom:1px solid var(--border-color);font-size:13px;"><div style="color:var(--text-primary);">' + n.text + '</div><div style="color:var(--text-secondary);font-size:11px;margin-top:2px;">' + n.time + '</div></div>';
+  }).join('');
+  buildNav();
+  showSection('dashboard');
+}
+
+function buildNav() {
+  var menus = MENUS[currentRole];
+  var pendingCuti = CUTI.filter(function(c){ return c.status === 'pending'; }).length;
+  document.getElementById('sidebar-nav').innerHTML = menus.map(function(m) {
+    var showBadge = m.badge && pendingCuti > 0 && (currentRole === 'admin' || currentRole === 'hr');
+    var badge = showBadge ? '<span class="nav-badge" id="badge-' + m.id + '">' + pendingCuti + '</span>' : '';
+    return '<button class="nav-item" data-section="' + m.id + '" onclick="showSection(\'' + m.id + '\')">' + getIconSvg(m.icon) + m.label + badge + '</button>';
+  }).join('');
+}
+
+function showSection(id) {
+  activeSection = id;
+  document.querySelectorAll('.page-section').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.nav-item[data-section]').forEach(function(n){
+    n.classList.toggle('active', n.dataset.section === id);
+  });
+  var sec = document.getElementById('section-' + id);
+  if (sec) sec.classList.add('active');
+  closeMobSidebar();
+  var titles = { dashboard:'Dashboard', karyawan:'Data Karyawan', absensi:'Rekap Absensi', cuti:'Pengajuan Cuti', pelatihan:'Jadwal Pelatihan', analitik:'Analitik SDM', gaji:'Slip Gaji', profil:'Profil Saya' };
+  var subs = { dashboard:'Ringkasan aktivitas SDM hari ini', karyawan:'Kelola data karyawan perusahaan', absensi:'Monitor kehadiran karyawan', cuti:'Kelola pengajuan cuti', pelatihan:'Program pengembangan karyawan', analitik:'Statistik dan tren SDM', gaji:'Unduh slip gaji bulanan', profil:'Informasi akun Anda' };
+  document.getElementById('topbar-title').textContent = titles[id] || id;
+  document.getElementById('topbar-sub').textContent = subs[id] || '';
+  var renderers = { dashboard: renderDashboard, karyawan: renderKaryawan, absensi: renderAbsensi, cuti: renderCuti, pelatihan: renderPelatihan, analitik: renderAnalitik, gaji: renderGaji, profil: renderProfil };
+  if (renderers[id]) renderers[id]();
+}
+
+function renderDashboard() {
+  var aktif = KARYAWAN.filter(function(k){ return k.status === 'active'; }).length;
+  var todayStr = new Date().toISOString().split('T')[0];
+  var hadir = ABSENSI.filter(function(a){ return a.tanggal === todayStr && (a.status === 'hadir' || a.status === 'terlambat'); }).length;
+  var pending = CUTI.filter(function(c){ return c.status === 'pending'; }).length;
+  var total = PELATIHAN.reduce(function(acc, p){ return acc + p.peserta.length; }, 0);
+  var stats = [
+    { label:'Total Karyawan', val: KARYAWAN.length, sub: aktif + ' aktif', bg:'rgba(37,99,235,0.1)', icon:'<svg width="22" height="22" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>' },
+    { label:'Hadir Hari Ini', val: hadir, sub: 'dari ' + aktif + ' karyawan', bg:'rgba(22,163,74,0.1)', icon:'<svg width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' },
+    { label:'Cuti Pending', val: pending, sub: 'menunggu persetujuan', bg:'rgba(217,119,6,0.1)', icon:'<svg width="22" height="22" fill="none" stroke="#d97706" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>' },
+    { label:'Peserta Pelatihan', val: total, sub: PELATIHAN.length + ' program aktif', bg:'rgba(124,58,237,0.1)', icon:'<svg width="22" height="22" fill="none" stroke="#7c3aed" stroke-width="2" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>' }
+  ];
+  var html = '<div class="row g-3 mb-4">' + stats.map(function(s){
+    return '<div class="col-6 col-xl-3"><div class="stat-card"><div class="stat-icon mb-3" style="background:' + s.bg + '">' + s.icon + '</div><div class="stat-val">' + s.val + '</div><div class="stat-label">' + s.label + '</div><div style="color:var(--text-secondary);font-size:12px;margin-top:4px;">' + s.sub + '</div></div></div>';
+  }).join('') + '</div>';
+  html += '<div class="row g-3">';
+  html += '<div class="col-lg-8"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Tren Kehadiran 7 Hari Terakhir</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-kehadiran"></canvas></div></div></div></div>';
+  html += '<div class="col-lg-4"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Aktivitas Terkini</span></div><div class="card-body-custom" style="padding:12px 16px;">';
+  var activities = [
+    { text: 'Rizki Pratama mengajukan cuti 3 hari', time: '10 menit lalu', color: '#d97706' },
+    { text: 'Pelatihan Laravel selesai - Hendra Putra', time: '1 jam lalu', color: '#16a34a' },
+    { text: 'Maya Sari absen hari ini', time: '2 jam lalu', color: '#dc2626' },
+    { text: 'Cuti Andi Wijaya disetujui', time: '3 jam lalu', color: '#2563eb' },
+    { text: 'Data karyawan Indah Permata diperbarui', time: 'Kemarin', color: '#7c3aed' }
+  ];
+  html += activities.map(function(a){
+    return '<div class="activity-item"><div class="activity-dot" style="background:' + a.color + '"></div><div><div class="activity-text">' + a.text + '</div><div class="activity-time">' + a.time + '</div></div></div>';
+  }).join('');
+  html += '</div></div></div></div>';
+  html += '<div class="mt-3"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Pengajuan Cuti Terbaru</span><button class="btn-outline-custom" style="padding:6px 14px;font-size:12px;" onclick="showSection(\'cuti\')">Lihat Semua</button></div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr><th>Karyawan</th><th>Jenis</th><th>Tanggal</th><th>Status</th></tr></thead><tbody>';
+  html += CUTI.slice(0,4).map(function(c){
+    var kary = KARYAWAN.find(function(k){ return k.id === c.empId; });
+    return '<tr><td><div class="d-flex align-items-center gap-2"><div class="emp-avatar" style="background:' + (kary ? kary.color : '#888') + '">' + initials(c.nama) + '</div>' + c.nama + '</div></td><td>' + c.jenis + '</td><td>' + fmtTgl(c.dari) + '</td><td><span class="badge-status badge-' + c.status + '">' + c.status.charAt(0).toUpperCase() + c.status.slice(1) + '</span></td></tr>';
+  }).join('');
+  html += '</tbody></table></div></div></div></div>';
+  document.getElementById('section-dashboard').innerHTML = html;
+  requestAnimationFrame(function() {
+    var ctx = document.getElementById('chart-kehadiran');
+    if (!ctx) return;
+    if (charts['kehadiran']) charts['kehadiran'].destroy();
+    var labels = [], hadirData = [], wfhData = [], absenData = [];
+    for (var d = 6; d >= 0; d--) {
+      var dt = new Date(); dt.setDate(dt.getDate() - d);
+      if (dt.getDay() === 0 || dt.getDay() === 6) continue;
+      var tgl = dt.toISOString().split('T')[0];
+      labels.push(dt.toLocaleDateString('id-ID', { weekday:'short', day:'numeric' }));
+      var dayAbs = ABSENSI.filter(function(a){ return a.tanggal === tgl; });
+      hadirData.push(dayAbs.filter(function(a){ return a.status === 'hadir' || a.status === 'terlambat'; }).length);
+      wfhData.push(dayAbs.filter(function(a){ return a.status === 'wfh'; }).length);
+      absenData.push(dayAbs.filter(function(a){ return a.status === 'absen' || a.status === 'izin'; }).length);
+    }
+    charts['kehadiran'] = new Chart(ctx, {
+      type: 'bar',
+      data: { labels: labels, datasets: [
+        { label:'Hadir', data: hadirData, backgroundColor: 'rgba(37,99,235,0.85)', borderRadius: 4 },
+        { label:'WFH', data: wfhData, backgroundColor: 'rgba(8,145,178,0.85)', borderRadius: 4 },
+        { label:'Absen/Izin', data: absenData, backgroundColor: 'rgba(220,38,38,0.85)', borderRadius: 4 }
+      ]},
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position:'bottom', labels:{ font:{ family:'Plus Jakarta Sans', size:12 }, boxWidth:12 } } }, scales: { x: { stacked:true, grid:{ display:false } }, y: { stacked:true, beginAtZero:true, ticks:{ stepSize:2 } } }, animation: false }
+    });
+  });
+}
+
+function renderKaryawan() {
+  var depts = [];
+  KARYAWAN.forEach(function(k){ if (depts.indexOf(k.dept) === -1) depts.push(k.dept); });
+  var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Data Karyawan</span>';
+  if (currentRole === 'admin' || currentRole === 'hr') {
+    html += '<button class="btn-outline-custom" onclick="exportKaryawanCsv()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Export CSV</button>';
+  }
+  html += '</div><div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap"><input type="text" class="search-input" placeholder="Cari nama karyawan..." id="search-karyawan" oninput="filterKaryawan()" style="min-width:200px;"><select class="filter-select" id="filter-dept" onchange="filterKaryawan()"><option value="">Semua Departemen</option>';
+  depts.forEach(function(d){ html += '<option value="' + d + '">' + d + '</option>'; });
+  html += '</select><select class="filter-select" id="filter-status" onchange="filterKaryawan()"><option value="">Semua Status</option><option value="active">Aktif</option><option value="inactive">Tidak Aktif</option></select></div>';
+  var colCount = currentRole === 'admin' ? 7 : 6;
+  html += '<div class="table-responsive"><table class="table-custom"><thead><tr><th>ID</th><th>Nama</th><th>Departemen</th><th>Jabatan</th><th>Tgl Bergabung</th><th>Status</th>' + (currentRole === 'admin' ? '<th>Gaji</th>' : '') + '</tr></thead><tbody id="tbody-karyawan">' + renderKaryawanRows(KARYAWAN, colCount) + '</tbody></table></div></div></div>';
+  document.getElementById('section-karyawan').innerHTML = html;
+}
+
+function renderKaryawanRows(data, colCount) {
+  if (!colCount) colCount = currentRole === 'admin' ? 7 : 6;
+  if (data.length === 0) return '<tr><td colspan="' + colCount + '"><div class="empty-state"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg><p>Tidak ada karyawan ditemukan</p></div></td></tr>';
+  return data.map(function(k) {
+    return '<tr><td><span style="font-family:monospace;font-size:12px;color:var(--text-secondary);">' + k.id + '</span></td><td><div class="d-flex align-items-center gap-2"><div class="emp-avatar" style="background:' + k.color + '">' + initials(k.nama) + '</div>' + k.nama + '</div></td><td><span class="badge-status badge-dept">' + k.dept + '</span></td><td>' + k.jabatan + '</td><td>' + fmtTgl(k.join) + '</td><td><span class="badge-status badge-' + k.status + '">' + (k.status === 'active' ? 'Aktif' : 'Tidak Aktif') + '</span></td>' + (currentRole === 'admin' ? '<td>' + fmtRupiah(k.gaji) + '</td>' : '') + '</tr>';
+  }).join('');
+}
+
+function filterKaryawan() {
+  var q = document.getElementById('search-karyawan').value.toLowerCase();
+  var dept = document.getElementById('filter-dept').value;
+  var status = document.getElementById('filter-status').value;
+  var filtered = KARYAWAN.filter(function(k) {
+    return (!q || k.nama.toLowerCase().includes(q) || k.jabatan.toLowerCase().includes(q)) && (!dept || k.dept === dept) && (!status || k.status === status);
+  });
+  document.getElementById('tbody-karyawan').innerHTML = renderKaryawanRows(filtered);
+}
+
+function exportKaryawanCsv() {
+  var rows = [['ID','Nama','Departemen','Jabatan','Tgl Bergabung','Status']];
+  KARYAWAN.forEach(function(k){ rows.push([k.id, k.nama, k.dept, k.jabatan, k.join, k.status]); });
+  downloadCsv(rows, 'karyawan_sdmpro.csv');
+}
+
+function renderAbsensi() {
+  var data = currentRole === 'employee' ? ABSENSI.filter(function(a){ return a.id === 'K003'; }) : ABSENSI;
+  var colCount = currentRole !== 'employee' ? 6 : 4;
+  var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Rekap Absensi</span><button class="btn-outline-custom" onclick="exportAbsensiCsv()"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Export</button></div><div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap">';
+  if (currentRole !== 'employee') {
+    html += '<input type="text" class="search-input" placeholder="Cari nama..." id="search-absensi" oninput="filterAbsensi()" style="min-width:180px;"><select class="filter-select" id="filter-absensi-status" onchange="filterAbsensi()"><option value="">Semua Status</option><option value="hadir">Hadir</option><option value="terlambat">Terlambat</option><option value="wfh">WFH</option><option value="izin">Izin</option><option value="absen">Absen</option></select>';
+  }
+  html += '</div><div class="table-responsive"><table class="table-custom"><thead><tr>' + (currentRole !== 'employee' ? '<th>Karyawan</th><th>Departemen</th>' : '') + '<th>Tanggal</th><th>Status</th><th>Jam Masuk</th><th>Jam Keluar</th></tr></thead><tbody id="tbody-absensi">' + renderAbsensiRows(data.slice(0,50), colCount) + '</tbody></table></div></div></div>';
+  document.getElementById('section-absensi').innerHTML = html;
+}
+
+function renderAbsensiRows(data, colCount) {
+  if (!colCount) colCount = currentRole !== 'employee' ? 6 : 4;
+  if (data.length === 0) return '<tr><td colspan="' + colCount + '"><div class="empty-state"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg><p>Data tidak ditemukan</p></div></td></tr>';
+  return data.map(function(a) {
+    var kary = KARYAWAN.find(function(k){ return k.id === a.id; });
+    return '<tr>' + (currentRole !== 'employee' ? '<td><div class="d-flex align-items-center gap-2"><div class="emp-avatar" style="background:' + (kary ? kary.color : '#888') + ';width:28px;height:28px;font-size:11px;">' + initials(a.nama) + '</div>' + a.nama + '</div></td><td><span class="badge-status badge-dept" style="font-size:10px;">' + a.dept + '</span></td>' : '') + '<td>' + fmtTgl(a.tanggal) + '</td><td><span class="badge-status badge-' + a.status + '">' + a.status.charAt(0).toUpperCase() + a.status.slice(1) + '</span></td><td>' + (a.status !== 'absen' ? a.masuk : '-') + '</td><td>' + (a.status !== 'absen' ? a.keluar : '-') + '</td></tr>';
+  }).join('');
+}
+
+function filterAbsensi() {
+  var q = (document.getElementById('search-absensi') || {}).value || '';
+  var status = (document.getElementById('filter-absensi-status') || {}).value || '';
+  var data = currentRole === 'employee' ? ABSENSI.filter(function(a){ return a.id === 'K003'; }) : ABSENSI;
+  var filtered = data.filter(function(a) {
+    return (!q || a.nama.toLowerCase().includes(q.toLowerCase())) && (!status || a.status === status);
+  });
+  document.getElementById('tbody-absensi').innerHTML = renderAbsensiRows(filtered.slice(0,50));
+}
+
+function exportAbsensiCsv() {
+  var data = currentRole === 'employee' ? ABSENSI.filter(function(a){ return a.id === 'K003'; }) : ABSENSI;
+  var rows = [['Nama','Departemen','Tanggal','Status','Jam Masuk','Jam Keluar']];
+  data.forEach(function(a){ rows.push([a.nama, a.dept, a.tanggal, a.status, a.masuk, a.keluar]); });
+  downloadCsv(rows, 'absensi_sdmpro.csv');
+}
+
+function cutiColCount() {
+  if (currentRole === 'employee') return 6;
+  return 8;
+}
+
+function renderCuti() {
+  var data = currentRole === 'employee' ? CUTI.filter(function(c){ return c.empId === 'K003'; }) : CUTI;
+  var pendingCount = CUTI.filter(function(c){ return c.status === 'pending'; }).length;
+  var html = '';
+  if (currentRole === 'employee') {
+    html += '<div class="card-section mb-3"><div class="card-header-custom"><span class="card-header-title">Ajukan Cuti Baru</span></div><div class="card-body-custom"><div class="leave-form"><div class="row g-3"><div class="col-md-6"><label class="form-label-custom">Jenis Cuti</label><select class="form-control-custom" id="cuti-jenis"><option>Cuti Tahunan</option><option>Cuti Sakit</option><option>Cuti Penting</option></select></div><div class="col-md-3"><label class="form-label-custom">Dari Tanggal</label><input type="date" class="form-control-custom" id="cuti-dari" value="2026-03-20"></div><div class="col-md-3"><label class="form-label-custom">Sampai Tanggal</label><input type="date" class="form-control-custom" id="cuti-sampai" value="2026-03-22"></div><div class="col-12"><label class="form-label-custom">Alasan</label><textarea class="form-control-custom" id="cuti-alasan" rows="2" placeholder="Jelaskan alasan pengajuan cuti..."></textarea></div><div class="col-12"><button class="btn-primary-custom" onclick="ajukanCuti()">Kirim Pengajuan</button></div></div></div></div></div>';
+  }
+  html += '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">' + (currentRole === 'employee' ? 'Riwayat Cuti Saya' : 'Daftar Pengajuan Cuti') + '</span>';
+  if (currentRole !== 'employee' && pendingCount > 0) html += '<span class="badge-status badge-pending" style="font-size:12px;">' + pendingCount + ' Pending</span>';
+  html += '</div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr>' + (currentRole !== 'employee' ? '<th>Karyawan</th>' : '') + '<th>Jenis</th><th>Dari</th><th>Sampai</th><th>Hari</th><th>Alasan</th><th>Status</th>' + (currentRole !== 'employee' ? '<th>Aksi</th>' : '') + '</tr></thead><tbody id="tbody-cuti">' + renderCutiRows(data) + '</tbody></table></div></div></div>';
+  document.getElementById('section-cuti').innerHTML = html;
+}
+
+function renderCutiRows(data) {
+  var colCount = cutiColCount();
+  if (data.length === 0) return '<tr><td colspan="' + colCount + '"><div class="empty-state"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line></svg><p>Tidak ada pengajuan cuti</p></div></td></tr>';
+  return data.map(function(c) {
+    var kary = KARYAWAN.find(function(k){ return k.id === c.empId; });
+    var aksi = '';
+    if ((currentRole === 'admin' || currentRole === 'hr') && c.status === 'pending') {
+      aksi = '<button class="btn-primary-custom" style="padding:4px 10px;font-size:12px;background:#16a34a;" onclick="updateCuti(\'' + c.id + '\',\'approved\')">Setujui</button> <button class="btn-primary-custom ms-1" style="padding:4px 10px;font-size:12px;background:#dc2626;" onclick="updateCuti(\'' + c.id + '\',\'rejected\')">Tolak</button>';
+    }
+    return '<tr>' + (currentRole !== 'employee' ? '<td><div class="d-flex align-items-center gap-2"><div class="emp-avatar" style="background:' + (kary ? kary.color : '#888') + ';width:28px;height:28px;font-size:11px;">' + initials(c.nama) + '</div>' + c.nama + '</div></td>' : '') + '<td>' + c.jenis + '</td><td>' + fmtTgl(c.dari) + '</td><td>' + fmtTgl(c.sampai) + '</td><td>' + c.hari + '</td><td style="max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + c.alasan + '</td><td><span class="badge-status badge-' + c.status + '">' + c.status.charAt(0).toUpperCase() + c.status.slice(1) + '</span></td>' + (currentRole !== 'employee' ? '<td>' + aksi + '</td>' : '') + '</tr>';
+  }).join('');
+}
+
+function ajukanCuti() {
+  var jenis = document.getElementById('cuti-jenis').value;
+  var dari = document.getElementById('cuti-dari').value;
+  var sampai = document.getElementById('cuti-sampai').value;
+  var alasan = document.getElementById('cuti-alasan').value.trim();
+  if (!dari || !sampai || !alasan) { alert('Lengkapi semua field.'); return; }
+  CUTI.push({ id: 'C00' + (CUTI.length + 1), empId: 'K003', nama: 'Rizki Pratama', dept: 'Teknologi Informasi', jenis: jenis, dari: dari, sampai: sampai, hari: Math.ceil((new Date(sampai) - new Date(dari)) / 86400000) + 1, alasan: alasan, status: 'pending' });
+  renderCuti();
+}
+
+function updateCuti(id, status) {
+  var c = CUTI.find(function(c){ return c.id === id; });
+  if (c) c.status = status;
+  renderCuti();
+  var pendingCount = CUTI.filter(function(c){ return c.status === 'pending'; }).length;
+  var badge = document.getElementById('badge-cuti');
+  if (badge) {
+    badge.textContent = pendingCount;
+    badge.style.display = pendingCount > 0 ? '' : 'none';
+  }
+}
+
+function renderPelatihan() {
+  var data = currentRole === 'employee' ? PELATIHAN.filter(function(p){ return p.peserta.indexOf('K003') !== -1; }) : PELATIHAN;
+  var colors = ['#2563eb','#16a34a','#7c3aed','#d97706','#0891b2'];
+  document.getElementById('section-pelatihan').innerHTML = '<div class="row g-3">' + data.map(function(p, i) {
+    var pct = p.peserta.length > 0 ? Math.round(p.selesai.length / p.peserta.length * 100) : 0;
+    var color = colors[i % colors.length];
+    return '<div class="col-md-6"><div class="training-card"><div class="d-flex justify-content-between align-items-start mb-2"><div style="font-weight:700;font-size:14px;">' + p.judul + '</div>' + (p.wajib ? '<span class="badge-status" style="background:rgba(220,38,38,0.1);color:#dc2626;font-size:10px;flex-shrink:0;margin-left:8px;">Wajib</span>' : '<span class="badge-status badge-dept" style="font-size:10px;flex-shrink:0;margin-left:8px;">Opsional</span>') + '</div><div style="font-size:12px;color:var(--text-secondary);margin-bottom:6px;">' + p.penyelenggara + '</div><div class="d-flex gap-3" style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;"><span>' + fmtTgl(p.tanggal) + '</span><span>' + p.durasi + '</span><span>' + p.peserta.length + ' peserta</span></div><div class="d-flex justify-content-between align-items-center mb-1"><span style="font-size:12px;color:var(--text-secondary);">Penyelesaian</span><span style="font-size:12px;font-weight:700;color:' + color + ';">' + pct + '%</span></div><div class="training-progress"><div class="training-progress-bar" style="width:' + pct + '%;background:' + color + ';"></div></div></div></div>';
+  }).join('') + '</div>';
+}
+
+function renderAnalitik() {
+  var html = '<div class="row g-3">';
+  html += '<div class="col-lg-6"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Komposisi Departemen</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-dept"></canvas></div></div></div></div>';
+  html += '<div class="col-lg-6"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Distribusi Jenis Cuti</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-cuti-type"></canvas></div></div></div></div>';
+  html += '<div class="col-12"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Tren Tingkat Kehadiran (Mingguan)</span></div><div class="card-body-custom"><div class="chart-container" style="height:200px;"><canvas id="chart-tren"></canvas></div></div></div></div>';
+  html += '</div>';
+  document.getElementById('section-analitik').innerHTML = html;
+  requestAnimationFrame(function() {
+    var depts = {};
+    KARYAWAN.forEach(function(k){ depts[k.dept] = (depts[k.dept] || 0) + 1; });
+    var ctx1 = document.getElementById('chart-dept');
+    if (ctx1) {
+      if (charts['dept']) charts['dept'].destroy();
+      charts['dept'] = new Chart(ctx1, { type: 'doughnut', data: { labels: Object.keys(depts), datasets: [{ data: Object.values(depts), backgroundColor: ['#2563eb','#16a34a','#7c3aed','#d97706','#0891b2','#dc2626'], borderWidth: 2, borderColor: '#fff' }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position:'bottom', labels:{ font:{ family:'Plus Jakarta Sans', size:11 }, boxWidth:10 } } }, animation: false } });
+    }
+    var cutiTypes = {};
+    CUTI.forEach(function(c){ cutiTypes[c.jenis] = (cutiTypes[c.jenis] || 0) + 1; });
+    var ctx2 = document.getElementById('chart-cuti-type');
+    if (ctx2) {
+      if (charts['cutitype']) charts['cutitype'].destroy();
+      charts['cutitype'] = new Chart(ctx2, { type: 'bar', data: { labels: Object.keys(cutiTypes), datasets: [{ label:'Jumlah', data: Object.values(cutiTypes), backgroundColor: ['rgba(37,99,235,0.8)','rgba(22,163,74,0.8)','rgba(124,58,237,0.8)','rgba(217,119,6,0.8)'], borderRadius: 6 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display:false } }, scales: { x: { grid:{ display:false } }, y: { beginAtZero:true, ticks:{ stepSize:1 } } }, animation: false } });
+    }
+    var ctx3 = document.getElementById('chart-tren');
+    if (ctx3) {
+      if (charts['tren']) charts['tren'].destroy();
+      charts['tren'] = new Chart(ctx3, { type: 'line', data: { labels: ['Minggu 1','Minggu 2','Minggu 3','Minggu 4'], datasets: [{ label:'Tingkat Kehadiran (%)', data: [88,91,85,93], borderColor: '#2563eb', backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension: 0.4, pointRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display:false } }, scales: { x: { grid:{ display:false } }, y: { beginAtZero:false, min:70, max:100, ticks:{ callback: function(v){ return v + '%'; } } } }, animation: false } });
+    }
+  });
+}
+
+function renderGaji() {
+  var data = currentRole === 'employee' ? [KARYAWAN.find(function(k){ return k.id === 'K003'; })] : KARYAWAN;
+  document.getElementById('section-gaji').innerHTML = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Slip Gaji</span></div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr><th>Karyawan</th><th>Departemen</th><th>Jabatan</th><th>Gaji Pokok</th><th>Periode</th><th>Aksi</th></tr></thead><tbody>' + data.filter(Boolean).map(function(k) {
+    return '<tr><td><div class="d-flex align-items-center gap-2"><div class="emp-avatar" style="background:' + k.color + '">' + initials(k.nama) + '</div>' + k.nama + '</div></td><td>' + k.dept + '</td><td>' + k.jabatan + '</td><td>' + fmtRupiah(k.gaji) + '</td><td>Maret 2026</td><td><button class="btn-outline-custom" style="padding:5px 12px;font-size:12px;" onclick="printSlip(\'' + k.id + '\')"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>Print</button></td></tr>';
+  }).join('') + '</tbody></table></div></div></div>';
+}
+
+function printSlip(empId) {
+  var k = KARYAWAN.find(function(e){ return e.id === empId; });
+  if (!k) return;
+  var tunjangan = Math.round(k.gaji * 0.15);
+  var bpjs = Math.round(k.gaji * 0.02);
+  var pph = Math.round(k.gaji * 0.05);
+  var total = k.gaji + tunjangan - bpjs - pph;
+  document.getElementById('slip-print').innerHTML = '<div style="font-family:Plus Jakarta Sans,sans-serif;max-width:600px;margin:0 auto;"><div style="text-align:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid #0f1729;"><h2 style="margin:0;font-size:20px;">PT Maju Bersama Indonesia</h2><p style="margin:4px 0;color:#64748b;font-size:13px;">Jl. Sudirman No. 88, Jakarta Pusat 10220</p><h3 style="margin:12px 0 0;font-size:16px;">SLIP GAJI - MARET 2026</h3></div><div style="margin-bottom:20px;font-size:13px;"><table style="width:100%;"><tr><td style="padding:3px 0;color:#64748b;">Nama Karyawan</td><td>: <strong>' + k.nama + '</strong></td></tr><tr><td style="padding:3px 0;color:#64748b;">ID Karyawan</td><td>: ' + k.id + '</td></tr><tr><td style="padding:3px 0;color:#64748b;">Departemen</td><td>: ' + k.dept + '</td></tr><tr><td style="padding:3px 0;color:#64748b;">Jabatan</td><td>: ' + k.jabatan + '</td></tr></table></div><table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:16px;"><thead><tr style="background:#f1f5f9;"><th style="padding:8px 12px;text-align:left;border:1px solid #e2e8f0;">Komponen</th><th style="padding:8px 12px;text-align:right;border:1px solid #e2e8f0;">Jumlah</th></tr></thead><tbody><tr><td style="padding:8px 12px;border:1px solid #e2e8f0;">Gaji Pokok</td><td style="padding:8px 12px;text-align:right;border:1px solid #e2e8f0;">' + fmtRupiah(k.gaji) + '</td></tr><tr><td style="padding:8px 12px;border:1px solid #e2e8f0;">Tunjangan (15%)</td><td style="padding:8px 12px;text-align:right;border:1px solid #e2e8f0;">' + fmtRupiah(tunjangan) + '</td></tr><tr style="color:#dc2626;"><td style="padding:8px 12px;border:1px solid #e2e8f0;">Potongan BPJS (2%)</td><td style="padding:8px 12px;text-align:right;border:1px solid #e2e8f0;">(' + fmtRupiah(bpjs) + ')</td></tr><tr style="color:#dc2626;"><td style="padding:8px 12px;border:1px solid #e2e8f0;">PPh 21 (5%)</td><td style="padding:8px 12px;text-align:right;border:1px solid #e2e8f0;">(' + fmtRupiah(pph) + ')</td></tr><tr style="font-weight:700;background:#f1f5f9;"><td style="padding:10px 12px;border:1px solid #e2e8f0;">TOTAL GAJI BERSIH</td><td style="padding:10px 12px;text-align:right;border:1px solid #e2e8f0;color:#16a34a;">' + fmtRupiah(total) + '</td></tr></tbody></table><div style="font-size:11px;color:#64748b;text-align:center;">Slip gaji ini diterbitkan secara otomatis oleh sistem SDM Pro - PT Maju Bersama Indonesia</div></div>';
+  window.print();
+}
+
+function renderProfil() {
+  var k = KARYAWAN.find(function(e){ return e.id === 'K003'; });
+  document.getElementById('section-profil').innerHTML = '<div class="row g-3"><div class="col-lg-4"><div class="card-section"><div class="card-body-custom" style="text-align:center;padding:32px 20px;"><div class="emp-avatar mx-auto mb-3" style="width:72px;height:72px;font-size:24px;background:' + k.color + ';">' + initials(k.nama) + '</div><div style="font-size:18px;font-weight:800;">' + k.nama + '</div><div style="color:var(--text-secondary);font-size:13px;margin-top:4px;">' + k.jabatan + '</div><span class="badge-status badge-dept mt-2 d-inline-block">' + k.dept + '</span></div></div></div><div class="col-lg-8"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Informasi Karyawan</span></div><div class="card-body-custom"><div class="row g-3" style="font-size:13px;"><div class="col-6"><div style="color:var(--text-secondary);font-size:12px;margin-bottom:2px;">ID Karyawan</div><div style="font-weight:600;">' + k.id + '</div></div><div class="col-6"><div style="color:var(--text-secondary);font-size:12px;margin-bottom:2px;">Email</div><div style="font-weight:600;">' + currentUser.email + '</div></div><div class="col-6"><div style="color:var(--text-secondary);font-size:12px;margin-bottom:2px;">Tanggal Bergabung</div><div style="font-weight:600;">' + fmtTgl(k.join) + '</div></div><div class="col-6"><div style="color:var(--text-secondary);font-size:12px;margin-bottom:2px;">Status</div><span class="badge-status badge-active">Aktif</span></div><div class="col-6"><div style="color:var(--text-secondary);font-size:12px;margin-bottom:2px;">Sisa Cuti Tahunan</div><div style="font-weight:600;">9 hari</div></div><div class="col-6"><div style="color:var(--text-secondary);font-size:12px;margin-bottom:2px;">Total Kehadiran (Bulan Ini)</div><div style="font-weight:600;">14 dari 15 hari</div></div></div></div></div></div></div>';
+}
+
+function downloadCsv(rows, filename) {
+  var csv = rows.map(function(r){ return r.map(function(c){ return '"' + String(c).replace(/"/g,'""') + '"'; }).join(','); }).join('\n');
+  var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = filename; a.click();
+  URL.revokeObjectURL(url);
+}
+
+var saved = localStorage.getItem('sdmpro_role');
+if (saved && USERS[saved]) {
+  currentRole = saved;
+  currentUser = USERS[saved];
+  document.getElementById('login-screen').style.display = 'none';
+  var appScreen = document.getElementById('app-screen');
+  appScreen.style.display = 'block';
+  appScreen.classList.add('fade-in');
+  setTimeout(function(){ appScreen.classList.remove('fade-in'); }, 400);
+  initApp();
+}
+</script>
+</body>
+</html>

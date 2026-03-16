@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChatCerdas - AI Chat Interface</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
+      },
+      colors: {
+        bg: '#0d0f14',
+        surface: '#151820',
+        surfaceHover: '#1c2030',
+        border: '#252a38',
+        accent: '#4f8ef7',
+        accentDim: '#3a6fd4',
+        muted: '#6b7280',
+        textPrimary: '#e8eaf0',
+        textSecondary: '#9aa3b5',
+        userBubble: '#1a2540',
+        aiBubble: '#131720',
+      }
+    }
+  }
+}
+</script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #0d0f14; color: #e8eaf0; height: 100vh; overflow: hidden; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #252a38; border-radius: 4px; }
+.typing-cursor::after { content: '|'; animation: blink 0.7s infinite; color: #4f8ef7; }
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.msg-appear { animation: msgIn 0.25s ease-out; }
+@keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.glow-accent { box-shadow: 0 0 20px rgba(79,142,247,0.2); }
+.input-glow:focus { box-shadow: 0 0 0 2px rgba(79,142,247,0.3); }
+textarea { resize: none; }
+.dot-pulse { display: flex; gap: 4px; align-items: center; }
+.dot-pulse span { width: 6px; height: 6px; border-radius: 50%; background: #4f8ef7; animation: dpulse 1.2s ease-in-out infinite; }
+.dot-pulse span:nth-child(2) { animation-delay: 0.2s; }
+.dot-pulse span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dpulse { 0%, 100% { opacity: 0.3; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
+.copy-btn { opacity: 0; transition: opacity 0.2s; }
+.msg-wrap:hover .copy-btn { opacity: 1; }
+.badge-model { background: linear-gradient(135deg, rgba(79,142,247,0.2), rgba(79,142,247,0.05)); border: 1px solid rgba(79,142,247,0.3); }
+@media (max-width: 768px) {
+  .sidebar-panel { position: fixed; left: 0; top: 0; height: 100vh; z-index: 50; width: 280px; transform: translateX(-100%); transition: transform 0.3s ease; }
+  .sidebar-panel.open { transform: translateX(0); }
+  .mob-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 40; display: none; }
+  .mob-overlay.show { display: block; }
+}
+@media (min-width: 769px) {
+  .sidebar-panel { position: relative; transform: none !important; }
+  .mob-overlay { display: none !important; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+const { useState, useEffect, useRef } = React;
+
+const DEFAULT_SYSTEM = 'Kamu adalah asisten AI yang cerdas, ramah, dan membantu. Jawab pertanyaan dalam Bahasa Indonesia kecuali pengguna menggunakan bahasa lain. Berikan jawaban yang jelas, akurat, dan bermanfaat.';
+
+const WELCOME = {
+  id: 'welcome',
+  role: 'assistant',
+  content: 'Halo! Saya ChatCerdas, asisten AI yang siap membantu Anda. Silakan masukkan API key Anthropic di panel Settings untuk mulai bercakap-cakap.',
+  ts: new Date().toISOString(),
+};
+
+function fmtTime(iso) {
+  return new Date(iso).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+}
+
+function SvgSend() {
+  return React.createElement('svg', { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' },
+    React.createElement('line', { x1: 22, y1: 2, x2: 11, y2: 13 }),
+    React.createElement('polygon', { points: '22 2 15 22 11 13 2 9 22 2' })
+  );
+}
+
+function SvgCopy() {
+  return React.createElement('svg', { width: 13, height: 13, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' },
+    React.createElement('rect', { x: 9, y: 9, width: 13, height: 13, rx: 2, ry: 2 }),
+    React.createElement('path', { d: 'M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1' })
+  );
+}
+
+function SvgTrash() {
+  return React.createElement('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' },
+    React.createElement('polyline', { points: '3 6 5 6 21 6' }),
+    React.createElement('path', { d: 'M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6' }),
+    React.createElement('path', { d: 'M10 11v6' }),
+    React.createElement('path', { d: 'M14 11v6' }),
+    React.createElement('path', { d: 'M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2' })
+  );
+}
+
+function SvgEye({ visible }) {
+  if (visible) {
+    return React.createElement('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' },
+      React.createElement('path', { d: 'M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24' }),
+      React.createElement('line', { x1: 1, y1: 1, x2: 23, y2: 23 })
+    );
+  }
+  return React.createElement('svg', { width: 14, height: 14, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' },
+    React.createElement('path', { d: 'M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z' }),
+    React.createElement('circle', { cx: 12, cy: 12, r: 3 })
+  );
+}
+
+function SvgMenu() {
+  return React.createElement('svg', { width: 20, height: 20, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' },
+    React.createElement('line', { x1: 3, y1: 12, x2: 21, y2: 12 }),
+    React.createElement('line', { x1: 3, y1: 6, x2: 21, y2: 6 }),
+    React.createElement('line', { x1: 3, y1: 18, x2: 21, y2: 18 })
+  );
+}
+
+function SvgX() {
+  return React.createElement('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' },
+    React.createElement('line', { x1: 18, y1: 6, x2: 6, y2: 18 }),
+    React.createElement('line', { x1: 6, y1: 6, x2: 18, y2: 18 })
+  );
+}
+
+function ArchPanel() {
+  return (
+    <div className="p-4 space-y-4">
+      <p className="text-xs text-textSecondary leading-relaxed">
+        Demo ini berjalan langsung di browser. Untuk production, gunakan arsitektur berikut agar API key tetap aman.
+      </p>
+      <div className="rounded-lg border border-border bg-bg p-3">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0"></span>
+          <span className="text-accent text-xs font-mono font-medium">Next.js (Recommended)</span>
+        </div>
+        <div className="text-xs font-mono space-y-0.5 leading-relaxed">
+          <div className="text-textPrimary">pages/api/chat.ts</div>
+          <div className="pl-2 text-muted">export default async function handler(req, res)</div>
+          <div className="pl-2 text-muted">{'{'}</div>
+          <div className="pl-4 text-textSecondary">const client = new Anthropic({'{'}</div>
+          <div className="pl-6 text-muted">apiKey: process.env.ANTHROPIC_API_KEY</div>
+          <div className="pl-4 text-textSecondary">{'}'});</div>
+          <div className="pl-4 text-textSecondary">const msg = await client.messages.create(...);</div>
+          <div className="pl-4 text-textSecondary">res.json(msg);</div>
+          <div className="pl-2 text-muted">{'}'}</div>
+        </div>
+      </div>
+      <div className="rounded-lg border border-border bg-bg p-3">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{background:'#22c55e'}}></span>
+          <span className="text-xs font-mono font-medium" style={{color:'#22c55e'}}>Node.js + Express</span>
+        </div>
+        <div className="text-xs font-mono space-y-0.5 leading-relaxed">
+          <div className="text-textPrimary">server.js</div>
+          <div className="pl-2 text-muted">app.post('/api/chat', async (req, res) =&gt; {'{'}</div>
+          <div className="pl-4 text-textSecondary">const r = await anthropic.messages.create(...);</div>
+          <div className="pl-4 text-textSecondary">res.json(r);</div>
+          <div className="pl-2 text-muted">{'}'});</div>
+        </div>
+      </div>
+      <div className="rounded-lg border border-border bg-bg p-3 space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full flex-shrink-0" style={{background:'#f59e0b'}}></span>
+          <span className="text-xs font-medium" style={{color:'#f59e0b'}}>Deployment</span>
+        </div>
+        <div className="grid grid-cols-3 gap-1">
+          {['Vercel','Railway','VPS'].map(function(d) {
+            return (
+              <div key={d} className="text-center py-1 rounded bg-surfaceHover border border-border text-xs text-textSecondary font-mono">{d}</div>
+            );
+          })}
+        </div>
+        <p className="text-xs text-muted leading-relaxed">API key disimpan sebagai environment variable, tidak pernah terekspos ke client.</p>
+      </div>
+    </div>
+  );
+}
+
+function Sidebar(props) {
+  const { apiKey, setApiKey, systemPrompt, setSystemPrompt, onClear, msgCount, tab, setTab } = props;
+  const [showKey, setShowKey] = useState(false);
+  const hasKey = apiKey.trim().length > 0;
+
+  return (
+    <div className="flex flex-col h-full bg-surface border-r border-border w-72">
+      <div className="flex-shrink-0 p-4 border-b border-border">
+        <div className="flex items-center gap-2 mb-1">
+          <div className="w-7 h-7 rounded-lg bg-accent flex items-center justify-center text-white text-xs font-bold flex-shrink-0">AI</div>
+          <div>
+            <div className="font-semibold text-textPrimary text-sm">ChatCerdas</div>
+            <div className="text-xs text-muted">AI Chat Interface</div>
+          </div>
+        </div>
+        <div className="mt-3 flex items-center gap-1.5 flex-wrap">
+          <span className="badge-model px-2 py-0.5 rounded-full text-xs text-accent font-mono">claude-sonnet-4-6</span>
+          <span className="px-2 py-0.5 rounded-full text-xs font-medium" style={hasKey ? {background:'rgba(34,197,94,0.1)',color:'#4ade80',border:'1px solid rgba(34,197,94,0.2)'} : {background:'rgba(239,68,68,0.1)',color:'#f87171',border:'1px solid rgba(239,68,68,0.2)'}}>
+            {hasKey ? 'Connected' : 'No Key'}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex-shrink-0 flex border-b border-border">
+        <button onClick={function(){ setTab('settings'); }} className="flex-1 py-2.5 text-xs font-medium transition-colors" style={tab === 'settings' ? {color:'#4f8ef7',borderBottom:'2px solid #4f8ef7'} : {color:'#6b7280'}}>
+          Settings
+        </button>
+        <button onClick={function(){ setTab('arch'); }} className="flex-1 py-2.5 text-xs font-medium transition-colors" style={tab === 'arch' ? {color:'#4f8ef7',borderBottom:'2px solid #4f8ef7'} : {color:'#6b7280'}}>
+          Architecture
+        </button>
+      </div>
+
+      <div className="flex-1 overflow-y-auto">
+        {tab === 'settings' ? (
+          <div className="p-4 space-y-5">
+            <div>
+              <div className="text-xs font-medium text-textSecondary mb-2">Anthropic API Key</div>
+              <div className="relative">
+                <input
+                  type={showKey ? 'text' : 'password'}
+                  value={apiKey}
+                  onChange={function(e){ setApiKey(e.target.value); }}
+                  placeholder="sk-ant-api03-..."
+                  className="w-full bg-bg border border-border rounded-lg px-3 py-2.5 text-xs text-textPrimary font-mono pr-9 input-glow focus:outline-none focus:border-accent transition-colors"
+                  style={{color:'#e8eaf0'}}
+                />
+                <button onClick={function(){ setShowKey(function(v){ return !v; }); }} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted hover:text-textSecondary transition-colors">
+                  <SvgEye visible={showKey} />
+                </button>
+              </div>
+              <div className="text-xs text-muted mt-1.5">Key disimpan di localStorage browser Anda.</div>
+            </div>
+
+            <div>
+              <div className="text-xs font-medium text-textSecondary mb-2">System Prompt</div>
+              <textarea
+                value={systemPrompt}
+                onChange={function(e){ setSystemPrompt(e.target.value); }}
+                rows={6}
+                className="w-full bg-bg border border-border rounded-lg px-3 py-2.5 text-xs text-textPrimary input-glow focus:outline-none focus:border-accent transition-colors leading-relaxed"
+                style={{color:'#e8eaf0'}}
+              />
+              <div className="text-xs text-muted mt-1.5">Instruksi awal untuk AI sebelum percakapan dimulai.</div>
+            </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-medium text-textSecondary">Percakapan</span>
+                <span className="text-xs text-muted">{msgCount} pesan</span>
+              </div>
+              <button onClick={onClear} className="w-full flex items-center justify-center gap-2 py-2 rounded-lg border border-border text-muted text-xs font-medium transition-all hover:text-red-400 hover:border-red-400/40">
+                <SvgTrash />
+                Hapus Percakapan
+              </button>
+            </div>
+          </div>
+        ) : (
+          <ArchPanel />
+        )}
+      </div>
+
+      <div className="flex-shrink-0 p-4 border-t border-border text-center">
+        <span className="text-xs text-muted">Demo project by </span>
+        <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" className="text-xs text-muted hover:text-accent transition-colors">
+          Bagas Aria Sativa
+        </a>
+        <span className="text-xs text-muted"> - Portfolio Demo</span>
+      </div>
+    </div>
+  );
+}
+
+function MsgBubble({ msg, streaming }) {
+  const [copied, setCopied] = useState(false);
+  const isUser = msg.role === 'user';
+
+  function doCopy() {
+    navigator.clipboard.writeText(msg.content).then(function() {
+      setCopied(true);
+      setTimeout(function() { setCopied(false); }, 2000);
+    });
+  }
+
+  return (
+    <div className={'msg-wrap flex gap-3 msg-appear ' + (isUser ? 'flex-row-reverse' : 'flex-row')}>
+      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={isUser ? {background:'rgba(79,142,247,0.2)',color:'#4f8ef7',border:'1px solid rgba(79,142,247,0.3)'} : {background:'rgba(79,142,247,0.1)',color:'#4f8ef7',border:'1px solid rgba(79,142,247,0.2)'}}>
+        {isUser ? 'U' : 'AI'}
+      </div>
+      <div className={'flex flex-col max-w-[75%] ' + (isUser ? 'items-end' : 'items-start')}>
+        <div className="rounded-2xl px-4 py-3 text-sm leading-relaxed" style={isUser ? {background:'#1a2540',border:'1px solid rgba(79,142,247,0.2)',color:'#e8eaf0',borderTopRightRadius:'4px'} : {background:'#131720',border:'1px solid #252a38',color:'#e8eaf0',borderTopLeftRadius:'4px'}}>
+          {streaming ? (
+            <span className="typing-cursor">{msg.content}</span>
+          ) : (
+            <span style={{whiteSpace:'pre-wrap',wordBreak:'break-word'}}>{msg.content}</span>
+          )}
+        </div>
+        <div className={'flex items-center gap-2 mt-1 ' + (isUser ? 'flex-row-reverse' : 'flex-row')}>
+          <span className="text-xs text-muted">{fmtTime(msg.ts)}</span>
+          {!streaming && msg.content && (
+            <button onClick={doCopy} className="copy-btn flex items-center gap-1 text-xs text-muted hover:text-accent transition-colors">
+              <SvgCopy />
+              {copied ? 'Disalin!' : ''}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LoadingBubble() {
+  return (
+    <div className="flex gap-3 msg-appear">
+      <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{background:'rgba(79,142,247,0.1)',color:'#4f8ef7',border:'1px solid rgba(79,142,247,0.2)'}}>AI</div>
+      <div className="rounded-2xl rounded-tl px-4 py-3" style={{background:'#131720',border:'1px solid #252a38'}}>
+        <div className="dot-pulse">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChatArea({ messages, loading, streamId }) {
+  const bottomRef = useRef(null);
+
+  useEffect(function() {
+    if (bottomRef.current) bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, streamId]);
+
+  return (
+    <div className="flex-1 overflow-y-auto px-4 py-6 space-y-5">
+      {messages.map(function(msg) {
+        return (
+          <MsgBubble key={msg.id} msg={msg} streaming={streamId === msg.id} />
+        );
+      })}
+      {loading && !streamId && <LoadingBubble />}
+      <div ref={bottomRef}></div>
+    </div>
+  );
+}
+
+function InputBar({ onSend, disabled, apiKey }) {
+  const [text, setText] = useState('');
+  const ref = useRef(null);
+  const hasKey = apiKey.trim().length > 0;
+
+  function submit() {
+    const t = text.trim();
+    if (!t || disabled || !hasKey) return;
+    onSend(t);
+    setText('');
+    if (ref.current) ref.current.style.height = 'auto';
+  }
+
+  function onKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); }
+  }
+
+  function onInput(e) {
+    setText(e.target.value);
+    e.target.style.height = 'auto';
+    e.target.style.height = Math.min(e.target.scrollHeight, 140) + 'px';
+  }
+
+  return (
+    <div className="flex-shrink-0 border-t border-border bg-surface px-4 py-3">
+      {!hasKey && (
+        <div className="mb-2 px-3 py-2 rounded-lg text-xs" style={{background:'rgba(245,158,11,0.1)',border:'1px solid rgba(245,158,11,0.2)',color:'#fbbf24'}}>
+          Masukkan API key Anthropic di panel Settings untuk mulai chat.
+        </div>
+      )}
+      <div className="flex items-end gap-3">
+        <textarea
+          ref={ref}
+          value={text}
+          onChange={onInput}
+          onKeyDown={onKey}
+          placeholder={hasKey ? 'Ketik pesan... (Enter kirim, Shift+Enter baris baru)' : 'API key belum diatur...'}
+          disabled={disabled || !hasKey}
+          rows={1}
+          className="flex-1 bg-bg border border-border rounded-xl px-4 py-3 text-sm text-textPrimary input-glow focus:outline-none focus:border-accent transition-colors leading-relaxed disabled:opacity-50 disabled:cursor-not-allowed"
+          style={{minHeight:'46px',maxHeight:'140px',color:'#e8eaf0'}}
+        />
+        <button
+          onClick={submit}
+          disabled={disabled || !hasKey || !text.trim()}
+          className="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center text-white transition-all glow-accent disabled:opacity-40 disabled:cursor-not-allowed"
+          style={{background:'#4f8ef7'}}
+        >
+          <SvgSend />
+        </button>
+      </div>
+      <div className="flex items-center justify-between mt-2">
+        <span className="text-xs text-muted">Shift+Enter untuk baris baru</span>
+        <span className="text-xs font-mono text-muted">{text.length}/4000</span>
+      </div>
+    </div>
+  );
+}
+
+function ConfirmModal({ onOk, onCancel }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0" style={{background:'rgba(0,0,0,0.6)'}} onClick={onCancel}></div>
+      <div className="relative rounded-2xl p-6 w-80 shadow-2xl msg-appear" style={{background:'#151820',border:'1px solid #252a38'}}>
+        <div className="font-semibold text-textPrimary mb-2">Hapus Percakapan?</div>
+        <div className="text-sm text-textSecondary mb-5 leading-relaxed">Semua pesan akan dihapus dan tidak dapat dikembalikan.</div>
+        <div className="flex gap-3">
+          <button onClick={onCancel} className="flex-1 py-2 rounded-lg border border-border text-sm text-textSecondary hover:bg-surfaceHover transition-colors">Batal</button>
+          <button onClick={onOk} className="flex-1 py-2 rounded-lg text-sm text-white font-medium transition-colors" style={{background:'#ef4444'}}>Hapus</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  const [apiKey, setApiKeyRaw] = useState(function() { return localStorage.getItem('cc_key') || ''; });
+  const [sysPrompt, setSysPromptRaw] = useState(function() { return localStorage.getItem('cc_sys') || DEFAULT_SYSTEM; });
+  const [messages, setMessages] = useState([WELCOME]);
+  const [loading, setLoading] = useState(false);
+  const [streamId, setStreamId] = useState(null);
+  const [error, setError] = useState('');
+  const [confirm, setConfirm] = useState(false);
+  const [tab, setTab] = useState('settings');
+  const [mobOpen, setMobOpen] = useState(false);
+
+  function setApiKey(v) { setApiKeyRaw(v); localStorage.setItem('cc_key', v); }
+  function setSysPrompt(v) { setSysPromptRaw(v); localStorage.setItem('cc_sys', v); }
+
+  async function sendMsg(text) {
+    if (loading) return;
+    setError('');
+    const userMsg = { id: String(Date.now()), role: 'user', content: text, ts: new Date().toISOString() };
+    const next = [...messages, userMsg];
+    setMessages(next);
+    setLoading(true);
+
+    const apiMsgs = next.filter(function(m) { return m.id !== 'welcome'; }).map(function(m) { return { role: m.role, content: m.content }; });
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true',
+        },
+        body: JSON.stringify({ model: 'claude-sonnet-4-6', max_tokens: 1024, system: sysPrompt, messages: apiMsgs }),
+      });
+
+      if (!res.ok) {
+        const ed = await res.json().catch(function() { return {}; });
+        const em = (ed.error && ed.error.message) || ('HTTP ' + res.status);
+        if (res.status === 401) throw new Error('API key tidak valid. Periksa kembali API key Anda.');
+        if (res.status === 429) throw new Error('Rate limit tercapai. Tunggu beberapa saat lalu coba lagi.');
+        throw new Error('Error: ' + em);
+      }
+
+      const data = await res.json();
+      const content = (data.content && data.content[0] && data.content[0].text) || '';
+      const aiId = String(Date.now() + 1);
+      const aiMsg = { id: aiId, role: 'assistant', content: '', ts: new Date().toISOString() };
+
+      setMessages(function(prev) { return [...prev, aiMsg]; });
+      setLoading(false);
+
+      let i = 0;
+      const chars = content.split('');
+      function typeNext() {
+        if (i < chars.length) {
+          const partial = chars.slice(0, i + 1).join('');
+          setStreamId(aiId);
+          setMessages(function(prev) { return prev.map(function(m) { return m.id === aiId ? Object.assign({}, m, { content: partial }) : m; }); });
+          i++;
+          setTimeout(typeNext, 12);
+        } else {
+          setStreamId(null);
+        }
+      }
+      typeNext();
+
+    } catch(err) {
+      setLoading(false);
+      setStreamId(null);
+      setError(err.message || 'Terjadi kesalahan. Coba lagi.');
+    }
+  }
+
+  function doClear() {
+    setMessages([WELCOME]);
+    setError('');
+    setStreamId(null);
+    setConfirm(false);
+  }
+
+  const userCount = messages.filter(function(m) { return m.role === 'user'; }).length;
+
+  return (
+    <div className="flex h-screen bg-bg overflow-hidden">
+      <div className={'mob-overlay ' + (mobOpen ? 'show' : '')} onClick={function() { setMobOpen(false); }}></div>
+
+      <div className={'sidebar-panel ' + (mobOpen ? 'open' : '')}>
+        <Sidebar
+          apiKey={apiKey}
+          setApiKey={setApiKey}
+          systemPrompt={sysPrompt}
+          setSystemPrompt={setSysPrompt}
+          onClear={function() { setConfirm(true); }}
+          msgCount={userCount}
+          tab={tab}
+          setTab={setTab}
+        />
+      </div>
+
+      <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-shrink-0 flex items-center gap-3 px-4 py-3 border-b border-border bg-surface">
+          <button onClick={function() { setMobOpen(function(v) { return !v; }); }} className="text-muted hover:text-textPrimary transition-colors" style={{display:'none'}} id="mob-btn">
+            <SvgMenu />
+          </button>
+          <div className="flex-1 min-w-0">
+            <div className="font-semibold text-textPrimary text-sm">ChatCerdas</div>
+            <div className="text-xs text-muted">Antarmuka AI berbasis Anthropic API</div>
+          </div>
+          {loading && (
+            <div className="flex items-center gap-1.5 text-xs text-accent">
+              <div className="dot-pulse" style={{transform:'scale(0.75)'}}>
+                <span></span><span></span><span></span>
+              </div>
+              <span>Memproses...</span>
+            </div>
+          )}
+        </div>
+
+        {error && (
+          <div className="mx-4 mt-3 px-4 py-3 rounded-xl text-sm flex items-start gap-2 msg-appear" style={{background:'rgba(239,68,68,0.1)',border:'1px solid rgba(239,68,68,0.2)',color:'#f87171'}}>
+            <span className="font-bold flex-shrink-0">!</span>
+            <span className="flex-1">{error}</span>
+            <button onClick={function() { setError(''); }} className="flex-shrink-0 hover:opacity-100 opacity-60 transition-opacity">
+              <SvgX />
+            </button>
+          </div>
+        )}
+
+        <ChatArea messages={messages} loading={loading} streamId={streamId} />
+        <InputBar onSend={sendMsg} disabled={loading} apiKey={apiKey} />
+      </div>
+
+      {confirm && <ConfirmModal onOk={doClear} onCancel={function() { setConfirm(false); }} />}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App, null));
+</script>
+<script>
+(function() {
+  function checkMobile() {
+    var btn = document.getElementById('mob-btn');
+    if (btn) btn.style.display = window.innerWidth <= 768 ? 'block' : 'none';
+  }
+  window.addEventListener('resize', checkMobile);
+  window.addEventListener('load', checkMobile);
+})();
+</script>
+</body>
+</html>

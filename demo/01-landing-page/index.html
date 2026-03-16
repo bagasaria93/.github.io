@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sinkron - Tim kamu, satu ritme.</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: {
+        jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+        inter: ['Inter', 'sans-serif'],
+      },
+      colors: {
+        brand: {
+          50: '#eef2ff',
+          100: '#e0e7ff',
+          500: '#6366f1',
+          600: '#4f46e5',
+          700: '#4338ca',
+          900: '#1e1b4b',
+        },
+        cyan: {
+          400: '#22d3ee',
+          500: '#06b6d4',
+        }
+      }
+    }
+  }
+}
+</script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', sans-serif; background: #fafafa; color: #111827; scroll-behavior: smooth; }
+h1,h2,h3,h4,h5 { font-family: 'Plus Jakarta Sans', sans-serif; }
+
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+  z-index: 9999; transition: width 0.1s linear;
+}
+
+#navbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  transition: all 0.3s ease;
+  padding: 20px 0;
+}
+#navbar.scrolled {
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(12px);
+  padding: 12px 0;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: color 0.2s;
+  position: relative;
+  text-decoration: none;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 2px;
+  background: #22d3ee;
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+.nav-link:hover { color: white; }
+.nav-link:hover::after { transform: scaleX(1); }
+.nav-link.active { color: #22d3ee; }
+.nav-link.active::after { transform: scaleX(1); }
+
+#navbar.scrolled .nav-link { color: #374151; }
+#navbar.scrolled .nav-link:hover { color: #6366f1; }
+#navbar.scrolled .nav-link:hover::after { background: #6366f1; }
+#navbar.scrolled .nav-link.active { color: #6366f1; }
+#navbar.scrolled .nav-link.active::after { background: #6366f1; }
+
+.nav-logo-text {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: white;
+  transition: color 0.3s;
+  text-decoration: none;
+}
+#navbar.scrolled .nav-logo-text { color: #1e1b4b; }
+
+.nav-btn-masuk {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 9px 20px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.1);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.nav-btn-masuk:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.6);
+  transform: translateY(-2px);
+}
+#navbar.scrolled .nav-btn-masuk {
+  background: white;
+  color: #374151;
+  border-color: #e5e7eb;
+}
+#navbar.scrolled .nav-btn-masuk:hover {
+  border-color: #6366f1;
+  color: #6366f1;
+  background: white;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.35);
+}
+.btn-secondary {
+  background: white;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 12px 28px;
+  border-radius: 10px;
+  border: 1.5px solid #e5e7eb;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.btn-secondary:hover {
+  border-color: #6366f1;
+  color: #6366f1;
+  transform: translateY(-2px);
+}
+
+.hero-bg {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 40%, #1e1b4b 100%);
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -20%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  bottom: -30%; left: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(34,211,238,0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.word-swap-wrapper {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.word-swap-inner {
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s ease;
+}
+.word-swap-inner.exiting {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.word-swap-inner.entering {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.kanban-board {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+.kanban-col {
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 12px;
+  min-height: 200px;
+}
+.kanban-col-header {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.kanban-card {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 8px;
+  cursor: grab;
+  transition: all 0.2s;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.9);
+}
+.kanban-card:hover {
+  background: rgba(255,255,255,0.15);
+  transform: scale(1.02);
+}
+.kanban-card.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+.kanban-card-tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  margin-top: 6px;
+}
+
+.feature-card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  border: 1px solid #f3f4f6;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1, #22d3ee);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
+}
+.feature-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.08); transform: translateY(-4px); }
+.feature-card:hover::before { transform: scaleX(1); }
+
+.feature-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.pricing-card {
+  background: white;
+  border-radius: 20px;
+  padding: 36px;
+  border: 1.5px solid #f3f4f6;
+  transition: all 0.3s;
+  position: relative;
+}
+.pricing-card.popular {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 1px #6366f1;
+}
+.pricing-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+
+.popular-badge {
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #6366f1, #4f46e5);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 18px;
+  border-radius: 20px;
+}
+
+.testimonial-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  border: 1px solid #f3f4f6;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.faq-item { border-bottom: 1px solid #f3f4f6; }
+.faq-question {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #111827;
+  transition: color 0.2s;
+}
+.faq-question:hover { color: #6366f1; }
+.faq-answer {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  padding-bottom: 0;
+}
+.faq-answer.open { max-height: 300px; padding-bottom: 20px; }
+.faq-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: #6366f1;
+}
+.faq-item.open .faq-icon {
+  background: #6366f1;
+  color: white;
+  transform: rotate(45deg);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6366f1;
+  margin-bottom: 16px;
+}
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px; height: 2px;
+  background: #6366f1;
+}
+
+#mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(30,27,75,0.98);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+#mobile-menu.open { display: flex; }
+#mobile-menu a {
+  color: white;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+#mobile-menu a:hover { color: #22d3ee; }
+
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: #111827;
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  z-index: 9998;
+  transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+.cta-section {
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.toggle-pill {
+  width: 48px; height: 26px;
+  background: #e5e7eb;
+  border-radius: 13px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.toggle-pill.active { background: #6366f1; }
+.toggle-pill::after {
+  content: '';
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 20px; height: 20px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+.toggle-pill.active::after { transform: translateX(22px); }
+
+.avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: white;
+  flex-shrink: 0;
+}
+
+footer {
+  margin-left:0;
+  transition:none;
+}
+
+@media (max-width: 768px) {
+  .kanban-board { display: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr !important; }
+}
+</style>
+</head>
+<body>
+
+<div id="scroll-progress"></div>
+
+<div id="toast" class="toast">
+  <span id="toast-icon">✓</span>
+  <span id="toast-text"></span>
+</div>
+
+<div id="mobile-menu">
+  <button onclick="closeMobileMenu()" style="position:absolute;top:24px;right:24px;background:none;border:none;color:white;font-size:2rem;cursor:pointer;">&#x2715;</button>
+  <a href="#fitur" onclick="closeMobileMenu()">Fitur</a>
+  <a href="#harga" onclick="closeMobileMenu()">Harga</a>
+  <a href="#testimoni" onclick="closeMobileMenu()">Testimoni</a>
+  <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+  <a href="#" onclick="showToast('Daftar gratis selama 14 hari!','🎉');closeMobileMenu();" style="color:#22d3ee;">Mulai Gratis</a>
+</div>
+
+<nav id="navbar">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
+    <a href="#" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
+      <div style="width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#22d3ee);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <span style="color:white;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;">S</span>
+      </div>
+      <span class="nav-logo-text">Sinkron</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#fitur" class="nav-link">Fitur</a>
+      <a href="#harga" class="nav-link">Harga</a>
+      <a href="#testimoni" class="nav-link">Testimoni</a>
+      <a href="#faq" class="nav-link">FAQ</a>
+    </div>
+    <div class="hidden md:flex items-center gap-3">
+      <button class="nav-btn-masuk" onclick="showToast('Masuk ke akun kamu','👋')">Masuk</button>
+      <button class="btn-primary" style="padding:9px 20px;" onclick="showToast('Daftar gratis selama 14 hari!','🎉')">Mulai Gratis</button>
+    </div>
+    <button class="md:hidden" onclick="openMobileMenu()" style="background:none;border:none;cursor:pointer;padding:4px;">
+      <div style="width:24px;height:2px;background:rgba(255,255,255,0.9);margin-bottom:5px;border-radius:2px;"></div>
+      <div style="width:18px;height:2px;background:rgba(255,255,255,0.9);margin-bottom:5px;border-radius:2px;"></div>
+      <div style="width:22px;height:2px;background:rgba(255,255,255,0.9);border-radius:2px;"></div>
+    </button>
+  </div>
+</nav>
+
+<section class="hero-bg" style="padding: 140px 0 80px;" id="hero">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+    <div class="hero-content">
+      <div class="section-label" style="color:#22d3ee;">
+        <span style="background:#22d3ee;width:24px;height:2px;display:inline-block;"></span>
+        Platform Kolaborasi Tim
+      </div>
+      <h1 style="font-size:clamp(2.4rem,5vw,3.6rem);font-weight:800;line-height:1.15;color:white;margin-bottom:12px;">
+        Kelola tim kamu<br>
+        dengan lebih
+        <span style="position:relative;display:inline-block;">
+          <span style="background:linear-gradient(90deg,#a5b4fc,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+            <span class="word-swap-wrapper">
+              <span class="word-swap-inner" id="word-display">cerdas</span>
+            </span>
+          </span>
+        </span>
+      </h1>
+      <p style="color:rgba(255,255,255,0.65);font-size:1.1rem;line-height:1.75;margin-bottom:36px;max-width:500px;">
+        Sinkron menyatukan tim remote kamu dalam satu platform. Kelola proyek, pantau progres, dan berkolaborasi tanpa hambatan jarak.
+      </p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px;">
+        <button class="btn-primary" style="padding:14px 32px;font-size:1rem;" onclick="showToast('Coba gratis 14 hari, tanpa kartu kredit!','🚀')">
+          Coba Gratis 14 Hari
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+        <button class="btn-secondary" style="padding:14px 32px;font-size:1rem;background:rgba(255,255,255,0.08);color:white;border-color:rgba(255,255,255,0.2);" onclick="showToast('Demo interaktif segera hadir!','📺')">
+          Lihat Demo
+        </button>
+      </div>
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+        <div style="display:flex;">
+          <div class="avatar" style="background:#6366f1;margin-right:-8px;">RD</div>
+          <div class="avatar" style="background:#06b6d4;margin-right:-8px;">AS</div>
+          <div class="avatar" style="background:#8b5cf6;margin-right:-8px;">BW</div>
+          <div class="avatar" style="background:#f59e0b;">YP</div>
+        </div>
+        <div>
+          <div style="color:white;font-weight:700;font-size:0.9rem;">500+ tim aktif</div>
+          <div style="color:rgba(255,255,255,0.5);font-size:0.8rem;">di seluruh Indonesia</div>
+        </div>
+        <div style="width:1px;height:32px;background:rgba(255,255,255,0.15);"></div>
+        <div style="display:flex;gap:4px;align-items:center;">
+          <span style="color:#fbbf24;font-size:0.9rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+          <span style="color:rgba(255,255,255,0.6);font-size:0.8rem;margin-left:4px;">4.9/5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="kanban-board">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+        <div style="color:rgba(255,255,255,0.9);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.9rem;">Sprint Aktif - Q2 2026</div>
+        <div style="background:rgba(34,211,238,0.15);color:#22d3ee;border:1px solid rgba(34,211,238,0.3);border-radius:6px;padding:3px 10px;font-size:0.7rem;font-weight:600;">Live</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div class="kanban-col" id="col-todo" ondragover="allowDrop(event)" ondrop="drop(event,'todo')">
+          <div class="kanban-col-header" style="color:rgba(255,255,255,0.5);">
+            <span style="width:8px;height:8px;background:#9ca3af;border-radius:50%;display:inline-block;"></span>
+            Antrian
+          </div>
+          <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="card1">
+            <div style="font-weight:600;">Redesign halaman login</div>
+            <div style="color:rgba(255,255,255,0.5);margin-top:4px;font-size:0.68rem;">Ditugaskan ke Budi</div>
+            <div class="kanban-card-tag" style="background:rgba(139,92,246,0.25);color:#a78bfa;">Desain</div>
+          </div>
+          <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="card2">
+            <div style="font-weight:600;">Integrasi API pembayaran</div>
+            <div style="color:rgba(255,255,255,0.5);margin-top:4px;font-size:0.68rem;">Ditugaskan ke Sari</div>
+            <div class="kanban-card-tag" style="background:rgba(34,211,238,0.2);color:#22d3ee;">Backend</div>
+          </div>
+        </div>
+        <div class="kanban-col" id="col-progress" ondragover="allowDrop(event)" ondrop="drop(event,'progress')">
+          <div class="kanban-col-header" style="color:rgba(255,255,255,0.5);">
+            <span style="width:8px;height:8px;background:#6366f1;border-radius:50%;display:inline-block;"></span>
+            Dikerjakan
+          </div>
+          <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="card3">
+            <div style="font-weight:600;">Dashboard analitik baru</div>
+            <div style="color:rgba(255,255,255,0.5);margin-top:4px;font-size:0.68rem;">Ditugaskan ke Andi</div>
+            <div class="kanban-card-tag" style="background:rgba(34,211,238,0.2);color:#22d3ee;">Frontend</div>
+          </div>
+        </div>
+        <div class="kanban-col" id="col-done" ondragover="allowDrop(event)" ondrop="drop(event,'done')">
+          <div class="kanban-col-header" style="color:rgba(255,255,255,0.5);">
+            <span style="width:8px;height:8px;background:#10b981;border-radius:50%;display:inline-block;"></span>
+            Selesai
+          </div>
+          <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="card4">
+            <div style="font-weight:600;">Setup CI/CD pipeline</div>
+            <div style="color:rgba(255,255,255,0.5);margin-top:4px;font-size:0.68rem;">Oleh Rizky</div>
+            <div class="kanban-card-tag" style="background:rgba(16,185,129,0.2);color:#10b981;">DevOps</div>
+          </div>
+          <div class="kanban-card" draggable="true" ondragstart="drag(event)" id="card5">
+            <div style="font-weight:600;">Dokumentasi API v2</div>
+            <div style="color:rgba(255,255,255,0.5);margin-top:4px;font-size:0.68rem;">Oleh Maya</div>
+            <div class="kanban-card-tag" style="background:rgba(245,158,11,0.2);color:#fbbf24;">Docs</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="color:rgba(255,255,255,0.4);font-size:0.7rem;">Coba drag kartu ke kolom lain</div>
+        <div style="color:rgba(255,255,255,0.5);font-size:0.7rem;">5 tasks aktif</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="background:white;padding:56px 0;border-bottom:1px solid #f3f4f6;">
+  <div class="max-w-6xl mx-auto px-6">
+    <p style="text-align:center;color:#9ca3af;font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">Dipercaya oleh perusahaan terkemuka Indonesia</p>
+    <div style="display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;">
+      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.2rem;">TechnoSolusi</div>
+      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.2rem;">Kreatif Digital</div>
+      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.2rem;">Maju Bersama</div>
+      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.2rem;">Nusantara Dev</div>
+      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.2rem;">Gemilang Corp</div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:#fafafa;" id="stats">
+  <div class="max-w-6xl mx-auto px-6">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;background:#f3f4f6;border-radius:20px;overflow:hidden;">
+      <div style="background:white;padding:40px 32px;text-align:center;" class="reveal">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.8rem;font-weight:800;background:linear-gradient(135deg,#6366f1,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+          <span class="stat-counter" data-target="500" data-suffix="+">0</span>
+        </div>
+        <div style="color:#6b7280;font-size:0.9rem;margin-top:6px;">Tim Aktif</div>
+      </div>
+      <div style="background:white;padding:40px 32px;text-align:center;" class="reveal">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.8rem;font-weight:800;background:linear-gradient(135deg,#6366f1,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+          <span class="stat-counter" data-target="12000" data-suffix="+">0</span>
+        </div>
+        <div style="color:#6b7280;font-size:0.9rem;margin-top:6px;">Task Diselesaikan</div>
+      </div>
+      <div style="background:white;padding:40px 32px;text-align:center;" class="reveal">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.8rem;font-weight:800;background:linear-gradient(135deg,#6366f1,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+          <span class="stat-counter" data-target="98" data-suffix="%">0</span>
+        </div>
+        <div style="color:#6b7280;font-size:0.9rem;margin-top:6px;">Kepuasan Pengguna</div>
+      </div>
+      <div style="background:white;padding:40px 32px;text-align:center;" class="reveal">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.8rem;font-weight:800;background:linear-gradient(135deg,#6366f1,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+          <span class="stat-counter" data-target="34" data-suffix=" kota">0</span>
+        </div>
+        <div style="color:#6b7280;font-size:0.9rem;margin-top:6px;">Kota di Indonesia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:white;" id="fitur">
+  <div class="max-w-6xl mx-auto px-6">
+    <div style="text-align:center;margin-bottom:64px;" class="reveal">
+      <div class="section-label" style="justify-content:center;">Fitur Unggulan</div>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Semua yang tim kamu butuhkan</h2>
+      <p style="color:#6b7280;font-size:1.05rem;max-width:540px;margin:0 auto;line-height:1.7;">Dari manajemen tugas hingga analitik tim, Sinkron hadir dengan fitur lengkap yang dirancang untuk produktivitas maksimal.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:#eef2ff;">📋</div>
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Papan Kanban Interaktif</h3>
+        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Visualisasikan alur kerja tim dengan drag-and-drop yang intuitif. Buat kolom custom sesuai proses kerja kamu.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:#f0fdf4;">📊</div>
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Analitik Tim Real-Time</h3>
+        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Pantau performa dan produktivitas tim dengan dashboard analitik yang terupdate secara langsung.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:#fdf4ff;">💬</div>
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Kolaborasi Terpadu</h3>
+        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Diskusi, komentar, dan berbagi file langsung dalam satu task. Tidak perlu berpindah aplikasi lagi.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:#fff7ed;">⏱️</div>
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Pelacak Waktu Otomatis</h3>
+        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Catat waktu kerja per task secara otomatis. Generate laporan jam kerja tim dalam hitungan detik.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:#ecfdf5;">🔗</div>
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Integrasi Tanpa Batas</h3>
+        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Hubungkan Sinkron dengan Slack, Google Drive, GitHub, dan lebih dari 50 aplikasi favorit kamu.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon" style="background:#fef3c7;">🔔</div>
+        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Notifikasi Cerdas</h3>
+        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Dapatkan notifikasi yang relevan saja. Filter berdasarkan prioritas agar kamu tetap fokus.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:#fafafa;" id="harga">
+  <div class="max-w-6xl mx-auto px-6">
+    <div style="text-align:center;margin-bottom:48px;" class="reveal">
+      <div class="section-label" style="justify-content:center;">Harga</div>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Pilih paket yang tepat</h2>
+      <p style="color:#6b7280;font-size:1.05rem;max-width:480px;margin:0 auto 32px;">Mulai gratis, upgrade kapan saja. Tidak ada biaya tersembunyi.</p>
+      <div style="display:inline-flex;align-items:center;gap:16px;background:white;border:1px solid #e5e7eb;border-radius:12px;padding:12px 20px;flex-wrap:wrap;justify-content:center;">
+        <span style="font-size:0.9rem;font-weight:600;color:#374151;">IDR</span>
+        <div class="toggle-pill" id="toggle-currency" onclick="toggleCurrency()"></div>
+        <span style="font-size:0.9rem;font-weight:600;color:#374151;">USD</span>
+        <div style="width:1px;height:20px;background:#e5e7eb;"></div>
+        <span style="font-size:0.9rem;font-weight:600;color:#374151;">Bulanan</span>
+        <div class="toggle-pill" id="toggle-yearly" onclick="toggleYearly()"></div>
+        <span style="font-size:0.9rem;font-weight:600;color:#6366f1;">Tahunan <span style="background:#eef2ff;color:#6366f1;font-size:0.7rem;padding:2px 8px;border-radius:20px;margin-left:2px;">Hemat 20%</span></span>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;max-width:960px;margin:0 auto;">
+      <div class="pricing-card reveal">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:#374151;margin-bottom:8px;">Starter</div>
+        <div style="margin-bottom:24px;">
+          <span id="price-starter" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.5rem;font-weight:800;color:#111827;transition:all 0.3s;">Rp 0</span>
+          <span style="color:#9ca3af;font-size:0.875rem;margin-left:4px;">/bulan</span>
+        </div>
+        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Untuk individu dan tim kecil yang baru memulai.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> Hingga 5 anggota tim</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> 3 proyek aktif</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> 1 GB penyimpanan</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Analitik lanjutan</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Integrasi pihak ketiga</div>
+        </div>
+        <button class="btn-secondary" style="width:100%;justify-content:center;" onclick="showToast('Mulai paket Starter gratis sekarang!','🎁')">Mulai Gratis</button>
+      </div>
+      <div class="pricing-card popular reveal" style="position:relative;">
+        <div class="popular-badge">Paling Populer</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:#6366f1;margin-bottom:8px;">Pro</div>
+        <div style="margin-bottom:24px;">
+          <span id="price-pro" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.5rem;font-weight:800;color:#111827;transition:all 0.3s;">Rp 199.000</span>
+          <span style="color:#9ca3af;font-size:0.875rem;margin-left:4px;">/bulan</span>
+        </div>
+        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Untuk tim berkembang yang butuh fitur lebih.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> Hingga 25 anggota tim</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> Proyek tidak terbatas</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> 20 GB penyimpanan</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> Analitik lanjutan</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Integrasi pihak ketiga</div>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="showToast('Aktifkan paket Pro sekarang!','⚡')">Mulai 14 Hari Gratis</button>
+      </div>
+      <div class="pricing-card reveal">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;color:#374151;margin-bottom:8px;">Enterprise</div>
+        <div style="margin-bottom:24px;">
+          <span id="price-enterprise" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.5rem;font-weight:800;color:#111827;">Custom</span>
+        </div>
+        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Untuk perusahaan besar dengan kebutuhan khusus.</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> Anggota tidak terbatas</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> Penyimpanan tidak terbatas</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> SSO dan keamanan lanjutan</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> Integrasi pihak ketiga penuh</div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#10b981;font-weight:700;">✓</span> Dukungan SLA 24/7</div>
+        </div>
+        <button class="btn-secondary" style="width:100%;justify-content:center;" onclick="showToast('Tim kami akan menghubungi kamu segera!','📞')">Hubungi Sales</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:white;" id="testimoni">
+  <div class="max-w-6xl mx-auto px-6">
+    <div style="text-align:center;margin-bottom:64px;" class="reveal">
+      <div class="section-label" style="justify-content:center;">Testimoni</div>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Apa kata tim yang sudah pakai Sinkron</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;">
+      <div class="testimonial-card reveal">
+        <div style="display:flex;gap:3px;margin-bottom:16px;">
+          <span style="color:#fbbf24;font-size:0.9rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        </div>
+        <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Sinkron benar-benar mengubah cara tim kami bekerja. Sekarang semua orang tahu tugasnya masing-masing tanpa perlu rapat panjang setiap hari."</p>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6);font-size:0.85rem;">RD</div>
+          <div>
+            <div style="font-weight:700;font-size:0.9rem;color:#111827;">Rendra Darmawan</div>
+            <div style="font-size:0.8rem;color:#9ca3af;">CTO, TechnoSolusi Jakarta</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div style="display:flex;gap:3px;margin-bottom:16px;">
+          <span style="color:#fbbf24;font-size:0.9rem;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        </div>
+        <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Sebagai startup yang timnya remote dari Surabaya, Bandung, dan Makassar, Sinkron jadi tulang punggung kolaborasi kami setiap hari."</p>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="avatar" style="background:linear-gradient(135deg,#06b6d4,#0891b2);font-size:0.85rem;">AS</div>
+          <div>
+            <div style="font-weight:700;font-size:0.9rem;color:#111827;">Amalia Susanti</div>
+            <div style="font-size:0.8rem;color:#9ca3af;">Co-Founder, Kreatif Digital</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card reveal">
+        <div style="display:flex;gap:3px;margin-bottom:16px;">
+          <span style="color:#fbbf24;font-size:0.9rem;">&#9733;&#9733;&#9733;&#9733;</span>
+          <span style="color:#e5e7eb;font-size:0.9rem;">&#9733;</span>
+        </div>
+        <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Fitur analitik tim Sinkron membantu kami mengidentifikasi bottleneck lebih cepat. Waktu delivery proyek turun 40% dalam 3 bulan pertama."</p>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div class="avatar" style="background:linear-gradient(135deg,#f59e0b,#d97706);font-size:0.85rem;">BP</div>
+          <div>
+            <div style="font-weight:700;font-size:0.9rem;color:#111827;">Bambang Prasetyo</div>
+            <div style="font-size:0.8rem;color:#9ca3af;">Project Manager, Nusantara Dev</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:100px 0;background:#fafafa;" id="faq">
+  <div class="max-w-2xl mx-auto px-6">
+    <div style="text-align:center;margin-bottom:64px;" class="reveal">
+      <div class="section-label" style="justify-content:center;">FAQ</div>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;color:#111827;">Pertanyaan yang sering diajukan</h2>
+    </div>
+    <div class="reveal">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Apakah Sinkron bisa digunakan gratis selamanya?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">Ya, paket Starter Sinkron gratis selamanya untuk tim hingga 5 orang dengan 3 proyek aktif. Kamu bisa upgrade ke paket Pro kapan saja jika membutuhkan lebih banyak fitur.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Bagaimana keamanan data tim saya di Sinkron?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">Data kamu dienkripsi dengan standar AES-256 dan disimpan di server yang berlokasi di Indonesia. Kami memiliki sertifikasi keamanan ISO 27001 dan mematuhi regulasi data lokal.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Apakah ada biaya tambahan saat upgrade paket?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">Tidak ada. Harga yang tertera sudah mencakup semua fitur pada paket tersebut. Kamu hanya membayar sesuai paket yang dipilih, tanpa biaya tersembunyi atau kejutan tagihan.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Bisakah saya impor data dari aplikasi lain?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">Sinkron mendukung impor dari Trello, Asana, Jira, dan spreadsheet Excel/Google Sheets. Tim onboarding kami siap membantu proses migrasi data kamu secara gratis.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Apakah Sinkron tersedia di mobile?
+          <div class="faq-icon">+</div>
+        </button>
+        <div class="faq-answer">Sinkron tersedia sebagai aplikasi web yang responsif di semua perangkat. Aplikasi native untuk Android dan iOS sedang dalam pengembangan dan akan hadir dalam waktu dekat.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section" style="padding:100px 0;">
+  <div class="max-w-3xl mx-auto px-6 text-center" style="position:relative;z-index:1;">
+    <div class="section-label" style="justify-content:center;color:#a5b4fc;">
+      <span style="background:#a5b4fc;width:24px;height:2px;display:inline-block;"></span>
+      Mulai Sekarang
+    </div>
+    <h2 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:white;margin-bottom:16px;line-height:1.2;">
+      Tim kamu, satu ritme.<br>Mulai hari ini.
+    </h2>
+    <p style="color:rgba(255,255,255,0.6);font-size:1.05rem;margin-bottom:40px;line-height:1.7;">Bergabunglah bersama 500+ tim di Indonesia yang sudah meningkatkan produktivitas mereka dengan Sinkron.</p>
+    <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
+      <button class="btn-primary" style="padding:16px 36px;font-size:1rem;background:white;color:#4f46e5;" onclick="showToast('Selamat datang di Sinkron! Coba gratis 14 hari.','🎉')">
+        Mulai Gratis 14 Hari
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <button class="btn-secondary" style="padding:16px 36px;font-size:1rem;background:transparent;color:white;border-color:rgba(255,255,255,0.3);" onclick="showToast('Tim kami akan menghubungi kamu segera!','📞')">
+        Jadwalkan Demo
+      </button>
+    </div>
+    <p style="color:rgba(255,255,255,0.35);font-size:0.82rem;margin-top:20px;">Tidak perlu kartu kredit. Batalkan kapan saja.</p>
+  </div>
+</section>
+
+<footer style="background:#111827;color:#9ca3af;">
+  <div class="max-w-6xl mx-auto px-6" style="padding-top:64px;padding-bottom:40px;">
+    <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px;" class="footer-grid">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,#6366f1,#22d3ee);border-radius:9px;display:flex;align-items:center;justify-content:center;">
+            <span style="color:white;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;">S</span>
+          </div>
+          <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;color:white;">Sinkron</span>
+        </div>
+        <p style="color:#6b7280;font-size:0.875rem;line-height:1.7;max-width:260px;">Platform manajemen proyek untuk tim remote Indonesia. Tim kamu, satu ritme.</p>
+      </div>
+      <div>
+        <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;margin-bottom:16px;">Produk</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="#fitur" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Fitur</a>
+          <a href="#harga" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Harga</a>
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Changelog</a>
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Roadmap</a>
+        </div>
+      </div>
+      <div>
+        <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;margin-bottom:16px;">Perusahaan</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Tentang Kami</a>
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Blog</a>
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Karir</a>
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Kontak</a>
+        </div>
+      </div>
+      <div>
+        <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;margin-bottom:16px;">Dukungan</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Dokumentasi</a>
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Panduan</a>
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Status Sistem</a>
+          <a href="#" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#a5b4fc'" onmouseout="this.style.color='#6b7280'">Kebijakan Privasi</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid #1f2937;padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+      <div style="color:#4b5563;font-size:0.8rem;">&copy; 2026 Sinkron. Hak cipta dilindungi.</div>
+      <div style="color:#4b5563;font-size:0.8rem;">
+        Demo project by <a href="https://bagasaria93.github.io" style="color:#6366f1;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a> - Portfolio Demo
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const words = ['cerdas', 'efisien', 'teratur', 'produktif', 'sinkron'];
+let wordIndex = 0;
+const wordEl = document.getElementById('word-display');
+
+function swapWord() {
+  wordEl.classList.add('exiting');
+  setTimeout(() => {
+    wordIndex = (wordIndex + 1) % words.length;
+    wordEl.textContent = words[wordIndex];
+    wordEl.classList.remove('exiting');
+    wordEl.classList.add('entering');
+    setTimeout(() => wordEl.classList.remove('entering'), 50);
+  }, 400);
+}
+setInterval(swapWord, 2800);
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  document.getElementById('scroll-progress').style.width = (scrollTop / docHeight * 100) + '%';
+
+  const navbar = document.getElementById('navbar');
+  if (scrollTop > 60) navbar.classList.add('scrolled');
+  else navbar.classList.remove('scrolled');
+
+  const sections = ['hero','fitur','harga','testimoni','faq'];
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const link = document.querySelector('.nav-link[href="#' + id + '"]');
+    if (link) {
+      if (rect.top <= 100 && rect.bottom >= 100) link.classList.add('active');
+      else link.classList.remove('active');
+    }
+  });
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      entry.target.querySelectorAll('.stat-counter').forEach(el => animateCounter(el));
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+function animateCounter(el) {
+  if (el.dataset.animated) return;
+  el.dataset.animated = true;
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = performance.now();
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - progress, 3);
+    const value = Math.floor(ease * target);
+    el.textContent = value.toLocaleString('id-ID') + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+let isCurrencyUSD = false;
+let isYearly = false;
+
+const prices = {
+  starter: { idr_monthly: 'Rp 0', idr_yearly: 'Rp 0', usd_monthly: '$0', usd_yearly: '$0' },
+  pro: { idr_monthly: 'Rp 199.000', idr_yearly: 'Rp 159.000', usd_monthly: '$13', usd_yearly: '$10' },
+};
+
+function updatePrices() {
+  const mode = (isCurrencyUSD ? 'usd' : 'idr') + '_' + (isYearly ? 'yearly' : 'monthly');
+  document.getElementById('price-starter').textContent = prices.starter[mode];
+  document.getElementById('price-pro').textContent = prices.pro[mode];
+}
+
+function toggleCurrency() {
+  isCurrencyUSD = !isCurrencyUSD;
+  document.getElementById('toggle-currency').classList.toggle('active', isCurrencyUSD);
+  updatePrices();
+  showToast('Harga ditampilkan dalam ' + (isCurrencyUSD ? 'USD' : 'IDR'), '💱');
+}
+
+function toggleYearly() {
+  isYearly = !isYearly;
+  document.getElementById('toggle-yearly').classList.toggle('active', isYearly);
+  updatePrices();
+  showToast(isYearly ? 'Hemat 20% dengan tagihan tahunan!' : 'Beralih ke tagihan bulanan', '📅');
+}
+
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  const answer = item.querySelector('.faq-answer');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-answer').classList.remove('open');
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    answer.classList.add('open');
+  }
+}
+
+let draggedId = null;
+function drag(e) { draggedId = e.target.closest('.kanban-card').id; e.target.closest('.kanban-card').classList.add('dragging'); }
+function allowDrop(e) { e.preventDefault(); }
+function drop(e, col) {
+  e.preventDefault();
+  const card = document.getElementById(draggedId);
+  if (card) {
+    card.classList.remove('dragging');
+    document.getElementById('col-' + col).appendChild(card);
+  }
+  draggedId = null;
+}
+document.addEventListener('dragend', () => {
+  document.querySelectorAll('.kanban-card').forEach(c => c.classList.remove('dragging'));
+});
+
+let toastTimer;
+function showToast(msg, icon) {
+  clearTimeout(toastTimer);
+  document.getElementById('toast-text').textContent = msg;
+  document.getElementById('toast-icon').textContent = icon || '✓';
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function openMobileMenu() { document.getElementById('mobile-menu').classList.add('open'); }
+function closeMobileMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+
+</body>
+</html>

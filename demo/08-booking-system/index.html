@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookinAja - Seruni Beauty</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+      colors: {
+        blush: '#fdf2f4',
+      }
+    }
+  }
+}
+</script>
+<style>
+* { box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; }
+.step-line { height: 2px; flex: 1; transition: background 0.3s; }
+.cal-day { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.cal-day:hover:not(.disabled):not(.empty) { background: #fecdd3; color: #be123c; }
+.cal-day.selected { background: #e11d48; color: white; }
+.cal-day.disabled { color: #d1d5db; cursor: not-allowed; }
+.cal-day.empty { cursor: default; }
+.cal-day.today { border: 2px solid #e11d48; color: #e11d48; font-weight: 700; }
+.cal-day.today.selected { color: white; }
+.slot-btn { border: 1.5px solid #e5e7eb; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; background: white; }
+.slot-btn:hover:not(.booked) { border-color: #e11d48; color: #e11d48; }
+.slot-btn.selected { background: #e11d48; color: white; border-color: #e11d48; }
+.slot-btn.booked { background: #f3f4f6; color: #9ca3af; cursor: not-allowed; text-decoration: line-through; }
+.service-card { border: 1.5px solid #e5e7eb; border-radius: 14px; padding: 16px; cursor: pointer; transition: all 0.2s; background: white; }
+.service-card:hover { border-color: #fda4af; box-shadow: 0 4px 16px rgba(225,29,72,0.08); }
+.service-card.selected { border-color: #e11d48; background: #fff1f2; }
+.branch-card { border: 1.5px solid #e5e7eb; border-radius: 14px; padding: 16px; cursor: pointer; transition: all 0.2s; background: white; }
+.branch-card:hover { border-color: #fda4af; }
+.branch-card.selected { border-color: #e11d48; background: #fff1f2; }
+.tab-btn { padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
+.tab-btn.active { background: #e11d48; color: white; }
+.tab-btn:not(.active) { background: transparent; color: #6b7280; }
+.tab-btn:not(.active):hover { color: #e11d48; }
+.status-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.fade-slide { animation: fadeSlide 0.3s ease; }
+@keyframes fadeSlide { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
+.leaderboard-bar { height: 6px; border-radius: 3px; transition: width 0.6s ease; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 16px; }
+.modal-box { background: white; border-radius: 20px; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; }
+.chart-wrap { position: relative; height: 220px; }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #fda4af; border-radius: 4px; }
+</style>
+</head>
+<body class="bg-rose-50 min-h-screen">
+
+<div id="app"></div>
+
+<script>
+var BRANCHES = [
+  { id: 'JKT', nama: 'Jakarta Selatan', alamat: 'Jl. Kemang Raya No. 45, Jakarta Selatan', telp: '021-7891234', buka: '09:00', tutup: '21:00' },
+  { id: 'BDG', nama: 'Bandung', alamat: 'Jl. Dago No. 112, Bandung', telp: '022-2345678', buka: '09:00', tutup: '20:00' },
+  { id: 'SBY', nama: 'Surabaya', alamat: 'Jl. Darmo No. 88, Surabaya', telp: '031-5678901', buka: '10:00', tutup: '21:00' }
+];
+
+var SERVICES = [
+  { id: 'S01', kategori: 'Wajah', nama: 'Facial Deep Cleansing', durasi: 60, harga: 185000, desc: 'Pembersihan mendalam untuk kulit bersih dan segar', icon: '✨' },
+  { id: 'S02', kategori: 'Wajah', nama: 'Brightening Facial', durasi: 75, harga: 250000, desc: 'Mencerahkan kulit kusam dengan serum vitamin C', icon: '🌟' },
+  { id: 'S03', kategori: 'Tubuh', nama: 'Body Scrub Nusantara', durasi: 90, harga: 320000, desc: 'Scrub tradisional dengan rempah pilihan Indonesia', icon: '🌿' },
+  { id: 'S04', kategori: 'Tubuh', nama: 'Aromatherapy Massage', durasi: 90, harga: 380000, desc: 'Pijat relaksasi dengan minyak esensial pilihan', icon: '💆' },
+  { id: 'S05', kategori: 'Rambut', nama: 'Hair Spa Treatment', durasi: 60, harga: 220000, desc: 'Perawatan rambut intensif dengan masker keratin', icon: '💇' },
+  { id: 'S06', kategori: 'Kuku', nama: 'Manicure & Pedicure', durasi: 75, harga: 175000, desc: 'Perawatan kuku tangan dan kaki lengkap', icon: '💅' },
+  { id: 'S07', kategori: 'Paket', nama: 'Paket Pengantin Lengkap', durasi: 240, harga: 1250000, desc: 'Paket lengkap perawatan untuk hari spesialmu', icon: '👰' },
+  { id: 'S08', kategori: 'Wajah', nama: 'Anti-Aging Facial', durasi: 90, harga: 450000, desc: 'Perawatan anti penuaan dengan teknologi terkini', icon: '⭐' }
+];
+
+var STAFF = [
+  { id: 'T01', nama: 'Ayu Lestari', cabang: 'JKT', spesialis: ['Wajah','Paket'], foto: '👩', rating: 4.9, totalBooking: 342 },
+  { id: 'T02', nama: 'Sinta Maharani', cabang: 'JKT', spesialis: ['Tubuh','Wajah'], foto: '👩‍🦱', rating: 4.8, totalBooking: 298 },
+  { id: 'T03', nama: 'Putri Andini', cabang: 'JKT', spesialis: ['Rambut','Kuku'], foto: '👱‍♀️', rating: 4.7, totalBooking: 215 },
+  { id: 'T04', nama: 'Rina Safitri', cabang: 'BDG', spesialis: ['Wajah','Tubuh'], foto: '👩‍🦰', rating: 4.9, totalBooking: 387 },
+  { id: 'T05', nama: 'Dewi Anggraini', cabang: 'BDG', spesialis: ['Tubuh','Paket'], foto: '🧕', rating: 4.6, totalBooking: 178 },
+  { id: 'T06', nama: 'Nadia Kusuma', cabang: 'SBY', spesialis: ['Wajah','Kuku'], foto: '👩‍🦳', rating: 4.8, totalBooking: 263 },
+  { id: 'T07', nama: 'Reni Oktavia', cabang: 'SBY', spesialis: ['Tubuh','Rambut'], foto: '👩', rating: 4.7, totalBooking: 201 }
+];
+
+var SLOTS = ['09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00'];
+
+var BOOKED_SLOTS = {
+  'JKT': { '2026-03-18': ['09:00','10:00','14:00'], '2026-03-19': ['11:00','15:00'] },
+  'BDG': { '2026-03-18': ['09:00','13:00'] },
+  'SBY': { '2026-03-19': ['10:00','11:00','16:00'] }
+};
+
+var state = {
+  step: 1,
+  service: null,
+  branch: null,
+  date: null,
+  slot: null,
+  staff: null,
+  customer: { nama: '', telp: '', email: '', catatan: '' },
+  booking: null,
+  view: 'booking',
+  adminTab: 'bookings',
+  calMonth: new Date().getMonth(),
+  calYear: new Date().getFullYear(),
+  catFilter: '',
+  reviewBookingId: null,
+  reviewStar: 0
+};
+
+var bookings = JSON.parse(localStorage.getItem('bja_bookings') || '[]');
+var reviews = JSON.parse(localStorage.getItem('bja_reviews') || '[]');
+var chartInstances = {};
+
+function save() {
+  localStorage.setItem('bja_bookings', JSON.stringify(bookings));
+  localStorage.setItem('bja_reviews', JSON.stringify(reviews));
+}
+
+function genId() {
+  return 'BKN' + Date.now().toString().slice(-6);
+}
+
+function fmtRupiah(n) {
+  return 'Rp ' + n.toLocaleString('id-ID');
+}
+
+function fmtTglShort(str) {
+  if (!str) return '-';
+  return new Date(str).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function getStatusColor(s) {
+  var map = {
+    pending: 'background:rgba(217,119,6,0.1);color:#d97706;',
+    confirmed: 'background:rgba(37,99,235,0.1);color:#2563eb;',
+    'in-progress': 'background:rgba(124,58,237,0.1);color:#7c3aed;',
+    completed: 'background:rgba(22,163,74,0.1);color:#16a34a;',
+    cancelled: 'background:rgba(220,38,38,0.1);color:#dc2626;'
+  };
+  return map[s] || 'background:#f3f4f6;color:#6b7280;';
+}
+
+function getStatusLabel(s) {
+  var map = { pending: 'Pending', confirmed: 'Dikonfirmasi', 'in-progress': 'Berlangsung', completed: 'Selesai', cancelled: 'Dibatalkan' };
+  return map[s] || s;
+}
+
+function render() {
+  document.getElementById('app').innerHTML = buildApp();
+  if (state.view === 'booking' && state.step === 3) renderCalendar();
+  if (state.view === 'booking' && state.step === 5 && state.booking) renderQR();
+  if (state.view === 'admin' && state.adminTab === 'analitik') renderCharts();
+}
+
+function buildApp() {
+  var nav = '<nav class="bg-white shadow-sm sticky top-0 z-50"><div class="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between"><div class="flex items-center gap-2"><span class="text-rose-600 font-bold text-xl">Seruni</span><span class="text-gray-800 font-bold text-xl">Beauty</span></div><div class="flex items-center gap-1"><button onclick="setView(\'booking\')" class="tab-btn ' + (state.view === 'booking' ? 'active' : '') + '">Booking</button><button onclick="setView(\'tracking\')" class="tab-btn ' + (state.view === 'tracking' ? 'active' : '') + '">Cek Status</button><button onclick="setView(\'admin\')" class="tab-btn ' + (state.view === 'admin' ? 'active' : '') + '">Admin</button></div></div></nav>';
+  var body = '';
+  if (state.view === 'booking') body = buildBooking();
+  else if (state.view === 'tracking') body = buildTracking();
+  else if (state.view === 'admin') body = buildAdmin();
+  return nav + '<div class="max-w-5xl mx-auto px-4 py-6">' + body + '</div>' + buildFooter();
+}
+
+function buildFooter() {
+  return '<footer class="mt-12 py-6 border-t border-rose-100 text-center"><p class="text-sm text-gray-400">Demo project by <a href="https://bagasaria93.github.io" target="_blank" class="text-rose-400 hover:text-rose-600 transition-colors">Bagas Aria Sativa</a> - Portfolio Demo</p></footer>';
+}
+
+function buildBooking() {
+  if (state.step === 5 && state.booking) return buildConfirmation();
+  var steps = ['Layanan', 'Cabang', 'Jadwal', 'Data Diri'];
+  var stepsHtml = '<div class="flex items-center mb-8">';
+  steps.forEach(function(s, i) {
+    var n = i + 1;
+    var active = n === state.step;
+    var done = n < state.step;
+    stepsHtml += '<div class="flex flex-col items-center"><div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ' + (done ? 'bg-rose-600 text-white' : active ? 'bg-rose-600 text-white ring-4 ring-rose-100' : 'bg-white border-2 border-gray-200 text-gray-400') + '">' + (done ? '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' : n) + '</div><div class="text-xs mt-1 font-medium ' + (active ? 'text-rose-600' : done ? 'text-rose-400' : 'text-gray-400') + ' hidden sm:block">' + s + '</div></div>';
+    if (i < steps.length - 1) stepsHtml += '<div class="step-line mx-1 ' + (n < state.step ? 'bg-rose-400' : 'bg-gray-200') + '"></div>';
+  });
+  stepsHtml += '</div>';
+  var content = '';
+  if (state.step === 1) content = buildStep1();
+  else if (state.step === 2) content = buildStep2();
+  else if (state.step === 3) content = buildStep3();
+  else if (state.step === 4) content = buildStep4();
+  var navHtml = '<div class="flex justify-between mt-6">';
+  if (state.step > 1) navHtml += '<button onclick="prevStep()" class="px-5 py-2.5 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:border-rose-300 hover:text-rose-600 transition-all">Kembali</button>';
+  else navHtml += '<div></div>';
+  if (state.step < 4) navHtml += '<button onclick="nextStep()" class="px-6 py-2.5 rounded-xl bg-rose-600 text-white text-sm font-semibold hover:bg-rose-700 transition-all">Lanjut</button>';
+  else navHtml += '<button onclick="submitBooking()" class="px-6 py-2.5 rounded-xl bg-rose-600 text-white text-sm font-semibold hover:bg-rose-700 transition-all">Konfirmasi Booking</button>';
+  navHtml += '</div>';
+  return stepsHtml + '<div class="fade-slide">' + content + '</div>' + navHtml;
+}
+
+function buildStep1() {
+  var cats = [];
+  SERVICES.forEach(function(s) { if (cats.indexOf(s.kategori) === -1) cats.push(s.kategori); });
+  var html = '<h2 class="text-lg font-bold text-gray-800 mb-4">Pilih Layanan</h2>';
+  html += '<div class="flex gap-2 mb-4 flex-wrap">';
+  html += '<button onclick="filterCat(\'\')" class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ' + (state.catFilter === '' ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-gray-500 border-gray-200 hover:border-rose-300') + '">Semua</button>';
+  cats.forEach(function(c) {
+    html += '<button onclick="filterCat(\'' + c + '\')" class="px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ' + (state.catFilter === c ? 'bg-rose-600 text-white border-rose-600' : 'bg-white text-gray-500 border-gray-200 hover:border-rose-300') + '">' + c + '</button>';
+  });
+  html += '</div><div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
+  var filtered = state.catFilter ? SERVICES.filter(function(s) { return s.kategori === state.catFilter; }) : SERVICES;
+  filtered.forEach(function(s) {
+    var sel = state.service && state.service.id === s.id;
+    html += '<div class="service-card ' + (sel ? 'selected' : '') + '" onclick="selectService(\'' + s.id + '\')">';
+    html += '<div class="flex items-start gap-3"><div class="text-2xl flex-shrink-0">' + s.icon + '</div><div class="flex-1 min-w-0"><div class="font-semibold text-gray-800 text-sm">' + s.nama + '</div><div class="text-xs text-gray-500 mt-0.5">' + s.desc + '</div><div class="flex items-center gap-3 mt-2 flex-wrap"><span class="text-rose-600 font-bold text-sm">' + fmtRupiah(s.harga) + '</span><span class="text-xs text-gray-400">' + s.durasi + ' menit</span><span class="text-xs px-2 py-0.5 rounded-full bg-rose-50 text-rose-500">' + s.kategori + '</span></div></div>';
+    if (sel) html += '<div class="text-rose-600 flex-shrink-0"><svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>';
+    html += '</div></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function buildStep2() {
+  var html = '<h2 class="text-lg font-bold text-gray-800 mb-4">Pilih Cabang</h2><div class="grid grid-cols-1 sm:grid-cols-3 gap-3">';
+  BRANCHES.forEach(function(b) {
+    var sel = state.branch && state.branch.id === b.id;
+    html += '<div class="branch-card ' + (sel ? 'selected' : '') + '" onclick="selectBranch(\'' + b.id + '\')">';
+    html += '<div class="flex items-start justify-between"><div><div class="font-semibold text-gray-800 text-sm">' + b.nama + '</div><div class="text-xs text-gray-500 mt-1 leading-relaxed">' + b.alamat + '</div><div class="text-xs text-gray-400 mt-2">Buka ' + b.buka + ' - ' + b.tutup + '</div></div>';
+    if (sel) html += '<div class="text-rose-600 flex-shrink-0 ml-2"><svg width="18" height="18" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>';
+    html += '</div></div>';
+  });
+  html += '</div>';
+  if (state.branch) {
+    var branchStaff = STAFF.filter(function(t) { return t.cabang === state.branch.id; });
+    var svcKat = state.service ? state.service.kategori : null;
+    html += '<h3 class="text-sm font-bold text-gray-700 mt-5 mb-3">Pilih Terapis di ' + state.branch.nama + '</h3>';
+    html += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
+    branchStaff.forEach(function(t) {
+      var sel = state.staff && state.staff.id === t.id;
+      var match = !svcKat || t.spesialis.indexOf(svcKat) !== -1;
+      html += '<div class="' + (sel ? 'border-rose-500 bg-rose-50' : 'border-gray-200 bg-white') + ' border-2 rounded-xl p-3 cursor-pointer transition-all hover:border-rose-300" onclick="selectStaff(\'' + t.id + '\')">';
+      html += '<div class="flex items-center gap-3"><div class="text-3xl flex-shrink-0">' + t.foto + '</div><div class="flex-1 min-w-0"><div class="flex items-center justify-between"><div class="font-semibold text-sm text-gray-800">' + t.nama + '</div>' + (sel ? '<div class="text-rose-600"><svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>' : '') + '</div><div class="flex items-center gap-1 mt-0.5"><span class="text-yellow-400 text-xs">★</span><span class="text-xs font-semibold text-gray-700">' + t.rating + '</span><span class="text-xs text-gray-400">(' + t.totalBooking + ')</span></div><div class="flex gap-1 mt-1 flex-wrap">' + t.spesialis.map(function(sp) { return '<span class="text-xs px-1.5 py-0.5 rounded ' + (svcKat && sp === svcKat ? 'bg-rose-100 text-rose-600 font-semibold' : 'bg-gray-100 text-gray-500') + '">' + sp + '</span>'; }).join('') + '</div></div></div></div>';
+    });
+    html += '</div>';
+    if (!match && svcKat) {
+      html += '<p class="text-xs text-gray-400 mt-2">Tidak ada terapis spesialis ' + svcKat + ' di cabang ini. Anda tetap bisa memilih terapis lain.</p>';
+    }
+  }
+  return html;
+}
+
+function buildStep3() {
+  var html = '<h2 class="text-lg font-bold text-gray-800 mb-4">Pilih Tanggal & Waktu</h2>';
+  html += '<div class="bg-white rounded-2xl border border-gray-100 p-4 mb-4">';
+  html += '<div class="flex items-center justify-between mb-4">';
+  html += '<button onclick="changeMonth(-1)" class="w-8 h-8 rounded-full hover:bg-rose-50 flex items-center justify-center text-gray-600 hover:text-rose-600 transition-all"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>';
+  html += '<div class="font-bold text-gray-800 text-sm" id="cal-title"></div>';
+  html += '<button onclick="changeMonth(1)" class="w-8 h-8 rounded-full hover:bg-rose-50 flex items-center justify-center text-gray-600 hover:text-rose-600 transition-all"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>';
+  html += '</div>';
+  html += '<div class="grid grid-cols-7 gap-1 text-center mb-2">' + ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].map(function(d) { return '<div class="text-xs font-semibold text-gray-400 py-1">' + d + '</div>'; }).join('') + '</div>';
+  html += '<div class="grid grid-cols-7 gap-1 text-center" id="cal-grid"></div>';
+  html += '</div>';
+  if (state.date) {
+    var bookedSlots = ((BOOKED_SLOTS[state.branch ? state.branch.id : ''] || {})[state.date]) || [];
+    html += '<h3 class="text-sm font-bold text-gray-700 mb-3">Pilih Waktu - ' + fmtTglShort(state.date) + '</h3>';
+    html += '<div class="grid grid-cols-4 sm:grid-cols-5 gap-2">';
+    SLOTS.forEach(function(sl) {
+      var isBooked = bookedSlots.indexOf(sl) !== -1;
+      var isSel = state.slot === sl;
+      html += '<button class="slot-btn ' + (isSel ? 'selected' : isBooked ? 'booked' : '') + '" ' + (isBooked ? 'disabled' : 'onclick="selectSlot(\'' + sl + '\')"') + '>' + sl + (isBooked ? '<br><span style="font-size:10px;">Penuh</span>' : '') + '</button>';
+    });
+    html += '</div>';
+  }
+  return html;
+}
+
+function buildStep4() {
+  var svc = state.service;
+  var br = state.branch;
+  var st = state.staff;
+  var html = '<h2 class="text-lg font-bold text-gray-800 mb-4">Data Diri & Ringkasan</h2>';
+  html += '<div class="bg-rose-50 border border-rose-100 rounded-2xl p-4 mb-4">';
+  html += '<div class="text-sm font-bold text-gray-700 mb-3">Ringkasan Booking</div>';
+  html += '<div class="space-y-2 text-sm">';
+  html += '<div class="flex justify-between"><span class="text-gray-500">Layanan</span><span class="font-semibold text-gray-800">' + (svc ? svc.nama : '-') + '</span></div>';
+  html += '<div class="flex justify-between"><span class="text-gray-500">Cabang</span><span class="font-semibold text-gray-800">' + (br ? br.nama : '-') + '</span></div>';
+  html += '<div class="flex justify-between"><span class="text-gray-500">Tanggal</span><span class="font-semibold text-gray-800">' + (state.date ? fmtTglShort(state.date) : '-') + '</span></div>';
+  html += '<div class="flex justify-between"><span class="text-gray-500">Waktu</span><span class="font-semibold text-gray-800">' + (state.slot || '-') + '</span></div>';
+  html += '<div class="flex justify-between"><span class="text-gray-500">Terapis</span><span class="font-semibold text-gray-800">' + (st ? st.nama : 'Belum dipilih') + '</span></div>';
+  html += '<div class="border-t border-rose-200 pt-2 flex justify-between"><span class="font-bold text-gray-700">Total</span><span class="font-bold text-rose-600 text-base">' + (svc ? fmtRupiah(svc.harga) : '-') + '</span></div>';
+  html += '</div></div>';
+  html += '<div class="space-y-3">';
+  html += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
+  html += '<div><label class="block text-xs font-semibold text-gray-600 mb-1">Nama Lengkap <span class="text-rose-500">*</span></label><input type="text" id="inp-nama" value="' + state.customer.nama + '" oninput="updateCustomer(\'nama\',this.value)" placeholder="Nama lengkap Anda" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-rose-400 transition-colors"></div>';
+  html += '<div><label class="block text-xs font-semibold text-gray-600 mb-1">No. WhatsApp <span class="text-rose-500">*</span></label><input type="text" id="inp-telp" value="' + state.customer.telp + '" oninput="updateCustomer(\'telp\',this.value)" placeholder="08xxxxxxxxxx" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-rose-400 transition-colors"></div>';
+  html += '</div>';
+  html += '<div><label class="block text-xs font-semibold text-gray-600 mb-1">Email</label><input type="email" id="inp-email" value="' + state.customer.email + '" oninput="updateCustomer(\'email\',this.value)" placeholder="email@contoh.com" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-rose-400 transition-colors"></div>';
+  html += '<div><label class="block text-xs font-semibold text-gray-600 mb-1">Catatan Tambahan</label><textarea id="inp-catatan" oninput="updateCustomer(\'catatan\',this.value)" placeholder="Alergi, permintaan khusus, dll..." class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-rose-400 transition-colors resize-none" rows="3">' + state.customer.catatan + '</textarea></div>';
+  html += '</div>';
+  return html;
+}
+
+function buildConfirmation() {
+  var b = state.booking;
+  var svc = SERVICES.find(function(s) { return s.id === b.serviceId; });
+  var br = BRANCHES.find(function(x) { return x.id === b.branchId; });
+  var st = STAFF.find(function(t) { return t.id === b.staffId; });
+  var statuses = ['pending','confirmed','in-progress','completed'];
+  var curIdx = statuses.indexOf(b.status);
+  var html = '<div class="text-center mb-6"><div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3"><svg width="32" height="32" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></div><h2 class="text-xl font-bold text-gray-800">Booking Berhasil!</h2><p class="text-gray-500 text-sm mt-1">Kode booking Anda</p><div class="text-2xl font-bold text-rose-600 mt-1 font-mono">' + b.id + '</div></div>';
+  html += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">';
+  html += '<div class="bg-white rounded-2xl border border-gray-100 p-4"><div class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Detail Booking</div><div class="space-y-2 text-sm"><div class="flex justify-between"><span class="text-gray-500">Layanan</span><span class="font-semibold">' + (svc ? svc.nama : '-') + '</span></div><div class="flex justify-between"><span class="text-gray-500">Cabang</span><span class="font-semibold">' + (br ? br.nama : '-') + '</span></div><div class="flex justify-between"><span class="text-gray-500">Tanggal</span><span class="font-semibold">' + fmtTglShort(b.date) + '</span></div><div class="flex justify-between"><span class="text-gray-500">Waktu</span><span class="font-semibold">' + b.slot + '</span></div><div class="flex justify-between"><span class="text-gray-500">Terapis</span><span class="font-semibold">' + (st ? st.nama : 'Belum dipilih') + '</span></div><div class="flex justify-between border-t pt-2 mt-2"><span class="font-bold">Total</span><span class="font-bold text-rose-600">' + (svc ? fmtRupiah(svc.harga) : '-') + '</span></div></div></div>';
+  html += '<div class="bg-white rounded-2xl border border-gray-100 p-4 flex flex-col items-center justify-center"><div class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">QR Code Booking</div><div id="qr-container" class="mb-2"></div><div class="text-xs text-gray-400 text-center">Tunjukkan QR ini saat tiba di cabang</div></div>';
+  html += '</div>';
+  html += '<div class="bg-white rounded-2xl border border-gray-100 p-4 mb-4"><div class="text-xs font-bold text-gray-400 uppercase tracking-wide mb-3">Status Booking</div><div class="flex items-center gap-2 overflow-x-auto pb-1">';
+  statuses.forEach(function(s, i) {
+    html += '<div class="flex items-center gap-1.5 flex-shrink-0"><div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ' + (i <= curIdx ? 'bg-rose-600 text-white' : 'bg-gray-100 text-gray-400') + '">' + (i < curIdx ? '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' : (i + 1)) + '</div><span class="text-xs font-medium ' + (i <= curIdx ? 'text-gray-800' : 'text-gray-400') + '">' + getStatusLabel(s) + '</span></div>';
+    if (i < statuses.length - 1) html += '<div class="w-5 h-0.5 flex-shrink-0 ' + (i < curIdx ? 'bg-rose-400' : 'bg-gray-200') + '"></div>';
+  });
+  html += '</div></div>';
+  html += '<div class="flex gap-3 flex-wrap"><button onclick="shareWA()" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-white text-sm font-semibold transition-all" style="background:#22c55e;" onmouseover="this.style.background=\'#16a34a\'" onmouseout="this.style.background=\'#22c55e\'"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.862L0 24l6.317-1.508A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.661-.498-5.193-1.369l-.371-.221-3.851.919.974-3.761-.242-.386A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>Bagikan via WhatsApp</button><button onclick="resetBooking()" class="px-5 py-3 rounded-xl border border-gray-200 text-sm font-semibold text-gray-600 hover:border-rose-300 hover:text-rose-600 transition-all">Booking Lagi</button></div>';
+  return html;
+}
+
+function buildTracking() {
+  var html = '<h2 class="text-lg font-bold text-gray-800 mb-4">Cek Status Booking</h2>';
+  html += '<div class="bg-white rounded-2xl border border-gray-100 p-4 mb-4"><div class="flex gap-3"><input type="text" id="track-id" placeholder="Masukkan kode booking (contoh: BKN123456)" class="flex-1 border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-rose-400 transition-colors"><button onclick="doTrack()" class="px-4 py-2.5 bg-rose-600 text-white rounded-xl text-sm font-semibold hover:bg-rose-700 transition-all">Cek</button></div></div>';
+  html += '<div id="track-result"></div>';
+  if (bookings.length > 0) {
+    html += '<div class="bg-white rounded-2xl border border-gray-100 p-4"><div class="text-sm font-bold text-gray-700 mb-3">Booking Terbaru</div><div class="space-y-2">';
+    bookings.slice(-5).reverse().forEach(function(b) {
+      var svc = SERVICES.find(function(s) { return s.id === b.serviceId; });
+      html += '<div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl cursor-pointer hover:bg-rose-50 transition-colors" onclick="showTrackDetail(\'' + b.id + '\')"><div><div class="text-sm font-semibold text-gray-800">' + b.id + '</div><div class="text-xs text-gray-500">' + (svc ? svc.nama : '-') + ' - ' + fmtTglShort(b.date) + '</div></div><span class="status-badge" style="' + getStatusColor(b.status) + '">' + getStatusLabel(b.status) + '</span></div>';
+    });
+    html += '</div></div>';
+  }
+  return html;
+}
+
+function buildAdmin() {
+  var tabs = [
+    { id: 'bookings', label: 'Daftar Booking' },
+    { id: 'staff', label: 'Leaderboard Terapis' },
+    { id: 'analitik', label: 'Analitik Cabang' },
+    { id: 'reviews', label: 'Ulasan' }
+  ];
+  var html = '<div class="flex gap-2 mb-4 flex-wrap">' + tabs.map(function(t) {
+    return '<button onclick="setAdminTab(\'' + t.id + '\')" class="tab-btn ' + (state.adminTab === t.id ? 'active' : '') + '">' + t.label + '</button>';
+  }).join('') + '</div>';
+  if (state.adminTab === 'bookings') html += buildAdminBookings();
+  else if (state.adminTab === 'staff') html += buildAdminStaff();
+  else if (state.adminTab === 'analitik') html += buildAdminAnalitik();
+  else if (state.adminTab === 'reviews') html += buildAdminReviews();
+  return html;
+}
+
+function buildAdminBookings() {
+  if (bookings.length === 0) return '<div class="bg-white rounded-2xl border border-gray-100 p-12 text-center"><div class="text-4xl mb-3">📋</div><div class="text-gray-500 text-sm">Belum ada booking masuk</div></div>';
+  var html = '<div class="bg-white rounded-2xl border border-gray-100 overflow-hidden"><div class="p-4 border-b border-gray-100"><span class="font-bold text-gray-800 text-sm">' + bookings.length + ' Booking</span></div><div class="overflow-x-auto"><table class="w-full text-sm"><thead class="bg-gray-50"><tr><th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">ID</th><th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Pelanggan</th><th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Layanan</th><th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Jadwal</th><th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Status</th><th class="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">Aksi</th></tr></thead><tbody>';
+  bookings.slice().reverse().forEach(function(b) {
+    var svc = SERVICES.find(function(s) { return s.id === b.serviceId; });
+    var br = BRANCHES.find(function(x) { return x.id === b.branchId; });
+    html += '<tr class="border-t border-gray-50 hover:bg-gray-50 transition-colors"><td class="px-4 py-3 font-mono text-xs text-gray-500">' + b.id + '</td><td class="px-4 py-3"><div class="font-medium text-gray-800">' + b.customer.nama + '</div><div class="text-xs text-gray-400">' + b.customer.telp + '</div></td><td class="px-4 py-3 text-gray-700">' + (svc ? svc.nama : '-') + '</td><td class="px-4 py-3"><div class="text-gray-700">' + fmtTglShort(b.date) + '</div><div class="text-xs text-gray-400">' + b.slot + ' - ' + (br ? br.nama : '-') + '</div></td><td class="px-4 py-3"><span class="status-badge" style="' + getStatusColor(b.status) + '">' + getStatusLabel(b.status) + '</span></td><td class="px-4 py-3"><select onchange="updateStatus(\'' + b.id + '\',this.value)" class="text-xs border border-gray-200 rounded-lg px-2 py-1.5 outline-none focus:border-rose-400 bg-white cursor-pointer"><option value="pending" ' + (b.status === 'pending' ? 'selected' : '') + '>Pending</option><option value="confirmed" ' + (b.status === 'confirmed' ? 'selected' : '') + '>Konfirmasi</option><option value="in-progress" ' + (b.status === 'in-progress' ? 'selected' : '') + '>Berlangsung</option><option value="completed" ' + (b.status === 'completed' ? 'selected' : '') + '>Selesai</option><option value="cancelled" ' + (b.status === 'cancelled' ? 'selected' : '') + '>Batalkan</option></select></td></tr>';
+  });
+  html += '</tbody></table></div></div>';
+  return html;
+}
+
+function buildAdminStaff() {
+  var staffWithStats = STAFF.map(function(t) {
+    var bkCount = bookings.filter(function(b) { return b.staffId === t.id; }).length;
+    var rvs = reviews.filter(function(r) { return r.staffId === t.id; });
+    var avgRating = rvs.length > 0 ? (rvs.reduce(function(a, r) { return a + r.rating; }, 0) / rvs.length).toFixed(1) : t.rating.toFixed(1);
+    return { id: t.id, nama: t.nama, cabang: t.cabang, spesialis: t.spesialis, foto: t.foto, bkCount: bkCount + t.totalBooking, avgRating: parseFloat(avgRating) };
+  }).sort(function(a, b) { return b.avgRating - a.avgRating || b.bkCount - a.bkCount; });
+  var maxBooking = Math.max.apply(null, staffWithStats.map(function(t) { return t.bkCount; }));
+  var rankColors = ['bg-yellow-400', 'bg-gray-300', 'bg-orange-400'];
+  var barColors = ['bg-yellow-400', 'bg-gray-300', 'bg-orange-400', 'bg-rose-400', 'bg-rose-300', 'bg-rose-200', 'bg-rose-100'];
+  var html = '<div class="space-y-3">';
+  staffWithStats.forEach(function(t, i) {
+    var br = BRANCHES.find(function(b) { return b.id === t.cabang; });
+    var pct = maxBooking > 0 ? Math.round(t.bkCount / maxBooking * 100) : 0;
+    html += '<div class="bg-white rounded-2xl border border-gray-100 p-4"><div class="flex items-center gap-4"><div class="w-8 h-8 rounded-full ' + (i < 3 ? rankColors[i] : 'bg-rose-50') + ' flex items-center justify-center text-sm font-bold ' + (i < 3 ? 'text-white' : 'text-rose-400') + ' flex-shrink-0">' + (i + 1) + '</div><div class="text-3xl flex-shrink-0">' + t.foto + '</div><div class="flex-1 min-w-0"><div class="flex items-center justify-between mb-1"><div class="font-semibold text-gray-800 text-sm">' + t.nama + '</div><div class="flex items-center gap-1"><span class="text-yellow-400">★</span><span class="text-sm font-bold text-gray-700">' + t.avgRating + '</span></div></div><div class="text-xs text-gray-400 mb-2">' + (br ? br.nama : '-') + ' &bull; ' + t.spesialis.join(', ') + '</div><div class="h-1.5 bg-gray-100 rounded-full overflow-hidden"><div class="h-full rounded-full ' + (barColors[i] || 'bg-rose-100') + '" style="width:' + pct + '%"></div></div><div class="text-xs text-gray-500 mt-1">' + t.bkCount + ' total booking</div></div></div></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function buildAdminAnalitik() {
+  return '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div class="bg-white rounded-2xl border border-gray-100 p-4"><div class="text-sm font-bold text-gray-700 mb-3">Booking per Cabang</div><div class="chart-wrap"><canvas id="chart-branch"></canvas></div></div><div class="bg-white rounded-2xl border border-gray-100 p-4"><div class="text-sm font-bold text-gray-700 mb-3">Booking per Layanan</div><div class="chart-wrap"><canvas id="chart-service"></canvas></div></div></div>';
+}
+
+function buildAdminReviews() {
+  var completedNoReview = bookings.filter(function(b) {
+    return b.status === 'completed' && !reviews.find(function(r) { return r.bookingId === b.id; });
+  });
+  var html = '';
+  if (completedNoReview.length > 0) {
+    html += '<div class="bg-rose-50 border border-rose-100 rounded-2xl p-4 mb-4"><div class="text-sm font-semibold text-rose-700 mb-2">Booking selesai yang belum diulas:</div><div class="space-y-2">';
+    completedNoReview.forEach(function(b) {
+      var svc = SERVICES.find(function(s) { return s.id === b.serviceId; });
+      html += '<div class="flex items-center justify-between bg-white rounded-xl p-3"><div class="text-sm"><span class="font-semibold">' + b.id + '</span> - ' + (svc ? svc.nama : '-') + '</div><button onclick="openReview(\'' + b.id + '\')" class="text-xs px-3 py-1.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-all">Beri Ulasan</button></div>';
+    });
+    html += '</div></div>';
+  }
+  if (reviews.length === 0) {
+    html += '<div class="bg-white rounded-2xl border border-gray-100 p-12 text-center"><div class="text-4xl mb-3">⭐</div><div class="text-gray-500 text-sm">Belum ada ulasan</div></div>';
+    return html;
+  }
+  html += '<div class="space-y-3">';
+  reviews.slice().reverse().forEach(function(r) {
+    var b = bookings.find(function(bk) { return bk.id === r.bookingId; });
+    var st = STAFF.find(function(t) { return t.id === r.staffId; });
+    var svc = b ? SERVICES.find(function(s) { return s.id === b.serviceId; }) : null;
+    html += '<div class="bg-white rounded-2xl border border-gray-100 p-4"><div class="flex items-start justify-between mb-2"><div><div class="font-semibold text-sm text-gray-800">' + (b ? b.customer.nama : '-') + '</div><div class="text-xs text-gray-400">' + (svc ? svc.nama : '-') + ' &bull; ' + (st ? st.nama : '-') + '</div></div><div class="flex">' + [1,2,3,4,5].map(function(n) { return '<span style="color:' + (n <= r.rating ? '#f59e0b' : '#e5e7eb') + ';font-size:16px;">★</span>'; }).join('') + '</div></div><p class="text-sm text-gray-600 leading-relaxed">' + r.komentar + '</p></div>';
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderCalendar() {
+  var now = new Date();
+  var year = state.calYear;
+  var month = state.calMonth;
+  var firstDay = new Date(year, month, 1).getDay();
+  var daysInMonth = new Date(year, month + 1, 0).getDate();
+  var titleEl = document.getElementById('cal-title');
+  var gridEl = document.getElementById('cal-grid');
+  if (!titleEl || !gridEl) return;
+  var monthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+  titleEl.textContent = monthNames[month] + ' ' + year;
+  var html = '';
+  for (var i = 0; i < firstDay; i++) html += '<div class="cal-day empty"></div>';
+  for (var d = 1; d <= daysInMonth; d++) {
+    var dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    var dt = new Date(year, month, d);
+    var isPast = dt < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var isToday = dt.toDateString() === now.toDateString();
+    var isSel = state.date === dateStr;
+    var cls = 'cal-day';
+    if (isPast) cls += ' disabled';
+    else if (isSel) cls += ' selected';
+    else if (isToday) cls += ' today';
+    html += '<div class="' + cls + '" ' + (!isPast ? 'onclick="selectDate(\'' + dateStr + '\')"' : '') + '>' + d + '</div>';
+  }
+  gridEl.innerHTML = html;
+}
+
+function renderQR() {
+  var container = document.getElementById('qr-container');
+  if (!container) return;
+  container.innerHTML = '';
+  try {
+    new QRCode(container, {
+      text: state.booking.id + '|' + state.booking.date + '|' + state.booking.slot,
+      width: 120,
+      height: 120,
+      colorDark: '#e11d48',
+      colorLight: '#ffffff'
+    });
+  } catch(e) {
+    container.innerHTML = '<div style="width:120px;height:120px;background:#fff1f2;border:1px solid #fda4af;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#e11d48;text-align:center;padding:8px;">' + state.booking.id + '</div>';
+  }
+}
+
+function renderCharts() {
+  requestAnimationFrame(function() {
+    var branchCount = {};
+    BRANCHES.forEach(function(b) { branchCount[b.nama] = 0; });
+    bookings.forEach(function(b) {
+      var br = BRANCHES.find(function(x) { return x.id === b.branchId; });
+      if (br) branchCount[br.nama] = (branchCount[br.nama] || 0) + 1;
+    });
+    var ctx1 = document.getElementById('chart-branch');
+    if (ctx1) {
+      if (chartInstances['branch']) chartInstances['branch'].destroy();
+      var branchVals = Object.values(branchCount);
+      var hasData = branchVals.some(function(v) { return v > 0; });
+      if (!hasData) branchVals = [4, 3, 2];
+      chartInstances['branch'] = new Chart(ctx1, {
+        type: 'doughnut',
+        data: { labels: Object.keys(branchCount), datasets: [{ data: branchVals, backgroundColor: ['#f43f5e','#fb7185','#fda4af'], borderWidth: 2, borderColor: '#fff' }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', size: 11 }, boxWidth: 10 } } }, animation: false }
+      });
+    }
+    var svcCount = {};
+    bookings.forEach(function(b) {
+      var svc = SERVICES.find(function(s) { return s.id === b.serviceId; });
+      if (svc) svcCount[svc.nama] = (svcCount[svc.nama] || 0) + 1;
+    });
+    var ctx2 = document.getElementById('chart-service');
+    if (ctx2) {
+      if (chartInstances['service']) chartInstances['service'].destroy();
+      var svcLabels = Object.keys(svcCount);
+      var svcVals = Object.values(svcCount);
+      if (svcLabels.length === 0) {
+        svcLabels = SERVICES.slice(0, 4).map(function(s) { return s.nama; });
+        svcVals = [3, 2, 4, 1];
+      }
+      chartInstances['service'] = new Chart(ctx2, {
+        type: 'bar',
+        data: { labels: svcLabels, datasets: [{ data: svcVals, backgroundColor: 'rgba(244,63,94,0.8)', borderRadius: 6 }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false }, ticks: { font: { size: 10 }, maxRotation: 30 } }, y: { beginAtZero: true, ticks: { stepSize: 1 } } }, animation: false }
+      });
+    }
+  });
+}
+
+function setView(v) { state.view = v; render(); }
+function setAdminTab(t) { state.adminTab = t; render(); }
+function filterCat(c) { state.catFilter = c; render(); }
+function selectService(id) { state.service = SERVICES.find(function(s) { return s.id === id; }); render(); }
+function selectBranch(id) { state.branch = BRANCHES.find(function(b) { return b.id === id; }); state.staff = null; render(); }
+function selectStaff(id) { state.staff = STAFF.find(function(t) { return t.id === id; }); render(); }
+function selectDate(d) { state.date = d; state.slot = null; render(); }
+function selectSlot(s) { state.slot = s; render(); }
+function updateCustomer(field, val) { state.customer[field] = val; }
+
+function changeMonth(dir) {
+  state.calMonth += dir;
+  if (state.calMonth > 11) { state.calMonth = 0; state.calYear++; }
+  if (state.calMonth < 0) { state.calMonth = 11; state.calYear--; }
+  renderCalendar();
+}
+
+function nextStep() {
+  if (state.step === 1 && !state.service) { alert('Pilih layanan terlebih dahulu.'); return; }
+  if (state.step === 2 && !state.branch) { alert('Pilih cabang terlebih dahulu.'); return; }
+  if (state.step === 3 && !state.date) { alert('Pilih tanggal terlebih dahulu.'); return; }
+  if (state.step === 3 && !state.slot) { alert('Pilih waktu terlebih dahulu.'); return; }
+  state.step++;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function prevStep() {
+  state.step--;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function submitBooking() {
+  if (!state.customer.nama.trim()) { alert('Nama lengkap wajib diisi.'); return; }
+  if (!state.customer.telp.trim()) { alert('Nomor WhatsApp wajib diisi.'); return; }
+  var newBooking = {
+    id: genId(),
+    serviceId: state.service.id,
+    branchId: state.branch.id,
+    staffId: state.staff ? state.staff.id : null,
+    date: state.date,
+    slot: state.slot,
+    customer: { nama: state.customer.nama, telp: state.customer.telp, email: state.customer.email, catatan: state.customer.catatan },
+    status: 'pending',
+    createdAt: new Date().toISOString()
+  };
+  bookings.push(newBooking);
+  save();
+  state.booking = newBooking;
+  state.step = 5;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function resetBooking() {
+  state.step = 1;
+  state.service = null;
+  state.branch = null;
+  state.date = null;
+  state.slot = null;
+  state.staff = null;
+  state.customer = { nama: '', telp: '', email: '', catatan: '' };
+  state.booking = null;
+  state.catFilter = '';
+  render();
+  window.scrollTo(0, 0);
+}
+
+function shareWA() {
+  if (!state.booking) return;
+  var svc = SERVICES.find(function(s) { return s.id === state.booking.serviceId; });
+  var br = BRANCHES.find(function(x) { return x.id === state.booking.branchId; });
+  var msg = 'Halo! Saya baru saja booking di Seruni Beauty.\n\nKode Booking: ' + state.booking.id + '\nLayanan: ' + (svc ? svc.nama : '-') + '\nCabang: ' + (br ? br.nama : '-') + '\nTanggal: ' + fmtTglShort(state.booking.date) + '\nWaktu: ' + state.booking.slot + '\n\nSampai jumpa di Seruni Beauty!';
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+function doTrack() {
+  var inp = document.getElementById('track-id');
+  if (!inp) return;
+  showTrackDetail(inp.value.trim().toUpperCase());
+}
+
+function showTrackDetail(id) {
+  var resultEl = document.getElementById('track-result');
+  if (!resultEl) return;
+  var b = bookings.find(function(bk) { return bk.id === id; });
+  if (!b) {
+    resultEl.innerHTML = '<div class="bg-red-50 border border-red-100 rounded-2xl p-4 text-center text-sm text-red-500 mb-4">Kode booking tidak ditemukan.</div>';
+    return;
+  }
+  var svc = SERVICES.find(function(s) { return s.id === b.serviceId; });
+  var br = BRANCHES.find(function(x) { return x.id === b.branchId; });
+  var st = STAFF.find(function(t) { return t.id === b.staffId; });
+  var statuses = ['pending','confirmed','in-progress','completed'];
+  var curIdx = statuses.indexOf(b.status);
+  var html = '<div class="bg-white rounded-2xl border border-gray-100 p-4 mb-4">';
+  html += '<div class="flex items-center justify-between mb-3"><div><div class="font-bold text-gray-800 font-mono">' + b.id + '</div><div class="text-xs text-gray-400">' + b.customer.nama + '</div></div><span class="status-badge" style="' + getStatusColor(b.status) + '">' + getStatusLabel(b.status) + '</span></div>';
+  html += '<div class="space-y-1.5 text-sm mb-4"><div class="flex justify-between"><span class="text-gray-500">Layanan</span><span class="font-medium">' + (svc ? svc.nama : '-') + '</span></div><div class="flex justify-between"><span class="text-gray-500">Cabang</span><span class="font-medium">' + (br ? br.nama : '-') + '</span></div><div class="flex justify-between"><span class="text-gray-500">Jadwal</span><span class="font-medium">' + fmtTglShort(b.date) + ' pukul ' + b.slot + '</span></div><div class="flex justify-between"><span class="text-gray-500">Terapis</span><span class="font-medium">' + (st ? st.nama : '-') + '</span></div></div>';
+  html += '<div class="flex items-center gap-2 overflow-x-auto pb-1">';
+  statuses.forEach(function(s, i) {
+    html += '<div class="flex items-center gap-1.5 flex-shrink-0"><div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ' + (i <= curIdx ? 'bg-rose-600 text-white' : 'bg-gray-100 text-gray-400') + '">' + (i < curIdx ? '<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' : (i + 1)) + '</div><span class="text-xs ' + (i <= curIdx ? 'text-gray-700 font-medium' : 'text-gray-400') + '">' + getStatusLabel(s) + '</span></div>';
+    if (i < statuses.length - 1) html += '<div class="w-4 h-0.5 flex-shrink-0 ' + (i < curIdx ? 'bg-rose-400' : 'bg-gray-200') + '"></div>';
+  });
+  html += '</div>';
+  if (b.status === 'completed' && !reviews.find(function(r) { return r.bookingId === b.id; })) {
+    html += '<button onclick="openReview(\'' + b.id + '\')" class="mt-3 w-full py-2.5 bg-rose-600 text-white rounded-xl text-sm font-semibold hover:bg-rose-700 transition-all">Beri Ulasan</button>';
+  }
+  html += '</div>';
+  resultEl.innerHTML = html;
+}
+
+function updateStatus(id, status) {
+  var b = bookings.find(function(bk) { return bk.id === id; });
+  if (b) { b.status = status; save(); render(); }
+}
+
+function openReview(bookingId) {
+  state.reviewBookingId = bookingId;
+  state.reviewStar = 0;
+  var b = bookings.find(function(bk) { return bk.id === bookingId; });
+  var svc = b ? SERVICES.find(function(s) { return s.id === b.serviceId; }) : null;
+  var overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'review-modal';
+  overlay.innerHTML = '<div class="modal-box p-6"><div class="font-bold text-gray-800 text-lg mb-1">Beri Ulasan</div><div class="text-sm text-gray-400 mb-4">' + (svc ? svc.nama : '') + ' - ' + bookingId + '</div><div class="mb-4"><div class="text-sm font-semibold text-gray-700 mb-2">Rating <span class="text-rose-500">*</span></div><div class="flex gap-2" id="star-row">' + [1,2,3,4,5].map(function(n) { return '<span onclick="setReviewStar(' + n + ')" onmouseover="hoverStar(' + n + ')" onmouseout="hoverStar(0)" style="cursor:pointer;font-size:32px;color:#e5e7eb;transition:transform 0.1s;" id="star-' + n + '">★</span>'; }).join('') + '</div></div><div class="mb-4"><div class="text-sm font-semibold text-gray-700 mb-2">Komentar <span class="text-rose-500">*</span></div><textarea id="review-komentar" rows="3" placeholder="Bagaimana pengalaman Anda?" class="w-full border border-gray-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-rose-400 transition-colors resize-none"></textarea></div><div class="flex gap-3"><button onclick="closeReview()" class="flex-1 py-2.5 border border-gray-200 rounded-xl text-sm font-semibold text-gray-600 hover:border-rose-300 hover:text-rose-600 transition-all">Batal</button><button onclick="submitReview()" class="flex-1 py-2.5 bg-rose-600 text-white rounded-xl text-sm font-semibold hover:bg-rose-700 transition-all">Kirim Ulasan</button></div></div>';
+  document.body.appendChild(overlay);
+}
+
+function hoverStar(n) {
+  var active = n || state.reviewStar || 0;
+  for (var i = 1; i <= 5; i++) {
+    var el = document.getElementById('star-' + i);
+    if (el) el.style.color = i <= active ? '#f59e0b' : '#e5e7eb';
+  }
+}
+
+function setReviewStar(n) {
+  state.reviewStar = n;
+  hoverStar(n);
+}
+
+function closeReview() {
+  var modal = document.getElementById('review-modal');
+  if (modal) document.body.removeChild(modal);
+  state.reviewBookingId = null;
+  state.reviewStar = 0;
+}
+
+function submitReview() {
+  if (!state.reviewStar || state.reviewStar === 0) { alert('Pilih rating bintang terlebih dahulu.'); return; }
+  var komentarEl = document.getElementById('review-komentar');
+  var komentar = komentarEl ? komentarEl.value.trim() : '';
+  if (!komentar) { alert('Komentar wajib diisi.'); return; }
+  var b = bookings.find(function(bk) { return bk.id === state.reviewBookingId; });
+  reviews.push({
+    bookingId: state.reviewBookingId,
+    staffId: b ? b.staffId : null,
+    rating: state.reviewStar,
+    komentar: komentar,
+    createdAt: new Date().toISOString()
+  });
+  save();
+  closeReview();
+  render();
+}
+
+render();
+</script>
+</body>
+</html>
