@@ -698,6 +698,8 @@ position: relative;
 .photo-carousel {
 position: relative;
 overflow: hidden;
+width: 100%;
+display: block;
 }
 
 .photo-carousel-track {
