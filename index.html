@@ -24,6 +24,7 @@
     <li><a href="#experience" data-i18n="nav_experience">Experience</a></li>
     <li><a href="#education" data-i18n="nav_education">Education</a></li>
     <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+    <li><a href="#testimonials" data-i18n="nav_testimonials">Testimonials</a></li>
     <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
   </ul>
   <div style="display:flex;align-items:center;gap:16px;">
@@ -43,6 +44,7 @@
   <a href="#experience" onclick="toggleMobileMenu()" data-i18n="nav_experience">Experience</a>
   <a href="#education" onclick="toggleMobileMenu()" data-i18n="nav_education">Education</a>
   <a href="#projects" onclick="toggleMobileMenu()" data-i18n="nav_projects">Projects</a>
+  <a href="#testimonials" onclick="toggleMobileMenu()" data-i18n="nav_testimonials">Testimonials</a>
   <a href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact">Contact</a>
   <div class="lang-toggle" style="margin-top:16px;">
     <button class="lang-btn mobile-lang-en active" onclick="setLanguage('en');toggleMobileMenu()">EN</button>
@@ -722,6 +724,51 @@
   </div>
 </section>
 
+<section id="testimonials">
+  <div class="max-container">
+    <div class="section-reveal">
+      <div class="section-label" data-i18n="testi_label">Testimonials</div>
+      <h2 class="section-title" data-i18n="testi_title">What Colleagues Say</h2>
+    </div>
+    <div class="testi-grid section-reveal stagger-1">
+
+      <div class="testi-card">
+        <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+        <p class="testi-text" data-i18n="testi_01_text">Bagas delivered the HRD Dashboard and NailShade Booking System well ahead of schedule. His ability to understand HR workflows and translate them into a clean, functional system impressed our entire team. Communication was professional throughout, and the results exceeded expectations.</p>
+        <div class="testi-author">
+          <div class="testi-author-info">
+            <div class="testi-name">Dian Rahmawati</div>
+            <div class="testi-role" data-i18n="testi_01_role">Human Resources Manager, Rainbrow Sulam Alis</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+        <p class="testi-text" data-i18n="testi_02_text">The warehouse module Bagas built has made a significant difference in how we manage stock and delivery documentation. He took the time to understand our daily operational needs and built a system that actually fits how we work. Stock accuracy improved dramatically since implementation.</p>
+        <div class="testi-author">
+          <div class="testi-author-info">
+            <div class="testi-name">Aprizal</div>
+            <div class="testi-role" data-i18n="testi_02_role">Warehouse Supervisor, PT Ganzu Gisma Seiko</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+        <p class="testi-text" data-i18n="testi_03_text">Before the ERP system, our production planning process was manual and time-consuming. Bagas analyzed our PPC workflow thoroughly and built scheduling and work order modules that cut our planning time significantly. He was responsive and always open to adjustments during development.</p>
+        <div class="testi-author">
+          <div class="testi-author-info">
+            <div class="testi-name">Yuzrisal</div>
+            <div class="testi-role" data-i18n="testi_03_role">PPC Staff, PT Ganzu Gisma Seiko</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <section id="contact">
   <div class="max-container">
     <div class="section-reveal">
@@ -729,9 +776,13 @@
       <h2 class="section-title" data-i18n="contact_title">Get In Touch</h2>
       <p class="section-subtitle" data-i18n="contact_subtitle">Open to new opportunities. Feel free to reach out.</p>
     </div>
+    <div class="contact-availability section-reveal stagger-1">
+      <div class="contact-availability-dot"></div>
+      <span data-i18n="contact_availability">Available for full-time roles and freelance projects. Usually responds within 24 hours.</span>
+    </div>
     <div class="contact-grid">
 
-      <div class="contact-info section-reveal stagger-1">
+      <div class="contact-info section-reveal stagger-2">
         <a href="mailto:bagasativa@gmail.com" class="contact-item">
           <div class="contact-icon"><i data-lucide="mail" style="width:16px;height:16px;"></i></div>
           <div>
@@ -769,23 +820,34 @@
         </a>
       </div>
 
-      <div class="contact-form section-reveal stagger-2">
-        <div class="form-group">
-          <label class="form-label" data-i18n="form_name">Your Name</label>
-          <input type="text" class="form-input" id="formName" placeholder="John Doe">
-        </div>
-        <div class="form-group">
-          <label class="form-label" data-i18n="form_email">Your Email</label>
-          <input type="email" class="form-input" id="formEmail" placeholder="john@example.com">
-        </div>
-        <div class="form-group">
-          <label class="form-label" data-i18n="form_message">Your Message</label>
-          <textarea class="form-textarea" id="formMessage" placeholder="Hello Bagas, I'd like to discuss..."></textarea>
-        </div>
-        <button class="btn-submit" onclick="submitForm()">
-          <i data-lucide="send" style="width:15px;height:15px;"></i>
-          <span data-i18n="form_submit">Send Message</span>
-        </button>
+      <div class="contact-form section-reveal stagger-3">
+        <form action="https://formspree.io/f/xzdjyavy" method="POST" id="contactForm" onsubmit="submitForm(event)">
+          <div class="form-group">
+            <label class="form-label" data-i18n="form_name">Your Name</label>
+            <input type="text" name="name" class="form-input" id="formName" placeholder="John Doe" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="form_email">Your Email</label>
+            <input type="email" name="email" class="form-input" id="formEmail" placeholder="john@example.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-i18n="form_message">Your Message</label>
+            <textarea name="message" class="form-textarea" id="formMessage" placeholder="Hello Bagas, I'd like to discuss..." required></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="New message from portfolio contact form">
+          <button type="submit" class="btn-submit" id="btnSubmit">
+            <i data-lucide="send" style="width:15px;height:15px;"></i>
+            <span data-i18n="form_submit">Send Message</span>
+          </button>
+          <div class="form-success" id="formSuccess" style="display:none;">
+            <i data-lucide="check-circle" style="width:16px;height:16px;"></i>
+            <span data-i18n="form_success">Message sent successfully. I'll get back to you soon.</span>
+          </div>
+          <div class="form-error" id="formError" style="display:none;">
+            <i data-lucide="alert-circle" style="width:16px;height:16px;"></i>
+            <span data-i18n="form_error">Something went wrong. Please try again or email directly.</span>
+          </div>
+        </form>
       </div>
 
     </div>
@@ -794,25 +856,51 @@
 
 <footer>
   <div class="footer-logo">B<span>.</span>A<span>.</span>S</div>
-  <div class="footer-copy" data-i18n="footer_copy">2025 Bagas Aria Sativa. All rights reserved.</div>
-  <a href="#hero" class="footer-back">
-    <span data-i18n="footer_back">Back to Top</span>
-    <i data-lucide="arrow-up" style="width:13px;height:13px;"></i>
-  </a>
+  <div class="footer-copy" id="footerCopy"></div>
+  <div class="footer-links">
+    <a href="https://github.com/bagasaria93/bagasaria93.github.io" target="_blank" rel="noopener" class="footer-source-link">
+      <i data-lucide="github" style="width:13px;height:13px;"></i>
+      <span data-i18n="footer_source">View Source</span>
+    </a>
+    <a href="#hero" class="footer-back">
+      <span data-i18n="footer_back">Back to Top</span>
+      <i data-lucide="arrow-up" style="width:13px;height:13px;"></i>
+    </a>
+  </div>
 </footer>
 
 <script src="https://unpkg.com/lucide@latest"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/main.js"></script>
 <script>
-function submitForm() {
-  var name = document.getElementById('formName').value.trim();
-  var email = document.getElementById('formEmail').value.trim();
-  var message = document.getElementById('formMessage').value.trim();
-  if (!name || !email || !message) return;
-  var subject = encodeURIComponent('Portfolio Contact from ' + name);
-  var body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\nMessage:\n' + message);
-  window.location.href = 'mailto:bagasativa@gmail.com?subject=' + subject + '&body=' + body;
+document.getElementById('footerCopy').textContent = new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';
+
+async function submitForm(e) {
+  e.preventDefault();
+  var btn = document.getElementById('btnSubmit');
+  var success = document.getElementById('formSuccess');
+  var error = document.getElementById('formError');
+  success.style.display = 'none';
+  error.style.display = 'none';
+  btn.disabled = true;
+  btn.style.opacity = '0.6';
+  try {
+    var response = await fetch(e.target.action, {
+      method: 'POST',
+      body: new FormData(e.target),
+      headers: { 'Accept': 'application/json' }
+    });
+    if (response.ok) {
+      success.style.display = 'flex';
+      e.target.reset();
+    } else {
+      error.style.display = 'flex';
+    }
+  } catch (err) {
+    error.style.display = 'flex';
+  }
+  btn.disabled = false;
+  btn.style.opacity = '1';
 }
 
 var carouselIndex = 0;

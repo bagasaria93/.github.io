@@ -5,6 +5,7 @@ const translations = {
         nav_experience: "Experience",
         nav_education: "Education",
         nav_projects: "Projects",
+        nav_testimonials: "Testimonials",
         nav_contact: "Contact",
         hero_tag: "Full-Stack Web Developer",
         hero_typing_label: "Specializing in",
@@ -76,9 +77,18 @@ const translations = {
         proj_10_title: "ErpCore",
         proj_10_subtitle: "ERP System Multi-Module",
         proj_10_desc: "Manufacturing ERP for PT Sentosa Manufaktur with 7 connected modules: Sales Order, Production, Warehouse, QC, Purchase, Invoice, and Dashboard.",
+        testi_label: "Testimonials",
+        testi_title: "What Colleagues Say",
+        testi_01_text: "Bagas delivered the HRD Dashboard and NailShade Booking System well ahead of schedule. His ability to understand HR workflows and translate them into a clean, functional system impressed our entire team. Communication was professional throughout, and the results exceeded expectations.",
+        testi_01_role: "Human Resources Manager, Rainbrow Sulam Alis",
+        testi_02_text: "The warehouse module Bagas built has made a significant difference in how we manage stock and delivery documentation. He took the time to understand our daily operational needs and built a system that actually fits how we work. Stock accuracy improved dramatically since implementation.",
+        testi_02_role: "Warehouse Supervisor, PT Ganzu Gisma Seiko",
+        testi_03_text: "Before the ERP system, our production planning process was manual and time-consuming. Bagas analyzed our PPC workflow thoroughly and built scheduling and work order modules that cut our planning time significantly. He was responsive and always open to adjustments during development.",
+        testi_03_role: "PPC Staff, PT Ganzu Gisma Seiko",
         contact_label: "Contact",
         contact_title: "Get In Touch",
         contact_subtitle: "Open to new opportunities. Feel free to reach out.",
+        contact_availability: "Available for full-time roles and freelance projects. Usually responds within 24 hours.",
         contact_email_label: "Email",
         contact_phone_label: "Phone",
         contact_location_label: "Location",
@@ -88,7 +98,9 @@ const translations = {
         form_email: "Your Email",
         form_message: "Your Message",
         form_submit: "Send Message",
-        footer_copy: "2025 Bagas Aria Sativa. All rights reserved.",
+        form_success: "Message sent successfully. I'll get back to you soon.",
+        form_error: "Something went wrong. Please try again or email directly.",
+        footer_source: "View Source",
         footer_back: "Back to Top",
     },
     id: {
@@ -97,6 +109,7 @@ const translations = {
         nav_experience: "Pengalaman",
         nav_education: "Pendidikan",
         nav_projects: "Proyek",
+        nav_testimonials: "Testimoni",
         nav_contact: "Kontak",
         hero_tag: "Pengembang Web Full-Stack",
         hero_typing_label: "Spesialisasi di",
@@ -168,9 +181,18 @@ const translations = {
         proj_10_title: "ErpCore",
         proj_10_subtitle: "ERP System Multi-Modul",
         proj_10_desc: "ERP manufaktur PT Sentosa Manufaktur dengan 7 modul terhubung: Sales Order, Produksi, Gudang, QC, Pembelian, Invoice, dan Dashboard.",
+        testi_label: "Testimoni",
+        testi_title: "Kata Rekan Kerja",
+        testi_01_text: "Bagas menyelesaikan HRD Dashboard dan NailShade Booking System jauh sebelum tenggat waktu. Kemampuannya memahami alur kerja HR dan menerjemahkannya menjadi sistem yang bersih dan fungsional membuat seluruh tim kami terkesan. Komunikasinya profesional dari awal hingga akhir, dan hasilnya melebihi ekspektasi.",
+        testi_01_role: "Human Resources Manager, Rainbrow Sulam Alis",
+        testi_02_text: "Modul gudang yang Bagas bangun membuat perbedaan besar dalam cara kami mengelola stok dan dokumentasi pengiriman. Dia meluangkan waktu untuk memahami kebutuhan operasional harian kami dan membangun sistem yang benar-benar sesuai dengan cara kerja kami. Akurasi stok meningkat drastis sejak implementasi.",
+        testi_02_role: "Warehouse Supervisor, PT Ganzu Gisma Seiko",
+        testi_03_text: "Sebelum sistem ERP, proses perencanaan produksi kami masih manual dan memakan banyak waktu. Bagas menganalisis alur kerja PPC kami secara menyeluruh dan membangun modul penjadwalan dan work order yang memangkas waktu perencanaan kami secara signifikan. Ia responsif dan selalu terbuka terhadap penyesuaian selama pengembangan.",
+        testi_03_role: "PPC Staff, PT Ganzu Gisma Seiko",
         contact_label: "Kontak",
         contact_title: "Hubungi Saya",
         contact_subtitle: "Terbuka untuk kesempatan baru. Jangan ragu untuk menghubungi.",
+        contact_availability: "Tersedia untuk posisi full-time dan proyek freelance. Biasanya membalas dalam 24 jam.",
         contact_email_label: "Email",
         contact_phone_label: "Telepon",
         contact_location_label: "Lokasi",
@@ -180,26 +202,28 @@ const translations = {
         form_email: "Email Anda",
         form_message: "Pesan Anda",
         form_submit: "Kirim Pesan",
-        footer_copy: "2025 Bagas Aria Sativa. Semua hak dilindungi.",
+        form_success: "Pesan berhasil terkirim. Saya akan segera menghubungi Anda.",
+        form_error: "Terjadi kesalahan. Coba lagi atau kirim email langsung.",
+        footer_source: "Lihat Source",
         footer_back: "Kembali ke Atas",
     }
 };
 
 function setLanguage(lang) {
     localStorage.setItem('lang', lang);
-    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
         var key = el.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
             el.textContent = translations[lang][key];
         }
     });
-    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+    document.querySelectorAll('.lang-btn').forEach(function(btn) {
         btn.classList.remove('active');
     });
     if (lang === 'en') {
-        document.querySelectorAll('#btnEn, .mobile-lang-en').forEach(function (b) { b.classList.add('active'); });
+        document.querySelectorAll('#btnEn, .mobile-lang-en').forEach(function(b) { b.classList.add('active'); });
     } else {
-        document.querySelectorAll('#btnId, .mobile-lang-id').forEach(function (b) { b.classList.add('active'); });
+        document.querySelectorAll('#btnId, .mobile-lang-id').forEach(function(b) { b.classList.add('active'); });
     }
 }
 
