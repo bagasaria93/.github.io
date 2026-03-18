@@ -1,928 +1,928 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Bagas Aria Sativa - Full-Stack Developer. Laravel, React JS, Next.js, TypeScript, Node.js, MySQL.">
-<title>Bagas Aria Sativa - Full-Stack Developer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bagas Aria Sativa - Full-Stack Developer. Laravel, React JS, Next.js, TypeScript, Node.js, MySQL.">
+    <title>Bagas Aria Sativa - Full-Stack Developer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-follower" id="cursorFollower"></div>
-<div class="noise-overlay"></div>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-follower" id="cursorFollower"></div>
+    <div class="noise-overlay"></div>
 
-<nav id="navbar">
-  <a href="#hero" class="nav-logo">B<span>.</span>A<span>.</span>S</a>
-  <ul class="nav-links">
-    <li><a href="#about" data-i18n="nav_about">About</a></li>
-    <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
-    <li><a href="#experience" data-i18n="nav_experience">Experience</a></li>
-    <li><a href="#education" data-i18n="nav_education">Education</a></li>
-    <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
-    <li><a href="#testimonials" data-i18n="nav_testimonials">Testimonials</a></li>
-    <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
-  </ul>
-  <div style="display:flex;align-items:center;gap:16px;">
-    <div class="lang-toggle">
-      <button class="lang-btn active" id="btnEn" onclick="setLanguage('en')">EN</button>
-      <button class="lang-btn" id="btnId" onclick="setLanguage('id')">ID</button>
-    </div>
-    <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#about" onclick="toggleMobileMenu()" data-i18n="nav_about">About</a>
-  <a href="#skills" onclick="toggleMobileMenu()" data-i18n="nav_skills">Skills</a>
-  <a href="#experience" onclick="toggleMobileMenu()" data-i18n="nav_experience">Experience</a>
-  <a href="#education" onclick="toggleMobileMenu()" data-i18n="nav_education">Education</a>
-  <a href="#projects" onclick="toggleMobileMenu()" data-i18n="nav_projects">Projects</a>
-  <a href="#testimonials" onclick="toggleMobileMenu()" data-i18n="nav_testimonials">Testimonials</a>
-  <a href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact">Contact</a>
-  <div class="lang-toggle" style="margin-top:16px;">
-    <button class="lang-btn mobile-lang-en active" onclick="setLanguage('en');toggleMobileMenu()">EN</button>
-    <button class="lang-btn mobile-lang-id" onclick="setLanguage('id');toggleMobileMenu()">ID</button>
-  </div>
-</div>
-
-<section id="hero">
-  <div class="hero-grid-lines">
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-    <div class="hero-grid-line"></div>
-  </div>
-  <div class="hero-top-bar"></div>
-  <div class="hero-bottom-bar"></div>
-  <div class="hero-side-label-left">bagasaria93.github.io &nbsp;&nbsp; Bekasi, Indonesia</div>
-  <div class="hero-side-label-right">Full-Stack Developer &nbsp;&nbsp; Open to Work</div>
-  <div class="hero-counter-badge">
-    <div class="hero-counter-number">01</div>
-    <div class="hero-counter-label">Portfolio</div>
-  </div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">
-      <div class="hero-eyebrow-line"></div>
-      <span class="hero-eyebrow-text" data-i18n="hero_tag">Full-Stack Web Developer</span>
-      <div class="hero-eyebrow-dot"></div>
-    </div>
-    <h1 class="hero-name">
-      <span class="hero-name-first">BAGAS</span>
-      <span class="hero-name-middle">ARIA</span>
-      <span class="hero-name-last">SATIVA</span>
-    </h1>
-    <div class="hero-bottom-row">
-      <div class="hero-desc-col">
-        <p class="hero-desc" data-i18n="hero_desc">
-          Results-driven Full-Stack Developer with 1+ year of professional experience building end-to-end web solutions across manufacturing and service industries.
-        </p>
-        <div class="hero-cta">
-          <a href="#projects" class="btn-primary">
-            <span data-i18n="hero_cta_work">View My Work</span>
-            <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
-          </a>
-          <a href="assets/CV_Bagas_Aria_Sativa.pdf" class="btn-secondary" download>
-            <i data-lucide="download" style="width:15px;height:15px;"></i>
-            <span data-i18n="hero_cta_cv">Download CV</span>
-          </a>
-        </div>
-      </div>
-      <div class="hero-center-col">
-        <div class="hero-scroll-indicator">
-          <div class="hero-scroll-line"></div>
-          <span class="hero-scroll-text">Scroll</span>
-        </div>
-      </div>
-      <div class="hero-socials-col">
-        <a href="https://github.com/bagasaria93" target="_blank" rel="noopener" class="hero-social-link">
-          <span>GitHub</span>
-          <div class="hero-social-icon"><i data-lucide="github" style="width:15px;height:15px;"></i></div>
-        </a>
-        <a href="https://id.linkedin.com/in/bagasaria" target="_blank" rel="noopener" class="hero-social-link">
-          <span>LinkedIn</span>
-          <div class="hero-social-icon"><i data-lucide="linkedin" style="width:15px;height:15px;"></i></div>
-        </a>
-        <a href="mailto:bagasativa@gmail.com" class="hero-social-link">
-          <span>Email</span>
-          <div class="hero-social-icon"><i data-lucide="mail" style="width:15px;height:15px;"></i></div>
-        </a>
-        <a href="https://wa.me/628128427655" target="_blank" rel="noopener" class="hero-social-link">
-          <span>WhatsApp</span>
-          <div class="hero-social-icon"><i data-lucide="message-circle" style="width:15px;height:15px;"></i></div>
-        </a>
-      </div>
-    </div>
-  </div>
-  <div class="hero-typing-bar">
-    <span class="hero-typing-label" data-i18n="hero_typing_label">Specializing in</span>
-    <span class="hero-typing" id="typingText"><span class="cursor-blink"></span></span>
-  </div>
-</section>
-
-<section id="about">
-  <div class="max-container">
-    <div class="about-bg-number">02</div>
-    <div class="section-reveal">
-      <div class="section-label" data-i18n="about_label">About</div>
-      <h2 class="section-title" data-i18n="about_title">Who I Am</h2>
-    </div>
-    <div class="about-grid">
-      <div class="section-reveal stagger-1">
-        <div class="about-photo-wrap">
-          <div class="photo-carousel">
-            <div class="photo-carousel-track" id="carouselTrack">
-              <img src="assets/img/profile.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide">
-              <img src="assets/img/profile2.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide">
+    <nav id="navbar">
+        <a href="#hero" class="nav-logo">B<span>.</span>A<span>.</span>S</a>
+        <ul class="nav-links">
+            <li><a href="#about" data-i18n="nav_about">About</a></li>
+            <li><a href="#skills" data-i18n="nav_skills">Skills</a></li>
+            <li><a href="#experience" data-i18n="nav_experience">Experience</a></li>
+            <li><a href="#education" data-i18n="nav_education">Education</a></li>
+            <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+            <li><a href="#testimonials" data-i18n="nav_testimonials">Testimonials</a></li>
+            <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
+        </ul>
+        <div style="display:flex;align-items:center;gap:16px;">
+            <div class="lang-toggle">
+                <button class="lang-btn active" id="btnEn" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" id="btnId" onclick="setLanguage('id')">ID</button>
             </div>
-            <button class="carousel-btn carousel-btn-prev" id="carouselPrev" onclick="carouselMove(-1)">
-              <i data-lucide="chevron-left" style="width:16px;height:16px;"></i>
+            <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+                <span></span><span></span><span></span>
             </button>
-            <button class="carousel-btn carousel-btn-next" id="carouselNext" onclick="carouselMove(1)">
-              <i data-lucide="chevron-right" style="width:16px;height:16px;"></i>
-            </button>
-            <div class="carousel-dots" id="carouselDots">
-              <button class="carousel-dot active" onclick="carouselGoTo(0)"></button>
-              <button class="carousel-dot" onclick="carouselGoTo(1)"></button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#about" onclick="toggleMobileMenu()" data-i18n="nav_about">About</a>
+        <a href="#skills" onclick="toggleMobileMenu()" data-i18n="nav_skills">Skills</a>
+        <a href="#experience" onclick="toggleMobileMenu()" data-i18n="nav_experience">Experience</a>
+        <a href="#education" onclick="toggleMobileMenu()" data-i18n="nav_education">Education</a>
+        <a href="#projects" onclick="toggleMobileMenu()" data-i18n="nav_projects">Projects</a>
+        <a href="#testimonials" onclick="toggleMobileMenu()" data-i18n="nav_testimonials">Testimonials</a>
+        <a href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact">Contact</a>
+        <div class="lang-toggle" style="margin-top:16px;">
+            <button class="lang-btn mobile-lang-en active" onclick="setLanguage('en');toggleMobileMenu()">EN</button>
+            <button class="lang-btn mobile-lang-id" onclick="setLanguage('id');toggleMobileMenu()">ID</button>
+        </div>
+    </div>
+
+    <section id="hero">
+        <div class="hero-grid-lines">
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+            <div class="hero-grid-line"></div>
+        </div>
+        <div class="hero-top-bar"></div>
+        <div class="hero-bottom-bar"></div>
+        <div class="hero-side-label-left">bagasaria93.github.io &nbsp;&nbsp; Bekasi, Indonesia</div>
+        <div class="hero-side-label-right">Full-Stack Developer &nbsp;&nbsp; Open to Work</div>
+        <div class="hero-counter-badge">
+            <div class="hero-counter-number">01</div>
+            <div class="hero-counter-label">Portfolio</div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">
+                <div class="hero-eyebrow-line"></div>
+                <span class="hero-eyebrow-text" data-i18n="hero_tag">Full-Stack Web Developer</span>
+                <div class="hero-eyebrow-dot"></div>
             </div>
-          </div>
-          <div class="about-photo-frame"></div>
-          <div class="about-photo-frame-2"></div>
+            <h1 class="hero-name">
+                <span class="hero-name-first">BAGAS</span>
+                <span class="hero-name-middle">ARIA</span>
+                <span class="hero-name-last">SATIVA</span>
+            </h1>
+            <div class="hero-bottom-row">
+                <div class="hero-desc-col">
+                    <p class="hero-desc" data-i18n="hero_desc">
+                        Results-driven Full-Stack Developer with 1+ year of professional experience building end-to-end web solutions across manufacturing and service industries.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#projects" class="btn-primary">
+                            <span data-i18n="hero_cta_work">View My Work</span>
+                            <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
+                        </a>
+                        <a href="assets/CV_Bagas_Aria_Sativa.pdf" class="btn-secondary" download>
+                            <i data-lucide="download" style="width:15px;height:15px;"></i>
+                            <span data-i18n="hero_cta_cv">Download CV</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-center-col">
+                    <div class="hero-scroll-indicator">
+                        <div class="hero-scroll-line"></div>
+                        <span class="hero-scroll-text">Scroll</span>
+                    </div>
+                </div>
+                <div class="hero-socials-col">
+                    <a href="https://github.com/bagasaria93" target="_blank" rel="noopener" class="hero-social-link">
+                        <span>GitHub</span>
+                        <div class="hero-social-icon"><i data-lucide="github" style="width:15px;height:15px;"></i></div>
+                    </a>
+                    <a href="https://id.linkedin.com/in/bagasaria" target="_blank" rel="noopener" class="hero-social-link">
+                        <span>LinkedIn</span>
+                        <div class="hero-social-icon"><i data-lucide="linkedin" style="width:15px;height:15px;"></i></div>
+                    </a>
+                    <a href="mailto:bagasativa@gmail.com" class="hero-social-link">
+                        <span>Email</span>
+                        <div class="hero-social-icon"><i data-lucide="mail" style="width:15px;height:15px;"></i></div>
+                    </a>
+                    <a href="https://wa.me/628128427655" target="_blank" rel="noopener" class="hero-social-link">
+                        <span>WhatsApp</span>
+                        <div class="hero-social-icon"><i data-lucide="message-circle" style="width:15px;height:15px;"></i></div>
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="about-content section-reveal stagger-2">
-        <p class="about-text" data-i18n="about_text">
-          Results-driven Full-Stack Developer with 1+ year of professional experience building end-to-end web solutions across manufacturing and service industries. Proficient in Laravel, React JS, Next.js, TypeScript, Node.js, and MySQL/PostgreSQL, with hands-on experience in REST API development, CI/CD pipelines with GitHub Actions, and cloud deployment via Vercel, Railway, and VPS. Demonstrated ability to independently analyze business requirements, design system architecture, and deliver complete production-ready applications covering multiple departments and user roles. Experienced in integrating modern development workflows including version control, automated deployment, and AI-assisted development tools. Currently pursuing Master of Computer Science to deepen expertise in software engineering and system architecture.
-        </p>
-        <div class="about-currently">
-          <div class="about-currently-dot"></div>
-          <span data-i18n="about_currently">Currently pursuing Master of Computer Science at Universitas Esa Unggul</span>
+        <div class="hero-typing-bar">
+            <span class="hero-typing-label" data-i18n="hero_typing_label">Specializing in</span>
+            <span class="hero-typing" id="typingText"><span class="cursor-blink"></span></span>
         </div>
-        <div class="stats-grid">
-          <div class="stat-item">
-            <span class="stat-number" data-count="1">0</span>
-            <span class="stat-label" data-i18n="stat_experience">Year Experience</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="2">0</span>
-            <span class="stat-label" data-i18n="stat_industries">Industries</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number" data-count="3">0</span>
-            <span class="stat-label" data-i18n="stat_apps">Apps Delivered</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-number">3.95</span>
-            <span class="stat-label" data-i18n="stat_gpa">GPA / 4.00</span>
-          </div>
+    </section>
+
+    <section id="about">
+        <div class="max-container">
+            <div class="about-bg-number">02</div>
+            <div class="section-reveal">
+                <div class="section-label" data-i18n="about_label">About</div>
+                <h2 class="section-title" data-i18n="about_title">Who I Am</h2>
+            </div>
+            <div class="about-grid">
+                <div class="section-reveal stagger-1">
+                    <div class="about-photo-wrap">
+                        <div class="photo-carousel">
+                            <div class="photo-carousel-track" id="carouselTrack">
+                                <img src="assets/img/profile.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide">
+                                <img src="assets/img/profile2.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide">
+                            </div>
+                            <button class="carousel-btn carousel-btn-prev" id="carouselPrev" onclick="carouselMove(-1)">
+                                <i data-lucide="chevron-left" style="width:16px;height:16px;"></i>
+                            </button>
+                            <button class="carousel-btn carousel-btn-next" id="carouselNext" onclick="carouselMove(1)">
+                                <i data-lucide="chevron-right" style="width:16px;height:16px;"></i>
+                            </button>
+                            <div class="carousel-dots" id="carouselDots">
+                                <button class="carousel-dot active" onclick="carouselGoTo(0)"></button>
+                                <button class="carousel-dot" onclick="carouselGoTo(1)"></button>
+                            </div>
+                        </div>
+                        <div class="about-photo-frame"></div>
+                        <div class="about-photo-frame-2"></div>
+                    </div>
+                </div>
+                <div class="about-content section-reveal stagger-2">
+                    <p class="about-text" data-i18n="about_text">
+                        Results-driven Full-Stack Developer with 1+ year of professional experience building end-to-end web solutions across manufacturing and service industries. Proficient in Laravel, React JS, Next.js, TypeScript, Node.js, and MySQL/PostgreSQL, with hands-on experience in REST API development, CI/CD pipelines with GitHub Actions, and cloud deployment via Vercel, Railway, and VPS. Demonstrated ability to independently analyze business requirements, design system architecture, and deliver complete production-ready applications covering multiple departments and user roles. Experienced in integrating modern development workflows including version control, automated deployment, and AI-assisted development tools. Currently pursuing Master of Computer Science to deepen expertise in software engineering and system architecture.
+                    </p>
+                    <div class="about-currently">
+                        <div class="about-currently-dot"></div>
+                        <span data-i18n="about_currently">Currently pursuing Master of Computer Science at Universitas Esa Unggul</span>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="1">0</span>
+                            <span class="stat-label" data-i18n="stat_experience">Year Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="2">0</span>
+                            <span class="stat-label" data-i18n="stat_industries">Industries</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="3">0</span>
+                            <span class="stat-label" data-i18n="stat_apps">Apps Delivered</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">3.95</span>
+                            <span class="stat-label" data-i18n="stat_gpa">GPA / 4.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section id="skills">
-  <div class="max-container">
-    <div class="skills-header-row">
-      <div class="section-reveal">
-        <div class="section-label" data-i18n="skills_label">Skills</div>
-        <h2 class="section-title" data-i18n="skills_title">Technical Expertise</h2>
-      </div>
-      <div class="section-reveal stagger-1">
-        <p class="section-subtitle" data-i18n="skills_subtitle">A comprehensive stack built through real-world projects across multiple industries.</p>
-      </div>
-    </div>
-    <div class="skills-container section-reveal stagger-2">
+    <section id="skills">
+        <div class="max-container">
+            <div class="skills-header-row">
+                <div class="section-reveal">
+                    <div class="section-label" data-i18n="skills_label">Skills</div>
+                    <h2 class="section-title" data-i18n="skills_title">Technical Expertise</h2>
+                </div>
+                <div class="section-reveal stagger-1">
+                    <p class="section-subtitle" data-i18n="skills_subtitle">A comprehensive stack built through real-world projects across multiple industries.</p>
+                </div>
+            </div>
+            <div class="skills-container section-reveal stagger-2">
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="code-2" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_lang">Programming Languages</span>
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="code-2" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_lang">Programming Languages</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">PHP</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">HTML5</span>
+                        <span class="skill-tag">CSS3</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="layers" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_frameworks">Frameworks & Libraries</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Laravel (v9-12)</span>
+                        <span class="skill-tag">React JS</span>
+                        <span class="skill-tag">Next.js</span>
+                        <span class="skill-tag">CodeIgniter 3 & 4</span>
+                        <span class="skill-tag">Vue.js</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Bootstrap</span>
+                        <span class="skill-tag">Tailwind CSS</span>
+                        <span class="skill-tag">Chart.js</span>
+                        <span class="skill-tag">jQuery</span>
+                        <span class="skill-tag">Anthropic API</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="database" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_db">Database Management</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">Database Design</span>
+                        <span class="skill-tag">Query Optimization</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="cloud" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_cloud">Cloud & Deployment</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Vercel</span>
+                        <span class="skill-tag">Railway</span>
+                        <span class="skill-tag">VPS/Hostinger</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="terminal" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_devops">DevOps & Tools</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Git & GitHub</span>
+                        <span class="skill-tag">GitHub Actions (CI/CD)</span>
+                        <span class="skill-tag">REST API</span>
+                        <span class="skill-tag">PDF Generation</span>
+                        <span class="skill-tag">AI-Assisted Development</span>
+                        <span class="skill-tag">Responsive Web Design</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="figma" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_design">Design Tools</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">Canva</span>
+                        <span class="skill-tag">Adobe Photoshop</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="zap" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_spec">Specializations</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">ERP System Development</span>
+                        <span class="skill-tag">POS Applications</span>
+                        <span class="skill-tag">Admin Dashboard</span>
+                        <span class="skill-tag">Full-Stack Web Development</span>
+                        <span class="skill-tag">System Analysis & Requirements Gathering</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="git-branch" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_methods">Methodologies</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Agile Development</span>
+                        <span class="skill-tag">System Testing & Debugging</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="users" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_soft">Soft Skills</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Analytical Thinking & Problem Solving</span>
+                        <span class="skill-tag">Communication & Stakeholder Collaboration</span>
+                        <span class="skill-tag">Project Management</span>
+                        <span class="skill-tag">Adaptability</span>
+                        <span class="skill-tag">Time Management</span>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i data-lucide="globe" style="width:14px;height:14px;"></i></div>
+                        <span class="skill-category-name" data-i18n="skill_cat_languages">Languages</span>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Indonesian (Native)</span>
+                        <span class="skill-tag">English (TOEFL: 590)</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div class="skill-tags">
-          <span class="skill-tag">PHP</span>
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">TypeScript</span>
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">HTML5</span>
-          <span class="skill-tag">CSS3</span>
+    </section>
+
+    <section id="experience">
+        <div class="max-container">
+            <div class="experience-bg-text">Experience</div>
+            <div class="section-reveal">
+                <div class="section-label" data-i18n="exp_label">Experience</div>
+                <h2 class="section-title" data-i18n="exp_title">Work History</h2>
+                <p class="section-subtitle" data-i18n="exp_subtitle">Professional experience across manufacturing and service industries.</p>
+            </div>
+            <div class="timeline">
+
+                <div class="timeline-item section-reveal stagger-1">
+                    <div class="timeline-left">
+                        <div class="timeline-date">Aug 2025 - Apr 2026</div>
+                        <div class="timeline-type" data-i18n="exp_hybrid">Hybrid</div>
+                    </div>
+                    <div class="timeline-center">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="timeline-right">
+                        <div class="timeline-company">PT Ganzu Gisma Seiko</div>
+                        <div class="timeline-role">IT System Analyst & Full-Stack Developer</div>
+                        <ul class="timeline-bullets">
+                            <li>Analyzed business processes across 9 departments, identifying bottlenecks and automation opportunities.</li>
+                            <li>Designed comprehensive ERP solution architecture integrating production, warehouse, quality, and finance modules.</li>
+                            <li>Developed end-to-end manufacturing ERP system from database design to user interface using Laravel & MySQL.</li>
+                            <li>Implemented automated workflows connecting customer orders to delivery and invoice generation.</li>
+                            <li>Built material requirement planning (MRP) with automated purchase request generation workflow.</li>
+                            <li>Implemented multi-stage quality control system tracking incoming, in-process, and outgoing inspections.</li>
+                            <li>Created production scheduling module managing work centers with real-time progress tracking.</li>
+                            <li>Built warehouse management system handling material storage, stock control, and delivery documentation.</li>
+                            <li>Integrated financial module auto-generating invoices from delivery documents with payment tracking.</li>
+                        </ul>
+                        <div class="timeline-result">Key results: reduced production planning time by 70%, improved inventory accuracy to 98%, streamlined order-to-delivery cycle by 45%.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item section-reveal stagger-2">
+                    <div class="timeline-left">
+                        <div class="timeline-date">Jan 2025 - Oct 2025</div>
+                        <div class="timeline-type" data-i18n="exp_project">Project-Based</div>
+                    </div>
+                    <div class="timeline-center">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="timeline-right">
+                        <div class="timeline-company">Rainbrow Sulam Alis</div>
+                        <div class="timeline-role">IT Developer: HR & Customer System</div>
+                        <ul class="timeline-bullets">
+                            <li>Led full-stack development of 3 business management applications, delivered 14% ahead of schedule.</li>
+                            <li>HRD Dashboard: Built comprehensive HR system with GPS-based attendance, geofencing validation, automated training management, role-based authentication, and real-time analytics dashboard.</li>
+                            <li>Aftercare Dashboard: Built multi-role system with automated WhatsApp bulk messaging, low-rating auto-detection, complaint resolution workflow, and real-time branch performance analytics.</li>
+                            <li>NailShade Booking System: Built end-to-end booking platform with QR code walk-in system, automated WhatsApp feedback collection, therapist leaderboard, and branch comparison dashboard.</li>
+                            <li>Integrated RESTful APIs with AJAX for real-time operations; implemented role-based access control protecting sensitive HR data.</li>
+                        </ul>
+                        <div class="timeline-result">Key results: aftercare response rate +85%, recruitment processing time -80%, rating collection rate improved from 20% to 78%.</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item section-reveal stagger-3">
+                    <div class="timeline-left">
+                        <div class="timeline-date">Nov 2023 - Jan 2024</div>
+                        <div class="timeline-type" data-i18n="exp_intern">Internship</div>
+                    </div>
+                    <div class="timeline-center">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="timeline-right">
+                        <div class="timeline-company">PT Komatsu Undercarriage Indonesia</div>
+                        <div class="timeline-role">IT Support Intern</div>
+                        <ul class="timeline-bullets">
+                            <li>Assisted IT team with technical support, hardware maintenance, and system deployment activities.</li>
+                            <li>Contributed to development of Delivery Note Module Application using Alpha Anywhere platform.</li>
+                            <li>Conducted research and designed a Web-Based Shipment Monitoring Application for Logistics Process Optimization.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="layers" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_frameworks">Frameworks & Libraries</span>
+    <section id="education">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label" data-i18n="edu_label">Education</div>
+                <h2 class="section-title" data-i18n="edu_title">Academic Background</h2>
+            </div>
+            <div class="edu-grid">
+
+                <div class="edu-card section-reveal stagger-1">
+                    <div class="edu-card-number">01</div>
+                    <div class="edu-year">2026 - Present</div>
+                    <div class="edu-degree">Master of Computer Science</div>
+                    <div class="edu-school">Universitas Esa Unggul</div>
+                    <div class="edu-meta">
+                        <span class="edu-badge">In Progress</span>
+                    </div>
+                </div>
+
+                <div class="edu-card section-reveal stagger-2">
+                    <div class="edu-card-number">02</div>
+                    <div class="edu-year">2020 - 2025</div>
+                    <div class="edu-degree">Bachelor of Information Technology</div>
+                    <div class="edu-school">Universitas Bina Sarana Informatika</div>
+                    <div class="edu-meta">
+                        <span class="edu-badge">GPA 3.95 / 4.00</span>
+                        <span class="edu-badge">Cum Laude</span>
+                        <span class="edu-badge">TOEFL 590</span>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Laravel (v9-12)</span>
-          <span class="skill-tag">React JS</span>
-          <span class="skill-tag">Next.js</span>
-          <span class="skill-tag">CodeIgniter 3 & 4</span>
-          <span class="skill-tag">Vue.js</span>
-          <span class="skill-tag">Node.js</span>
-          <span class="skill-tag">Bootstrap</span>
-          <span class="skill-tag">Tailwind CSS</span>
-          <span class="skill-tag">Chart.js</span>
-          <span class="skill-tag">jQuery</span>
-          <span class="skill-tag">Anthropic API</span>
+    </section>
+
+    <section id="certifications">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label" data-i18n="cert_label">Certifications</div>
+                <h2 class="section-title" data-i18n="cert_title">Licenses & Certifications</h2>
+            </div>
+            <div class="cert-list section-reveal stagger-1">
+
+                <div class="cert-item">
+                    <div>
+                        <div class="cert-name">PHP Certificate: Beginner to Advanced</div>
+                        <div class="cert-issuer">Udemy</div>
+                    </div>
+                    <div class="cert-year">2024</div>
+                </div>
+
+                <div class="cert-item">
+                    <div>
+                        <div class="cert-name">Web Development Certificate: Front End Web</div>
+                        <div class="cert-issuer">Coding Studio</div>
+                    </div>
+                    <div class="cert-year">2024</div>
+                </div>
+
+                <div class="cert-item">
+                    <div>
+                        <div class="cert-name">Internship Completion Certificate</div>
+                        <div class="cert-issuer">PT Komatsu Undercarriage Indonesia</div>
+                    </div>
+                    <div class="cert-year">2024</div>
+                </div>
+
+                <div class="cert-item">
+                    <div>
+                        <div class="cert-name">Certificate of Achievement: NailShade Application Development</div>
+                        <div class="cert-issuer">Rainbrow Sulam Alis</div>
+                    </div>
+                    <div class="cert-year">2025</div>
+                </div>
+
+                <div class="cert-item">
+                    <div>
+                        <div class="cert-name">Certificate of Achievement: Rainbrow Management System</div>
+                        <div class="cert-issuer">Rainbrow Sulam Alis</div>
+                    </div>
+                    <div class="cert-year">2025</div>
+                </div>
+
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="database" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_db">Database Management</span>
+    <section id="projects">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label" data-i18n="projects_label">Projects</div>
+                <h2 class="section-title" data-i18n="projects_title">Demo Projects</h2>
+                <p class="section-subtitle" data-i18n="projects_subtitle">A collection of interactive demos showcasing my full technical stack.</p>
+            </div>
+            <div class="projects-grid section-reveal stagger-1">
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">01</div>
+                    <span class="project-difficulty difficulty-beginner">Beginner</span>
+                    <div class="project-title" data-i18n="proj_01_title">Sinkron</div>
+                    <div class="project-subtitle" data-i18n="proj_01_subtitle">Responsive Landing Page</div>
+                    <p class="project-desc" data-i18n="proj_01_desc">SaaS project management platform for remote teams with USD/IDR pricing toggle, testimonials, FAQ accordion, and smooth scroll navigation.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">HTML5</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">Responsive</span>
+                    </div>
+                    <a href="demo/01-landing-page/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">02</div>
+                    <span class="project-difficulty difficulty-beginner-intermediate">Beginner - Intermediate</span>
+                    <div class="project-title" data-i18n="proj_02_title">Dasbor</div>
+                    <div class="project-subtitle" data-i18n="proj_02_subtitle">Admin Dashboard</div>
+                    <p class="project-desc" data-i18n="proj_02_desc">Analytics dashboard for an Indonesian online store with collapsible sidebar, animated stats, Chart.js visualizations, and dark mode toggle.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">Chart.js</span>
+                        <span class="project-tag">Bootstrap</span>
+                        <span class="project-tag">localStorage</span>
+                    </div>
+                    <a href="demo/02-admin-dashboard/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">03</div>
+                    <span class="project-difficulty difficulty-intermediate">Intermediate</span>
+                    <div class="project-title" data-i18n="proj_03_title">KasirKu</div>
+                    <div class="project-subtitle" data-i18n="proj_03_subtitle">POS Application</div>
+                    <p class="project-desc" data-i18n="proj_03_desc">Coffee shop cashier app with product grid, cart management, coupon discounts, tax calculation, and print-friendly receipt generation.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">jQuery</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                        <span class="project-tag">localStorage</span>
+                    </div>
+                    <a href="demo/03-pos-application/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">04</div>
+                    <span class="project-difficulty difficulty-intermediate">Intermediate</span>
+                    <div class="project-title" data-i18n="proj_04_title">APIJelajah</div>
+                    <div class="project-subtitle" data-i18n="proj_04_subtitle">REST API Explorer</div>
+                    <p class="project-desc" data-i18n="proj_04_desc">Public REST API exploration tool with syntax highlighting, real-time response time tracking, TypeScript-style type annotations, and request history.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">REST API</span>
+                        <span class="project-tag">Fetch API</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                    </div>
+                    <a href="demo/04-rest-api-explorer/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">05</div>
+                    <span class="project-difficulty difficulty-intermediate">Intermediate</span>
+                    <div class="project-title" data-i18n="proj_05_title">TugasKu</div>
+                    <div class="project-subtitle" data-i18n="proj_05_subtitle">Vue.js Task Manager</div>
+                    <p class="project-desc" data-i18n="proj_05_desc">Personal task manager built with Vue 3 Composition API, featuring categories, priority levels, overdue date indicators, and dark mode.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">Vue.js 3</span>
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                        <span class="project-tag">localStorage</span>
+                    </div>
+                    <a href="demo/05-vue-task-manager/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">06</div>
+                    <span class="project-difficulty difficulty-intermediate-hard">Intermediate - Hard</span>
+                    <div class="project-title" data-i18n="proj_06_title">ChatCerdas</div>
+                    <div class="project-subtitle" data-i18n="proj_06_subtitle">React AI Chat</div>
+                    <p class="project-desc" data-i18n="proj_06_desc">AI chat interface built with React 18 and Anthropic API (claude-sonnet-4-6), featuring typewriter effect, system prompt customization, and conversation history.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">React JS</span>
+                        <span class="project-tag">Anthropic API</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                        <span class="project-tag">Babel</span>
+                    </div>
+                    <a href="demo/06-react-ai-chat/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">07</div>
+                    <span class="project-difficulty difficulty-intermediate-hard">Intermediate - Hard</span>
+                    <div class="project-title" data-i18n="proj_07_title">SDM Pro</div>
+                    <div class="project-subtitle" data-i18n="proj_07_subtitle">HRD Dashboard</div>
+                    <p class="project-desc" data-i18n="proj_07_desc">Multi-role HR management system with attendance tracking, leave approval workflow, training management, analytics charts, and CSV export.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">Chart.js</span>
+                        <span class="project-tag">Bootstrap</span>
+                        <span class="project-tag">localStorage</span>
+                    </div>
+                    <a href="demo/07-hrd-dashboard/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">08</div>
+                    <span class="project-difficulty difficulty-hard">Hard</span>
+                    <div class="project-title" data-i18n="proj_08_title">BookinAja</div>
+                    <div class="project-subtitle" data-i18n="proj_08_subtitle">Booking System</div>
+                    <p class="project-desc" data-i18n="proj_08_desc">Beauty spa booking platform with multi-step booking flow, QR code confirmation, therapist leaderboard, branch analytics, and admin panel.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">QRCode.js</span>
+                        <span class="project-tag">Chart.js</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                    </div>
+                    <a href="demo/08-booking-system/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">09</div>
+                    <span class="project-difficulty difficulty-hard">Hard</span>
+                    <div class="project-title" data-i18n="proj_09_title">DevStack Studio</div>
+                    <div class="project-subtitle" data-i18n="proj_09_subtitle">Code Showcase</div>
+                    <p class="project-desc" data-i18n="proj_09_desc">Interactive backend code showcase featuring PHP, Laravel v11, CodeIgniter v4, Python, MySQL, PostgreSQL, and GitHub Actions CI/CD with syntax highlighting.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">PHP</span>
+                        <span class="project-tag">Laravel v11</span>
+                        <span class="project-tag">Python</span>
+                        <span class="project-tag">PostgreSQL</span>
+                        <span class="project-tag">CI/CD</span>
+                    </div>
+                    <a href="demo/09-code-showcase/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-card-top-line"></div>
+                    <div class="project-number">10</div>
+                    <span class="project-difficulty difficulty-very-hard">Very Hard</span>
+                    <div class="project-title" data-i18n="proj_10_title">ErpCore</div>
+                    <div class="project-subtitle" data-i18n="proj_10_subtitle">ERP System Multi-Module</div>
+                    <p class="project-desc" data-i18n="proj_10_desc">Manufacturing ERP for PT Sentosa Manufaktur with 7 connected modules: Sales Order, Production, Warehouse, QC, Purchase, Invoice, and Dashboard.</p>
+                    <div class="project-tags">
+                        <span class="project-tag">JavaScript</span>
+                        <span class="project-tag">jQuery</span>
+                        <span class="project-tag">Chart.js</span>
+                        <span class="project-tag">Tailwind CSS</span>
+                        <span class="project-tag">localStorage</span>
+                    </div>
+                    <a href="demo/10-erp-system/index.html" class="project-link">
+                        <span data-i18n="project_demo_link">View Demo</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+            </div>
         </div>
-        <div class="skill-tags">
-          <span class="skill-tag">MySQL</span>
-          <span class="skill-tag">PostgreSQL</span>
-          <span class="skill-tag">Database Design</span>
-          <span class="skill-tag">Query Optimization</span>
+    </section>
+
+    <section id="testimonials">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label" data-i18n="testi_label">Testimonials</div>
+                <h2 class="section-title" data-i18n="testi_title">What Colleagues Say</h2>
+            </div>
+            <div class="testi-grid section-reveal stagger-1">
+
+                <div class="testi-card">
+                    <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+                    <p class="testi-text" data-i18n="testi_01_text">Bagas delivered the HRD Dashboard and NailShade Booking System well ahead of schedule. His ability to understand HR workflows and translate them into a clean, functional system impressed our entire team. Communication was professional throughout, and the results exceeded expectations.</p>
+                    <div class="testi-author">
+                        <div class="testi-author-info">
+                            <div class="testi-name">Dian Rahmawati</div>
+                            <div class="testi-role" data-i18n="testi_01_role">HR Supervisor, Rainbrow Sulam Alis</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+                    <p class="testi-text" data-i18n="testi_02_text">The warehouse module Bagas built has made a significant difference in how we manage stock and delivery documentation. He took the time to understand our daily operational needs and built a system that actually fits how we work. Stock accuracy improved dramatically since implementation.</p>
+                    <div class="testi-author">
+                        <div class="testi-author-info">
+                            <div class="testi-name">Aprizal</div>
+                            <div class="testi-role" data-i18n="testi_02_role">Warehouse Supervisor, PT Ganzu Gisma Seiko</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+                    <p class="testi-text" data-i18n="testi_03_text">Before the ERP system, our production planning process was manual and time-consuming. Bagas analyzed our PPC workflow thoroughly and built scheduling and work order modules that cut our planning time significantly. He was responsive and always open to adjustments during development.</p>
+                    <div class="testi-author">
+                        <div class="testi-author-info">
+                            <div class="testi-name">Yuzrisal</div>
+                            <div class="testi-role" data-i18n="testi_03_role">PPIC Manager, PT Ganzu Gisma Seiko</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
+    </section>
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="cloud" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_cloud">Cloud & Deployment</span>
+    <section id="contact">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label" data-i18n="contact_label">Contact</div>
+                <h2 class="section-title" data-i18n="contact_title">Get In Touch</h2>
+                <p class="section-subtitle" data-i18n="contact_subtitle">Open to new opportunities. Feel free to reach out.</p>
+            </div>
+            <div class="contact-availability section-reveal stagger-1">
+                <div class="contact-availability-dot"></div>
+                <span data-i18n="contact_availability">Available for full-time roles and freelance projects. Usually responds within 24 hours.</span>
+            </div>
+            <div class="contact-grid">
+
+                <div class="contact-info section-reveal stagger-2">
+                    <a href="mailto:bagasativa@gmail.com" class="contact-item">
+                        <div class="contact-icon"><i data-lucide="mail" style="width:16px;height:16px;"></i></div>
+                        <div>
+                            <div class="contact-label" data-i18n="contact_email_label">Email</div>
+                            <div class="contact-value">bagasativa@gmail.com</div>
+                        </div>
+                    </a>
+                    <a href="https://wa.me/628128427655" target="_blank" rel="noopener" class="contact-item">
+                        <div class="contact-icon"><i data-lucide="phone" style="width:16px;height:16px;"></i></div>
+                        <div>
+                            <div class="contact-label" data-i18n="contact_phone_label">Phone</div>
+                            <div class="contact-value">+62-8128-427-5655</div>
+                        </div>
+                    </a>
+                    <div class="contact-item" style="cursor:default;">
+                        <div class="contact-icon"><i data-lucide="map-pin" style="width:16px;height:16px;"></i></div>
+                        <div>
+                            <div class="contact-label" data-i18n="contact_location_label">Location</div>
+                            <div class="contact-value">Bekasi, Jawa Barat</div>
+                        </div>
+                    </div>
+                    <a href="https://github.com/bagasaria93" target="_blank" rel="noopener" class="contact-item">
+                        <div class="contact-icon"><i data-lucide="github" style="width:16px;height:16px;"></i></div>
+                        <div>
+                            <div class="contact-label" data-i18n="contact_github_label">GitHub</div>
+                            <div class="contact-value">github.com/bagasaria93</div>
+                        </div>
+                    </a>
+                    <a href="https://id.linkedin.com/in/bagasaria" target="_blank" rel="noopener" class="contact-item">
+                        <div class="contact-icon"><i data-lucide="linkedin" style="width:16px;height:16px;"></i></div>
+                        <div>
+                            <div class="contact-label" data-i18n="contact_linkedin_label">LinkedIn</div>
+                            <div class="contact-value">id.linkedin.com/in/bagasaria</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="contact-form section-reveal stagger-3">
+                    <form action="https://formspree.io/f/xzdjyavy" method="POST" id="contactForm" onsubmit="submitForm(event)">
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form_name">Your Name</label>
+                            <input type="text" name="name" class="form-input" id="formName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form_email">Your Email</label>
+                            <input type="email" name="email" class="form-input" id="formEmail" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" data-i18n="form_message">Your Message</label>
+                            <textarea name="message" class="form-textarea" id="formMessage" placeholder="Hello Bagas, I'd like to discuss..." required></textarea>
+                        </div>
+                        <input type="hidden" name="_subject" value="New message from portfolio contact form">
+                        <button type="submit" class="btn-submit" id="btnSubmit">
+                            <i data-lucide="send" style="width:15px;height:15px;"></i>
+                            <span data-i18n="form_submit">Send Message</span>
+                        </button>
+                        <div class="form-success" id="formSuccess" style="display:none;">
+                            <i data-lucide="check-circle" style="width:16px;height:16px;"></i>
+                            <span data-i18n="form_success">Message sent successfully. I'll get back to you soon.</span>
+                        </div>
+                        <div class="form-error" id="formError" style="display:none;">
+                            <i data-lucide="alert-circle" style="width:16px;height:16px;"></i>
+                            <span data-i18n="form_error">Something went wrong. Please try again or email directly.</span>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
         </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Vercel</span>
-          <span class="skill-tag">Railway</span>
-          <span class="skill-tag">VPS/Hostinger</span>
+    </section>
+
+    <footer>
+        <div class="footer-logo">B<span>.</span>A<span>.</span>S</div>
+        <div class="footer-copy" id="footerCopy"></div>
+        <div class="footer-links">
+            <a href="https://github.com/bagasaria93/bagasaria93.github.io" target="_blank" rel="noopener" class="footer-source-link">
+                <i data-lucide="github" style="width:13px;height:13px;"></i>
+                <span data-i18n="footer_source">View Source</span>
+            </a>
+            <a href="#hero" class="footer-back">
+                <span data-i18n="footer_back">Back to Top</span>
+                <i data-lucide="arrow-up" style="width:13px;height:13px;"></i>
+            </a>
         </div>
-      </div>
+    </footer>
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="terminal" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_devops">DevOps & Tools</span>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Git & GitHub</span>
-          <span class="skill-tag">GitHub Actions (CI/CD)</span>
-          <span class="skill-tag">REST API</span>
-          <span class="skill-tag">PDF Generation</span>
-          <span class="skill-tag">AI-Assisted Development</span>
-          <span class="skill-tag">Responsive Web Design</span>
-        </div>
-      </div>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="assets/js/i18n.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.getElementById('footerCopy').textContent = new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="figma" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_design">Design Tools</span>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Figma</span>
-          <span class="skill-tag">Canva</span>
-          <span class="skill-tag">Adobe Photoshop</span>
-        </div>
-      </div>
+        async function submitForm(e) {
+            e.preventDefault();
+            var btn = document.getElementById('btnSubmit');
+            var success = document.getElementById('formSuccess');
+            var error = document.getElementById('formError');
+            success.style.display = 'none';
+            error.style.display = 'none';
+            btn.disabled = true;
+            btn.style.opacity = '0.6';
+            try {
+                var response = await fetch(e.target.action, {
+                    method: 'POST',
+                    body: new FormData(e.target),
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (response.ok) {
+                    success.style.display = 'flex';
+                    e.target.reset();
+                } else {
+                    error.style.display = 'flex';
+                }
+            } catch (err) {
+                error.style.display = 'flex';
+            }
+            btn.disabled = false;
+            btn.style.opacity = '1';
+        }
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="zap" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_spec">Specializations</span>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">ERP System Development</span>
-          <span class="skill-tag">POS Applications</span>
-          <span class="skill-tag">Admin Dashboard</span>
-          <span class="skill-tag">Full-Stack Web Development</span>
-          <span class="skill-tag">System Analysis & Requirements Gathering</span>
-        </div>
-      </div>
+        var carouselIndex = 0;
+        var carouselTotal = 2;
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="git-branch" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_methods">Methodologies</span>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Agile Development</span>
-          <span class="skill-tag">System Testing & Debugging</span>
-        </div>
-      </div>
+        function carouselMove(dir) {
+            carouselGoTo(carouselIndex + dir);
+        }
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="users" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_soft">Soft Skills</span>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Analytical Thinking & Problem Solving</span>
-          <span class="skill-tag">Communication & Stakeholder Collaboration</span>
-          <span class="skill-tag">Project Management</span>
-          <span class="skill-tag">Adaptability</span>
-          <span class="skill-tag">Time Management</span>
-        </div>
-      </div>
+        function carouselGoTo(index) {
+            carouselIndex = index;
+            document.getElementById('carouselTrack').style.transform = 'translateX(-' + (carouselIndex * 100) + '%)';
+            var dots = document.getElementById('carouselDots').querySelectorAll('.carousel-dot');
+            dots.forEach(function(d, i) { d.classList.toggle('active', i === carouselIndex); });
+            document.getElementById('carouselPrev').disabled = carouselIndex === 0;
+            document.getElementById('carouselNext').disabled = carouselIndex === carouselTotal - 1;
+        }
 
-      <div class="skill-category">
-        <div class="skill-category-header">
-          <div class="skill-category-icon"><i data-lucide="globe" style="width:14px;height:14px;"></i></div>
-          <span class="skill-category-name" data-i18n="skill_cat_languages">Languages</span>
-        </div>
-        <div class="skill-tags">
-          <span class="skill-tag">Indonesian (Native)</span>
-          <span class="skill-tag">English (TOEFL: 590)</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="experience">
-  <div class="max-container">
-    <div class="experience-bg-text">Experience</div>
-    <div class="section-reveal">
-      <div class="section-label" data-i18n="exp_label">Experience</div>
-      <h2 class="section-title" data-i18n="exp_title">Work History</h2>
-      <p class="section-subtitle" data-i18n="exp_subtitle">Professional experience across manufacturing and service industries.</p>
-    </div>
-    <div class="timeline">
-
-      <div class="timeline-item section-reveal stagger-1">
-        <div class="timeline-left">
-          <div class="timeline-date">Aug 2025 - Apr 2026</div>
-          <div class="timeline-type" data-i18n="exp_hybrid">Hybrid</div>
-        </div>
-        <div class="timeline-center">
-          <div class="timeline-dot"></div>
-          <div class="timeline-line"></div>
-        </div>
-        <div class="timeline-right">
-          <div class="timeline-company">PT Ganzu Gisma Seiko</div>
-          <div class="timeline-role">IT System Analyst & Full-Stack Developer</div>
-          <ul class="timeline-bullets">
-            <li>Analyzed business processes across 9 departments, identifying bottlenecks and automation opportunities.</li>
-            <li>Designed comprehensive ERP solution architecture integrating production, warehouse, quality, and finance modules.</li>
-            <li>Developed end-to-end manufacturing ERP system from database design to user interface using Laravel & MySQL.</li>
-            <li>Implemented automated workflows connecting customer orders to delivery and invoice generation.</li>
-            <li>Built material requirement planning (MRP) with automated purchase request generation workflow.</li>
-            <li>Implemented multi-stage quality control system tracking incoming, in-process, and outgoing inspections.</li>
-            <li>Created production scheduling module managing work centers with real-time progress tracking.</li>
-            <li>Built warehouse management system handling material storage, stock control, and delivery documentation.</li>
-            <li>Integrated financial module auto-generating invoices from delivery documents with payment tracking.</li>
-          </ul>
-          <div class="timeline-result">Key results: reduced production planning time by 70%, improved inventory accuracy to 98%, streamlined order-to-delivery cycle by 45%.</div>
-        </div>
-      </div>
-
-      <div class="timeline-item section-reveal stagger-2">
-        <div class="timeline-left">
-          <div class="timeline-date">Jan 2025 - Oct 2025</div>
-          <div class="timeline-type" data-i18n="exp_project">Project-Based</div>
-        </div>
-        <div class="timeline-center">
-          <div class="timeline-dot"></div>
-          <div class="timeline-line"></div>
-        </div>
-        <div class="timeline-right">
-          <div class="timeline-company">Rainbrow Sulam Alis</div>
-          <div class="timeline-role">IT Developer: HR & Customer System</div>
-          <ul class="timeline-bullets">
-            <li>Led full-stack development of 3 business management applications, delivered 14% ahead of schedule.</li>
-            <li>HRD Dashboard: Built comprehensive HR system with GPS-based attendance, geofencing validation, automated training management, role-based authentication, and real-time analytics dashboard.</li>
-            <li>Aftercare Dashboard: Built multi-role system with automated WhatsApp bulk messaging, low-rating auto-detection, complaint resolution workflow, and real-time branch performance analytics.</li>
-            <li>NailShade Booking System: Built end-to-end booking platform with QR code walk-in system, automated WhatsApp feedback collection, therapist leaderboard, and branch comparison dashboard.</li>
-            <li>Integrated RESTful APIs with AJAX for real-time operations; implemented role-based access control protecting sensitive HR data.</li>
-          </ul>
-          <div class="timeline-result">Key results: aftercare response rate +85%, recruitment processing time -80%, rating collection rate improved from 20% to 78%.</div>
-        </div>
-      </div>
-
-      <div class="timeline-item section-reveal stagger-3">
-        <div class="timeline-left">
-          <div class="timeline-date">Nov 2023 - Jan 2024</div>
-          <div class="timeline-type" data-i18n="exp_intern">Internship</div>
-        </div>
-        <div class="timeline-center">
-          <div class="timeline-dot"></div>
-          <div class="timeline-line"></div>
-        </div>
-        <div class="timeline-right">
-          <div class="timeline-company">PT Komatsu Undercarriage Indonesia</div>
-          <div class="timeline-role">IT Support Intern</div>
-          <ul class="timeline-bullets">
-            <li>Assisted IT team with technical support, hardware maintenance, and system deployment activities.</li>
-            <li>Contributed to development of Delivery Note Module Application using Alpha Anywhere platform.</li>
-            <li>Conducted research and designed a Web-Based Shipment Monitoring Application for Logistics Process Optimization.</li>
-          </ul>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="education">
-  <div class="max-container">
-    <div class="section-reveal">
-      <div class="section-label" data-i18n="edu_label">Education</div>
-      <h2 class="section-title" data-i18n="edu_title">Academic Background</h2>
-    </div>
-    <div class="edu-grid">
-
-      <div class="edu-card section-reveal stagger-1">
-        <div class="edu-card-number">01</div>
-        <div class="edu-year">2026 - Present</div>
-        <div class="edu-degree">Master of Computer Science</div>
-        <div class="edu-school">Universitas Esa Unggul</div>
-        <div class="edu-meta">
-          <span class="edu-badge">In Progress</span>
-        </div>
-      </div>
-
-      <div class="edu-card section-reveal stagger-2">
-        <div class="edu-card-number">02</div>
-        <div class="edu-year">2020 - 2025</div>
-        <div class="edu-degree">Bachelor of Information Technology</div>
-        <div class="edu-school">Universitas Bina Sarana Informatika</div>
-        <div class="edu-meta">
-          <span class="edu-badge">GPA 3.95 / 4.00</span>
-          <span class="edu-badge">Cum Laude</span>
-          <span class="edu-badge">TOEFL 590</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="certifications">
-  <div class="max-container">
-    <div class="section-reveal">
-      <div class="section-label" data-i18n="cert_label">Certifications</div>
-      <h2 class="section-title" data-i18n="cert_title">Licenses & Certifications</h2>
-    </div>
-    <div class="cert-list section-reveal stagger-1">
-
-      <div class="cert-item">
-        <div>
-          <div class="cert-name">PHP Certificate: Beginner to Advanced</div>
-          <div class="cert-issuer">Udemy</div>
-        </div>
-        <div class="cert-year">2024</div>
-      </div>
-
-      <div class="cert-item">
-        <div>
-          <div class="cert-name">Web Development Certificate: Front End Web</div>
-          <div class="cert-issuer">Coding Studio</div>
-        </div>
-        <div class="cert-year">2024</div>
-      </div>
-
-      <div class="cert-item">
-        <div>
-          <div class="cert-name">Internship Completion Certificate</div>
-          <div class="cert-issuer">PT Komatsu Undercarriage Indonesia</div>
-        </div>
-        <div class="cert-year">2024</div>
-      </div>
-
-      <div class="cert-item">
-        <div>
-          <div class="cert-name">Certificate of Achievement: NailShade Application Development</div>
-          <div class="cert-issuer">Rainbrow Sulam Alis</div>
-        </div>
-        <div class="cert-year">2025</div>
-      </div>
-
-      <div class="cert-item">
-        <div>
-          <div class="cert-name">Certificate of Achievement: Rainbrow Management System</div>
-          <div class="cert-issuer">Rainbrow Sulam Alis</div>
-        </div>
-        <div class="cert-year">2025</div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="projects">
-  <div class="max-container">
-    <div class="section-reveal">
-      <div class="section-label" data-i18n="projects_label">Projects</div>
-      <h2 class="section-title" data-i18n="projects_title">Demo Projects</h2>
-      <p class="section-subtitle" data-i18n="projects_subtitle">A collection of interactive demos showcasing my full technical stack.</p>
-    </div>
-    <div class="projects-grid section-reveal stagger-1">
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">01</div>
-        <span class="project-difficulty difficulty-beginner">Beginner</span>
-        <div class="project-title" data-i18n="proj_01_title">Sinkron</div>
-        <div class="project-subtitle" data-i18n="proj_01_subtitle">Responsive Landing Page</div>
-        <p class="project-desc" data-i18n="proj_01_desc">SaaS project management platform for remote teams with USD/IDR pricing toggle, testimonials, FAQ accordion, and smooth scroll navigation.</p>
-        <div class="project-tags">
-          <span class="project-tag">HTML5</span>
-          <span class="project-tag">Tailwind CSS</span>
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">Responsive</span>
-        </div>
-        <a href="demo/01-landing-page/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">02</div>
-        <span class="project-difficulty difficulty-beginner-intermediate">Beginner - Intermediate</span>
-        <div class="project-title" data-i18n="proj_02_title">Dasbor</div>
-        <div class="project-subtitle" data-i18n="proj_02_subtitle">Admin Dashboard</div>
-        <p class="project-desc" data-i18n="proj_02_desc">Analytics dashboard for an Indonesian online store with collapsible sidebar, animated stats, Chart.js visualizations, and dark mode toggle.</p>
-        <div class="project-tags">
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">Chart.js</span>
-          <span class="project-tag">Bootstrap</span>
-          <span class="project-tag">localStorage</span>
-        </div>
-        <a href="demo/02-admin-dashboard/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">03</div>
-        <span class="project-difficulty difficulty-intermediate">Intermediate</span>
-        <div class="project-title" data-i18n="proj_03_title">KasirKu</div>
-        <div class="project-subtitle" data-i18n="proj_03_subtitle">POS Application</div>
-        <p class="project-desc" data-i18n="proj_03_desc">Coffee shop cashier app with product grid, cart management, coupon discounts, tax calculation, and print-friendly receipt generation.</p>
-        <div class="project-tags">
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">jQuery</span>
-          <span class="project-tag">Tailwind CSS</span>
-          <span class="project-tag">localStorage</span>
-        </div>
-        <a href="demo/03-pos-application/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">04</div>
-        <span class="project-difficulty difficulty-intermediate">Intermediate</span>
-        <div class="project-title" data-i18n="proj_04_title">APIJelajah</div>
-        <div class="project-subtitle" data-i18n="proj_04_subtitle">REST API Explorer</div>
-        <p class="project-desc" data-i18n="proj_04_desc">Public REST API exploration tool with syntax highlighting, real-time response time tracking, TypeScript-style type annotations, and request history.</p>
-        <div class="project-tags">
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">REST API</span>
-          <span class="project-tag">Fetch API</span>
-          <span class="project-tag">Tailwind CSS</span>
-        </div>
-        <a href="demo/04-rest-api-explorer/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">05</div>
-        <span class="project-difficulty difficulty-intermediate">Intermediate</span>
-        <div class="project-title" data-i18n="proj_05_title">TugasKu</div>
-        <div class="project-subtitle" data-i18n="proj_05_subtitle">Vue.js Task Manager</div>
-        <p class="project-desc" data-i18n="proj_05_desc">Personal task manager built with Vue 3 Composition API, featuring categories, priority levels, overdue date indicators, and dark mode.</p>
-        <div class="project-tags">
-          <span class="project-tag">Vue.js 3</span>
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">Tailwind CSS</span>
-          <span class="project-tag">localStorage</span>
-        </div>
-        <a href="demo/05-vue-task-manager/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">06</div>
-        <span class="project-difficulty difficulty-intermediate-hard">Intermediate - Hard</span>
-        <div class="project-title" data-i18n="proj_06_title">ChatCerdas</div>
-        <div class="project-subtitle" data-i18n="proj_06_subtitle">React AI Chat</div>
-        <p class="project-desc" data-i18n="proj_06_desc">AI chat interface built with React 18 and Anthropic API (claude-sonnet-4-6), featuring typewriter effect, system prompt customization, and conversation history.</p>
-        <div class="project-tags">
-          <span class="project-tag">React JS</span>
-          <span class="project-tag">Anthropic API</span>
-          <span class="project-tag">Tailwind CSS</span>
-          <span class="project-tag">Babel</span>
-        </div>
-        <a href="demo/06-react-ai-chat/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">07</div>
-        <span class="project-difficulty difficulty-intermediate-hard">Intermediate - Hard</span>
-        <div class="project-title" data-i18n="proj_07_title">SDM Pro</div>
-        <div class="project-subtitle" data-i18n="proj_07_subtitle">HRD Dashboard</div>
-        <p class="project-desc" data-i18n="proj_07_desc">Multi-role HR management system with attendance tracking, leave approval workflow, training management, analytics charts, and CSV export.</p>
-        <div class="project-tags">
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">Chart.js</span>
-          <span class="project-tag">Bootstrap</span>
-          <span class="project-tag">localStorage</span>
-        </div>
-        <a href="demo/07-hrd-dashboard/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">08</div>
-        <span class="project-difficulty difficulty-hard">Hard</span>
-        <div class="project-title" data-i18n="proj_08_title">BookinAja</div>
-        <div class="project-subtitle" data-i18n="proj_08_subtitle">Booking System</div>
-        <p class="project-desc" data-i18n="proj_08_desc">Beauty spa booking platform with multi-step booking flow, QR code confirmation, therapist leaderboard, branch analytics, and admin panel.</p>
-        <div class="project-tags">
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">QRCode.js</span>
-          <span class="project-tag">Chart.js</span>
-          <span class="project-tag">Tailwind CSS</span>
-        </div>
-        <a href="demo/08-booking-system/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">09</div>
-        <span class="project-difficulty difficulty-hard">Hard</span>
-        <div class="project-title" data-i18n="proj_09_title">DevStack Studio</div>
-        <div class="project-subtitle" data-i18n="proj_09_subtitle">Code Showcase</div>
-        <p class="project-desc" data-i18n="proj_09_desc">Interactive backend code showcase featuring PHP, Laravel v11, CodeIgniter v4, Python, MySQL, PostgreSQL, and GitHub Actions CI/CD with syntax highlighting.</p>
-        <div class="project-tags">
-          <span class="project-tag">PHP</span>
-          <span class="project-tag">Laravel v11</span>
-          <span class="project-tag">Python</span>
-          <span class="project-tag">PostgreSQL</span>
-          <span class="project-tag">CI/CD</span>
-        </div>
-        <a href="demo/09-code-showcase/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-      <div class="project-card">
-        <div class="project-card-top-line"></div>
-        <div class="project-number">10</div>
-        <span class="project-difficulty difficulty-very-hard">Very Hard</span>
-        <div class="project-title" data-i18n="proj_10_title">ErpCore</div>
-        <div class="project-subtitle" data-i18n="proj_10_subtitle">ERP System Multi-Module</div>
-        <p class="project-desc" data-i18n="proj_10_desc">Manufacturing ERP for PT Sentosa Manufaktur with 7 connected modules: Sales Order, Production, Warehouse, QC, Purchase, Invoice, and Dashboard.</p>
-        <div class="project-tags">
-          <span class="project-tag">JavaScript</span>
-          <span class="project-tag">jQuery</span>
-          <span class="project-tag">Chart.js</span>
-          <span class="project-tag">Tailwind CSS</span>
-          <span class="project-tag">localStorage</span>
-        </div>
-        <a href="demo/10-erp-system/index.html" class="project-link">
-          <span data-i18n="project_demo_link">View Demo</span>
-          <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-        </a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="testimonials">
-  <div class="max-container">
-    <div class="section-reveal">
-      <div class="section-label" data-i18n="testi_label">Testimonials</div>
-      <h2 class="section-title" data-i18n="testi_title">What Colleagues Say</h2>
-    </div>
-    <div class="testi-grid section-reveal stagger-1">
-
-      <div class="testi-card">
-        <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
-        <p class="testi-text" data-i18n="testi_01_text">Bagas delivered the HRD Dashboard and NailShade Booking System well ahead of schedule. His ability to understand HR workflows and translate them into a clean, functional system impressed our entire team. Communication was professional throughout, and the results exceeded expectations.</p>
-        <div class="testi-author">
-          <div class="testi-author-info">
-            <div class="testi-name">Dian Rahmawati</div>
-            <div class="testi-role" data-i18n="testi_01_role">Human Resources Manager, Rainbrow Sulam Alis</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testi-card">
-        <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
-        <p class="testi-text" data-i18n="testi_02_text">The warehouse module Bagas built has made a significant difference in how we manage stock and delivery documentation. He took the time to understand our daily operational needs and built a system that actually fits how we work. Stock accuracy improved dramatically since implementation.</p>
-        <div class="testi-author">
-          <div class="testi-author-info">
-            <div class="testi-name">Aprizal</div>
-            <div class="testi-role" data-i18n="testi_02_role">Warehouse Supervisor, PT Ganzu Gisma Seiko</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="testi-card">
-        <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
-        <p class="testi-text" data-i18n="testi_03_text">Before the ERP system, our production planning process was manual and time-consuming. Bagas analyzed our PPC workflow thoroughly and built scheduling and work order modules that cut our planning time significantly. He was responsive and always open to adjustments during development.</p>
-        <div class="testi-author">
-          <div class="testi-author-info">
-            <div class="testi-name">Yuzrisal</div>
-            <div class="testi-role" data-i18n="testi_03_role">PPC Staff, PT Ganzu Gisma Seiko</div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <div class="max-container">
-    <div class="section-reveal">
-      <div class="section-label" data-i18n="contact_label">Contact</div>
-      <h2 class="section-title" data-i18n="contact_title">Get In Touch</h2>
-      <p class="section-subtitle" data-i18n="contact_subtitle">Open to new opportunities. Feel free to reach out.</p>
-    </div>
-    <div class="contact-availability section-reveal stagger-1">
-      <div class="contact-availability-dot"></div>
-      <span data-i18n="contact_availability">Available for full-time roles and freelance projects. Usually responds within 24 hours.</span>
-    </div>
-    <div class="contact-grid">
-
-      <div class="contact-info section-reveal stagger-2">
-        <a href="mailto:bagasativa@gmail.com" class="contact-item">
-          <div class="contact-icon"><i data-lucide="mail" style="width:16px;height:16px;"></i></div>
-          <div>
-            <div class="contact-label" data-i18n="contact_email_label">Email</div>
-            <div class="contact-value">bagasativa@gmail.com</div>
-          </div>
-        </a>
-        <a href="https://wa.me/628128427655" target="_blank" rel="noopener" class="contact-item">
-          <div class="contact-icon"><i data-lucide="phone" style="width:16px;height:16px;"></i></div>
-          <div>
-            <div class="contact-label" data-i18n="contact_phone_label">Phone</div>
-            <div class="contact-value">+62-8128-427-5655</div>
-          </div>
-        </a>
-        <div class="contact-item" style="cursor:default;">
-          <div class="contact-icon"><i data-lucide="map-pin" style="width:16px;height:16px;"></i></div>
-          <div>
-            <div class="contact-label" data-i18n="contact_location_label">Location</div>
-            <div class="contact-value">Bekasi, Jawa Barat</div>
-          </div>
-        </div>
-        <a href="https://github.com/bagasaria93" target="_blank" rel="noopener" class="contact-item">
-          <div class="contact-icon"><i data-lucide="github" style="width:16px;height:16px;"></i></div>
-          <div>
-            <div class="contact-label" data-i18n="contact_github_label">GitHub</div>
-            <div class="contact-value">github.com/bagasaria93</div>
-          </div>
-        </a>
-        <a href="https://id.linkedin.com/in/bagasaria" target="_blank" rel="noopener" class="contact-item">
-          <div class="contact-icon"><i data-lucide="linkedin" style="width:16px;height:16px;"></i></div>
-          <div>
-            <div class="contact-label" data-i18n="contact_linkedin_label">LinkedIn</div>
-            <div class="contact-value">id.linkedin.com/in/bagasaria</div>
-          </div>
-        </a>
-      </div>
-
-      <div class="contact-form section-reveal stagger-3">
-        <form action="https://formspree.io/f/xzdjyavy" method="POST" id="contactForm" onsubmit="submitForm(event)">
-          <div class="form-group">
-            <label class="form-label" data-i18n="form_name">Your Name</label>
-            <input type="text" name="name" class="form-input" id="formName" placeholder="John Doe" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" data-i18n="form_email">Your Email</label>
-            <input type="email" name="email" class="form-input" id="formEmail" placeholder="john@example.com" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" data-i18n="form_message">Your Message</label>
-            <textarea name="message" class="form-textarea" id="formMessage" placeholder="Hello Bagas, I'd like to discuss..." required></textarea>
-          </div>
-          <input type="hidden" name="_subject" value="New message from portfolio contact form">
-          <button type="submit" class="btn-submit" id="btnSubmit">
-            <i data-lucide="send" style="width:15px;height:15px;"></i>
-            <span data-i18n="form_submit">Send Message</span>
-          </button>
-          <div class="form-success" id="formSuccess" style="display:none;">
-            <i data-lucide="check-circle" style="width:16px;height:16px;"></i>
-            <span data-i18n="form_success">Message sent successfully. I'll get back to you soon.</span>
-          </div>
-          <div class="form-error" id="formError" style="display:none;">
-            <i data-lucide="alert-circle" style="width:16px;height:16px;"></i>
-            <span data-i18n="form_error">Something went wrong. Please try again or email directly.</span>
-          </div>
-        </form>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="footer-logo">B<span>.</span>A<span>.</span>S</div>
-  <div class="footer-copy" id="footerCopy"></div>
-  <div class="footer-links">
-    <a href="https://github.com/bagasaria93/bagasaria93.github.io" target="_blank" rel="noopener" class="footer-source-link">
-      <i data-lucide="github" style="width:13px;height:13px;"></i>
-      <span data-i18n="footer_source">View Source</span>
-    </a>
-    <a href="#hero" class="footer-back">
-      <span data-i18n="footer_back">Back to Top</span>
-      <i data-lucide="arrow-up" style="width:13px;height:13px;"></i>
-    </a>
-  </div>
-</footer>
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script src="assets/js/i18n.js"></script>
-<script src="assets/js/main.js"></script>
-<script>
-document.getElementById('footerCopy').textContent = new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';
-
-async function submitForm(e) {
-  e.preventDefault();
-  var btn = document.getElementById('btnSubmit');
-  var success = document.getElementById('formSuccess');
-  var error = document.getElementById('formError');
-  success.style.display = 'none';
-  error.style.display = 'none';
-  btn.disabled = true;
-  btn.style.opacity = '0.6';
-  try {
-    var response = await fetch(e.target.action, {
-      method: 'POST',
-      body: new FormData(e.target),
-      headers: { 'Accept': 'application/json' }
-    });
-    if (response.ok) {
-      success.style.display = 'flex';
-      e.target.reset();
-    } else {
-      error.style.display = 'flex';
-    }
-  } catch (err) {
-    error.style.display = 'flex';
-  }
-  btn.disabled = false;
-  btn.style.opacity = '1';
-}
-
-var carouselIndex = 0;
-var carouselTotal = 2;
-
-function carouselMove(dir) {
-  carouselGoTo(carouselIndex + dir);
-}
-
-function carouselGoTo(index) {
-  carouselIndex = index;
-  document.getElementById('carouselTrack').style.transform = 'translateX(-' + (carouselIndex * 100) + '%)';
-  var dots = document.getElementById('carouselDots').querySelectorAll('.carousel-dot');
-  dots.forEach(function(d, i) { d.classList.toggle('active', i === carouselIndex); });
-  document.getElementById('carouselPrev').disabled = carouselIndex === 0;
-  document.getElementById('carouselNext').disabled = carouselIndex === carouselTotal - 1;
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('carouselPrev').disabled = true;
-});
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('carouselPrev').disabled = true;
+        });
+    </script>
 
 </body>
 </html>
