@@ -1378,17 +1378,17 @@ width: 100%;
 }
 
 .project-number {
-font-family: var(--font-display);
-font-size: 4rem;
-color: transparent;
--webkit-text-stroke: 1px rgba(201, 168, 76, 0.07);
-line-height: 1;
-margin-bottom: 20px;
-transition: -webkit-text-stroke-color 0.3s ease;
+    font-family: var(--font-display);
+    font-size: 4rem;
+    color: var(--gold);
+    opacity: 1;
+    line-height: 1;
+    margin-bottom: 20px;
+    transition: opacity 0.3s ease;
 }
 
 .project-card:hover .project-number {
--webkit-text-stroke-color: rgba(201, 168, 76, 0.18);
+    opacity: 0.6;
 }
 
 .project-difficulty {

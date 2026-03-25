@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GambarKu - Image Storage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0f172a;
+            color: #f1f5f9;
+            min-height: 100vh;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+        /* Login Screen */
+        .login-screen {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 40px;
+            width: 400px;
+            max-width: 94vw;
+            animation: fadeUp 0.4s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .login-logo {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #c9a84c, #e8c97a);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 22px;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+
+        /* Form Elements */
+        .form-input {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f1f5f9;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: #c9a84c;
+        }
+
+        .form-input::placeholder {
+            color: #475569;
+        }
+
+        /* Role Selector */
+        .role-opt {
+            border: 1.5px solid #334155;
+            border-radius: 10px;
+            padding: 10px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #0f172a;
+        }
+
+        .role-opt:hover {
+            border-color: #c9a84c;
+        }
+
+        .role-opt.selected {
+            border-color: #c9a84c;
+            background: rgba(201, 168, 76, 0.1);
+        }
+
+        /* Buttons */
+        .btn-gold {
+            background: linear-gradient(135deg, #c9a84c, #e8c97a);
+            color: #0f172a;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-gold:hover { opacity: 0.9; }
+        .btn-gold:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #94a3b8;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-outline:hover {
+            border-color: #c9a84c;
+            color: #c9a84c;
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #f87171;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        /* Topbar */
+        .topbar {
+            background: #1e293b;
+            border-bottom: 1px solid #334155;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar-logo {
+            width: 34px;
+            height: 34px;
+            background: linear-gradient(135deg, #c9a84c, #e8c97a);
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 14px;
+            color: #0f172a;
+            flex-shrink: 0;
+        }
+
+        /* Tab Nav */
+        .tab-nav {
+            display: flex;
+            gap: 4px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 4px;
+        }
+
+        .tab-btn {
+            padding: 7px 16px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            border: none;
+            background: none;
+            color: #64748b;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: #1e293b;
+            color: #c9a84c;
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: #94a3b8;
+        }
+
+        /* Upload Zone */
+        .upload-zone {
+            border: 2px dashed #334155;
+            border-radius: 14px;
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #0f172a;
+        }
+
+        .upload-zone:hover,
+        .upload-zone.dragover {
+            border-color: #c9a84c;
+            background: rgba(201, 168, 76, 0.04);
+        }
+
+        /* Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .image-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        .image-card:hover {
+            border-color: #475569;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-thumb {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .image-thumb:hover {
+            opacity: 0.85;
+        }
+
+        .image-card-body {
+            padding: 10px 12px;
+        }
+
+        .image-card-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: #e2e8f0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 4px;
+        }
+
+        .image-card-meta {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .image-card-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            flex: 1;
+            background: rgba(201, 168, 76, 0.1);
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            border-radius: 7px;
+            padding: 6px 8px;
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #c9a84c;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .btn-copy:hover {
+            background: rgba(201, 168, 76, 0.2);
+        }
+
+        .btn-copy.copied {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease forwards;
+        }
+
+        .modal-box {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            width: 520px;
+            max-width: 94vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: fadeUp 0.2s ease forwards;
+        }
+
+        .modal-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            background: #0f172a;
+            border-radius: 12px;
+        }
+
+        /* Badge */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-master {
+            background: rgba(201, 168, 76, 0.15);
+            color: #c9a84c;
+        }
+
+        .badge-admin {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            pointer-events: all;
+            min-width: 220px;
+            animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(80px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Spinner */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(15, 23, 42, 0.3);
+            border-top-color: #0f172a;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #475569;
+        }
+
+        /* Admin User Table */
+        .user-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .user-table th {
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #475569;
+            border-bottom: 1px solid #334155;
+            background: #0f172a;
+        }
+
+        .user-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #1e293b;
+            vertical-align: middle;
+        }
+
+        .user-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .user-table tbody tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Avatar */
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: #0f172a;
+            flex-shrink: 0;
+        }
+
+        /* Panel */
+        .panel {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+
+        .panel-body {
+            padding: 18px;
+        }
+
+        /* Stats */
+        .stat-card {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #c9a84c;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .image-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+
+            .topbar { padding: 0 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">G</div>
+            <div style="font-size:22px;font-weight:800;color:#f1f5f9;margin-bottom:4px;">GambarKu</div>
+            <div style="font-size:13px;color:#64748b;margin-bottom:28px;">Platform penyimpanan gambar terpusat</div>
+
+            <div style="margin-bottom:16px;">
+                <label style="display:block;font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:6px;">Email</label>
+                <input type="email" id="loginEmail" class="form-input" placeholder="email@gambarkuapp.id" value="master@gambarkuapp.id">
+            </div>
+
+            <div style="margin-bottom:20px;">
+                <label style="display:block;font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:6px;">Password</label>
+                <input type="password" id="loginPass" class="form-input" placeholder="Password" value="password123">
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <label style="display:block;font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:8px;">Login sebagai</label>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <div class="role-opt selected" data-role="master" onclick="selectRole(this)">
+                        <div style="font-size:13px;font-weight:700;color:#f1f5f9;">Master</div>
+                        <div style="font-size:11px;color:#64748b;margin-top:2px;">Akses penuh</div>
+                    </div>
+                    <div class="role-opt" data-role="admin" onclick="selectRole(this)">
+                        <div style="font-size:13px;font-weight:700;color:#f1f5f9;">Admin</div>
+                        <div style="font-size:11px;color:#64748b;margin-top:2px;">Upload & hapus</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn-gold" id="loginBtn" onclick="doLogin()">
+                Masuk
+            </button>
+
+            <div id="loginError" style="display:none;margin-top:12px;text-align:center;font-size:13px;color:#f87171;"></div>
+
+            <div style="margin-top:20px;padding-top:20px;border-top:1px solid #334155;">
+                <div style="font-size:11px;color:#475569;margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;">Akun Demo</div>
+                <div style="font-size:12px;color:#64748b;line-height:1.8;">
+                    Master: master@gambarkuapp.id / password123<br>
+                    Admin: admin@gambarkuapp.id / password123
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Screen -->
+    <div id="appScreen" style="display:none;">
+
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="topbar-logo">G</div>
+            <div style="font-size:15px;font-weight:800;color:#f1f5f9;">GambarKu</div>
+            <div style="margin-left:auto;display:flex;align-items:center;gap:12px;">
+                <div style="font-size:12px;color:#64748b;display:flex;align-items:center;gap:6px;">
+                    <div id="topbarAvatar" class="avatar" style="width:28px;height:28px;font-size:11px;"></div>
+                    <span id="topbarName" style="color:#94a3b8;font-weight:600;"></span>
+                    <span id="topbarBadge"></span>
+                </div>
+                <button class="btn-outline" onclick="doLogout()">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    Keluar
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div style="max-width:1200px;margin:0 auto;padding:24px;">
+
+            <!-- Tab Navigation -->
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
+                <div class="tab-nav" id="tabNav">
+                    <button class="tab-btn active" data-tab="galeri" onclick="switchTab('galeri', this)">
+                        Galeri
+                    </button>
+                    <button class="tab-btn" data-tab="upload" onclick="switchTab('upload', this)">
+                        Upload
+                    </button>
+                    <button class="tab-btn master-only" data-tab="pengguna" onclick="switchTab('pengguna', this)" style="display:none;">
+                        Pengguna
+                    </button>
+                    <button class="tab-btn master-only" data-tab="statistik" onclick="switchTab('statistik', this)" style="display:none;">
+                        Statistik
+                    </button>
+                </div>
+                <div style="font-size:13px;color:#475569;" id="imageCount"></div>
+            </div>
+
+            <!-- Tab: Galeri -->
+            <div id="tabGaleri" class="tab-content">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">Semua Gambar</span>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                            <input
+                                type="text"
+                                id="searchInput"
+                                placeholder="Cari nama file..."
+                                oninput="filterImages()"
+                                style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:7px 12px;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;color:#f1f5f9;outline:none;width:200px;transition:border-color 0.2s;"
+                                onfocus="this.style.borderColor='#c9a84c'"
+                                onblur="this.style.borderColor='#334155'"
+                            >
+                            <select
+                                id="sortSelect"
+                                onchange="filterImages()"
+                                style="background:#0f172a;border:1px solid #334155;border-radius:8px;padding:7px 12px;font-size:13px;font-family:'Plus Jakarta Sans',sans-serif;color:#f1f5f9;outline:none;cursor:pointer;"
+                            >
+                                <option value="newest">Terbaru</option>
+                                <option value="oldest">Terlama</option>
+                                <option value="name">Nama A-Z</option>
+                                <option value="size">Ukuran</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div id="imageGrid" class="image-grid"></div>
+                        <div id="emptyGaleri" class="empty-state" style="display:none;">
+                            <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 12px;opacity:0.3;">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                            <p style="font-size:14px;font-weight:600;">Belum ada gambar</p>
+                            <p style="font-size:13px;margin-top:4px;">Upload gambar pertama Anda</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Upload -->
+            <div id="tabUpload" class="tab-content" style="display:none;">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">Upload Gambar</span>
+                    </div>
+                    <div class="panel-body">
+                        <div
+                            class="upload-zone"
+                            id="uploadZone"
+                            onclick="document.getElementById('fileInput').click()"
+                            ondrop="handleDrop(event)"
+                            ondragover="handleDragOver(event)"
+                            ondragleave="handleDragLeave(event)"
+                        >
+                            <svg width="40" height="40" fill="none" stroke="#c9a84c" stroke-width="1.5" viewBox="0 0 24 24" style="margin:0 auto 12px;opacity:0.6;">
+                                <polyline points="16 16 12 12 8 16"></polyline>
+                                <line x1="12" y1="12" x2="12" y2="21"></line>
+                                <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"></path>
+                            </svg>
+                            <p style="font-size:14px;font-weight:600;color:#94a3b8;margin-bottom:4px;">Klik atau drag & drop gambar di sini</p>
+                            <p style="font-size:12px;color:#475569;">PNG, JPG, GIF, WebP hingga 5MB per file</p>
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*" multiple style="display:none;" onchange="handleFileSelect(event)">
+
+                        <div id="uploadPreviewList" style="margin-top:20px;display:flex;flex-direction:column;gap:10px;"></div>
+
+                        <div id="uploadActions" style="display:none;margin-top:16px;display:flex;gap:10px;flex-wrap:wrap;">
+                            <button class="btn-gold" style="width:auto;" id="uploadBtn" onclick="processUpload()">
+                                Upload Semua
+                            </button>
+                            <button class="btn-outline" onclick="clearUploadQueue()">Batal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Pengguna (Master Only) -->
+            <div id="tabPengguna" class="tab-content" style="display:none;">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">Manajemen Pengguna</span>
+                        <button class="btn-outline" onclick="openAddAdminModal()">
+                            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Tambah Admin
+                        </button>
+                    </div>
+                    <div style="overflow-x:auto;">
+                        <table class="user-table">
+                            <thead>
+                                <tr>
+                                    <th>Pengguna</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Bergabung</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Statistik (Master Only) -->
+            <div id="tabStatistik" class="tab-content" style="display:none;">
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:24px;" id="statsGrid"></div>
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">Gambar Terbaru</span>
+                    </div>
+                    <div class="panel-body">
+                        <div id="recentUploads" style="display:flex;flex-direction:column;gap:10px;"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Modal: Preview Gambar -->
+    <div id="previewModal" class="modal-overlay" style="display:none;" onclick="closePreviewModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div style="padding:16px 18px;border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between;">
+                <span id="previewModalTitle" style="font-size:14px;font-weight:700;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:380px;"></span>
+                <button onclick="closePreviewModal()" style="width:28px;height:28px;background:#0f172a;border:none;border-radius:7px;cursor:pointer;font-size:16px;color:#64748b;display:flex;align-items:center;justify-content:center;transition:color 0.2s;flex-shrink:0;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#64748b'">
+                    &#x2715;
+                </button>
+            </div>
+            <div style="padding:18px;">
+                <img id="previewModalImg" class="modal-img" src="" alt="">
+                <div style="margin-top:14px;background:#0f172a;border:1px solid #334155;border-radius:10px;padding:12px;">
+                    <div style="font-size:11px;color:#475569;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">URL Gambar</div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                        <input
+                            id="previewModalUrl"
+                            type="text"
+                            readonly
+                            style="flex:1;background:transparent;border:none;font-size:12px;color:#94a3b8;font-family:'Plus Jakarta Sans',sans-serif;outline:none;"
+                        >
+                        <button class="btn-copy" style="flex:none;padding:6px 12px;" id="previewCopyBtn" onclick="copyUrlFromModal()">
+                            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Salin
+                        </button>
+                    </div>
+                </div>
+                <div id="previewModalMeta" style="margin-top:10px;display:flex;gap:16px;font-size:12px;color:#475569;flex-wrap:wrap;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Tambah Admin -->
+    <div id="addAdminModal" class="modal-overlay" style="display:none;" onclick="closeAddAdminModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()" style="width:420px;">
+            <div style="padding:16px 18px;border-bottom:1px solid #334155;display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:14px;font-weight:700;color:#f1f5f9;">Tambah Admin Baru</span>
+                <button onclick="closeAddAdminModal()" style="width:28px;height:28px;background:#0f172a;border:none;border-radius:7px;cursor:pointer;font-size:16px;color:#64748b;display:flex;align-items:center;justify-content:center;transition:color 0.2s;flex-shrink:0;" onmouseover="this.style.color='#f1f5f9'" onmouseout="this.style.color='#64748b'">
+                    &#x2715;
+                </button>
+            </div>
+            <div style="padding:18px;display:flex;flex-direction:column;gap:14px;">
+                <div>
+                    <label style="display:block;font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:6px;">Nama</label>
+                    <input type="text" id="newAdminName" class="form-input" placeholder="Nama admin baru">
+                </div>
+                <div>
+                    <label style="display:block;font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:6px;">Email</label>
+                    <input type="email" id="newAdminEmail" class="form-input" placeholder="email@gambarkuapp.id">
+                </div>
+                <div>
+                    <label style="display:block;font-size:13px;font-weight:600;color:#94a3b8;margin-bottom:6px;">Password</label>
+                    <input type="password" id="newAdminPass" class="form-input" placeholder="Minimal 8 karakter">
+                </div>
+                <button class="btn-gold" onclick="addAdmin()">Tambah Admin</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Konfirmasi Hapus -->
+    <div id="deleteModal" class="modal-overlay" style="display:none;" onclick="closeDeleteModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()" style="width:380px;">
+            <div style="padding:24px;text-align:center;">
+                <div style="width:48px;height:48px;background:rgba(239,68,68,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+                    <svg width="22" height="22" fill="none" stroke="#f87171" stroke-width="2" viewBox="0 0 24 24">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path>
+                    </svg>
+                </div>
+                <div style="font-size:16px;font-weight:700;color:#f1f5f9;margin-bottom:8px;">Hapus Gambar?</div>
+                <div style="font-size:13px;color:#64748b;margin-bottom:24px;">Gambar <strong id="deleteImageName" style="color:#94a3b8;"></strong> akan dihapus permanen dan tidak dapat dipulihkan.</div>
+                <div style="display:flex;gap:10px;justify-content:center;">
+                    <button class="btn-outline" onclick="closeDeleteModal()">Batal</button>
+                    <button class="btn-danger" style="padding:9px 20px;font-size:13px;" onclick="confirmDelete()">Ya, Hapus</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // =====================
+        // DATA & STATE
+        // =====================
+
+        var USERS = [
+            {
+                id: 'U001',
+                name: 'Master Admin',
+                email: 'master@gambarkuapp.id',
+                password: 'password123',
+                role: 'master',
+                joined: '1 Jan 2026',
+                color: '#c9a84c'
+            },
+            {
+                id: 'U002',
+                name: 'Admin Satu',
+                email: 'admin@gambarkuapp.id',
+                password: 'password123',
+                role: 'admin',
+                joined: '15 Jan 2026',
+                color: '#3b82f6'
+            },
+            {
+                id: 'U003',
+                name: 'Admin Dua',
+                email: 'admin2@gambarkuapp.id',
+                password: 'password123',
+                role: 'admin',
+                joined: '20 Feb 2026',
+                color: '#8b5cf6'
+            }
+        ];
+
+        var IMAGES = [
+            {
+                id: 'IMG001',
+                name: 'hero-banner.jpg',
+                url: 'https://picsum.photos/seed/hero/800/450',
+                size: '245 KB',
+                sizeBytes: 245000,
+                width: 800,
+                height: 450,
+                uploaded: '10 Mar 2026',
+                uploadedTs: 1741564800,
+                uploadedBy: 'Master Admin'
+            },
+            {
+                id: 'IMG002',
+                name: 'product-thumbnail.png',
+                url: 'https://picsum.photos/seed/product/600/600',
+                size: '182 KB',
+                sizeBytes: 182000,
+                width: 600,
+                height: 600,
+                uploaded: '12 Mar 2026',
+                uploadedTs: 1741737600,
+                uploadedBy: 'Admin Satu'
+            },
+            {
+                id: 'IMG003',
+                name: 'background-texture.jpg',
+                url: 'https://picsum.photos/seed/texture/1200/800',
+                size: '512 KB',
+                sizeBytes: 512000,
+                width: 1200,
+                height: 800,
+                uploaded: '14 Mar 2026',
+                uploadedTs: 1741910400,
+                uploadedBy: 'Master Admin'
+            },
+            {
+                id: 'IMG004',
+                name: 'logo-white.png',
+                url: 'https://picsum.photos/seed/logo/400/400',
+                size: '64 KB',
+                sizeBytes: 64000,
+                width: 400,
+                height: 400,
+                uploaded: '16 Mar 2026',
+                uploadedTs: 1742083200,
+                uploadedBy: 'Admin Dua'
+            },
+            {
+                id: 'IMG005',
+                name: 'team-photo.jpg',
+                url: 'https://picsum.photos/seed/team/900/600',
+                size: '380 KB',
+                sizeBytes: 380000,
+                width: 900,
+                height: 600,
+                uploaded: '18 Mar 2026',
+                uploadedTs: 1742256000,
+                uploadedBy: 'Admin Satu'
+            },
+            {
+                id: 'IMG006',
+                name: 'icon-set.png',
+                url: 'https://picsum.photos/seed/icons/500/500',
+                size: '128 KB',
+                sizeBytes: 128000,
+                width: 500,
+                height: 500,
+                uploaded: '20 Mar 2026',
+                uploadedTs: 1742428800,
+                uploadedBy: 'Master Admin'
+            }
+        ];
+
+        var currentUser = null;
+        var uploadQueue = [];
+        var deleteTargetId = null;
+        var activeTab = 'galeri';
+
+        // =====================
+        // AUTH
+        // =====================
+
+        function selectRole(el) {
+            document.querySelectorAll('.role-opt').forEach(function(o) {
+                o.classList.remove('selected');
+            });
+            el.classList.add('selected');
+        }
+
+        function doLogin() {
+            var email = document.getElementById('loginEmail').value.trim();
+            var pass = document.getElementById('loginPass').value.trim();
+            var role = document.querySelector('.role-opt.selected').dataset.role;
+            var errEl = document.getElementById('loginError');
+
+            if (!email || !pass) {
+                errEl.textContent = 'Email dan password wajib diisi.';
+                errEl.style.display = 'block';
+                return;
+            }
+
+            errEl.style.display = 'none';
+
+            var user = USERS.find(function(u) {
+                return u.email === email && u.password === pass && u.role === role;
+            });
+
+            if (!user) {
+                errEl.textContent = 'Email, password, atau role tidak sesuai.';
+                errEl.style.display = 'block';
+                return;
+            }
+
+            var btn = document.getElementById('loginBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Memverifikasi...';
+
+            setTimeout(function() {
+                currentUser = user;
+                btn.disabled = false;
+                btn.innerHTML = 'Masuk';
+                showApp();
+            }, 1000);
+        }
+
+        function doLogout() {
+            currentUser = null;
+            uploadQueue = [];
+            document.getElementById('appScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+        }
+
+        // =====================
+        // APP INIT
+        // =====================
+
+        function showApp() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+
+            var av = document.getElementById('topbarAvatar');
+            av.style.background = currentUser.color;
+            av.textContent = initials(currentUser.name);
+
+            document.getElementById('topbarName').textContent = currentUser.name;
+            document.getElementById('topbarBadge').innerHTML = currentUser.role === 'master'
+                ? '<span class="badge badge-master">Master</span>'
+                : '<span class="badge badge-admin">Admin</span>';
+
+            var masterTabs = document.querySelectorAll('.master-only');
+            masterTabs.forEach(function(t) {
+                t.style.display = currentUser.role === 'master' ? 'block' : 'none';
+            });
+
+            switchTab('galeri', document.querySelector('.tab-btn[data-tab="galeri"]'));
+        }
+
+        // =====================
+        // TAB
+        // =====================
+
+        function switchTab(name, btn) {
+            activeTab = name;
+
+            document.querySelectorAll('.tab-content').forEach(function(t) {
+                t.style.display = 'none';
+            });
+
+            document.querySelectorAll('.tab-btn').forEach(function(b) {
+                b.classList.remove('active');
+            });
+
+            var target = document.getElementById('tab' + name.charAt(0).toUpperCase() + name.slice(1));
+            if (target) target.style.display = 'block';
+            if (btn) btn.classList.add('active');
+
+            if (name === 'galeri') renderGallery();
+            if (name === 'pengguna') renderUsers();
+            if (name === 'statistik') renderStats();
+        }
+
+        // =====================
+        // GALERI
+        // =====================
+
+        function renderGallery() {
+            filterImages();
+        }
+
+        function filterImages() {
+            var q = (document.getElementById('searchInput').value || '').toLowerCase();
+            var sort = document.getElementById('sortSelect').value;
+
+            var filtered = IMAGES.filter(function(img) {
+                return !q || img.name.toLowerCase().includes(q);
+            });
+
+            if (sort === 'newest') {
+                filtered.sort(function(a, b) { return b.uploadedTs - a.uploadedTs; });
+            } else if (sort === 'oldest') {
+                filtered.sort(function(a, b) { return a.uploadedTs - b.uploadedTs; });
+            } else if (sort === 'name') {
+                filtered.sort(function(a, b) { return a.name.localeCompare(b.name); });
+            } else if (sort === 'size') {
+                filtered.sort(function(a, b) { return b.sizeBytes - a.sizeBytes; });
+            }
+
+            var grid = document.getElementById('imageGrid');
+            var empty = document.getElementById('emptyGaleri');
+            var countEl = document.getElementById('imageCount');
+
+            countEl.textContent = filtered.length + ' gambar';
+
+            if (!filtered.length) {
+                grid.innerHTML = '';
+                empty.style.display = 'block';
+                return;
+            }
+
+            empty.style.display = 'none';
+            grid.innerHTML = filtered.map(function(img) {
+                return renderImageCard(img);
+            }).join('');
+        }
+
+        function renderImageCard(img) {
+            var canDelete = true;
+            return '<div class="image-card" id="card-' + img.id + '">' +
+                '<img class="image-thumb" src="' + img.url + '" alt="' + img.name + '" loading="lazy" onclick="openPreview(\'' + img.id + '\')">' +
+                '<div class="image-card-body">' +
+                    '<div class="image-card-name" title="' + img.name + '">' + img.name + '</div>' +
+                    '<div class="image-card-meta">' + img.size + ' &middot; ' + img.uploaded + '</div>' +
+                    '<div class="image-card-actions">' +
+                        '<button class="btn-copy" id="copy-' + img.id + '" onclick="copyUrl(\'' + img.id + '\')">' +
+                            '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>' +
+                            'Salin URL' +
+                        '</button>' +
+                        '<button class="btn-danger" onclick="openDeleteModal(\'' + img.id + '\')">' +
+                            '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>' +
+                        '</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+        }
+
+        // =====================
+        // PREVIEW MODAL
+        // =====================
+
+        function openPreview(id) {
+            var img = IMAGES.find(function(i) { return i.id === id; });
+            if (!img) return;
+
+            document.getElementById('previewModalTitle').textContent = img.name;
+            document.getElementById('previewModalImg').src = img.url;
+            document.getElementById('previewModalUrl').value = img.url;
+            document.getElementById('previewModalMeta').innerHTML =
+                '<span>' + img.size + '</span>' +
+                '<span>' + img.width + ' x ' + img.height + ' px</span>' +
+                '<span>Diupload ' + img.uploaded + '</span>' +
+                '<span>oleh ' + img.uploadedBy + '</span>';
+
+            var copyBtn = document.getElementById('previewCopyBtn');
+            copyBtn.classList.remove('copied');
+            copyBtn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Salin';
+
+            document.getElementById('previewModal').style.display = 'flex';
+        }
+
+        function closePreviewModal(e) {
+            if (!e || e.target === document.getElementById('previewModal')) {
+                document.getElementById('previewModal').style.display = 'none';
+            }
+        }
+
+        function copyUrlFromModal() {
+            var url = document.getElementById('previewModalUrl').value;
+            navigator.clipboard.writeText(url).then(function() {
+                var btn = document.getElementById('previewCopyBtn');
+                btn.classList.add('copied');
+                btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Tersalin!';
+                showToast('URL berhasil disalin', 'success');
+            });
+        }
+
+        // =====================
+        // COPY URL
+        // =====================
+
+        function copyUrl(id) {
+            var img = IMAGES.find(function(i) { return i.id === id; });
+            if (!img) return;
+
+            navigator.clipboard.writeText(img.url).then(function() {
+                var btn = document.getElementById('copy-' + id);
+                if (btn) {
+                    btn.classList.add('copied');
+                    btn.innerHTML = '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Tersalin!';
+                    setTimeout(function() {
+                        btn.classList.remove('copied');
+                        btn.innerHTML = '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Salin URL';
+                    }, 2000);
+                }
+                showToast('URL berhasil disalin', 'success');
+            });
+        }
+
+        // =====================
+        // DELETE
+        // =====================
+
+        function openDeleteModal(id) {
+            var img = IMAGES.find(function(i) { return i.id === id; });
+            if (!img) return;
+            deleteTargetId = id;
+            document.getElementById('deleteImageName').textContent = img.name;
+            document.getElementById('deleteModal').style.display = 'flex';
+        }
+
+        function closeDeleteModal(e) {
+            if (!e || e.target === document.getElementById('deleteModal')) {
+                document.getElementById('deleteModal').style.display = 'none';
+                deleteTargetId = null;
+            }
+        }
+
+        function confirmDelete() {
+            if (!deleteTargetId) return;
+            IMAGES = IMAGES.filter(function(i) { return i.id !== deleteTargetId; });
+            document.getElementById('deleteModal').style.display = 'none';
+            deleteTargetId = null;
+            renderGallery();
+            updateImageCount();
+            showToast('Gambar berhasil dihapus', 'danger');
+        }
+
+        // =====================
+        // UPLOAD
+        // =====================
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            document.getElementById('uploadZone').classList.add('dragover');
+        }
+
+        function handleDragLeave() {
+            document.getElementById('uploadZone').classList.remove('dragover');
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('uploadZone').classList.remove('dragover');
+            var files = Array.from(e.dataTransfer.files).filter(function(f) {
+                return f.type.startsWith('image/');
+            });
+            addToQueue(files);
+        }
+
+        function handleFileSelect(e) {
+            var files = Array.from(e.target.files);
+            addToQueue(files);
+            e.target.value = '';
+        }
+
+        function addToQueue(files) {
+            files.forEach(function(file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast(file.name + ' melebihi batas 5MB', 'danger');
+                    return;
+                }
+                uploadQueue.push({ file: file, id: 'Q' + Date.now() + Math.random() });
+            });
+            renderUploadQueue();
+        }
+
+        function renderUploadQueue() {
+            var list = document.getElementById('uploadPreviewList');
+            var actions = document.getElementById('uploadActions');
+
+            if (!uploadQueue.length) {
+                list.innerHTML = '';
+                actions.style.display = 'none';
+                return;
+            }
+
+            actions.style.display = 'flex';
+
+            list.innerHTML = uploadQueue.map(function(item) {
+                var url = URL.createObjectURL(item.file);
+                var sizeKb = Math.round(item.file.size / 1024);
+                return '<div style="display:flex;align-items:center;gap:12px;background:#0f172a;border:1px solid #334155;border-radius:10px;padding:10px 14px;" id="qi-' + item.id + '">' +
+                    '<img src="' + url + '" style="width:44px;height:44px;border-radius:7px;object-fit:cover;flex-shrink:0;">' +
+                    '<div style="flex:1;min-width:0;">' +
+                        '<div style="font-size:13px;font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.file.name + '</div>' +
+                        '<div style="font-size:11px;color:#64748b;margin-top:2px;">' + sizeKb + ' KB</div>' +
+                    '</div>' +
+                    '<button class="btn-danger" onclick="removeFromQueue(\'' + item.id + '\')">' +
+                        '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
+                    '</button>' +
+                '</div>';
+            }).join('');
+        }
+
+        function removeFromQueue(qid) {
+            uploadQueue = uploadQueue.filter(function(q) { return q.id !== qid; });
+            renderUploadQueue();
+        }
+
+        function clearUploadQueue() {
+            uploadQueue = [];
+            renderUploadQueue();
+        }
+
+        function processUpload() {
+            if (!uploadQueue.length) return;
+
+            var btn = document.getElementById('uploadBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Mengupload...';
+
+            setTimeout(function() {
+                uploadQueue.forEach(function(item, idx) {
+                    var newImg = {
+                        id: 'IMG' + Date.now() + idx,
+                        name: item.file.name,
+                        url: URL.createObjectURL(item.file),
+                        size: Math.round(item.file.size / 1024) + ' KB',
+                        sizeBytes: item.file.size,
+                        width: 0,
+                        height: 0,
+                        uploaded: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+                        uploadedTs: Math.floor(Date.now() / 1000),
+                        uploadedBy: currentUser.name
+                    };
+                    IMAGES.unshift(newImg);
+                });
+
+                var count = uploadQueue.length;
+                uploadQueue = [];
+                renderUploadQueue();
+                btn.disabled = false;
+                btn.innerHTML = 'Upload Semua';
+                updateImageCount();
+                showToast(count + ' gambar berhasil diupload', 'success');
+                switchTab('galeri', document.querySelector('.tab-btn[data-tab="galeri"]'));
+            }, 1200);
+        }
+
+        // =====================
+        // USERS (MASTER ONLY)
+        // =====================
+
+        function renderUsers() {
+            var tbody = document.getElementById('userTableBody');
+            tbody.innerHTML = USERS.map(function(u) {
+                var isSelf = u.id === currentUser.id;
+                var canDelete = u.role !== 'master';
+                return '<tr>' +
+                    '<td><div style="display:flex;align-items:center;gap:10px;">' +
+                        '<div class="avatar" style="background:' + u.color + ';">' + initials(u.name) + '</div>' +
+                        '<span style="font-weight:600;color:#e2e8f0;">' + u.name + (isSelf ? ' <span style="font-size:11px;color:#64748b;">(Anda)</span>' : '') + '</span>' +
+                    '</div></td>' +
+                    '<td style="color:#64748b;">' + u.email + '</td>' +
+                    '<td>' + (u.role === 'master'
+                        ? '<span class="badge badge-master">Master</span>'
+                        : '<span class="badge badge-admin">Admin</span>') + '</td>' +
+                    '<td style="color:#64748b;">' + u.joined + '</td>' +
+                    '<td>' + (canDelete
+                        ? '<button class="btn-danger" onclick="deleteUser(\'' + u.id + '\')">' +
+                            '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg>' +
+                            'Hapus' +
+                        '</button>'
+                        : '<span style="font-size:12px;color:#475569;">Tidak dapat dihapus</span>') + '</td>' +
+                '</tr>';
+            }).join('');
+        }
+
+        function openAddAdminModal() {
+            document.getElementById('newAdminName').value = '';
+            document.getElementById('newAdminEmail').value = '';
+            document.getElementById('newAdminPass').value = '';
+            document.getElementById('addAdminModal').style.display = 'flex';
+        }
+
+        function closeAddAdminModal(e) {
+            if (!e || e.target === document.getElementById('addAdminModal')) {
+                document.getElementById('addAdminModal').style.display = 'none';
+            }
+        }
+
+        function addAdmin() {
+            var name = document.getElementById('newAdminName').value.trim();
+            var email = document.getElementById('newAdminEmail').value.trim();
+            var pass = document.getElementById('newAdminPass').value.trim();
+
+            if (!name || !email || !pass) {
+                showToast('Semua field wajib diisi', 'danger');
+                return;
+            }
+
+            if (pass.length < 8) {
+                showToast('Password minimal 8 karakter', 'danger');
+                return;
+            }
+
+            if (USERS.find(function(u) { return u.email === email; })) {
+                showToast('Email sudah terdaftar', 'danger');
+                return;
+            }
+
+            var colors = ['#3b82f6', '#8b5cf6', '#06b6d4', '#10b981', '#f59e0b'];
+            USERS.push({
+                id: 'U' + Date.now(),
+                name: name,
+                email: email,
+                password: pass,
+                role: 'admin',
+                joined: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+                color: colors[USERS.length % colors.length]
+            });
+
+            document.getElementById('addAdminModal').style.display = 'none';
+            renderUsers();
+            showToast('Admin ' + name + ' berhasil ditambahkan', 'success');
+        }
+
+        function deleteUser(id) {
+            USERS = USERS.filter(function(u) { return u.id !== id; });
+            renderUsers();
+            showToast('Admin berhasil dihapus', 'success');
+        }
+
+        // =====================
+        // STATISTIK (MASTER ONLY)
+        // =====================
+
+        function renderStats() {
+            var totalSize = IMAGES.reduce(function(acc, img) { return acc + img.sizeBytes; }, 0);
+            var totalSizeMb = (totalSize / (1024 * 1024)).toFixed(1);
+            var adminCount = USERS.filter(function(u) { return u.role === 'admin'; }).length;
+
+            var stats = [
+                { label: 'Total Gambar', value: IMAGES.length },
+                { label: 'Total Ukuran', value: totalSizeMb + ' MB' },
+                { label: 'Total Admin', value: adminCount },
+                { label: 'Upload Bulan Ini', value: IMAGES.length }
+            ];
+
+            document.getElementById('statsGrid').innerHTML = stats.map(function(s) {
+                return '<div class="stat-card">' +
+                    '<div class="stat-value">' + s.value + '</div>' +
+                    '<div class="stat-label">' + s.label + '</div>' +
+                '</div>';
+            }).join('');
+
+            var recent = [...IMAGES].sort(function(a, b) { return b.uploadedTs - a.uploadedTs; }).slice(0, 5);
+            document.getElementById('recentUploads').innerHTML = recent.map(function(img) {
+                return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #334155;">' +
+                    '<img src="' + img.url + '" style="width:40px;height:40px;border-radius:7px;object-fit:cover;flex-shrink:0;">' +
+                    '<div style="flex:1;min-width:0;">' +
+                        '<div style="font-size:13px;font-weight:600;color:#e2e8f0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + img.name + '</div>' +
+                        '<div style="font-size:11px;color:#64748b;margin-top:2px;">' + img.size + ' &middot; ' + img.uploaded + ' &middot; ' + img.uploadedBy + '</div>' +
+                    '</div>' +
+                    '<button class="btn-copy" style="flex:none;" onclick="copyUrl(\'' + img.id + '\')" id="copy-stat-' + img.id + '">' +
+                        '<svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>' +
+                        'Salin URL' +
+                    '</button>' +
+                '</div>';
+            }).join('');
+        }
+
+        // =====================
+        // UTILS
+        // =====================
+
+        function initials(name) {
+            return name.split(' ').slice(0, 2).map(function(w) { return w[0]; }).join('').toUpperCase();
+        }
+
+        function updateImageCount() {
+            document.getElementById('imageCount').textContent = IMAGES.length + ' gambar';
+        }
+
+        function showToast(msg, type) {
+            var container = document.getElementById('toastContainer');
+            var el = document.createElement('div');
+            el.className = 'toast';
+
+            var icon = type === 'success'
+                ? '<svg width="14" height="14" fill="none" stroke="#4ade80" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+                : '<svg width="14" height="14" fill="none" stroke="#f87171" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+
+            el.innerHTML = icon + '<span>' + msg + '</span>';
+            container.appendChild(el);
+
+            setTimeout(function() {
+                el.style.transition = 'opacity 0.25s, transform 0.25s';
+                el.style.opacity = '0';
+                el.style.transform = 'translateX(60px)';
+                setTimeout(function() { el.remove(); }, 260);
+            }, 3000);
+        }
+
+        // keyboard close modal
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.getElementById('previewModal').style.display = 'none';
+                document.getElementById('addAdminModal').style.display = 'none';
+                document.getElementById('deleteModal').style.display = 'none';
+            }
+        });
+    </script>
+
+    <!-- Footer -->
+    <footer style="margin-top:48px;background:#1e293b;border-top:1px solid #334155;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div class="topbar-logo" style="width:28px;height:28px;font-size:12px;">G</div>
+            <div>
+                <div style="font-size:13px;font-weight:700;color:#f1f5f9;">GambarKu</div>
+                <div style="font-size:11px;color:#475569;">Image Storage Demo</div>
+            </div>
+        </div>
+        <div style="font-size:12px;color:#475569;">
+            Demo project by <a href="https://bagasaria93.github.io" target="_blank" style="color:#c9a84c;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a>
+        </div>
+    </footer>
+
+</body>
+</html>
