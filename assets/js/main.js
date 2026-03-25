@@ -101,6 +101,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.5 });
     counters.forEach(function(el) { counterObserver.observe(el); });
 
+    document.querySelectorAll('.project-card').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+            if (e.target.closest('.project-link')) return;
+            var link = card.querySelector('.project-link');
+            if (link) window.open(link.href, '_blank');
+        });
+        card.style.cursor = 'pointer';
+    });
+
     lucide.createIcons();
 });
 

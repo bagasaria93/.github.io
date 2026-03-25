@@ -9,25 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
 tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        jakarta: ['Plus Jakarta Sans', 'sans-serif'],
-        inter: ['Inter', 'sans-serif'],
-      },
-      colors: {
-        brand: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          900: '#14532d',
+    theme: {
+        extend: {
+            fontFamily: {
+                jakarta: ['Plus Jakarta Sans', 'sans-serif'],
+                inter: ['Inter', 'sans-serif'],
+            }
         }
-      }
     }
-  }
 }
 </script>
 <style>
@@ -37,288 +26,376 @@ h1,h2,h3,h4,h5 { font-family: 'Plus Jakarta Sans', sans-serif; }
 
 /* Scroll progress */
 #scroll-progress {
-  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
-  background: linear-gradient(90deg, #16a34a, #4ade80);
-  z-index: 9999; transition: width 0.1s linear;
+    position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+    background: linear-gradient(90deg, #16a34a, #4ade80);
+    z-index: 9999; transition: width 0.1s linear;
 }
 
 /* Navbar */
 #navbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  transition: all 0.3s ease;
-  padding: 20px 0;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    transition: all 0.3s ease;
+    padding: 20px 0;
 }
 #navbar.scrolled {
-  background: rgba(255,255,255,0.97);
-  backdrop-filter: blur(12px);
-  padding: 14px 0;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    padding: 14px 0;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
 }
 .nav-link {
-  color: rgba(255,255,255,0.85);
-  font-weight: 500;
-  font-size: 0.875rem;
-  text-decoration: none;
-  transition: color 0.2s;
-  position: relative;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500; font-size: 0.875rem;
+    text-decoration: none; transition: color 0.2s;
+    position: relative;
 }
 .nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -4px; left: 0; right: 0;
-  height: 2px; background: #4ade80;
-  transform: scaleX(0); transition: transform 0.2s;
+    content: ''; position: absolute;
+    bottom: -4px; left: 0; right: 0;
+    height: 2px; background: #4ade80;
+    transform: scaleX(0); transition: transform 0.2s;
 }
 .nav-link:hover { color: white; }
 .nav-link:hover::after { transform: scaleX(1); }
+.nav-link.active { color: #4ade80; }
+.nav-link.active::after { transform: scaleX(1); }
 #navbar.scrolled .nav-link { color: #374151; }
 #navbar.scrolled .nav-link:hover { color: #16a34a; }
 #navbar.scrolled .nav-link:hover::after { background: #16a34a; }
+#navbar.scrolled .nav-link.active { color: #16a34a; }
+#navbar.scrolled .nav-link.active::after { background: #16a34a; }
 
 .nav-logo {
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-weight: 800; font-size: 1.2rem;
-  color: white; text-decoration: none;
-  transition: color 0.3s;
-  display: flex; align-items: center; gap: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 1.2rem;
+    color: white; text-decoration: none;
+    transition: color 0.3s;
+    display: flex; align-items: center; gap: 8px;
 }
 #navbar.scrolled .nav-logo { color: #14532d; }
 
+/* Hamburger */
+.hamburger-line {
+    display: block; height: 2px; border-radius: 2px;
+    background: rgba(255,255,255,0.9);
+    transition: background 0.3s;
+}
+#navbar.scrolled .hamburger-line { background: #374151; }
+
 /* Buttons */
 .btn-primary {
-  background: linear-gradient(135deg, #16a34a, #15803d);
-  color: white; font-weight: 700; font-size: 0.9rem;
-  padding: 12px 28px; border-radius: 10px; border: none;
-  cursor: pointer; transition: all 0.2s;
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  text-decoration: none;
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white; font-weight: 700; font-size: 0.9rem;
+    padding: 12px 28px; border-radius: 10px; border: none;
+    cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-decoration: none;
 }
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(22,163,74,0.35);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(22,163,74,0.35);
 }
 .btn-secondary {
-  background: transparent; color: white;
-  font-weight: 600; font-size: 0.9rem;
-  padding: 12px 28px; border-radius: 10px;
-  border: 1.5px solid rgba(255,255,255,0.3);
-  cursor: pointer; transition: all 0.2s;
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  text-decoration: none;
+    background: transparent; color: white;
+    font-weight: 600; font-size: 0.9rem;
+    padding: 12px 28px; border-radius: 10px;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-decoration: none;
 }
 .btn-secondary:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.6);
-  transform: translateY(-2px);
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.6);
+    transform: translateY(-2px);
 }
 .btn-wa {
-  background: #25d366; color: white;
-  font-weight: 700; font-size: 1rem;
-  padding: 16px 36px; border-radius: 12px; border: none;
-  cursor: pointer; transition: all 0.2s;
-  display: inline-flex; align-items: center; gap: 10px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  text-decoration: none;
+    background: #25d366; color: white;
+    font-weight: 700; font-size: 1rem;
+    padding: 16px 36px; border-radius: 12px; border: none;
+    cursor: pointer; transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-decoration: none;
 }
 .btn-wa:hover {
-  background: #20b858;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(37,211,102,0.4);
+    background: #20b858;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(37,211,102,0.4);
 }
 
 /* Hero */
 .hero-bg {
-  background: linear-gradient(135deg, #14532d 0%, #166534 40%, #15803d 100%);
-  position: relative; overflow: hidden;
+    background: linear-gradient(135deg, #14532d 0%, #166534 40%, #15803d 100%);
+    position: relative; overflow: hidden;
 }
 .hero-bg::before {
-  content: '';
-  position: absolute; top: -40%; right: -20%;
-  width: 700px; height: 700px;
-  background: radial-gradient(circle, rgba(74,222,128,0.2) 0%, transparent 70%);
-  pointer-events: none;
+    content: ''; position: absolute; top: -40%; right: -20%;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(74,222,128,0.2) 0%, transparent 70%);
+    pointer-events: none;
 }
 .hero-bg::after {
-  content: '';
-  position: absolute; bottom: -30%; left: -10%;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(22,163,74,0.15) 0%, transparent 70%);
-  pointer-events: none;
+    content: ''; position: absolute; bottom: -30%; left: -10%;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(22,163,74,0.15) 0%, transparent 70%);
+    pointer-events: none;
 }
+
+/* Typing cursor */
+.cursor-blink {
+    display: inline-block; width: 2px; height: 1em;
+    background: #4ade80; margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 0.8s infinite;
+}
+@keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
 /* Section label */
 .section-label {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: 0.78rem; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: #16a34a; margin-bottom: 16px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: #16a34a; margin-bottom: 16px;
 }
 .section-label::before {
-  content: '';
-  display: inline-block; width: 24px; height: 2px;
-  background: #16a34a;
+    content: ''; display: inline-block;
+    width: 24px; height: 2px; background: #16a34a;
 }
 
 /* Feature cards */
 .feature-card {
-  background: white; border-radius: 16px;
-  padding: 32px; border: 1px solid #f3f4f6;
-  transition: all 0.3s; position: relative; overflow: hidden;
+    background: white; border-radius: 16px;
+    padding: 32px; border: 1px solid #f3f4f6;
+    transition: all 0.3s; position: relative; overflow: hidden;
 }
 .feature-card::before {
-  content: ''; position: absolute;
-  top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, #16a34a, #4ade80);
-  transform: scaleX(0); transition: transform 0.3s;
-  transform-origin: left;
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, #16a34a, #4ade80);
+    transform: scaleX(0); transition: transform 0.3s;
+    transform-origin: left;
 }
 .feature-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.08); transform: translateY(-4px); }
 .feature-card:hover::before { transform: scaleX(1); }
 
 /* Pricing cards */
 .pricing-card {
-  background: white; border-radius: 20px;
-  padding: 36px; border: 1.5px solid #f3f4f6;
-  transition: all 0.3s; position: relative;
+    background: white; border-radius: 20px;
+    padding: 36px; border: 1.5px solid #f3f4f6;
+    transition: all 0.3s; position: relative;
 }
 .pricing-card.popular { border-color: #16a34a; box-shadow: 0 0 0 1px #16a34a; }
 .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
 .popular-badge {
-  position: absolute; top: -14px; left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #16a34a, #15803d);
-  color: white; font-size: 0.7rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 5px 18px; border-radius: 20px;
+    position: absolute; top: -14px; left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    color: white; font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 5px 18px; border-radius: 20px;
 }
 
 /* Testimonial cards */
 .testi-card {
-  background: white; border-radius: 16px;
-  padding: 28px; border: 1px solid #f3f4f6;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
-  transition: all 0.3s;
+    background: white; border-radius: 16px;
+    padding: 28px; border: 1px solid #f3f4f6;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    transition: all 0.3s;
 }
 .testi-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.08); }
 
+/* How it works */
+.step-card {
+    text-align: center; padding: 32px 24px;
+    position: relative;
+}
+.step-number {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, #16a34a, #4ade80);
+    color: white; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800; font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 24px rgba(22,163,74,0.3);
+}
+.step-connector {
+    position: absolute; top: 56px; left: calc(50% + 28px);
+    width: calc(100% - 56px); height: 2px;
+    background: linear-gradient(90deg, #16a34a, #4ade80);
+    opacity: 0.3;
+}
+
+/* FAQ */
+.faq-item { border-bottom: 1px solid #f3f4f6; }
+.faq-question {
+    width: 100%; text-align: left;
+    background: none; border: none; cursor: pointer;
+    padding: 20px 0; display: flex;
+    justify-content: space-between; align-items: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 600; font-size: 1rem; color: #111827;
+    transition: color 0.2s;
+}
+.faq-question:hover { color: #16a34a; }
+.faq-answer {
+    overflow: hidden; max-height: 0;
+    transition: max-height 0.35s ease, padding 0.35s ease;
+    color: #6b7280; font-size: 0.95rem;
+    line-height: 1.7; padding-bottom: 0;
+}
+.faq-answer.open { max-height: 200px; padding-bottom: 20px; }
+.faq-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #f3f4f6; display: flex;
+    align-items: center; justify-content: center;
+    transition: all 0.3s; flex-shrink: 0;
+    font-size: 1rem; color: #16a34a;
+}
+.faq-item.open .faq-icon {
+    background: #16a34a; color: white;
+    transform: rotate(45deg);
+}
+
 /* Reveal animation */
 .reveal {
-  opacity: 0; transform: translateY(32px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* SMS bubble stagger animation */
+.sms-bubble {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px; padding: 14px 16px;
+    margin-bottom: 12px; font-size: 0.8rem;
+    color: rgba(255,255,255,0.9);
+    opacity: 0; transform: translateX(20px);
+    animation: slideIn 0.5s ease forwards;
+}
+.sms-bubble:nth-child(1) { animation-delay: 0.3s; }
+.sms-bubble:nth-child(2) { animation-delay: 0.7s; }
+.sms-bubble:nth-child(3) { animation-delay: 1.1s; }
+@keyframes slideIn {
+    to { opacity: 1; transform: translateX(0); }
+}
+.sms-bubble .sender {
+    font-weight: 700; color: #4ade80;
+    font-size: 0.7rem; margin-bottom: 6px;
+    letter-spacing: 0.05em;
+}
+.sms-bubble .time {
+    font-size: 0.65rem; color: rgba(255,255,255,0.4);
+    margin-top: 6px; text-align: right;
+}
+
+/* SMS mockup */
+.sms-mockup {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px; padding: 24px;
+    backdrop-filter: blur(10px);
+}
+.sms-status {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(74,222,128,0.2);
+    border: 1px solid rgba(74,222,128,0.3);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 0.68rem; font-weight: 600; color: #4ade80;
+}
+
 /* Mobile menu */
 #mobile-menu {
-  display: none; position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(20,83,45,0.98);
-  z-index: 999; flex-direction: column;
-  align-items: center; justify-content: center; gap: 32px;
+    display: none; position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(20,83,45,0.98);
+    z-index: 999; flex-direction: column;
+    align-items: center; justify-content: center; gap: 32px;
 }
 #mobile-menu.open { display: flex; }
 #mobile-menu a {
-  color: white; font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 1.5rem; font-weight: 700;
-  text-decoration: none; transition: color 0.2s;
+    color: white; font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.5rem; font-weight: 700;
+    text-decoration: none; transition: color 0.2s;
 }
 #mobile-menu a:hover { color: #4ade80; }
 
 /* Toast */
 .toast {
-  position: fixed; bottom: 28px; left: 50%;
-  transform: translateX(-50%) translateY(80px);
-  background: #111827; color: white;
-  padding: 14px 24px; border-radius: 12px;
-  font-size: 0.875rem; font-weight: 500;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  z-index: 9998; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
-  display: flex; align-items: center; gap: 10px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  white-space: nowrap;
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #111827; color: white;
+    padding: 14px 24px; border-radius: 12px;
+    font-size: 0.875rem; font-weight: 500;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    z-index: 9998; transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    white-space: nowrap;
 }
 .toast.show { transform: translateX(-50%) translateY(0); }
 
 /* WhatsApp floating button */
 .wa-float {
-  position: fixed; bottom: 28px; right: 28px;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: #25d366; color: white;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 4px 20px rgba(37,211,102,0.5);
-  cursor: pointer; transition: all 0.3s;
-  z-index: 998; text-decoration: none;
-  font-size: 1.6rem;
+    position: fixed; bottom: 28px; right: 28px;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #25d366; color: white;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.5);
+    cursor: pointer; transition: all 0.3s;
+    z-index: 998; text-decoration: none; font-size: 1.6rem;
 }
-.wa-float:hover {
-  transform: scale(1.1);
-  box-shadow: 0 8px 28px rgba(37,211,102,0.6);
-}
+.wa-float:hover { transform: scale(1.1); box-shadow: 0 8px 28px rgba(37,211,102,0.6); }
 .wa-float-pulse {
-  position: absolute; width: 100%; height: 100%;
-  border-radius: 50%; background: rgba(37,211,102,0.4);
-  animation: pulse 2s infinite;
+    position: absolute; width: 100%; height: 100%;
+    border-radius: 50%; background: rgba(37,211,102,0.4);
+    animation: pulse 2s infinite;
 }
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 1; }
-  100% { transform: scale(1.6); opacity: 0; }
-}
+@keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
 
-/* Form styles */
+/* Form */
 .form-input, .form-select, .form-textarea {
-  width: 100%; padding: 12px 16px;
-  border: 1.5px solid #e5e7eb; border-radius: 10px;
-  font-size: 0.9rem; font-family: 'Inter', sans-serif;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  background: white; color: #111827;
-  outline: none;
+    width: 100%; padding: 12px 16px;
+    border: 1.5px solid #e5e7eb; border-radius: 10px;
+    font-size: 0.9rem; font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: white; color: #111827; outline: none;
 }
 .form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: #16a34a;
-  box-shadow: 0 0 0 3px rgba(22,163,74,0.1);
+    border-color: #16a34a;
+    box-shadow: 0 0 0 3px rgba(22,163,74,0.1);
 }
-.form-textarea { resize: vertical; min-height: 120px; }
+.form-input.error, .form-select.error, .form-textarea.error {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239,68,68,0.1);
+}
+.form-textarea { resize: vertical; min-height: 100px; }
 .form-label {
-  display: block; font-size: 0.85rem; font-weight: 600;
-  color: #374151; margin-bottom: 6px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+    display: block; font-size: 0.85rem; font-weight: 600;
+    color: #374151; margin-bottom: 6px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.char-counter {
+    font-size: 0.75rem; color: #9ca3af;
+    text-align: right; margin-top: 4px;
 }
 
-/* SMS mockup */
-.sms-mockup {
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 20px; padding: 24px;
-  backdrop-filter: blur(10px);
-}
-.sms-bubble {
-  background: rgba(255,255,255,0.12);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 12px; padding: 14px 16px;
-  margin-bottom: 12px; font-size: 0.8rem;
-  color: rgba(255,255,255,0.9);
-}
-.sms-bubble .sender {
-  font-weight: 700; color: #4ade80;
-  font-size: 0.7rem; margin-bottom: 6px;
-  letter-spacing: 0.05em;
-}
-.sms-bubble .time {
-  font-size: 0.65rem; color: rgba(255,255,255,0.4);
-  margin-top: 6px; text-align: right;
-}
-.sms-status {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(74,222,128,0.2);
-  border: 1px solid rgba(74,222,128,0.3);
-  border-radius: 20px; padding: 4px 12px;
-  font-size: 0.68rem; font-weight: 600; color: #4ade80;
+/* Badge */
+.trust-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px; padding: 6px 14px;
+    font-size: 0.78rem; font-weight: 600;
+    color: rgba(255,255,255,0.9);
 }
 
 @media (max-width: 768px) {
-  .sms-mockup { display: none; }
+    .sms-mockup { display: none; }
+    .step-connector { display: none; }
 }
 </style>
 </head>
@@ -329,670 +406,828 @@ h1,h2,h3,h4,h5 { font-family: 'Plus Jakarta Sans', sans-serif; }
 
 <!-- Toast notification -->
 <div id="toast" class="toast">
-  <span id="toast-icon">✓</span>
-  <span id="toast-text"></span>
+    <span id="toast-icon">✓</span>
+    <span id="toast-text"></span>
 </div>
 
 <!-- WhatsApp floating button -->
 <a href="https://wa.me/628128427655" target="_blank" rel="noopener" class="wa-float" title="Chat via WhatsApp">
-  <div class="wa-float-pulse"></div>
-  <span>💬</span>
+    <div class="wa-float-pulse"></div>
+    <span>💬</span>
 </a>
 
 <!-- Mobile menu -->
 <div id="mobile-menu">
-  <button onclick="closeMobileMenu()" style="position:absolute;top:24px;right:24px;background:none;border:none;color:white;font-size:2rem;cursor:pointer;">✕</button>
-  <a href="#layanan" onclick="closeMobileMenu()">Layanan</a>
-  <a href="#keunggulan" onclick="closeMobileMenu()">Keunggulan</a>
-  <a href="#harga" onclick="closeMobileMenu()">Harga</a>
-  <a href="#testimoni" onclick="closeMobileMenu()">Testimoni</a>
-  <a href="#kontak" onclick="closeMobileMenu()">Hubungi Kami</a>
+    <button onclick="closeMobileMenu()" style="position:absolute;top:24px;right:24px;background:none;border:none;color:white;font-size:2rem;cursor:pointer;">✕</button>
+    <a href="#layanan" onclick="closeMobileMenu()">Layanan</a>
+    <a href="#cara-kerja" onclick="closeMobileMenu()">Cara Kerja</a>
+    <a href="#harga" onclick="closeMobileMenu()">Harga</a>
+    <a href="#testimoni" onclick="closeMobileMenu()">Testimoni</a>
+    <a href="#faq" onclick="closeMobileMenu()">FAQ</a>
+    <a href="#kontak" onclick="closeMobileMenu()">Hubungi Kami</a>
 </div>
 
 <!-- Navbar -->
 <nav id="navbar">
-  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
-    <a href="#" class="nav-logo">
-      <div style="width:36px;height:36px;background:linear-gradient(135deg,#16a34a,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <span style="color:white;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;">P</span>
-      </div>
-      PesanPro
-    </a>
-    <div class="hidden md:flex items-center gap-8">
-      <a href="#layanan" class="nav-link">Layanan</a>
-      <a href="#keunggulan" class="nav-link">Keunggulan</a>
-      <a href="#harga" class="nav-link">Harga</a>
-      <a href="#testimoni" class="nav-link">Testimoni</a>
+    <div class="max-w-6xl mx-auto px-6 flex items-center justify-between">
+        <a href="#" class="nav-logo">
+            <div style="width:36px;height:36px;background:linear-gradient(135deg,#16a34a,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <span style="color:white;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;">P</span>
+            </div>
+            PesanPro
+        </a>
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#layanan" class="nav-link">Layanan</a>
+            <a href="#cara-kerja" class="nav-link">Cara Kerja</a>
+            <a href="#harga" class="nav-link">Harga</a>
+            <a href="#testimoni" class="nav-link">Testimoni</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+        </div>
+        <div class="hidden md:flex items-center gap-3">
+            <a href="#kontak" class="btn-primary" style="padding:9px 20px;font-size:0.85rem;">Hubungi Kami</a>
+        </div>
+        <!-- Hamburger -->
+        <button class="md:hidden" onclick="openMobileMenu()" style="background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:5px;">
+            <span class="hamburger-line" style="width:24px;"></span>
+            <span class="hamburger-line" style="width:18px;"></span>
+            <span class="hamburger-line" style="width:22px;"></span>
+        </button>
     </div>
-    <div class="hidden md:flex items-center gap-3">
-      <a href="#kontak" class="btn-primary" style="padding:9px 20px;font-size:0.85rem;">Hubungi Kami</a>
-    </div>
-    <!-- Hamburger -->
-    <button class="md:hidden" onclick="openMobileMenu()" style="background:none;border:none;cursor:pointer;padding:4px;">
-      <div style="width:24px;height:2px;background:rgba(255,255,255,0.9);margin-bottom:5px;border-radius:2px;"></div>
-      <div style="width:18px;height:2px;background:rgba(255,255,255,0.9);margin-bottom:5px;border-radius:2px;"></div>
-      <div style="width:22px;height:2px;background:rgba(255,255,255,0.9);border-radius:2px;"></div>
-    </button>
-  </div>
 </nav>
 
 <!-- Hero Section -->
 <section class="hero-bg" style="padding:140px 0 100px;" id="hero">
-  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-    <div style="position:relative;z-index:1;">
-      <div class="section-label" style="color:#4ade80;">
-        <span style="background:#4ade80;width:24px;height:2px;display:inline-block;"></span>
-        Platform Pesan Bisnis Terpercaya
-      </div>
-      <h1 style="font-size:clamp(2.2rem,5vw,3.4rem);font-weight:800;line-height:1.15;color:white;margin-bottom:16px;">
-        Kirim SMS ke Ribuan<br>Pelanggan dalam
-        <span style="background:linear-gradient(90deg,#4ade80,#86efac);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"> Hitungan Detik</span>
-      </h1>
-      <p style="color:rgba(255,255,255,0.65);font-size:1.05rem;line-height:1.75;margin-bottom:36px;max-width:500px;">
-        PesanPro menyediakan layanan SMS Masking, OTP, dan Broadcast SMS untuk bisnis Anda. Profesional, cepat, dan terpercaya sejak 2019.
-      </p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:48px;">
-        <a href="#kontak" class="btn-primary" style="padding:14px 32px;font-size:1rem;">
-          Mulai Sekarang
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="#layanan" class="btn-secondary" style="padding:14px 32px;font-size:1rem;">
-          Lihat Layanan
-        </a>
-      </div>
-      <!-- Trust badges -->
-      <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
-        <div style="text-align:center;">
-          <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;">5.000+</div>
-          <div style="color:rgba(255,255,255,0.5);font-size:0.75rem;">Klien Aktif</div>
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+        <div style="position:relative;z-index:1;">
+            <div class="section-label" style="color:#4ade80;">
+                <span style="background:#4ade80;width:24px;height:2px;display:inline-block;"></span>
+                Platform Pesan Bisnis Terpercaya
+            </div>
+            <h1 style="font-size:clamp(2.2rem,5vw,3.4rem);font-weight:800;line-height:1.15;color:white;margin-bottom:16px;">
+                Solusi<br>
+                <span style="display:inline-block;min-width:320px;background:linear-gradient(90deg,#4ade80,#86efac);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" id="typing-text"><span class="cursor-blink"></span></span><br>
+                untuk Bisnis Anda
+            </h1>
+            <p style="color:rgba(255,255,255,0.65);font-size:1.05rem;line-height:1.75;margin-bottom:28px;max-width:500px;">
+                PesanPro menyediakan layanan SMS Masking, OTP, dan Broadcast SMS untuk bisnis Anda. Profesional, cepat, dan terpercaya sejak 2019.
+            </p>
+            <!-- Trust badges -->
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;">
+                <span class="trust-badge">🏛️ Terdaftar Kominfo</span>
+                <span class="trust-badge">🔒 SSL Secured</span>
+                <span class="trust-badge">⚡ 99,9% Uptime</span>
+            </div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px;">
+                <a href="#kontak" class="btn-primary" style="padding:14px 32px;font-size:1rem;">
+                    Mulai Sekarang
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#layanan" class="btn-secondary" style="padding:14px 32px;font-size:1rem;">Lihat Layanan</a>
+            </div>
+            <!-- Stats -->
+            <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">
+                <div style="text-align:center;">
+                    <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;">5.000+</div>
+                    <div style="color:rgba(255,255,255,0.5);font-size:0.75rem;">Klien Aktif</div>
+                </div>
+                <div style="width:1px;height:32px;background:rgba(255,255,255,0.15);"></div>
+                <div style="text-align:center;">
+                    <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;">99,9%</div>
+                    <div style="color:rgba(255,255,255,0.5);font-size:0.75rem;">Uptime</div>
+                </div>
+                <div style="width:1px;height:32px;background:rgba(255,255,255,0.15);"></div>
+                <div style="text-align:center;">
+                    <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;">50 Jt+</div>
+                    <div style="color:rgba(255,255,255,0.5);font-size:0.75rem;">SMS Terkirim</div>
+                </div>
+                <div style="width:1px;height:32px;background:rgba(255,255,255,0.15);"></div>
+                <div style="text-align:center;">
+                    <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;">5 Tahun</div>
+                    <div style="color:rgba(255,255,255,0.5);font-size:0.75rem;">Berpengalaman</div>
+                </div>
+            </div>
         </div>
-        <div style="width:1px;height:32px;background:rgba(255,255,255,0.15);"></div>
-        <div style="text-align:center;">
-          <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;">99,9%</div>
-          <div style="color:rgba(255,255,255,0.5);font-size:0.75rem;">Uptime</div>
-        </div>
-        <div style="width:1px;height:32px;background:rgba(255,255,255,0.15);"></div>
-        <div style="text-align:center;">
-          <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;">50 Jt+</div>
-          <div style="color:rgba(255,255,255,0.5);font-size:0.75rem;">SMS Terkirim</div>
-        </div>
-        <div style="width:1px;height:32px;background:rgba(255,255,255,0.15);"></div>
-        <div style="text-align:center;">
-          <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;">5 Tahun</div>
-          <div style="color:rgba(255,255,255,0.5);font-size:0.75rem;">Berpengalaman</div>
-        </div>
-      </div>
-    </div>
 
-    <!-- SMS Mockup -->
-    <div class="sms-mockup" style="position:relative;z-index:1;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <div style="color:rgba(255,255,255,0.9);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.9rem;">📱 Contoh SMS Masking</div>
-        <div class="sms-status">
-          <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite;"></span>
-          Live Preview
+        <!-- SMS Mockup -->
+        <div class="sms-mockup" style="position:relative;z-index:1;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <div style="color:rgba(255,255,255,0.9);font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.9rem;">📱 Contoh SMS Masking</div>
+                <div class="sms-status">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block;animation:pulse 2s infinite;"></span>
+                    Live Preview
+                </div>
+            </div>
+            <div class="sms-bubble">
+                <div class="sender">BANKBCA</div>
+                Transaksi berhasil Rp 500.000 ke rek 1234xxxx. Saldo Anda Rp 12.450.000. Bukan Anda? Hubungi 1500888.
+                <div class="time">10:32 ✓✓</div>
+            </div>
+            <div class="sms-bubble">
+                <div class="sender">TOKOPEDIA</div>
+                Kode OTP Anda: <strong style="color:#4ade80;font-size:1rem;">847291</strong>. Berlaku 5 menit. Jangan bagikan kode ini kepada siapapun.
+                <div class="time">10:33 ✓✓</div>
+            </div>
+            <div class="sms-bubble">
+                <div class="sender">PESANPRO</div>
+                Halo Budi! Promo spesial 12.12 — Diskon 50% untuk semua produk. Kunjungi toko kami sekarang!
+                <div class="time">10:34 ✓✓</div>
+            </div>
+            <div style="margin-top:16px;padding:12px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.2);border-radius:10px;">
+                <div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-bottom:4px;">Broadcast Stats</div>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">10.000 pesan dikirim</div>
+                    <div style="font-size:0.75rem;color:#4ade80;font-weight:600;">✓ 9.987 terkirim (99.87%)</div>
+                </div>
+                <div style="margin-top:8px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;">
+                    <div style="height:100%;width:99.87%;background:linear-gradient(90deg,#16a34a,#4ade80);border-radius:2px;"></div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="sms-bubble">
-        <div class="sender">BANKBCA</div>
-        Transaksi berhasil Rp 500.000 ke rek 1234xxxx. Saldo Anda Rp 12.450.000. Bukan Anda? Hubungi 1500888.
-        <div class="time">10:32 ✓✓</div>
-      </div>
-      <div class="sms-bubble">
-        <div class="sender">TOKOPEDIA</div>
-        Kode OTP Anda: <strong style="color:#4ade80;font-size:1rem;">847291</strong>. Berlaku 5 menit. Jangan bagikan kode ini kepada siapapun.
-        <div class="time">10:33 ✓✓</div>
-      </div>
-      <div class="sms-bubble">
-        <div class="sender">PESANPRO</div>
-        Halo Budi! Promo spesial 12.12 — Diskon 50% untuk semua produk. Kunjungi toko kami sekarang! Reply STOP untuk berhenti.
-        <div class="time">10:34 ✓✓</div>
-      </div>
-      <div style="margin-top:16px;padding:12px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.2);border-radius:10px;">
-        <div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-bottom:4px;">Broadcast Stats</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div style="font-size:0.75rem;color:rgba(255,255,255,0.8);">10.000 pesan dikirim</div>
-          <div style="font-size:0.75rem;color:#4ade80;font-weight:600;">✓ 9.987 terkirim (99.87%)</div>
-        </div>
-        <div style="margin-top:8px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;">
-          <div style="height:100%;width:99.87%;background:linear-gradient(90deg,#16a34a,#4ade80);border-radius:2px;"></div>
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <!-- Client logos -->
 <section style="background:white;padding:48px 0;border-bottom:1px solid #f3f4f6;">
-  <div class="max-w-6xl mx-auto px-6">
-    <p style="text-align:center;color:#9ca3af;font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">Dipercaya lebih dari 5.000 bisnis di Indonesia</p>
-    <div style="display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;">
-      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">BankNusantara</div>
-      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">TokoBagus</div>
-      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">KlinikSehat</div>
-      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">LogistikJaya</div>
-      <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">EduPintar</div>
+    <div class="max-w-6xl mx-auto px-6">
+        <p style="text-align:center;color:#9ca3af;font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:32px;">Dipercaya lebih dari 5.000 bisnis di Indonesia</p>
+        <div style="display:flex;justify-content:center;align-items:center;gap:48px;flex-wrap:wrap;">
+            <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">BankNusantara</div>
+            <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">TokoBagus</div>
+            <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">KlinikSehat</div>
+            <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">LogistikJaya</div>
+            <div style="color:#d1d5db;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;">EduPintar</div>
+        </div>
     </div>
-  </div>
 </section>
 
 <!-- Stats -->
 <section style="padding:80px 0;background:#f9fafb;" id="stats">
-  <div class="max-w-6xl mx-auto px-6">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;background:#e5e7eb;border-radius:20px;overflow:hidden;">
-      <div style="background:white;padding:36px 24px;text-align:center;" class="reveal">
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#16a34a,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-          <span class="stat-counter" data-target="5000" data-suffix="+">0</span>
+    <div class="max-w-6xl mx-auto px-6">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;background:#e5e7eb;border-radius:20px;overflow:hidden;">
+            <div style="background:white;padding:36px 24px;text-align:center;" class="reveal">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#16a34a,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                    <span class="stat-counter" data-target="5000" data-suffix="+">0</span>
+                </div>
+                <div style="color:#6b7280;font-size:0.85rem;margin-top:6px;">Klien Aktif</div>
+            </div>
+            <div style="background:white;padding:36px 24px;text-align:center;" class="reveal">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#16a34a,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                    <span class="stat-counter" data-target="50" data-suffix=" Jt+">0</span>
+                </div>
+                <div style="color:#6b7280;font-size:0.85rem;margin-top:6px;">SMS Terkirim</div>
+            </div>
+            <div style="background:white;padding:36px 24px;text-align:center;" class="reveal">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#16a34a,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">99,9%</div>
+                <div style="color:#6b7280;font-size:0.85rem;margin-top:6px;">Delivery Rate</div>
+            </div>
+            <div style="background:white;padding:36px 24px;text-align:center;" class="reveal">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#16a34a,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                    <span class="stat-counter" data-target="5" data-suffix=" Tahun">0</span>
+                </div>
+                <div style="color:#6b7280;font-size:0.85rem;margin-top:6px;">Berpengalaman</div>
+            </div>
         </div>
-        <div style="color:#6b7280;font-size:0.85rem;margin-top:6px;">Klien Aktif</div>
-      </div>
-      <div style="background:white;padding:36px 24px;text-align:center;" class="reveal">
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#16a34a,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-          <span class="stat-counter" data-target="50" data-suffix=" Jt+">0</span>
-        </div>
-        <div style="color:#6b7280;font-size:0.85rem;margin-top:6px;">SMS Terkirim</div>
-      </div>
-      <div style="background:white;padding:36px 24px;text-align:center;" class="reveal">
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#16a34a,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-          99,9%
-        </div>
-        <div style="color:#6b7280;font-size:0.85rem;margin-top:6px;">Delivery Rate</div>
-      </div>
-      <div style="background:white;padding:36px 24px;text-align:center;" class="reveal">
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.4rem;font-weight:800;background:linear-gradient(135deg,#16a34a,#4ade80);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
-          <span class="stat-counter" data-target="5" data-suffix=" Tahun">0</span>
-        </div>
-        <div style="color:#6b7280;font-size:0.85rem;margin-top:6px;">Berpengalaman</div>
-      </div>
     </div>
-  </div>
 </section>
 
 <!-- Services -->
 <section style="padding:100px 0;background:white;" id="layanan">
-  <div class="max-w-6xl mx-auto px-6">
-    <div style="text-align:center;margin-bottom:64px;" class="reveal">
-      <div class="section-label" style="justify-content:center;">Layanan Kami</div>
-      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Solusi SMS Lengkap untuk Bisnis Anda</h2>
-      <p style="color:#6b7280;font-size:1rem;max-width:540px;margin:0 auto;line-height:1.7;">Dari notifikasi OTP hingga campaign marketing massal — semua bisa dilakukan dengan PesanPro.</p>
+    <div class="max-w-6xl mx-auto px-6">
+        <div style="text-align:center;margin-bottom:64px;" class="reveal">
+            <div class="section-label" style="justify-content:center;">Layanan Kami</div>
+            <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Solusi SMS Lengkap untuk Bisnis Anda</h2>
+            <p style="color:#6b7280;font-size:1rem;max-width:540px;margin:0 auto;line-height:1.7;">Dari notifikasi OTP hingga campaign marketing massal — semua bisa dilakukan dengan PesanPro.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
+            <div class="feature-card reveal">
+                <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">🏷️</div>
+                <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">SMS Masking</h3>
+                <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Kirim SMS menggunakan nama brand Anda sebagai pengirim. Terlihat lebih profesional dan meningkatkan kepercayaan pelanggan.</p>
+                <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">✓ Nama pengirim custom</div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">✓ Terkirim ke semua operator</div>
+                </div>
+            </div>
+            <div class="feature-card reveal">
+                <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">🔐</div>
+                <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">SMS OTP</h3>
+                <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Amankan akun pengguna dengan verifikasi dua langkah via SMS. Kode OTP terkirim dalam 3 detik dengan tingkat keberhasilan tinggi.</p>
+                <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">✓ Pengiriman &lt; 3 detik</div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">✓ API integrasi mudah</div>
+                </div>
+            </div>
+            <div class="feature-card reveal">
+                <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">📢</div>
+                <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">SMS Broadcast</h3>
+                <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Kirim pesan promosi ke ribuan pelanggan sekaligus. Cocok untuk campaign marketing, pengumuman, dan notifikasi massal.</p>
+                <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">✓ Upload kontak via Excel</div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">✓ Laporan pengiriman real-time</div>
+                </div>
+            </div>
+            <div class="feature-card reveal">
+                <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">⚙️</div>
+                <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">SMS API</h3>
+                <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Integrasikan layanan SMS langsung ke sistem Anda melalui REST API kami. Dokumentasi lengkap, support teknis siap membantu.</p>
+                <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">✓ REST API & SDK tersedia</div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">✓ Sandbox testing gratis</div>
+                </div>
+            </div>
+            <div class="feature-card reveal">
+                <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">📊</div>
+                <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Dashboard Analytics</h3>
+                <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Pantau semua aktivitas pengiriman SMS dalam satu dashboard. Lihat statistik delivery rate, waktu pengiriman, dan laporan detail.</p>
+                <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">✓ Real-time monitoring</div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">✓ Export laporan CSV/PDF</div>
+                </div>
+            </div>
+            <div class="feature-card reveal">
+                <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">🤝</div>
+                <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Dukungan 24/7</h3>
+                <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Tim support kami siap membantu kapanpun Anda butuhkan. Via WhatsApp, email, atau telepon — kami selalu ada untuk Anda.</p>
+                <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">✓ Respon &lt; 1 jam</div>
+                    <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">✓ Dedicated account manager</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
-      <div class="feature-card reveal">
-        <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">🏷️</div>
-        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">SMS Masking</h3>
-        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Kirim SMS menggunakan nama brand Anda sebagai pengirim. Terlihat lebih profesional dan meningkatkan kepercayaan pelanggan.</p>
-        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">
-            <span>✓</span> Nama pengirim custom
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">
-            <span>✓</span> Terkirim ke semua operator
-          </div>
-        </div>
-      </div>
-      <div class="feature-card reveal">
-        <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">🔐</div>
-        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">SMS OTP</h3>
-        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Amankan akun pengguna dengan verifikasi dua langkah via SMS. Kode OTP terkirim dalam 3 detik dengan tingkat keberhasilan tinggi.</p>
-        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">
-            <span>✓</span> Pengiriman < 3 detik
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">
-            <span>✓</span> API integrasi mudah
-          </div>
-        </div>
-      </div>
-      <div class="feature-card reveal">
-        <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">📢</div>
-        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">SMS Broadcast</h3>
-        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Kirim pesan promosi ke ribuan pelanggan sekaligus. Cocok untuk campaign marketing, pengumuman, dan notifikasi massal.</p>
-        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">
-            <span>✓</span> Upload kontak via Excel
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">
-            <span>✓</span> Laporan pengiriman real-time
-          </div>
-        </div>
-      </div>
-      <div class="feature-card reveal">
-        <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">⚙️</div>
-        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">SMS API</h3>
-        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Integrasikan layanan SMS langsung ke sistem Anda melalui REST API kami. Dokumentasi lengkap, support teknis siap membantu.</p>
-        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">
-            <span>✓</span> REST API & SDK tersedia
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">
-            <span>✓</span> Sandbox testing gratis
-          </div>
-        </div>
-      </div>
-      <div class="feature-card reveal">
-        <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">📊</div>
-        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Dashboard Analytics</h3>
-        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Pantau semua aktivitas pengiriman SMS dalam satu dashboard. Lihat statistik delivery rate, waktu pengiriman, dan laporan detail.</p>
-        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">
-            <span>✓</span> Real-time monitoring
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">
-            <span>✓</span> Export laporan CSV/PDF
-          </div>
-        </div>
-      </div>
-      <div class="feature-card reveal">
-        <div style="width:52px;height:52px;border-radius:14px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:20px;">🤝</div>
-        <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:10px;color:#111827;">Dukungan 24/7</h3>
-        <p style="color:#6b7280;font-size:0.9rem;line-height:1.7;">Tim support kami siap membantu kapanpun Anda butuhkan. Via WhatsApp, email, atau telepon — kami selalu ada untuk Anda.</p>
-        <div style="margin-top:20px;padding-top:20px;border-top:1px solid #f3f4f6;">
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;">
-            <span>✓</span> Respon < 1 jam
-          </div>
-          <div style="display:flex;align-items:center;gap:8px;font-size:0.82rem;color:#16a34a;font-weight:600;margin-top:6px;">
-            <span>✓</span> Dedicated account manager
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 
-<!-- Why us -->
-<section style="padding:100px 0;background:#f9fafb;" id="keunggulan">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="grid md:grid-cols-2" style="gap:64px;align-items:start;">
-      <div class="reveal">
-        <div class="section-label">Mengapa PesanPro</div>
-        <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:#111827;margin-bottom:20px;">Bukan sekadar gateway SMS biasa</h2>
-        <p style="color:#6b7280;font-size:1rem;line-height:1.75;margin-bottom:36px;">Kami memahami bahwa setiap pesan yang Anda kirim mewakili brand Anda. Itulah mengapa kami memastikan setiap SMS terkirim tepat waktu dan profesional.</p>
-        <div style="display:flex;flex-direction:column;gap:20px;">
-          <div style="display:flex;align-items:flex-start;gap:16px;">
-            <div style="width:40px;height:40px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;">⚡</div>
-            <div>
-              <div style="font-weight:700;color:#111827;margin-bottom:4px;">Pengiriman Super Cepat</div>
-              <div style="color:#6b7280;font-size:0.875rem;line-height:1.6;">SMS terkirim dalam hitungan detik ke seluruh operator Indonesia termasuk Telkomsel, Indosat, XL, Tri, dan Smartfren.</div>
+<!-- How It Works -->
+<section style="padding:100px 0;background:#f9fafb;" id="cara-kerja">
+    <div class="max-w-6xl mx-auto px-6">
+        <div style="text-align:center;margin-bottom:64px;" class="reveal">
+            <div class="section-label" style="justify-content:center;">Cara Kerja</div>
+            <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Mulai dalam 3 Langkah Mudah</h2>
+            <p style="color:#6b7280;font-size:1rem;max-width:480px;margin:0 auto;line-height:1.7;">Tidak perlu pengetahuan teknis khusus. Bisnis Anda bisa langsung kirim SMS profesional hari ini.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;position:relative;" class="reveal">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <div class="step-connector"></div>
+                <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.1rem;color:#111827;margin-bottom:12px;">Daftar Akun</h3>
+                <p style="color:#6b7280;font-size:0.875rem;line-height:1.7;">Isi form pendaftaran dan dapatkan akses dashboard dalam 1 jam kerja. Gratis 100 SMS untuk uji coba.</p>
             </div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:16px;">
-            <div style="width:40px;height:40px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;">🛡️</div>
-            <div>
-              <div style="font-weight:700;color:#111827;margin-bottom:4px;">Infrastruktur Handal</div>
-              <div style="color:#6b7280;font-size:0.875rem;line-height:1.6;">Server redundan dengan uptime 99,9% dan backup system otomatis memastikan layanan Anda tidak pernah terganggu.</div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <div class="step-connector"></div>
+                <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.1rem;color:#111827;margin-bottom:12px;">Integrasi & Setup</h3>
+                <p style="color:#6b7280;font-size:0.875rem;line-height:1.7;">Hubungkan via API atau gunakan dashboard kami langsung. Tim teknis siap membantu proses integrasi.</p>
             </div>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:16px;">
-            <div style="width:40px;height:40px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;">💰</div>
-            <div>
-              <div style="font-weight:700;color:#111827;margin-bottom:4px;">Harga Transparan</div>
-              <div style="color:#6b7280;font-size:0.875rem;line-height:1.6;">Tidak ada biaya setup, tidak ada biaya bulanan tersembunyi. Bayar hanya untuk SMS yang terkirim.</div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.1rem;color:#111827;margin-bottom:12px;">Kirim SMS</h3>
+                <p style="color:#6b7280;font-size:0.875rem;line-height:1.7;">Mulai kirim SMS ke pelanggan Anda. Pantau delivery rate dan statistik secara real-time di dashboard.</p>
             </div>
-          </div>
         </div>
-      </div>
-      <!-- Stats visual -->
-      <div class="reveal" style="display:flex;flex-direction:column;gap:16px;">
-        <div style="background:white;border-radius:16px;padding:24px;border:1px solid #e5e7eb;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-            <span style="font-weight:700;color:#111827;font-size:0.9rem;">Delivery Rate Bulanan</span>
-            <span style="color:#16a34a;font-weight:700;font-size:0.9rem;">99,87%</span>
-          </div>
-          <div style="height:8px;background:#f3f4f6;border-radius:4px;">
-            <div style="height:100%;width:99.87%;background:linear-gradient(90deg,#16a34a,#4ade80);border-radius:4px;"></div>
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.75rem;color:#9ca3af;">
-            <span>0%</span><span>100%</span>
-          </div>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-          <div style="background:white;border-radius:16px;padding:20px;border:1px solid #e5e7eb;text-align:center;">
-            <div style="font-size:1.8rem;margin-bottom:4px;">⚡</div>
-            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#16a34a;">< 3 dtk</div>
-            <div style="color:#6b7280;font-size:0.78rem;margin-top:4px;">Rata-rata waktu kirim</div>
-          </div>
-          <div style="background:white;border-radius:16px;padding:20px;border:1px solid #e5e7eb;text-align:center;">
-            <div style="font-size:1.8rem;margin-bottom:4px;">🌐</div>
-            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#16a34a;">5 Operator</div>
-            <div style="color:#6b7280;font-size:0.78rem;margin-top:4px;">Jaringan tercakup</div>
-          </div>
-        </div>
-        <div style="background:linear-gradient(135deg,#14532d,#166534);border-radius:16px;padding:24px;color:white;">
-          <div style="font-size:1.5rem;margin-bottom:8px;">🏆</div>
-          <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;margin-bottom:4px;">Terdaftar & Diawasi Kominfo</div>
-          <div style="color:rgba(255,255,255,0.7);font-size:0.82rem;line-height:1.6;">Layanan kami telah terdaftar resmi di Kementerian Komunikasi dan Informatika RI.</div>
-        </div>
-      </div>
     </div>
-  </div>
+</section>
+
+<!-- Why Us -->
+<section style="padding:100px 0;background:white;" id="keunggulan">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-2" style="gap:64px;align-items:center;">
+            <div class="reveal">
+                <div class="section-label">Mengapa PesanPro</div>
+                <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:#111827;margin-bottom:20px;">Bukan sekadar gateway SMS biasa</h2>
+                <p style="color:#6b7280;font-size:1rem;line-height:1.75;margin-bottom:36px;">Kami memahami bahwa setiap pesan yang Anda kirim mewakili brand Anda. Itulah mengapa kami memastikan setiap SMS terkirim tepat waktu dan profesional.</p>
+                <div style="display:flex;flex-direction:column;gap:20px;">
+                    <div style="display:flex;align-items:flex-start;gap:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;">⚡</div>
+                        <div>
+                            <div style="font-weight:700;color:#111827;margin-bottom:4px;">Pengiriman Super Cepat</div>
+                            <div style="color:#6b7280;font-size:0.875rem;line-height:1.6;">SMS terkirim dalam hitungan detik ke seluruh operator Indonesia termasuk Telkomsel, Indosat, XL, Tri, dan Smartfren.</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;">🛡️</div>
+                        <div>
+                            <div style="font-weight:700;color:#111827;margin-bottom:4px;">Infrastruktur Handal</div>
+                            <div style="color:#6b7280;font-size:0.875rem;line-height:1.6;">Server redundan dengan uptime 99,9% dan backup system otomatis memastikan layanan Anda tidak pernah terganggu.</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:flex-start;gap:16px;">
+                        <div style="width:40px;height:40px;border-radius:10px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;">💰</div>
+                        <div>
+                            <div style="font-weight:700;color:#111827;margin-bottom:4px;">Harga Transparan</div>
+                            <div style="color:#6b7280;font-size:0.875rem;line-height:1.6;">Tidak ada biaya setup, tidak ada biaya bulanan tersembunyi. Bayar hanya untuk SMS yang terkirim.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal" style="display:flex;flex-direction:column;gap:16px;">
+                <div style="background:#f9fafb;border-radius:16px;padding:24px;border:1px solid #e5e7eb;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <span style="font-weight:700;color:#111827;font-size:0.9rem;">Delivery Rate Bulanan</span>
+                        <span style="color:#16a34a;font-weight:700;font-size:0.9rem;">99,87%</span>
+                    </div>
+                    <div style="height:8px;background:#e5e7eb;border-radius:4px;">
+                        <div style="height:100%;width:99.87%;background:linear-gradient(90deg,#16a34a,#4ade80);border-radius:4px;"></div>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.75rem;color:#9ca3af;">
+                        <span>0%</span><span>100%</span>
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                    <div style="background:#f9fafb;border-radius:16px;padding:20px;border:1px solid #e5e7eb;text-align:center;">
+                        <div style="font-size:1.8rem;margin-bottom:4px;">⚡</div>
+                        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#16a34a;">&lt; 3 dtk</div>
+                        <div style="color:#6b7280;font-size:0.78rem;margin-top:4px;">Rata-rata waktu kirim</div>
+                    </div>
+                    <div style="background:#f9fafb;border-radius:16px;padding:20px;border:1px solid #e5e7eb;text-align:center;">
+                        <div style="font-size:1.8rem;margin-bottom:4px;">🌐</div>
+                        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.4rem;color:#16a34a;">5 Operator</div>
+                        <div style="color:#6b7280;font-size:0.78rem;margin-top:4px;">Jaringan tercakup</div>
+                    </div>
+                </div>
+                <div style="background:linear-gradient(135deg,#14532d,#166534);border-radius:16px;padding:24px;color:white;">
+                    <div style="font-size:1.5rem;margin-bottom:8px;">🏆</div>
+                    <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;margin-bottom:4px;">Terdaftar & Diawasi Kominfo</div>
+                    <div style="color:rgba(255,255,255,0.7);font-size:0.82rem;line-height:1.6;">Layanan kami telah terdaftar resmi di Kementerian Komunikasi dan Informatika RI.</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
 
 <!-- Pricing -->
-<section style="padding:100px 0;background:white;" id="harga">
-  <div class="max-w-6xl mx-auto px-6">
-    <div style="text-align:center;margin-bottom:64px;" class="reveal">
-      <div class="section-label" style="justify-content:center;">Harga</div>
-      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Harga Terjangkau, Hasil Maksimal</h2>
-      <p style="color:#6b7280;font-size:1rem;max-width:480px;margin:0 auto;">Tidak ada biaya setup. Tidak ada kontrak. Bayar sesuai pemakaian.</p>
+<section style="padding:100px 0;background:#f9fafb;" id="harga">
+    <div class="max-w-6xl mx-auto px-6">
+        <div style="text-align:center;margin-bottom:64px;" class="reveal">
+            <div class="section-label" style="justify-content:center;">Harga</div>
+            <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Harga Terjangkau, Hasil Maksimal</h2>
+            <p style="color:#6b7280;font-size:1rem;max-width:480px;margin:0 auto;">Tidak ada biaya setup. Tidak ada kontrak. Bayar sesuai pemakaian.</p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:960px;margin:0 auto;">
+            <div class="pricing-card reveal">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#374151;margin-bottom:8px;">Starter</div>
+                <div style="margin-bottom:24px;">
+                    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;color:#9ca3af;">mulai dari </span>
+                    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#111827;">Rp 85</span>
+                    <span style="color:#9ca3af;font-size:0.875rem;margin-left:4px;">/ SMS</span>
+                </div>
+                <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Cocok untuk UMKM dan bisnis yang baru mulai.</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Minimal 100 SMS</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> SMS Masking & OTP</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Dashboard monitoring</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Akses API</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Dedicated support</div>
+                </div>
+                <a href="#kontak" class="btn-primary" style="width:100%;justify-content:center;background:white;color:#16a34a;border:1.5px solid #16a34a;box-shadow:none;">Mulai Sekarang</a>
+            </div>
+            <div class="pricing-card popular reveal">
+                <div class="popular-badge">Paling Populer</div>
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#16a34a;margin-bottom:8px;">Business</div>
+                <div style="margin-bottom:24px;">
+                    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;color:#9ca3af;">mulai dari </span>
+                    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#111827;">Rp 65</span>
+                    <span style="color:#9ca3af;font-size:0.875rem;margin-left:4px;">/ SMS</span>
+                </div>
+                <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Untuk bisnis berkembang dengan kebutuhan tinggi.</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Minimal 5.000 SMS</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Semua jenis SMS</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Akses API penuh</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Laporan detail & export</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Dedicated support</div>
+                </div>
+                <a href="#kontak" class="btn-primary" style="width:100%;justify-content:center;">Mulai Sekarang</a>
+            </div>
+            <div class="pricing-card reveal">
+                <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#374151;margin-bottom:8px;">Enterprise</div>
+                <div style="margin-bottom:24px;">
+                    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#111827;">Custom</span>
+                </div>
+                <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Untuk korporasi dan volume SMS sangat besar.</div>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Volume tidak terbatas</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Harga negosiasi</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> SLA & uptime guarantee</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Dedicated account manager</div>
+                    <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Priority support 24/7</div>
+                </div>
+                <a href="#kontak" class="btn-primary" style="width:100%;justify-content:center;background:white;color:#16a34a;border:1.5px solid #16a34a;box-shadow:none;">Hubungi Sales</a>
+            </div>
+        </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:960px;margin:0 auto;">
-      <div class="pricing-card reveal">
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#374151;margin-bottom:8px;">Starter</div>
-        <div style="margin-bottom:8px;">
-          <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;color:#9ca3af;">mulai dari</span>
-        </div>
-        <div style="margin-bottom:24px;">
-          <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#111827;">Rp 85</span>
-          <span style="color:#9ca3af;font-size:0.875rem;margin-left:4px;">/ SMS</span>
-        </div>
-        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Cocok untuk UMKM dan bisnis yang baru mulai.</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Minimal pembelian 100 SMS</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> SMS Masking & OTP</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Dashboard monitoring</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Akses API</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Dedicated support</div>
-        </div>
-        <a href="#kontak" class="btn-primary" style="width:100%;justify-content:center;background:white;color:#16a34a;border:1.5px solid #16a34a;box-shadow:none;">Mulai Sekarang</a>
-      </div>
-      <div class="pricing-card popular reveal">
-        <div class="popular-badge">Paling Populer</div>
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#16a34a;margin-bottom:8px;">Business</div>
-        <div style="margin-bottom:8px;">
-          <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;color:#9ca3af;">mulai dari</span>
-        </div>
-        <div style="margin-bottom:24px;">
-          <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#111827;">Rp 65</span>
-          <span style="color:#9ca3af;font-size:0.875rem;margin-left:4px;">/ SMS</span>
-        </div>
-        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Untuk bisnis berkembang dengan kebutuhan tinggi.</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Minimal pembelian 5.000 SMS</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Semua jenis SMS</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Akses API penuh</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Laporan detail & export</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#9ca3af;"><span style="color:#d1d5db;font-weight:700;">✗</span> Dedicated support</div>
-        </div>
-        <a href="#kontak" class="btn-primary" style="width:100%;justify-content:center;">Mulai Sekarang</a>
-      </div>
-      <div class="pricing-card reveal">
-        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.95rem;color:#374151;margin-bottom:8px;">Enterprise</div>
-        <div style="margin-bottom:8px;">
-          <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;color:#9ca3af;">harga</span>
-        </div>
-        <div style="margin-bottom:24px;">
-          <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:2.2rem;font-weight:800;color:#111827;">Custom</span>
-        </div>
-        <div style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Untuk korporasi dan volume SMS sangat besar.</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Volume tidak terbatas</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Harga negosiasi</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> SLA & uptime guarantee</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Dedicated account manager</div>
-          <div style="display:flex;align-items:center;gap:10px;font-size:0.875rem;color:#374151;"><span style="color:#16a34a;font-weight:700;">✓</span> Priority support 24/7</div>
-        </div>
-        <a href="#kontak" class="btn-primary" style="width:100%;justify-content:center;background:white;color:#16a34a;border:1.5px solid #16a34a;box-shadow:none;">Hubungi Sales</a>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- Testimonials -->
-<section style="padding:100px 0;background:#f9fafb;" id="testimoni">
-  <div class="max-w-6xl mx-auto px-6">
-    <div style="text-align:center;margin-bottom:64px;" class="reveal">
-      <div class="section-label" style="justify-content:center;">Testimoni</div>
-      <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Apa Kata Klien Kami</h2>
+<section style="padding:100px 0;background:white;" id="testimoni">
+    <div class="max-w-6xl mx-auto px-6">
+        <div style="text-align:center;margin-bottom:64px;" class="reveal">
+            <div class="section-label" style="justify-content:center;">Testimoni</div>
+            <h2 style="font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;color:#111827;margin-bottom:16px;">Apa Kata Klien Kami</h2>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
+            <div class="testi-card reveal">
+                <div style="display:flex;gap:3px;margin-bottom:16px;"><span style="color:#fbbf24;">★★★★★</span></div>
+                <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Sebelum pakai PesanPro, OTP kami sering delay sampai 30 detik. Sekarang pelanggan terima dalam 2-3 detik. Conversion rate naik signifikan."</p>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#4ade80);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;flex-shrink:0;">AR</div>
+                    <div>
+                        <div style="font-weight:700;font-size:0.9rem;color:#111827;">Andi Rahmat</div>
+                        <div style="font-size:0.8rem;color:#9ca3af;">CTO, TokoBagus Indonesia</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div style="display:flex;gap:3px;margin-bottom:16px;"><span style="color:#fbbf24;">★★★★★</span></div>
+                <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Kami kirim 50.000 SMS promosi dalam satu campaign. Semua terkirim dalam 30 menit dengan delivery rate 99,9%. Luar biasa!"</p>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#38bdf8);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;flex-shrink:0;">SW</div>
+                    <div>
+                        <div style="font-weight:700;font-size:0.9rem;color:#111827;">Sinta Wijaya</div>
+                        <div style="font-size:0.8rem;color:#9ca3af;">Marketing Manager, EduPintar</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div style="display:flex;gap:3px;margin-bottom:16px;"><span style="color:#fbbf24;">★★★★★</span></div>
+                <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Integrasi API-nya sangat mudah. Developer kami butuh kurang dari 1 hari untuk mengintegrasikan SMS Masking ke sistem kami. Support-nya juga responsif."</p>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;flex-shrink:0;">BP</div>
+                    <div>
+                        <div style="font-weight:700;font-size:0.9rem;color:#111827;">Budi Pratama</div>
+                        <div style="font-size:0.8rem;color:#9ca3af;">IT Manager, KlinikSehat Group</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
-      <div class="testi-card reveal">
-        <div style="display:flex;gap:3px;margin-bottom:16px;"><span style="color:#fbbf24;">★★★★★</span></div>
-        <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Sebelum pakai PesanPro, OTP kami sering delay sampai 30 detik. Sekarang pelanggan terima dalam 2-3 detik. Conversion rate naik signifikan."</p>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#16a34a,#4ade80);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;flex-shrink:0;">AR</div>
-          <div>
-            <div style="font-weight:700;font-size:0.9rem;color:#111827;">Andi Rahmat</div>
-            <div style="font-size:0.8rem;color:#9ca3af;">CTO, TokoBagus Indonesia</div>
-          </div>
+</section>
+
+<!-- FAQ -->
+<section style="padding:100px 0;background:#f9fafb;" id="faq">
+    <div class="max-w-2xl mx-auto px-6">
+        <div style="text-align:center;margin-bottom:64px;" class="reveal">
+            <div class="section-label" style="justify-content:center;">FAQ</div>
+            <h2 style="font-size:clamp(1.8rem,4vw,2.4rem);font-weight:800;color:#111827;">Pertanyaan yang Sering Diajukan</h2>
         </div>
-      </div>
-      <div class="testi-card reveal">
-        <div style="display:flex;gap:3px;margin-bottom:16px;"><span style="color:#fbbf24;">★★★★★</span></div>
-        <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Kami kirim 50.000 SMS promosi dalam satu campaign. Semua terkirim dalam 30 menit dengan delivery rate 99,9%. Luar biasa!"</p>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#0ea5e9,#38bdf8);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;flex-shrink:0;">SW</div>
-          <div>
-            <div style="font-weight:700;font-size:0.9rem;color:#111827;">Sinta Wijaya</div>
-            <div style="font-size:0.8rem;color:#9ca3af;">Marketing Manager, EduPintar</div>
-          </div>
+        <div class="reveal">
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Apa itu SMS Masking?
+                    <div class="faq-icon">+</div>
+                </button>
+                <div class="faq-answer">SMS Masking adalah layanan yang memungkinkan Anda mengirim SMS menggunakan nama brand atau perusahaan sebagai pengirim, bukan nomor telepon biasa. Contohnya: pesan dari "BANKBCA" atau "TOKOPEDIA".</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Berapa lama proses pendaftaran?
+                    <div class="faq-icon">+</div>
+                </button>
+                <div class="faq-answer">Proses pendaftaran sangat cepat. Isi form, tim kami akan menghubungi Anda dalam 1 jam kerja, dan akun Anda siap digunakan di hari yang sama.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Apakah ada biaya setup atau kontrak?
+                    <div class="faq-icon">+</div>
+                </button>
+                <div class="faq-answer">Tidak ada biaya setup dan tidak ada kontrak jangka panjang. Anda hanya membayar untuk SMS yang terkirim. Sistem top-up saldo, fleksibel sesuai kebutuhan.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Operator apa saja yang didukung?
+                    <div class="faq-icon">+</div>
+                </button>
+                <div class="faq-answer">PesanPro mendukung seluruh operator di Indonesia: Telkomsel, Indosat Ooredoo, XL Axiata, Tri (3), dan Smartfren. SMS Anda pasti sampai ke semua pelanggan.</div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Bagaimana cara integrasi dengan sistem saya?
+                    <div class="faq-icon">+</div>
+                </button>
+                <div class="faq-answer">Kami menyediakan REST API yang mudah diintegrasikan ke sistem apapun. Dokumentasi lengkap tersedia, dan tim teknis kami siap membantu proses integrasi tanpa biaya tambahan.</div>
+            </div>
         </div>
-      </div>
-      <div class="testi-card reveal">
-        <div style="display:flex;gap:3px;margin-bottom:16px;"><span style="color:#fbbf24;">★★★★★</span></div>
-        <p style="color:#374151;font-size:0.95rem;line-height:1.75;margin-bottom:20px;">"Integrasi API-nya sangat mudah. Developer kami butuh kurang dari 1 hari untuk mengintegrasikan SMS Masking ke sistem kami. Support-nya juga responsif."</p>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#d97706);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;flex-shrink:0;">BP</div>
-          <div>
-            <div style="font-weight:700;font-size:0.9rem;color:#111827;">Budi Pratama</div>
-            <div style="font-size:0.8rem;color:#9ca3af;">IT Manager, KlinikSehat Group</div>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <!-- Contact / Leads Form -->
 <section style="padding:100px 0;background:white;" id="kontak">
-  <div class="max-w-6xl mx-auto px-6">
-    <div style="display:grid;gap:64px;align-items:start;" class="grid md:grid-cols-2">
-      <div class="reveal">
-        <div class="section-label">Hubungi Kami</div>
-        <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:#111827;margin-bottom:16px;">Mulai Uji Coba Gratis Sekarang</h2>
-        <p style="color:#6b7280;font-size:1rem;line-height:1.75;margin-bottom:36px;">Dapatkan 100 SMS gratis untuk uji coba layanan kami. Tidak perlu kartu kredit. Tim kami akan menghubungi Anda dalam 1 jam kerja.</p>
-        <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:40px;">
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">📞</div>
-            <div>
-              <div style="font-weight:700;color:#111827;font-size:0.9rem;">Telepon / WhatsApp</div>
-              <div style="color:#6b7280;font-size:0.875rem;">+62 812-8427-5655</div>
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-2" style="gap:64px;align-items:start;">
+            <div class="reveal">
+                <div class="section-label">Hubungi Kami</div>
+                <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;color:#111827;margin-bottom:16px;">Mulai Uji Coba Gratis Sekarang</h2>
+                <p style="color:#6b7280;font-size:1rem;line-height:1.75;margin-bottom:36px;">Dapatkan 100 SMS gratis untuk uji coba layanan kami. Tidak perlu kartu kredit. Tim kami akan menghubungi Anda dalam 1 jam kerja.</p>
+                <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:40px;">
+                    <div style="display:flex;align-items:center;gap:16px;">
+                        <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">📞</div>
+                        <div>
+                            <div style="font-weight:700;color:#111827;font-size:0.9rem;">Telepon / WhatsApp</div>
+                            <div style="color:#6b7280;font-size:0.875rem;">+62 812-8427-5655</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:16px;">
+                        <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">✉️</div>
+                        <div>
+                            <div style="font-weight:700;color:#111827;font-size:0.9rem;">Email</div>
+                            <div style="color:#6b7280;font-size:0.875rem;">hello@pesanpro.id</div>
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:16px;">
+                        <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">📍</div>
+                        <div>
+                            <div style="font-weight:700;color:#111827;font-size:0.9rem;">Kantor</div>
+                            <div style="color:#6b7280;font-size:0.875rem;">Jakarta Selatan, DKI Jakarta</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Google Maps -->
+                <div style="border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.37637793707!2d106.7588335!3d-6.2297465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta%20Selatan%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid" width="100%" height="200" style="border:0;display:block;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
             </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">✉️</div>
-            <div>
-              <div style="font-weight:700;color:#111827;font-size:0.9rem;">Email</div>
-              <div style="color:#6b7280;font-size:0.875rem;">hello@pesanpro.id</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:16px;">
-            <div style="width:44px;height:44px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">📍</div>
-            <div>
-              <div style="font-weight:700;color:#111827;font-size:0.9rem;">Kantor</div>
-              <div style="color:#6b7280;font-size:0.875rem;">Jakarta Selatan, DKI Jakarta</div>
-            </div>
-          </div>
-        </div>
-        <!-- Google Maps embed placeholder -->
-        <div style="border-radius:16px;overflow:hidden;border:1px solid #e5e7eb;height:200px;background:#f9fafb;display:flex;align-items:center;justify-content:center;">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126920.37637793707!2d106.7588335!3d-6.2297465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x5371bf0fdad786a2!2sJakarta%20Selatan%2C%20Kota%20Jakarta%20Selatan%2C%20Daerah%20Khusus%20Ibukota%20Jakarta!5e0!3m2!1sid!2sid!4v1710000000000!5m2!1sid!2sid"
-            width="100%" height="200" style="border:0;display:block;" allowfullscreen="" loading="lazy">
-          </iframe>
-        </div>
-      </div>
 
-      <!-- Leads Form -->
-      <div class="reveal">
-        <div style="background:#f9fafb;border-radius:20px;padding:36px;border:1px solid #e5e7eb;">
-          <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.2rem;color:#111827;margin-bottom:6px;">Dapatkan 100 SMS Gratis</h3>
-          <p style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Isi form di bawah dan kami akan menghubungi Anda segera.</p>
-          <form id="leads-form" onsubmit="handleFormSubmit(event)" style="display:flex;flex-direction:column;gap:16px;">
-            <div>
-              <label class="form-label">Nama Lengkap *</label>
-              <input type="text" class="form-input" placeholder="Budi Santoso" required>
+            <!-- Leads Form -->
+            <div class="reveal">
+                <div style="background:#f9fafb;border-radius:20px;padding:36px;border:1px solid #e5e7eb;">
+                    <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.2rem;color:#111827;margin-bottom:6px;">Dapatkan 100 SMS Gratis</h3>
+                    <p style="color:#6b7280;font-size:0.85rem;margin-bottom:24px;">Isi form di bawah dan kami akan menghubungi Anda segera.</p>
+                    <form id="leads-form" onsubmit="handleFormSubmit(event)" style="display:flex;flex-direction:column;gap:16px;">
+                        <div>
+                            <label class="form-label">Nama Lengkap *</label>
+                            <input type="text" class="form-input" id="field-nama" placeholder="Budi Santoso" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Nama Perusahaan *</label>
+                            <input type="text" class="form-input" id="field-perusahaan" placeholder="PT Maju Bersama" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Nomor WhatsApp *</label>
+                            <input type="tel" class="form-input" id="field-wa" placeholder="08xxxxxxxxxx" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Email Bisnis *</label>
+                            <input type="email" class="form-input" id="field-email" placeholder="budi@perusahaan.com" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Estimasi Kebutuhan SMS / Bulan</label>
+                            <select class="form-select" id="field-estimasi">
+                                <option value="">-- Pilih estimasi --</option>
+                                <option>Kurang dari 1.000 SMS</option>
+                                <option>1.000 - 10.000 SMS</option>
+                                <option>10.000 - 50.000 SMS</option>
+                                <option>50.000 - 100.000 SMS</option>
+                                <option>Lebih dari 100.000 SMS</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="form-label">Ceritakan Kebutuhan Anda</label>
+                            <textarea class="form-textarea" id="field-pesan" placeholder="Ceritakan kebutuhan SMS Anda secara singkat..." maxlength="300"></textarea>
+                            <div class="char-counter"><span id="char-count">0</span>/300</div>
+                        </div>
+                        <button type="submit" id="btn-submit" class="btn-primary" style="justify-content:center;padding:14px;font-size:1rem;">
+                            <span id="btn-text">Kirim & Dapatkan SMS Gratis</span>
+                            <span id="btn-loading" style="display:none;">Mengirim...</span>
+                            <svg id="btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                        <p style="text-align:center;font-size:0.78rem;color:#9ca3af;">🔒 Data Anda aman. Kami tidak akan melakukan spam.</p>
+                    </form>
+                    <div id="form-success" style="display:none;text-align:center;padding:24px 0;">
+                        <div style="font-size:3rem;margin-bottom:12px;">🎉</div>
+                        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.1rem;color:#111827;margin-bottom:8px;">Terima kasih!</div>
+                        <div style="color:#6b7280;font-size:0.9rem;line-height:1.6;">Tim kami akan menghubungi Anda via WhatsApp dalam 1 jam kerja.</div>
+                    </div>
+                </div>
             </div>
-            <div>
-              <label class="form-label">Nama Perusahaan *</label>
-              <input type="text" class="form-input" placeholder="PT Maju Bersama" required>
-            </div>
-            <div>
-              <label class="form-label">Nomor WhatsApp *</label>
-              <input type="tel" class="form-input" placeholder="08xxxxxxxxxx" required>
-            </div>
-            <div>
-              <label class="form-label">Email Bisnis *</label>
-              <input type="email" class="form-input" placeholder="budi@perusahaan.com" required>
-            </div>
-            <div>
-              <label class="form-label">Estimasi Kebutuhan SMS / Bulan</label>
-              <select class="form-select">
-                <option value="">-- Pilih estimasi --</option>
-                <option>Kurang dari 1.000 SMS</option>
-                <option>1.000 - 10.000 SMS</option>
-                <option>10.000 - 50.000 SMS</option>
-                <option>50.000 - 100.000 SMS</option>
-                <option>Lebih dari 100.000 SMS</option>
-              </select>
-            </div>
-            <div>
-              <label class="form-label">Layanan yang Dibutuhkan</label>
-              <textarea class="form-textarea" placeholder="Ceritakan kebutuhan SMS Anda secara singkat..." style="min-height:90px;"></textarea>
-            </div>
-            <button type="submit" class="btn-primary" style="justify-content:center;padding:14px;font-size:1rem;">
-              Kirim & Dapatkan SMS Gratis
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </button>
-            <p style="text-align:center;font-size:0.78rem;color:#9ca3af;">🔒 Data Anda aman. Kami tidak akan melakukan spam.</p>
-          </form>
-          <div id="form-success" style="display:none;text-align:center;padding:24px 0;">
-            <div style="font-size:3rem;margin-bottom:12px;">🎉</div>
-            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1.1rem;color:#111827;margin-bottom:8px;">Terima kasih!</div>
-            <div style="color:#6b7280;font-size:0.9rem;line-height:1.6;">Tim kami akan menghubungi Anda via WhatsApp dalam 1 jam kerja.</div>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </section>
 
 <!-- CTA Section -->
 <section style="background:linear-gradient(135deg,#14532d 0%,#166534 100%);padding:100px 0;position:relative;overflow:hidden;">
-  <div style="position:absolute;top:-50%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(74,222,128,0.2) 0%,transparent 70%);pointer-events:none;"></div>
-  <div class="max-w-3xl mx-auto px-6 text-center" style="position:relative;z-index:1;">
-    <div class="section-label" style="justify-content:center;color:#86efac;">
-      <span style="background:#86efac;width:24px;height:2px;display:inline-block;"></span>
-      Mulai Sekarang
+    <div style="position:absolute;top:-50%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(74,222,128,0.2) 0%,transparent 70%);pointer-events:none;"></div>
+    <div class="max-w-3xl mx-auto px-6 text-center" style="position:relative;z-index:1;">
+        <div class="section-label" style="justify-content:center;color:#86efac;">
+            <span style="background:#86efac;width:24px;height:2px;display:inline-block;"></span>
+            Mulai Sekarang
+        </div>
+        <h2 style="font-size:clamp(2rem,5vw,3rem);font-weight:800;color:white;margin-bottom:16px;line-height:1.2;">Siap Kirim SMS Lebih Profesional?</h2>
+        <p style="color:rgba(255,255,255,0.65);font-size:1.05rem;margin-bottom:40px;line-height:1.7;">Bergabunglah dengan 5.000+ bisnis yang sudah mempercayakan komunikasi mereka kepada PesanPro.</p>
+        <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
+            <a href="#kontak" class="btn-primary" style="padding:16px 36px;font-size:1rem;background:white;color:#15803d;">
+                Coba Gratis Sekarang
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="https://wa.me/628128427655" target="_blank" rel="noopener" class="btn-wa" style="padding:16px 36px;font-size:1rem;">
+                💬 Chat via WhatsApp
+            </a>
+        </div>
     </div>
-    <h2 style="font-size:clamp(2rem,5vw,3rem);font-weight:800;color:white;margin-bottom:16px;line-height:1.2;">
-      Siap Kirim SMS Lebih Profesional?
-    </h2>
-    <p style="color:rgba(255,255,255,0.65);font-size:1.05rem;margin-bottom:40px;line-height:1.7;">Bergabunglah dengan 5.000+ bisnis yang sudah mempercayakan komunikasi mereka kepada PesanPro.</p>
-    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
-      <a href="#kontak" class="btn-primary" style="padding:16px 36px;font-size:1rem;background:white;color:#15803d;">
-        Coba Gratis Sekarang
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-      <a href="https://wa.me/628128427655" target="_blank" rel="noopener" class="btn-wa" style="padding:16px 36px;font-size:1rem;">
-        💬 Chat via WhatsApp
-      </a>
-    </div>
-  </div>
 </section>
 
 <!-- Footer -->
 <footer style="background:#111827;color:#9ca3af;padding:48px 0 32px;">
-  <div class="max-w-6xl mx-auto px-6">
-    <div style="display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;margin-bottom:40px;" class="grid md:grid-cols-3">
-      <div>
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-          <div style="width:36px;height:36px;background:linear-gradient(135deg,#16a34a,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;">
-            <span style="color:white;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;">P</span>
-          </div>
-          <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;color:white;">PesanPro</span>
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-3" style="gap:48px;margin-bottom:40px;">
+            <div>
+                <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                    <div style="width:36px;height:36px;background:linear-gradient(135deg,#16a34a,#4ade80);border-radius:9px;display:flex;align-items:center;justify-content:center;">
+                        <span style="color:white;font-weight:800;font-size:1rem;font-family:'Plus Jakarta Sans',sans-serif;">P</span>
+                    </div>
+                    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:1.1rem;color:white;">PesanPro</span>
+                </div>
+                <p style="color:#6b7280;font-size:0.875rem;line-height:1.7;max-width:260px;">Platform SMS Masking & Gateway SMS terpercaya untuk bisnis Indonesia.</p>
+            </div>
+            <div>
+                <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;margin-bottom:16px;">Layanan</div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <a href="#layanan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">SMS Masking</a>
+                    <a href="#layanan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">SMS OTP</a>
+                    <a href="#layanan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">SMS Broadcast</a>
+                    <a href="#layanan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">SMS API</a>
+                </div>
+            </div>
+            <div>
+                <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;margin-bottom:16px;">Perusahaan</div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <a href="#keunggulan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">Tentang Kami</a>
+                    <a href="#harga" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">Harga</a>
+                    <a href="#testimoni" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">Testimoni</a>
+                    <a href="#kontak" style="color:#6b7280;font-size:0.875rem;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">Kontak</a>
+                </div>
+            </div>
         </div>
-        <p style="color:#6b7280;font-size:0.875rem;line-height:1.7;max-width:260px;">Platform SMS Masking & Gateway SMS terpercaya untuk bisnis Indonesia.</p>
-      </div>
-      <div>
-        <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;margin-bottom:16px;">Layanan</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <a href="#layanan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">SMS Masking</a>
-          <a href="#layanan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">SMS OTP</a>
-          <a href="#layanan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">SMS Broadcast</a>
-          <a href="#layanan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">SMS API</a>
+        <div style="border-top:1px solid #1f2937;padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+            <div style="color:#4b5563;font-size:0.8rem;">© 2026 PesanPro. Hak cipta dilindungi.</div>
+            <div style="color:#4b5563;font-size:0.8rem;">
+                Demo project by <a href="https://bagasaria93.github.io" style="color:#16a34a;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a>
+            </div>
         </div>
-      </div>
-      <div>
-        <div style="color:white;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:0.875rem;margin-bottom:16px;">Perusahaan</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <a href="#keunggulan" style="color:#6b7280;font-size:0.875rem;text-decoration:none;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">Tentang Kami</a>
-          <a href="#harga" style="color:#6b7280;font-size:0.875rem;text-decoration:none;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">Harga</a>
-          <a href="#testimoni" style="color:#6b7280;font-size:0.875rem;text-decoration:none;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">Testimoni</a>
-          <a href="#kontak" style="color:#6b7280;font-size:0.875rem;text-decoration:none;" onmouseover="this.style.color='#4ade80'" onmouseout="this.style.color='#6b7280'">Kontak</a>
-        </div>
-      </div>
     </div>
-    <div style="border-top:1px solid #1f2937;padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-      <div style="color:#4b5563;font-size:0.8rem;">© 2026 PesanPro. Hak cipta dilindungi.</div>
-      <div style="color:#4b5563;font-size:0.8rem;">
-        Demo project by <a href="https://bagasaria93.github.io" style="color:#16a34a;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a>
-      </div>
-    </div>
-  </div>
 </footer>
 
 <script>
 // Scroll progress bar
-window.addEventListener('scroll', () => {
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  document.getElementById('scroll-progress').style.width = (scrollTop / docHeight * 100) + '%';
+window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    document.getElementById('scroll-progress').style.width = (scrollTop / docHeight * 100) + '%';
 
-  // Navbar scroll state
-  const navbar = document.getElementById('navbar');
-  if (scrollTop > 60) navbar.classList.add('scrolled');
-  else navbar.classList.remove('scrolled');
+    // Navbar scroll state
+    var navbar = document.getElementById('navbar');
+    if (scrollTop > 60) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+
+    // Active nav highlight
+    var sections = ['hero', 'layanan', 'cara-kerja', 'harga', 'testimoni', 'faq', 'kontak'];
+    sections.forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        var rect = el.getBoundingClientRect();
+        var link = document.querySelector('.nav-link[href="#' + id + '"]');
+        if (link) {
+            if (rect.top <= 100 && rect.bottom >= 100) link.classList.add('active');
+            else link.classList.remove('active');
+        }
+    });
 });
 
 // Reveal on scroll
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      entry.target.querySelectorAll('.stat-counter').forEach(el => animateCounter(el));
-    }
-  });
+var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            entry.target.querySelectorAll('.stat-counter').forEach(function(el) {
+                animateCounter(el);
+            });
+        }
+    });
 }, { threshold: 0.15 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
 
 // Animated counter
 function animateCounter(el) {
-  if (el.dataset.animated) return;
-  el.dataset.animated = true;
-  const target = parseInt(el.dataset.target);
-  const suffix = el.dataset.suffix || '';
-  const duration = 1800;
-  const start = performance.now();
-  function update(now) {
-    const elapsed = now - start;
-    const progress = Math.min(elapsed / duration, 1);
-    const ease = 1 - Math.pow(1 - progress, 3);
-    const value = Math.floor(ease * target);
-    el.textContent = value.toLocaleString('id-ID') + suffix;
-    if (progress < 1) requestAnimationFrame(update);
-  }
-  requestAnimationFrame(update);
+    if (el.dataset.animated) return;
+    el.dataset.animated = true;
+    var target = parseInt(el.dataset.target);
+    var suffix = el.dataset.suffix || '';
+    var duration = 1800;
+    var start = performance.now();
+    function update(now) {
+        var elapsed = now - start;
+        var progress = Math.min(elapsed / duration, 1);
+        var ease = 1 - Math.pow(1 - progress, 3);
+        var value = Math.floor(ease * target);
+        el.textContent = value.toLocaleString('id-ID') + suffix;
+        if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+}
+
+// Typing animation
+var typingTexts = ['SMS Masking', 'OTP Verification', 'Broadcast SMS', 'SMS API'];
+var typingEl = document.getElementById('typing-text');
+var currentIndex = 0;
+var currentChar = 0;
+var isDeleting = false;
+
+function typeText() {
+    var current = typingTexts[currentIndex];
+    var displayed = isDeleting
+        ? current.substring(0, currentChar - 1)
+        : current.substring(0, currentChar + 1);
+    currentChar = isDeleting ? currentChar - 1 : currentChar + 1;
+    typingEl.innerHTML = displayed + '<span class="cursor-blink"></span>';
+    if (!isDeleting && currentChar === current.length) {
+        setTimeout(function() { isDeleting = true; typeText(); }, 2000);
+        return;
+    }
+    if (isDeleting && currentChar === 0) {
+        isDeleting = false;
+        currentIndex = (currentIndex + 1) % typingTexts.length;
+    }
+    setTimeout(typeText, isDeleting ? 40 : 80);
+}
+typeText();
+
+// FAQ accordion
+function toggleFaq(btn) {
+    var item = btn.parentElement;
+    var answer = item.querySelector('.faq-answer');
+    var isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(function(i) {
+        i.classList.remove('open');
+        i.querySelector('.faq-answer').classList.remove('open');
+    });
+    if (!isOpen) {
+        item.classList.add('open');
+        answer.classList.add('open');
+    }
+}
+
+// Character counter for textarea
+var textarea = document.getElementById('field-pesan');
+var charCount = document.getElementById('char-count');
+if (textarea) {
+    textarea.addEventListener('input', function() {
+        charCount.textContent = textarea.value.length;
+    });
+}
+
+// Form validation & submit
+function handleFormSubmit(e) {
+    e.preventDefault();
+
+    var fields = [
+        document.getElementById('field-nama'),
+        document.getElementById('field-perusahaan'),
+        document.getElementById('field-wa'),
+        document.getElementById('field-email'),
+    ];
+
+    // Clear previous errors
+    fields.forEach(function(f) { f.classList.remove('error'); });
+
+    // Validate
+    var hasError = false;
+    fields.forEach(function(f) {
+        if (!f.value.trim()) {
+            f.classList.add('error');
+            hasError = true;
+        }
+    });
+    if (hasError) {
+        showToast('Harap lengkapi semua field yang wajib diisi.', '⚠️');
+        return;
+    }
+
+    // Loading state
+    var btn = document.getElementById('btn-submit');
+    var btnText = document.getElementById('btn-text');
+    var btnLoading = document.getElementById('btn-loading');
+    var btnArrow = document.getElementById('btn-arrow');
+    btn.disabled = true;
+    btn.style.opacity = '0.75';
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline';
+    btnArrow.style.display = 'none';
+
+    // Simulate submit (replace with real endpoint if needed)
+    setTimeout(function() {
+        document.getElementById('leads-form').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+        showToast('Formulir terkirim! Kami akan segera menghubungi Anda.', '🎉');
+    }, 1500);
 }
 
 // Toast notification
-let toastTimer;
+var toastTimer;
 function showToast(msg, icon) {
-  clearTimeout(toastTimer);
-  document.getElementById('toast-text').textContent = msg;
-  document.getElementById('toast-icon').textContent = icon || '✓';
-  const t = document.getElementById('toast');
-  t.classList.add('show');
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    clearTimeout(toastTimer);
+    document.getElementById('toast-text').textContent = msg;
+    document.getElementById('toast-icon').textContent = icon || '✓';
+    var t = document.getElementById('toast');
+    t.classList.add('show');
+    toastTimer = setTimeout(function() { t.classList.remove('show'); }, 3500);
 }
 
 // Mobile menu
@@ -1000,20 +1235,12 @@ function openMobileMenu() { document.getElementById('mobile-menu').classList.add
 function closeMobileMenu() { document.getElementById('mobile-menu').classList.remove('open'); }
 
 // Smooth scroll for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const target = document.querySelector(a.getAttribute('href'));
-    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
-  });
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+        var target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+    });
 });
-
-// Form submit handler
-function handleFormSubmit(e) {
-  e.preventDefault();
-  document.getElementById('leads-form').style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
-  showToast('Formulir terkirim! Kami akan segera menghubungi Anda.', '🎉');
-}
 </script>
 
 </body>
