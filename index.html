@@ -966,21 +966,39 @@
     </section>
 
     <footer>
-        <div class="footer-logo">B<span>.</span>A<span>.</span>S</div>
-        <div class="footer-copy" id="footerCopy"></div>
-        <div class="footer-links">
-            <a href="https://github.com/bagasaria93/bagasaria93.github.io" target="_blank" rel="noopener" class="footer-source-link">
-                <i data-lucide="github" style="width:13px;height:13px;"></i>
-                <span data-i18n="footer_source">View Source</span>
-            </a>
-            <a href="#hero" class="footer-back">
-                <span data-i18n="footer_back">Back to Top</span>
-                <i data-lucide="arrow-up" style="width:13px;height:13px;"></i>
-            </a>
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="#hero" class="nav-logo">B<span>.</span>A<span>.</span>S</a>
+                <p class="footer-tagline" data-i18n="footer_tagline">Full-Stack Developer · Bekasi, Indonesia</p>
+            </div>
+            <div class="footer-divider-vertical"></div>
+            <div class="footer-nav">
+                <a href="#about" data-i18n="nav_about">About</a>
+                <a href="#skills" data-i18n="nav_skills">Skills</a>
+                <a href="#experience" data-i18n="nav_experience">Experience</a>
+                <a href="#projects" data-i18n="nav_projects">Projects</a>
+                <a href="#contact" data-i18n="nav_contact">Contact</a>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <div class="footer-copy" id="footerCopy"></div>
+            <div class="footer-links">
+                <a href="https://github.com/bagasaria93/bagasaria93.github.io" target="_blank" rel="noopener" class="footer-source-link">
+                    <i data-lucide="github" style="width:13px;height:13px;"></i>
+                    <span data-i18n="footer_source">View Source</span>
+                </a>
+                <a href="#hero" class="footer-back">
+                    <span data-i18n="footer_back">Back to Top</span>
+                    <i data-lucide="arrow-up" style="width:13px;height:13px;"></i>
+                </a>
+            </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>    <script src="assets/js/i18n.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="assets/js/i18n.js"></script>
+
     <script src="assets/js/main.js"></script>
     <script>
         document.getElementById('footerCopy').textContent = new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';

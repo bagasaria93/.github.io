@@ -1641,49 +1641,147 @@ box-shadow: 0 16px 40px rgba(201, 168, 76, 0.25);
 }
 
 footer {
-background: var(--black);
-border-top: 1px solid rgba(201, 168, 76, 0.07);
-padding: 40px 56px;
-display: flex;
-align-items: center;
-justify-content: space-between;
-flex-wrap: wrap;
-gap: 16px;
+    background: var(--black);
+    border-top: 1px solid rgba(201, 168, 76, 0.07);
+    padding: 56px 56px 36px;
+}
+
+.footer-top {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+    margin-bottom: 40px;
+}
+
+.footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.footer-tagline {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+}
+
+.footer-divider-vertical {
+    width: 1px;
+    height: 40px;
+    background: rgba(201, 168, 76, 0.15);
+    flex-shrink: 0;
+}
+
+.footer-nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.footer-nav a {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.footer-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+}
+
+.footer-nav a:hover {
+    color: var(--gold);
+}
+
+.footer-nav a:hover::after {
+    width: 100%;
+}
+
+.footer-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(201, 168, 76, 0.07);
+    margin-bottom: 28px;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .footer-logo {
-font-family: var(--font-display);
-font-size: 1.3rem;
-color: var(--white);
-letter-spacing: 0.06em;
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    color: var(--white);
+    letter-spacing: 0.06em;
 }
 
 .footer-logo span {
-color: var(--gold);
+    color: var(--gold);
 }
 
 .footer-copy {
-font-size: 0.72rem;
-color: var(--white-dim);
-letter-spacing: 0.06em;
+    font-size: 0.68rem;
+    color: var(--white-dim);
+    letter-spacing: 0.06em;
+}
+
+.footer-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.footer-source-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    text-decoration: none;
+    transition: color 0.25s ease;
+    cursor: none;
+}
+
+.footer-source-link:hover {
+    color: var(--gold);
 }
 
 .footer-back {
-display: inline-flex;
-align-items: center;
-gap: 8px;
-font-size: 0.68rem;
-font-weight: 700;
-letter-spacing: 0.14em;
-text-transform: uppercase;
-color: var(--gold);
-text-decoration: none;
-transition: gap 0.25s ease;
-cursor: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    transition: gap 0.25s ease;
+    cursor: none;
 }
 
 .footer-back:hover {
-gap: 12px;
+    gap: 12px;
 }
 
 #testimonials {
@@ -1894,7 +1992,36 @@ section { padding: 80px 20px; }
 .edu-grid { grid-template-columns: 1fr; gap: 2px; }
 .projects-grid { grid-template-columns: 1fr; }
 .contact-grid { grid-template-columns: 1fr; gap: 56px; }
-footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+    footer {
+        padding: 40px 20px 28px;
+    }
+
+    .footer-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+    }
+
+    .footer-divider-vertical {
+        display: none;
+    }
+
+    .footer-nav {
+        gap: 20px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
 .skill-category { grid-template-columns: 1fr; gap: 16px; padding: 24px 0; }
 .experience-bg-text { display: none; }
 .skills-header-row { flex-direction: column; align-items: flex-start; gap: 16px; margin-bottom: 48px; }
