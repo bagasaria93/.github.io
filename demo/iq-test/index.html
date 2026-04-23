@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CerdasKu - Tes IQ Online</title>
+    <meta name="description" content="Ukur tingkat kecerdasan kamu dengan tes IQ online. Hasil lengkap tersedia dalam hitungan menit.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.363.0/dist/umd/lucide.min.js"></script>
+    <style>
+        @keyframes fadeIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+        @keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+        @keyframes slideIn { from { opacity:0; transform:translateX(24px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes slideBack { from { opacity:0; transform:translateX(-24px); } to { opacity:1; transform:translateX(0); } }
+        @keyframes pulse-ring { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+        .fade-in { animation:fadeIn .35s ease forwards; }
+        .slide-in { animation:slideIn .28s ease forwards; }
+        .slide-back { animation:slideBack .28s ease forwards; }
+        .spin { animation:spin 1s linear infinite; }
+        .shimmer-box { background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; }
+        .blur-result { filter:blur(8px); user-select:none; pointer-events:none; }
+        .screen { display:none; }
+        .screen.active { display:block; }
+        .payment-tab { transition:all .15s; }
+        .payment-tab.active { background:#eff6ff; border-color:#2563eb; color:#1d4ed8; }
+        .option-btn { transition:all .15s ease; cursor:pointer; }
+        .option-btn:hover:not(.locked) { border-color:#93c5fd; background:#eff6ff; transform:translateX(3px); }
+        .option-btn.selected { background:#dbeafe; border-color:#2563eb; }
+        .option-btn.locked { cursor:default; pointer-events:none; }
+        .dot-answered { background:#2563eb; }
+        .dot-skipped { background:#94a3b8; }
+        .dot-current { background:#2563eb; box-shadow:0 0 0 3px #bfdbfe; }
+        .dot-empty { background:#e2e8f0; }
+        .timer-danger { color:#dc2626 !important; }
+        .timer-warning { color:#d97706 !important; }
+        .timer-bar-danger { background:#dc2626 !important; }
+        .timer-bar-warning { background:#d97706 !important; }
+        input:focus, select:focus { outline:none; border-color:#2563eb !important; box-shadow:0 0 0 3px #bfdbfe; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- LANDING -->
+    <div id="screen-landing" class="screen active">
+        <div class="min-h-screen flex flex-col">
+            <nav class="bg-white border-b border-gray-100 px-6 py-4">
+                <div class="max-w-4xl mx-auto flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white text-sm font-bold">IQ</span>
+                        </div>
+                        <span class="font-bold text-gray-900 text-lg">CerdasKu</span>
+                    </div>
+                    <span class="text-xs text-gray-400 bg-gray-100 px-3 py-1 rounded-full">Demo Portfolio</span>
+                </div>
+            </nav>
+            <main class="flex-1 flex items-center justify-center px-4 py-12">
+                <div class="max-w-2xl mx-auto text-center fade-in">
+                    <div class="inline-flex items-center gap-2 bg-blue-50 text-blue-700 text-xs font-semibold px-4 py-2 rounded-full mb-6">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full" style="animation:pulse-ring 2s infinite"></span>
+                        Tes IQ Online Terpercaya
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 leading-tight">
+                        Seberapa Cerdas <span class="text-blue-600">Kamu?</span>
+                    </h1>
+                    <p class="text-gray-500 text-lg mb-8 leading-relaxed">
+                        Ikuti tes IQ 10 soal dan temukan tingkat kecerdasan kamu. Selesaikan dalam 5 menit untuk hasil terbaik.
+                    </p>
+                    <div class="grid grid-cols-3 gap-4 mb-10 max-w-lg mx-auto">
+                        <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+                            <div class="text-2xl font-bold text-blue-600">12K+</div>
+                            <div class="text-xs text-gray-500 mt-1">Peserta</div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+                            <div class="text-2xl font-bold text-blue-600">10</div>
+                            <div class="text-xs text-gray-500 mt-1">Soal IQ</div>
+                        </div>
+                        <div class="bg-white rounded-2xl p-4 border border-gray-100 shadow-sm">
+                            <div class="text-2xl font-bold text-blue-600">5 Mnt</div>
+                            <div class="text-xs text-gray-500 mt-1">Total Waktu</div>
+                        </div>
+                    </div>
+                    <button onclick="showScreen('instructions')" class="inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg px-10 py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all hover:-translate-y-0.5 active:translate-y-0">
+                        Mulai Tes Gratis
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                    <p class="text-xs text-gray-400 mt-4">Gratis. Hasil lengkap tersedia setelah tes selesai.</p>
+                    <div class="flex flex-wrap justify-center gap-2 mt-8">
+                        <span class="flex items-center gap-1.5 text-xs text-gray-500 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-green-500"></i>
+                            Akurat & Tervalidasi
+                        </span>
+                        <span class="flex items-center gap-1.5 text-xs text-gray-500 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
+                            <i data-lucide="smartphone" class="w-3.5 h-3.5 text-blue-500"></i>
+                            Mobile Friendly
+                        </span>
+                        <span class="flex items-center gap-1.5 text-xs text-gray-500 bg-white border border-gray-100 px-3 py-1.5 rounded-full">
+                            <i data-lucide="lock" class="w-3.5 h-3.5 text-purple-500"></i>
+                            Data Terlindungi
+                        </span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- PETUNJUK -->
+    <div id="screen-instructions" class="screen">
+        <div class="min-h-screen flex flex-col">
+            <nav class="bg-white border-b border-gray-100 px-6 py-4">
+                <div class="max-w-xl mx-auto flex items-center gap-3">
+                    <button onclick="showScreen('landing')" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all min-w-[44px] min-h-[44px] flex items-center justify-center">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <span class="font-bold text-gray-900">Petunjuk Pengerjaan</span>
+                </div>
+            </nav>
+            <div class="flex-1 flex items-center justify-center px-4 py-10">
+                <div class="max-w-xl w-full fade-in">
+                    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-8">
+                        <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                            <i data-lucide="clipboard-list" class="w-8 h-8 text-blue-600"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 text-center mb-2">Sebelum Mulai</h2>
+                        <p class="text-gray-400 text-center text-sm mb-8">Baca petunjuk berikut dengan seksama</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 p-4 bg-blue-50 rounded-2xl">
+                                <div class="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center flex-shrink-0 text-white text-sm font-bold">1</div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 text-sm">10 Soal Pilihan Ganda</p>
+                                    <p class="text-gray-500 text-xs mt-0.5">Terdiri dari soal numerik, verbal, dan logika</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 bg-amber-50 rounded-2xl">
+                                <div class="w-8 h-8 bg-amber-500 rounded-xl flex items-center justify-center flex-shrink-0 text-white text-sm font-bold">2</div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 text-sm">Total Waktu 5 Menit</p>
+                                    <p class="text-gray-500 text-xs mt-0.5">Semua 10 soal harus diselesaikan dalam 5 menit. Soal yang belum terjawab saat waktu habis akan dilewati otomatis.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 bg-purple-50 rounded-2xl">
+                                <div class="w-8 h-8 bg-purple-600 rounded-xl flex items-center justify-center flex-shrink-0 text-white text-sm font-bold">3</div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 text-sm">Navigasi Bebas</p>
+                                    <p class="text-gray-500 text-xs mt-0.5">Kamu bisa kembali ke soal sebelumnya dan mengubah jawaban selama waktu masih tersedia</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-4 bg-green-50 rounded-2xl">
+                                <div class="w-8 h-8 bg-green-600 rounded-xl flex items-center justify-center flex-shrink-0 text-white text-sm font-bold">4</div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 text-sm">Pilih Jawaban = Lanjut Otomatis</p>
+                                    <p class="text-gray-500 text-xs mt-0.5">Setelah memilih jawaban, soal berikutnya muncul otomatis. Gunakan tombol Skip jika ingin melewati soal.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="startQuiz()" class="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all hover:shadow-lg flex items-center justify-center gap-2">
+                            Saya Siap, Mulai!
+                            <i data-lucide="zap" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="screen-quiz" class="screen">
+        <div class="min-h-screen flex flex-col bg-gray-50">
+            <div class="bg-white border-b border-gray-100 px-4 py-3 sticky top-0 z-10">
+                <div class="max-w-xl mx-auto">
+                    <div class="flex items-center justify-between mb-3">
+                        <button id="btn-back" onclick="prevQuestion()"
+                            class="flex items-center gap-1.5 text-xs font-semibold text-gray-500 hover:text-blue-600 bg-gray-100 hover:bg-blue-50 px-3 py-2.5 rounded-xl transition-all min-w-[44px] min-h-[44px] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-gray-100 disabled:hover:text-gray-500">
+                            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                            <span>Kembali</span>
+                        </button>
+                        <div class="flex flex-col items-center">
+                            <span class="text-sm font-semibold text-gray-600">
+                                Soal <span id="q-number">1</span> dari 10
+                            </span>
+                            <div id="global-timer" class="text-lg font-bold text-gray-800 tabular-nums leading-none mt-0.5">05:00</div>
+                        </div>
+                        <span id="q-category-badge" class="text-xs font-semibold px-3 py-2.5 rounded-xl bg-blue-100 text-blue-700 min-h-[44px] flex items-center">Numerik</span>
+                    </div>
+                    <div class="h-1.5 bg-gray-100 rounded-full overflow-hidden mb-2">
+                        <div id="timer-bar" class="h-full bg-blue-600 rounded-full transition-all duration-1000" style="width:100%"></div>
+                    </div>
+                    <div id="q-dots" class="flex gap-1.5 justify-center"></div>
+                </div>
+            </div>
+
+            <div class="flex-1 flex items-center justify-center px-4 py-6">
+                <div class="max-w-xl w-full">
+                    <div class="bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-4" id="q-card">
+                        <p id="q-text" class="text-lg font-semibold text-gray-800 text-center mb-6 leading-relaxed"></p>
+                        <div id="q-options" class="space-y-3"></div>
+                    </div>
+                    <button id="btn-skip" onclick="skipQuestion()"
+                        class="w-full border border-gray-200 text-gray-400 hover:text-gray-600 hover:border-gray-300 hover:bg-gray-50 text-sm font-semibold py-3 rounded-2xl transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="skip-forward" class="w-4 h-4"></i>
+                        Lewati Soal Ini
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KALKULASI -->
+    <div id="screen-calculating" class="screen">
+        <div class="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-blue-50 to-white">
+            <div class="max-w-md w-full text-center fade-in">
+                <div class="w-24 h-24 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg">
+                    <i data-lucide="brain" class="w-12 h-12 text-white spin"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-900 mb-3">Menganalisis Jawaban</h2>
+                <p class="text-gray-400 mb-8" id="calc-text">Memproses pola jawaban kamu...</p>
+                <div class="bg-white rounded-2xl border border-gray-100 p-4 mb-6">
+                    <div class="h-3 bg-gray-100 rounded-full overflow-hidden">
+                        <div id="calc-bar" class="h-full bg-blue-600 rounded-full transition-all duration-300" style="width:0%"></div>
+                    </div>
+                    <p id="calc-pct" class="text-sm text-gray-400 mt-2">0%</p>
+                </div>
+                <div class="grid grid-cols-3 gap-3 text-center">
+                    <div class="bg-white rounded-2xl p-3 border border-gray-100">
+                        <div class="shimmer-box h-6 rounded mb-1 w-12 mx-auto"></div>
+                        <p class="text-xs text-gray-500">Numerik</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-3 border border-gray-100">
+                        <div class="shimmer-box h-6 rounded mb-1 w-12 mx-auto"></div>
+                        <p class="text-xs text-gray-500">Verbal</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-3 border border-gray-100">
+                        <div class="shimmer-box h-6 rounded mb-1 w-12 mx-auto"></div>
+                        <p class="text-xs text-gray-500">Logika</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYWALL -->
+    <div id="screen-teaser" class="screen">
+        <div class="min-h-screen flex flex-col bg-gray-50">
+            <nav class="bg-white border-b border-gray-100 px-6 py-4">
+                <div class="max-w-xl mx-auto flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">IQ</span>
+                        </div>
+                        <span class="font-bold text-gray-900">CerdasKu</span>
+                    </div>
+                    <span id="teaser-correct-badge" class="text-xs font-semibold bg-blue-50 text-blue-600 px-3 py-1 rounded-full"></span>
+                </div>
+            </nav>
+            <div class="flex-1 px-4 py-8">
+                <div class="max-w-xl mx-auto fade-in">
+                    <div class="text-center mb-6">
+                        <div class="text-sm font-semibold text-green-600 bg-green-50 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full mb-4">
+                            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                            Tes selesai!
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Hasil Tes Kamu Sudah Siap</h2>
+                        <p class="text-gray-500 text-sm">Unlock untuk melihat skor IQ lengkap dan analisis mendalam</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 mb-6 relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center z-10">
+                            <div class="bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-4 text-center border border-white/20">
+                                <i data-lucide="lock" class="w-8 h-8 text-white mx-auto mb-2"></i>
+                                <p class="text-white font-bold text-sm">Hasil Terkunci</p>
+                                <p class="text-white/70 text-xs">Bayar untuk membuka</p>
+                            </div>
+                        </div>
+                        <div class="blur-result text-center select-none">
+                            <p class="text-white/60 text-sm mb-1">Skor IQ Kamu</p>
+                            <p class="text-7xl font-black text-white mb-2" id="teaser-iq-blur">—</p>
+                            <p class="text-blue-200 font-semibold text-lg" id="teaser-cat-blur">—</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-6">
+                        <p class="text-sm font-semibold text-gray-700 mb-4">Yang kamu dapatkan setelah unlock:</p>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-green-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="bar-chart-2" class="w-4 h-4 text-green-500"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Skor IQ Lengkap</p>
+                                    <p class="text-xs text-gray-500">Angka pasti dan kategori kecerdasan kamu</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-blue-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="pie-chart" class="w-4 h-4 text-blue-500"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Breakdown per Kategori</p>
+                                    <p class="text-xs text-gray-500">Numerik, Verbal, dan Logika secara terpisah</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-purple-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="users" class="w-4 h-4 text-purple-500"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Persentil Nasional</p>
+                                    <p class="text-xs text-gray-500">Posisi kamu dibanding 12.000 peserta lain</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 bg-amber-50 rounded-xl flex items-center justify-center flex-shrink-0">
+                                    <i data-lucide="file-text" class="w-4 h-4 text-amber-500"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-800">Analisis dan Rekomendasi</p>
+                                    <p class="text-xs text-gray-500">Tips pengembangan kecerdasan personal</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border-2 border-blue-500 p-5 mb-4">
+                        <div class="flex items-center justify-between mb-4">
+                            <div>
+                                <p class="text-xs text-gray-500">Harga Hasil Lengkap</p>
+                                <div class="flex items-baseline gap-2">
+                                    <p class="text-2xl font-black text-blue-600">Rp 15.000</p>
+                                    <p class="text-sm text-gray-400 line-through">Rp 35.000</p>
+                                    <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">-57%</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs text-gray-500">Berlaku</p>
+                                <p class="text-sm font-bold text-red-500">24 jam</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 mb-4">
+                            <div class="flex items-center gap-1 text-xs text-gray-500">
+                                <i data-lucide="credit-card" class="w-3 h-3"></i> Transfer
+                            </div>
+                            <div class="flex items-center gap-1 text-xs text-gray-500">
+                                <i data-lucide="smartphone" class="w-3 h-3"></i> E-Wallet
+                            </div>
+                            <div class="flex items-center gap-1 text-xs text-gray-500">
+                                <i data-lucide="qr-code" class="w-3 h-3"></i> QRIS
+                            </div>
+                        </div>
+                        <button onclick="showScreen('payment')" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 hover:shadow-lg">
+                            <i data-lucide="lock-open" class="w-4 h-4"></i>
+                            Buka Hasil Lengkap
+                        </button>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-3">
+                        <p class="text-xs text-amber-700 text-center font-medium">
+                            Demo portfolio — simulasi UI payment. Integrasi Midtrans/Tripay sungguhan membutuhkan backend Laravel.
+                        </p>
+                    </div>
+
+                    <p class="text-center text-xs text-gray-400">
+                        Tes ini bukan tes IQ klinis resmi. Hasil digunakan sebagai estimasi dan referensi pribadi.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAYMENT -->
+    <div id="screen-payment" class="screen">
+        <div class="min-h-screen flex flex-col bg-gray-50">
+            <nav class="bg-white border-b border-gray-100 px-6 py-4">
+                <div class="max-w-xl mx-auto flex items-center gap-3">
+                    <button onclick="showScreen('teaser')" class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition-all min-w-[44px] min-h-[44px] flex items-center justify-center">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </button>
+                    <span class="font-bold text-gray-900">Pilih Pembayaran</span>
+                    <div class="ml-auto flex items-center gap-1.5 text-xs text-green-600 font-medium">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                        SSL Aman
+                    </div>
+                </div>
+            </nav>
+            <div class="flex-1 px-4 py-6">
+                <div class="max-w-xl mx-auto fade-in">
+                    <div class="bg-white rounded-2xl border border-gray-100 p-4 mb-4">
+                        <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-3">Ringkasan Pesanan</p>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                                    <i data-lucide="brain" class="w-5 h-5 text-blue-600"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-800">Hasil Tes IQ Lengkap</p>
+                                    <p class="text-xs text-gray-500">CerdasKu · Akses Permanen</p>
+                                </div>
+                            </div>
+                            <p class="font-bold text-gray-900">Rp 15.000</p>
+                        </div>
+                        <div class="border-t border-gray-100 mt-3 pt-3 flex justify-between">
+                            <span class="text-sm text-gray-500">Total</span>
+                            <span class="text-sm font-bold text-blue-600">Rp 15.000</span>
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-gray-500 font-semibold uppercase tracking-wide mb-3 px-1">Metode Pembayaran</p>
+                    <div class="grid grid-cols-3 gap-2 mb-4">
+                        <button onclick="selectPayment('transfer')" id="tab-transfer" class="payment-tab active border border-blue-500 rounded-xl p-3 text-center text-xs font-semibold min-h-[60px] flex flex-col items-center justify-center gap-1">
+                            <i data-lucide="building-2" class="w-5 h-5"></i>
+                            Transfer
+                        </button>
+                        <button onclick="selectPayment('ewallet')" id="tab-ewallet" class="payment-tab border border-gray-100 bg-white rounded-xl p-3 text-center text-xs font-semibold text-gray-500 min-h-[60px] flex flex-col items-center justify-center gap-1">
+                            <i data-lucide="smartphone" class="w-5 h-5"></i>
+                            E-Wallet
+                        </button>
+                        <button onclick="selectPayment('qris')" id="tab-qris" class="payment-tab border border-gray-100 bg-white rounded-xl p-3 text-center text-xs font-semibold text-gray-500 min-h-[60px] flex flex-col items-center justify-center gap-1">
+                            <i data-lucide="qr-code" class="w-5 h-5"></i>
+                            QRIS
+                        </button>
+                    </div>
+
+                    <div id="form-transfer" class="bg-white rounded-2xl border border-gray-100 p-5 mb-4">
+                        <p class="text-sm font-semibold text-gray-700 mb-4">Transfer Bank</p>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs text-gray-500 mb-1.5 block font-medium">Pilih Bank</label>
+                                <select class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700">
+                                    <option>BCA Virtual Account</option>
+                                    <option>BNI Virtual Account</option>
+                                    <option>BRI Virtual Account</option>
+                                    <option>Mandiri Bill Payment</option>
+                                </select>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <p class="text-xs text-gray-500 mb-1">Nomor Virtual Account</p>
+                                <div class="flex items-center justify-between gap-3">
+                                    <p class="text-lg font-bold text-gray-800 tracking-wider font-mono">1234567890123</p>
+                                    <button onclick="copyVA(event)" id="btn-copy-va" class="text-xs text-blue-600 font-semibold bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition flex-shrink-0">Salin</button>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">Transfer tepat Rp 15.000. Pembayaran diverifikasi otomatis 1-3 menit.</p>
+                        </div>
+                    </div>
+
+                    <div id="form-ewallet" class="bg-white rounded-2xl border border-gray-100 p-5 mb-4 hidden">
+                        <p class="text-sm font-semibold text-gray-700 mb-4">E-Wallet</p>
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <button id="ew-gopay" onclick="selectEwallet('gopay')" class="border-2 border-green-500 bg-green-50 rounded-xl p-3 text-center transition">
+                                <p class="text-sm font-bold text-green-700">GoPay</p>
+                                <p class="text-xs text-green-600">Gojek</p>
+                            </button>
+                            <button id="ew-ovo" onclick="selectEwallet('ovo')" class="border border-gray-200 bg-white rounded-xl p-3 text-center transition hover:border-purple-300">
+                                <p class="text-sm font-bold text-gray-700">OVO</p>
+                                <p class="text-xs text-gray-500">Tokopedia</p>
+                            </button>
+                            <button id="ew-dana" onclick="selectEwallet('dana')" class="border border-gray-200 bg-white rounded-xl p-3 text-center transition hover:border-blue-300">
+                                <p class="text-sm font-bold text-gray-700">Dana</p>
+                                <p class="text-xs text-gray-500">Dana Indonesia</p>
+                            </button>
+                            <button id="ew-shopee" onclick="selectEwallet('shopee')" class="border border-gray-200 bg-white rounded-xl p-3 text-center transition hover:border-orange-300">
+                                <p class="text-sm font-bold text-gray-700">ShopeePay</p>
+                                <p class="text-xs text-gray-500">Shopee</p>
+                            </button>
+                        </div>
+                        <div>
+                            <label class="text-xs text-gray-500 mb-1.5 block font-medium">Nomor HP terdaftar</label>
+                            <input type="tel" id="input-phone" placeholder="08xxxxxxxxxx"
+                                class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-700">
+                            <p id="phone-error" class="text-xs text-red-500 mt-1.5 hidden">Masukkan nomor HP yang valid (10-13 digit).</p>
+                        </div>
+                    </div>
+
+                    <div id="form-qris" class="bg-white rounded-2xl border border-gray-100 p-5 mb-4 hidden">
+                        <p class="text-sm font-semibold text-gray-700 mb-4">QRIS</p>
+                        <div class="flex flex-col items-center">
+                            <div class="w-44 h-44 bg-white border-2 border-gray-200 rounded-xl p-3 mb-3" id="qr-container">
+                                <div class="w-full h-full grid gap-0.5" id="qr-grid" style="grid-template-columns:repeat(10,1fr)"></div>
+                            </div>
+                            <p class="text-xs text-gray-500 mb-1">Scan dengan aplikasi apapun</p>
+                            <p class="text-sm font-bold text-gray-700">Rp 15.000</p>
+                            <div class="flex gap-2 mt-2 text-xs text-gray-500">
+                                <span>GoPay</span><span>·</span><span>OVO</span><span>·</span><span>Dana</span><span>·</span><span>LinkAja</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="processPayment()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 hover:shadow-lg">
+                        <i data-lucide="check-circle" class="w-5 h-5"></i>
+                        Konfirmasi Pembayaran
+                    </button>
+                    <p class="text-center text-xs text-gray-500 mt-3 flex items-center justify-center gap-1.5">
+                        <i data-lucide="lock" class="w-3 h-3"></i>
+                        Transaksi dienkripsi dengan SSL 256-bit
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROCESSING -->
+    <div id="screen-processing" class="screen">
+        <div class="min-h-screen flex items-center justify-center px-4 bg-gradient-to-b from-blue-50 to-white">
+            <div class="text-center fade-in">
+                <div class="w-20 h-20 border-4 border-blue-100 border-t-blue-600 rounded-full spin mx-auto mb-6"></div>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Memverifikasi Pembayaran</h3>
+                <p class="text-gray-500 text-sm" id="proc-text">Menghubungi server pembayaran...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- HASIL -->
+    <div id="screen-result" class="screen">
+        <div class="min-h-screen flex flex-col bg-gray-50">
+            <nav class="bg-white border-b border-gray-100 px-6 py-4">
+                <div class="max-w-xl mx-auto flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <div class="w-7 h-7 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white text-xs font-bold">IQ</span>
+                        </div>
+                        <span class="font-bold text-gray-900">CerdasKu</span>
+                    </div>
+                    <button onclick="shareResult()" class="flex items-center gap-1.5 text-sm text-blue-600 font-semibold bg-blue-50 px-3 py-2 rounded-lg hover:bg-blue-100 transition">
+                        <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Bagikan
+                    </button>
+                </div>
+            </nav>
+            <div class="flex-1 px-4 py-8">
+                <div class="max-w-xl mx-auto fade-in">
+                    <div class="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 mb-6 text-center relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-8 translate-x-8"></div>
+                        <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-6 -translate-x-6"></div>
+                        <div class="relative z-10">
+                            <p class="text-blue-200 text-sm mb-2">Skor IQ Kamu</p>
+                            <p class="text-8xl font-black text-white mb-3 tabular-nums" id="result-iq">0</p>
+                            <div id="result-category-badge" class="inline-block bg-white/20 text-white font-bold text-sm px-5 py-2 rounded-full mb-4"></div>
+                            <p class="text-blue-200 text-sm" id="result-percentile"></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-4">
+                        <p class="text-sm font-bold text-gray-700 mb-4">Skala Kecerdasan IQ</p>
+                        <div class="space-y-1" id="iq-scale"></div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-4">
+                        <p class="text-sm font-bold text-gray-700 mb-4">Skor per Kategori</p>
+                        <div class="space-y-4" id="result-breakdown"></div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl border border-gray-100 p-5 mb-4">
+                        <p class="text-sm font-bold text-gray-700 mb-4">Rangkuman Jawaban</p>
+                        <div id="result-answers" class="grid grid-cols-5 gap-2"></div>
+                    </div>
+
+                    <div class="bg-gray-50 border border-gray-100 rounded-xl p-4 mb-6">
+                        <p class="text-xs text-gray-500 text-center leading-relaxed">
+                            Hasil ini merupakan estimasi berbasis pola jawaban dan bukan pengganti tes IQ klinis resmi yang dilakukan oleh psikolog profesional.
+                        </p>
+                    </div>
+
+                    <button onclick="resetQuiz()" class="w-full border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        Ikut Tes Lagi
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    var questions = [
+        {
+            text: "Angka berikutnya dalam deret: 2, 4, 8, 16, 32, ___",
+            options: ["48", "54", "64", "72"],
+            correct: 2,
+            category: "Numerik",
+            explain: "Setiap angka dikali 2. 32 × 2 = 64."
+        },
+        {
+            text: "Manakah yang TIDAK termasuk kelompok yang sama dengan yang lain?",
+            options: ["Apel", "Mangga", "Wortel", "Jeruk"],
+            correct: 2,
+            category: "Verbal",
+            explain: "Apel, mangga, dan jeruk adalah buah. Wortel adalah sayuran."
+        },
+        {
+            text: "Guru : Sekolah = Dokter : ___",
+            options: ["Obat", "Pasien", "Rumah Sakit", "Stetoskop"],
+            correct: 2,
+            category: "Verbal",
+            explain: "Guru bekerja di Sekolah. Dokter bekerja di Rumah Sakit. Keduanya adalah tempat kerja."
+        },
+        {
+            text: "Angka berikutnya dalam deret: 1, 4, 9, 16, 25, ___",
+            options: ["30", "36", "49", "32"],
+            correct: 1,
+            category: "Numerik",
+            explain: "Deret bilangan kuadrat: 1²=1, 2²=4, 3²=9, 4²=16, 5²=25, 6²=36."
+        },
+        {
+            text: "Jika semua A adalah B, dan semua B adalah C, maka pernyataan yang PASTI benar adalah:",
+            options: ["Semua A adalah C", "Semua C adalah A", "Beberapa A bukan C", "Semua C adalah B"],
+            correct: 0,
+            category: "Logika",
+            explain: "Silogisme: A ⊆ B dan B ⊆ C, maka A ⊆ C. Semua A pasti merupakan C."
+        },
+        {
+            text: "Angka berikutnya dalam deret: 3, 5, 8, 13, 21, ___",
+            options: ["29", "34", "31", "30"],
+            correct: 1,
+            category: "Numerik",
+            explain: "Deret Fibonacci: setiap angka adalah jumlah dua angka sebelumnya. 13 + 21 = 34."
+        },
+        {
+            text: "Kata yang BERLAWANAN makna dengan kata SEMENTARA adalah:",
+            options: ["Sesaat", "Abadi", "Singkat", "Sebentar"],
+            correct: 1,
+            category: "Verbal",
+            explain: "Sementara berarti tidak permanen atau hanya untuk waktu terbatas. Antonimnya adalah Abadi (kekal, selamanya)."
+        },
+        {
+            text: "Sebuah persegi panjang memiliki panjang 12 cm dan lebar 8 cm. Jika panjangnya dikurangi 25%, berapa luas persegi panjang yang baru?",
+            options: ["72 cm²", "80 cm²", "96 cm²", "64 cm²"],
+            correct: 0,
+            category: "Numerik",
+            explain: "Panjang baru = 12 − (25% × 12) = 12 − 3 = 9 cm. Luas = 9 × 8 = 72 cm²."
+        },
+        {
+            text: "5 orang berada dalam satu ruangan. Setiap orang berjabat tangan dengan setiap orang lainnya tepat satu kali. Berapa total jabat tangan yang terjadi?",
+            options: ["10", "15", "20", "25"],
+            correct: 0,
+            category: "Logika",
+            explain: "Kombinasi C(5,2) = 5! / (2! × 3!) = 10. Atau: 4+3+2+1 = 10 jabat tangan."
+        },
+        {
+            text: "Jika hari ini adalah hari Rabu, hari apakah yang jatuh tepat 100 hari dari sekarang?",
+            options: ["Jumat", "Sabtu", "Kamis", "Minggu"],
+            correct: 0,
+            category: "Logika",
+            explain: "100 ÷ 7 = 14 sisa 2. Rabu + 2 hari = Jumat. (Rabu=0, Kamis=1, Jumat=2)"
+        }
+    ];
+
+    var iqMap       = [70, 74, 78, 84, 90, 98, 105, 112, 120, 128, 138];
+    var percentileMap = [15, 22, 30, 42, 55, 62,  72,  80,  88,  94,  97];
+    var TOTAL_TIME  = 300;
+
+    var state = {
+        currentQ:    0,
+        answers:     new Array(10).fill(null),
+        timeLeft:    TOTAL_TIME,
+        globalTimer: null,
+        isMoving:    false,
+        activePayment: 'transfer',
+        activeEwallet: 'gopay',
+        resultIQ:    0,
+        qrGenerated: false
+    };
+
+    function showScreen(name) {
+        document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+        document.getElementById('screen-' + name).classList.add('active');
+        lucide.createIcons();
+        window.scrollTo(0, 0);
+    }
+
+    function startQuiz() {
+        state.currentQ  = 0;
+        state.answers   = new Array(10).fill(null);
+        state.timeLeft  = TOTAL_TIME;
+        state.isMoving  = false;
+        state.resultIQ  = 0;
+        state.qrGenerated = false;
+        showScreen('quiz');
+        renderQuestion(0, 'forward');
+        startGlobalTimer();
+    }
+
+    function startGlobalTimer() {
+        if (state.globalTimer) clearInterval(state.globalTimer);
+        state.globalTimer = setInterval(function() {
+            state.timeLeft--;
+            updateGlobalTimerUI();
+            if (state.timeLeft <= 0) {
+                clearInterval(state.globalTimer);
+                finishQuiz();
+            }
+        }, 1000);
+        updateGlobalTimerUI();
+    }
+
+    function updateGlobalTimerUI() {
+        var t   = Math.max(0, state.timeLeft);
+        var m   = Math.floor(t / 60);
+        var s   = t % 60;
+        var str = (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+        var el  = document.getElementById('global-timer');
+        var bar = document.getElementById('timer-bar');
+        if (!el || !bar) return;
+
+        el.textContent = str;
+        bar.style.width = (t / TOTAL_TIME * 100) + '%';
+
+        el.className = 'text-lg font-bold tabular-nums leading-none mt-0.5';
+        bar.className = 'h-full rounded-full transition-all duration-1000';
+
+        if (t <= 30) {
+            el.classList.add('timer-danger');
+            bar.classList.add('timer-bar-danger');
+        } else if (t <= 60) {
+            el.classList.add('timer-warning');
+            bar.classList.add('timer-bar-warning');
+        } else {
+            el.style.color = '';
+            bar.style.background = '#2563eb';
+        }
+    }
+
+    function renderDots(currentIdx) {
+        var container = document.getElementById('q-dots');
+        if (!container) return;
+        container.innerHTML = '';
+        for (var i = 0; i < 10; i++) {
+            var dot = document.createElement('div');
+            dot.style.cssText = 'width:20px;height:6px;border-radius:3px;transition:all .2s;';
+            if (i === currentIdx) {
+                dot.style.background = '#2563eb';
+                dot.style.width = '28px';
+                dot.style.boxShadow = '0 0 0 2px #bfdbfe';
+            } else if (state.answers[i] !== null) {
+                dot.style.background = '#2563eb';
+                dot.style.opacity = '0.4';
+            } else {
+                dot.style.background = '#e2e8f0';
+            }
+            container.appendChild(dot);
+        }
+    }
+
+    function renderQuestion(idx, dir) {
+        state.isMoving = false;
+        var card = document.getElementById('q-card');
+        card.className = 'bg-white rounded-3xl border border-gray-100 shadow-sm p-6 mb-4 ' +
+            (dir === 'back' ? 'slide-back' : 'slide-in');
+
+        document.getElementById('q-number').textContent = idx + 1;
+
+        var backBtn = document.getElementById('btn-back');
+        backBtn.disabled = (idx === 0);
+
+        var catColors = {
+            'Numerik': 'bg-blue-100 text-blue-700',
+            'Verbal':  'bg-purple-100 text-purple-700',
+            'Logika':  'bg-amber-100 text-amber-700'
+        };
+        var badge = document.getElementById('q-category-badge');
+        badge.textContent = questions[idx].category;
+        badge.className = 'text-xs font-semibold px-3 py-2.5 rounded-xl min-h-[44px] flex items-center ' +
+            (catColors[questions[idx].category] || 'bg-gray-100 text-gray-600');
+
+        document.getElementById('q-text').textContent = questions[idx].text;
+
+        var labels   = ['A', 'B', 'C', 'D'];
+        var container = document.getElementById('q-options');
+        container.innerHTML = '';
+
+        questions[idx].options.forEach(function(opt, i) {
+            var btn = document.createElement('button');
+            var isSelected = (state.answers[idx] === i);
+            btn.className = 'option-btn w-full flex items-center gap-4 p-4 border-2 rounded-2xl text-left bg-white ' +
+                (isSelected ? 'selected border-blue-400' : 'border-gray-100');
+            btn.innerHTML =
+                '<span class="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold flex-shrink-0 ' +
+                (isSelected ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600') + '">' +
+                labels[i] + '</span>' +
+                '<span class="text-sm text-gray-700 font-medium">' + opt + '</span>';
+            btn.onclick = function() { selectAnswer(i); };
+            container.appendChild(btn);
+        });
+
+        renderDots(idx);
+    }
+
+    function selectAnswer(i) {
+        if (state.isMoving) return;
+        state.isMoving = true;
+        state.answers[state.currentQ] = i;
+
+        var labels  = ['A', 'B', 'C', 'D'];
+        var buttons = document.querySelectorAll('.option-btn');
+        buttons.forEach(function(btn, idx) {
+            btn.onclick = null;
+            btn.classList.add('locked');
+            if (idx === i) {
+                btn.classList.add('selected');
+                btn.classList.remove('border-gray-100');
+                btn.classList.add('border-blue-400');
+                var label = btn.querySelector('span');
+                if (label) {
+                    label.className = 'w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold flex-shrink-0 bg-blue-600 text-white';
+                }
+            }
+        });
+
+        renderDots(state.currentQ);
+
+        setTimeout(function() {
+            if (state.currentQ >= questions.length - 1) {
+                clearInterval(state.globalTimer);
+                finishQuiz();
+            } else {
+                state.currentQ++;
+                renderQuestion(state.currentQ, 'forward');
+            }
+        }, 600);
+    }
+
+    function skipQuestion() {
+        if (state.isMoving) return;
+        state.answers[state.currentQ] = null;
+        if (state.currentQ >= questions.length - 1) {
+            clearInterval(state.globalTimer);
+            finishQuiz();
+        } else {
+            state.isMoving = true;
+            state.currentQ++;
+            renderQuestion(state.currentQ, 'forward');
+        }
+    }
+
+    function prevQuestion() {
+        if (state.currentQ === 0) return;
+        state.isMoving = false;
+        state.currentQ--;
+        renderQuestion(state.currentQ, 'back');
+    }
+
+    function finishQuiz() {
+        clearInterval(state.globalTimer);
+        showScreen('calculating');
+
+        var calcTexts = [
+            'Memproses pola jawaban kamu...',
+            'Menganalisis kemampuan numerik...',
+            'Mengevaluasi logika berpikir...',
+            'Menghitung skor akhir...'
+        ];
+
+        var pct     = 0;
+        var textIdx = 0;
+        var bar     = document.getElementById('calc-bar');
+        var pctEl   = document.getElementById('calc-pct');
+        var textEl  = document.getElementById('calc-text');
+
+        var interval = setInterval(function() {
+            pct += Math.random() * 7 + 3;
+            if (pct > 100) pct = 100;
+            bar.style.width = Math.round(pct) + '%';
+            pctEl.textContent = Math.round(pct) + '%';
+            if (pct > 25 && textIdx === 0) { textIdx = 1; textEl.textContent = calcTexts[1]; }
+            if (pct > 55 && textIdx === 1) { textIdx = 2; textEl.textContent = calcTexts[2]; }
+            if (pct > 80 && textIdx === 2) { textIdx = 3; textEl.textContent = calcTexts[3]; }
+            if (pct >= 100) {
+                clearInterval(interval);
+                setTimeout(showTeaser, 600);
+            }
+        }, 150);
+    }
+
+    function calcScore() {
+        var correct = 0;
+        state.answers.forEach(function(a, i) {
+            if (a !== null && a === questions[i].correct) correct++;
+        });
+        return correct;
+    }
+
+    function showTeaser() {
+        var correct = calcScore();
+        var iq      = iqMap[correct] + Math.floor(Math.random() * 4);
+        state.resultIQ = iq;
+
+        document.getElementById('teaser-correct-badge').textContent = correct + ' dari 10 benar';
+        document.getElementById('teaser-iq-blur').textContent  = iq;
+        document.getElementById('teaser-cat-blur').textContent = getCategoryLabel(iq);
+        showScreen('teaser');
+    }
+
+    function selectPayment(type) {
+        state.activePayment = type;
+        ['transfer', 'ewallet', 'qris'].forEach(function(t) {
+            var tab  = document.getElementById('tab-' + t);
+            var form = document.getElementById('form-' + t);
+            tab.className = 'payment-tab border border-gray-100 bg-white rounded-xl p-3 text-center text-xs font-semibold text-gray-500 min-h-[60px] flex flex-col items-center justify-center gap-1';
+            if (form) form.classList.add('hidden');
+        });
+        document.getElementById('tab-' + type).className =
+            'payment-tab active border border-blue-500 rounded-xl p-3 text-center text-xs font-semibold min-h-[60px] flex flex-col items-center justify-center gap-1';
+        document.getElementById('form-' + type).classList.remove('hidden');
+
+        if (type === 'qris' && !state.qrGenerated) {
+            generateQR();
+            state.qrGenerated = true;
+        }
+        lucide.createIcons();
+    }
+
+    function selectEwallet(name) {
+        state.activeEwallet = name;
+        var styles = {
+            gopay:  { border: 'border-2 border-green-500 bg-green-50',    p1: 'text-sm font-bold text-green-700', p2: 'text-xs text-green-600' },
+            ovo:    { border: 'border-2 border-purple-400 bg-purple-50',  p1: 'text-sm font-bold text-purple-700', p2: 'text-xs text-purple-500' },
+            dana:   { border: 'border-2 border-blue-400 bg-blue-50',      p1: 'text-sm font-bold text-blue-700', p2: 'text-xs text-blue-500' },
+            shopee: { border: 'border-2 border-orange-400 bg-orange-50',  p1: 'text-sm font-bold text-orange-700', p2: 'text-xs text-orange-500' }
+        };
+        var labels = {
+            gopay: ['GoPay', 'Gojek'], ovo: ['OVO', 'Tokopedia'],
+            dana: ['Dana', 'Dana Indonesia'], shopee: ['ShopeePay', 'Shopee']
+        };
+        ['gopay', 'ovo', 'dana', 'shopee'].forEach(function(e) {
+            var btn = document.getElementById('ew-' + e);
+            if (!btn) return;
+            var ps = btn.querySelectorAll('p');
+            if (e === name) {
+                btn.className = styles[e].border + ' rounded-xl p-3 text-center transition';
+                if (ps[0]) ps[0].className = styles[e].p1;
+                if (ps[1]) ps[1].className = styles[e].p2;
+            } else {
+                btn.className = 'border border-gray-200 bg-white rounded-xl p-3 text-center transition hover:border-gray-300';
+                if (ps[0]) ps[0].className = 'text-sm font-bold text-gray-700';
+                if (ps[1]) ps[1].className = 'text-xs text-gray-500';
+            }
+        });
+    }
+
+    function copyVA(e) {
+        var btn = e.currentTarget;
+        navigator.clipboard.writeText('1234567890123').then(function() {
+            var orig = btn.textContent;
+            btn.textContent = 'Tersalin!';
+            btn.className   = 'text-xs text-green-600 font-semibold bg-green-50 px-3 py-1.5 rounded-lg flex-shrink-0';
+            setTimeout(function() {
+                btn.textContent = orig;
+                btn.className   = 'text-xs text-blue-600 font-semibold bg-blue-50 px-3 py-1.5 rounded-lg hover:bg-blue-100 transition flex-shrink-0';
+            }, 2000);
+        }).catch(function() {
+            btn.textContent = 'Gagal';
+            setTimeout(function() { btn.textContent = 'Salin'; }, 1500);
+        });
+    }
+
+    function validatePhone() {
+        var input = document.getElementById('input-phone');
+        var error = document.getElementById('phone-error');
+        if (!input || !error) return true;
+        var val = input.value.replace(/\D/g, '');
+        if (val.length < 10 || val.length > 13) {
+            error.classList.remove('hidden');
+            input.classList.add('border-red-400');
+            return false;
+        }
+        error.classList.add('hidden');
+        input.classList.remove('border-red-400');
+        return true;
+    }
+
+    function processPayment() {
+        if (state.activePayment === 'ewallet') {
+            if (!validatePhone()) return;
+        }
+        showScreen('processing');
+        var texts    = ['Menghubungi server pembayaran...', 'Memverifikasi transaksi...', 'Pembayaran dikonfirmasi!'];
+        var idx      = 0;
+        var el       = document.getElementById('proc-text');
+        var interval = setInterval(function() {
+            idx++;
+            if (idx < texts.length) {
+                el.textContent = texts[idx];
+            } else {
+                clearInterval(interval);
+                setTimeout(showResult, 500);
+            }
+        }, 900);
+    }
+
+    function showResult() {
+        var correct = calcScore();
+        var baseIQ  = state.resultIQ || (iqMap[correct] + Math.floor(Math.random() * 4));
+        var percentile = percentileMap[correct];
+
+        var categories = {
+            'Numerik': { correct: 0, total: 4 },
+            'Verbal':  { correct: 0, total: 3 },
+            'Logika':  { correct: 0, total: 3 }
+        };
+
+        state.answers.forEach(function(a, i) {
+            if (a !== null && a === questions[i].correct) {
+                categories[questions[i].category].correct++;
+            }
+        });
+
+        showScreen('result');
+
+        var iqEl  = document.getElementById('result-iq');
+        var count = 0;
+        var ci    = setInterval(function() {
+            count += Math.ceil(baseIQ / 40);
+            if (count >= baseIQ) { count = baseIQ; clearInterval(ci); }
+            iqEl.textContent = count;
+        }, 30);
+
+        document.getElementById('result-category-badge').textContent = getCategoryLabel(baseIQ);
+        document.getElementById('result-percentile').textContent =
+            'Lebih tinggi dari ' + percentile + '% peserta lainnya';
+
+        var scales = [
+            { label: 'Sangat Unggul',      range: '130+',    min: 130, max: 999 },
+            { label: 'Unggul',             range: '120-129', min: 120, max: 129 },
+            { label: 'Di Atas Rata-rata',  range: '110-119', min: 110, max: 119 },
+            { label: 'Rata-rata',          range: '90-109',  min: 90,  max: 109 },
+            { label: 'Di Bawah Rata-rata', range: '80-89',   min: 80,  max: 89  },
+            { label: 'Borderline',         range: '70-79',   min: 70,  max: 79  }
+        ];
+
+        document.getElementById('iq-scale').innerHTML = scales.map(function(s) {
+            var a = baseIQ >= s.min && baseIQ <= s.max;
+            return '<div class="flex items-center justify-between py-2 px-2 rounded-xl ' + (a ? 'bg-blue-50' : '') + '">' +
+                '<div class="flex items-center gap-2">' +
+                '<div class="w-2 h-2 rounded-full ' + (a ? 'bg-blue-600' : 'bg-gray-200') + '"></div>' +
+                '<span class="text-sm ' + (a ? 'font-bold text-blue-700' : 'text-gray-500') + '">' + s.label + '</span></div>' +
+                '<span class="text-xs ' + (a ? 'font-bold text-blue-600' : 'text-gray-500') + '">' + s.range + '</span></div>';
+        }).join('');
+
+        var catColors = { 'Numerik': 'bg-blue-500', 'Verbal': 'bg-purple-500', 'Logika': 'bg-amber-500' };
+        document.getElementById('result-breakdown').innerHTML =
+            Object.entries(categories).map(function(entry) {
+                var name = entry[0];
+                var data = entry[1];
+                var pct  = Math.round(data.correct / data.total * 100);
+                return '<div><div class="flex justify-between mb-1.5">' +
+                    '<span class="text-sm font-medium text-gray-700">' + name + '</span>' +
+                    '<span class="text-sm font-bold text-gray-800">' + data.correct + '/' + data.total +
+                    ' <span class="text-gray-500 font-normal">(' + pct + '%)</span></span></div>' +
+                    '<div class="h-3 bg-gray-100 rounded-full overflow-hidden">' +
+                    '<div class="h-full rounded-full ' + catColors[name] +
+                    ' transition-all duration-700" style="width:' + pct + '%"></div></div></div>';
+            }).join('');
+
+        document.getElementById('result-answers').innerHTML = questions.map(function(q, i) {
+            var a        = state.answers[i];
+            var isSkip   = (a === null);
+            var isRight  = !isSkip && a === q.correct;
+            return '<div class="flex flex-col items-center gap-1">' +
+                '<div title="' + q.explain + '" class="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold cursor-help ' +
+                (isSkip ? 'bg-gray-100 text-gray-400' : isRight ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600') + '">' +
+                (i + 1) + '</div>' +
+                '<span class="text-xs ' + (isSkip ? 'text-gray-400' : isRight ? 'text-green-500' : 'text-red-400') + '">' +
+                (isSkip ? 'skip' : isRight ? 'benar' : 'salah') + '</span></div>';
+        }).join('');
+
+        lucide.createIcons();
+    }
+
+    function getCategoryLabel(iq) {
+        if (iq >= 130) return 'Sangat Unggul';
+        if (iq >= 120) return 'Unggul';
+        if (iq >= 110) return 'Di Atas Rata-rata';
+        if (iq >= 90)  return 'Rata-rata';
+        if (iq >= 80)  return 'Di Bawah Rata-rata';
+        return 'Borderline';
+    }
+
+    function generateQR() {
+        var grid = document.getElementById('qr-grid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        var seed = 42;
+        function rand() {
+            seed = (seed * 1664525 + 1013904223) & 0xffffffff;
+            return (seed >>> 0) / 0xffffffff;
+        }
+        for (var i = 0; i < 100; i++) {
+            var cell = document.createElement('div');
+            var row  = Math.floor(i / 10);
+            var col  = i % 10;
+            var isFinder = (row < 3 && col < 3) || (row < 3 && col > 6) || (row > 6 && col < 3);
+            cell.style.cssText = 'border-radius:1px;background:' +
+                (isFinder ? '#1e293b' : (rand() > 0.45 ? '#1e293b' : 'transparent'));
+            grid.appendChild(cell);
+        }
+    }
+
+    function shareResult() {
+        if (navigator.share) {
+            navigator.share({
+                title: 'Hasil Tes IQ CerdasKu',
+                text: 'Skor IQ saya ' + state.resultIQ + ' (' + getCategoryLabel(state.resultIQ) + '). Cek skor kamu juga!',
+                url: window.location.href
+            });
+        } else {
+            var dummy = document.createElement('input');
+            document.body.appendChild(dummy);
+            dummy.value = window.location.href;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+            alert('Link berhasil disalin!');
+        }
+    }
+
+    function resetQuiz() {
+        clearInterval(state.globalTimer);
+        state = {
+            currentQ: 0, answers: new Array(10).fill(null),
+            timeLeft: TOTAL_TIME, globalTimer: null,
+            isMoving: false, activePayment: 'transfer',
+            activeEwallet: 'gopay', resultIQ: 0, qrGenerated: false
+        };
+        showScreen('landing');
+    }
+
+    lucide.createIcons();
+</script>
+</body>
+</html>

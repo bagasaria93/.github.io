@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlazeNotif - Platform Notifikasi WhatsApp & Email</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --primary: #7c3aed;
+    --primary-light: #8b5cf6;
+    --primary-dark: #6d28d9;
+    --primary-bg: rgba(124,58,237,0.08);
+    --wa-color: #25d366;
+    --wa-bg: rgba(37,211,102,0.1);
+    --email-color: #2563eb;
+    --email-bg: rgba(37,99,235,0.1);
+    --success: #16a34a;
+    --success-bg: rgba(22,163,74,0.1);
+    --warning: #d97706;
+    --warning-bg: rgba(217,119,6,0.1);
+    --danger: #dc2626;
+    --danger-bg: rgba(220,38,38,0.1);
+    --sidebar-bg: #13111a;
+    --sidebar-text: #94a3b8;
+    --body-bg: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --font: 'Plus Jakarta Sans', sans-serif;
+}
+* { box-sizing: border-box; }
+body { font-family: var(--font); background: var(--body-bg); color: var(--text-primary); margin: 0; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.3s ease forwards; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-inline { width: 15px; height: 15px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
+
+.sidebar {
+    width: 240px; min-height: 100vh;
+    background: var(--sidebar-bg);
+    position: fixed; top: 0; left: 0; z-index: 100;
+    display: flex; flex-direction: column;
+    transition: transform 0.3s;
+}
+.sidebar-brand { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.brand-logo {
+    width: 36px; height: 36px;
+    background: var(--primary);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 14px; flex-shrink: 0;
+}
+.sidebar-nav { padding: 12px 0; flex: 1; overflow-y: auto; }
+.nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 20px;
+    color: var(--sidebar-text);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none; background: none;
+    width: 100%; text-align: left;
+    border-right: 3px solid transparent;
+    transition: all 0.2s;
+}
+.nav-item:hover { color: white; background: rgba(255,255,255,0.05); }
+.nav-item.active { color: white; background: rgba(124,58,237,0.2); border-right-color: var(--primary-light); }
+.nav-item svg { flex-shrink: 0; opacity: 0.7; }
+.nav-item.active svg, .nav-item:hover svg { opacity: 1; }
+.nav-section-label { padding: 14px 20px 6px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.08em; }
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.07); }
+
+.main-content { margin-left: 240px; min-height: 100vh; }
+.topbar {
+    background: white; border-bottom: 1px solid var(--border-color);
+    padding: 0 24px; height: 60px;
+    display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 99;
+}
+.topbar-title { font-weight: 700; font-size: 16px; }
+.topbar-sub { color: var(--text-secondary); font-size: 13px; margin-top: 1px; }
+.content-area { padding: 24px; }
+.page-section { display: none; }
+.page-section.active { display: block; animation: fadeIn 0.25s ease forwards; }
+
+.stat-card { background: white; border-radius: 14px; padding: 20px; border: 1px solid var(--border-color); transition: box-shadow 0.2s; }
+.stat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+.stat-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.stat-val { font-size: 26px; font-weight: 800; line-height: 1.1; }
+.stat-label { color: var(--text-secondary); font-size: 13px; margin-top: 2px; }
+
+.card-section { background: white; border-radius: 14px; border: 1px solid var(--border-color); overflow: hidden; }
+.card-header-custom { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.card-header-title { font-weight: 700; font-size: 14px; }
+.card-body-custom { padding: 20px; }
+
+.table-custom { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table-custom th { padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text-secondary); border-bottom: 2px solid var(--border-color); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; background: #f8fafc; }
+.table-custom td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+.table-custom tr:last-child td { border-bottom: none; }
+.table-custom tr:hover td { background: #f8fafc; }
+
+.badge-status { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-terkirim { background: var(--success-bg); color: var(--success); }
+.badge-gagal { background: var(--danger-bg); color: var(--danger); }
+.badge-pending { background: var(--warning-bg); color: var(--warning); }
+.badge-proses { background: var(--primary-bg); color: var(--primary); }
+.badge-wa { background: var(--wa-bg); color: var(--wa-color); }
+.badge-email { background: var(--email-bg); color: var(--email-color); }
+.badge-grup { background: var(--primary-bg); color: var(--primary); }
+
+.search-input { border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
+.search-input:focus { border-color: var(--primary-light); }
+.filter-select { border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; font-size: 13px; font-family: var(--font); outline: none; cursor: pointer; background: white; }
+.filter-select:focus { border-color: var(--primary-light); }
+.filter-select option { background: white; }
+
+.btn-primary-custom { background: var(--primary); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-primary-custom:hover { background: var(--primary-dark); }
+.btn-primary-custom:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-wa { background: var(--wa-color); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: opacity 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-wa:hover { opacity: 0.85; }
+.btn-wa:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-email { background: var(--email-color); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: opacity 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-email:hover { opacity: 0.85; }
+.btn-email:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-outline-custom { background: white; color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-outline-custom:hover { border-color: var(--primary-light); color: var(--primary); }
+.btn-sm-icon { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border-color); background: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.2s; }
+.btn-sm-icon:hover { border-color: var(--primary-light); color: var(--primary); }
+
+.form-label-custom { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.form-control-custom { width: 100%; border: 1.5px solid var(--border-color); border-radius: 10px; padding: 10px 14px; font-size: 13px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
+.form-control-custom:focus { border-color: var(--primary-light); }
+.form-control-custom option { background: white; }
+
+.channel-card {
+    border: 2px solid var(--border-color);
+    border-radius: 12px; padding: 16px;
+    cursor: pointer; transition: all 0.2s; text-align: center;
+}
+.channel-card:hover { border-color: var(--primary-light); background: var(--primary-bg); }
+.channel-card.selected-wa { border-color: var(--wa-color); background: var(--wa-bg); }
+.channel-card.selected-email { border-color: var(--email-color); background: var(--email-bg); }
+
+.template-card {
+    border: 1.5px solid var(--border-color);
+    border-radius: 10px; padding: 12px 14px;
+    cursor: pointer; transition: all 0.2s;
+    font-size: 13px;
+}
+.template-card:hover { border-color: var(--primary-light); background: var(--primary-bg); }
+.template-card.selected { border-color: var(--primary); background: var(--primary-bg); }
+.template-title { font-weight: 700; font-size: 13px; margin-bottom: 3px; }
+.template-preview { font-size: 11px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.preview-bubble {
+    background: #dcf8c6;
+    border-radius: 12px 12px 0 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    max-width: 300px;
+    color: #0f172a;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+.preview-email {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.kontak-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; color: white; flex-shrink: 0;
+}
+
+.progress-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 13px;
+    animation: fadeIn 0.2s ease forwards;
+}
+.progress-item:last-child { border-bottom: none; }
+.progress-status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+.blast-progress-bar-wrap { height: 8px; background: var(--border-color); border-radius: 4px; overflow: hidden; margin: 10px 0; }
+.blast-progress-bar { height: 100%; border-radius: 4px; transition: width 0.3s; background: linear-gradient(90deg, #7c3aed, #8b5cf6); }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-box { background: white; border-radius: 16px; padding: 26px; width: 480px; max-width: 95vw; transform: scale(0.96); transition: transform 0.25s; box-shadow: 0 20px 60px rgba(0,0,0,0.15); max-height: 90vh; overflow-y: auto; }
+.modal-overlay.open .modal-box { transform: scale(1); }
+
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
+.empty-state p { font-size: 14px; margin-top: 10px; }
+.chart-container { position: relative; height: 220px; }
+
+.var-chip { display: inline-flex; align-items: center; background: var(--primary-bg); color: var(--primary); border: 1px solid rgba(124,58,237,0.2); border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; cursor: pointer; margin: 2px; transition: background 0.15s; font-family: monospace; }
+.var-chip:hover { background: rgba(124,58,237,0.18); }
+
+.grup-badge { display: inline-flex; align-items: center; background: var(--primary-bg); color: var(--primary); border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 600; margin: 2px; }
+
+@media (max-width: 991px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.mob-open { transform: translateX(0); }
+    .main-content { margin-left: 0; }
+    .mob-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; display: none; }
+    .mob-overlay.show { display: block; }
+}
+</style>
+</head>
+<body>
+
+<div class="mob-overlay" id="mob-overlay" onclick="closeMobSidebar()"></div>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <div class="d-flex align-items-center gap-2">
+            <div class="brand-logo">B</div>
+            <div>
+                <div style="color:white;font-weight:700;font-size:15px;">BlazeNotif</div>
+                <div style="color:var(--sidebar-text);font-size:11px;">Notifikasi WA & Email</div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-nav">
+        <div class="nav-section-label">Overview</div>
+        <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Dashboard
+        </button>
+        <div class="nav-section-label">Kirim Notifikasi</div>
+        <button class="nav-item" data-section="blast-wa" onclick="showSection('blast-wa')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            WhatsApp Blast
+        </button>
+        <button class="nav-item" data-section="blast-email" onclick="showSection('blast-email')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            Email Blast
+        </button>
+        <div class="nav-section-label">Data</div>
+        <button class="nav-item" data-section="kontak" onclick="showSection('kontak')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            Manajemen Kontak
+        </button>
+        <button class="nav-item" data-section="template" onclick="showSection('template')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            Template Pesan
+        </button>
+        <button class="nav-item" data-section="riwayat" onclick="showSection('riwayat')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Riwayat Pengiriman
+        </button>
+    </div>
+    <div class="sidebar-footer">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0;">A</div>
+            <div>
+                <div style="color:white;font-size:13px;font-weight:600;">Admin</div>
+                <div style="color:var(--sidebar-text);font-size:11px;">admin@blazenotif.id</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="topbar">
+        <button class="d-lg-none btn-sm-icon me-1" onclick="toggleMobSidebar()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div>
+            <div class="topbar-title" id="topbar-title">Dashboard</div>
+            <div class="topbar-sub" id="topbar-sub">Ringkasan aktivitas pengiriman notifikasi</div>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px;">
+            <div style="display:flex;align-items:center;gap:6px;background:var(--wa-bg);border:1px solid rgba(37,211,102,0.2);border-radius:8px;padding:6px 12px;">
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--wa-color);box-shadow:0 0 6px var(--wa-color);"></div>
+                <span style="font-size:12px;font-weight:600;color:var(--wa-color);">WA API Online</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;background:var(--email-bg);border:1px solid rgba(37,99,235,0.2);border-radius:8px;padding:6px 12px;">
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--email-color);box-shadow:0 0 6px var(--email-color);"></div>
+                <span style="font-size:12px;font-weight:600;color:var(--email-color);">SMTP Online</span>
+            </div>
+        </div>
+    </div>
+    <div class="content-area">
+        <div id="section-dashboard" class="page-section active"></div>
+        <div id="section-blast-wa" class="page-section"></div>
+        <div id="section-blast-email" class="page-section"></div>
+        <div id="section-kontak" class="page-section"></div>
+        <div id="section-template" class="page-section"></div>
+        <div id="section-riwayat" class="page-section"></div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="kontak-modal">
+    <div class="modal-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <div style="font-weight:700;font-size:16px;" id="kontak-modal-title">Tambah Kontak</div>
+            <button class="btn-sm-icon" onclick="closeKontakModal()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="row g-3">
+            <div class="col-6">
+                <label class="form-label-custom">Nama</label>
+                <input type="text" class="form-control-custom" id="kf-nama" placeholder="Nama lengkap">
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">No. WhatsApp</label>
+                <input type="text" class="form-control-custom" id="kf-wa" placeholder="628123456789">
+            </div>
+            <div class="col-12">
+                <label class="form-label-custom">Email</label>
+                <input type="email" class="form-control-custom" id="kf-email" placeholder="nama@email.com">
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Grup</label>
+                <select class="form-control-custom" id="kf-grup">
+                    <option value="Umum">Umum</option>
+                    <option value="Pelanggan">Pelanggan</option>
+                    <option value="Karyawan">Karyawan</option>
+                    <option value="VIP">VIP</option>
+                    <option value="Reseller">Reseller</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Tag (opsional)</label>
+                <input type="text" class="form-control-custom" id="kf-tag" placeholder="promo, member, dll">
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button class="btn-outline-custom" style="flex:1;justify-content:center;" onclick="closeKontakModal()">Batal</button>
+            <button class="btn-primary-custom" style="flex:1;justify-content:center;" onclick="saveKontak()">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="template-modal">
+    <div class="modal-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <div style="font-weight:700;font-size:16px;" id="template-modal-title">Tambah Template</div>
+            <button class="btn-sm-icon" onclick="closeTemplateModal()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="row g-3">
+            <div class="col-8">
+                <label class="form-label-custom">Nama Template</label>
+                <input type="text" class="form-control-custom" id="tf-nama" placeholder="Contoh: Promo Ramadan">
+            </div>
+            <div class="col-4">
+                <label class="form-label-custom">Channel</label>
+                <select class="form-control-custom" id="tf-channel">
+                    <option value="wa">WhatsApp</option>
+                    <option value="email">Email</option>
+                    <option value="both">Keduanya</option>
+                </select>
+            </div>
+            <div class="col-12" id="tf-subject-wrap">
+                <label class="form-label-custom">Subject Email</label>
+                <input type="text" class="form-control-custom" id="tf-subject" placeholder="Subject email...">
+            </div>
+            <div class="col-12">
+                <label class="form-label-custom">Isi Pesan</label>
+                <div style="margin-bottom:6px;">
+                    <span style="font-size:11px;color:var(--text-secondary);">Variabel dinamis:</span>
+                    <span class="var-chip" onclick="insertVar('{{nama}}')">{{nama}}</span>
+                    <span class="var-chip" onclick="insertVar('{{tanggal}}')">{{tanggal}}</span>
+                    <span class="var-chip" onclick="insertVar('{{kode}}')">{{kode}}</span>
+                    <span class="var-chip" onclick="insertVar('{{produk}}')">{{produk}}</span>
+                    <span class="var-chip" onclick="insertVar('{{nominal}}')">{{nominal}}</span>
+                </div>
+                <textarea class="form-control-custom" id="tf-pesan" rows="5" placeholder="Tulis isi pesan..."></textarea>
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button class="btn-outline-custom" style="flex:1;justify-content:center;" onclick="closeTemplateModal()">Batal</button>
+            <button class="btn-primary-custom" style="flex:1;justify-content:center;" onclick="saveTemplate()">Simpan Template</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="confirm-modal">
+    <div class="modal-box" style="width:340px;text-align:center;">
+        <div style="width:52px;height:52px;border-radius:50%;background:var(--danger-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+            <svg width="22" height="22" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+        <div style="font-weight:700;font-size:15px;margin-bottom:8px;" id="confirm-text">Yakin?</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Tindakan ini tidak dapat dibatalkan.</div>
+        <div style="display:flex;gap:10px;">
+            <button class="btn-outline-custom" style="flex:1;justify-content:center;" onclick="closeConfirm()">Batal</button>
+            <button class="btn-primary-custom" style="flex:1;justify-content:center;background:#dc2626;" id="confirm-ok-btn">Lanjutkan</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+var charts = {};
+var editingKontakId = null;
+var editingTemplateId = null;
+var blastInterval = null;
+
+var kontak = JSON.parse(localStorage.getItem('blaze_kontak') || 'null');
+if (!kontak) {
+    kontak = [
+        { id: 'K001', nama: 'Andi Pratama', wa: '6281234567890', email: 'andi@email.com', grup: 'Pelanggan', tag: 'promo', color: '#7c3aed' },
+        { id: 'K002', nama: 'Siti Rahayu', wa: '6281234567891', email: 'siti@email.com', grup: 'VIP', tag: 'member', color: '#0d9488' },
+        { id: 'K003', nama: 'Budi Santoso', wa: '6281234567892', email: 'budi@email.com', grup: 'Karyawan', tag: 'internal', color: '#2563eb' },
+        { id: 'K004', nama: 'Dewi Anggraini', wa: '6281234567893', email: 'dewi@email.com', grup: 'Pelanggan', tag: 'promo', color: '#d97706' },
+        { id: 'K005', nama: 'Rizki Maulana', wa: '6281234567894', email: 'rizki@email.com', grup: 'Reseller', tag: 'reseller', color: '#16a34a' },
+        { id: 'K006', nama: 'Nadia Kusuma', wa: '6281234567895', email: 'nadia@email.com', grup: 'VIP', tag: 'member', color: '#dc2626' },
+        { id: 'K007', nama: 'Hendra Wijaya', wa: '6281234567896', email: 'hendra@email.com', grup: 'Reseller', tag: 'reseller', color: '#0891b2' },
+        { id: 'K008', nama: 'Laras Putri', wa: '6281234567897', email: 'laras@email.com', grup: 'Umum', tag: '', color: '#7c3aed' },
+        { id: 'K009', nama: 'Wahyu Hidayat', wa: '6281234567898', email: 'wahyu@email.com', grup: 'Karyawan', tag: 'internal', color: '#0d9488' },
+        { id: 'K010', nama: 'Maya Sari', wa: '6281234567899', email: 'maya@email.com', grup: 'Pelanggan', tag: 'promo', color: '#d97706' },
+    ];
+    localStorage.setItem('blaze_kontak', JSON.stringify(kontak));
+}
+
+var templates = JSON.parse(localStorage.getItem('blaze_templates') || 'null');
+if (!templates) {
+    templates = [
+        { id: 'T001', nama: 'Promo Bulanan', channel: 'both', subject: 'Promo Spesial Bulan Ini!', pesan: 'Halo {{nama}},\n\nKami punya promo spesial untuk kamu! Dapatkan diskon 20% untuk semua produk {{produk}} hari ini.\n\nPromo berlaku hingga {{tanggal}}.\n\nSalam,\nTim BlazeNotif' },
+        { id: 'T002', nama: 'Konfirmasi Pesanan', channel: 'wa', subject: '', pesan: 'Halo {{nama}},\n\nPesanan kamu dengan kode *{{kode}}* sudah kami terima.\n\nTotal pembayaran: Rp {{nominal}}\nTanggal: {{tanggal}}\n\nTerima kasih telah berbelanja! 🙏' },
+        { id: 'T003', nama: 'Reset Password', channel: 'email', subject: 'Permintaan Reset Password', pesan: 'Halo {{nama}},\n\nKami menerima permintaan reset password untuk akun kamu.\n\nKode verifikasi: {{kode}}\n\nKode ini berlaku selama 10 menit. Jika kamu tidak meminta ini, abaikan email ini.\n\nSalam,\nTim BlazeNotif' },
+        { id: 'T004', nama: 'Selamat Ulang Tahun', channel: 'both', subject: 'Selamat Ulang Tahun, {{nama}}! 🎂', pesan: 'Halo {{nama}},\n\nSelamat ulang tahun! 🎂🎉\n\nSebagai hadiah spesial, kami memberikan voucher diskon {{nominal}} untuk kamu gunakan hari ini.\n\nSemoga hari kamu menyenangkan!\n\nSalam hangat,\nTim BlazeNotif' },
+    ];
+    localStorage.setItem('blaze_templates', JSON.stringify(templates));
+}
+
+var riwayat = JSON.parse(localStorage.getItem('blaze_riwayat') || 'null');
+if (!riwayat) {
+    riwayat = [
+        { id: 'R001', judul: 'Blast Promo Ramadan', channel: 'wa', total: 8, terkirim: 7, gagal: 1, pending: 0, waktu: formatDateTime(new Date(Date.now() - 3600000)) },
+        { id: 'R002', judul: 'Newsletter Bulan April', channel: 'email', total: 10, terkirim: 9, gagal: 0, pending: 1, waktu: formatDateTime(new Date(Date.now() - 86400000)) },
+        { id: 'R003', judul: 'Notifikasi Update Sistem', channel: 'email', total: 3, terkirim: 3, gagal: 0, pending: 0, waktu: formatDateTime(new Date(Date.now() - 172800000)) },
+        { id: 'R004', judul: 'Promo Hari Kartini', channel: 'wa', total: 6, terkirim: 5, gagal: 1, pending: 0, waktu: formatDateTime(new Date(Date.now() - 259200000)) },
+    ];
+    localStorage.setItem('blaze_riwayat', JSON.stringify(riwayat));
+}
+
+function formatDateTime(date) {
+    var pad = function(n) { return String(n).padStart(2, '0'); };
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ', ' + pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds());
+}
+
+function initials(name) {
+    return name.split(' ').slice(0, 2).map(function(w) { return w[0]; }).join('').toUpperCase();
+}
+
+function genId(prefix) { return prefix + Date.now(); }
+
+function showSection(id) {
+    document.querySelectorAll('.page-section').forEach(function(s) { s.classList.remove('active'); });
+    document.querySelectorAll('.nav-item[data-section]').forEach(function(n) {
+        n.classList.toggle('active', n.dataset.section === id);
+    });
+    document.getElementById('section-' + id).classList.add('active');
+    closeMobSidebar();
+    var titles = { dashboard: 'Dashboard', 'blast-wa': 'WhatsApp Blast', 'blast-email': 'Email Blast', kontak: 'Manajemen Kontak', template: 'Template Pesan', riwayat: 'Riwayat Pengiriman' };
+    var subs = { dashboard: 'Ringkasan aktivitas pengiriman notifikasi', 'blast-wa': 'Kirim pesan WhatsApp ke banyak kontak sekaligus', 'blast-email': 'Kirim email ke banyak penerima sekaligus', kontak: 'Kelola daftar kontak dan grup', template: 'Kelola template pesan dengan variabel dinamis', riwayat: 'Log semua pengiriman notifikasi' };
+    document.getElementById('topbar-title').textContent = titles[id] || id;
+    document.getElementById('topbar-sub').textContent = subs[id] || '';
+    var renderers = { dashboard: renderDashboard, 'blast-wa': renderBlastWA, 'blast-email': renderBlastEmail, kontak: renderKontak, template: renderTemplate, riwayat: renderRiwayat };
+    if (renderers[id]) renderers[id]();
+}
+
+function renderDashboard() {
+    var totalKontak = kontak.length;
+    var totalKirim = riwayat.reduce(function(s, r) { return s + r.total; }, 0);
+    var totalTerkirim = riwayat.reduce(function(s, r) { return s + r.terkirim; }, 0);
+    var totalGagal = riwayat.reduce(function(s, r) { return s + r.gagal; }, 0);
+    var successRate = totalKirim > 0 ? Math.round(totalTerkirim / totalKirim * 100) : 0;
+
+    var stats = [
+        { label: 'Total Kontak', val: totalKontak, sub: 'kontak terdaftar', bg: 'rgba(124,58,237,0.1)', color: '#7c3aed', icon: '<svg width="22" height="22" fill="none" stroke="#7c3aed" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>' },
+        { label: 'Total Terkirim', val: totalTerkirim, sub: 'pesan berhasil dikirim', bg: 'rgba(37,211,102,0.1)', color: '#25d366', icon: '<svg width="22" height="22" fill="none" stroke="#25d366" stroke-width="2" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' },
+        { label: 'Gagal Kirim', val: totalGagal, sub: 'pesan gagal terkirim', bg: 'rgba(220,38,38,0.1)', color: '#dc2626', icon: '<svg width="22" height="22" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>' },
+        { label: 'Success Rate', val: successRate + '%', sub: 'tingkat keberhasilan', bg: 'rgba(22,163,74,0.1)', color: '#16a34a', icon: '<svg width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>' },
+    ];
+
+    var html = '<div class="row g-3 mb-4">' + stats.map(function(s) {
+        return '<div class="col-6 col-xl-3"><div class="stat-card"><div class="stat-icon mb-3" style="background:' + s.bg + '">' + s.icon + '</div><div class="stat-val" style="color:' + s.color + ';">' + s.val + '</div><div class="stat-label">' + s.label + '</div><div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">' + s.sub + '</div></div></div>';
+    }).join('') + '</div>';
+
+    html += '<div class="row g-3 mb-3">';
+    html += '<div class="col-lg-8"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Pengiriman 7 Hari Terakhir</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-pengiriman"></canvas></div></div></div></div>';
+    html += '<div class="col-lg-4"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Distribusi Channel</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-channel"></canvas></div></div></div></div>';
+    html += '</div>';
+
+    html += '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Blast Terbaru</span><button class="btn-outline-custom" style="padding:5px 12px;font-size:12px;" onclick="showSection(\'riwayat\')">Lihat Semua</button></div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr><th>Judul</th><th>Channel</th><th>Total</th><th>Terkirim</th><th>Gagal</th><th>Success Rate</th><th>Waktu</th></tr></thead><tbody>';
+    html += riwayat.slice(0, 4).map(function(r) {
+        var rate = r.total > 0 ? Math.round(r.terkirim / r.total * 100) : 0;
+        return '<tr><td style="font-weight:600;">' + r.judul + '</td><td><span class="badge-status badge-' + r.channel + '">' + (r.channel === 'wa' ? '💬 WhatsApp' : '✉️ Email') + '</span></td><td>' + r.total + '</td><td style="color:var(--success);font-weight:600;">' + r.terkirim + '</td><td style="color:var(--danger);">' + r.gagal + '</td><td><span style="font-weight:700;color:' + (rate >= 80 ? '#16a34a' : rate >= 50 ? '#d97706' : '#dc2626') + ';">' + rate + '%</span></td><td style="color:var(--text-secondary);font-size:12px;">' + r.waktu + '</td></tr>';
+    }).join('');
+    html += '</tbody></table></div></div></div>';
+
+    document.getElementById('section-dashboard').innerHTML = html;
+
+    requestAnimationFrame(function() {
+        var ctx1 = document.getElementById('chart-pengiriman');
+        if (ctx1) {
+            if (charts['pengiriman']) charts['pengiriman'].destroy();
+            var labels = [], terkirimData = [], gagalData = [];
+            for (var d = 6; d >= 0; d--) {
+                var dt = new Date(); dt.setDate(dt.getDate() - d);
+                labels.push(dt.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' }));
+                var dateStr = dt.getDate() + '/' + (dt.getMonth() + 1) + '/' + dt.getFullYear();
+                var dayR = riwayat.filter(function(r) { return r.waktu.startsWith(dateStr); });
+                terkirimData.push(dayR.reduce(function(s, r) { return s + r.terkirim; }, 0));
+                gagalData.push(dayR.reduce(function(s, r) { return s + r.gagal; }, 0));
+            }
+            var hasData = terkirimData.some(function(v) { return v > 0; });
+            charts['pengiriman'] = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Terkirim', data: hasData ? terkirimData : [12, 18, 8, 25, 15, 22, 10], backgroundColor: 'rgba(37,211,102,0.75)', borderRadius: 5 },
+                        { label: 'Gagal', data: hasData ? gagalData : [1, 2, 0, 3, 1, 0, 2], backgroundColor: 'rgba(220,38,38,0.7)', borderRadius: 5 },
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', size: 12 }, boxWidth: 12 } } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true } }, animation: false }
+            });
+        }
+
+        var waCount = riwayat.filter(function(r) { return r.channel === 'wa'; }).length;
+        var emailCount = riwayat.filter(function(r) { return r.channel === 'email'; }).length;
+        var ctx2 = document.getElementById('chart-channel');
+        if (ctx2) {
+            if (charts['channel']) charts['channel'].destroy();
+            charts['channel'] = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['WhatsApp', 'Email'],
+                    datasets: [{ data: [waCount || 3, emailCount || 2], backgroundColor: ['rgba(37,211,102,0.8)', 'rgba(37,99,235,0.8)'], borderWidth: 2, borderColor: '#fff' }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', size: 12 }, boxWidth: 12 } } }, animation: false }
+            });
+        }
+    });
+}
+
+var blastState = { channel: 'wa', selectedKontak: [], selectedTemplate: null, pesan: '', subject: '', isRunning: false };
+
+function renderBlastWA() {
+    blastState.channel = 'wa';
+    renderBlastForm('wa');
+}
+
+function renderBlastEmail() {
+    blastState.channel = 'email';
+    renderBlastForm('email');
+}
+
+function renderBlastForm(channel) {
+    var sectionId = 'section-blast-' + channel;
+    var grups = [];
+    kontak.forEach(function(k) { if (grups.indexOf(k.grup) === -1) grups.push(k.grup); });
+    var accentColor = channel === 'wa' ? 'var(--wa-color)' : 'var(--email-color)';
+    var channelLabel = channel === 'wa' ? 'WhatsApp' : 'Email';
+
+    var html = '<div class="row g-3">';
+
+    html += '<div class="col-lg-7">';
+    html += '<div class="card-section mb-3"><div class="card-header-custom"><span class="card-header-title">1. Pilih Penerima</span></div><div class="card-body-custom">';
+    html += '<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">';
+    html += '<select class="filter-select" id="blast-filter-grup-' + channel + '" onchange="updateBlastKontakList(\'' + channel + '\')" style="min-width:160px;"><option value="">Semua Grup</option>';
+    grups.forEach(function(g) { html += '<option value="' + g + '">' + g + '</option>'; });
+    html += '</select>';
+    html += '<button class="btn-outline-custom" style="padding:8px 14px;font-size:12px;" onclick="selectAllBlastKontak(\'' + channel + '\')">Pilih Semua</button>';
+    html += '<button class="btn-outline-custom" style="padding:8px 14px;font-size:12px;" onclick="clearBlastKontak(\'' + channel + '\')">Kosongkan</button>';
+    html += '</div>';
+    html += '<div id="blast-kontak-list-' + channel + '" style="max-height:220px;overflow-y:auto;border:1px solid var(--border-color);border-radius:10px;"></div>';
+    html += '<div style="margin-top:8px;font-size:12px;color:var(--text-secondary);">Dipilih: <span id="blast-selected-count-' + channel + '" style="font-weight:700;color:' + accentColor + ';">0</span> kontak</div>';
+    html += '</div></div>';
+
+    html += '<div class="card-section mb-3"><div class="card-header-custom"><span class="card-header-title">2. Pilih Template</span><button class="btn-outline-custom" style="padding:5px 12px;font-size:12px;" onclick="showSection(\'template\')">Kelola Template</button></div><div class="card-body-custom">';
+    var tplFiltered = templates.filter(function(t) { return t.channel === channel || t.channel === 'both'; });
+    if (tplFiltered.length === 0) {
+        html += '<div class="empty-state"><p>Belum ada template untuk channel ini</p></div>';
+    } else {
+        html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+        html += tplFiltered.map(function(t) {
+            return '<div class="template-card" id="tpl-' + channel + '-' + t.id + '" onclick="selectBlastTemplate(\'' + channel + '\',\'' + t.id + '\')"><div class="template-title">' + t.nama + '</div><div class="template-preview">' + t.pesan.slice(0, 60) + '...</div></div>';
+        }).join('');
+        html += '</div>';
+    }
+    html += '</div></div>';
+
+    if (channel === 'email') {
+        html += '<div class="card-section mb-3"><div class="card-header-custom"><span class="card-header-title">Subject Email</span></div><div class="card-body-custom"><input type="text" class="form-control-custom" id="blast-subject-email" placeholder="Subject email..."></div></div>';
+    }
+
+    html += '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">3. Isi Pesan</span></div><div class="card-body-custom">';
+    html += '<div style="margin-bottom:8px;"><span style="font-size:11px;color:var(--text-secondary);">Variabel:</span>';
+    ['{{nama}}', '{{tanggal}}', '{{kode}}', '{{produk}}', '{{nominal}}'].forEach(function(v) {
+        html += '<span class="var-chip" onclick="insertBlastVar(\'' + channel + '\',\'' + v + '\')">' + v + '</span>';
+    });
+    html += '</div>';
+    html += '<textarea class="form-control-custom" id="blast-pesan-' + channel + '" rows="6" placeholder="Tulis pesan di sini atau pilih template di atas..." oninput="updateBlastPreview(\'' + channel + '\')"></textarea>';
+    html += '</div></div>';
+    html += '</div>';
+
+    html += '<div class="col-lg-5">';
+    html += '<div class="card-section mb-3"><div class="card-header-custom"><span class="card-header-title">Preview Pesan</span></div><div class="card-body-custom">';
+    if (channel === 'wa') {
+        html += '<div style="background:#e5ddd5;border-radius:10px;padding:16px;min-height:120px;"><div class="preview-bubble" id="preview-bubble-wa">Pilih template atau tulis pesan untuk melihat preview...</div><div style="font-size:10px;color:rgba(0,0,0,0.35);text-align:right;margin-top:4px;">' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' ✓✓</div></div>';
+    } else {
+        html += '<div class="preview-email" id="preview-email" style="min-height:120px;color:var(--text-secondary);">Pilih template atau tulis pesan untuk melihat preview...</div>';
+    }
+    html += '</div></div>';
+
+    html += '<div class="card-section mb-3"><div class="card-header-custom"><span class="card-header-title">Konfigurasi Pengiriman</span></div><div class="card-body-custom">';
+    html += '<div class="row g-2">';
+    html += '<div class="col-6"><label class="form-label-custom" style="font-size:12px;">Delay per pesan (detik)</label><input type="number" class="form-control-custom" id="blast-delay-' + channel + '" value="1" min="0.5" max="5" step="0.5" style="font-size:13px;padding:8px 12px;"></div>';
+    html += '<div class="col-6"><label class="form-label-custom" style="font-size:12px;">Nama Pengirim</label><input type="text" class="form-control-custom" id="blast-sender-' + channel + '" value="BlazeNotif" style="font-size:13px;padding:8px 12px;"></div>';
+    html += '</div></div></div>';
+
+    html += '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Progress Pengiriman</span></div><div class="card-body-custom">';
+    html += '<div id="blast-progress-wrap-' + channel + '" style="display:none;">';
+    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><span style="font-size:13px;font-weight:600;" id="blast-progress-label-' + channel + '">Memulai...</span><span style="font-size:12px;color:var(--text-secondary);" id="blast-progress-pct-' + channel + '">0%</span></div>';
+    html += '<div class="blast-progress-bar-wrap"><div class="blast-progress-bar" id="blast-progress-bar-' + channel + '" style="width:0%;"></div></div>';
+    html += '<div id="blast-progress-items-' + channel + '" style="max-height:180px;overflow-y:auto;margin-top:8px;"></div>';
+    html += '</div>';
+    html += '<div id="blast-idle-' + channel + '">';
+    html += '<div style="text-align:center;padding:12px 0;color:var(--text-secondary);font-size:13px;">Belum ada pengiriman berjalan</div>';
+    html += '</div>';
+    html += '<div style="display:flex;gap:8px;margin-top:14px;">';
+    if (channel === 'wa') {
+        html += '<button class="btn-wa" style="flex:1;justify-content:center;" id="btn-blast-wa" onclick="startBlast(\'wa\')">💬 Kirim WhatsApp Blast</button>';
+    } else {
+        html += '<button class="btn-email" style="flex:1;justify-content:center;" id="btn-blast-email" onclick="startBlast(\'email\')">✉️ Kirim Email Blast</button>';
+    }
+    html += '</div>';
+    html += '<div style="margin-top:10px;padding:10px 12px;background:rgba(124,58,237,0.06);border:1px solid rgba(124,58,237,0.15);border-radius:8px;font-size:11px;color:var(--text-secondary);line-height:1.6;">';
+    html += '<span style="color:var(--primary);font-weight:700;">📋 Catatan Demo:</span> Pengiriman disimulasikan dengan delay per kontak. Sukses/gagal dibuat secara acak (90% sukses) untuk menampilkan error handling. Data tersimpan di localStorage.';
+    html += '</div>';
+    html += '</div></div>';
+
+    html += '</div></div>';
+
+    document.getElementById(sectionId).innerHTML = html;
+    updateBlastKontakList(channel);
+}
+
+function updateBlastKontakList(channel) {
+    var grup = document.getElementById('blast-filter-grup-' + channel).value;
+    var filtered = grup ? kontak.filter(function(k) { return k.grup === grup; }) : kontak;
+    var field = channel === 'wa' ? 'wa' : 'email';
+    var html = filtered.map(function(k) {
+        var checked = blastState.selectedKontak.indexOf(k.id) !== -1 ? 'checked' : '';
+        return '<label style="display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--border-color);font-size:13px;" onmouseenter="this.style.background=\'#f8fafc\'" onmouseleave="this.style.background=\'\'"><input type="checkbox" ' + checked + ' value="' + k.id + '" onchange="toggleBlastKontak(\'' + channel + '\',\'' + k.id + '\',this.checked)" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"><div class="kontak-avatar" style="background:' + k.color + ';width:28px;height:28px;font-size:11px;">' + initials(k.nama) + '</div><div style="flex:1;min-width:0;"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + k.nama + '</div><div style="font-size:11px;color:var(--text-secondary);">' + k[field] + '</div></div><span class="grup-badge">' + k.grup + '</span></label>';
+    }).join('');
+    document.getElementById('blast-kontak-list-' + channel).innerHTML = html || '<div style="padding:16px;text-align:center;color:var(--text-secondary);font-size:13px;">Tidak ada kontak</div>';
+    updateBlastCount(channel);
+}
+
+function toggleBlastKontak(channel, id, checked) {
+    if (checked && blastState.selectedKontak.indexOf(id) === -1) {
+        blastState.selectedKontak.push(id);
+    } else {
+        blastState.selectedKontak = blastState.selectedKontak.filter(function(x) { return x !== id; });
+    }
+    updateBlastCount(channel);
+}
+
+function selectAllBlastKontak(channel) {
+    var grup = document.getElementById('blast-filter-grup-' + channel).value;
+    var filtered = grup ? kontak.filter(function(k) { return k.grup === grup; }) : kontak;
+    blastState.selectedKontak = filtered.map(function(k) { return k.id; });
+    updateBlastKontakList(channel);
+}
+
+function clearBlastKontak(channel) {
+    blastState.selectedKontak = [];
+    updateBlastKontakList(channel);
+}
+
+function updateBlastCount(channel) {
+    var el = document.getElementById('blast-selected-count-' + channel);
+    if (el) el.textContent = blastState.selectedKontak.length;
+}
+
+function selectBlastTemplate(channel, tplId) {
+    var tpl = templates.find(function(t) { return t.id === tplId; });
+    if (!tpl) return;
+    blastState.selectedTemplate = tpl;
+    document.querySelectorAll('[id^="tpl-' + channel + '-"]').forEach(function(el) { el.classList.remove('selected'); });
+    document.getElementById('tpl-' + channel + '-' + tplId).classList.add('selected');
+    document.getElementById('blast-pesan-' + channel).value = tpl.pesan;
+    if (channel === 'email' && tpl.subject) {
+        var subjectEl = document.getElementById('blast-subject-email');
+        if (subjectEl) subjectEl.value = tpl.subject;
+    }
+    updateBlastPreview(channel);
+}
+
+function insertBlastVar(channel, v) {
+    var ta = document.getElementById('blast-pesan-' + channel);
+    if (!ta) return;
+    var start = ta.selectionStart;
+    var end = ta.selectionEnd;
+    ta.value = ta.value.slice(0, start) + v + ta.value.slice(end);
+    ta.selectionStart = ta.selectionEnd = start + v.length;
+    ta.focus();
+    updateBlastPreview(channel);
+}
+
+function updateBlastPreview(channel) {
+    var pesan = (document.getElementById('blast-pesan-' + channel) || {}).value || '';
+    var preview = pesan.replace(/\{\{nama\}\}/g, 'Andi Pratama').replace(/\{\{tanggal\}\}/g, new Date().toLocaleDateString('id-ID')).replace(/\{\{kode\}\}/g, 'ORD-2026001').replace(/\{\{produk\}\}/g, 'Premium Plan').replace(/\{\{nominal\}\}/g, '99.000');
+    if (channel === 'wa') {
+        var bubble = document.getElementById('preview-bubble-wa');
+        if (bubble) bubble.textContent = preview || 'Tulis pesan untuk melihat preview...';
+    } else {
+        var emailPrev = document.getElementById('preview-email');
+        if (emailPrev) emailPrev.innerHTML = preview ? '<pre style="font-family:var(--font);white-space:pre-wrap;margin:0;font-size:13px;">' + preview + '</pre>' : '<span style="color:var(--text-secondary);">Tulis pesan untuk melihat preview...</span>';
+    }
+}
+
+function startBlast(channel) {
+    var pesan = (document.getElementById('blast-pesan-' + channel) || {}).value || '';
+    if (blastState.selectedKontak.length === 0) { showToast('Pilih minimal 1 kontak', '⚠️'); return; }
+    if (!pesan.trim()) { showToast('Tulis pesan terlebih dahulu', '⚠️'); return; }
+    if (blastState.isRunning) return;
+
+    blastState.isRunning = true;
+    var btn = document.getElementById('btn-blast-' + channel);
+    if (btn) btn.disabled = true;
+
+    var delayInput = document.getElementById('blast-delay-' + channel);
+    var delay = delayInput ? parseFloat(delayInput.value) * 1000 : 1000;
+
+    var idleEl = document.getElementById('blast-idle-' + channel);
+    var progressWrap = document.getElementById('blast-progress-wrap-' + channel);
+    if (idleEl) idleEl.style.display = 'none';
+    if (progressWrap) progressWrap.style.display = 'block';
+
+    var progressItems = document.getElementById('blast-progress-items-' + channel);
+    if (progressItems) progressItems.innerHTML = '';
+
+    var selectedKontak = kontak.filter(function(k) { return blastState.selectedKontak.indexOf(k.id) !== -1; });
+    var total = selectedKontak.length;
+    var done = 0;
+    var terkirim = 0;
+    var gagal = 0;
+
+    var judul = (document.getElementById('blast-sender-' + channel) || {}).value || 'BlazeNotif';
+    var subjectEl = document.getElementById('blast-subject-email');
+    var subject = subjectEl ? subjectEl.value : '';
+
+    function processNext() {
+        if (done >= total) {
+            blastState.isRunning = false;
+            if (btn) btn.disabled = false;
+            var label = document.getElementById('blast-progress-label-' + channel);
+            if (label) label.textContent = 'Selesai! ' + terkirim + ' terkirim, ' + gagal + ' gagal.';
+            var r = { id: genId('R'), judul: judul + ' Blast', channel: channel, total: total, terkirim: terkirim, gagal: gagal, pending: 0, waktu: formatDateTime(new Date()) };
+            riwayat.unshift(r);
+            if (riwayat.length > 100) riwayat = riwayat.slice(0, 100);
+            localStorage.setItem('blaze_riwayat', JSON.stringify(riwayat));
+            blastState.selectedKontak = [];
+            return;
+        }
+
+        var k = selectedKontak[done];
+        var sukses = Math.random() > 0.1;
+        if (sukses) terkirim++; else gagal++;
+        done++;
+
+        var pct = Math.round(done / total * 100);
+        var bar = document.getElementById('blast-progress-bar-' + channel);
+        var pctEl = document.getElementById('blast-progress-pct-' + channel);
+        var labelEl = document.getElementById('blast-progress-label-' + channel);
+        if (bar) bar.style.width = pct + '%';
+        if (pctEl) pctEl.textContent = pct + '%';
+        if (labelEl) labelEl.textContent = 'Mengirim ke ' + k.nama + '...';
+
+        if (progressItems) {
+            var item = document.createElement('div');
+            item.className = 'progress-item';
+            item.innerHTML = '<div class="progress-status-dot" style="background:' + (sukses ? '#16a34a' : '#dc2626') + ';"></div><div class="kontak-avatar" style="background:' + k.color + ';width:24px;height:24px;font-size:10px;">' + initials(k.nama) + '</div><div style="flex:1;"><span style="font-weight:600;">' + k.nama + '</span> <span style="color:var(--text-secondary);font-size:12px;">' + (channel === 'wa' ? k.wa : k.email) + '</span></div><span class="badge-status badge-' + (sukses ? 'terkirim' : 'gagal') + '">' + (sukses ? 'Terkirim' : 'Gagal') + '</span>';
+            progressItems.appendChild(item);
+            progressItems.scrollTop = progressItems.scrollHeight;
+        }
+
+        setTimeout(processNext, delay);
+    }
+
+    processNext();
+}
+
+function renderKontak() {
+    var grups = [];
+    kontak.forEach(function(k) { if (grups.indexOf(k.grup) === -1) grups.push(k.grup); });
+    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Daftar Kontak (' + kontak.length + ')</span>';
+    html += '<div style="display:flex;gap:8px;"><button class="btn-outline-custom" onclick="exportKontakCsv()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Export</button><button class="btn-primary-custom" onclick="openKontakModal()">+ Tambah Kontak</button></div>';
+    html += '</div><div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap">';
+    html += '<input type="text" class="search-input" id="search-kontak" placeholder="Cari nama / nomor..." oninput="filterKontak()" style="min-width:200px;">';
+    html += '<select class="filter-select" id="filter-kontak-grup" onchange="filterKontak()"><option value="">Semua Grup</option>';
+    grups.forEach(function(g) { html += '<option value="' + g + '">' + g + '</option>'; });
+    html += '</select></div><div class="table-responsive"><table class="table-custom"><thead><tr><th>Nama</th><th>No. WA</th><th>Email</th><th>Grup</th><th>Tag</th><th>Aksi</th></tr></thead><tbody id="tbody-kontak">' + renderKontakRows(kontak) + '</tbody></table></div></div></div>';
+    document.getElementById('section-kontak').innerHTML = html;
+}
+
+function renderKontakRows(data) {
+    if (data.length === 0) return '<tr><td colspan="6"><div class="empty-state"><p>Tidak ada kontak ditemukan</p></div></td></tr>';
+    return data.map(function(k) {
+        return '<tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="kontak-avatar" style="background:' + k.color + ';">' + initials(k.nama) + '</div><span style="font-weight:600;">' + k.nama + '</span></div></td><td style="font-size:12px;font-family:monospace;">' + k.wa + '</td><td style="font-size:12px;">' + k.email + '</td><td><span class="badge-status badge-grup">' + k.grup + '</span></td><td style="font-size:12px;color:var(--text-secondary);">' + (k.tag || '-') + '</td><td><div style="display:flex;gap:6px;"><button onclick="editKontak(\'' + k.id + '\')" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Edit</button><button onclick="deleteKontak(\'' + k.id + '\')" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Hapus</button></div></td></tr>';
+    }).join('');
+}
+
+function filterKontak() {
+    var q = (document.getElementById('search-kontak').value || '').toLowerCase();
+    var grup = document.getElementById('filter-kontak-grup').value;
+    var filtered = kontak.filter(function(k) {
+        return (!q || k.nama.toLowerCase().includes(q) || k.wa.includes(q) || k.email.toLowerCase().includes(q)) && (!grup || k.grup === grup);
+    });
+    document.getElementById('tbody-kontak').innerHTML = renderKontakRows(filtered);
+}
+
+function openKontakModal(id) {
+    editingKontakId = id || null;
+    document.getElementById('kontak-modal-title').textContent = id ? 'Edit Kontak' : 'Tambah Kontak';
+    if (id) {
+        var k = kontak.find(function(x) { return x.id === id; });
+        if (k) {
+            document.getElementById('kf-nama').value = k.nama;
+            document.getElementById('kf-wa').value = k.wa;
+            document.getElementById('kf-email').value = k.email;
+            document.getElementById('kf-grup').value = k.grup;
+            document.getElementById('kf-tag').value = k.tag || '';
+        }
+    } else {
+        document.getElementById('kf-nama').value = '';
+        document.getElementById('kf-wa').value = '';
+        document.getElementById('kf-email').value = '';
+        document.getElementById('kf-grup').value = 'Umum';
+        document.getElementById('kf-tag').value = '';
+    }
+    document.getElementById('kontak-modal').classList.add('open');
+}
+
+function closeKontakModal() { document.getElementById('kontak-modal').classList.remove('open'); }
+
+function editKontak(id) { openKontakModal(id); }
+
+function saveKontak() {
+    var nama = document.getElementById('kf-nama').value.trim();
+    var wa = document.getElementById('kf-wa').value.trim();
+    var email = document.getElementById('kf-email').value.trim();
+    var grup = document.getElementById('kf-grup').value;
+    var tag = document.getElementById('kf-tag').value.trim();
+    if (!nama || !wa) { showToast('Nama dan No. WA wajib diisi', '⚠️'); return; }
+    var colors = ['#7c3aed', '#0d9488', '#2563eb', '#d97706', '#16a34a', '#dc2626', '#0891b2'];
+    if (editingKontakId) {
+        var idx = kontak.findIndex(function(k) { return k.id === editingKontakId; });
+        if (idx !== -1) kontak[idx] = { ...kontak[idx], nama: nama, wa: wa, email: email, grup: grup, tag: tag };
+        showToast('Kontak diperbarui', '✅');
+    } else {
+        kontak.push({ id: genId('K'), nama: nama, wa: wa, email: email, grup: grup, tag: tag, color: colors[kontak.length % colors.length] });
+        showToast('Kontak ditambahkan', '✅');
+    }
+    localStorage.setItem('blaze_kontak', JSON.stringify(kontak));
+    closeKontakModal();
+    renderKontak();
+}
+
+function deleteKontak(id) {
+    openConfirm('Hapus kontak ini?', function() {
+        kontak = kontak.filter(function(k) { return k.id !== id; });
+        localStorage.setItem('blaze_kontak', JSON.stringify(kontak));
+        renderKontak();
+        showToast('Kontak dihapus', '🗑️');
+    });
+}
+
+function exportKontakCsv() {
+    var rows = [['Nama', 'No. WA', 'Email', 'Grup', 'Tag']];
+    kontak.forEach(function(k) { rows.push([k.nama, k.wa, k.email, k.grup, k.tag || '']); });
+    downloadCsv(rows, 'kontak_blazenotif.csv');
+}
+
+function renderTemplate() {
+    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Template Pesan (' + templates.length + ')</span><button class="btn-primary-custom" onclick="openTemplateModal()">+ Tambah Template</button></div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr><th>Nama Template</th><th>Channel</th><th>Subject</th><th>Preview Pesan</th><th>Aksi</th></tr></thead><tbody>';
+    html += templates.map(function(t) {
+        var chLabel = t.channel === 'wa' ? '<span class="badge-status badge-wa">💬 WA</span>' : t.channel === 'email' ? '<span class="badge-status badge-email">✉️ Email</span>' : '<span class="badge-status badge-proses">🔀 Keduanya</span>';
+        return '<tr><td style="font-weight:600;">' + t.nama + '</td><td>' + chLabel + '</td><td style="font-size:12px;color:var(--text-secondary);">' + (t.subject || '-') + '</td><td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--text-secondary);">' + t.pesan.slice(0, 60) + '...' + '</td><td><div style="display:flex;gap:6px;"><button onclick="editTemplate(\'' + t.id + '\')" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Edit</button><button onclick="deleteTemplate(\'' + t.id + '\')" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Hapus</button></div></td></tr>';
+    }).join('');
+    html += '</tbody></table></div></div></div>';
+    document.getElementById('section-template').innerHTML = html;
+}
+
+function openTemplateModal(id) {
+    editingTemplateId = id || null;
+    document.getElementById('template-modal-title').textContent = id ? 'Edit Template' : 'Tambah Template';
+    if (id) {
+        var t = templates.find(function(x) { return x.id === id; });
+        if (t) {
+            document.getElementById('tf-nama').value = t.nama;
+            document.getElementById('tf-channel').value = t.channel;
+            document.getElementById('tf-subject').value = t.subject || '';
+            document.getElementById('tf-pesan').value = t.pesan;
+        }
+    } else {
+        document.getElementById('tf-nama').value = '';
+        document.getElementById('tf-channel').value = 'wa';
+        document.getElementById('tf-subject').value = '';
+        document.getElementById('tf-pesan').value = '';
+    }
+    document.getElementById('template-modal').classList.add('open');
+}
+
+function closeTemplateModal() { document.getElementById('template-modal').classList.remove('open'); }
+function editTemplate(id) { openTemplateModal(id); }
+
+function insertVar(v) {
+    var ta = document.getElementById('tf-pesan');
+    if (!ta) return;
+    var start = ta.selectionStart;
+    ta.value = ta.value.slice(0, start) + v + ta.value.slice(ta.selectionEnd);
+    ta.selectionStart = ta.selectionEnd = start + v.length;
+    ta.focus();
+}
+
+function saveTemplate() {
+    var nama = document.getElementById('tf-nama').value.trim();
+    var channel = document.getElementById('tf-channel').value;
+    var subject = document.getElementById('tf-subject').value.trim();
+    var pesan = document.getElementById('tf-pesan').value.trim();
+    if (!nama || !pesan) { showToast('Nama dan isi pesan wajib diisi', '⚠️'); return; }
+    if (editingTemplateId) {
+        var idx = templates.findIndex(function(t) { return t.id === editingTemplateId; });
+        if (idx !== -1) templates[idx] = { id: editingTemplateId, nama: nama, channel: channel, subject: subject, pesan: pesan };
+        showToast('Template diperbarui', '✅');
+    } else {
+        templates.push({ id: genId('T'), nama: nama, channel: channel, subject: subject, pesan: pesan });
+        showToast('Template ditambahkan', '✅');
+    }
+    localStorage.setItem('blaze_templates', JSON.stringify(templates));
+    closeTemplateModal();
+    renderTemplate();
+}
+
+function deleteTemplate(id) {
+    openConfirm('Hapus template ini?', function() {
+        templates = templates.filter(function(t) { return t.id !== id; });
+        localStorage.setItem('blaze_templates', JSON.stringify(templates));
+        renderTemplate();
+        showToast('Template dihapus', '🗑️');
+    });
+}
+
+function renderRiwayat() {
+    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Riwayat Pengiriman</span>';
+    html += '<div style="display:flex;gap:8px;"><button class="btn-outline-custom" onclick="exportRiwayatCsv()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Export</button><button class="btn-outline-custom" style="color:#dc2626;border-color:rgba(220,38,38,0.3);" onclick="clearRiwayat()">Hapus Semua</button></div>';
+    html += '</div><div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap">';
+    html += '<select class="filter-select" id="filter-riwayat-channel" onchange="filterRiwayat()"><option value="">Semua Channel</option><option value="wa">WhatsApp</option><option value="email">Email</option></select>';
+    html += '</div><div class="table-responsive"><table class="table-custom"><thead><tr><th>Judul</th><th>Channel</th><th>Total</th><th>Terkirim</th><th>Gagal</th><th>Pending</th><th>Success Rate</th><th>Waktu</th></tr></thead><tbody id="tbody-riwayat">' + renderRiwayatRows(riwayat) + '</tbody></table></div></div></div>';
+    document.getElementById('section-riwayat').innerHTML = html;
+}
+
+function renderRiwayatRows(data) {
+    if (data.length === 0) return '<tr><td colspan="8"><div class="empty-state"><p>Belum ada riwayat pengiriman</p></div></td></tr>';
+    return data.map(function(r) {
+        var rate = r.total > 0 ? Math.round(r.terkirim / r.total * 100) : 0;
+        var chLabel = r.channel === 'wa' ? '<span class="badge-status badge-wa">💬 WhatsApp</span>' : '<span class="badge-status badge-email">✉️ Email</span>';
+        return '<tr><td style="font-weight:600;">' + r.judul + '</td><td>' + chLabel + '</td><td style="font-weight:600;">' + r.total + '</td><td style="color:var(--success);font-weight:600;">' + r.terkirim + '</td><td style="color:var(--danger);">' + r.gagal + '</td><td style="color:var(--warning);">' + r.pending + '</td><td><span style="font-weight:700;color:' + (rate >= 80 ? '#16a34a' : rate >= 50 ? '#d97706' : '#dc2626') + ';">' + rate + '%</span></td><td style="color:var(--text-secondary);font-size:12px;">' + r.waktu + '</td></tr>';
+    }).join('');
+}
+
+function filterRiwayat() {
+    var channel = document.getElementById('filter-riwayat-channel').value;
+    var filtered = channel ? riwayat.filter(function(r) { return r.channel === channel; }) : riwayat;
+    document.getElementById('tbody-riwayat').innerHTML = renderRiwayatRows(filtered);
+}
+
+function clearRiwayat() {
+    openConfirm('Hapus semua riwayat pengiriman?', function() {
+        riwayat = [];
+        localStorage.setItem('blaze_riwayat', JSON.stringify(riwayat));
+        renderRiwayat();
+        showToast('Riwayat dihapus', '🗑️');
+    });
+}
+
+function exportRiwayatCsv() {
+    var rows = [['Judul', 'Channel', 'Total', 'Terkirim', 'Gagal', 'Pending', 'Waktu']];
+    riwayat.forEach(function(r) { rows.push([r.judul, r.channel, r.total, r.terkirim, r.gagal, r.pending, r.waktu]); });
+    downloadCsv(rows, 'riwayat_blazenotif.csv');
+}
+
+function downloadCsv(rows, filename) {
+    var csv = rows.map(function(r) { return r.map(function(c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(','); }).join('\n');
+    var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+}
+
+function openConfirm(text, cb) {
+    document.getElementById('confirm-text').textContent = text;
+    document.getElementById('confirm-modal').classList.add('open');
+    document.getElementById('confirm-ok-btn').onclick = function() { closeConfirm(); cb(); };
+}
+function closeConfirm() { document.getElementById('confirm-modal').classList.remove('open'); }
+
+var toastTimer;
+function showToast(msg, icon) {
+    var toast = document.getElementById('blaze-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'blaze-toast';
+        toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:#0f172a;color:white;padding:11px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.2);white-space:nowrap;border:1px solid rgba(255,255,255,0.08);font-family:var(--font);';
+        document.body.appendChild(toast);
+    }
+    toast.innerHTML = '<span>' + (icon || '✓') + '</span><span>' + msg + '</span>';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { toast.style.transform = 'translateX(-50%) translateY(60px)'; }, 2800);
+}
+
+function toggleMobSidebar() {
+    document.getElementById('sidebar').classList.toggle('mob-open');
+    document.getElementById('mob-overlay').classList.toggle('show');
+}
+function closeMobSidebar() {
+    document.getElementById('sidebar').classList.remove('mob-open');
+    document.getElementById('mob-overlay').classList.remove('show');
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeKontakModal(); closeTemplateModal(); closeConfirm(); }
+});
+
+renderDashboard();
+</script>
+
+<div style="text-align:center;padding:8px;background:#f8fafc;border-top:1px solid var(--border-color);font-size:12px;color:var(--text-secondary);">
+    Demo project by <a href="https://bagasaria93.github.io" style="color:var(--primary);text-decoration:none;font-weight:600;">Bagas Aria Sativa</a> - Portfolio Demo
+</div>
+</body>
+</html>

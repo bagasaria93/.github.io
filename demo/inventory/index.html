@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StokKu - Sistem Manajemen Inventori</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --primary: #0d9488;
+    --primary-light: #14b8a6;
+    --primary-dark: #0f766e;
+    --primary-bg: rgba(13,148,136,0.08);
+    --success: #16a34a;
+    --success-bg: rgba(22,163,74,0.1);
+    --warning: #d97706;
+    --warning-bg: rgba(217,119,6,0.1);
+    --danger: #dc2626;
+    --danger-bg: rgba(220,38,38,0.1);
+    --info: #2563eb;
+    --info-bg: rgba(37,99,235,0.1);
+    --sidebar-bg: #0c1a18;
+    --sidebar-text: #94a3b8;
+    --body-bg: #f1f5f9;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --font: 'Plus Jakarta Sans', sans-serif;
+}
+* { box-sizing: border-box; }
+body { font-family: var(--font); background: var(--body-bg); color: var(--text-primary); margin: 0; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.3s ease forwards; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner-inline { width: 15px; height: 15px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; vertical-align: middle; margin-right: 6px; }
+
+.sidebar {
+    width: 240px; min-height: 100vh;
+    background: var(--sidebar-bg);
+    position: fixed; top: 0; left: 0; z-index: 100;
+    display: flex; flex-direction: column;
+    transition: transform 0.3s;
+}
+.sidebar-brand { padding: 20px 20px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.brand-logo {
+    width: 36px; height: 36px;
+    background: var(--primary);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 800; font-size: 14px; flex-shrink: 0;
+}
+.sidebar-nav { padding: 12px 0; flex: 1; overflow-y: auto; }
+.nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 20px;
+    color: var(--sidebar-text);
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none; background: none;
+    width: 100%; text-align: left;
+    border-right: 3px solid transparent;
+    transition: all 0.2s;
+}
+.nav-item:hover { color: white; background: rgba(255,255,255,0.05); }
+.nav-item.active { color: white; background: rgba(13,148,136,0.2); border-right-color: var(--primary-light); }
+.nav-item svg { flex-shrink: 0; opacity: 0.7; }
+.nav-item.active svg, .nav-item:hover svg { opacity: 1; }
+.nav-badge { margin-left: auto; background: var(--danger); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; }
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.07); }
+
+.main-content { margin-left: 240px; min-height: 100vh; }
+.topbar {
+    background: white; border-bottom: 1px solid var(--border-color);
+    padding: 0 24px; height: 60px;
+    display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 99;
+}
+.topbar-title { font-weight: 700; font-size: 16px; }
+.topbar-sub { color: var(--text-secondary); font-size: 13px; margin-top: 1px; }
+.content-area { padding: 24px; }
+.page-section { display: none; }
+.page-section.active { display: block; animation: fadeIn 0.25s ease forwards; }
+
+.stat-card { background: white; border-radius: 14px; padding: 20px; border: 1px solid var(--border-color); transition: box-shadow 0.2s; }
+.stat-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
+.stat-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+.stat-val { font-size: 26px; font-weight: 800; line-height: 1.1; }
+.stat-label { color: var(--text-secondary); font-size: 13px; margin-top: 2px; }
+
+.card-section { background: white; border-radius: 14px; border: 1px solid var(--border-color); overflow: hidden; }
+.card-header-custom { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.card-header-title { font-weight: 700; font-size: 14px; }
+.card-body-custom { padding: 20px; }
+
+.table-custom { width: 100%; border-collapse: collapse; font-size: 13px; }
+.table-custom th { padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text-secondary); border-bottom: 2px solid var(--border-color); font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; background: #f8fafc; }
+.table-custom td { padding: 12px 14px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
+.table-custom tr:last-child td { border-bottom: none; }
+.table-custom tr:hover td { background: #f8fafc; }
+
+.badge-status { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+.badge-aman { background: var(--success-bg); color: var(--success); }
+.badge-menipis { background: var(--warning-bg); color: var(--warning); }
+.badge-habis { background: var(--danger-bg); color: var(--danger); }
+.badge-cat { background: var(--primary-bg); color: var(--primary); }
+.badge-masuk { background: var(--success-bg); color: var(--success); }
+.badge-keluar { background: var(--danger-bg); color: var(--danger); }
+.badge-opname { background: var(--info-bg); color: var(--info); }
+
+.search-input { border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 14px; font-size: 13px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
+.search-input:focus { border-color: var(--primary-light); }
+.filter-select { border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 12px; font-size: 13px; font-family: var(--font); outline: none; cursor: pointer; background: white; }
+.filter-select:focus { border-color: var(--primary-light); }
+.filter-select option { background: white; color: var(--text-primary); }
+
+.btn-primary-custom { background: var(--primary); color: white; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: background 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-primary-custom:hover { background: var(--primary-dark); }
+.btn-primary-custom:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-outline-custom { background: white; color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+.btn-outline-custom:hover { border-color: var(--primary-light); color: var(--primary); }
+.btn-sm-icon { width: 30px; height: 30px; border-radius: 6px; border: 1px solid var(--border-color); background: white; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; color: var(--text-secondary); transition: all 0.2s; }
+.btn-sm-icon:hover { border-color: var(--primary-light); color: var(--primary); }
+
+.form-label-custom { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+.form-control-custom { width: 100%; border: 1.5px solid var(--border-color); border-radius: 10px; padding: 10px 14px; font-size: 13px; font-family: var(--font); outline: none; transition: border-color 0.2s; }
+.form-control-custom:focus { border-color: var(--primary-light); }
+.form-control-custom option { background: white; }
+
+.low-stock-alert { background: rgba(217,119,6,0.07); border: 1px solid rgba(217,119,6,0.2); border-radius: 10px; padding: 10px 14px; font-size: 13px; display: flex; align-items: center; gap: 10px; }
+
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(3px); opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal-box { background: white; border-radius: 16px; padding: 26px; width: 480px; max-width: 95vw; transform: scale(0.96); transition: transform 0.25s; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+.modal-overlay.open .modal-box { transform: scale(1); }
+
+.empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
+.empty-state p { font-size: 14px; margin-top: 10px; }
+
+.chart-container { position: relative; height: 230px; }
+
+.stock-bar-wrap { height: 6px; background: var(--border-color); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+.stock-bar { height: 100%; border-radius: 3px; transition: width 0.4s; }
+
+@media (max-width: 991px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.mob-open { transform: translateX(0); }
+    .main-content { margin-left: 0; }
+    .mob-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 99; display: none; }
+    .mob-overlay.show { display: block; }
+}
+</style>
+</head>
+<body>
+
+<div class="mob-overlay" id="mob-overlay" onclick="closeMobSidebar()"></div>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <div class="d-flex align-items-center gap-2">
+            <div class="brand-logo">S</div>
+            <div>
+                <div style="color:white;font-weight:700;font-size:15px;">StokKu</div>
+                <div style="color:var(--sidebar-text);font-size:11px;">Manajemen Inventori</div>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar-nav">
+        <button class="nav-item active" data-section="dashboard" onclick="showSection('dashboard')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            Dashboard
+        </button>
+        <button class="nav-item" data-section="produk" onclick="showSection('produk')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            Produk
+        </button>
+        <button class="nav-item" data-section="mutasi" onclick="showSection('mutasi')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+            Mutasi Stok
+        </button>
+        <button class="nav-item" data-section="lowstock" onclick="showSection('lowstock')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            Stok Menipis
+            <span class="nav-badge" id="badge-lowstock">0</span>
+        </button>
+        <button class="nav-item" data-section="laporan" onclick="showSection('laporan')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            Laporan
+        </button>
+    </div>
+    <div class="sidebar-footer">
+        <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:13px;flex-shrink:0;">A</div>
+            <div>
+                <div style="color:white;font-size:13px;font-weight:600;">Admin Gudang</div>
+                <div style="color:var(--sidebar-text);font-size:11px;">admin@stokku.id</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="topbar">
+        <button class="d-lg-none btn-sm-icon me-1" onclick="toggleMobSidebar()">
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div>
+            <div class="topbar-title" id="topbar-title">Dashboard</div>
+            <div class="topbar-sub" id="topbar-sub">Ringkasan kondisi inventori</div>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:12px;">
+            <div style="font-size:13px;color:var(--text-secondary);" id="topbar-date"></div>
+            <button class="btn-primary-custom" onclick="openProdukModal()">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                Tambah Produk
+            </button>
+        </div>
+    </div>
+    <div class="content-area">
+        <div id="section-dashboard" class="page-section active"></div>
+        <div id="section-produk" class="page-section"></div>
+        <div id="section-mutasi" class="page-section"></div>
+        <div id="section-lowstock" class="page-section"></div>
+        <div id="section-laporan" class="page-section"></div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="produk-modal">
+    <div class="modal-box">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <div style="font-weight:700;font-size:16px;" id="produk-modal-title">Tambah Produk</div>
+            <button class="btn-sm-icon" onclick="closeProdukModal()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label-custom">Nama Produk</label>
+                <input type="text" class="form-control-custom" id="pf-nama" placeholder="Contoh: Laptop ASUS VivoBook">
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Kode Produk</label>
+                <input type="text" class="form-control-custom" id="pf-kode" placeholder="Contoh: PRD-001">
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Kategori</label>
+                <select class="form-control-custom" id="pf-kategori">
+                    <option value="">Pilih Kategori</option>
+                    <option>Elektronik</option>
+                    <option>Alat Tulis</option>
+                    <option>Furnitur</option>
+                    <option>Perlengkapan Kantor</option>
+                    <option>Makanan & Minuman</option>
+                    <option>Bahan Baku</option>
+                    <option>Lainnya</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Harga Beli (Rp)</label>
+                <input type="number" class="form-control-custom" id="pf-harga-beli" placeholder="0">
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Harga Jual (Rp)</label>
+                <input type="number" class="form-control-custom" id="pf-harga-jual" placeholder="0">
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Stok Awal</label>
+                <input type="number" class="form-control-custom" id="pf-stok" placeholder="0" min="0">
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Stok Minimum (Alert)</label>
+                <input type="number" class="form-control-custom" id="pf-stok-min" placeholder="5" min="0">
+            </div>
+            <div class="col-12">
+                <label class="form-label-custom">Satuan</label>
+                <select class="form-control-custom" id="pf-satuan">
+                    <option>Unit</option>
+                    <option>Pcs</option>
+                    <option>Box</option>
+                    <option>Kg</option>
+                    <option>Liter</option>
+                    <option>Rim</option>
+                    <option>Set</option>
+                </select>
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button class="btn-outline-custom" style="flex:1;justify-content:center;" onclick="closeProdukModal()">Batal</button>
+            <button class="btn-primary-custom" style="flex:1;justify-content:center;" id="btn-save-produk" onclick="saveProduk()">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="mutasi-modal">
+    <div class="modal-box" style="width:420px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <div style="font-weight:700;font-size:16px;" id="mutasi-modal-title">Tambah Mutasi Stok</div>
+            <button class="btn-sm-icon" onclick="closeMutasiModal()">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label-custom">Produk</label>
+                <select class="form-control-custom" id="mf-produk">
+                    <option value="">Pilih Produk</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Jenis Mutasi</label>
+                <select class="form-control-custom" id="mf-jenis">
+                    <option value="masuk">Stok Masuk</option>
+                    <option value="keluar">Stok Keluar</option>
+                    <option value="opname">Opname / Koreksi</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <label class="form-label-custom">Jumlah</label>
+                <input type="number" class="form-control-custom" id="mf-jumlah" placeholder="0" min="1">
+            </div>
+            <div class="col-12">
+                <label class="form-label-custom">Keterangan</label>
+                <input type="text" class="form-control-custom" id="mf-keterangan" placeholder="Contoh: Pembelian dari supplier, Penjualan ke customer...">
+            </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button class="btn-outline-custom" style="flex:1;justify-content:center;" onclick="closeMutasiModal()">Batal</button>
+            <button class="btn-primary-custom" style="flex:1;justify-content:center;" onclick="saveMutasi()">Simpan Mutasi</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="confirm-modal">
+    <div class="modal-box" style="width:340px;text-align:center;">
+        <div style="width:52px;height:52px;border-radius:50%;background:rgba(220,38,38,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+            <svg width="22" height="22" fill="none" stroke="#dc2626" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+        <div style="font-weight:700;font-size:15px;margin-bottom:8px;" id="confirm-text">Yakin?</div>
+        <div style="font-size:13px;color:var(--text-secondary);margin-bottom:20px;">Tindakan ini tidak dapat dibatalkan.</div>
+        <div style="display:flex;gap:10px;">
+            <button class="btn-outline-custom" style="flex:1;justify-content:center;" onclick="closeConfirm()">Batal</button>
+            <button class="btn-primary-custom" style="flex:1;justify-content:center;background:#dc2626;" id="confirm-ok-btn">Ya, Lanjutkan</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+var charts = {};
+var editingProdukId = null;
+
+var produk = JSON.parse(localStorage.getItem('stokku_produk') || 'null');
+if (!produk) {
+    produk = [
+        { id: 'PRD001', kode: 'PRD-001', nama: 'Laptop ASUS VivoBook 15', kategori: 'Elektronik', hargaBeli: 7500000, hargaJual: 9000000, stok: 12, stokMin: 3, satuan: 'Unit' },
+        { id: 'PRD002', kode: 'PRD-002', nama: 'Mouse Wireless Logitech M280', kategori: 'Elektronik', hargaBeli: 150000, hargaJual: 220000, stok: 45, stokMin: 10, satuan: 'Pcs' },
+        { id: 'PRD003', kode: 'PRD-003', nama: 'Keyboard Mechanical Rexus', kategori: 'Elektronik', hargaBeli: 450000, hargaJual: 650000, stok: 8, stokMin: 5, satuan: 'Pcs' },
+        { id: 'PRD004', kode: 'PRD-004', nama: 'Kertas HVS A4 80gr', kategori: 'Alat Tulis', hargaBeli: 45000, hargaJual: 65000, stok: 3, stokMin: 10, satuan: 'Rim' },
+        { id: 'PRD005', kode: 'PRD-005', nama: 'Pulpen Pilot G2 (isi 12)', kategori: 'Alat Tulis', hargaBeli: 25000, hargaJual: 38000, stok: 30, stokMin: 5, satuan: 'Box' },
+        { id: 'PRD006', kode: 'PRD-006', nama: 'Kursi Ergonomis Highback', kategori: 'Furnitur', hargaBeli: 1800000, hargaJual: 2500000, stok: 6, stokMin: 2, satuan: 'Unit' },
+        { id: 'PRD007', kode: 'PRD-007', nama: 'Meja Kerja 120x60cm', kategori: 'Furnitur', hargaBeli: 850000, hargaJual: 1200000, stok: 4, stokMin: 2, satuan: 'Unit' },
+        { id: 'PRD008', kode: 'PRD-008', nama: 'Tinta Printer Epson 664', kategori: 'Perlengkapan Kantor', hargaBeli: 55000, hargaJual: 80000, stok: 2, stokMin: 8, satuan: 'Pcs' },
+        { id: 'PRD009', kode: 'PRD-009', nama: 'Kopi Kapal Api 1kg', kategori: 'Makanan & Minuman', hargaBeli: 65000, hargaJual: 85000, stok: 15, stokMin: 5, satuan: 'Kg' },
+        { id: 'PRD010', kode: 'PRD-010', nama: 'Air Mineral Aqua 1500ml', kategori: 'Makanan & Minuman', hargaBeli: 4000, hargaJual: 6000, stok: 0, stokMin: 24, satuan: 'Pcs' },
+        { id: 'PRD011', kode: 'PRD-011', nama: 'Flashdisk SanDisk 32GB', kategori: 'Elektronik', hargaBeli: 75000, hargaJual: 110000, stok: 20, stokMin: 5, satuan: 'Pcs' },
+        { id: 'PRD012', kode: 'PRD-012', nama: 'Spidol Whiteboard Snowman', kategori: 'Alat Tulis', hargaBeli: 18000, hargaJual: 28000, stok: 25, stokMin: 10, satuan: 'Pcs' },
+    ];
+    localStorage.setItem('stokku_produk', JSON.stringify(produk));
+}
+
+var mutasi = JSON.parse(localStorage.getItem('stokku_mutasi') || 'null');
+if (!mutasi) {
+    mutasi = [
+        { id: 'M001', produkId: 'PRD001', produkNama: 'Laptop ASUS VivoBook 15', jenis: 'masuk', jumlah: 5, stokSebelum: 7, stokSesudah: 12, keterangan: 'Pembelian dari PT Distributor Teknologi', waktu: formatDateTime(new Date(Date.now() - 3600000)) },
+        { id: 'M002', produkId: 'PRD004', produkNama: 'Kertas HVS A4 80gr', jenis: 'keluar', jumlah: 7, stokSebelum: 10, stokSesudah: 3, keterangan: 'Pemakaian operasional kantor', waktu: formatDateTime(new Date(Date.now() - 7200000)) },
+        { id: 'M003', produkId: 'PRD008', produkNama: 'Tinta Printer Epson 664', jenis: 'keluar', jumlah: 6, stokSebelum: 8, stokSesudah: 2, keterangan: 'Dipakai maintenance printer', waktu: formatDateTime(new Date(Date.now() - 14400000)) },
+        { id: 'M004', produkId: 'PRD002', produkNama: 'Mouse Wireless Logitech M280', jenis: 'masuk', jumlah: 20, stokSebelum: 25, stokSesudah: 45, keterangan: 'Restok dari supplier', waktu: formatDateTime(new Date(Date.now() - 86400000)) },
+        { id: 'M005', produkId: 'PRD010', produkNama: 'Air Mineral Aqua 1500ml', jenis: 'keluar', jumlah: 24, stokSebelum: 24, stokSesudah: 0, keterangan: 'Konsumsi rapat bulanan', waktu: formatDateTime(new Date(Date.now() - 172800000)) },
+        { id: 'M006', produkId: 'PRD003', produkNama: 'Keyboard Mechanical Rexus', jenis: 'opname', jumlah: 8, stokSebelum: 10, stokSesudah: 8, keterangan: 'Koreksi hasil stock opname', waktu: formatDateTime(new Date(Date.now() - 259200000)) },
+    ];
+    localStorage.setItem('stokku_mutasi', JSON.stringify(mutasi));
+}
+
+function formatDateTime(date) {
+    var pad = function(n) { return String(n).padStart(2, '0'); };
+    return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ', ' + pad(date.getHours()) + ':' + pad(date.getMinutes()) + ':' + pad(date.getSeconds());
+}
+
+function formatRp(n) {
+    return 'Rp ' + Number(n).toLocaleString('id-ID');
+}
+
+function genId(prefix) {
+    return prefix + Date.now();
+}
+
+function getStokStatus(p) {
+    if (p.stok === 0) return 'habis';
+    if (p.stok <= p.stokMin) return 'menipis';
+    return 'aman';
+}
+
+function getStokStatusLabel(p) {
+    var s = getStokStatus(p);
+    if (s === 'habis') return 'Habis';
+    if (s === 'menipis') return 'Menipis';
+    return 'Aman';
+}
+
+function getLowStockCount() {
+    return produk.filter(function(p) { return p.stok <= p.stokMin; }).length;
+}
+
+function updateBadge() {
+    var count = getLowStockCount();
+    var badge = document.getElementById('badge-lowstock');
+    if (badge) {
+        badge.textContent = count;
+        badge.style.display = count > 0 ? '' : 'none';
+    }
+}
+
+function showSection(id) {
+    document.querySelectorAll('.page-section').forEach(function(s) { s.classList.remove('active'); });
+    document.querySelectorAll('.nav-item[data-section]').forEach(function(n) {
+        n.classList.toggle('active', n.dataset.section === id);
+    });
+    document.getElementById('section-' + id).classList.add('active');
+    closeMobSidebar();
+    var titles = { dashboard: 'Dashboard', produk: 'Data Produk', mutasi: 'Mutasi Stok', lowstock: 'Stok Menipis', laporan: 'Laporan' };
+    var subs = { dashboard: 'Ringkasan kondisi inventori', produk: 'Kelola daftar produk dan stok', mutasi: 'Riwayat pergerakan stok masuk dan keluar', lowstock: 'Produk yang perlu segera direstok', laporan: 'Analitik dan grafik inventori' };
+    document.getElementById('topbar-title').textContent = titles[id] || id;
+    document.getElementById('topbar-sub').textContent = subs[id] || '';
+    var renderers = { dashboard: renderDashboard, produk: renderProduk, mutasi: renderMutasi, lowstock: renderLowStock, laporan: renderLaporan };
+    if (renderers[id]) renderers[id]();
+}
+
+function renderDashboard() {
+    var totalProduk = produk.length;
+    var totalStokNilai = produk.reduce(function(s, p) { return s + p.stok * p.hargaBeli; }, 0);
+    var lowStock = getLowStockCount();
+    var totalMasukHariIni = mutasi.filter(function(m) {
+        return m.jenis === 'masuk' && m.waktu.startsWith(new Date().getDate() + '/' + (new Date().getMonth() + 1) + '/' + new Date().getFullYear());
+    }).length;
+
+    var stats = [
+        { label: 'Total Produk', val: totalProduk, sub: 'jenis produk terdaftar', bg: 'rgba(13,148,136,0.1)', color: '#0d9488', icon: '<svg width="22" height="22" fill="none" stroke="#0d9488" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>' },
+        { label: 'Nilai Total Stok', val: formatRp(totalStokNilai), sub: 'estimasi harga beli', bg: 'rgba(37,99,235,0.1)', color: '#2563eb', icon: '<svg width="22" height="22" fill="none" stroke="#2563eb" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>' },
+        { label: 'Stok Menipis / Habis', val: lowStock, sub: 'perlu segera direstok', bg: 'rgba(217,119,6,0.1)', color: '#d97706', icon: '<svg width="22" height="22" fill="none" stroke="#d97706" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>' },
+        { label: 'Total Mutasi', val: mutasi.length, sub: 'transaksi stok tercatat', bg: 'rgba(22,163,74,0.1)', color: '#16a34a', icon: '<svg width="22" height="22" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>' },
+    ];
+
+    var html = '<div class="row g-3 mb-4">' + stats.map(function(s) {
+        return '<div class="col-6 col-xl-3"><div class="stat-card"><div class="stat-icon mb-3" style="background:' + s.bg + '">' + s.icon + '</div><div class="stat-val" style="color:' + s.color + ';">' + s.val + '</div><div class="stat-label">' + s.label + '</div><div style="font-size:12px;color:var(--text-secondary);margin-top:4px;">' + s.sub + '</div></div></div>';
+    }).join('') + '</div>';
+
+    if (lowStock > 0) {
+        html += '<div class="low-stock-alert mb-4"><svg width="18" height="18" fill="none" stroke="#d97706" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><span style="font-weight:600;color:#d97706;">' + lowStock + ' produk</span><span style="color:var(--text-secondary);"> memiliki stok di bawah batas minimum. </span><button onclick="showSection(\'lowstock\')" style="background:none;border:none;color:#d97706;font-weight:700;cursor:pointer;font-family:var(--font);font-size:13px;padding:0;">Lihat sekarang</button></div>';
+    }
+
+    html += '<div class="row g-3">';
+    html += '<div class="col-lg-8"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Pergerakan Stok 7 Hari Terakhir</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-pergerakan"></canvas></div></div></div></div>';
+    html += '<div class="col-lg-4"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Stok Kritis</span><button class="btn-outline-custom" style="padding:5px 12px;font-size:12px;" onclick="showSection(\'lowstock\')">Lihat Semua</button></div><div class="card-body-custom p-0">';
+
+    var kritis = produk.filter(function(p) { return p.stok <= p.stokMin; }).slice(0, 5);
+    if (kritis.length === 0) {
+        html += '<div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:13px;">Semua stok dalam kondisi aman ✓</div>';
+    } else {
+        html += kritis.map(function(p) {
+            var pct = p.stokMin > 0 ? Math.min(100, Math.round(p.stok / p.stokMin * 100)) : 0;
+            var color = p.stok === 0 ? '#dc2626' : '#d97706';
+            return '<div style="padding:12px 16px;border-bottom:1px solid var(--border-color);"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;"><span style="font-size:13px;font-weight:600;">' + p.nama + '</span><span style="font-size:12px;font-weight:700;color:' + color + ';">' + p.stok + ' ' + p.satuan + '</span></div><div class="stock-bar-wrap"><div class="stock-bar" style="width:' + pct + '%;background:' + color + ';"></div></div><div style="font-size:11px;color:var(--text-secondary);margin-top:3px;">Min: ' + p.stokMin + ' ' + p.satuan + '</div></div>';
+        }).join('');
+    }
+    html += '</div></div></div>';
+
+    html += '<div class="col-12"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Mutasi Stok Terbaru</span><button class="btn-outline-custom" style="padding:5px 12px;font-size:12px;" onclick="showSection(\'mutasi\')">Lihat Semua</button></div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr><th>Produk</th><th>Jenis</th><th>Jumlah</th><th>Stok Sebelum</th><th>Stok Sesudah</th><th>Keterangan</th><th>Waktu</th></tr></thead><tbody>';
+    html += mutasi.slice(0, 5).map(function(m) {
+        return '<tr><td style="font-weight:600;">' + m.produkNama + '</td><td><span class="badge-status badge-' + m.jenis + '">' + (m.jenis === 'masuk' ? 'Masuk' : m.jenis === 'keluar' ? 'Keluar' : 'Opname') + '</span></td><td style="font-weight:700;">' + (m.jenis === 'masuk' ? '+' : m.jenis === 'keluar' ? '-' : '=') + m.jumlah + '</td><td>' + m.stokSebelum + '</td><td style="font-weight:600;">' + m.stokSesudah + '</td><td style="color:var(--text-secondary);max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + m.keterangan + '</td><td style="color:var(--text-secondary);font-size:12px;">' + m.waktu + '</td></tr>';
+    }).join('');
+    html += '</tbody></table></div></div></div></div>';
+    html += '</div>';
+
+    document.getElementById('section-dashboard').innerHTML = html;
+
+    requestAnimationFrame(function() {
+        var ctx = document.getElementById('chart-pergerakan');
+        if (!ctx) return;
+        if (charts['pergerakan']) charts['pergerakan'].destroy();
+        var labels = [], masukData = [], keluarData = [];
+        for (var d = 6; d >= 0; d--) {
+            var dt = new Date();
+            dt.setDate(dt.getDate() - d);
+            var dateStr = dt.getDate() + '/' + (dt.getMonth() + 1) + '/' + dt.getFullYear();
+            labels.push(dt.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' }));
+            var dayMutasi = mutasi.filter(function(m) { return m.waktu.startsWith(dateStr); });
+            masukData.push(dayMutasi.filter(function(m) { return m.jenis === 'masuk'; }).reduce(function(s, m) { return s + m.jumlah; }, 0));
+            keluarData.push(dayMutasi.filter(function(m) { return m.jenis === 'keluar'; }).reduce(function(s, m) { return s + m.jumlah; }, 0));
+        }
+        var hasData = masukData.some(function(v) { return v > 0; }) || keluarData.some(function(v) { return v > 0; });
+        charts['pergerakan'] = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    { label: 'Stok Masuk', data: hasData ? masukData : [20, 35, 0, 50, 15, 0, 25], backgroundColor: 'rgba(13,148,136,0.8)', borderRadius: 5 },
+                    { label: 'Stok Keluar', data: hasData ? keluarData : [10, 20, 30, 15, 25, 10, 5], backgroundColor: 'rgba(220,38,38,0.7)', borderRadius: 5 },
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { font: { family: 'Plus Jakarta Sans', size: 12 }, boxWidth: 12 } } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true, ticks: { stepSize: 5 } }
+                },
+                animation: false
+            }
+        });
+    });
+}
+
+function renderProduk() {
+    var kategoriList = [];
+    produk.forEach(function(p) { if (kategoriList.indexOf(p.kategori) === -1) kategoriList.push(p.kategori); });
+
+    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Daftar Produk (' + produk.length + ')</span>';
+    html += '<div style="display:flex;gap:8px;"><button class="btn-outline-custom" onclick="exportProdukCsv()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Export CSV</button></div>';
+    html += '</div><div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap">';
+    html += '<input type="text" class="search-input" id="search-produk" placeholder="Cari nama / kode produk..." oninput="filterProduk()" style="min-width:200px;">';
+    html += '<select class="filter-select" id="filter-kategori" onchange="filterProduk()"><option value="">Semua Kategori</option>';
+    kategoriList.forEach(function(k) { html += '<option value="' + k + '">' + k + '</option>'; });
+    html += '</select><select class="filter-select" id="filter-stok-status" onchange="filterProduk()"><option value="">Semua Status</option><option value="aman">Aman</option><option value="menipis">Menipis</option><option value="habis">Habis</option></select>';
+    html += '</div><div class="table-responsive"><table class="table-custom"><thead><tr><th>Kode</th><th>Nama Produk</th><th>Kategori</th><th>Harga Beli</th><th>Harga Jual</th><th>Stok</th><th>Min Stok</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="tbody-produk">' + renderProdukRows(produk) + '</tbody></table></div></div></div>';
+    document.getElementById('section-produk').innerHTML = html;
+}
+
+function renderProdukRows(data) {
+    if (data.length === 0) {
+        return '<tr><td colspan="9"><div class="empty-state"><svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg><p>Tidak ada produk ditemukan</p></div></td></tr>';
+    }
+    return data.map(function(p) {
+        var status = getStokStatus(p);
+        var label = getStokStatusLabel(p);
+        return '<tr><td style="font-family:monospace;font-size:12px;color:var(--text-secondary);">' + p.kode + '</td><td style="font-weight:600;">' + p.nama + '</td><td><span class="badge-status badge-cat">' + p.kategori + '</span></td><td>' + formatRp(p.hargaBeli) + '</td><td style="color:var(--primary);font-weight:600;">' + formatRp(p.hargaJual) + '</td><td style="font-weight:700;">' + p.stok + ' ' + p.satuan + '</td><td style="color:var(--text-secondary);">' + p.stokMin + ' ' + p.satuan + '</td><td><span class="badge-status badge-' + status + '">' + label + '</span></td><td><div style="display:flex;gap:6px;"><button onclick="editProduk(\'' + p.id + '\')" style="background:rgba(13,148,136,0.08);border:1px solid rgba(13,148,136,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Edit</button><button onclick="openMutasiModal(\'' + p.id + '\')" style="background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.2);color:#2563eb;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Mutasi</button><button onclick="deleteProduk(\'' + p.id + '\')" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Hapus</button></div></td></tr>';
+    }).join('');
+}
+
+function filterProduk() {
+    var q = (document.getElementById('search-produk').value || '').toLowerCase();
+    var kat = document.getElementById('filter-kategori').value;
+    var status = document.getElementById('filter-stok-status').value;
+    var filtered = produk.filter(function(p) {
+        return (!q || p.nama.toLowerCase().includes(q) || p.kode.toLowerCase().includes(q)) && (!kat || p.kategori === kat) && (!status || getStokStatus(p) === status);
+    });
+    document.getElementById('tbody-produk').innerHTML = renderProdukRows(filtered);
+}
+
+function renderMutasi() {
+    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Riwayat Mutasi Stok</span>';
+    html += '<div style="display:flex;gap:8px;"><button class="btn-outline-custom" onclick="exportMutasiCsv()"><svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>Export</button><button class="btn-primary-custom" onclick="openMutasiModal(null)">+ Tambah Mutasi</button></div>';
+    html += '</div><div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap">';
+    html += '<input type="text" class="search-input" id="search-mutasi" placeholder="Cari nama produk..." oninput="filterMutasi()" style="min-width:200px;">';
+    html += '<select class="filter-select" id="filter-mutasi-jenis" onchange="filterMutasi()"><option value="">Semua Jenis</option><option value="masuk">Masuk</option><option value="keluar">Keluar</option><option value="opname">Opname</option></select>';
+    html += '</div><div class="table-responsive"><table class="table-custom"><thead><tr><th>Produk</th><th>Jenis</th><th>Jumlah</th><th>Stok Sebelum</th><th>Stok Sesudah</th><th>Keterangan</th><th>Waktu</th></tr></thead><tbody id="tbody-mutasi">' + renderMutasiRows(mutasi) + '</tbody></table></div></div></div>';
+    document.getElementById('section-mutasi').innerHTML = html;
+}
+
+function renderMutasiRows(data) {
+    if (data.length === 0) {
+        return '<tr><td colspan="7"><div class="empty-state"><p>Belum ada data mutasi stok</p></div></td></tr>';
+    }
+    return data.map(function(m) {
+        var prefix = m.jenis === 'masuk' ? '+' : m.jenis === 'keluar' ? '-' : '=';
+        var color = m.jenis === 'masuk' ? '#16a34a' : m.jenis === 'keluar' ? '#dc2626' : '#2563eb';
+        return '<tr><td style="font-weight:600;">' + m.produkNama + '</td><td><span class="badge-status badge-' + m.jenis + '">' + (m.jenis === 'masuk' ? 'Masuk' : m.jenis === 'keluar' ? 'Keluar' : 'Opname') + '</span></td><td style="font-weight:700;color:' + color + ';">' + prefix + m.jumlah + '</td><td>' + m.stokSebelum + '</td><td style="font-weight:600;">' + m.stokSesudah + '</td><td style="color:var(--text-secondary);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + m.keterangan + '</td><td style="color:var(--text-secondary);font-size:12px;">' + m.waktu + '</td></tr>';
+    }).join('');
+}
+
+function filterMutasi() {
+    var q = (document.getElementById('search-mutasi').value || '').toLowerCase();
+    var jenis = document.getElementById('filter-mutasi-jenis').value;
+    var filtered = mutasi.filter(function(m) {
+        return (!q || m.produkNama.toLowerCase().includes(q)) && (!jenis || m.jenis === jenis);
+    });
+    document.getElementById('tbody-mutasi').innerHTML = renderMutasiRows(filtered);
+}
+
+function renderLowStock() {
+    var low = produk.filter(function(p) { return p.stok <= p.stokMin; });
+    var html = '';
+    if (low.length === 0) {
+        html = '<div class="card-section"><div class="card-body-custom"><div class="empty-state"><svg width="48" height="48" fill="none" stroke="#16a34a" stroke-width="1.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg><p style="color:#16a34a;font-weight:600;">Semua stok dalam kondisi aman!</p></div></div></div>';
+    } else {
+        html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Produk Stok Menipis / Habis (' + low.length + ')</span></div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr><th>Kode</th><th>Nama Produk</th><th>Kategori</th><th>Stok Saat Ini</th><th>Stok Minimum</th><th>Selisih</th><th>Status</th><th>Aksi</th></tr></thead><tbody>';
+        html += low.map(function(p) {
+            var selisih = p.stok - p.stokMin;
+            var status = getStokStatus(p);
+            return '<tr><td style="font-family:monospace;font-size:12px;color:var(--text-secondary);">' + p.kode + '</td><td style="font-weight:600;">' + p.nama + '</td><td><span class="badge-status badge-cat">' + p.kategori + '</span></td><td style="font-weight:700;color:' + (p.stok === 0 ? '#dc2626' : '#d97706') + ';">' + p.stok + ' ' + p.satuan + '</td><td>' + p.stokMin + ' ' + p.satuan + '</td><td style="color:#dc2626;font-weight:700;">' + selisih + ' ' + p.satuan + '</td><td><span class="badge-status badge-' + status + '">' + getStokStatusLabel(p) + '</span></td><td><button onclick="openMutasiModal(\'' + p.id + '\')" class="btn-primary-custom" style="padding:5px 12px;font-size:12px;">+ Restok</button></td></tr>';
+        }).join('');
+        html += '</tbody></table></div></div></div>';
+    }
+    document.getElementById('section-lowstock').innerHTML = html;
+}
+
+function renderLaporan() {
+    var html = '<div class="row g-3">';
+    html += '<div class="col-lg-6"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Distribusi Stok per Kategori</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-kategori"></canvas></div></div></div></div>';
+    html += '<div class="col-lg-6"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Status Stok Produk</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-status"></canvas></div></div></div></div>';
+    html += '<div class="col-12"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Nilai Stok per Kategori (Harga Beli)</span></div><div class="card-body-custom"><div class="chart-container" style="height:200px;"><canvas id="chart-nilai"></canvas></div></div></div></div>';
+    html += '</div>';
+    document.getElementById('section-laporan').innerHTML = html;
+
+    requestAnimationFrame(function() {
+        var katMap = {};
+        produk.forEach(function(p) {
+            if (!katMap[p.kategori]) katMap[p.kategori] = { count: 0, nilai: 0 };
+            katMap[p.kategori].count += p.stok;
+            katMap[p.kategori].nilai += p.stok * p.hargaBeli;
+        });
+        var colors = ['rgba(13,148,136,0.8)', 'rgba(37,99,235,0.8)', 'rgba(124,58,237,0.8)', 'rgba(217,119,6,0.8)', 'rgba(22,163,74,0.8)', 'rgba(220,38,38,0.8)', 'rgba(8,145,178,0.8)'];
+
+        var ctx1 = document.getElementById('chart-kategori');
+        if (ctx1) {
+            if (charts['kategori']) charts['kategori'].destroy();
+            charts['kategori'] = new Chart(ctx1, {
+                type: 'doughnut',
+                data: { labels: Object.keys(katMap), datasets: [{ data: Object.values(katMap).map(function(v) { return v.count; }), backgroundColor: colors, borderWidth: 2, borderColor: '#fff' }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right', labels: { font: { family: 'Plus Jakarta Sans', size: 11 }, boxWidth: 10, padding: 10 } } }, animation: false }
+            });
+        }
+
+        var aman = produk.filter(function(p) { return getStokStatus(p) === 'aman'; }).length;
+        var menipis = produk.filter(function(p) { return getStokStatus(p) === 'menipis'; }).length;
+        var habis = produk.filter(function(p) { return getStokStatus(p) === 'habis'; }).length;
+        var ctx2 = document.getElementById('chart-status');
+        if (ctx2) {
+            if (charts['status']) charts['status'].destroy();
+            charts['status'] = new Chart(ctx2, {
+                type: 'bar',
+                data: { labels: ['Aman', 'Menipis', 'Habis'], datasets: [{ data: [aman, menipis, habis], backgroundColor: ['rgba(22,163,74,0.8)', 'rgba(217,119,6,0.8)', 'rgba(220,38,38,0.8)'], borderRadius: 8 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { stepSize: 1 } } }, animation: false }
+            });
+        }
+
+        var ctx3 = document.getElementById('chart-nilai');
+        if (ctx3) {
+            if (charts['nilai']) charts['nilai'].destroy();
+            charts['nilai'] = new Chart(ctx3, {
+                type: 'bar',
+                data: { labels: Object.keys(katMap), datasets: [{ label: 'Nilai Stok (Rp)', data: Object.values(katMap).map(function(v) { return v.nilai; }), backgroundColor: colors, borderRadius: 6 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } }, y: { beginAtZero: true, ticks: { callback: function(v) { return 'Rp ' + (v / 1000000).toFixed(1) + 'jt'; } } } }, animation: false }
+            });
+        }
+    });
+}
+
+function openProdukModal(id) {
+    editingProdukId = id || null;
+    document.getElementById('produk-modal-title').textContent = id ? 'Edit Produk' : 'Tambah Produk';
+    if (id) {
+        var p = produk.find(function(x) { return x.id === id; });
+        if (p) {
+            document.getElementById('pf-nama').value = p.nama;
+            document.getElementById('pf-kode').value = p.kode;
+            document.getElementById('pf-kategori').value = p.kategori;
+            document.getElementById('pf-harga-beli').value = p.hargaBeli;
+            document.getElementById('pf-harga-jual').value = p.hargaJual;
+            document.getElementById('pf-stok').value = p.stok;
+            document.getElementById('pf-stok-min').value = p.stokMin;
+            document.getElementById('pf-satuan').value = p.satuan;
+        }
+    } else {
+        document.getElementById('pf-nama').value = '';
+        document.getElementById('pf-kode').value = '';
+        document.getElementById('pf-kategori').value = '';
+        document.getElementById('pf-harga-beli').value = '';
+        document.getElementById('pf-harga-jual').value = '';
+        document.getElementById('pf-stok').value = '';
+        document.getElementById('pf-stok-min').value = '5';
+        document.getElementById('pf-satuan').value = 'Unit';
+    }
+    document.getElementById('produk-modal').classList.add('open');
+}
+
+function closeProdukModal() {
+    document.getElementById('produk-modal').classList.remove('open');
+}
+
+function editProduk(id) {
+    openProdukModal(id);
+}
+
+function saveProduk() {
+    var nama = document.getElementById('pf-nama').value.trim();
+    var kode = document.getElementById('pf-kode').value.trim();
+    var kategori = document.getElementById('pf-kategori').value;
+    var hargaBeli = parseInt(document.getElementById('pf-harga-beli').value) || 0;
+    var hargaJual = parseInt(document.getElementById('pf-harga-jual').value) || 0;
+    var stok = parseInt(document.getElementById('pf-stok').value) || 0;
+    var stokMin = parseInt(document.getElementById('pf-stok-min').value) || 0;
+    var satuan = document.getElementById('pf-satuan').value;
+
+    if (!nama || !kode || !kategori) {
+        showToast('Lengkapi nama, kode, dan kategori', '⚠️');
+        return;
+    }
+
+    if (editingProdukId) {
+        var idx = produk.findIndex(function(p) { return p.id === editingProdukId; });
+        if (idx !== -1) {
+            produk[idx] = { id: editingProdukId, kode: kode, nama: nama, kategori: kategori, hargaBeli: hargaBeli, hargaJual: hargaJual, stok: stok, stokMin: stokMin, satuan: satuan };
+        }
+        showToast('Produk diperbarui', '✅');
+    } else {
+        produk.push({ id: genId('PRD'), kode: kode, nama: nama, kategori: kategori, hargaBeli: hargaBeli, hargaJual: hargaJual, stok: stok, stokMin: stokMin, satuan: satuan });
+        showToast('Produk ditambahkan', '✅');
+    }
+
+    localStorage.setItem('stokku_produk', JSON.stringify(produk));
+    closeProdukModal();
+    updateBadge();
+    var activeId = document.querySelector('.nav-item.active') ? document.querySelector('.nav-item.active').dataset.section : 'dashboard';
+    showSection(activeId);
+}
+
+function deleteProduk(id) {
+    openConfirm('Hapus produk ini dari inventori?', function() {
+        produk = produk.filter(function(p) { return p.id !== id; });
+        localStorage.setItem('stokku_produk', JSON.stringify(produk));
+        updateBadge();
+        renderProduk();
+        showToast('Produk dihapus', '🗑️');
+    });
+}
+
+function openMutasiModal(produkId) {
+    var opts = produk.map(function(p) { return '<option value="' + p.id + '">' + p.nama + ' (Stok: ' + p.stok + ' ' + p.satuan + ')</option>'; }).join('');
+    document.getElementById('mf-produk').innerHTML = '<option value="">Pilih Produk</option>' + opts;
+    if (produkId) document.getElementById('mf-produk').value = produkId;
+    document.getElementById('mf-jenis').value = 'masuk';
+    document.getElementById('mf-jumlah').value = '';
+    document.getElementById('mf-keterangan').value = '';
+    document.getElementById('mutasi-modal').classList.add('open');
+}
+
+function closeMutasiModal() {
+    document.getElementById('mutasi-modal').classList.remove('open');
+}
+
+function saveMutasi() {
+    var produkId = document.getElementById('mf-produk').value;
+    var jenis = document.getElementById('mf-jenis').value;
+    var jumlah = parseInt(document.getElementById('mf-jumlah').value) || 0;
+    var keterangan = document.getElementById('mf-keterangan').value.trim();
+
+    if (!produkId || !jumlah || jumlah <= 0) {
+        showToast('Lengkapi semua field dengan benar', '⚠️');
+        return;
+    }
+
+    var p = produk.find(function(x) { return x.id === produkId; });
+    if (!p) return;
+
+    var stokSebelum = p.stok;
+    if (jenis === 'masuk') {
+        p.stok += jumlah;
+    } else if (jenis === 'keluar') {
+        if (jumlah > p.stok) {
+            showToast('Jumlah keluar melebihi stok tersedia (' + p.stok + ')', '⚠️');
+            return;
+        }
+        p.stok -= jumlah;
+    } else {
+        p.stok = jumlah;
+    }
+
+    var m = {
+        id: genId('M'),
+        produkId: p.id,
+        produkNama: p.nama,
+        jenis: jenis,
+        jumlah: jumlah,
+        stokSebelum: stokSebelum,
+        stokSesudah: p.stok,
+        keterangan: keterangan || '-',
+        waktu: formatDateTime(new Date()),
+    };
+
+    mutasi.unshift(m);
+    if (mutasi.length > 200) mutasi = mutasi.slice(0, 200);
+
+    localStorage.setItem('stokku_produk', JSON.stringify(produk));
+    localStorage.setItem('stokku_mutasi', JSON.stringify(mutasi));
+
+    closeMutasiModal();
+    updateBadge();
+    showToast('Mutasi stok berhasil dicatat', '✅');
+
+    var activeId = document.querySelector('.nav-item.active') ? document.querySelector('.nav-item.active').dataset.section : 'dashboard';
+    showSection(activeId);
+}
+
+function exportProdukCsv() {
+    var rows = [['Kode', 'Nama Produk', 'Kategori', 'Harga Beli', 'Harga Jual', 'Stok', 'Stok Min', 'Satuan', 'Status']];
+    produk.forEach(function(p) {
+        rows.push([p.kode, p.nama, p.kategori, p.hargaBeli, p.hargaJual, p.stok, p.stokMin, p.satuan, getStokStatusLabel(p)]);
+    });
+    downloadCsv(rows, 'produk_stokku.csv');
+}
+
+function exportMutasiCsv() {
+    var rows = [['Produk', 'Jenis', 'Jumlah', 'Stok Sebelum', 'Stok Sesudah', 'Keterangan', 'Waktu']];
+    mutasi.forEach(function(m) {
+        rows.push([m.produkNama, m.jenis, m.jumlah, m.stokSebelum, m.stokSesudah, m.keterangan, m.waktu]);
+    });
+    downloadCsv(rows, 'mutasi_stokku.csv');
+}
+
+function downloadCsv(rows, filename) {
+    var csv = rows.map(function(r) { return r.map(function(c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(','); }).join('\n');
+    var blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = filename; a.click();
+    URL.revokeObjectURL(url);
+}
+
+function openConfirm(text, cb) {
+    document.getElementById('confirm-text').textContent = text;
+    document.getElementById('confirm-modal').classList.add('open');
+    document.getElementById('confirm-ok-btn').onclick = function() { closeConfirm(); cb(); };
+}
+
+function closeConfirm() {
+    document.getElementById('confirm-modal').classList.remove('open');
+}
+
+var toastTimer;
+function showToast(msg, icon) {
+    var toast = document.getElementById('stokku-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'stokku-toast';
+        toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(60px);background:#0f172a;color:white;padding:11px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:9999;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.2);white-space:nowrap;border:1px solid rgba(255,255,255,0.08);font-family:var(--font);';
+        document.body.appendChild(toast);
+    }
+    toast.innerHTML = '<span>' + (icon || '✓') + '</span><span>' + msg + '</span>';
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { toast.style.transform = 'translateX(-50%) translateY(60px)'; }, 2800);
+}
+
+function toggleMobSidebar() {
+    document.getElementById('sidebar').classList.toggle('mob-open');
+    document.getElementById('mob-overlay').classList.toggle('show');
+}
+
+function closeMobSidebar() {
+    document.getElementById('sidebar').classList.remove('mob-open');
+    document.getElementById('mob-overlay').classList.remove('show');
+}
+
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { closeProdukModal(); closeMutasiModal(); closeConfirm(); }
+});
+
+document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+updateBadge();
+renderDashboard();
+</script>
+
+<div style="text-align:center;padding:8px;background:#f8fafc;border-top:1px solid var(--border-color);font-size:12px;color:var(--text-secondary);">
+    Demo project by <a href="https://bagasaria93.github.io" style="color:var(--primary);text-decoration:none;font-weight:600;">Bagas Aria Sativa</a> - Portfolio Demo
+</div>
+</body>
+</html>
