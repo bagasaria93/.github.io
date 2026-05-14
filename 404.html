@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 – Page Not Found | Bagas Aria Sativa</title>
+    <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --black: #0a0a0a;
+            --white: #f5f0e8;
+            --white-dim: #a09880;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Sora', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .code {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(6rem, 20vw, 12rem);
+            color: var(--gold);
+            line-height: 1;
+            opacity: 0.15;
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+        }
+        .content { position: relative; z-index: 1; }
+        .label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+        }
+        p {
+            color: var(--white-dim);
+            font-size: 0.95rem;
+            max-width: 400px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+        a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold);
+            color: var(--black);
+            padding: 12px 28px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            letter-spacing: 0.02em;
+            transition: opacity 0.2s;
+        }
+        a:hover { opacity: 0.85; }
+    </style>
+</head>
+<body>
+    <div class="code" aria-hidden="true">404</div>
+    <div class="content">
+        <div class="label">Error 404</div>
+        <h1>Page Not Found</h1>
+        <p>The page you're looking for doesn't exist or has been moved. Head back to the portfolio.</p>
+        <a href="/">&#8592; Back to Portfolio</a>
+    </div>
+</body>
+</html>

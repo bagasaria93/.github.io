@@ -101,9 +101,37 @@ const translations = {
         form_submit: "Send Message",
         form_success: "Message sent successfully. I'll get back to you soon.",
         form_error: "Something went wrong. Please try again or email directly.",
+        form_name_placeholder: "John Doe",
+        form_email_placeholder: "john@example.com",
+        form_message_placeholder: "Hello Bagas, I'd like to discuss...",
         footer_tagline: "Full-Stack Developer · Bekasi, Indonesia",
         footer_source: "View Source",
         footer_back: "Back to Top",
+        typing_1: "Laravel Development",
+        typing_2: "React JS Applications",
+        typing_3: "Full-Stack Solutions",
+        typing_4: "REST API Design",
+        typing_5: "ERP Systems",
+        typing_6: "Next.js & TypeScript",
+        exp_ganzu_bullet_1: "Analyzed business processes across 9 departments, identifying bottlenecks and automation opportunities.",
+        exp_ganzu_bullet_2: "Designed comprehensive ERP solution architecture integrating production, warehouse, quality, and finance modules.",
+        exp_ganzu_bullet_3: "Developed end-to-end manufacturing ERP system from database design to user interface using Laravel & MySQL.",
+        exp_ganzu_bullet_4: "Implemented automated workflows connecting customer orders to delivery and invoice generation.",
+        exp_ganzu_bullet_5: "Built material requirement planning (MRP) with automated purchase request generation workflow.",
+        exp_ganzu_bullet_6: "Implemented multi-stage quality control system tracking incoming, in-process, and outgoing inspections.",
+        exp_ganzu_bullet_7: "Created production scheduling module managing work centers with real-time progress tracking.",
+        exp_ganzu_bullet_8: "Built warehouse management system handling material storage, stock control, and delivery documentation.",
+        exp_ganzu_bullet_9: "Integrated financial module auto-generating invoices from delivery documents with payment tracking.",
+        exp_ganzu_result: "Key results: reduced production planning time by 70%, improved inventory accuracy to 98%, streamlined order-to-delivery cycle by 45%.",
+        exp_rainbrow_bullet_1: "Led full-stack development of 3 business management applications, delivered 14% ahead of schedule.",
+        exp_rainbrow_bullet_2: "HRD Dashboard: Built comprehensive HR system with GPS-based attendance, geofencing validation, automated training management, role-based authentication, and real-time analytics dashboard.",
+        exp_rainbrow_bullet_3: "Aftercare Dashboard: Built multi-role system with automated WhatsApp bulk messaging, low-rating auto-detection, complaint resolution workflow, and real-time branch performance analytics.",
+        exp_rainbrow_bullet_4: "NailShade Booking System: Built end-to-end booking platform with QR code walk-in system, automated WhatsApp feedback collection, therapist leaderboard, and branch comparison dashboard.",
+        exp_rainbrow_bullet_5: "Integrated RESTful APIs with AJAX for real-time operations; implemented role-based access control protecting sensitive HR data.",
+        exp_rainbrow_result: "Key results: aftercare response rate +85%, recruitment processing time -80%, rating collection rate improved from 20% to 78%.",
+        exp_komatsu_bullet_1: "Assisted IT team with technical support, hardware maintenance, and system deployment activities.",
+        exp_komatsu_bullet_2: "Contributed to development of Delivery Note Module Application using Alpha Anywhere platform.",
+        exp_komatsu_bullet_3: "Conducted research and designed a Web-Based Shipment Monitoring Application for Logistics Process Optimization.",
     },
     id: {
         hero_available: "Tersedia untuk proyek baru",
@@ -207,18 +235,53 @@ const translations = {
         form_submit: "Kirim Pesan",
         form_success: "Pesan berhasil terkirim. Saya akan segera menghubungi Anda.",
         form_error: "Terjadi kesalahan. Coba lagi atau kirim email langsung.",
+        form_name_placeholder: "Nama Lengkap",
+        form_email_placeholder: "email@contoh.com",
+        form_message_placeholder: "Halo Bagas, saya ingin mendiskusikan...",
         footer_tagline: "Full-Stack Developer · Bekasi, Indonesia",
         footer_source: "Lihat Source",
         footer_back: "Kembali ke Atas",
+        typing_1: "Pengembangan Laravel",
+        typing_2: "Aplikasi React JS",
+        typing_3: "Solusi Full-Stack",
+        typing_4: "Desain REST API",
+        typing_5: "Sistem ERP",
+        typing_6: "Next.js & TypeScript",
+        exp_ganzu_bullet_1: "Menganalisis proses bisnis di 9 departemen, mengidentifikasi bottleneck dan peluang otomasi.",
+        exp_ganzu_bullet_2: "Merancang arsitektur solusi ERP komprehensif yang mengintegrasikan modul produksi, gudang, kualitas, dan keuangan.",
+        exp_ganzu_bullet_3: "Mengembangkan sistem ERP manufaktur end-to-end mulai dari desain database hingga antarmuka pengguna menggunakan Laravel & MySQL.",
+        exp_ganzu_bullet_4: "Mengimplementasikan alur kerja otomatis yang menghubungkan pesanan pelanggan hingga pengiriman dan pembuatan invoice.",
+        exp_ganzu_bullet_5: "Membangun Material Requirement Planning (MRP) dengan alur otomatis pembuatan purchase request.",
+        exp_ganzu_bullet_6: "Mengimplementasikan sistem quality control multi-tahap yang melacak inspeksi masuk, proses, dan keluar.",
+        exp_ganzu_bullet_7: "Membuat modul penjadwalan produksi yang mengelola work center dengan pelacakan kemajuan real-time.",
+        exp_ganzu_bullet_8: "Membangun sistem manajemen gudang yang menangani penyimpanan material, kontrol stok, dan dokumentasi pengiriman.",
+        exp_ganzu_bullet_9: "Mengintegrasikan modul keuangan yang secara otomatis menghasilkan invoice dari dokumen pengiriman dengan pelacakan pembayaran.",
+        exp_ganzu_result: "Hasil utama: waktu perencanaan produksi berkurang 70%, akurasi inventori meningkat ke 98%, siklus order-to-delivery dipercepat 45%.",
+        exp_rainbrow_bullet_1: "Memimpin pengembangan full-stack 3 aplikasi manajemen bisnis, diselesaikan 14% lebih cepat dari jadwal.",
+        exp_rainbrow_bullet_2: "HRD Dashboard: Membangun sistem HR komprehensif dengan absensi berbasis GPS, validasi geofencing, manajemen pelatihan otomatis, autentikasi berbasis peran, dan dashboard analitik real-time.",
+        exp_rainbrow_bullet_3: "Aftercare Dashboard: Membangun sistem multi-role dengan blast pesan WhatsApp otomatis, deteksi rating rendah, alur penyelesaian keluhan, dan analitik kinerja cabang real-time.",
+        exp_rainbrow_bullet_4: "NailShade Booking System: Membangun platform booking end-to-end dengan sistem walk-in QR code, pengumpulan feedback WhatsApp otomatis, leaderboard terapis, dan dashboard perbandingan cabang.",
+        exp_rainbrow_bullet_5: "Mengintegrasikan RESTful API dengan AJAX untuk operasi real-time; mengimplementasikan role-based access control untuk melindungi data HR sensitif.",
+        exp_rainbrow_result: "Hasil utama: tingkat respons aftercare +85%, waktu proses rekrutmen -80%, tingkat pengumpulan rating meningkat dari 20% menjadi 78%.",
+        exp_komatsu_bullet_1: "Membantu tim IT dengan dukungan teknis, pemeliharaan hardware, dan kegiatan deployment sistem.",
+        exp_komatsu_bullet_2: "Berkontribusi dalam pengembangan Delivery Note Module Application menggunakan platform Alpha Anywhere.",
+        exp_komatsu_bullet_3: "Melakukan riset dan merancang Aplikasi Monitoring Pengiriman Berbasis Web untuk Optimasi Proses Logistik.",
     }
 };
 
 function setLanguage(lang) {
     localStorage.setItem('lang', lang);
+    document.documentElement.lang = lang;
     document.querySelectorAll('[data-i18n]').forEach(function(el) {
         var key = el.getAttribute('data-i18n');
         if (translations[lang] && translations[lang][key]) {
             el.textContent = translations[lang][key];
+        }
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n-placeholder');
+        if (translations[lang] && translations[lang][key]) {
+            el.placeholder = translations[lang][key];
         }
     });
     document.querySelectorAll('.lang-btn').forEach(function(btn) {
@@ -229,6 +292,7 @@ function setLanguage(lang) {
     } else {
         document.querySelectorAll('#btnId, .mobile-lang-id').forEach(function(b) { b.classList.add('active'); });
     }
+    document.dispatchEvent(new CustomEvent('languageChanged', { detail: { lang: lang } }));
 }
 
 function initLanguage() {

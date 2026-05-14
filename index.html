@@ -26,6 +26,9 @@
     <meta name="twitter:image" content="https://bagasaria93.github.io/assets/img/profile.png">
 
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/img/favicon.png" type="image/png">
+
+    <noscript><style>body { cursor: auto !important; } .cursor, .cursor-follower { display: none; }</style></noscript>
 
     <title>Bagas Aria Sativa - Full-Stack Developer</title>
 
@@ -36,7 +39,7 @@
         "name": "Bagas Aria Sativa",
         "jobTitle": "Full-Stack Developer",
         "email": "bagasativa@gmail.com",
-        "telephone": "+628128427655",
+        "telephone": "+6281255557994",
         "url": "https://bagasaria93.github.io",
         "image": "https://bagasaria93.github.io/assets/img/profile.png",
         "sameAs": [
@@ -80,28 +83,30 @@
         </ul>
         <div style="display:flex;align-items:center;gap:16px;">
             <div class="lang-toggle">
-                <button class="lang-btn active" id="btnEn" onclick="setLanguage('en')">EN</button>
-                <button class="lang-btn" id="btnId" onclick="setLanguage('id')">ID</button>
+                <button class="lang-btn active" id="btnEn" aria-label="Switch to English">EN</button>
+                <button class="lang-btn" id="btnId" aria-label="Ganti ke Bahasa Indonesia">ID</button>
             </div>
-            <button class="hamburger" id="hamburger" onclick="toggleMobileMenu()">
+            <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
         </div>
     </nav>
 
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#about" onclick="toggleMobileMenu()" data-i18n="nav_about">About</a>
-        <a href="#skills" onclick="toggleMobileMenu()" data-i18n="nav_skills">Skills</a>
-        <a href="#experience" onclick="toggleMobileMenu()" data-i18n="nav_experience">Experience</a>
-        <a href="#education" onclick="toggleMobileMenu()" data-i18n="nav_education">Education</a>
-        <a href="#projects" onclick="toggleMobileMenu()" data-i18n="nav_projects">Projects</a>
-        <a href="#testimonials" onclick="toggleMobileMenu()" data-i18n="nav_testimonials">Testimonials</a>
-        <a href="#contact" onclick="toggleMobileMenu()" data-i18n="nav_contact">Contact</a>
+        <a href="#about" class="mobile-menu-link" data-i18n="nav_about">About</a>
+        <a href="#skills" class="mobile-menu-link" data-i18n="nav_skills">Skills</a>
+        <a href="#experience" class="mobile-menu-link" data-i18n="nav_experience">Experience</a>
+        <a href="#education" class="mobile-menu-link" data-i18n="nav_education">Education</a>
+        <a href="#projects" class="mobile-menu-link" data-i18n="nav_projects">Projects</a>
+        <a href="#testimonials" class="mobile-menu-link" data-i18n="nav_testimonials">Testimonials</a>
+        <a href="#contact" class="mobile-menu-link" data-i18n="nav_contact">Contact</a>
         <div class="lang-toggle" style="margin-top:16px;">
-            <button class="lang-btn mobile-lang-en active" onclick="setLanguage('en');toggleMobileMenu()">EN</button>
-            <button class="lang-btn mobile-lang-id" onclick="setLanguage('id');toggleMobileMenu()">ID</button>
+            <button class="lang-btn mobile-lang-en active" aria-label="Switch to English">EN</button>
+            <button class="lang-btn mobile-lang-id" aria-label="Ganti ke Bahasa Indonesia">ID</button>
         </div>
     </div>
+
+    <main>
 
     <section id="hero">
         <div class="hero-grid-lines">
@@ -212,18 +217,18 @@
                     <div class="about-photo-wrap">
                         <div class="photo-carousel">
                             <div class="photo-carousel-track" id="carouselTrack">
-                                <img src="assets/img/profile.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide">
-                                <img src="assets/img/profile2.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide">
+                                <img src="assets/img/profile.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide" loading="lazy">
+                                <img src="assets/img/profile2.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide" loading="lazy">
                             </div>
-                            <button class="carousel-btn carousel-btn-prev" id="carouselPrev" onclick="carouselMove(-1)">
+                            <button class="carousel-btn carousel-btn-prev" id="carouselPrev" aria-label="Previous photo">
                                 <i data-lucide="chevron-left" style="width:16px;height:16px;"></i>
                             </button>
-                            <button class="carousel-btn carousel-btn-next" id="carouselNext" onclick="carouselMove(1)">
+                            <button class="carousel-btn carousel-btn-next" id="carouselNext" aria-label="Next photo">
                                 <i data-lucide="chevron-right" style="width:16px;height:16px;"></i>
                             </button>
                             <div class="carousel-dots" id="carouselDots">
-                                <button class="carousel-dot active" onclick="carouselGoTo(0)"></button>
-                                <button class="carousel-dot" onclick="carouselGoTo(1)"></button>
+                                <button class="carousel-dot active" aria-label="Photo 1"></button>
+                                <button class="carousel-dot" aria-label="Photo 2"></button>
                             </div>
                         </div>
                         <div class="about-photo-frame"></div>
@@ -413,17 +418,17 @@
                         <div class="timeline-company">PT Ganzu Gisma Seiko</div>
                         <div class="timeline-role">IT System Analyst & Full-Stack Developer</div>
                         <ul class="timeline-bullets">
-                            <li>Analyzed business processes across 9 departments, identifying bottlenecks and automation opportunities.</li>
-                            <li>Designed comprehensive ERP solution architecture integrating production, warehouse, quality, and finance modules.</li>
-                            <li>Developed end-to-end manufacturing ERP system from database design to user interface using Laravel & MySQL.</li>
-                            <li>Implemented automated workflows connecting customer orders to delivery and invoice generation.</li>
-                            <li>Built material requirement planning (MRP) with automated purchase request generation workflow.</li>
-                            <li>Implemented multi-stage quality control system tracking incoming, in-process, and outgoing inspections.</li>
-                            <li>Created production scheduling module managing work centers with real-time progress tracking.</li>
-                            <li>Built warehouse management system handling material storage, stock control, and delivery documentation.</li>
-                            <li>Integrated financial module auto-generating invoices from delivery documents with payment tracking.</li>
+                            <li data-i18n="exp_ganzu_bullet_1">Analyzed business processes across 9 departments, identifying bottlenecks and automation opportunities.</li>
+                            <li data-i18n="exp_ganzu_bullet_2">Designed comprehensive ERP solution architecture integrating production, warehouse, quality, and finance modules.</li>
+                            <li data-i18n="exp_ganzu_bullet_3">Developed end-to-end manufacturing ERP system from database design to user interface using Laravel & MySQL.</li>
+                            <li data-i18n="exp_ganzu_bullet_4">Implemented automated workflows connecting customer orders to delivery and invoice generation.</li>
+                            <li data-i18n="exp_ganzu_bullet_5">Built material requirement planning (MRP) with automated purchase request generation workflow.</li>
+                            <li data-i18n="exp_ganzu_bullet_6">Implemented multi-stage quality control system tracking incoming, in-process, and outgoing inspections.</li>
+                            <li data-i18n="exp_ganzu_bullet_7">Created production scheduling module managing work centers with real-time progress tracking.</li>
+                            <li data-i18n="exp_ganzu_bullet_8">Built warehouse management system handling material storage, stock control, and delivery documentation.</li>
+                            <li data-i18n="exp_ganzu_bullet_9">Integrated financial module auto-generating invoices from delivery documents with payment tracking.</li>
                         </ul>
-                        <div class="timeline-result">Key results: reduced production planning time by 70%, improved inventory accuracy to 98%, streamlined order-to-delivery cycle by 45%.</div>
+                        <div class="timeline-result" data-i18n="exp_ganzu_result">Key results: reduced production planning time by 70%, improved inventory accuracy to 98%, streamlined order-to-delivery cycle by 45%.</div>
                     </div>
                 </div>
 
@@ -440,13 +445,13 @@
                         <div class="timeline-company">Rainbrow Sulam Alis</div>
                         <div class="timeline-role">IT Developer: HR & Customer System</div>
                         <ul class="timeline-bullets">
-                            <li>Led full-stack development of 3 business management applications, delivered 14% ahead of schedule.</li>
-                            <li>HRD Dashboard: Built comprehensive HR system with GPS-based attendance, geofencing validation, automated training management, role-based authentication, and real-time analytics dashboard.</li>
-                            <li>Aftercare Dashboard: Built multi-role system with automated WhatsApp bulk messaging, low-rating auto-detection, complaint resolution workflow, and real-time branch performance analytics.</li>
-                            <li>NailShade Booking System: Built end-to-end booking platform with QR code walk-in system, automated WhatsApp feedback collection, therapist leaderboard, and branch comparison dashboard.</li>
-                            <li>Integrated RESTful APIs with AJAX for real-time operations; implemented role-based access control protecting sensitive HR data.</li>
+                            <li data-i18n="exp_rainbrow_bullet_1">Led full-stack development of 3 business management applications, delivered 14% ahead of schedule.</li>
+                            <li data-i18n="exp_rainbrow_bullet_2">HRD Dashboard: Built comprehensive HR system with GPS-based attendance, geofencing validation, automated training management, role-based authentication, and real-time analytics dashboard.</li>
+                            <li data-i18n="exp_rainbrow_bullet_3">Aftercare Dashboard: Built multi-role system with automated WhatsApp bulk messaging, low-rating auto-detection, complaint resolution workflow, and real-time branch performance analytics.</li>
+                            <li data-i18n="exp_rainbrow_bullet_4">NailShade Booking System: Built end-to-end booking platform with QR code walk-in system, automated WhatsApp feedback collection, therapist leaderboard, and branch comparison dashboard.</li>
+                            <li data-i18n="exp_rainbrow_bullet_5">Integrated RESTful APIs with AJAX for real-time operations; implemented role-based access control protecting sensitive HR data.</li>
                         </ul>
-                        <div class="timeline-result">Key results: aftercare response rate +85%, recruitment processing time -80%, rating collection rate improved from 20% to 78%.</div>
+                        <div class="timeline-result" data-i18n="exp_rainbrow_result">Key results: aftercare response rate +85%, recruitment processing time -80%, rating collection rate improved from 20% to 78%.</div>
                     </div>
                 </div>
 
@@ -463,9 +468,9 @@
                         <div class="timeline-company">PT Komatsu Undercarriage Indonesia</div>
                         <div class="timeline-role">IT Support Intern</div>
                         <ul class="timeline-bullets">
-                            <li>Assisted IT team with technical support, hardware maintenance, and system deployment activities.</li>
-                            <li>Contributed to development of Delivery Note Module Application using Alpha Anywhere platform.</li>
-                            <li>Conducted research and designed a Web-Based Shipment Monitoring Application for Logistics Process Optimization.</li>
+                            <li data-i18n="exp_komatsu_bullet_1">Assisted IT team with technical support, hardware maintenance, and system deployment activities.</li>
+                            <li data-i18n="exp_komatsu_bullet_2">Contributed to development of Delivery Note Module Application using Alpha Anywhere platform.</li>
+                            <li data-i18n="exp_komatsu_bullet_3">Conducted research and designed a Web-Based Shipment Monitoring Application for Logistics Process Optimization.</li>
                         </ul>
                     </div>
                 </div>
@@ -830,18 +835,18 @@
                 </div>
 
                 <div class="contact-form section-reveal stagger-3">
-                    <form action="https://formspree.io/f/xzdjyavy" method="POST" id="contactForm" onsubmit="submitForm(event)">
+                    <form action="https://formspree.io/f/xzdjyavy" method="POST" id="contactForm">
                         <div class="form-group">
-                            <label class="form-label" data-i18n="form_name">Your Name</label>
-                            <input type="text" name="name" class="form-input" id="formName" placeholder="John Doe" required>
+                            <label class="form-label" for="formName" data-i18n="form_name">Your Name</label>
+                            <input type="text" name="name" class="form-input" id="formName" data-i18n-placeholder="form_name_placeholder" placeholder="John Doe" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" data-i18n="form_email">Your Email</label>
-                            <input type="email" name="email" class="form-input" id="formEmail" placeholder="john@example.com" required>
+                            <label class="form-label" for="formEmail" data-i18n="form_email">Your Email</label>
+                            <input type="email" name="email" class="form-input" id="formEmail" data-i18n-placeholder="form_email_placeholder" placeholder="john@example.com" required>
                         </div>
                         <div class="form-group">
-                            <label class="form-label" data-i18n="form_message">Your Message</label>
-                            <textarea name="message" class="form-textarea" id="formMessage" placeholder="Hello Bagas, I'd like to discuss..." required></textarea>
+                            <label class="form-label" for="formMessage" data-i18n="form_message">Your Message</label>
+                            <textarea name="message" class="form-textarea" id="formMessage" data-i18n-placeholder="form_message_placeholder" placeholder="Hello Bagas, I'd like to discuss..." required></textarea>
                         </div>
                         <input type="hidden" name="_subject" value="New message from portfolio contact form">
                         <button type="submit" class="btn-submit" id="btnSubmit">
@@ -862,6 +867,8 @@
             </div>
         </div>
     </section>
+
+    </main>
 
     <footer>
         <div class="footer-top">
@@ -901,57 +908,6 @@
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="assets/js/i18n.js"></script>
     <script src="assets/js/main.js"></script>
-    <script>
-        document.getElementById('footerCopy').textContent = new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';
-
-        async function submitForm(e) {
-            e.preventDefault();
-            var btn = document.getElementById('btnSubmit');
-            var success = document.getElementById('formSuccess');
-            var error = document.getElementById('formError');
-            success.style.display = 'none';
-            error.style.display = 'none';
-            btn.disabled = true;
-            btn.style.opacity = '0.6';
-            try {
-                var response = await fetch(e.target.action, {
-                    method: 'POST',
-                    body: new FormData(e.target),
-                    headers: { 'Accept': 'application/json' }
-                });
-                if (response.ok) {
-                    success.style.display = 'flex';
-                    e.target.reset();
-                } else {
-                    error.style.display = 'flex';
-                }
-            } catch (err) {
-                error.style.display = 'flex';
-            }
-            btn.disabled = false;
-            btn.style.opacity = '1';
-        }
-
-        var carouselIndex = 0;
-        var carouselTotal = 2;
-
-        function carouselMove(dir) {
-            carouselGoTo(carouselIndex + dir);
-        }
-
-        function carouselGoTo(index) {
-            carouselIndex = index;
-            document.getElementById('carouselTrack').style.transform = 'translateX(-' + (carouselIndex * 100) + '%)';
-            var dots = document.getElementById('carouselDots').querySelectorAll('.carousel-dot');
-            dots.forEach(function(d, i) { d.classList.toggle('active', i === carouselIndex); });
-            document.getElementById('carouselPrev').disabled = carouselIndex === 0;
-            document.getElementById('carouselNext').disabled = carouselIndex === carouselTotal - 1;
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('carouselPrev').disabled = true;
-        });
-    </script>
 
 </body>
 </html>
