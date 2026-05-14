@@ -83,8 +83,8 @@
         </ul>
         <div style="display:flex;align-items:center;gap:16px;">
             <div class="lang-toggle">
-                <button class="lang-btn active" id="btnEn" aria-label="Switch to English">EN</button>
-                <button class="lang-btn" id="btnId" aria-label="Ganti ke Bahasa Indonesia">ID</button>
+                <button class="lang-btn active" id="btnEn" onclick="setLanguage('en')" aria-label="Switch to English">EN</button>
+                <button class="lang-btn" id="btnId" onclick="setLanguage('id')" aria-label="Ganti ke Bahasa Indonesia">ID</button>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -101,8 +101,8 @@
         <a href="#testimonials" class="mobile-menu-link" data-i18n="nav_testimonials">Testimonials</a>
         <a href="#contact" class="mobile-menu-link" data-i18n="nav_contact">Contact</a>
         <div class="lang-toggle" style="margin-top:16px;">
-            <button class="lang-btn mobile-lang-en active" aria-label="Switch to English">EN</button>
-            <button class="lang-btn mobile-lang-id" aria-label="Ganti ke Bahasa Indonesia">ID</button>
+            <button class="lang-btn mobile-lang-en active" onclick="setLanguage('en')" aria-label="Switch to English">EN</button>
+            <button class="lang-btn mobile-lang-id" onclick="setLanguage('id')" aria-label="Ganti ke Bahasa Indonesia">ID</button>
         </div>
     </div>
 
@@ -906,8 +906,8 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
-    <script src="assets/js/i18n.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="assets/js/i18n.js?v=2"></script>
+    <script src="assets/js/main.js?v=2"></script>
 
 </body>
 </html>
