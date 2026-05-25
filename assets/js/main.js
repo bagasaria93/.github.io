@@ -64,8 +64,6 @@ async function submitForm(e) {
 // ---- MAIN ----
 document.addEventListener('DOMContentLoaded', function() {
 
-    initLanguage();
-
     // Footer copyright year
     var footerCopy = document.getElementById('footerCopy');
     if (footerCopy) footerCopy.textContent = new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';
@@ -78,23 +76,13 @@ document.addEventListener('DOMContentLoaded', function() {
         dot.addEventListener('click', function() { carouselGoTo(i); });
     });
 
-    // Language buttons
-    document.getElementById('btnEn').addEventListener('click', function() { setLanguage('en'); });
-    document.getElementById('btnId').addEventListener('click', function() { setLanguage('id'); });
-
     // Hamburger
     document.getElementById('hamburger').addEventListener('click', toggleMobileMenu);
 
-    // Mobile menu links — close on click
+    // Mobile menu links - close on click
     document.querySelectorAll('.mobile-menu-link').forEach(function(link) {
         link.addEventListener('click', toggleMobileMenu);
     });
-
-    // Mobile language buttons
-    var mobileLangEn = document.querySelector('.mobile-lang-en');
-    var mobileLangId = document.querySelector('.mobile-lang-id');
-    if (mobileLangEn) mobileLangEn.addEventListener('click', function() { setLanguage('en'); toggleMobileMenu(); });
-    if (mobileLangId) mobileLangId.addEventListener('click', function() { setLanguage('id'); toggleMobileMenu(); });
 
     // Contact form
     var contactForm = document.getElementById('contactForm');
@@ -129,33 +117,46 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Navbar scroll state
+    // Navbar scroll state + scroll-spy
     var navbar = document.getElementById('navbar');
-    window.addEventListener('scroll', function() {
-        navbar.classList.toggle('scrolled', window.scrollY > 60);
-    });
+    var navSections = ['about', 'skills', 'experience', 'education', 'projects', 'testimonials', 'contact'];
+    var navLinks = document.querySelectorAll('.nav-links a');
 
-    // Typing animation (language-aware)
+    function updateScrollSpy() {
+        var scrollY = window.scrollY;
+        navbar.classList.toggle('scrolled', scrollY > 60);
+        var current = '';
+        navSections.forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el && el.getBoundingClientRect().top <= window.innerHeight * 0.4) {
+                current = id;
+            }
+        });
+        navLinks.forEach(function(a) {
+            a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+        });
+    }
+
+    window.addEventListener('scroll', updateScrollSpy);
+    updateScrollSpy();
+
+    // Typing animation
     var typingEl = document.getElementById('typingText');
     var typingIndex = 0;
     var typingChar = 0;
     var typingDeleting = false;
     var typingSpeed = 80;
-
-    function getTypingTexts() {
-        var lang = localStorage.getItem('lang') || 'en';
-        return [
-            translations[lang].typing_1,
-            translations[lang].typing_2,
-            translations[lang].typing_3,
-            translations[lang].typing_4,
-            translations[lang].typing_5,
-            translations[lang].typing_6,
-        ];
-    }
+    var typingTexts = [
+        'Laravel Development',
+        'React JS Applications',
+        'Full-Stack Solutions',
+        'REST API Design',
+        'ERP Systems',
+        'Next.js & TypeScript',
+    ];
 
     function type() {
-        var texts = getTypingTexts();
+        var texts = typingTexts;
         var current = texts[typingIndex];
         var displayed = typingDeleting
             ? current.substring(0, typingChar - 1)
@@ -173,13 +174,6 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(type, typingDeleting ? 40 : typingSpeed);
     }
     type();
-
-    // Reset typing animation on language change
-    document.addEventListener('languageChanged', function() {
-        typingIndex = 0;
-        typingChar = 0;
-        typingDeleting = false;
-    });
 
     // Scroll reveal (Intersection Observer)
     var reveals = document.querySelectorAll('.section-reveal');

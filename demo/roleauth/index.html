@@ -778,7 +778,7 @@ function renderDashboard() {
 }
 
 function renderPengguna() {
-    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Daftar Pengguna (' + ALL_USERS.length + ')</span><div style="display:flex;gap:8px;"><button class="btn-outline-custom" style="padding:7px 14px;font-size:12px;" onclick="showToast(\'Export CSV berhasil\',\'✅\')">Export CSV</button><button class="btn-primary-custom" onclick="showToast(\'Fitur tambah user — demo only\',\'ℹ️\')">+ Tambah Pengguna</button></div></div>';
+    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Daftar Pengguna (' + ALL_USERS.length + ')</span><div style="display:flex;gap:8px;"><button class="btn-outline-custom" style="padding:7px 14px;font-size:12px;" onclick="showToast(\'Export CSV berhasil\',\'✅\')">Export CSV</button><button class="btn-primary-custom" onclick="showToast(\'Fitur tambah user - demo only\',\'ℹ️\')">+ Tambah Pengguna</button></div></div>';
     html += '<div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap"><input type="text" class="search-input" id="search-user" placeholder="Cari nama / email..." oninput="filterUsers()" style="min-width:200px;"><select class="filter-select" id="filter-role" onchange="filterUsers()"><option value="">Semua Role</option><option value="superadmin">Super Admin</option><option value="manager">Manager</option><option value="staff">Staff</option></select><select class="filter-select" id="filter-status-user" onchange="filterUsers()"><option value="">Semua Status</option><option value="active">Aktif</option><option value="inactive">Nonaktif</option></select></div>';
     html += '<div class="table-responsive"><table class="table-custom"><thead><tr><th>ID</th><th>Nama</th><th>Email</th><th>Role</th><th>Departemen</th><th>Status</th><th>Login Terakhir</th><th>Aksi</th></tr></thead><tbody id="tbody-users">' + renderUserRows(ALL_USERS) + '</tbody></table></div></div></div>';
     document.getElementById('section-pengguna').innerHTML = html;
@@ -788,7 +788,7 @@ function renderUserRows(data) {
     if (data.length === 0) return '<tr><td colspan="8"><div style="padding:24px;text-align:center;color:var(--text-secondary);font-size:13px;">Tidak ada pengguna ditemukan</div></td></tr>';
     var roleLabels = { superadmin: 'Super Admin', manager: 'Manager', staff: 'Staff' };
     return data.map(function(u) {
-        return '<tr><td style="font-family:monospace;font-size:11px;color:var(--text-secondary);">' + u.id + '</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:30px;height:30px;border-radius:50%;background:' + u.color + ';display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:11px;flex-shrink:0;">' + initials(u.name) + '</div><span style="font-weight:600;">' + u.name + '</span></div></td><td style="font-size:12px;">' + u.email + '</td><td><span class="badge-status badge-' + u.role + '">' + roleLabels[u.role] + '</span></td><td>' + u.dept + '</td><td><span class="badge-status badge-' + u.status + '">' + (u.status === 'active' ? 'Aktif' : 'Nonaktif') + '</span></td><td style="font-size:12px;color:var(--text-secondary);">' + u.lastLogin + '</td><td><div style="display:flex;gap:5px;"><button style="background:rgba(79,70,229,0.08);border:1px solid rgba(79,70,229,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;" onclick="showToast(\'Edit user — demo only\',\'ℹ️\')">Edit</button><button style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;" onclick="showToast(\'Hapus user — demo only\',\'ℹ️\')">Hapus</button></div></td></tr>';
+        return '<tr><td style="font-family:monospace;font-size:11px;color:var(--text-secondary);">' + u.id + '</td><td><div style="display:flex;align-items:center;gap:8px;"><div style="width:30px;height:30px;border-radius:50%;background:' + u.color + ';display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:11px;flex-shrink:0;">' + initials(u.name) + '</div><span style="font-weight:600;">' + u.name + '</span></div></td><td style="font-size:12px;">' + u.email + '</td><td><span class="badge-status badge-' + u.role + '">' + roleLabels[u.role] + '</span></td><td>' + u.dept + '</td><td><span class="badge-status badge-' + u.status + '">' + (u.status === 'active' ? 'Aktif' : 'Nonaktif') + '</span></td><td style="font-size:12px;color:var(--text-secondary);">' + u.lastLogin + '</td><td><div style="display:flex;gap:5px;"><button style="background:rgba(79,70,229,0.08);border:1px solid rgba(79,70,229,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;" onclick="showToast(\'Edit user - demo only\',\'ℹ️\')">Edit</button><button style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;" onclick="showToast(\'Hapus user - demo only\',\'ℹ️\')">Hapus</button></div></td></tr>';
     }).join('');
 }
 
@@ -806,7 +806,7 @@ function renderLaporan() {
     var html = '<div class="row g-3">';
     html += '<div class="col-lg-6"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Aktivitas Login (7 Hari)</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-login"></canvas></div></div></div></div>';
     html += '<div class="col-lg-6"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Akses Ditolak per Role</span></div><div class="card-body-custom"><div class="chart-container"><canvas id="chart-denied"></canvas></div></div></div></div>';
-    html += '<div class="col-12"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Ringkasan Sistem</span><button class="btn-outline-custom" style="padding:5px 12px;font-size:12px;" onclick="showToast(\'Export laporan — demo only\',\'ℹ️\')">Export PDF</button></div><div class="card-body-custom"><div class="row g-3" style="font-size:13px;">';
+    html += '<div class="col-12"><div class="card-section"><div class="card-header-custom"><span class="card-header-title">Ringkasan Sistem</span><button class="btn-outline-custom" style="padding:5px 12px;font-size:12px;" onclick="showToast(\'Export laporan - demo only\',\'ℹ️\')">Export PDF</button></div><div class="card-body-custom"><div class="row g-3" style="font-size:13px;">';
     var summaries = [
         { label: 'Total Login Hari Ini', val: '12', icon: '🔐' },
         { label: 'Akses Ditolak Hari Ini', val: '3', icon: '🚫' },
@@ -876,12 +876,12 @@ function renderPengaturan() {
         html += '</div></div></div>';
     });
     html += '</div>';
-    html += '<div style="margin-top:12px;"><button class="btn-primary-custom" onclick="showToast(\'Pengaturan disimpan — demo only\',\'✅\')">Simpan Perubahan</button></div>';
+    html += '<div style="margin-top:12px;"><button class="btn-primary-custom" onclick="showToast(\'Pengaturan disimpan - demo only\',\'✅\')">Simpan Perubahan</button></div>';
     document.getElementById('section-pengaturan').innerHTML = html;
 }
 
 function renderAudit() {
-    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Audit Log Sistem</span><button class="btn-outline-custom" style="padding:6px 14px;font-size:12px;" onclick="showToast(\'Export audit log — demo only\',\'ℹ️\')">Export</button></div><div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap"><select class="filter-select" id="filter-audit-type" onchange="filterAudit()"><option value="">Semua Jenis</option><option value="success">Sukses</option><option value="warning">Warning</option><option value="danger">Gagal/Ditolak</option><option value="info">Info</option></select></div><div class="table-responsive"><table class="table-custom"><thead><tr><th>Aksi</th><th>Pengguna</th><th>Role</th><th>Waktu</th><th>Jenis</th></tr></thead><tbody id="tbody-audit">' + renderAuditRows(AUDIT_LOG) + '</tbody></table></div></div></div>';
+    var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Audit Log Sistem</span><button class="btn-outline-custom" style="padding:6px 14px;font-size:12px;" onclick="showToast(\'Export audit log - demo only\',\'ℹ️\')">Export</button></div><div class="card-body-custom"><div class="d-flex gap-2 mb-3 flex-wrap"><select class="filter-select" id="filter-audit-type" onchange="filterAudit()"><option value="">Semua Jenis</option><option value="success">Sukses</option><option value="warning">Warning</option><option value="danger">Gagal/Ditolak</option><option value="info">Info</option></select></div><div class="table-responsive"><table class="table-custom"><thead><tr><th>Aksi</th><th>Pengguna</th><th>Role</th><th>Waktu</th><th>Jenis</th></tr></thead><tbody id="tbody-audit">' + renderAuditRows(AUDIT_LOG) + '</tbody></table></div></div></div>';
     document.getElementById('section-audit').innerHTML = html;
 }
 
@@ -995,7 +995,7 @@ function renderProfil() {
         return '<div class="col-6"><div style="color:var(--text-secondary);font-size:12px;margin-bottom:3px;">' + f.label + '</div><div style="font-weight:600;">' + f.val + '</div></div>';
     }).join('');
     html += '</div></div></div></div></div>';
-    html += '<div style="margin-top:12px;"><button class="btn-primary-custom" onclick="showToast(\'Edit profil — demo only\',\'ℹ️\')">Edit Profil</button></div>';
+    html += '<div style="margin-top:12px;"><button class="btn-primary-custom" onclick="showToast(\'Edit profil - demo only\',\'ℹ️\')">Edit Profil</button></div>';
     document.getElementById('section-profil').innerHTML = html;
 }
 

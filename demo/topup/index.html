@@ -1036,10 +1036,10 @@ function processPayment() {
         }, delay);
     };
 
-    addLog('POST /api/topup/create — Mengirim order...', 'info', 200);
+    addLog('POST /api/topup/create - Mengirim order...', 'info', 200);
     addLog('Request: { game: "' + state.selectedGame.id + '", nominal: ' + state.selectedNominal.amount + ', player_id: "' + state.playerID + '" }', 'info', 600);
     addLog('Menghubungi supplier: Digiflazz API...', 'warn', 1100);
-    addLog('Response 200 OK — order diterima supplier', 'success', 1800);
+    addLog('Response 200 OK - order diterima supplier', 'success', 1800);
 
     if (isTransfer) {
         addLog('Menunggu konfirmasi pembayaran VA...', 'warn', 2200);
@@ -1053,14 +1053,14 @@ function processPayment() {
     const rand = Math.random();
     if (rand < 0.8) {
         addLog('Supplier processing: SENDING TO USER...', 'info', 2300);
-        addLog('Status: SUCCESS — item berhasil dikirim', 'success', 3000);
+        addLog('Status: SUCCESS - item berhasil dikirim', 'success', 3000);
         setTimeout(() => {
             $('#status-processing').hide();
             showSuccess();
         }, 3400);
     } else {
-        addLog('Supplier processing: ERROR — stock kosong', 'error', 2300);
-        addLog('Status: FAILED — transaksi dibatalkan', 'error', 2900);
+        addLog('Supplier processing: ERROR - stock kosong', 'error', 2300);
+        addLog('Status: FAILED - transaksi dibatalkan', 'error', 2900);
         setTimeout(() => {
             $('#status-processing').hide();
             showFailed('Stok item habis di supplier. Silakan coba lagi.');
