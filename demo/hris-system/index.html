@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login — HRIS PT Cakrawala Gemilang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { background: #F1F5F9; }
+  </style>
+</head>
+<body>
+
+<div class="login-page">
+  <!-- Brand Panel -->
+  <div class="login-brand">
+    <div class="login-brand-logo">CG</div>
+    <h1>Human Resource<br>Information System</h1>
+    <p>Kelola seluruh kebutuhan SDM perusahaan Anda dalam satu platform terintegrasi yang modern dan efisien.</p>
+    <div class="login-brand-features">
+      <div class="login-feature">
+        <div class="login-feature-icon"><i data-lucide="users"></i></div>
+        <span>Manajemen karyawan lengkap & terpusat</span>
+      </div>
+      <div class="login-feature">
+        <div class="login-feature-icon"><i data-lucide="clock"></i></div>
+        <span>Pencatatan kehadiran & manajemen cuti</span>
+      </div>
+      <div class="login-feature">
+        <div class="login-feature-icon"><i data-lucide="wallet"></i></div>
+        <span>Penggajian otomatis dengan slip digital</span>
+      </div>
+      <div class="login-feature">
+        <div class="login-feature-icon"><i data-lucide="bar-chart-2"></i></div>
+        <span>Analitik SDM & laporan komprehensif</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Panel -->
+  <div class="login-form-panel">
+    <div class="login-form-header">
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+        <div style="width:42px;height:42px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff;">CG</div>
+        <div style="text-align:left;">
+          <div style="font-size:11px;font-weight:700;color:var(--primary);letter-spacing:0.05em;">PT CAKRAWALA GEMILANG</div>
+          <div style="font-size:11px;color:var(--text-muted);">HRIS System v1.0</div>
+        </div>
+      </div>
+      <h2>Selamat Datang</h2>
+      <p>Masuk ke akun Anda untuk melanjutkan</p>
+    </div>
+
+    <form class="login-form" id="login-form" novalidate>
+      <div id="login-error" class="login-error">
+        <strong>Login Gagal:</strong> <span id="login-error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email</label>
+        <div class="login-input-wrap">
+          <span class="login-input-icon"><i data-lucide="mail"></i></span>
+          <input type="email" id="login-email" name="email" class="login-input" placeholder="email@cakrawalagemilang.co.id" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-password">Password</label>
+        <div class="login-input-wrap">
+          <span class="login-input-icon"><i data-lucide="lock"></i></span>
+          <input type="password" id="login-password" name="password" class="login-input" placeholder="Masukkan password" autocomplete="current-password">
+          <button type="button" id="toggle-pw" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);padding:2px;" title="Tampilkan password">
+            <i data-lucide="eye" id="pw-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn" id="login-btn">
+        <i data-lucide="log-in"></i>
+        <span>Masuk</span>
+      </button>
+    </form>
+
+    <!-- Demo Accounts -->
+    <div class="demo-accounts" style="width:100%;max-width:360px;margin-top:24px;">
+      <div class="demo-accounts-header" id="demo-toggle">
+        <span>Akun Demo</span>
+        <i data-lucide="chevron-down" id="demo-chevron"></i>
+      </div>
+      <div class="demo-accounts-list" id="demo-list">
+        <div class="demo-account-item" data-email="admin@cakrawalagemilang.co.id" data-pw="Admin@123">
+          <div>
+            <div class="demo-account-role">Super Admin</div>
+            <div class="demo-account-email">admin@cakrawalagemilang.co.id</div>
+          </div>
+          <span class="demo-account-fill">Klik untuk isi</span>
+        </div>
+        <div class="demo-account-item" data-email="hrmanager@cakrawalagemilang.co.id" data-pw="Hrmgr@123">
+          <div>
+            <div class="demo-account-role">HR Manager</div>
+            <div class="demo-account-email">hrmanager@cakrawalagemilang.co.id</div>
+          </div>
+          <span class="demo-account-fill">Klik untuk isi</span>
+        </div>
+        <div class="demo-account-item" data-email="hrstaff@cakrawalagemilang.co.id" data-pw="Hrstaff@123">
+          <div>
+            <div class="demo-account-role">HR Staff</div>
+            <div class="demo-account-email">hrstaff@cakrawalagemilang.co.id</div>
+          </div>
+          <span class="demo-account-fill">Klik untuk isi</span>
+        </div>
+        <div class="demo-account-item" data-email="karyawan@cakrawalagemilang.co.id" data-pw="Kary@123">
+          <div>
+            <div class="demo-account-role">Karyawan</div>
+            <div class="demo-account-email">karyawan@cakrawalagemilang.co.id</div>
+          </div>
+          <span class="demo-account-fill">Klik untuk isi</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="login-footer">
+      &copy; 2026 PT Cakrawala Gemilang &mdash; Hak cipta dilindungi
+    </div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script>
+  DB.init();
+  if (Auth.isLoggedIn()) window.location.href = 'app.html';
+
+  lucide.createIcons();
+
+  // Toggle password
+  document.getElementById('toggle-pw').addEventListener('click', function() {
+    const inp = document.getElementById('login-password');
+    const icon = document.getElementById('pw-icon');
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      icon.setAttribute('data-lucide', 'eye-off');
+    } else {
+      inp.type = 'password';
+      icon.setAttribute('data-lucide', 'eye');
+    }
+    lucide.createIcons({ nodes: [icon.parentElement] });
+  });
+
+  // Demo accounts
+  document.getElementById('demo-toggle').addEventListener('click', function() {
+    const list = document.getElementById('demo-list');
+    const chev = document.getElementById('demo-chevron');
+    list.classList.toggle('open');
+    chev.setAttribute('data-lucide', list.classList.contains('open') ? 'chevron-up' : 'chevron-down');
+    lucide.createIcons({ nodes: [chev.parentElement] });
+  });
+
+  document.querySelectorAll('.demo-account-item').forEach(item => {
+    item.addEventListener('click', function() {
+      document.getElementById('login-email').value = this.dataset.email;
+      document.getElementById('login-password').value = this.dataset.pw;
+      document.getElementById('demo-list').classList.remove('open');
+    });
+  });
+
+  // Login form
+  document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errBox = document.getElementById('login-error');
+    const errMsg = document.getElementById('login-error-msg');
+    const btn = document.getElementById('login-btn');
+
+    errBox.style.display = 'none';
+
+    if (!email || !password) {
+      errMsg.textContent = 'Email dan password wajib diisi.';
+      errBox.style.display = 'block';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner" style="width:18px;height:18px;border-width:2px;border-color:rgba(255,255,255,0.3);border-top-color:#fff;"></div><span>Memuat...</span>';
+
+    setTimeout(() => {
+      const result = Auth.login(email, password);
+      if (result.success) {
+        window.location.href = 'app.html';
+      } else {
+        errMsg.textContent = result.message;
+        errBox.style.display = 'block';
+        btn.disabled = false;
+        btn.innerHTML = '<i data-lucide="log-in"></i><span>Masuk</span>';
+        lucide.createIcons({ nodes: [btn] });
+        document.getElementById('login-email').classList.add('error');
+        document.getElementById('login-password').classList.add('error');
+      }
+    }, 600);
+  });
+
+  document.getElementById('login-email').addEventListener('input', function() {
+    this.classList.remove('error');
+    document.getElementById('login-password').classList.remove('error');
+    document.getElementById('login-error').style.display = 'none';
+  });
+</script>
+</body>
+</html>
