@@ -2,6 +2,46 @@
 
 ## [2026-05-28]
 
+### Portfolio Restructure — `index.html`
+
+**Removed**
+- Demo #07 DevStack Studio (`demo/code-showcase/`) — deleted from portfolio and folder removed
+- Demo #13 RoleGate (`demo/roleauth/`) — deleted from portfolio and folder removed
+- Demo #10 StokKu (`demo/inventory/`) — replaced by MitraCRM; folder removed
+
+**Added**
+- Demo #09 MitraCRM (`demo/crm-system/`) — new CRM SPA replacing StokKu slot
+
+**Changed**
+- ErpCore renumbered #08 → #07
+- TopUpKu renumbered #09 → #08
+- BlazeNotif renumbered #11 → #10
+- CerdasKu renumbered #12 → #11
+- Portfolio now has 11 demos total (#01–#11)
+
+### New Demo — MitraCRM (`demo/crm-system/`)
+
+**Added**
+- Single-file CRM SPA for PT Nusantara Digital, localStorage key `crm_mitra_v1`
+- 4 modules: Dashboard, Kontak (contacts), Pipeline (Kanban), Laporan (analytics)
+- Kanban pipeline with 5 stages: Prospek → Proposal → Negosiasi → Won / Lost
+- Seed data: 12 contacts, 15 deals across all stages, 8 activities
+- 4 Chart.js charts: pipeline bar, win/loss donut, monthly revenue bar, stage donut
+- Full CRUD for contacts and deals via modals; "Maju" button advances deal stage
+- Login: `sales@nusantaradigital.co.id` / `Demo@123`
+- Color scheme: blue (#2563eb) primary, slate sidebar (#1e293b), light body (#f1f5f9)
+
+### ForgeX Scroll-Snap — `demo/company-profile/index.html`
+
+**Changed**
+- `html` element: added `scroll-snap-type: y mandatory; scroll-padding-top: 72px;`
+- `#hero`: set `height: 100vh; height: 100dvh; scroll-snap-align: start;`
+- Marquee strip moved inside `#hero` (no longer a standalone section)
+- All 4 `<div class="divider">` elements removed
+- 7 sections (Program, Trainer, Harga, Testimoni, FAQ, CTA, Kontak) converted to full-viewport snap sections
+- CTA banner: restyled via `#cta-section` CSS rule instead of inline padding
+- Added `.snap-section` density overrides: `mb-14 → 1.5rem`, program card padding `→ 1.25rem`, trainer avatar `height: 160px`
+
 ### Portfolio Card Redesign — `assets/css/style.css` & `index.html`
 
 **Changed**

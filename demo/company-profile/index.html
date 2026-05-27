@@ -25,7 +25,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; scroll-snap-type: y mandatory; scroll-padding-top: 72px; }
 
         body {
             background: var(--white);
@@ -143,7 +143,9 @@
         }
 
         #hero {
-            min-height: 100vh;
+            height: 100vh;
+            height: 100dvh;
+            scroll-snap-align: start;
             background: var(--black);
             position: relative;
             overflow: hidden;
@@ -615,6 +617,30 @@
         }
 
         .divider { height: 1px; background: var(--border); }
+
+        /* ── Full-Viewport Scroll Snap ──────────────────── */
+        .snap-section {
+            height: 100vh;
+            height: 100dvh;
+            scroll-snap-align: start;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #cta-section {
+            height: 100vh;
+            height: 100dvh;
+            scroll-snap-align: start;
+            background: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        footer { scroll-snap-align: start; }
+        .snap-section .mb-14 { margin-bottom: 1.5rem !important; }
+        .snap-section .program-card { padding: 1.25rem; }
+        .snap-section .trainer-avatar { height: 160px; aspect-ratio: unset; }
     </style>
 </head>
 <body>
@@ -706,32 +732,32 @@
                 </div>
             </div>
         </div>
+
+        <!-- Marquee -->
+        <div class="marquee-wrap" style="position:relative;z-index:10;">
+            <div class="marquee-track">
+                <span>Strength Training</span><span class="dot">◆</span>
+                <span>HIIT Cardio</span><span class="dot">◆</span>
+                <span>Personal Training</span><span class="dot">◆</span>
+                <span>Yoga & Pilates</span><span class="dot">◆</span>
+                <span>Nutrition Coaching</span><span class="dot">◆</span>
+                <span>Body Transformation</span><span class="dot">◆</span>
+                <span>Muay Thai & Boxing</span><span class="dot">◆</span>
+                <span>CrossFit</span><span class="dot">◆</span>
+                <span>Strength Training</span><span class="dot">◆</span>
+                <span>HIIT Cardio</span><span class="dot">◆</span>
+                <span>Personal Training</span><span class="dot">◆</span>
+                <span>Yoga & Pilates</span><span class="dot">◆</span>
+                <span>Nutrition Coaching</span><span class="dot">◆</span>
+                <span>Body Transformation</span><span class="dot">◆</span>
+                <span>Muay Thai & Boxing</span><span class="dot">◆</span>
+                <span>CrossFit</span><span class="dot">◆</span>
+            </div>
+        </div>
     </section>
 
-    <!-- Marquee -->
-    <div class="marquee-wrap">
-        <div class="marquee-track">
-            <span>Strength Training</span><span class="dot">◆</span>
-            <span>HIIT Cardio</span><span class="dot">◆</span>
-            <span>Personal Training</span><span class="dot">◆</span>
-            <span>Yoga & Pilates</span><span class="dot">◆</span>
-            <span>Nutrition Coaching</span><span class="dot">◆</span>
-            <span>Body Transformation</span><span class="dot">◆</span>
-            <span>Muay Thai & Boxing</span><span class="dot">◆</span>
-            <span>CrossFit</span><span class="dot">◆</span>
-            <span>Strength Training</span><span class="dot">◆</span>
-            <span>HIIT Cardio</span><span class="dot">◆</span>
-            <span>Personal Training</span><span class="dot">◆</span>
-            <span>Yoga & Pilates</span><span class="dot">◆</span>
-            <span>Nutrition Coaching</span><span class="dot">◆</span>
-            <span>Body Transformation</span><span class="dot">◆</span>
-            <span>Muay Thai & Boxing</span><span class="dot">◆</span>
-            <span>CrossFit</span><span class="dot">◆</span>
-        </div>
-    </div>
-
     <!-- Program -->
-    <section id="program" class="py-28">
+    <section id="program" class="snap-section">
         <div class="max-w-7xl mx-auto px-6">
             <div class="reveal mb-14">
                 <div class="section-label">Apa yang Kami Tawarkan</div>
@@ -811,10 +837,8 @@
         </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- Trainers -->
-    <section id="trainer" class="py-28" style="background:var(--light);">
+    <section id="trainer" class="snap-section" style="background:var(--light);">
         <div class="max-w-7xl mx-auto px-6">
             <div class="reveal mb-14 text-center">
                 <div class="section-label" style="justify-content:center;">Tim Profesional</div>
@@ -890,10 +914,8 @@
         </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- Pricing -->
-    <section id="harga" class="py-28">
+    <section id="harga" class="snap-section">
         <div class="max-w-7xl mx-auto px-6">
             <div class="reveal mb-14 text-center">
                 <div class="section-label" style="justify-content:center;">Pilihan Membership</div>
@@ -950,10 +972,8 @@
         </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- Testimonials -->
-    <section id="testimoni" class="py-28" style="background:var(--light);">
+    <section id="testimoni" class="snap-section" style="background:var(--light);">
         <div class="max-w-7xl mx-auto px-6">
             <div class="reveal mb-14">
                 <div class="section-label">Kata Member Kami</div>
@@ -1006,10 +1026,8 @@
         </div>
     </section>
 
-    <div class="divider"></div>
-
     <!-- FAQ -->
-    <section id="faq" class="py-28">
+    <section id="faq" class="snap-section">
         <div class="max-w-4xl mx-auto px-6">
             <div class="reveal mb-14 text-center">
                 <div class="section-label" style="justify-content:center;">Pertanyaan Umum</div>
@@ -1071,7 +1089,7 @@
     </section>
 
     <!-- CTA Banner -->
-    <section style="background:var(--red);padding:5rem 0;">
+    <section id="cta-section">
         <div class="max-w-4xl mx-auto px-6 text-center reveal">
             <h2 style="font-family:'Oswald',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:700;text-transform:uppercase;color:#fff;line-height:1;margin-bottom:1.5rem;">
                 7 Hari Gratis.<br>Tanpa Syarat.
@@ -1085,7 +1103,7 @@
     </section>
 
     <!-- Contact -->
-    <section id="kontak" class="py-28" style="background:var(--light);">
+    <section id="kontak" class="snap-section" style="background:var(--light);">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
                 <div class="reveal">

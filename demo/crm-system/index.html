@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MitraCRM – Customer Relationship Management</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #eff6ff;
+  --sidebar-bg: #1e293b;
+  --body-bg: #f1f5f9;
+  --card-bg: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --sidebar-w: 240px;
+  --font: 'Inter', system-ui, sans-serif;
+}
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { height: 100%; font-family: var(--font); background: var(--body-bg); color: var(--text-primary); font-size: 14px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* Login */
+#login-screen { min-height: 100vh; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); display: flex; align-items: center; justify-content: center; padding: 1rem; }
+.login-card { background: var(--card-bg); border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 420px; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
+.login-logo { width: 52px; height: 52px; background: var(--primary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem; letter-spacing: -0.03em; box-shadow: 0 4px 16px rgba(37,99,235,0.4); }
+.form-group { margin-bottom: 1.25rem; }
+.form-label { display: block; font-weight: 600; font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.5rem; }
+.form-input { width: 100%; background: var(--body-bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.9rem; font-family: var(--font); color: var(--text-primary); outline: none; transition: border-color 0.2s, background 0.2s; }
+.form-input:focus { border-color: var(--primary); background: #fff; }
+.form-select { width: 100%; background: var(--body-bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.85rem; font-family: var(--font); color: var(--text-primary); outline: none; transition: border-color 0.2s; cursor: pointer; }
+.form-select:focus { border-color: var(--primary); }
+.btn-login { width: 100%; background: var(--primary); color: #fff; font-weight: 700; font-size: 0.9rem; border: none; border-radius: 8px; padding: 0.85rem; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; font-family: var(--font); }
+.btn-login:hover { background: var(--primary-dark); box-shadow: 0 4px 20px rgba(37,99,235,0.3); }
+
+/* App Layout */
+#app { display: none; height: 100vh; overflow: hidden; }
+#app.active { display: flex; }
+
+/* Sidebar */
+#sidebar { width: var(--sidebar-w); min-width: var(--sidebar-w); background: var(--sidebar-bg); height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+.sidebar-brand { padding: 1.25rem 1rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.brand-icon { width: 38px; height: 38px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 800; color: #fff; flex-shrink: 0; box-shadow: 0 2px 12px rgba(37,99,235,0.45); letter-spacing: -0.03em; }
+.brand-name { font-weight: 700; font-size: 0.9rem; color: #fff; }
+.brand-sub { font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.sidebar-nav { padding: 1rem 0.75rem; flex: 1; }
+.nav-section-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.28); padding: 0.5rem 0.6rem; margin-top: 0.75rem; }
+.nav-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.75rem; border-radius: 8px; color: rgba(255,255,255,0.58); cursor: pointer; transition: all 0.15s; font-size: 0.83rem; font-weight: 500; margin-bottom: 2px; user-select: none; }
+.nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+.nav-item.active { background: rgba(37,99,235,0.2); color: #fff; box-shadow: inset 3px 0 0 var(--primary); }
+.nav-icon { font-size: 0.95rem; width: 20px; text-align: center; flex-shrink: 0; }
+.sidebar-footer { padding: 1rem 0.75rem; border-top: 1px solid rgba(255,255,255,0.06); }
+.user-card { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.75rem; border-radius: 8px; cursor: pointer; transition: background 0.15s; }
+.user-card:hover { background: rgba(255,255,255,0.07); }
+.user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+.user-name { font-size: 0.8rem; font-weight: 600; color: #fff; }
+.user-role { font-size: 0.67rem; color: rgba(255,255,255,0.38); }
+
+/* Main */
+#main-wrap { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+#topbar { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 0 1.5rem; height: 60px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.topbar-title { font-size: 1rem; font-weight: 700; }
+.topbar-sub { font-size: 0.75rem; color: var(--text-secondary); margin-top: 1px; }
+.topbar-right { display: flex; align-items: center; gap: 0.75rem; }
+#page-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; font-weight: 600; font-family: var(--font); cursor: pointer; transition: all 0.15s; border: none; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-dark); box-shadow: 0 3px 14px rgba(37,99,235,0.32); }
+.btn-ghost { background: transparent; color: var(--text-secondary); border: 1.5px solid var(--border); }
+.btn-ghost:hover { background: var(--body-bg); color: var(--text-primary); }
+.btn-danger { background: #fef2f2; color: #dc2626; border: 1.5px solid #fecaca; }
+.btn-danger:hover { background: #fee2e2; }
+
+/* Card */
+.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; }
+.card-header { padding: 1.1rem 1.25rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-title { font-size: 0.88rem; font-weight: 700; }
+.card-body { padding: 1.25rem; }
+
+/* KPI */
+.kpi-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.kpi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; transition: box-shadow 0.2s, transform 0.2s; }
+.kpi-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.kpi-card:nth-child(1) { border-left: 3px solid var(--primary); }
+.kpi-card:nth-child(2) { border-left: 3px solid #16a34a; }
+.kpi-card:nth-child(3) { border-left: 3px solid #d97706; }
+.kpi-card:nth-child(4) { border-left: 3px solid #7c3aed; }
+.kpi-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; margin-bottom: 0.6rem; }
+.kpi-val { font-size: 1.55rem; font-weight: 700; line-height: 1.1; }
+.kpi-label { font-size: 0.75rem; color: var(--text-secondary); font-weight: 500; margin-top: 3px; }
+.kpi-change { font-size: 0.7rem; font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 3px; }
+.txt-green { color: #16a34a; }
+.txt-blue { color: var(--primary); }
+
+/* Table */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th { text-align: left; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-secondary); padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); background: var(--body-bg); white-space: nowrap; }
+.tbl td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); font-size: 0.83rem; vertical-align: middle; }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl tbody tr:hover td { background: #fafbfc; }
+
+/* Badge */
+.badge { display: inline-flex; align-items: center; font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+.b-blue { background: #eff6ff; color: #2563eb; }
+.b-orange { background: #fff7ed; color: #c2410c; }
+.b-green { background: #f0fdf4; color: #15803d; }
+.b-red { background: #fef2f2; color: #dc2626; }
+.b-gray { background: #f8fafc; color: #64748b; border: 1px solid var(--border); }
+.b-violet { background: #f5f3ff; color: #7c3aed; }
+
+/* Kanban */
+.kanban { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem; }
+.k-col { min-width: 220px; width: 220px; flex-shrink: 0; background: var(--body-bg); border-radius: 12px; border: 1px solid var(--border); display: flex; flex-direction: column; }
+.k-col-head { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); }
+.k-col-label { font-size: 0.78rem; font-weight: 700; }
+.k-col-meta { font-size: 0.68rem; color: var(--text-secondary); margin-top: 2px; display: flex; align-items: center; justify-content: space-between; }
+.k-count { background: rgba(0,0,0,0.06); border-radius: 10px; padding: 1px 7px; font-size: 0.67rem; font-weight: 700; }
+.k-cards { padding: 0.7rem; display: flex; flex-direction: column; gap: 0.55rem; flex: 1; }
+.deal-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 9px; padding: 0.85rem; cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; }
+.deal-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.09); transform: translateY(-1px); }
+.deal-title { font-size: 0.8rem; font-weight: 600; line-height: 1.3; margin-bottom: 0.4rem; }
+.deal-co { font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 0.4rem; }
+.deal-val { font-size: 0.8rem; font-weight: 700; color: var(--primary); }
+.deal-foot { margin-top: 0.6rem; padding-top: 0.55rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.deal-prob { font-size: 0.67rem; color: var(--text-secondary); }
+.btn-advance { background: var(--primary); color: #fff; border: none; border-radius: 5px; padding: 2px 8px; font-size: 0.67rem; font-weight: 700; cursor: pointer; transition: background 0.15s; font-family: var(--font); }
+.btn-advance:hover { background: var(--primary-dark); }
+
+/* Modal */
+#modal-bg { display: none; position: fixed; inset: 0; background: rgba(15,23,42,0.5); backdrop-filter: blur(3px); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
+#modal-bg.open { display: flex; }
+.modal { background: var(--card-bg); border-radius: 16px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 64px rgba(0,0,0,0.22); animation: m-in 0.2s cubic-bezier(0.16,1,0.3,1); }
+@keyframes m-in { from { opacity:0; transform:scale(0.95) translateY(8px); } to { opacity:1; transform:scale(1) translateY(0); } }
+.modal-head { padding: 1.5rem 1.5rem 0; display: flex; align-items: center; justify-content: space-between; }
+.modal-ttl { font-size: 1rem; font-weight: 700; }
+.modal-x { background: var(--body-bg); border: none; width: 28px; height: 28px; border-radius: 7px; cursor: pointer; font-size: 1rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; }
+.modal-x:hover { background: var(--border); }
+.modal-body { padding: 1.25rem 1.5rem 1.5rem; }
+.m-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.m-full { grid-column: 1 / -1; }
+.modal-foot { padding: 0 1.5rem 1.5rem; display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+/* Activity */
+.act-item { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+.act-item:last-child { border-bottom: none; }
+.act-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+.act-title { font-size: 0.8rem; font-weight: 500; line-height: 1.4; }
+.act-meta { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
+
+/* Search */
+.search-wrap { display: flex; align-items: center; background: var(--body-bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 0.42rem 0.75rem; gap: 0.5rem; transition: border-color 0.2s; }
+.search-wrap:focus-within { border-color: var(--primary); background: #fff; }
+.search-wrap input { background: transparent; border: none; outline: none; font-size: 0.83rem; font-family: var(--font); color: var(--text-primary); width: 210px; }
+.search-wrap input::placeholder { color: var(--text-secondary); }
+
+/* Misc */
+.page-sec { animation: pg-in 0.25s ease both; }
+@keyframes pg-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.avatar { width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.68rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+.chart-box { position: relative; height: 210px; }
+.two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+.two-equal { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+</style>
+</head>
+<body>
+
+<!-- ═══ LOGIN ═══════════════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">MC</div>
+    <h1 style="font-size:1.4rem;font-weight:700;margin-bottom:0.3rem;">Selamat Datang</h1>
+    <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:1.75rem;">MitraCRM · PT Nusantara Digital Solusi</p>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" id="li-email" class="form-input" value="sales@nusantaradigital.co.id" placeholder="email@perusahaan.co.id">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="li-pass" class="form-input" value="Demo@123" placeholder="Password">
+    </div>
+    <button class="btn-login" onclick="doLogin()">Masuk ke CRM</button>
+    <div id="li-err" style="display:none;margin-top:0.75rem;color:#dc2626;font-size:0.8rem;text-align:center;"></div>
+    <div style="margin-top:1.5rem;background:var(--body-bg);border-radius:8px;padding:1rem;font-size:0.78rem;color:var(--text-secondary);">
+      <strong style="color:var(--text-primary);display:block;margin-bottom:4px;">Demo Credentials</strong>
+      sales@nusantaradigital.co.id / Demo@123
+    </div>
+  </div>
+</div>
+
+<!-- ═══ APP ══════════════════════════════════════════════ -->
+<div id="app">
+  <aside id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">MC</div>
+      <div>
+        <div class="brand-name">MitraCRM</div>
+        <div class="brand-sub">PT Nusantara Digital</div>
+      </div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Menu Utama</div>
+      <div class="nav-item active" data-page="dashboard" onclick="go('dashboard')">
+        <span class="nav-icon">📊</span>Dashboard
+      </div>
+      <div class="nav-item" data-page="contacts" onclick="go('contacts')">
+        <span class="nav-icon">👥</span>Kontak
+      </div>
+      <div class="nav-item" data-page="pipeline" onclick="go('pipeline')">
+        <span class="nav-icon">🔀</span>Pipeline
+      </div>
+      <div class="nav-section-label">Analitik</div>
+      <div class="nav-item" data-page="reports" onclick="go('reports')">
+        <span class="nav-icon">📈</span>Laporan
+      </div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="user-card" onclick="doLogout()">
+        <div class="user-avatar">AS</div>
+        <div style="flex:1;min-width:0;">
+          <div class="user-name">Ahmad Santoso</div>
+          <div class="user-role">Sales Manager</div>
+        </div>
+        <span style="font-size:0.75rem;color:rgba(255,255,255,0.25);">⎋</span>
+      </div>
+    </div>
+  </aside>
+
+  <div id="main-wrap">
+    <div id="topbar">
+      <div>
+        <div class="topbar-title" id="tb-title">Dashboard</div>
+        <div class="topbar-sub" id="tb-sub">Ringkasan performa sales & pipeline</div>
+      </div>
+      <div class="topbar-right" id="tb-actions"></div>
+    </div>
+    <div id="page-content"></div>
+  </div>
+</div>
+
+<!-- ═══ MODAL ════════════════════════════════════════════ -->
+<div id="modal-bg" onclick="closeMod(event)">
+  <div class="modal" id="modal-inner"></div>
+</div>
+
+<!-- Credit -->
+<div style="position:fixed;bottom:12px;right:16px;z-index:9999;font-size:11px;font-family:system-ui,sans-serif;background:rgba(10,10,20,0.78);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);padding:5px 12px;border-radius:20px;color:rgba(255,255,255,0.6);white-space:nowrap;">Created by <a href="https://bagasaria93.github.io/" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:700;">Bagas Aria Sativa</a></div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════
+const KEY = 'crm_mitra_v1';
+
+const SEED = {
+  contacts: [
+    {id:'c01',name:'Ahmad Fauzi',company:'PT Sentosa Makmur',email:'ahmad@sentosa.co.id',phone:'0812-1111-2222',status:'customer',source:'referral',industry:'Manufaktur',createdAt:'2025-11-10',lastActivity:'2026-05-20'},
+    {id:'c02',name:'Dinda Rahayu',company:'CV Mitra Prima',email:'dinda@mitraprimatek.co.id',phone:'0813-2222-3333',status:'prospect',source:'website',industry:'Perdagangan',createdAt:'2025-12-05',lastActivity:'2026-05-18'},
+    {id:'c03',name:'Budi Kurniawan',company:'PT Jaya Abadi',email:'budi@jayaabadi.co.id',phone:'0822-3333-4444',status:'lead',source:'cold-call',industry:'Konstruksi',createdAt:'2026-01-20',lastActivity:'2026-05-22'},
+    {id:'c04',name:'Sari Wulandari',company:'PT Anugerah Sejahtera',email:'sari@anugerah.co.id',phone:'0821-4444-5555',status:'customer',source:'event',industry:'Retail',createdAt:'2025-10-15',lastActivity:'2026-05-19'},
+    {id:'c05',name:'Reza Firmansyah',company:'UD Sumber Rejeki',email:'reza@sumberrejeki.co.id',phone:'0815-5555-6666',status:'prospect',source:'social',industry:'Agribisnis',createdAt:'2026-02-08',lastActivity:'2026-05-15'},
+    {id:'c06',name:'Nina Saraswati',company:'PT Karya Digital',email:'nina@karyadigital.co.id',phone:'0856-6666-7777',status:'lead',source:'website',industry:'Teknologi',createdAt:'2026-03-14',lastActivity:'2026-05-21'},
+    {id:'c07',name:'Arif Hidayat',company:'PT Global Nusantara',email:'arif@globalnusantara.co.id',phone:'0878-7777-8888',status:'customer',source:'referral',industry:'Logistik',createdAt:'2025-09-22',lastActivity:'2026-05-17'},
+    {id:'c08',name:'Maya Pertiwi',company:'CV Sukses Bersama',email:'maya@suksesbersama.co.id',phone:'0812-8888-9999',status:'prospect',source:'event',industry:'Pendidikan',createdAt:'2026-02-28',lastActivity:'2026-05-14'},
+    {id:'c09',name:'Dimas Prayoga',company:'PT Megah Lestari',email:'dimas@megahlestari.co.id',phone:'0877-9999-0000',status:'lead',source:'cold-call',industry:'Properti',createdAt:'2026-04-05',lastActivity:'2026-05-23'},
+    {id:'c10',name:'Tina Kusuma',company:'PT Bintang Timur',email:'tina@bintangtimur.co.id',phone:'0813-0000-1111',status:'customer',source:'referral',industry:'FMCG',createdAt:'2025-08-30',lastActivity:'2026-05-16'},
+    {id:'c11',name:'Hendra Wijaya',company:'PT Prima Teknologi',email:'hendra@primatek.co.id',phone:'0811-1122-3344',status:'prospect',source:'website',industry:'Teknologi',createdAt:'2026-03-20',lastActivity:'2026-05-20'},
+    {id:'c12',name:'Putri Anggraini',company:'CV Maju Jalan',email:'putri@majujalan.co.id',phone:'0852-2233-4455',status:'churned',source:'social',industry:'Perdagangan',createdAt:'2025-07-12',lastActivity:'2026-02-10'},
+  ],
+  deals: [
+    {id:'d01',title:'Lisensi Enterprise CRM – 50 User',contactId:'c01',value:48000000,stage:'won',probability:100,expectedClose:'2026-04-30',createdAt:'2026-02-15'},
+    {id:'d02',title:'Implementasi Modul Sales Automation',contactId:'c04',value:32000000,stage:'won',probability:100,expectedClose:'2026-03-31',createdAt:'2026-01-20'},
+    {id:'d03',title:'Support & Maintenance Annual',contactId:'c07',value:18000000,stage:'won',probability:100,expectedClose:'2026-05-15',createdAt:'2026-03-01'},
+    {id:'d04',title:'Upgrade Lisensi + 20 User Tambahan',contactId:'c02',value:25000000,stage:'proposal',probability:70,expectedClose:'2026-06-20',createdAt:'2026-04-10'},
+    {id:'d05',title:'Implementasi CRM untuk Tim Marketing',contactId:'c05',value:35000000,stage:'proposal',probability:60,expectedClose:'2026-06-30',createdAt:'2026-04-22'},
+    {id:'d06',title:'Paket Starter 15 User',contactId:'c08',value:15000000,stage:'proposal',probability:65,expectedClose:'2026-07-10',createdAt:'2026-05-01'},
+    {id:'d07',title:'Konsultasi & Setup Custom Report',contactId:'c11',value:12000000,stage:'proposal',probability:55,expectedClose:'2026-06-15',createdAt:'2026-05-05'},
+    {id:'d08',title:'Migrasi Data dari Sistem Lama',contactId:'c03',value:22000000,stage:'negosiasi',probability:80,expectedClose:'2026-06-05',createdAt:'2026-04-01'},
+    {id:'d09',title:'Integrasi API dengan ERP Existing',contactId:'c06',value:28000000,stage:'negosiasi',probability:75,expectedClose:'2026-06-25',createdAt:'2026-04-18'},
+    {id:'d10',title:'Lisensi Pro 30 User + Training',contactId:'c09',value:38000000,stage:'negosiasi',probability:85,expectedClose:'2026-06-10',createdAt:'2026-04-28'},
+    {id:'d11',title:'Demo & Proof of Concept',contactId:'c06',value:0,stage:'prospek',probability:20,expectedClose:'2026-07-30',createdAt:'2026-05-10'},
+    {id:'d12',title:'Penawaran Paket Tim Sales 10 User',contactId:'c09',value:14000000,stage:'prospek',probability:30,expectedClose:'2026-08-15',createdAt:'2026-05-15'},
+    {id:'d13',title:'Evaluasi Sistem CRM Baru',contactId:'c03',value:0,stage:'prospek',probability:15,expectedClose:'2026-09-01',createdAt:'2026-05-20'},
+    {id:'d14',title:'Renewal Lisensi Tahunan',contactId:'c10',value:18000000,stage:'lost',probability:0,expectedClose:'2026-04-01',createdAt:'2026-02-01'},
+    {id:'d15',title:'Ekspansi ke 3 Cabang Baru',contactId:'c12',value:45000000,stage:'lost',probability:0,expectedClose:'2026-03-15',createdAt:'2026-01-15'},
+  ],
+  activities: [
+    {id:'a01',type:'call',dealId:'d04',contactId:'c02',desc:'Follow-up telepon — sudah review proposal, ada pertanyaan harga',date:'2026-05-22'},
+    {id:'a02',type:'meeting',dealId:'d08',contactId:'c03',desc:'Meeting negosiasi kontrak — diskusi timeline implementasi',date:'2026-05-21'},
+    {id:'a03',type:'email',dealId:'d05',contactId:'c05',desc:'Kirim proposal revisi sesuai permintaan klien',date:'2026-05-20'},
+    {id:'a04',type:'call',dealId:'d10',contactId:'c09',desc:'Tindak lanjut demo — klien sangat tertarik, minta referensi',date:'2026-05-20'},
+    {id:'a05',type:'meeting',dealId:'d09',contactId:'c06',desc:'Presentasi teknis integrasi API ke tim IT klien',date:'2026-05-19'},
+    {id:'a06',type:'note',dealId:'d01',contactId:'c01',desc:'Deal won — kontrak ditandatangani, kick-off dijadwalkan 1 Juni',date:'2026-05-15'},
+    {id:'a07',type:'email',dealId:'d06',contactId:'c08',desc:'Kirim demo link dan credential sandbox ke klien',date:'2026-05-14'},
+    {id:'a08',type:'call',dealId:'d11',contactId:'c06',desc:'Cold discovery call — identifikasi pain point sistem lama',date:'2026-05-13'},
+  ]
+};
+
+function initDB(){ if(!localStorage.getItem(KEY)) localStorage.setItem(KEY,JSON.stringify(SEED)); }
+function getDB(){ return JSON.parse(localStorage.getItem(KEY)); }
+function saveDB(d){ localStorage.setItem(KEY,JSON.stringify(d)); }
+
+// ══════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════
+function fc(n){ if(n===0)return'Rp —'; if(n>=1e9)return'Rp '+(n/1e9).toFixed(1)+'M'; if(n>=1e6)return'Rp '+(n/1e6).toFixed(0)+' jt'; return'Rp '+n.toLocaleString('id-ID'); }
+function fd(d){ if(!d)return'—'; const[y,m,day]=d.split('-'); return`${+day} ${['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'][+m-1]} ${y}`; }
+function initials(n){ return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
+function avatarColor(s){ const c=['#2563eb','#7c3aed','#16a34a','#d97706','#dc2626','#0891b2']; let h=0; for(const x of s)h=((h<<5)-h)+x.charCodeAt(0); return c[Math.abs(h)%c.length]; }
+function gc(id){ return getDB().contacts.find(c=>c.id===id)||{}; }
+function badge(s){
+  const m={lead:['b-blue','Lead'],prospect:['b-orange','Prospect'],customer:['b-green','Customer'],churned:['b-gray','Churned']};
+  const[cls,l]=m[s]||['b-gray',s]; return`<span class="badge ${cls}">${l}</span>`;
+}
+function stageBadge(s){
+  const m={prospek:'b-blue',proposal:'b-orange',negosiasi:'b-violet',won:'b-green',lost:'b-red'};
+  const l={prospek:'Prospek',proposal:'Proposal',negosiasi:'Negosiasi',won:'Won',lost:'Lost'};
+  return`<span class="badge ${m[s]||'b-gray'}">${l[s]||s}</span>`;
+}
+function stageLabel(s){ return{prospek:'Prospek',proposal:'Proposal',negosiasi:'Negosiasi',won:'Won',lost:'Lost'}[s]||s; }
+function srcLabel(s){ return{referral:'Referral',website:'Website','cold-call':'Cold Call',event:'Event',social:'Social Media'}[s]||s; }
+function actIcon(t){ const m={call:['📞','#eff6ff'],email:['✉️','#f0fdf4'],meeting:['🤝','#fff7ed'],note:['📝','#f5f3ff']}; const[i,bg]=m[t]||['📌','#f8fafc']; return`<div class="act-dot" style="background:${bg}">${i}</div>`; }
+
+let _charts = {};
+function destroyChart(id){ if(_charts[id]){ _charts[id].destroy(); delete _charts[id]; } }
+
+function toast(msg,type='ok'){
+  const t=document.createElement('div');
+  t.style.cssText=`position:fixed;bottom:3.5rem;left:50%;transform:translateX(-50%) translateY(16px);background:${type==='ok'?'#16a34a':'#dc2626'};color:#fff;font-size:0.8rem;font-weight:600;padding:0.55rem 1.2rem;border-radius:8px;z-index:9999;opacity:0;transition:all 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.2);`;
+  t.textContent=msg; document.body.appendChild(t);
+  requestAnimationFrame(()=>{ t.style.opacity='1'; t.style.transform='translateX(-50%) translateY(0)'; });
+  setTimeout(()=>{ t.style.opacity='0'; setTimeout(()=>t.remove(),300); },2400);
+}
+
+// ══════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════
+function doLogin(){
+  const e=document.getElementById('li-email').value.trim();
+  const p=document.getElementById('li-pass').value;
+  if(e==='sales@nusantaradigital.co.id'&&p==='Demo@123'){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').classList.add('active');
+    go('dashboard');
+  } else {
+    const el=document.getElementById('li-err');
+    el.style.display='block';
+    el.textContent='Email atau password salah. Gunakan credentials demo.';
+  }
+}
+function doLogout(){
+  if(!confirm('Keluar dari MitraCRM?'))return;
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('login-screen').style.display='flex';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none')doLogin(); });
+
+// ══════════════════════════════════════════
+// ROUTER
+// ══════════════════════════════════════════
+const PAGES = {
+  dashboard:{title:'Dashboard',sub:'Ringkasan performa sales & pipeline',action:null},
+  contacts:{title:'Kontak',sub:'Kelola data kontak, leads & prospek',action:'kontak'},
+  pipeline:{title:'Pipeline',sub:'Pantau perjalanan deal di setiap tahap',action:'deal'},
+  reports:{title:'Laporan',sub:'Analitik performa tim sales',action:null},
+};
+
+function go(page){
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+  const cfg=PAGES[page]||PAGES.dashboard;
+  document.getElementById('tb-title').textContent=cfg.title;
+  document.getElementById('tb-sub').textContent=cfg.sub;
+  const acts=document.getElementById('tb-actions');
+  acts.innerHTML='';
+  if(cfg.action==='kontak') acts.innerHTML=`<button class="btn btn-primary" onclick="openContactModal()">+ Tambah Kontak</button>`;
+  if(cfg.action==='deal') acts.innerHTML=`<button class="btn btn-primary" onclick="openDealModal()">+ Tambah Deal</button>`;
+  document.getElementById('page-content').innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:180px;color:var(--text-secondary);font-size:0.85rem;">Memuat...</div>`;
+  setTimeout(()=>{
+    if(page==='dashboard')renderDashboard();
+    else if(page==='contacts')renderContacts();
+    else if(page==='pipeline')renderPipeline();
+    else if(page==='reports')renderReports();
+  },40);
+}
+
+// ══════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════
+function openMod(html){ document.getElementById('modal-inner').innerHTML=html; document.getElementById('modal-bg').classList.add('open'); }
+function closeMod(e){ if(!e||e.target===document.getElementById('modal-bg')) document.getElementById('modal-bg').classList.remove('open'); }
+
+// ══════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════
+function renderDashboard(){
+  const db=getDB(), deals=db.deals, contacts=db.contacts;
+  const won=deals.filter(d=>d.stage==='won');
+  const lost=deals.filter(d=>d.stage==='lost');
+  const active=deals.filter(d=>!['won','lost'].includes(d.stage));
+  const pipeline=active.reduce((s,d)=>s+d.value,0);
+  const revenue=won.reduce((s,d)=>s+d.value,0);
+  const closed=won.length+lost.length;
+  const winRate=closed>0?Math.round(won.length/closed*100):0;
+  const leads=contacts.filter(c=>c.status==='lead').length;
+
+  const stg=['prospek','proposal','negosiasi'];
+  const stgVal={};
+  stg.forEach(s=>stgVal[s]=active.filter(d=>d.stage===s).reduce((sum,d)=>sum+d.value,0));
+
+  document.getElementById('page-content').innerHTML=`
+<div class="page-sec">
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-icon" style="background:#eff6ff;">💰</div><div class="kpi-val">${fc(pipeline)}</div><div class="kpi-label">Pipeline Aktif</div><div class="kpi-change txt-blue">${active.length} deal aktif</div></div>
+    <div class="kpi-card"><div class="kpi-icon" style="background:#f0fdf4;">🏆</div><div class="kpi-val">${fc(revenue)}</div><div class="kpi-label">Revenue Won</div><div class="kpi-change txt-green">${won.length} deal closed</div></div>
+    <div class="kpi-card"><div class="kpi-icon" style="background:#fff7ed;">🎯</div><div class="kpi-val">${winRate}%</div><div class="kpi-label">Win Rate</div><div class="kpi-change txt-blue">${closed} deals diproses</div></div>
+    <div class="kpi-card"><div class="kpi-icon" style="background:#f5f3ff;">👤</div><div class="kpi-val">${contacts.length}</div><div class="kpi-label">Total Kontak</div><div class="kpi-change txt-blue">${leads} leads aktif</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Nilai Pipeline per Tahap</span><span style="font-size:0.72rem;color:var(--text-secondary);">dalam juta Rp</span></div>
+      <div class="card-body"><div class="chart-box"><canvas id="ch-pipeline"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Status Deals</span></div>
+      <div class="card-body">
+        <div class="chart-box"><canvas id="ch-donut"></canvas></div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.75rem;justify-content:center;margin-top:0.75rem;font-size:0.72rem;">
+          <span><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#16a34a;margin-right:4px;"></span>Won (${won.length})</span>
+          <span><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#dc2626;margin-right:4px;"></span>Lost (${lost.length})</span>
+          <span><span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#2563eb;margin-right:4px;"></span>Aktif (${active.length})</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-equal">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Aktivitas Terbaru</span></div>
+      <div class="card-body" style="padding-top:0.5rem;padding-bottom:0.5rem;">
+        ${db.activities.slice(0,5).map(a=>{ const c=gc(a.contactId); return`<div class="act-item">${actIcon(a.type)}<div><div class="act-title">${a.desc}</div><div class="act-meta">${c.name||'—'} · ${c.company||''} · ${fd(a.date)}</div></div></div>`; }).join('')}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Deal Terbesar</span></div>
+      <div style="overflow:hidden;border-radius:0 0 12px 12px;">
+        <table class="tbl"><thead><tr><th>Deal</th><th>Tahap</th><th>Nilai</th></tr></thead><tbody>
+        ${deals.filter(d=>d.value>0).sort((a,b)=>b.value-a.value).slice(0,5).map(d=>{ const c=gc(d.contactId); return`<tr><td><div style="font-weight:600;font-size:0.8rem;">${d.title.length>28?d.title.slice(0,28)+'…':d.title}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${c.company||'—'}</div></td><td>${stageBadge(d.stage)}</td><td style="font-weight:700;font-size:0.8rem;color:var(--primary);">${fc(d.value)}</td></tr>`; }).join('')}
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</div>`;
+
+  destroyChart('pipeline'); destroyChart('donut');
+
+  _charts['pipeline']=new Chart(document.getElementById('ch-pipeline'),{
+    type:'bar',
+    data:{ labels:['Prospek','Proposal','Negosiasi'],
+      datasets:[{label:'Nilai (jt)',data:stg.map(s=>+(stgVal[s]/1e6).toFixed(1)),
+        backgroundColor:['rgba(37,99,235,0.12)','rgba(217,119,6,0.12)','rgba(124,58,237,0.12)'],
+        borderColor:['#2563eb','#d97706','#7c3aed'],borderWidth:2,borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}
+  });
+
+  _charts['donut']=new Chart(document.getElementById('ch-donut'),{
+    type:'doughnut',
+    data:{labels:['Won','Lost','Aktif'],datasets:[{data:[won.length,lost.length,active.length],backgroundColor:['#16a34a','#dc2626','#2563eb'],borderWidth:0,hoverOffset:5}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:{display:false}}}
+  });
+}
+
+// ══════════════════════════════════════════
+// CONTACTS
+// ══════════════════════════════════════════
+let cSearch='', cFilter='all';
+
+function renderContacts(){
+  const db=getDB();
+  let list=db.contacts;
+  if(cSearch){ const q=cSearch.toLowerCase(); list=list.filter(c=>c.name.toLowerCase().includes(q)||c.company.toLowerCase().includes(q)||c.email.toLowerCase().includes(q)); }
+  if(cFilter!=='all') list=list.filter(c=>c.status===cFilter);
+
+  document.getElementById('page-content').innerHTML=`
+<div class="page-sec">
+  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;">
+    <div class="search-wrap">
+      <span style="font-size:0.9rem;color:var(--text-secondary);">🔍</span>
+      <input type="text" placeholder="Cari nama, perusahaan..." value="${cSearch}" oninput="cSearch=this.value;renderContacts()">
+    </div>
+    <select class="form-select" style="width:auto;padding:0.42rem 0.75rem;" onchange="cFilter=this.value;renderContacts()">
+      <option value="all" ${cFilter==='all'?'selected':''}>Semua Status</option>
+      <option value="lead" ${cFilter==='lead'?'selected':''}>Lead</option>
+      <option value="prospect" ${cFilter==='prospect'?'selected':''}>Prospect</option>
+      <option value="customer" ${cFilter==='customer'?'selected':''}>Customer</option>
+      <option value="churned" ${cFilter==='churned'?'selected':''}>Churned</option>
+    </select>
+    <span style="margin-left:auto;font-size:0.78rem;color:var(--text-secondary);">${list.length} kontak</span>
+  </div>
+  <div class="card" style="overflow:hidden;">
+    <table class="tbl">
+      <thead><tr><th>Nama</th><th>Perusahaan</th><th>Kontak</th><th>Status</th><th>Sumber</th><th>Terakhir Aktif</th><th></th></tr></thead>
+      <tbody>
+      ${list.length===0?`<tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--text-secondary);">Tidak ada kontak ditemukan</td></tr>`
+      :list.map(c=>`<tr>
+        <td><div style="display:flex;align-items:center;gap:0.6rem;">
+          <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+          <div><div style="font-weight:600;">${c.name}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${c.industry}</div></div></div></td>
+        <td style="font-weight:500;">${c.company}</td>
+        <td><div style="font-size:0.8rem;">${c.email}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${c.phone}</div></td>
+        <td>${badge(c.status)}</td>
+        <td style="font-size:0.78rem;color:var(--text-secondary);">${srcLabel(c.source)}</td>
+        <td style="font-size:0.78rem;color:var(--text-secondary);">${fd(c.lastActivity)}</td>
+        <td><div style="display:flex;gap:0.35rem;">
+          <button class="btn btn-ghost" style="padding:0.3rem 0.6rem;" onclick="openContactModal('${c.id}')">✏️</button>
+          <button class="btn btn-danger" style="padding:0.3rem 0.6rem;" onclick="delContact('${c.id}')">🗑️</button>
+        </div></td>
+      </tr>`).join('')}
+      </tbody>
+    </table>
+  </div>
+</div>`;
+}
+
+function openContactModal(id=null){
+  const db=getDB(), c=id?db.contacts.find(x=>x.id===id):null;
+  openMod(`
+<div class="modal-head"><div class="modal-ttl">${c?'Edit':'Tambah'} Kontak</div><button class="modal-x" onclick="closeMod()">×</button></div>
+<div class="modal-body">
+  <div class="m-grid">
+    <div class="m-full"><div class="form-group"><label class="form-label">Nama Lengkap</label><input class="form-input" id="cn-name" value="${c?.name||''}" placeholder="Nama kontak"></div></div>
+    <div><div class="form-group"><label class="form-label">Perusahaan</label><input class="form-input" id="cn-co" value="${c?.company||''}" placeholder="Nama perusahaan"></div></div>
+    <div><div class="form-group"><label class="form-label">Industri</label><input class="form-input" id="cn-ind" value="${c?.industry||''}" placeholder="Industri"></div></div>
+    <div><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="cn-email" value="${c?.email||''}" placeholder="email@co.id"></div></div>
+    <div><div class="form-group"><label class="form-label">Telepon</label><input class="form-input" id="cn-phone" value="${c?.phone||''}" placeholder="08xx-xxxx-xxxx"></div></div>
+    <div><div class="form-group"><label class="form-label">Status</label>
+      <select class="form-select" id="cn-status">${['lead','prospect','customer','churned'].map(s=>`<option value="${s}" ${c?.status===s?'selected':''}>${s[0].toUpperCase()+s.slice(1)}</option>`).join('')}</select></div></div>
+    <div><div class="form-group"><label class="form-label">Sumber</label>
+      <select class="form-select" id="cn-src">${['referral','website','cold-call','event','social'].map(s=>`<option value="${s}" ${c?.source===s?'selected':''}>${srcLabel(s)}</option>`).join('')}</select></div></div>
+  </div>
+</div>
+<div class="modal-foot">
+  <button class="btn btn-ghost" onclick="closeMod()">Batal</button>
+  <button class="btn btn-primary" onclick="saveContact('${id||''}')">💾 Simpan</button>
+</div>`);
+}
+
+function saveContact(id){
+  const db=getDB();
+  const d={name:document.getElementById('cn-name').value.trim(),company:document.getElementById('cn-co').value.trim(),industry:document.getElementById('cn-ind').value.trim(),email:document.getElementById('cn-email').value.trim(),phone:document.getElementById('cn-phone').value.trim(),status:document.getElementById('cn-status').value,source:document.getElementById('cn-src').value};
+  if(!d.name||!d.company){alert('Nama dan perusahaan wajib diisi.');return;}
+  const today=new Date().toISOString().slice(0,10);
+  if(id){ const i=db.contacts.findIndex(c=>c.id===id); db.contacts[i]={...db.contacts[i],...d,lastActivity:today}; toast('Kontak diperbarui'); }
+  else{ db.contacts.push({...d,id:'c'+(Date.now()%1e6),createdAt:today,lastActivity:today}); toast('Kontak ditambahkan'); }
+  saveDB(db); closeMod(); renderContacts();
+}
+
+function delContact(id){
+  if(!confirm('Hapus kontak ini?'))return;
+  const db=getDB(); db.contacts=db.contacts.filter(c=>c.id!==id); saveDB(db); toast('Kontak dihapus','err'); renderContacts();
+}
+
+// ══════════════════════════════════════════
+// PIPELINE
+// ══════════════════════════════════════════
+function renderPipeline(){
+  const db=getDB();
+  const stages=[
+    {key:'prospek',label:'Prospek',color:'#2563eb'},
+    {key:'proposal',label:'Proposal',color:'#d97706'},
+    {key:'negosiasi',label:'Negosiasi',color:'#7c3aed'},
+    {key:'won',label:'Won ✓',color:'#16a34a'},
+    {key:'lost',label:'Lost ✗',color:'#dc2626'},
+  ];
+
+  document.getElementById('page-content').innerHTML=`
+<div class="page-sec">
+  <div class="kanban">
+    ${stages.map(s=>{
+      const ds=db.deals.filter(d=>d.stage===s.key);
+      const tot=ds.reduce((sum,d)=>sum+d.value,0);
+      return`<div class="k-col">
+        <div class="k-col-head" style="border-top:3px solid ${s.color};">
+          <div class="k-col-label">${s.label}</div>
+          <div class="k-col-meta"><span>${tot>0?fc(tot):'—'}</span><span class="k-count">${ds.length}</span></div>
+        </div>
+        <div class="k-cards">
+          ${ds.map(d=>{ const c=gc(d.contactId); return`<div class="deal-card" onclick="openDealModal('${d.id}')">
+            <div class="deal-title">${d.title}</div>
+            <div class="deal-co">🏢 ${c.company||'—'}</div>
+            <div class="deal-val">${d.value>0?fc(d.value):'<span style="color:var(--text-secondary);font-weight:400;">Nilai TBD</span>'}</div>
+            <div class="deal-foot">
+              <span class="deal-prob">${d.probability}% prob.</span>
+              ${s.key!=='won'&&s.key!=='lost'?`<button class="btn-advance" onclick="event.stopPropagation();advDeal('${d.id}')">→ Maju</button>`:''}
+            </div>
+          </div>`; }).join('')}
+          ${ds.length===0?`<div style="text-align:center;padding:1.5rem 0.5rem;color:var(--text-secondary);font-size:0.75rem;">Tidak ada deal</div>`:''}
+        </div>
+      </div>`;
+    }).join('')}
+  </div>
+</div>`;
+}
+
+function advDeal(id){
+  const db=getDB(), order=['prospek','proposal','negosiasi','won'], deal=db.deals.find(d=>d.id===id);
+  if(!deal)return; const i=order.indexOf(deal.stage); if(i<0||i>=order.length-1)return;
+  deal.stage=order[i+1]; deal.probability={proposal:50,negosiasi:75,won:100}[deal.stage]||deal.probability;
+  saveDB(db); toast(`Deal dipindah ke ${stageLabel(deal.stage)}`); renderPipeline();
+}
+
+function openDealModal(id=null){
+  const db=getDB(), d=id?db.deals.find(x=>x.id===id):null;
+  const coOpts=db.contacts.map(c=>`<option value="${c.id}" ${d?.contactId===c.id?'selected':''}>${c.name} – ${c.company}</option>`).join('');
+  openMod(`
+<div class="modal-head"><div class="modal-ttl">${d?'Edit':'Tambah'} Deal</div><button class="modal-x" onclick="closeMod()">×</button></div>
+<div class="modal-body">
+  <div class="m-grid">
+    <div class="m-full"><div class="form-group"><label class="form-label">Nama Deal</label><input class="form-input" id="dm-title" value="${d?.title||''}" placeholder="Nama deal / peluang"></div></div>
+    <div class="m-full"><div class="form-group"><label class="form-label">Kontak</label><select class="form-select" id="dm-contact">${coOpts}</select></div></div>
+    <div><div class="form-group"><label class="form-label">Nilai (Rp)</label><input class="form-input" type="number" id="dm-val" value="${d?.value||''}" placeholder="0"></div></div>
+    <div><div class="form-group"><label class="form-label">Tahap</label>
+      <select class="form-select" id="dm-stage">${['prospek','proposal','negosiasi','won','lost'].map(s=>`<option value="${s}" ${d?.stage===s?'selected':''}>${stageLabel(s)}</option>`).join('')}</select></div></div>
+    <div><div class="form-group"><label class="form-label">Probability (%)</label><input class="form-input" type="number" id="dm-prob" value="${d?.probability||30}" min="0" max="100"></div></div>
+    <div><div class="form-group"><label class="form-label">Expected Close</label><input class="form-input" type="date" id="dm-close" value="${d?.expectedClose||''}"></div></div>
+  </div>
+</div>
+<div class="modal-foot">
+  ${d?`<button class="btn btn-danger" onclick="delDeal('${d.id}')">🗑️ Hapus</button>`:''}
+  <button class="btn btn-ghost" onclick="closeMod()">Batal</button>
+  <button class="btn btn-primary" onclick="saveDeal('${id||''}')">💾 Simpan</button>
+</div>`);
+}
+
+function saveDeal(id){
+  const db=getDB();
+  const d={title:document.getElementById('dm-title').value.trim(),contactId:document.getElementById('dm-contact').value,value:parseInt(document.getElementById('dm-val').value)||0,stage:document.getElementById('dm-stage').value,probability:parseInt(document.getElementById('dm-prob').value)||0,expectedClose:document.getElementById('dm-close').value};
+  if(!d.title){alert('Nama deal wajib diisi.');return;}
+  if(id){ const i=db.deals.findIndex(x=>x.id===id); db.deals[i]={...db.deals[i],...d}; toast('Deal diperbarui'); }
+  else{ db.deals.push({...d,id:'d'+(Date.now()%1e6),createdAt:new Date().toISOString().slice(0,10)}); toast('Deal ditambahkan'); }
+  saveDB(db); closeMod(); renderPipeline();
+}
+
+function delDeal(id){
+  if(!confirm('Hapus deal ini?'))return;
+  const db=getDB(); db.deals=db.deals.filter(d=>d.id!==id); saveDB(db); toast('Deal dihapus','err'); closeMod(); renderPipeline();
+}
+
+// ══════════════════════════════════════════
+// REPORTS
+// ══════════════════════════════════════════
+function renderReports(){
+  const db=getDB(), deals=db.deals;
+  const won=deals.filter(d=>d.stage==='won');
+  const lost=deals.filter(d=>d.stage==='lost');
+  const active=deals.filter(d=>!['won','lost'].includes(d.stage));
+  const rev=won.reduce((s,d)=>s+d.value,0);
+  const pipe=active.reduce((s,d)=>s+d.value,0);
+  const closed=won.length+lost.length;
+  const wr=closed>0?Math.round(won.length/closed*100):0;
+  const avg=won.length>0?Math.round(rev/won.length):0;
+
+  const months=['Des\'25','Jan\'26','Feb\'26','Mar\'26','Apr\'26','Mei\'26'];
+  const mRev=[12,18,32,22,48,18];
+
+  document.getElementById('page-content').innerHTML=`
+<div class="page-sec">
+  <div class="kpi-grid" style="margin-bottom:1.5rem;">
+    <div class="kpi-card"><div class="kpi-label" style="font-size:0.7rem;">Total Revenue (Won)</div><div class="kpi-val" style="font-size:1.35rem;">${fc(rev)}</div></div>
+    <div class="kpi-card"><div class="kpi-label" style="font-size:0.7rem;">Pipeline Aktif</div><div class="kpi-val" style="font-size:1.35rem;">${fc(pipe)}</div></div>
+    <div class="kpi-card"><div class="kpi-label" style="font-size:0.7rem;">Win Rate</div><div class="kpi-val" style="font-size:1.35rem;">${wr}%</div></div>
+    <div class="kpi-card"><div class="kpi-label" style="font-size:0.7rem;">Avg Deal Size</div><div class="kpi-val" style="font-size:1.35rem;">${fc(avg)}</div></div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:1.5rem;">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Revenue Bulanan (6 Bulan Terakhir)</span></div>
+      <div class="card-body"><div class="chart-box"><canvas id="ch-monthly"></canvas></div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Distribusi Pipeline</span></div>
+      <div class="card-body"><div class="chart-box"><canvas id="ch-dist"></canvas></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Ringkasan per Tahap</span></div>
+    <div style="overflow:hidden;border-radius:0 0 12px 12px;">
+      <table class="tbl">
+        <thead><tr><th>Tahap</th><th>Jumlah Deal</th><th>Total Nilai</th><th>Rata-rata Nilai</th><th>Porsi Pipeline</th></tr></thead>
+        <tbody>
+        ${['prospek','proposal','negosiasi','won','lost'].map(s=>{
+          const sl=deals.filter(d=>d.stage===s), tot=sl.reduce((x,d)=>x+d.value,0), avgs=sl.length>0?Math.round(tot/sl.length):0;
+          const totalAll=rev+pipe; const pct=totalAll>0?Math.round(tot/totalAll*100):0;
+          return`<tr><td>${stageBadge(s)}</td><td style="font-weight:700;">${sl.length}</td><td style="font-weight:600;">${tot>0?fc(tot):'—'}</td><td style="color:var(--text-secondary);">${avgs>0?fc(avgs):'—'}</td>
+          <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:var(--primary);border-radius:3px;"></div></div><span style="font-size:0.72rem;color:var(--text-secondary);min-width:28px;">${pct}%</span></div></td></tr>`;
+        }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>`;
+
+  destroyChart('monthly'); destroyChart('dist');
+
+  _charts['monthly']=new Chart(document.getElementById('ch-monthly'),{
+    type:'bar',
+    data:{labels:months,datasets:[{data:mRev,backgroundColor:mRev.map((_,i)=>i===mRev.length-1?'rgba(37,99,235,0.3)':'rgba(37,99,235,0.8)'),borderRadius:5,borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:11},callback:v=>v+'jt'}},x:{grid:{display:false},ticks:{font:{size:11}}}}}
+  });
+
+  _charts['dist']=new Chart(document.getElementById('ch-dist'),{
+    type:'doughnut',
+    data:{labels:['Prospek','Proposal','Negosiasi','Won','Lost'],datasets:[{data:['prospek','proposal','negosiasi','won','lost'].map(s=>deals.filter(d=>d.stage===s).length),backgroundColor:['#2563eb','#d97706','#7c3aed','#16a34a','#dc2626'],borderWidth:0,hoverOffset:4}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10}}}}
+  });
+}
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+initDB();
+</script>
+</body>
+</html>
