@@ -398,19 +398,19 @@ const INITIAL_ANNOUNCEMENTS = [
     publishDate: '2026-05-18', status: 'Publish', isPinned: true, views: 189,
   },
   {
-    id: 'ANN003', title: 'Employee of The Month — April 2026: Nisrina Aulia',
-    content: 'Dengan bangga dan penuh kebahagiaan, kami mengumumkan Employee of the Month untuk bulan April 2026:\n\n🏆 Nisrina Aulia — Marketing Manager\n\nNisrina berhasil melampaui seluruh target marketing Q1 2026 secara gemilang:\n• Pencapaian target campaign: 115% (target 100%)\n• Pertumbuhan followers: +18% (target 10%)\n• Engagement rate: 4.2% (target 3%)\n• Kehadiran: 97%\n\nBerkat kepemimpinan dan kreativitas Nisrina, brand awareness PT Cakrawala Gemilang meningkat signifikan di semua platform digital. Strategi konten yang inovatif dan eksekusi kampanye yang terukur menjadi kunci keberhasilan ini.\n\nSelamat kepada Nisrina! Penghargaan berupa sertifikat, voucher, dan feature di newsletter perusahaan akan diserahkan pada acara Town Hall tanggal 28 Mei 2026.\n\nManajemen PT Cakrawala Gemilang',
+    id: 'ANN003', title: 'Employee of The Month April 2026: Nisrina Aulia',
+    content: 'Dengan bangga dan penuh kebahagiaan, kami mengumumkan Employee of the Month untuk bulan April 2026:\n\n🏆 Nisrina Aulia - Marketing Manager\n\nNisrina berhasil melampaui seluruh target marketing Q1 2026 secara gemilang:\n• Pencapaian target campaign: 115% (target 100%)\n• Pertumbuhan followers: +18% (target 10%)\n• Engagement rate: 4.2% (target 3%)\n• Kehadiran: 97%\n\nBerkat kepemimpinan dan kreativitas Nisrina, brand awareness PT Cakrawala Gemilang meningkat signifikan di semua platform digital. Strategi konten yang inovatif dan eksekusi kampanye yang terukur menjadi kunci keberhasilan ini.\n\nSelamat kepada Nisrina! Penghargaan berupa sertifikat, voucher, dan feature di newsletter perusahaan akan diserahkan pada acara Town Hall tanggal 28 Mei 2026.\n\nManajemen PT Cakrawala Gemilang',
     category: 'Informasi', audience: 'Semua', postedBy: 'EMP001',
     publishDate: '2026-05-15', status: 'Publish', isPinned: false, views: 214,
   },
   {
-    id: 'ANN004', title: 'Pelatihan K3 Wajib — 26-27 Mei 2026',
+    id: 'ANN004', title: 'Pelatihan K3 Wajib 26-27 Mei 2026',
     content: 'Kepada Yth. Seluruh Karyawan,\n\nDalam rangka memenuhi kewajiban regulasi dan meningkatkan budaya keselamatan kerja, perusahaan menyelenggarakan:\n\n📌 PELATIHAN K3 (Kesehatan & Keselamatan Kerja)\nKehadiran bersifat WAJIB untuk seluruh karyawan.\n\n📅 Tanggal: 26-27 Mei 2026\n⏰ Waktu: 08.00 – 17.00 WIB\n📍 Tempat: Aula Gedung Utama Lt. 2\n👨‍🏫 Fasilitator: Ir. Sugianto Prawirodihardjo, MM (Lembaga K3 Nasional)\n\nMateri yang akan dibahas:\n• Identifikasi dan pengendalian risiko kerja\n• Prosedur keadaan darurat dan evakuasi\n• Pertolongan Pertama pada Kecelakaan (P3K)\n• Penggunaan Alat Pelindung Diri (APD) dan APAR\n\nKaryawan yang berhalangan hadir WAJIB melapor ke departemen SDM paling lambat H-2.\n\nDepartemen SDM',
     category: 'SDM', audience: 'Semua', postedBy: 'EMP002',
     publishDate: '2026-05-12', status: 'Publish', isPinned: false, views: 156,
   },
   {
-    id: 'ANN005', title: 'Peluncuran Sistem HRIS Baru — Fitur & Panduan',
+    id: 'ANN005', title: 'Peluncuran Sistem HRIS Baru: Fitur & Panduan',
     content: 'Kepada Seluruh Karyawan,\n\nKami dengan bangga mengumumkan peluncuran Sistem HRIS PT Cakrawala Gemilang versi terbaru dengan berbagai peningkatan fitur:\n\n✅ Modul Rekrutmen terintegrasi dengan pipeline kandidat\n✅ Dashboard analitik SDM yang lebih komprehensif\n✅ Modul Manajemen Kinerja dengan penilaian KPI\n✅ Slip gaji digital dengan tampilan yang lebih informatif\n✅ Sistem pengumuman dan notifikasi real-time\n✅ Tampilan yang lebih modern dan responsif\n\nCara Mengakses:\nSistem dapat diakses di portal HRIS yang sama. Login menggunakan email dan password yang sudah ada.\n\nPanduan penggunaan fitur baru tersedia di folder IT Department pada drive perusahaan.\n\nUntuk bantuan teknis, hubungi Daffa Ardiansyah (IT Support) di ext. 105 atau daffa.ardiansyah@cakrawalagemilang.co.id\n\nDepartemen Teknologi Informasi',
     category: 'Informasi', audience: 'Semua', postedBy: 'EMP001',
     publishDate: '2026-05-05', status: 'Publish', isPinned: false, views: 97,

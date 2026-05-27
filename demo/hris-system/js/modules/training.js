@@ -15,12 +15,12 @@ window.TrainingModule = (function () {
     <h1 class="page-title">Pelatihan & Pengembangan</h1>
     <p class="page-subtitle">Kelola program pelatihan dan pengembangan karyawan</p>
   </div>
-  <button class="btn-primary" onclick="TrainingModule.openAdd()">
+  <button class="btn btn-primary" onclick="TrainingModule.openAdd()">
     <i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Pelatihan
   </button>
 </div>
 
-<div class="card" style="margin-bottom:16px">
+<div class="card" style="margin-bottom:16px;padding:16px 20px">
   <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
     <div class="form-group" style="margin:0;min-width:160px">
       <label class="form-label">Status</label>
@@ -50,7 +50,7 @@ window.TrainingModule = (function () {
         <option value="Hybrid">Hybrid</option>
       </select>
     </div>
-    <button class="btn-outline btn-sm" onclick="TrainingModule.resetFilter()">Reset</button>
+    <button class="btn btn-outline btn-sm" onclick="TrainingModule.resetFilter()">Reset</button>
   </div>
 </div>
 
@@ -115,7 +115,7 @@ ${_modalHtml()}`;
     const catCls = { 'Hard Skill': 'badge-info', 'Soft Skill': 'badge-purple', 'Compliance': 'badge-warning', 'Leadership': 'badge-success' }[t.category] || 'badge-secondary';
 
     return `
-<div class="card" style="cursor:pointer;transition:box-shadow .2s" onmouseenter="this.style.boxShadow='0 4px 20px rgba(0,0,0,.15)'" onmouseleave="this.style.boxShadow=''" onclick="TrainingModule.openDetail('${t.id}')">
+<div class="card" style="cursor:pointer;transition:box-shadow .2s;padding:16px" onmouseenter="this.style.boxShadow='0 4px 20px rgba(0,0,0,.15)'" onmouseleave="this.style.boxShadow=''" onclick="TrainingModule.openDetail('${t.id}')">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
     <span class="badge ${catCls}" style="font-size:10px">${t.category}</span>
     <span class="badge ${statusCls}">${t.status}</span>
@@ -145,13 +145,13 @@ ${_modalHtml()}`;
     <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:4px">
       <span>Penyelesaian</span><span>${completions}/${participants} (${fillPct}%)</span>
     </div>
-    <div style="background:var(--bg-secondary);border-radius:4px;height:6px;overflow:hidden">
+    <div style="background:#F1F5F9;border-radius:4px;height:6px;overflow:hidden">
       <div style="background:${fillPct >= 100 ? 'var(--success)' : fillPct >= 60 ? 'var(--primary)' : 'var(--warning)'};width:${fillPct}%;height:100%;border-radius:4px;transition:width .4s"></div>
     </div>
   </div>` : ''}
-  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border-color)">
-    <button class="btn-outline btn-sm" onclick="event.stopPropagation();TrainingModule.openEdit('${t.id}')">Edit</button>
-    <button class="btn-danger btn-sm" onclick="event.stopPropagation();TrainingModule.deleteTraining('${t.id}')">Hapus</button>
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();TrainingModule.openEdit('${t.id}')">Edit</button>
+    <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();TrainingModule.deleteTraining('${t.id}')">Hapus</button>
   </div>
 </div>`;
   }
@@ -175,7 +175,7 @@ ${_modalHtml()}`;
         const done = t.completions && t.completions.includes(user.id);
         const statusCls = { 'Selesai': 'badge-success', 'Berlangsung': 'badge-warning', 'Akan Datang': 'badge-info' }[t.status] || 'badge-secondary';
         return `
-<div class="card" style="cursor:pointer" onclick="TrainingModule.openDetail('${t.id}')">
+<div class="card" style="cursor:pointer;padding:16px" onclick="TrainingModule.openDetail('${t.id}')">
   <div style="display:flex;justify-content:space-between;margin-bottom:8px">
     <span class="badge badge-secondary" style="font-size:10px">${t.category}</span>
     <span class="badge ${statusCls}">${t.status}</span>
@@ -201,7 +201,7 @@ ${_modalHtml()}`;
       html += `<h3 style="font-size:14px;font-weight:600;color:var(--text-secondary);margin:8px 0 12px">PELATIHAN TERSEDIA</h3>
       <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px">`;
       html += upcoming.map(t => `
-<div class="card" onclick="TrainingModule.openDetail('${t.id}')" style="cursor:pointer;opacity:.85">
+<div class="card" onclick="TrainingModule.openDetail('${t.id}')" style="cursor:pointer;opacity:.85;padding:16px">
   <span class="badge badge-secondary" style="font-size:10px;margin-bottom:8px">${t.category}</span>
   <h3 style="font-size:14px;font-weight:600;margin-bottom:4px">${escapeHtml(t.title)}</h3>
   <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">${escapeHtml(t.organization)}</p>
@@ -232,7 +232,7 @@ ${_modalHtml()}`;
         <td>${avatarHtml(emp.name, 28)} <span style="margin-left:8px">${escapeHtml(emp.name)}</span></td>
         <td>${getDeptName(emp.department)}</td>
         <td><span class="badge ${done ? 'badge-success' : 'badge-warning'}">${done ? 'Selesai' : 'Berlangsung'}</span></td>
-        ${isHR ? `<td><button class="btn-${done ? 'outline' : 'primary'} btn-sm" onclick="TrainingModule.toggleComplete('${id}','${empId}')">${done ? 'Batalkan' : 'Tandai Selesai'}</button></td>` : ''}
+        ${isHR ? `<td><button class="btn btn-${done ? 'outline' : 'primary'} btn-sm" onclick="TrainingModule.toggleComplete('${id}','${empId}')">${done ? 'Batalkan' : 'Tandai Selesai'}</button></td>` : ''}
       </tr>`;
     }).join('');
 
@@ -286,7 +286,7 @@ ${_modalHtml()}`;
         <option value="">Pilih karyawan...</option>
         ${availableEmps.map(e => `<option value="${e.id}">${escapeHtml(e.name)}</option>`).join('')}
       </select>
-      <button class="btn-primary btn-sm" onclick="TrainingModule.addParticipant('${id}')">Tambah</button>
+      <button class="btn btn-primary btn-sm" onclick="TrainingModule.addParticipant('${id}')">Tambah</button>
     </div>` : ''}
   </div>
   ${participantRows ? `
@@ -400,11 +400,11 @@ ${_modalHtml()}`;
   <div class="modal-box modal-xl">
     <div class="modal-header">
       <h2 class="modal-title" id="modal-training-title"></h2>
-      <button class="btn-ghost btn-icon" onclick="closeModal('modal-training-detail')"><i data-lucide="x"></i></button>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('modal-training-detail')"><i data-lucide="x"></i></button>
     </div>
     <div class="modal-body" id="modal-training-detail-body"></div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-training-detail')">Tutup</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-training-detail')">Tutup</button>
     </div>
   </div>
 </div>
@@ -414,7 +414,7 @@ ${_modalHtml()}`;
   <div class="modal-box modal-lg">
     <div class="modal-header">
       <h2 class="modal-title" id="training-form-title">Tambah Pelatihan</h2>
-      <button class="btn-ghost btn-icon" onclick="closeModal('modal-training-form')"><i data-lucide="x"></i></button>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('modal-training-form')"><i data-lucide="x"></i></button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="training-form-id">
@@ -497,8 +497,8 @@ ${_modalHtml()}`;
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-training-form')">Batal</button>
-      <button class="btn-primary" onclick="TrainingModule.saveTraining()">Simpan</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-training-form')">Batal</button>
+      <button class="btn btn-primary" onclick="TrainingModule.saveTraining()">Simpan</button>
     </div>
   </div>
 </div>`;

@@ -163,7 +163,7 @@ const App = {
     const menus = [...(MENUS[Auth.getSession()?.role] || [])];
     const menu = menus.find(m => m.id === route);
     const label = menu ? menu.label : 'HRIS';
-    document.title = `${label} — HRIS PT CG`;
+    document.title = `${label} | HRIS PT CG`;
     const bc = document.getElementById('page-breadcrumb');
     if (bc) bc.innerHTML = `<span>${label}</span>`;
   },
@@ -213,7 +213,7 @@ const App = {
       const day = HARI[now.getDay()];
       const date = `${now.getDate()} ${BULAN[now.getMonth()]} ${now.getFullYear()}`;
       const time = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-      el.textContent = `${day}, ${date} — ${time}`;
+      el.textContent = `${day}, ${date} | ${time}`;
     };
     update();
     setInterval(update, 60000);

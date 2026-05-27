@@ -214,7 +214,7 @@ window.PayrollModule = (function () {
         </div>
         <div>
           <div style="font-size:11.5px;color:var(--text-muted);">Tanggal Dibayar</div>
-          <div style="font-weight:600;">${p.paidDate ? formatDate(p.paidDate) : '—'}</div>
+          <div style="font-weight:600;">${p.paidDate ? formatDate(p.paidDate) : '-'}</div>
         </div>
       </div>
 
@@ -249,10 +249,32 @@ window.PayrollModule = (function () {
   function printSlip() {
     const content = document.getElementById('printable-slip');
     if (!content) return;
-    const session = Auth.getSession();
-    const emp = DB.employees.getById(session.id);
     const p = DB.payroll.getAll().find(x => x.id === currentPayrollId);
-    printSection(content.innerHTML, `Slip Gaji - ${emp?emp.name:''} - ${p?monthName(p.month)+' '+p.year:''}`);
+    const emp = p ? DB.employees.getById(p.employeeId) : null;
+    const title = `Slip Gaji - ${emp ? emp.name : ''} - ${p ? monthName(p.month) + ' ' + p.year : ''}`;
+    const w = window.open('', '_blank');
+    w.document.write(`<!DOCTYPE html><html><head><title>${title}</title><style>
+      :root{--primary:#0D9488;--body-bg:#F8FAFC;--border:#E2E8F0;--radius:8px;--text-primary:#0F172A;--text-muted:#94A3B8;--danger:#EF4444;}
+      *{box-sizing:border-box;margin:0;padding:0;}
+      body{font-family:Arial,sans-serif;font-size:13px;color:#1e293b;padding:32px;max-width:640px;margin:0 auto;}
+      .slip-header{text-align:center;border-bottom:2px solid #0D9488;padding-bottom:16px;margin-bottom:20px;}
+      .slip-company{font-size:16px;font-weight:800;color:#0D9488;}
+      .slip-title{font-size:13px;font-weight:600;margin-top:4px;}
+      .slip-period{font-size:12px;color:#64748b;margin-top:4px;}
+      .slip-table{width:100%;border-collapse:collapse;font-size:13px;}
+      .slip-table td{padding:8px 4px;border-bottom:1px solid #F1F5F9;}
+      .slip-table td:last-child{text-align:right;font-weight:500;}
+      .slip-table .slip-section-head td{font-weight:700;color:#0D9488;padding-top:16px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;border-bottom:none;}
+      .slip-table .slip-total td{font-weight:800;font-size:15px;color:#0D9488;border-top:2px solid #0D9488;padding-top:12px;}
+      .badge{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;}
+      .badge-success{background:#D1FAE5;color:#065F46;}
+      .badge-warning{background:#FEF3C7;color:#92400E;}
+      .badge-secondary{background:#F1F5F9;color:#475569;}
+      @media print{body{padding:0;}}
+    </style></head><body>${content.innerHTML}</body></html>`);
+    w.document.close();
+    w.focus();
+    setTimeout(() => { w.print(); }, 500);
   }
 
   function markAllPaid() {

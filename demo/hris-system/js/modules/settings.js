@@ -69,7 +69,7 @@ window.SettingsModule = (function () {
   function _renderCompany(el) {
     const s = DB.settings.get();
     el.innerHTML = `
-<div class="card">
+<div class="card" style="padding:20px">
   <h3 style="font-size:15px;font-weight:600;margin-bottom:20px">Profil Perusahaan</h3>
   <form id="form-company">
     <div class="form-row">
@@ -121,8 +121,8 @@ window.SettingsModule = (function () {
       </div>
     </div>
   </form>
-  <div style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color)">
-    <button class="btn-primary" onclick="SettingsModule.saveCompany()">Simpan Perubahan</button>
+  <div style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+    <button class="btn btn-primary" onclick="SettingsModule.saveCompany()">Simpan Perubahan</button>
   </div>
 </div>`;
   }
@@ -139,7 +139,7 @@ window.SettingsModule = (function () {
     const s = DB.settings.get();
     const days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
     el.innerHTML = `
-<div class="card">
+<div class="card" style="padding:20px">
   <h3 style="font-size:15px;font-weight:600;margin-bottom:20px">Kebijakan Jam & Hari Kerja</h3>
   <div class="form-group">
     <label class="form-label">Hari Kerja</label>
@@ -165,8 +165,8 @@ window.SettingsModule = (function () {
       <input type="number" id="wp-late" class="form-control" value="${s.lateToleranceMinutes || 15}" min="0" max="60">
     </div>
   </div>
-  <div style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-color)">
-    <button class="btn-primary" onclick="SettingsModule.saveWorkPolicy()">Simpan</button>
+  <div style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+    <button class="btn btn-primary" onclick="SettingsModule.saveWorkPolicy()">Simpan</button>
   </div>
 </div>`;
   }
@@ -192,7 +192,7 @@ window.SettingsModule = (function () {
     const jkm = s.bpjsJKM || { employer: 0.003 };
 
     el.innerHTML = `
-<div class="card">
+<div class="card" style="padding:20px">
   <h3 style="font-size:15px;font-weight:600;margin-bottom:4px">Konfigurasi Iuran BPJS</h3>
   <p style="font-size:12px;color:var(--text-muted);margin-bottom:20px">Isi dalam persentase desimal (contoh: 1% = 0.01)</p>
   <table class="data-table" style="margin-bottom:24px">
@@ -225,11 +225,11 @@ window.SettingsModule = (function () {
       </tr>
     </tbody>
   </table>
-  <div style="background:var(--bg-secondary);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:20px">
+  <div style="background:#F1F5F9;border-radius:8px;padding:12px 16px;font-size:12px;color:var(--text-muted);margin-bottom:20px">
     <strong style="color:var(--text-secondary)">Info:</strong> Perubahan tarif iuran tidak akan mempengaruhi data payroll yang sudah ada. Hanya berlaku untuk kalkulasi baru.
   </div>
   <div style="display:flex;justify-content:flex-end">
-    <button class="btn-primary" onclick="SettingsModule.saveBpjs()">Simpan Tarif BPJS</button>
+    <button class="btn btn-primary" onclick="SettingsModule.saveBpjs()">Simpan Tarif BPJS</button>
   </div>
 </div>`;
   }
@@ -255,9 +255,9 @@ window.SettingsModule = (function () {
 
     el.innerHTML = `
 <div style="display:flex;flex-direction:column;gap:16px">
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:15px;font-weight:600;margin-bottom:20px">Informasi Akun</h3>
-    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border-color)">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--border)">
       ${avatarHtml(emp.name, 64, 'style="font-size:24px"')}
       <div>
         <h2 style="font-size:18px;font-weight:700;margin-bottom:2px">${escapeHtml(emp.name)}</h2>
@@ -272,11 +272,11 @@ window.SettingsModule = (function () {
       ${_infoRow('Status', emp.status)}
       ${_infoRow('Jenis Kepegawaian', emp.employeeType)}
       ${_infoRow('Tanggal Bergabung', formatDate(emp.joinDate, 'long'))}
-      ${_infoRow('NIK', emp.nik || '—')}
+      ${_infoRow('NIK', emp.nik || '-')}
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:15px;font-weight:600;margin-bottom:20px">Ganti Password</h3>
     <div style="max-width:400px">
       <div class="form-group">
@@ -291,7 +291,7 @@ window.SettingsModule = (function () {
         <label class="form-label">Konfirmasi Password Baru</label>
         <input type="password" id="acc-confirm-pw" class="form-control" placeholder="Ulangi password baru">
       </div>
-      <button class="btn-primary" onclick="SettingsModule.changePassword()">Ganti Password</button>
+      <button class="btn btn-primary" onclick="SettingsModule.changePassword()">Ganti Password</button>
     </div>
   </div>
 </div>`;
@@ -317,7 +317,7 @@ window.SettingsModule = (function () {
   }
 
   function _infoRow(label, value) {
-    return `<div style="padding:10px 0;border-bottom:1px solid var(--border-color)">
+    return `<div style="padding:10px 0;border-bottom:1px solid var(--border)">
       <p style="font-size:11px;color:var(--text-muted);margin-bottom:2px">${label}</p>
       <p style="font-weight:500">${value}</p>
     </div>`;
@@ -332,42 +332,42 @@ window.SettingsModule = (function () {
 
     el.innerHTML = `
 <div style="display:flex;flex-direction:column;gap:16px">
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:15px;font-weight:600;margin-bottom:16px">Informasi Sistem</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
       ${_infoRow('Versi Aplikasi', 'HRIS v1.0.0')}
       ${_infoRow('Total Karyawan', employees.length + ' records')}
       ${_infoRow('Data Tersimpan', `${storageMb} MB (${storageKeys.length} keys)`)}
       ${_infoRow('Browser Storage', 'localStorage (quota: ~5 MB)')}
-      ${_infoRow('Sesi Login', Auth.getUser()?.email || '—')}
+      ${_infoRow('Sesi Login', Auth.getUser()?.email || '-')}
       ${_infoRow('Hak Akses', getRoleLabel(Auth.getUser()?.role || ''))}
     </div>
   </div>
 
-  <div class="card" style="border:1px solid #FEE2E2">
+  <div class="card" style="border:1px solid #FEE2E2;padding:20px">
     <h3 style="font-size:15px;font-weight:600;margin-bottom:8px;color:var(--danger)">Zona Berbahaya</h3>
     <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px">
       Tindakan berikut bersifat permanen dan tidak dapat dibatalkan. Gunakan dengan hati-hati.
     </p>
     <div style="display:flex;flex-direction:column;gap:12px">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid var(--border-color);border-radius:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid var(--border);border-radius:8px">
         <div>
           <p style="font-weight:600;font-size:13px">Reset Data Demo</p>
           <p style="font-size:12px;color:var(--text-muted)">Hapus semua data dan kembalikan ke data awal (seed). Sesi login akan tetap aktif.</p>
         </div>
-        <button class="btn-outline btn-sm" style="border-color:var(--warning);color:var(--warning)" onclick="SettingsModule.resetData()">Reset Data</button>
+        <button class="btn btn-outline btn-sm" style="border-color:var(--warning);color:var(--warning)" onclick="SettingsModule.resetData()">Reset Data</button>
       </div>
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid var(--border-color);border-radius:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid var(--border);border-radius:8px">
         <div>
           <p style="font-weight:600;font-size:13px">Logout & Hapus Sesi</p>
           <p style="font-size:12px;color:var(--text-muted)">Keluar dari sistem dan hapus data sesi yang tersimpan.</p>
         </div>
-        <button class="btn-danger btn-sm" onclick="Auth.logout()">Logout</button>
+        <button class="btn btn-danger btn-sm" onclick="Auth.logout()">Logout</button>
       </div>
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:15px;font-weight:600;margin-bottom:12px">Demo Accounts</h3>
     <table class="data-table" style="font-size:12px">
       <thead><tr><th>Email</th><th>Password</th><th>Role</th></tr></thead>

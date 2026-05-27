@@ -97,11 +97,11 @@ window.ReportsModule = (function () {
   ${_kpi('Rata-rata Masa Kerja', `${avgTenure} thn`, 'clock', 'orange')}
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Karyawan per Departemen</h3>
     <canvas id="chart-dept" height="220"></canvas>
   </div>
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Jenis Kepegawaian & Gender</h3>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
       <canvas id="chart-type" height="180"></canvas>
@@ -110,9 +110,9 @@ window.ReportsModule = (function () {
   </div>
 </div>
 <div class="card">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)">
     <h3 style="font-size:14px;font-weight:600">Detail Per Departemen</h3>
-    <button class="btn-outline btn-sm" onclick="ReportsModule.exportHeadcount()"><i data-lucide="download" style="width:14px;height:14px;margin-right:4px"></i>Export CSV</button>
+    <button class="btn btn-outline btn-sm" onclick="ReportsModule.exportHeadcount()"><i data-lucide="download" style="width:14px;height:14px;margin-right:4px"></i>Export CSV</button>
   </div>
   <table class="data-table">
     <thead><tr><th>Departemen</th><th>Aktif</th><th>Tetap</th><th>Kontrak</th><th>Magang</th><th>Lk</th><th>Pr</th></tr></thead>
@@ -174,19 +174,19 @@ window.ReportsModule = (function () {
   })(), 'trending-up', 'green')}
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-  <div class="card">
-    <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Distribusi Status Kehadiran — Mei 2026</h3>
+  <div class="card" style="padding:20px">
+    <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Distribusi Status Kehadiran Mei 2026</h3>
     <canvas id="chart-att-status" height="220"></canvas>
   </div>
-  <div class="card">
-    <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Kehadiran per Departemen — Mei 2026</h3>
+  <div class="card" style="padding:20px">
+    <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Kehadiran per Departemen Mei 2026</h3>
     <canvas id="chart-att-dept" height="220"></canvas>
   </div>
 </div>
 <div class="card">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <h3 style="font-size:14px;font-weight:600">Rekap Kehadiran Karyawan — Mei 2026</h3>
-    <button class="btn-outline btn-sm" onclick="ReportsModule.exportAttendance()"><i data-lucide="download" style="width:14px;height:14px;margin-right:4px"></i>Export CSV</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)">
+    <h3 style="font-size:14px;font-weight:600">Rekap Kehadiran Karyawan Mei 2026</h3>
+    <button class="btn btn-outline btn-sm" onclick="ReportsModule.exportAttendance()"><i data-lucide="download" style="width:14px;height:14px;margin-right:4px"></i>Export CSV</button>
   </div>
   <table class="data-table">
     <thead><tr><th>Karyawan</th><th>Departemen</th><th>Hadir</th><th>Telat</th><th>WFH</th><th>Cuti</th><th>Sakit</th><th>Alpha</th><th>% Hadir</th></tr></thead>
@@ -252,19 +252,19 @@ window.ReportsModule = (function () {
   ${_kpi('Total Potongan Mei 2026', formatCurrency(payrolls.filter(p => p.month === 5 && p.year === 2026).reduce((s, x) => s + x.totalDeductions, 0)), 'minus-circle', 'orange')}
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Total Penggajian per Bulan</h3>
     <canvas id="chart-pay-trend" height="220"></canvas>
   </div>
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Komposisi Biaya Penggajian</h3>
     <canvas id="chart-pay-comp" height="220"></canvas>
   </div>
 </div>
 <div class="card">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <h3 style="font-size:14px;font-weight:600">Rincian Penggajian per Departemen — Mei 2026</h3>
-    <button class="btn-outline btn-sm" onclick="ReportsModule.exportPayroll()"><i data-lucide="download" style="width:14px;height:14px;margin-right:4px"></i>Export CSV</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)">
+    <h3 style="font-size:14px;font-weight:600">Rincian Penggajian per Departemen Mei 2026</h3>
+    <button class="btn btn-outline btn-sm" onclick="ReportsModule.exportPayroll()"><i data-lucide="download" style="width:14px;height:14px;margin-right:4px"></i>Export CSV</button>
   </div>
   <table class="data-table">
     <thead><tr><th>Departemen</th><th>Jml Karyawan</th><th>Total Gaji Pokok</th><th>Total Tunjangan</th><th>Total Gross</th><th>Total Potongan</th><th>Total Nett</th></tr></thead>
@@ -346,19 +346,19 @@ window.ReportsModule = (function () {
   ${_kpi('Ditolak', rejected.length, 'x-circle', 'red')}
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Pengajuan per Jenis Cuti</h3>
     <canvas id="chart-leave-type" height="220"></canvas>
   </div>
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Status Pengajuan Cuti</h3>
     <canvas id="chart-leave-status" height="220"></canvas>
   </div>
 </div>
 <div class="card">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-    <h3 style="font-size:14px;font-weight:600">Sisa Kuota Cuti per Karyawan — 2026</h3>
-    <button class="btn-outline btn-sm" onclick="ReportsModule.exportLeave()"><i data-lucide="download" style="width:14px;height:14px;margin-right:4px"></i>Export CSV</button>
+  <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)">
+    <h3 style="font-size:14px;font-weight:600">Sisa Kuota Cuti per Karyawan 2026</h3>
+    <button class="btn btn-outline btn-sm" onclick="ReportsModule.exportLeave()"><i data-lucide="download" style="width:14px;height:14px;margin-right:4px"></i>Export CSV</button>
   </div>
   <table class="data-table">
     <thead><tr><th>Karyawan</th><th>Departemen</th><th>Kuota Tahunan</th><th>Terpakai</th><th>Sisa</th><th>Kuota Sakit</th><th>Sakit Terpakai</th></tr></thead>
@@ -419,7 +419,7 @@ window.ReportsModule = (function () {
   ${_kpi('Kandidat Diterima', hired, 'user-check', 'teal')}
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Status Rekrutmen Aktif</h3>
     ${recruitments.filter(r => r.status === 'Buka').length ? recruitments.filter(r => r.status === 'Buka').map(r => {
       const stages = ['Applied','Screening','Interview','Offer','Hired','Rejected'];
@@ -431,7 +431,7 @@ window.ReportsModule = (function () {
       </div>`;
     }).join('') : '<p style="color:var(--text-muted);font-size:13px">Tidak ada lowongan aktif.</p>'}
   </div>
-  <div class="card">
+  <div class="card" style="padding:20px">
     <h3 style="font-size:14px;font-weight:600;margin-bottom:16px">Pipeline Kandidat (Total)</h3>
     <canvas id="chart-pipeline" height="220"></canvas>
   </div>
@@ -474,7 +474,7 @@ window.ReportsModule = (function () {
     const colorMap = { teal: '#0D9488', blue: '#0891B2', green: '#10B981', orange: '#F59E0B', red: '#EF4444', purple: '#7C3AED' };
     const c = colorMap[color] || colorMap.teal;
     return `
-<div class="card" style="text-align:center">
+<div class="card" style="text-align:center;padding:20px">
   <div style="width:40px;height:40px;border-radius:10px;background:${c}20;display:flex;align-items:center;justify-content:center;margin:0 auto 10px">
     <i data-lucide="${icon}" style="width:20px;height:20px;color:${c}"></i>
   </div>

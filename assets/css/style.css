@@ -1269,13 +1269,14 @@ background: var(--black);
 padding: 36px 32px;
 position: relative;
 overflow: hidden;
-transition: background 0.4s ease;
+transition: background 0.4s ease, box-shadow 0.4s ease;
 display: flex;
 flex-direction: column;
 }
 
 .project-card:hover {
 background: rgba(201, 168, 76, 0.03);
+box-shadow: inset 0 0 0 1px rgba(201, 168, 76, 0.22), 0 24px 64px rgba(0, 0, 0, 0.6);
 }
 
 .project-card-top-line {
@@ -1293,34 +1294,55 @@ width: 100%;
 }
 
 .project-number {
-    font-family: var(--font-display);
-    font-size: 4rem;
-    color: var(--gold);
-    opacity: 1;
-    line-height: 1;
-    margin-bottom: 20px;
-    transition: opacity 0.3s ease;
+font-family: var(--font-display);
+font-size: 8rem;
+color: var(--gold);
+opacity: 0.05;
+position: absolute;
+bottom: -12px;
+right: 24px;
+line-height: 1;
+pointer-events: none;
+user-select: none;
+transition: opacity 0.3s ease;
 }
 
 .project-card:hover .project-number {
-    opacity: 0.6;
+opacity: 0.09;
 }
 
 .project-title {
 font-family: var(--font-display);
-font-size: 1.4rem;
-color: var(--white);
-margin-bottom: 6px;
-line-height: 1.1;
-}
-
-.project-subtitle {
 font-size: 0.68rem;
 font-weight: 700;
 letter-spacing: 0.12em;
 text-transform: uppercase;
 color: var(--gold);
-margin-bottom: 14px;
+margin-bottom: 10px;
+opacity: 0.8;
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.project-title::before {
+content: '';
+display: block;
+width: 18px;
+height: 1px;
+background: var(--gold);
+flex-shrink: 0;
+opacity: 0.6;
+}
+
+.project-subtitle {
+font-family: var(--font-display);
+font-size: 1.3rem;
+font-weight: 700;
+letter-spacing: -0.02em;
+color: var(--white);
+margin-bottom: 16px;
+line-height: 1.15;
 }
 
 .project-desc {
@@ -1339,12 +1361,12 @@ margin-bottom: 24px;
 }
 
 .project-tag {
-padding: 3px 9px;
+padding: 3px 10px;
 font-size: 0.62rem;
 font-weight: 600;
 letter-spacing: 0.06em;
-color: rgba(160, 152, 128, 0.7);
-border: 1px solid rgba(160, 152, 128, 0.12);
+color: rgba(201, 168, 76, 0.55);
+border: 1px solid rgba(201, 168, 76, 0.15);
 }
 
 .project-link {

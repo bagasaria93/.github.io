@@ -15,12 +15,12 @@ window.AnnouncementsModule = (function () {
     <h1 class="page-title">Pengumuman</h1>
     <p class="page-subtitle">Kelola pengumuman dan informasi untuk seluruh karyawan</p>
   </div>
-  <button class="btn-primary" onclick="AnnouncementsModule.openAdd()">
+  <button class="btn btn-primary" onclick="AnnouncementsModule.openAdd()">
     <i data-lucide="plus" style="width:16px;height:16px"></i> Buat Pengumuman
   </button>
 </div>
 
-<div class="card" style="margin-bottom:16px">
+<div class="card" style="margin-bottom:16px;padding:16px 20px">
   <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
     <div class="form-group" style="margin:0;flex:1;min-width:200px">
       <label class="form-label">Cari Pengumuman</label>
@@ -41,7 +41,7 @@ window.AnnouncementsModule = (function () {
         <option value="Draft">Draft</option>
       </select>
     </div>
-    <button class="btn-outline btn-sm" onclick="AnnouncementsModule.resetFilter()">Reset</button>
+    <button class="btn btn-outline btn-sm" onclick="AnnouncementsModule.resetFilter()">Reset</button>
   </div>
 </div>
 
@@ -56,7 +56,7 @@ ${_modalHtml(isHR)}`;
     <p class="page-subtitle">Informasi dan pengumuman terkini dari perusahaan</p>
   </div>
 </div>
-<div class="card" style="margin-bottom:16px">
+<div class="card" style="margin-bottom:16px;padding:12px 16px">
   <input type="text" class="form-control" placeholder="Cari pengumuman..." oninput="AnnouncementsModule.setFilter('search',this.value)" style="max-width:400px">
 </div>
 <div id="ann-list"></div>
@@ -113,7 +113,7 @@ ${_modalHtml(isHR)}`;
     const poster = DB.employees.getById(a.postedBy);
     const preview = a.content.replace(/\n+/g, ' ').slice(0, 140) + (a.content.length > 140 ? '…' : '');
     return `
-<div class="card" style="margin-bottom:12px;cursor:pointer;transition:box-shadow .2s;${a.isPinned ? 'border-left:3px solid var(--primary)' : ''}"
+<div class="card" style="margin-bottom:12px;cursor:pointer;transition:box-shadow .2s;padding:16px 20px;${a.isPinned ? 'border-left:3px solid var(--primary)' : ''}"
      onmouseenter="this.style.boxShadow='0 4px 16px rgba(0,0,0,.12)'" onmouseleave="this.style.boxShadow=''"
      onclick="AnnouncementsModule.openDetail('${a.id}')">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px">
@@ -135,10 +135,10 @@ ${_modalHtml(isHR)}`;
     </div>
     ${isHR ? `
     <div style="display:flex;gap:6px;flex-shrink:0" onclick="event.stopPropagation()">
-      ${a.isPinned ? `<button class="btn-outline btn-sm" onclick="AnnouncementsModule.togglePin('${a.id}',false)" title="Unpin"><i data-lucide="pin-off" style="width:14px;height:14px"></i></button>` : `<button class="btn-outline btn-sm" onclick="AnnouncementsModule.togglePin('${a.id}',true)" title="Pin"><i data-lucide="pin" style="width:14px;height:14px"></i></button>`}
-      ${a.status === 'Draft' ? `<button class="btn-primary btn-sm" onclick="AnnouncementsModule.publish('${a.id}')">Publish</button>` : `<button class="btn-outline btn-sm" onclick="AnnouncementsModule.unpublish('${a.id}')">Unpublish</button>`}
-      <button class="btn-outline btn-sm" onclick="AnnouncementsModule.openEdit('${a.id}')"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
-      <button class="btn-danger btn-sm" onclick="AnnouncementsModule.deleteAnn('${a.id}')"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>
+      ${a.isPinned ? `<button class="btn btn-outline btn-sm" onclick="AnnouncementsModule.togglePin('${a.id}',false)" title="Unpin"><i data-lucide="pin-off" style="width:14px;height:14px"></i></button>` : `<button class="btn btn-outline btn-sm" onclick="AnnouncementsModule.togglePin('${a.id}',true)" title="Pin"><i data-lucide="pin" style="width:14px;height:14px"></i></button>`}
+      ${a.status === 'Draft' ? `<button class="btn btn-primary btn-sm" onclick="AnnouncementsModule.publish('${a.id}')">Publish</button>` : `<button class="btn btn-outline btn-sm" onclick="AnnouncementsModule.unpublish('${a.id}')">Unpublish</button>`}
+      <button class="btn btn-outline btn-sm" onclick="AnnouncementsModule.openEdit('${a.id}')"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+      <button class="btn btn-danger btn-sm" onclick="AnnouncementsModule.deleteAnn('${a.id}')"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>
     </div>` : ''}
   </div>
 </div>`;
@@ -263,11 +263,11 @@ ${_modalHtml(isHR)}`;
   <div class="modal-box modal-lg">
     <div class="modal-header">
       <h2 class="modal-title" id="ann-detail-title"></h2>
-      <button class="btn-ghost btn-icon" onclick="closeModal('modal-ann-detail')"><i data-lucide="x"></i></button>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('modal-ann-detail')"><i data-lucide="x"></i></button>
     </div>
     <div class="modal-body" id="ann-detail-body"></div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-ann-detail')">Tutup</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-ann-detail')">Tutup</button>
     </div>
   </div>
 </div>
@@ -278,7 +278,7 @@ ${isHR ? `
   <div class="modal-box modal-lg">
     <div class="modal-header">
       <h2 class="modal-title" id="ann-form-title">Buat Pengumuman</h2>
-      <button class="btn-ghost btn-icon" onclick="closeModal('modal-ann-form')"><i data-lucide="x"></i></button>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('modal-ann-form')"><i data-lucide="x"></i></button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="ann-form-id">
@@ -322,8 +322,8 @@ ${isHR ? `
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-ann-form')">Batal</button>
-      <button class="btn-primary" onclick="AnnouncementsModule.saveAnn()">Simpan</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-ann-form')">Batal</button>
+      <button class="btn btn-primary" onclick="AnnouncementsModule.saveAnn()">Simpan</button>
     </div>
   </div>
 </div>` : ''}`;

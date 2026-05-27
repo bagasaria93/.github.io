@@ -2,7 +2,7 @@
 const fs = require('fs');
 const vm = require('vm');
 
-// auth.js needs STORAGE_PREFIX from data.js — provide a mock
+// auth.js needs STORAGE_PREFIX from data.js - provide a mock
 const store = {};
 const mockLocalStorage = new Proxy({}, {
   get(_, prop) {

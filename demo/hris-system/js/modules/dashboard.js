@@ -71,7 +71,7 @@ window.DashboardModule = (function () {
       <div class="card">
         <div class="card-header">
           <div>
-            <div class="card-title">Trend Kehadiran — Mei 2026</div>
+            <div class="card-title">Trend Kehadiran Mei 2026</div>
             <div class="card-subtitle">Rekapitulasi kehadiran harian minggu ini</div>
           </div>
         </div>
@@ -118,7 +118,7 @@ window.DashboardModule = (function () {
                   <td>${escapeHtml(l.type)}</td>
                   <td>${formatDate(l.startDate,'short')}</td>
                   <td>${badge(l.status)}</td>
-                  <td>${l.status === 'Menunggu' ? `<button class="btn btn-sm btn-primary" onclick="DashboardModule.quickApprove('${l.id}')">Setujui</button>` : '—'}</td>
+                  <td>${l.status === 'Menunggu' ? `<button class="btn btn-sm btn-primary" onclick="DashboardModule.quickApprove('${l.id}')">Setujui</button>` : '-'}</td>
                 </tr>`;
               }).join('') : `<tr><td colspan="5"><div class="empty-state" style="padding:24px;"><p>Tidak ada pengajuan cuti</p></div></td></tr>`}
             </tbody>

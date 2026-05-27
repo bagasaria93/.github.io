@@ -13,9 +13,9 @@ window.OrganizationModule = (function () {
 </div>
 
 <div style="display:flex;gap:8px;margin-bottom:20px">
-  <button class="btn-outline btn-sm" id="tab-chart" onclick="OrganizationModule.setView('chart')">Bagan Org</button>
-  <button class="btn-outline btn-sm" id="tab-departments" onclick="OrganizationModule.setView('departments')">Departemen</button>
-  <button class="btn-outline btn-sm" id="tab-positions" onclick="OrganizationModule.setView('positions')">Jabatan</button>
+  <button class="btn btn-outline btn-sm" id="tab-chart" onclick="OrganizationModule.setView('chart')">Bagan Org</button>
+  <button class="btn btn-outline btn-sm" id="tab-departments" onclick="OrganizationModule.setView('departments')">Departemen</button>
+  <button class="btn btn-outline btn-sm" id="tab-positions" onclick="OrganizationModule.setView('positions')">Jabatan</button>
 </div>
 
 <div id="org-content"></div>
@@ -25,7 +25,7 @@ window.OrganizationModule = (function () {
   <div class="modal-box modal-md">
     <div class="modal-header">
       <h2 class="modal-title" id="dept-form-title">Tambah Departemen</h2>
-      <button class="btn-ghost btn-icon" onclick="closeModal('modal-dept-form')"><i data-lucide="x"></i></button>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('modal-dept-form')"><i data-lucide="x"></i></button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="dept-form-id">
@@ -47,8 +47,8 @@ window.OrganizationModule = (function () {
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-dept-form')">Batal</button>
-      <button class="btn-primary" onclick="OrganizationModule.saveDept()">Simpan</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-dept-form')">Batal</button>
+      <button class="btn btn-primary" onclick="OrganizationModule.saveDept()">Simpan</button>
     </div>
   </div>
 </div>
@@ -58,7 +58,7 @@ window.OrganizationModule = (function () {
   <div class="modal-box modal-md">
     <div class="modal-header">
       <h2 class="modal-title" id="pos-form-title">Tambah Jabatan</h2>
-      <button class="btn-ghost btn-icon" onclick="closeModal('modal-pos-form')"><i data-lucide="x"></i></button>
+      <button class="btn btn-ghost btn-icon" onclick="closeModal('modal-pos-form')"><i data-lucide="x"></i></button>
     </div>
     <div class="modal-body">
       <input type="hidden" id="pos-form-id">
@@ -99,8 +99,8 @@ window.OrganizationModule = (function () {
       </form>
     </div>
     <div class="modal-footer">
-      <button class="btn-secondary" onclick="closeModal('modal-pos-form')">Batal</button>
-      <button class="btn-primary" onclick="OrganizationModule.savePos()">Simpan</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-pos-form')">Batal</button>
+      <button class="btn btn-primary" onclick="OrganizationModule.savePos()">Simpan</button>
     </div>
   </div>
 </div>`;
@@ -116,7 +116,7 @@ window.OrganizationModule = (function () {
     _view = v;
     ['chart', 'departments', 'positions'].forEach(tab => {
       const btn = document.getElementById(`tab-${tab}`);
-      if (btn) btn.className = v === tab ? 'btn-primary btn-sm' : 'btn-outline btn-sm';
+      if (btn) btn.className = v === tab ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
     });
     if (v === 'chart') _renderChart();
     else if (v === 'departments') _renderDepartments();
@@ -207,7 +207,7 @@ window.OrganizationModule = (function () {
     const deptColors = ['#0D9488', '#0891B2', '#7C3AED', '#D97706', '#DC2626', '#059669', '#6366F1'];
 
     el.innerHTML = `
-${isHR ? `<div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn-primary" onclick="OrganizationModule.openAddDept()"><i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Departemen</button></div>` : ''}
+${isHR ? `<div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn btn-primary" onclick="OrganizationModule.openAddDept()"><i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Departemen</button></div>` : ''}
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px">
 ${departments.map((d, i) => {
   const deptEmps = employees.filter(e => e.department === d.id && e.status === 'Aktif');
@@ -218,20 +218,20 @@ ${departments.map((d, i) => {
   });
   const color = deptColors[i % deptColors.length];
   return `
-<div class="card" style="border-top:3px solid ${color}">
+<div class="card" style="border-top:3px solid ${color};padding:20px">
   <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
     <div style="width:40px;height:40px;border-radius:10px;background:${color}20;display:flex;align-items:center;justify-content:center">
       <i data-lucide="${deptIcons[d.id] || 'layout-grid'}" style="width:20px;height:20px;color:${color}"></i>
     </div>
     ${isHR ? `<div style="display:flex;gap:6px">
-      <button class="btn-ghost btn-icon" onclick="OrganizationModule.openEditDept('${d.id}')"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
-      <button class="btn-ghost btn-icon" onclick="OrganizationModule.deleteDept('${d.id}')"><i data-lucide="trash-2" style="width:14px;height:14px;color:var(--danger)"></i></button>
+      <button class="btn btn-ghost btn-icon" onclick="OrganizationModule.openEditDept('${d.id}')"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+      <button class="btn btn-ghost btn-icon" onclick="OrganizationModule.deleteDept('${d.id}')"><i data-lucide="trash-2" style="width:14px;height:14px;color:var(--danger)"></i></button>
     </div>` : ''}
   </div>
   <h3 style="font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:4px">${escapeHtml(d.name)}</h3>
   ${d.code ? `<span class="badge badge-secondary" style="font-size:10px;margin-bottom:8px">${d.code}</span>` : ''}
   ${d.description ? `<p style="font-size:12px;color:var(--text-muted);margin-bottom:12px">${escapeHtml(d.description)}</p>` : ''}
-  <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border-color)">
+  <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border)">
     <div style="display:flex;align-items:center;gap:6px">
       <i data-lucide="users" style="width:14px;height:14px;color:var(--text-muted)"></i>
       <span style="font-size:13px;font-weight:600">${deptEmps.length}</span>
@@ -272,11 +272,11 @@ ${departments.map((d, i) => {
       .forEach(p => { if (byDept[p.departmentId]) byDept[p.departmentId].positions.push(p); });
 
     el.innerHTML = `
-${isHR ? `<div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn-primary" onclick="OrganizationModule.openAddPos()"><i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Jabatan</button></div>` : ''}
+${isHR ? `<div style="display:flex;justify-content:flex-end;margin-bottom:16px"><button class="btn btn-primary" onclick="OrganizationModule.openAddPos()"><i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Jabatan</button></div>` : ''}
 <div style="display:flex;flex-direction:column;gap:16px">
 ${Object.values(byDept).filter(g => g.positions.length).map(g => `
 <div class="card">
-  <h3 style="font-size:14px;font-weight:600;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border-color)">${escapeHtml(g.dept.name)}</h3>
+  <h3 style="font-size:14px;font-weight:600;padding:16px 20px 14px;border-bottom:1px solid var(--border)">${escapeHtml(g.dept.name)}</h3>
   <table class="data-table">
     <thead><tr><th>Nama Jabatan</th><th>Level</th><th>Rentang Gaji</th><th>Jumlah</th>${isHR ? '<th>Aksi</th>' : ''}</tr></thead>
     <tbody>
@@ -285,12 +285,12 @@ ${Object.values(byDept).filter(g => g.positions.length).map(g => `
   return `<tr>
         <td style="font-weight:500">${escapeHtml(p.name)}</td>
         <td><span class="badge ${levelCls[_levelLabel(p.level)] || 'badge-secondary'}">${_levelLabel(p.level)}</span></td>
-        <td style="font-size:12px;color:var(--text-secondary)">${p.salaryMin && p.salaryMax ? `${formatCurrency(p.salaryMin)} – ${formatCurrency(p.salaryMax)}` : '—'}</td>
+        <td style="font-size:12px;color:var(--text-secondary)">${p.salaryMin && p.salaryMax ? `${formatCurrency(p.salaryMin)} - ${formatCurrency(p.salaryMax)}` : '-'}</td>
         <td>${count} orang</td>
         ${isHR ? `<td>
           <div style="display:flex;gap:6px">
-            <button class="btn-outline btn-sm" onclick="OrganizationModule.openEditPos('${p.id}')">Edit</button>
-            <button class="btn-danger btn-sm" onclick="OrganizationModule.deletePos('${p.id}')">Hapus</button>
+            <button class="btn btn-outline btn-sm" onclick="OrganizationModule.openEditPos('${p.id}')">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="OrganizationModule.deletePos('${p.id}')">Hapus</button>
           </div>
         </td>` : ''}
       </tr>`;
@@ -337,7 +337,7 @@ ${Object.values(byDept).filter(g => g.positions.length).map(g => `
 
   function deleteDept(id) {
     const emps = DB.employees.getAll().filter(e => e.department === id);
-    if (emps.length) { showToast(`Tidak dapat menghapus — ada ${emps.length} karyawan di departemen ini`, 'error'); return; }
+    if (emps.length) { showToast(`Tidak dapat menghapus, ada ${emps.length} karyawan di departemen ini`, 'error'); return; }
     confirmDialog('Hapus departemen ini?', () => {
       DB.departments.delete(id);
       showToast('Departemen dihapus', 'success');
@@ -383,7 +383,7 @@ ${Object.values(byDept).filter(g => g.positions.length).map(g => `
 
   function deletePos(id) {
     const emps = DB.employees.getAll().filter(e => e.position === id);
-    if (emps.length) { showToast(`Tidak dapat menghapus — ada ${emps.length} karyawan dengan jabatan ini`, 'error'); return; }
+    if (emps.length) { showToast(`Tidak dapat menghapus, ada ${emps.length} karyawan dengan jabatan ini`, 'error'); return; }
     confirmDialog('Hapus jabatan ini?', () => {
       DB.positions.delete(id);
       showToast('Jabatan dihapus', 'success');

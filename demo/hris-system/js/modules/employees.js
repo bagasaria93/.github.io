@@ -198,7 +198,7 @@ window.EmployeesModule = (function () {
               <div class="form-group">
                 <label class="form-label required">Departemen</label>
                 <select name="department" class="form-control" id="emp-dept-select" onchange="EmployeesModule.onDeptChange()">
-                  <option value="">— Pilih Departemen —</option>
+                  <option value="">Pilih Departemen</option>
                   ${depts.map(d => `<option value="${d.id}">${escapeHtml(d.name)}</option>`).join('')}
                 </select>
                 <div class="field-error" id="err-department"></div>
@@ -206,7 +206,7 @@ window.EmployeesModule = (function () {
               <div class="form-group">
                 <label class="form-label required">Jabatan</label>
                 <select name="position" class="form-control" id="emp-pos-select">
-                  <option value="">— Pilih Jabatan —</option>
+                  <option value="">Pilih Jabatan</option>
                 </select>
                 <div class="field-error" id="err-position"></div>
               </div>
@@ -353,7 +353,7 @@ window.EmployeesModule = (function () {
     const posSel = document.getElementById('emp-pos-select');
     if (!posSel) return;
     const positions = deptId ? DB.positions.getByDept(deptId) : DB.positions.getAll();
-    posSel.innerHTML = `<option value="">— Pilih Jabatan —</option>` +
+    posSel.innerHTML = `<option value="">Pilih Jabatan</option>` +
       positions.map(p => `<option value="${p.id}">${escapeHtml(p.name)}</option>`).join('');
   }
 
@@ -363,7 +363,7 @@ window.EmployeesModule = (function () {
     document.getElementById('emp-id').value = '';
     document.getElementById('pw-label').textContent = 'Password Login';
     document.getElementById('pw-hint').textContent = 'Minimal 8 karakter';
-    document.getElementById('emp-pos-select').innerHTML = '<option value="">— Pilih Jabatan —</option>';
+    document.getElementById('emp-pos-select').innerHTML = '<option value="">Pilih Jabatan</option>';
     clearFormErrors('form-emp');
     openModal('modal-emp');
     if (window.lucide) lucide.createIcons();
@@ -381,7 +381,7 @@ window.EmployeesModule = (function () {
     const posSel = document.getElementById('emp-pos-select');
     const allPos = DB.positions.getAll();
     const deptPositions = emp.department ? DB.positions.getByDept(emp.department) : allPos;
-    posSel.innerHTML = `<option value="">— Pilih Jabatan —</option>` +
+    posSel.innerHTML = `<option value="">Pilih Jabatan</option>` +
       deptPositions.map(p => `<option value="${p.id}" ${p.id === emp.position ? 'selected' : ''}>${escapeHtml(p.name)}</option>`).join('');
 
     setFormData('form-emp', { ...emp, password: '' });
@@ -433,7 +433,7 @@ window.EmployeesModule = (function () {
         <div class="detail-item"><div class="detail-label">No. Telepon</div><div class="detail-value">${formatPhone(emp.phone)}</div></div>
         <div class="detail-item"><div class="detail-label">Tanggal Bergabung</div><div class="detail-value">${formatDate(emp.joinDate)}</div></div>
         <div class="detail-item"><div class="detail-label">Masa Kerja</div><div class="detail-value">${getWorkDuration(emp.joinDate)}</div></div>
-        <div class="detail-item"><div class="detail-label">Bank & Rekening</div><div class="detail-value">${escapeHtml(emp.bankName)} — ${escapeHtml(emp.bankAccount)}</div></div>
+        <div class="detail-item"><div class="detail-label">Bank & Rekening</div><div class="detail-value">${escapeHtml(emp.bankName)} / ${escapeHtml(emp.bankAccount)}</div></div>
       </div>
       <div class="detail-item" style="padding:12px 0;border-top:1px solid var(--border);">
         <div class="detail-label">Alamat</div>

@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
+    <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KasirKu - Aplikasi Kasir Kafe</title>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -293,6 +294,32 @@ body { font-family: 'Inter', sans-serif; background: #1a1a2e; color: #e2e8f0; }
   .receipt { box-shadow: none; }
 }
 #print-area { display: none; }
+
+/* ── Premium Enhancements ─────────────────────── */
+body { background: radial-gradient(ellipse at 20% 50%, rgba(245,158,11,0.04) 0%, transparent 60%), #1a1a2e; }
+.brand-icon { box-shadow: 0 2px 16px rgba(245,158,11,0.45); animation: brand-pulse 3s ease-in-out infinite; }
+@keyframes brand-pulse { 0%, 100% { box-shadow: 0 2px 16px rgba(245,158,11,0.45); } 50% { box-shadow: 0 2px 24px rgba(245,158,11,0.7); } }
+.product-card { transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.product-card::before { content: ''; position: absolute; inset: 0; border-radius: 14px; background: linear-gradient(135deg, rgba(245,158,11,0.06) 0%, transparent 60%); opacity: 0; transition: opacity 0.25s; pointer-events: none; }
+.product-card:hover::before { opacity: 1; }
+.product-card:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 12px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(245,158,11,0.25); }
+.product-card.flash { animation: flash-add 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes flash-add { 0% { transform: scale(1); } 50% { transform: scale(0.95); box-shadow: 0 0 0 3px rgba(245,158,11,0.5); } 100% { transform: scale(1); } }
+.cat-btn { transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.cat-btn:hover { transform: translateY(-1px); }
+.cat-btn.active { box-shadow: 0 4px 14px rgba(245,158,11,0.35); }
+.cart-count { transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.cart-count.bump { animation: cart-bump 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+@keyframes cart-bump { 0% { transform: scale(1); } 50% { transform: scale(1.5); } 100% { transform: scale(1); } }
+.checkout-btn { background: linear-gradient(135deg, #f59e0b 0%, #d97706 60%, #b45309 100%); background-size: 200% 100%; transition: all 0.3s ease; }
+.checkout-btn:hover:not(:disabled) { background-position: right center; transform: translateY(-2px); box-shadow: 0 10px 28px rgba(245,158,11,0.45); }
+.cart-item { transition: all 0.2s ease; }
+.cart-item:hover { background: rgba(245,158,11,0.07); border-color: rgba(245,158,11,0.2); }
+@keyframes cart-slide-in { from { opacity: 0; transform: translateX(12px); } to { opacity: 1; transform: translateX(0); } }
+.cart-item { animation: cart-slide-in 0.25s ease both; }
+.topbar { background: linear-gradient(90deg, #16213e 0%, #1a2650 100%); border-bottom: 1px solid rgba(245,158,11,0.1); }
+.tab-bar-btn.active { text-shadow: 0 0 12px rgba(245,158,11,0.5); }
+.modal-box { background: linear-gradient(145deg, #1c2a50, #16213e); border-color: rgba(245,158,11,0.12); }
 </style>
 </head>
 <body>
@@ -820,8 +847,6 @@ renderProducts();
 renderHistory();
 </script>
 
-<div style="text-align:center;padding:8px;background:#0f172a;border-top:1px solid rgba(255,255,255,0.04);font-size:0.7rem;color:rgba(255,255,255,0.2);">
-  Demo project by <a href="https://bagasaria93.github.io" style="color:rgba(245,158,11,0.6);text-decoration:none;">Bagas Aria Sativa</a> - Portfolio Demo
-</div>
+<div style="position:fixed;bottom:12px;right:16px;z-index:9999;font-size:11px;font-family:system-ui,-apple-system,sans-serif;background:rgba(10,10,20,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.1);padding:5px 12px;border-radius:20px;color:rgba(255,255,255,0.6);letter-spacing:0.01em;white-space:nowrap;">Created by <a href="https://bagasaria93.github.io/" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:700;">Bagas Aria Sativa</a></div>
 </body>
 </html>

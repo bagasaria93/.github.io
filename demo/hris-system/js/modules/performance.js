@@ -125,7 +125,7 @@ window.PerformanceModule = (function () {
             return `<div class="kpi-bar">
               <div class="kpi-bar-header">
                 <span class="kpi-bar-name">${escapeHtml(k.name)}</span>
-                <span class="kpi-bar-vals">${k.actual>0?k.actual:'—'} / ${k.target} ${escapeHtml(k.unit)} (Bobot ${k.weight}%)</span>
+                <span class="kpi-bar-vals">${k.actual>0?k.actual:'-'} / ${k.target} ${escapeHtml(k.unit)} (Bobot ${k.weight}%)</span>
               </div>
               <div class="kpi-bar-track"><div class="kpi-bar-fill ${cls}" style="width:${pct}%;"></div></div>
             </div>`;
@@ -152,8 +152,8 @@ window.PerformanceModule = (function () {
               <div class="form-group">
                 <label class="form-label required">Karyawan</label>
                 <select name="employeeId" class="form-control">
-                  <option value="">— Pilih Karyawan —</option>
-                  ${DB.employees.getActive().map(e=>`<option value="${e.id}">${escapeHtml(e.name)} — ${escapeHtml(getDeptName(e.department))}</option>`).join('')}
+                  <option value="">Pilih Karyawan</option>
+                  ${DB.employees.getActive().map(e=>`<option value="${e.id}">${escapeHtml(e.name)} - ${escapeHtml(getDeptName(e.department))}</option>`).join('')}
                 </select>
               </div>
               <div class="form-group">
@@ -344,7 +344,7 @@ window.PerformanceModule = (function () {
         return `<div class="kpi-bar">
           <div class="kpi-bar-header">
             <span class="kpi-bar-name">${escapeHtml(k.name)} <span style="font-size:11px;color:var(--text-muted);">(Bobot ${k.weight}%)</span></span>
-            <span class="kpi-bar-vals">${k.actual>0?k.actual:'—'} / ${k.target} ${escapeHtml(k.unit)}</span>
+            <span class="kpi-bar-vals">${k.actual>0?k.actual:'-'} / ${k.target} ${escapeHtml(k.unit)}</span>
           </div>
           <div class="kpi-bar-track"><div class="kpi-bar-fill ${cls}" style="width:${pct}%;"></div></div>
         </div>`;

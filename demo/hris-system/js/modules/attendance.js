@@ -88,7 +88,7 @@ window.AttendanceModule = (function () {
     <div class="card" style="margin-bottom:20px;padding:20px;">
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
         <div>
-          <div style="font-size:13px;color:var(--text-muted);">Status Hari Ini — ${formatDate(todayStr(),'full')}</div>
+          <div style="font-size:13px;color:var(--text-muted);">Status Hari Ini - ${formatDate(todayStr(),'full')}</div>
           <div style="font-size:20px;font-weight:800;margin-top:4px;">
             ${todayAtt ? `${badge(todayAtt.status)} &nbsp; Clock In: <span style="color:var(--primary)">${todayAtt.checkIn}</span>${todayAtt.checkOut && todayAtt.checkOut!=='-' ? ` &nbsp; Clock Out: <span style="color:var(--text-secondary)">${todayAtt.checkOut}</span>` : ''}` : `${badge('Belum Hadir','badge-danger')}`}
           </div>
@@ -161,7 +161,7 @@ window.AttendanceModule = (function () {
             <td style="font-weight:600;color:${a.checkIn!=='-'?'var(--primary)':'var(--text-muted)'};">${a.checkIn}</td>
             <td style="color:var(--text-secondary);">${a.checkOut||'-'}</td>
             <td>${badge(a.status)}</td>
-            <td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(a.note)}">${escapeHtml(a.note)||'—'}</td>
+            <td style="font-size:12px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(a.note)}">${escapeHtml(a.note)||'-'}</td>
             ${Auth.can('edit_attendance') ? `<td><button class="btn btn-ghost btn-sm btn-icon" onclick="AttendanceModule.editRecord('${a.id}')" title="Edit"><i data-lucide="pencil"></i></button></td>` : ''}
           </tr>`;
         }).join('') : `<tr><td colspan="${Auth.can('edit_attendance')?8:7}"><div class="empty-state" style="padding:32px;"><i data-lucide="clock"></i><h3>Tidak ada data kehadiran</h3></div></td></tr>`}
@@ -184,7 +184,7 @@ window.AttendanceModule = (function () {
             <div class="form-group">
               <label class="form-label required">Karyawan</label>
               <select name="employeeId" class="form-control">
-                <option value="">— Pilih Karyawan —</option>
+                <option value="">Pilih Karyawan</option>
                 ${DB.employees.getAll().map(e => `<option value="${e.id}">${escapeHtml(e.name)}</option>`).join('')}
               </select>
             </div>
