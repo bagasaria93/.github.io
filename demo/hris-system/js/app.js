@@ -122,6 +122,7 @@ const App = {
         <button class="btn-logout" id="btn-logout" title="Keluar">
           <i data-lucide="log-out"></i>
         </button>
+        <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="font-size:10px;color:rgba(255,255,255,0.25);text-decoration:none;display:block;text-align:center;padding:8px 0 4px;">by Bagas Aria Sativa</a>
       </div>`;
 
     if (window.lucide) lucide.createIcons({ nodes: [document.getElementById('sidebar')] });

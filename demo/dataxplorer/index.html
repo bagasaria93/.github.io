@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataXplorer - Python Data Analysis Tool</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:100vh;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:#f1f5f9;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px;}
+::-webkit-scrollbar-thumb:hover{background:#94a3b8;}
+#loading-overlay{position:fixed;inset:0;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:20px;}
+.py-logo{animation:pulse-logo 2s ease-in-out infinite;}
+@keyframes pulse-logo{0%,100%{transform:scale(1);opacity:0.8;}50%{transform:scale(1.05);opacity:1;}}
+.progress-outer{width:260px;height:4px;background:#e2e8f0;border-radius:99px;overflow:hidden;}
+.progress-inner{height:100%;background:linear-gradient(90deg,#3b82f6,#6366f1);width:0%;transition:width 0.5s ease;border-radius:99px;}
+.header{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.header-inner{max-width:1200px;margin:0 auto;padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between;}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:3px 10px;border-radius:99px;}
+.badge-blue{background:#dbeafe;color:#1d4ed8;}
+.badge-green{background:#dcfce7;color:#15803d;}
+.badge-yellow{background:#fefce8;color:#a16207;}
+.badge-purple{background:#f3e8ff;color:#7c3aed;}
+.btn-primary{background:#3b82f6;color:#fff;border:none;padding:9px 20px;cursor:pointer;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;border-radius:8px;}
+.btn-primary:hover{background:#2563eb;box-shadow:0 4px 12px rgba(59,130,246,0.35);}
+.btn-primary:disabled{opacity:0.5;cursor:not-allowed;pointer-events:none;}
+.ds-btn{border:2px solid #e2e8f0;background:#fff;padding:14px 16px;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;font-size:12px;color:#64748b;text-align:left;border-radius:10px;min-width:130px;}
+.ds-btn:hover{border-color:#93c5fd;background:#eff6ff;}
+.ds-btn.active{border-color:#3b82f6;background:#eff6ff;color:#1d4ed8;box-shadow:0 0 0 3px rgba(59,130,246,0.1);}
+.ds-btn .ds-icon{font-size:20px;margin-bottom:6px;display:block;}
+.ds-btn .ds-name{font-weight:700;font-size:13px;display:block;color:#0f172a;}
+.ds-btn .ds-sub{font-size:11px;color:#94a3b8;margin-top:2px;display:block;}
+.ds-btn.active .ds-name{color:#1d4ed8;}
+.card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.sc-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
+.sc-label{font-size:11px;color:#64748b;font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;}
+.sc-value{font-size:28px;font-weight:700;color:#1d4ed8;line-height:1;}
+.sc-sub{font-size:11px;color:#94a3b8;margin-top:4px;}
+.panel-hdr{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:8px;}
+.panel-title{font-size:13px;font-weight:600;color:#0f172a;}
+.panel-sub{font-size:11px;color:#94a3b8;margin-left:auto;}
+.data-tbl{width:100%;font-size:12px;border-collapse:collapse;}
+.data-tbl th{padding:9px 14px;text-align:left;color:#475569;border-bottom:2px solid #f1f5f9;font-weight:600;white-space:nowrap;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;}
+.data-tbl td{padding:8px 14px;border-bottom:1px solid #f8fafc;color:#334155;white-space:nowrap;}
+.data-tbl tr:hover td{background:#f8fafc;}
+.num-cell{color:#1d4ed8 !important;text-align:right;font-family:'JetBrains Mono',monospace;font-size:11px;}
+.tab-btn{padding:10px 16px;font-size:12px;cursor:pointer;border-bottom:2px solid transparent;color:#64748b;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:'Inter',sans-serif;font-weight:500;}
+.tab-btn:hover{color:#0f172a;}
+.tab-btn.active{color:#3b82f6;border-bottom-color:#3b82f6;font-weight:600;}
+.chart-box{position:relative;height:280px;width:100%;}
+.code-toggle{display:flex;align-items:center;gap:8px;padding:13px 18px;cursor:pointer;background:#f8fafc;font-size:12px;color:#64748b;transition:all 0.2s;border:none;width:100%;text-align:left;font-family:'Inter',sans-serif;font-weight:500;}
+.code-toggle:hover{background:#f1f5f9;color:#0f172a;}
+.code-body{display:none;border-top:1px solid #e2e8f0;}
+.code-body.open{display:block;}
+.step-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:20px;text-align:center;flex:1;min-width:160px;}
+.step-num{width:32px;height:32px;background:#dbeafe;color:#1d4ed8;border-radius:50%;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;}
+.step-title{font-size:13px;font-weight:600;color:#0f172a;margin-bottom:4px;}
+.step-desc{font-size:12px;color:#64748b;line-height:1.6;}
+.corr-cell{text-align:center;padding:8px 6px;font-size:10px;font-weight:600;font-family:'JetBrains Mono',monospace;}
+.corr-hdr{font-size:10px;color:#475569;padding:7px 5px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px;font-weight:600;}
+.fade-in{animation:fadeIn 0.35s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<div id="loading-overlay">
+  <svg class="py-logo" width="72" height="72" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="pyB" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4b94db"/><stop offset="100%" style="stop-color:#306998"/></linearGradient>
+      <linearGradient id="pyY" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ffd43b"/><stop offset="100%" style="stop-color:#ffe873"/></linearGradient>
+    </defs>
+    <path d="M55 8 C36 8 27 17 27 32 L27 44 L55 44 L55 48 L27 48 L18 48 C12 48 6 54 6 64 L6 78 C6 94 15 102 31 102 L40 102 L40 90 C40 90 31 90 31 78 L31 64 L79 64 L79 48 L55 48 L55 44 L83 44 L83 32 C83 17 74 8 55 8 Z" fill="url(#pyB)"/>
+    <path d="M55 102 C74 102 83 93 83 78 L83 66 L55 66 L55 62 L83 62 L92 62 C98 62 104 56 104 46 L104 32 C104 16 95 8 79 8 L70 8 L70 20 C70 20 79 20 79 32 L79 46 L31 46 L31 62 L55 62 L55 66 L27 66 L27 78 C27 93 36 102 55 102 Z" fill="url(#pyY)"/>
+    <circle cx="42" cy="25" r="5.5" fill="url(#pyY)"/>
+    <circle cx="68" cy="85" r="5.5" fill="url(#pyB)"/>
+  </svg>
+  <div style="text-align:center;">
+    <div style="font-size:18px;font-weight:700;color:#0f172a;margin-bottom:5px;">DataXplorer</div>
+    <div id="load-msg" style="font-size:13px;color:#64748b;">Memuat Python runtime...</div>
+  </div>
+  <div class="progress-outer"><div id="prog-bar" class="progress-inner"></div></div>
+  <div style="font-size:11px;color:#94a3b8;">Powered by Pyodide - Python in WebAssembly</div>
+</div>
+
+<div id="app" style="display:none;min-height:100vh;">
+
+  <header class="header">
+    <div class="header-inner">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <svg width="22" height="22" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="hB" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#4b94db"/><stop offset="100%" style="stop-color:#306998"/></linearGradient><linearGradient id="hY" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#ffd43b"/><stop offset="100%" style="stop-color:#ffe873"/></linearGradient></defs>
+          <path d="M55 8 C36 8 27 17 27 32 L27 44 L55 44 L55 48 L27 48 L18 48 C12 48 6 54 6 64 L6 78 C6 94 15 102 31 102 L40 102 L40 90 C40 90 31 90 31 78 L31 64 L79 64 L79 48 L55 48 L55 44 L83 44 L83 32 C83 17 74 8 55 8 Z" fill="url(#hB)"/>
+          <path d="M55 102 C74 102 83 93 83 78 L83 66 L55 66 L55 62 L83 62 L92 62 C98 62 104 56 104 46 L104 32 C104 16 95 8 79 8 L70 8 L70 20 C70 20 79 20 79 32 L79 46 L31 46 L31 62 L55 62 L55 66 L27 66 L27 78 C27 93 36 102 55 102 Z" fill="url(#hY)"/>
+        </svg>
+        <span style="font-size:16px;font-weight:700;color:#0f172a;">DataXplorer</span>
+        <span class="badge badge-blue">Python - Pyodide</span>
+        <span class="badge badge-green"><span style="width:6px;height:6px;background:#16a34a;border-radius:50%;display:inline-block;"></span> Python Ready</span>
+      </div>
+      <a href="../../" style="font-size:13px;color:#64748b;text-decoration:none;font-weight:500;display:flex;align-items:center;gap:5px;transition:color 0.2s;" onmouseover="this.style.color='#3b82f6'" onmouseout="this.style.color='#64748b'">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12,19 5,12 12,5"/></svg>
+        Kembali ke Portfolio
+      </a>
+    </div>
+  </header>
+
+  <div style="background:#fff;border-bottom:1px solid #e2e8f0;padding:20px 0;">
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px;">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:2px;">Pilih Dataset</div>
+          <div style="font-size:12px;color:#94a3b8;">3 dataset tersedia untuk dianalisis</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="ds-btn active" id="ds-sales" onclick="selectDataset('sales')">
+            <span class="ds-icon">📊</span><span class="ds-name">Sales</span><span class="ds-sub">Data Penjualan</span>
+          </button>
+          <button class="ds-btn" id="ds-employee" onclick="selectDataset('employee')">
+            <span class="ds-icon">👥</span><span class="ds-name">Employee</span><span class="ds-sub">Data Karyawan</span>
+          </button>
+          <button class="ds-btn" id="ds-inventory" onclick="selectDataset('inventory')">
+            <span class="ds-icon">📦</span><span class="ds-name">Inventory</span><span class="ds-sub">Data Stok</span>
+          </button>
+        </div>
+        <div style="margin-left:auto;">
+          <button class="btn-primary" id="run-btn" onclick="runAnalysis()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg>
+            Run Analysis
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="welcome" style="max-width:1200px;margin:0 auto;padding:40px 24px;">
+    <div style="background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:32px;margin-bottom:24px;box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+      <div style="display:flex;align-items:flex-start;gap:24px;flex-wrap:wrap;">
+        <div style="flex:1;min-width:260px;">
+          <div style="font-size:22px;font-weight:700;color:#0f172a;margin-bottom:8px;">Python Data Analysis Tool</div>
+          <p style="font-size:14px;color:#475569;line-height:1.8;margin-bottom:16px;">
+            DataXplorer menjalankan kode Python secara nyata di browser menggunakan
+            <strong style="color:#1d4ed8;">Pyodide</strong> (WebAssembly). Tidak ada server, tidak ada instalasi. Python berjalan langsung di tab browser ini.
+          </p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <span class="badge badge-blue">100% Browser-native</span>
+            <span class="badge badge-yellow">Real Python</span>
+            <span class="badge badge-purple">WebAssembly</span>
+          </div>
+        </div>
+        <div style="background:#f8fafc;border-radius:10px;padding:20px;min-width:200px;">
+          <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Fitur Analisis</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#334155;"><span style="color:#3b82f6;font-weight:700;">+</span> Statistik deskriptif lengkap</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#334155;"><span style="color:#3b82f6;font-weight:700;">+</span> Correlation heatmap (Pearson)</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#334155;"><span style="color:#3b82f6;font-weight:700;">+</span> Distribution chart per kolom</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#334155;"><span style="color:#3b82f6;font-weight:700;">+</span> Preview data mentah</div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#334155;"><span style="color:#3b82f6;font-weight:700;">+</span> Lihat kode Python yang berjalan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:14px;">Cara Penggunaan</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-title">Pilih Dataset</div>
+          <div class="step-desc">Pilih salah satu dari tiga dataset: Sales, Employee, atau Inventory.</div>
+        </div>
+        <div style="display:flex;align-items:center;color:#cbd5e1;font-size:22px;padding-top:8px;">›</div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-title">Run Analysis</div>
+          <div class="step-desc">Klik tombol "Run Analysis". Python akan memproses data dan menghitung statistiknya.</div>
+        </div>
+        <div style="display:flex;align-items:center;color:#cbd5e1;font-size:22px;padding-top:8px;">›</div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-title">Eksplorasi Hasil</div>
+          <div class="step-desc">Lihat statistik, ganti tab chart (Distribution, Correlation, Statistics), dan buka kode Python-nya.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="results" style="display:none;">
+    <div style="max-width:1200px;margin:0 auto;padding:24px 24px 0;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;" id="cards"></div>
+    </div>
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px 24px;display:grid;grid-template-columns:1fr 1.6fr;gap:16px;">
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div class="card">
+          <div class="panel-hdr"><span class="panel-title">Statistical Summary</span><span class="panel-sub">Kolom numerik</span></div>
+          <div style="overflow:auto;max-height:260px;">
+            <table class="data-tbl">
+              <thead><tr><th>Column</th><th style="text-align:right;">Mean</th><th style="text-align:right;">Median</th><th style="text-align:right;">Std</th><th style="text-align:right;">Min</th><th style="text-align:right;">Max</th></tr></thead>
+              <tbody id="stats-body"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card">
+          <div class="panel-hdr"><span class="panel-title">Data Preview</span><span class="panel-sub">8 baris pertama</span></div>
+          <div style="overflow:auto;max-height:240px;">
+            <table class="data-tbl"><thead><tr id="preview-head"></tr></thead><tbody id="preview-body"></tbody></table>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="border-bottom:1px solid #f1f5f9;display:flex;align-items:center;padding-right:12px;">
+          <button class="tab-btn active" id="tab-dist" onclick="switchTab('dist')">Distribution</button>
+          <button class="tab-btn" id="tab-corr" onclick="switchTab('corr')">Correlation</button>
+          <button class="tab-btn" id="tab-stat" onclick="switchTab('stat')">Statistics</button>
+          <div id="dist-ctrl" style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+            <span style="font-size:11px;color:#94a3b8;font-weight:500;">Kolom:</span>
+            <select id="col-select" onchange="renderDist()" style="background:#f8fafc;border:1px solid #e2e8f0;color:#1d4ed8;font-size:11px;padding:4px 8px;font-family:'Inter',sans-serif;cursor:pointer;border-radius:6px;font-weight:600;"></select>
+          </div>
+        </div>
+        <div id="panel-dist" style="padding:20px;"><div class="chart-box"><canvas id="c-dist"></canvas></div></div>
+        <div id="panel-corr" style="padding:20px;display:none;">
+          <p style="font-size:12px;color:#64748b;margin-bottom:12px;">Pearson correlation coefficient antar kolom numerik. Biru = korelasi positif, Merah = korelasi negatif.</p>
+          <div id="corr-map" style="overflow:auto;"></div>
+        </div>
+        <div id="panel-stat" style="padding:20px;display:none;"><div class="chart-box"><canvas id="c-stat"></canvas></div></div>
+      </div>
+    </div>
+    <div style="max-width:1200px;margin:0 auto;padding:0 24px 36px;">
+      <div class="card" style="overflow:hidden;">
+        <button class="code-toggle" onclick="toggleCode()">
+          <svg id="code-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(-90deg);transition:transform 0.25s;flex-shrink:0;"><polyline points="6,9 12,15 18,9"/></svg>
+          <span style="font-size:14px;">🐍</span>
+          <span style="font-weight:600;color:#0f172a;">Python Code</span>
+          <span style="color:#94a3b8;margin-left:6px;font-size:12px;">Klik untuk melihat kode Python yang dijalankan di browser</span>
+          <span class="badge badge-yellow" style="margin-left:auto;flex-shrink:0;">Pyodide - WebAssembly</span>
+        </button>
+        <div class="code-body" id="code-body">
+          <pre style="padding:20px 24px;overflow-x:auto;background:#f8fafc;"><code class="language-python" id="py-code" style="font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;"></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</div>
+
+<script>
+const DS = {
+  sales:{label:'Sales Data',csv:`Tanggal,Produk,Kategori,Unit,Harga,Revenue,Region
+2024-01-05,Laptop Pro X1,Elektronik,3,12500000,37500000,Jakarta
+2024-01-08,Mouse Wireless,Aksesoris,15,285000,4275000,Surabaya
+2024-01-12,Keyboard Mekanikal,Aksesoris,8,750000,6000000,Bandung
+2024-01-15,Monitor 27in,Elektronik,2,3800000,7600000,Jakarta
+2024-01-18,Headset Gaming,Aksesoris,12,580000,6960000,Medan
+2024-02-02,Laptop Pro X1,Elektronik,5,12500000,62500000,Jakarta
+2024-02-07,SSD 1TB,Storage,20,950000,19000000,Surabaya
+2024-02-14,Webcam HD,Aksesoris,9,420000,3780000,Bandung
+2024-02-20,Laptop Slim S3,Elektronik,4,9800000,39200000,Medan
+2024-02-25,RAM 16GB,Komponen,25,650000,16250000,Jakarta
+2024-03-01,Monitor 24in,Elektronik,6,2900000,17400000,Surabaya
+2024-03-05,Keyboard Mekanikal,Aksesoris,10,750000,7500000,Jakarta
+2024-03-10,SSD 512GB,Storage,30,580000,17400000,Bandung
+2024-03-15,Laptop Pro X1,Elektronik,2,12500000,25000000,Medan
+2024-03-20,Mouse Gaming,Aksesoris,18,320000,5760000,Jakarta
+2024-03-25,Charger USB-C,Aksesoris,22,185000,4070000,Surabaya
+2024-04-03,Webcam 4K,Aksesoris,7,680000,4760000,Jakarta
+2024-04-08,Laptop Slim S3,Elektronik,3,9800000,29400000,Bandung
+2024-04-15,RAM 32GB,Komponen,14,1200000,16800000,Surabaya
+2024-04-20,Monitor 27in,Elektronik,4,3800000,15200000,Medan`},
+  employee:{label:'Employee Data',csv:`Departemen,Jabatan,Gaji,PengalamanTahun,Usia,NilaiKinerja
+IT,Senior Developer,18000000,7,32,92
+HR,HR Manager,15000000,5,30,88
+Finance,Akuntan,12000000,3,27,85
+Marketing,Marketing Manager,16000000,6,35,90
+IT,Junior Developer,8000000,1,24,78
+Operations,Supervisor,11000000,4,29,83
+Finance,Finance Manager,17000000,8,40,91
+IT,UI/UX Designer,13000000,4,28,87
+Sales,Sales Executive,10000000,2,26,80
+HR,Rekruiter,9500000,2,25,82
+IT,DevOps Engineer,16500000,6,33,89
+Marketing,Content Creator,9000000,2,24,81
+Operations,Logistik,8500000,1,23,76
+Finance,Analyst,11500000,3,28,84
+Sales,Sales Manager,14000000,5,37,86
+IT,QA Engineer,12500000,4,27,85
+Operations,Manager,15500000,7,42,88
+Marketing,Digital Ads,10500000,3,26,83
+Sales,Sales Executive,9800000,2,25,79
+HR,Training Specialist,11000000,3,29,86`},
+  inventory:{label:'Inventory Data',csv:`Produk,Kategori,Stok,StokMinimum,HargaSatuan,HargaPokok,Gudang
+Laptop Pro X1,Elektronik,45,10,12500000,10000000,Jakarta
+Mouse Wireless,Aksesoris,230,50,285000,180000,Surabaya
+Keyboard Mekanikal,Aksesoris,120,30,750000,500000,Jakarta
+Monitor 27in,Elektronik,35,8,3800000,2800000,Bandung
+Headset Gaming,Aksesoris,85,20,580000,380000,Jakarta
+SSD 1TB,Storage,180,40,950000,650000,Surabaya
+Webcam HD,Aksesoris,65,15,420000,280000,Jakarta
+Laptop Slim S3,Elektronik,28,8,9800000,7500000,Medan
+RAM 16GB,Komponen,220,50,650000,420000,Bandung
+Mouse Gaming,Aksesoris,145,35,320000,200000,Surabaya
+Charger USB-C,Aksesoris,310,60,185000,110000,Jakarta
+Webcam 4K,Aksesoris,42,10,680000,450000,Surabaya
+RAM 32GB,Komponen,98,25,1200000,800000,Jakarta
+Monitor 24in,Elektronik,58,12,2900000,2100000,Bandung
+SSD 512GB,Storage,265,50,580000,380000,Jakarta
+Printer Inkjet,Peripheral,30,8,1800000,1300000,Medan
+Scanner A4,Peripheral,18,5,2200000,1600000,Jakarta
+UPS 1200VA,Infrastruktur,25,6,850000,600000,Surabaya
+Switch 8Port,Jaringan,40,10,650000,420000,Bandung
+Router WiFi 6,Jaringan,55,12,580000,380000,Jakarta`}
+};
+
+const PY=`import csv,statistics,math,json
+def analyze(text):
+    lines=text.strip().split('\\n')
+    reader=csv.DictReader(lines)
+    rows=list(reader)
+    headers=list(reader.fieldnames)
+    num_cols,cat_cols={},{}
+    for h in headers:
+        vals=[]
+        for r in rows:
+            try: vals.append(float(str(r[h]).replace(',','')))
+            except: pass
+        if len(vals)>=len(rows)*0.5: num_cols[h]=vals
+        else: cat_cols[h]=[r[h] for r in rows if r.get(h)]
+    stats={col:{'count':len(v),'mean':round(statistics.mean(v),2),'median':round(statistics.median(v),2),'stdev':round(statistics.stdev(v),2) if len(v)>1 else 0,'min':round(min(v),2),'max':round(max(v),2)} for col,v in num_cols.items()}
+    corr={}
+    nk=list(num_cols.keys())
+    for c1 in nk:
+        corr[c1]={}
+        for c2 in nk:
+            v1,v2=num_cols[c1],num_cols[c2]
+            n=min(len(v1),len(v2))
+            if n<2: corr[c1][c2]=0; continue
+            m1,m2=sum(v1)/n,sum(v2)/n
+            num=sum((v1[i]-m1)*(v2[i]-m2) for i in range(n))
+            den=math.sqrt(sum((x-m1)**2 for x in v1[:n])*sum((x-m2)**2 for x in v2[:n]))
+            corr[c1][c2]=round(num/den,3) if den else 0
+    cat_counts={col:dict(sorted({v:vals.count(v) for v in set(vals)}.items(),key=lambda x:-x[1])[:8]) for col,vals in cat_cols.items()}
+    return json.dumps({'stats':stats,'corr':corr,'cats':cat_counts,'num_cols':{k:list(v) for k,v in num_cols.items()},'rows':len(rows),'cols':len(headers),'headers':headers,'preview':rows[:8]})
+result=analyze(csv_data)
+result`;
+
+let pyodide=null,curDS='sales',curResult=null,charts={},codeOpen=false;
+
+async function init(){
+  const msg=document.getElementById('load-msg'),bar=document.getElementById('prog-bar');
+  try{
+    msg.textContent='Memuat Pyodide runtime (~10MB)...';bar.style.width='15%';
+    await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+    bar.style.width='50%';msg.textContent='Menginisialisasi Python...';
+    pyodide=await loadPyodide({indexURL:'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/'});
+    bar.style.width='85%';msg.textContent='Memeriksa modul...';
+    await pyodide.runPythonAsync('import csv,statistics,math,json;"ok"');
+    bar.style.width='100%';msg.textContent='Python siap!';
+    await new Promise(r=>setTimeout(r,500));
+    document.getElementById('loading-overlay').style.display='none';
+    document.getElementById('app').style.display='block';
+    await runAnalysis();
+  }catch(e){msg.textContent='Error: '+e.message;bar.style.background='#ef4444';console.error(e);}
+}
+
+function selectDataset(key){curDS=key;document.querySelectorAll('.ds-btn').forEach(b=>b.classList.remove('active'));document.getElementById('ds-'+key).classList.add('active');}
+
+async function runAnalysis(){
+  if(!pyodide)return;
+  const btn=document.getElementById('run-btn');
+  btn.disabled=true;btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="animation:spin 0.9s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Menganalisis...';
+  try{
+    pyodide.globals.set('csv_data',DS[curDS].csv);
+    const raw=await pyodide.runPythonAsync(PY);
+    curResult=JSON.parse(raw);render(curResult);
+    document.getElementById('welcome').style.display='none';
+    const res=document.getElementById('results');res.style.display='block';res.classList.add('fade-in');
+  }catch(e){console.error(e);alert('Error: '+e.message);}
+  btn.disabled=false;btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg> Run Analysis';
+}
+
+function fmt(n){n=Number(n);if(Math.abs(n)>=1e9)return(n/1e9).toFixed(1)+'B';if(Math.abs(n)>=1e6)return(n/1e6).toFixed(1)+'M';if(Math.abs(n)>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString('id-ID',{maximumFractionDigits:2});}
+
+function render(d){
+  const numC=Object.keys(d.stats).length,catC=Object.keys(d.cats).length;
+  document.getElementById('cards').innerHTML=`<div class="sc-card fade-in"><div class="sc-label">Total Rows</div><div class="sc-value">${d.rows}</div><div class="sc-sub">data records</div></div><div class="sc-card fade-in"><div class="sc-label">Columns</div><div class="sc-value">${d.cols}</div><div class="sc-sub">${numC} numeric, ${catC} categorical</div></div><div class="sc-card fade-in"><div class="sc-label">Numeric</div><div class="sc-value">${numC}</div><div class="sc-sub">kolom dapat dianalisis</div></div><div class="sc-card fade-in"><div class="sc-label">Categorical</div><div class="sc-value">${catC}</div><div class="sc-sub">kolom frekuensi</div></div>`;
+  document.getElementById('stats-body').innerHTML=Object.entries(d.stats).map(([c,s])=>`<tr><td style="font-weight:600;color:#334155;">${c}</td><td class="num-cell">${fmt(s.mean)}</td><td class="num-cell">${fmt(s.median)}</td><td class="num-cell">${fmt(s.stdev)}</td><td class="num-cell">${fmt(s.min)}</td><td class="num-cell">${fmt(s.max)}</td></tr>`).join('');
+  document.getElementById('preview-head').innerHTML=d.headers.map(h=>`<th>${h}</th>`).join('');
+  document.getElementById('preview-body').innerHTML=d.preview.map(r=>`<tr>${d.headers.map(h=>`<td>${r[h]||''}</td>`).join('')}</tr>`).join('');
+  const sel=document.getElementById('col-select');
+  sel.innerHTML=[...Object.keys(d.cats).map(k=>`<option value="cat:${k}">${k} (kategori)</option>`),...Object.keys(d.num_cols).map(k=>`<option value="num:${k}">${k} (numerik)</option>`)].join('');
+  renderDist();renderCorr(d);renderStat(d);
+  const el=document.getElementById('py-code');
+  el.textContent='# DataXplorer - Python berjalan di browser via Pyodide\n# Dataset: '+DS[curDS].label+'\n\n'+PY;
+  if(window.hljs)hljs.highlightElement(el);
+}
+
+function renderDist(){
+  if(!curResult)return;
+  const[type,col]=document.getElementById('col-select').value.split(':');
+  if(charts.dist){charts.dist.destroy();charts.dist=null;}
+  const ctx=document.getElementById('c-dist').getContext('2d');
+  let labels,values,label;
+  if(type==='cat'){const cats=curResult.cats[col];labels=Object.keys(cats);values=Object.values(cats);label='Frekuensi';}
+  else{const vals=curResult.num_cols[col];const mn=Math.min(...vals),mx=Math.max(...vals),B=8,step=(mx-mn)/B;const cnt=new Array(B).fill(0);vals.forEach(v=>{const i=Math.min(Math.floor((v-mn)/step),B-1);cnt[i]++;});labels=Array.from({length:B},(_,i)=>fmt(mn+i*step));values=cnt;label='Distribusi';}
+  charts.dist=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label,data:values,backgroundColor:'rgba(59,130,246,0.15)',borderColor:'#3b82f6',borderWidth:2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#94a3b8',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}},y:{ticks:{color:'#94a3b8',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}}}}});
+}
+
+function renderCorr(d){
+  const cols=Object.keys(d.corr);
+  if(!cols.length){document.getElementById('corr-map').innerHTML='<p style="color:#94a3b8;font-size:12px;">Tidak cukup kolom numerik.</p>';return;}
+  function bg(v){return v>=0?`rgba(59,130,246,${(v*0.7).toFixed(2)})`:`rgba(239,68,68,${(Math.abs(v)*0.7).toFixed(2)})`;}
+  let html='<table style="border-collapse:collapse;width:100%;"><tr><th class="corr-hdr" style="background:#f8fafc;"></th>';
+  cols.forEach(c=>{html+=`<th class="corr-hdr" title="${c}">${c.length>9?c.slice(0,9)+'...':c}</th>`;});html+='</tr>';
+  cols.forEach(c1=>{
+    html+=`<tr><th class="corr-hdr" style="text-align:right;padding-right:10px;background:#f8fafc;" title="${c1}">${c1.length>9?c1.slice(0,9)+'...':c1}</th>`;
+    cols.forEach(c2=>{const v=d.corr[c1][c2];const tc=Math.abs(v)>0.45?'#fff':'#475569';html+=`<td class="corr-cell" style="background:${bg(v)};color:${tc};border-radius:3px;">${v.toFixed(2)}</td>`;});
+    html+='</tr>';
+  });
+  html+='</table>';document.getElementById('corr-map').innerHTML=html;
+}
+
+function renderStat(d){
+  if(charts.stat){charts.stat.destroy();charts.stat=null;}
+  const ctx=document.getElementById('c-stat').getContext('2d');const cols=Object.keys(d.stats);
+  charts.stat=new Chart(ctx,{type:'bar',data:{labels:cols,datasets:[{label:'Mean',data:cols.map(c=>d.stats[c].mean),backgroundColor:'rgba(59,130,246,0.2)',borderColor:'#3b82f6',borderWidth:2,borderRadius:4},{label:'Median',data:cols.map(c=>d.stats[c].median),backgroundColor:'rgba(99,102,241,0.15)',borderColor:'#6366f1',borderWidth:1.5,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{labels:{color:'#64748b',font:{size:11,family:'Inter'},boxWidth:12,boxHeight:12}}},scales:{x:{ticks:{color:'#94a3b8',font:{size:10,family:'Inter'},callback:v=>fmt(v)},grid:{color:'#f1f5f9'}},y:{ticks:{color:'#334155',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}}}}});
+}
+
+function switchTab(t){
+  ['dist','corr','stat'].forEach(x=>{document.getElementById('tab-'+x).classList.toggle('active',x===t);document.getElementById('panel-'+x).style.display=x===t?'block':'none';});
+  document.getElementById('dist-ctrl').style.display=t==='dist'?'flex':'none';
+  if(t==='dist'&&curResult)renderDist();if(t==='stat'&&curResult)renderStat(curResult);
+}
+
+function toggleCode(){codeOpen=!codeOpen;document.getElementById('code-body').classList.toggle('open',codeOpen);document.getElementById('code-arrow').style.transform=codeOpen?'rotate(0deg)':'rotate(-90deg)';}
+
+init();
+</script>
+
+<footer style="border-top:1px solid #e2e8f0;padding:20px 24px;text-align:center;">
+  <p style="font-size:12px;color:#94a3b8;">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#3b82f6;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
+</footer>
+</body>
+</html>

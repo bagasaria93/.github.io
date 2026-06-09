@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | Portal Akademik</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/app.css">
+  <style> body { background: #1E1B4B; } </style>
+</head>
+<body>
+
+<div class="login-page">
+  <!-- Brand Panel -->
+  <div class="login-brand">
+    <div class="login-brand-logo">📚</div>
+    <h1>Portal Akademik<br>E-Learning System</h1>
+    <p>Platform pembelajaran digital multi-role untuk admin, dosen, dan mahasiswa dalam satu sistem terintegrasi.</p>
+    <div class="login-brand-features">
+      <div class="login-feature">
+        <div class="login-feature-icon"><i data-lucide="users"></i></div>
+        <span>Multi-role: Admin, Dosen & Mahasiswa</span>
+      </div>
+      <div class="login-feature">
+        <div class="login-feature-icon"><i data-lucide="book-open"></i></div>
+        <span>Kelola materi & tugas per mata kuliah</span>
+      </div>
+      <div class="login-feature">
+        <div class="login-feature-icon"><i data-lucide="clipboard-check"></i></div>
+        <span>Sistem pengumpulan & penilaian tugas</span>
+      </div>
+      <div class="login-feature">
+        <div class="login-feature-icon"><i data-lucide="bar-chart-2"></i></div>
+        <span>Rekap nilai & laporan akademik</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Form Panel -->
+  <div class="login-form-panel">
+    <div class="login-form-header">
+      <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px;">
+        <div style="width:44px;height:44px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;color:#fff;">PA</div>
+        <div style="text-align:left;">
+          <div style="font-size:11px;font-weight:700;color:var(--primary);letter-spacing:0.05em;">PORTAL AKADEMIK</div>
+          <div style="font-size:11px;color:var(--text-muted);">E-Learning System v1.0</div>
+        </div>
+      </div>
+      <h2>Selamat Datang</h2>
+      <p>Masuk ke akun Anda untuk melanjutkan</p>
+    </div>
+
+    <form class="login-form" id="login-form" novalidate>
+      <div id="login-error" class="login-error">
+        <strong>Login Gagal:</strong> <span id="login-error-msg"></span>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email</label>
+        <div class="login-input-wrap">
+          <span class="login-input-icon"><i data-lucide="mail"></i></span>
+          <input type="email" id="login-email" class="login-input" placeholder="email@portal.ac.id" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="login-password">Password</label>
+        <div class="login-input-wrap">
+          <span class="login-input-icon"><i data-lucide="lock"></i></span>
+          <input type="password" id="login-password" class="login-input" placeholder="Masukkan password" autocomplete="current-password">
+          <button type="button" id="toggle-pw" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--text-muted);padding:2px;" title="Tampilkan password">
+            <i data-lucide="eye" id="pw-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn" id="login-btn">
+        <i data-lucide="log-in"></i>
+        <span>Masuk</span>
+      </button>
+    </form>
+
+    <div class="demo-accounts">
+      <div class="demo-accounts-header" id="demo-toggle">
+        <span>Akun Demo</span>
+        <i data-lucide="chevron-down" id="demo-chevron"></i>
+      </div>
+      <div class="demo-accounts-list" id="demo-list">
+        <div class="demo-account-item" data-email="admin@portal.ac.id" data-pw="password123">
+          <div>
+            <div class="demo-account-role">Administrator</div>
+            <div class="demo-account-email">admin@portal.ac.id</div>
+          </div>
+          <span class="demo-account-fill">Klik untuk isi</span>
+        </div>
+        <div class="demo-account-item" data-email="dosen@portal.ac.id" data-pw="password123">
+          <div>
+            <div class="demo-account-role">Dosen</div>
+            <div class="demo-account-email">dosen@portal.ac.id &mdash; Dr. Hamdani</div>
+          </div>
+          <span class="demo-account-fill">Klik untuk isi</span>
+        </div>
+        <div class="demo-account-item" data-email="dosen2@portal.ac.id" data-pw="password123">
+          <div>
+            <div class="demo-account-role">Dosen</div>
+            <div class="demo-account-email">dosen2@portal.ac.id &mdash; Nurmawati</div>
+          </div>
+          <span class="demo-account-fill">Klik untuk isi</span>
+        </div>
+        <div class="demo-account-item" data-email="mahasiswa@portal.ac.id" data-pw="password123">
+          <div>
+            <div class="demo-account-role">Mahasiswa</div>
+            <div class="demo-account-email">mahasiswa@portal.ac.id &mdash; Giantara</div>
+          </div>
+          <span class="demo-account-fill">Klik untuk isi</span>
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:20px;font-size:11.5px;color:var(--text-muted);text-align:center;">
+      Demo app &mdash; semua password: <strong>password123</strong>
+    </p>
+  </div>
+</div>
+
+<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:20px 24px;text-align:center;">
+  <p style="font-size:12px;color:rgba(255,255,255,0.4);">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
+</footer>
+
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="js/data.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  DB.init();
+  Auth.requireLogin();
+
+  lucide.createIcons();
+
+  // Demo accounts toggle
+  document.getElementById('demo-toggle').addEventListener('click', () => {
+    document.getElementById('demo-list').classList.toggle('open');
+    document.getElementById('demo-chevron').style.transform =
+      document.getElementById('demo-list').classList.contains('open') ? 'rotate(180deg)' : '';
+  });
+
+  document.querySelectorAll('.demo-account-item').forEach(item => {
+    item.addEventListener('click', () => {
+      document.getElementById('login-email').value = item.dataset.email;
+      document.getElementById('login-password').value = item.dataset.pw;
+      document.getElementById('demo-list').classList.remove('open');
+    });
+  });
+
+  // Toggle password
+  document.getElementById('toggle-pw').addEventListener('click', () => {
+    const inp = document.getElementById('login-password');
+    const icon = document.getElementById('pw-icon');
+    if (inp.type === 'password') { inp.type = 'text'; icon.setAttribute('data-lucide','eye-off'); }
+    else { inp.type = 'password'; icon.setAttribute('data-lucide','eye'); }
+    lucide.createIcons({ nodes: [icon.parentElement] });
+  });
+
+  // Login
+  document.getElementById('login-form').addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const pw    = document.getElementById('login-password').value;
+    const btn   = document.getElementById('login-btn');
+    const errBox = document.getElementById('login-error');
+    const errMsg = document.getElementById('login-error-msg');
+
+    errBox.style.display = 'none';
+    btn.disabled = true;
+    btn.querySelector('span').textContent = 'Memproses...';
+
+    setTimeout(() => {
+      const result = Auth.login(email, pw);
+      if (result.success) {
+        window.location.href = 'app.html';
+      } else {
+        errMsg.textContent = result.message;
+        errBox.style.display = 'block';
+        document.getElementById('login-email').classList.add('error');
+        document.getElementById('login-password').classList.add('error');
+        btn.disabled = false;
+        btn.querySelector('span').textContent = 'Masuk';
+      }
+    }, 600);
+  });
+
+  document.getElementById('login-email').addEventListener('input', () => {
+    document.getElementById('login-email').classList.remove('error');
+    document.getElementById('login-password').classList.remove('error');
+    document.getElementById('login-error').style.display = 'none';
+  });
+</script>
+</body>
+</html>

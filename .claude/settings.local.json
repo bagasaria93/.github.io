@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\laragon\\\\www\\\\GitHub\\\\bagasaria93.github.io\\\\demo\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(Get-ChildItem -Path \"C:\\\\laragon\\\\www\\\\GitHub\\\\bagasaria93.github.io\" -Force)",
+      "Bash(Select-Object Name, Mode)",
+      "Bash(Get-ChildItem *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(node --check data.js)",
+      "Bash(node --check utils.js)",
+      "Bash(node --check auth.js)",
+      "Bash(node *)",
+      "Bash(Remove-Item *)",
+      "PowerShell(Get-NetTCPConnection *)",
+      "WebFetch(domain:localhost)",
+      "PowerShell($hosts = Get-Content \"C:\\\\Windows\\\\System32\\\\drivers\\\\etc\\\\hosts\" | Where-Object { $_ -notmatch '^#' -and $_.Trim\\(\\) -ne '' }; Write-Output $hosts; Write-Output \"---\"; Get-ChildItem \"C:\\\\laragon\\\\etc\\\\apache2\\\\sites-enabled\\\\\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "WebFetch(domain:github.test)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://GitHub.test/\" -UseBasicParsing -TimeoutSec 5 | Select-Object -ExpandProperty StatusCode)",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://GitHub.test/\" -UseBasicParsing -TimeoutSec 10; $r.Content | Select-String -Pattern \"project-number|project-title|project-subtitle\" -AllMatches | ForEach-Object { $_.Line.Trim\\(\\) })",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://GitHub.test/\" -UseBasicParsing -TimeoutSec 10; $r.Content.Length; $r.Content.Substring\\(0, 500\\))",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://GitHub.test/bagasaria93.github.io/demo/hris-system/app.html\" -UseBasicParsing -TimeoutSec 10; $r.StatusCode; [regex]::Matches\\($r.Content, 'src=\"\\(js/[^\"]+\\)\"'\\) | ForEach-Object { $_.Groups[1].Value })",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://GitHub.test/bagasaria93.github.io/demo/iq-test/\" -UseBasicParsing -TimeoutSec 5; $r.Content.Substring\\(0, 2000\\))",
+      "Bash(npx playwright *)",
+      "Bash(New-Item -ItemType Directory -Force \"C:\\\\temp\")",
+      "Bash(Out-Null)"
+    ]
+  }
+}
