@@ -914,7 +914,11 @@
                 </div>
 
                 <div class="contact-form section-reveal stagger-3">
-                    <form action="https://formspree.io/f/xzdjyavy" method="POST" id="contactForm">
+                    <div class="contact-form-header">
+                        <div class="contact-label" style="margin-bottom:10px;">Send a Message</div>
+                        <p style="font-size:0.8rem;color:var(--white-dim);line-height:1.6;">Fill in the form and I'll respond within 24 hours.</p>
+                    </div>
+                    <form id="contactForm">
                         <div class="form-group">
                             <label class="form-label" for="formName">Your Name</label>
                             <input type="text" name="name" class="form-input" id="formName" placeholder="John Doe" required>
@@ -927,19 +931,15 @@
                             <label class="form-label" for="formMessage">Your Message</label>
                             <textarea name="message" class="form-textarea" id="formMessage" placeholder="Hello Bagas, I'd like to discuss..." required></textarea>
                         </div>
-                        <input type="hidden" name="_subject" value="New message from portfolio contact form">
                         <button type="submit" class="btn-submit" id="btnSubmit">
                             <i data-lucide="send" style="width:15px;height:15px;"></i>
                             <span>Send Message</span>
                         </button>
                         <div class="form-success" id="formSuccess" style="display:none;">
                             <i data-lucide="check-circle" style="width:16px;height:16px;"></i>
-                            <span>Message sent successfully. I'll get back to you soon.</span>
+                            <span>Email client opened. If nothing appeared, email <strong>bagasativa@gmail.com</strong> directly.</span>
                         </div>
-                        <div class="form-error" id="formError" style="display:none;">
-                            <i data-lucide="alert-circle" style="width:16px;height:16px;"></i>
-                            <span>Something went wrong. Please try again or email directly.</span>
-                        </div>
+                        <div class="form-error" id="formError" style="display:none;"></div>
                     </form>
                 </div>
 

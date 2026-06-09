@@ -1391,11 +1391,15 @@ gap: 14px;
 background: var(--black-2);
 }
 
+#contact .section-reveal {
+margin-bottom: 32px;
+}
+
 .contact-grid {
 display: grid;
 grid-template-columns: 1fr 1fr;
-gap: 96px;
-margin-top: 72px;
+gap: 64px;
+margin-top: 56px;
 align-items: start;
 }
 
@@ -1461,6 +1465,12 @@ flex-direction: column;
 gap: 20px;
 }
 
+.contact-form-header {
+padding-bottom: 14px;
+border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+margin-bottom: 0;
+}
+
 .form-group {
 display: flex;
 flex-direction: column;
@@ -1518,7 +1528,7 @@ font-weight: 800;
 letter-spacing: 0.16em;
 text-transform: uppercase;
 border: none;
-cursor: none;
+cursor: pointer;
 transition: all 0.3s ease;
 font-family: var(--font-body);
 clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
@@ -1780,7 +1790,7 @@ gap: 12px;
 padding: 12px 20px;
 background: rgba(74, 222, 128, 0.05);
 border: 1px solid rgba(74, 222, 128, 0.18);
-margin-bottom: 48px;
+margin-bottom: 32px;
 }
 
 .contact-availability-dot {

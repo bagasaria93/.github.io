@@ -33,32 +33,16 @@ function toggleMobileMenu() {
 }
 
 // ---- FORM SUBMIT ----
-async function submitForm(e) {
+function submitForm(e) {
     e.preventDefault();
-    var btn = document.getElementById('btnSubmit');
-    var success = document.getElementById('formSuccess');
-    var error = document.getElementById('formError');
-    success.style.display = 'none';
-    error.style.display = 'none';
-    btn.disabled = true;
-    btn.style.opacity = '0.6';
-    try {
-        var response = await fetch(e.target.action, {
-            method: 'POST',
-            body: new FormData(e.target),
-            headers: { 'Accept': 'application/json' }
-        });
-        if (response.ok) {
-            success.style.display = 'flex';
-            e.target.reset();
-        } else {
-            error.style.display = 'flex';
-        }
-    } catch (err) {
-        error.style.display = 'flex';
-    }
-    btn.disabled = false;
-    btn.style.opacity = '1';
+    var name    = document.getElementById('formName').value.trim();
+    var email   = document.getElementById('formEmail').value.trim();
+    var message = document.getElementById('formMessage').value.trim();
+    var subject = encodeURIComponent('Portfolio Inquiry from ' + name);
+    var body    = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\n\n' + message);
+    window.location.href = 'mailto:bagasativa@gmail.com?subject=' + subject + '&body=' + body;
+    document.getElementById('formSuccess').style.display = 'flex';
+    document.getElementById('formError').style.display = 'none';
 }
 
 // ---- MAIN ----
