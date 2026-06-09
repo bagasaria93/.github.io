@@ -892,30 +892,30 @@ function checkout() {
 
 function generateReceiptHTML(data) {
   const itemRows = data.items.map(i =>
-    `<div class="receipt-row"><span>${i.emoji} ${i.name} x${i.qty}</span><span>${formatRp(i.price * i.qty)}</span></div>`
+    '<div class="receipt-row"><span>' + i.emoji + ' ' + i.name + ' x' + i.qty + '</span><span>' + formatRp(i.price * i.qty) + '</span></div>'
   ).join('');
-  return `<div class="receipt">
-    <div style="text-align:center;margin-bottom:10px;">
-      <div style="font-weight:800;font-size:1rem;">WARUNG KOPI NUSANTARA</div>
-      <div style="font-size:0.72rem;color:#555;">Jl. Raya Bogor No. 77, Jakarta Timur</div>
-      <div style="font-size:0.72rem;color:#555;">(021) 8888-1234</div>
-    </div>
-    <div class="receipt-divider"></div>
-    <div class="receipt-row"><span>No. Transaksi</span><span>${data.txId}</span></div>
-    <div class="receipt-row"><span>Waktu</span><span>${data.time}</span></div>
-    <div class="receipt-row"><span>Kasir</span><span>Rina Pratiwi</span></div>
-    <div class="receipt-row"><span>Meja</span><span>4</span></div>
-    <div class="receipt-divider"></div>
-    ${itemRows}
-    <div class="receipt-divider"></div>
-    <div class="receipt-row"><span>Subtotal</span><span>${formatRp(data.subtotal)}</span></div>
-    ${data.discount > 0 ? `<div class="receipt-row"><span>Diskon</span><span>-${formatRp(data.discount)}</span></div>` : ''}
-    <div class="receipt-row"><span>Pajak (10%)</span><span>${formatRp(data.tax)}</span></div>
-    <div class="receipt-divider"></div>
-    <div class="receipt-row" style="font-weight:800;font-size:0.9rem;"><span>TOTAL</span><span>${formatRp(data.total)}</span></div>
-    <div class="receipt-divider"></div>
-    <div style="text-align:center;font-size:0.7rem;color:#777;margin-top:8px;">Terima kasih atas kunjungan Anda!<br>Selamat menikmati ☕</div>
-  </div>`;
+  return '<div class="receipt">'
+    + '<div style="text-align:center;margin-bottom:10px;">'
+    + '<div style="font-weight:800;font-size:1rem;">WARUNG KOPI NUSANTARA</div>'
+    + '<div style="font-size:0.72rem;color:#555;">Jl. Raya Bogor No. 77, Jakarta Timur</div>'
+    + '<div style="font-size:0.72rem;color:#555;">(021) 8888-1234</div>'
+    + '</div>'
+    + '<div class="receipt-divider"></div>'
+    + '<div class="receipt-row"><span>No. Transaksi</span><span>' + data.txId + '</span></div>'
+    + '<div class="receipt-row"><span>Waktu</span><span>' + data.time + '</span></div>'
+    + '<div class="receipt-row"><span>Kasir</span><span>Rina Pratiwi</span></div>'
+    + '<div class="receipt-row"><span>Meja</span><span>4</span></div>'
+    + '<div class="receipt-divider"></div>'
+    + itemRows
+    + '<div class="receipt-divider"></div>'
+    + '<div class="receipt-row"><span>Subtotal</span><span>' + formatRp(data.subtotal) + '</span></div>'
+    + (data.discount > 0 ? '<div class="receipt-row"><span>Diskon</span><span>-' + formatRp(data.discount) + '</span></div>' : '')
+    + '<div class="receipt-row"><span>Pajak (10%)</span><span>' + formatRp(data.tax) + '</span></div>'
+    + '<div class="receipt-divider"></div>'
+    + '<div class="receipt-row" style="font-weight:800;font-size:0.9rem;"><span>TOTAL</span><span>' + formatRp(data.total) + '</span></div>'
+    + '<div class="receipt-divider"></div>'
+    + '<div style="text-align:center;font-size:0.7rem;color:#777;margin-top:8px;">Terima kasih atas kunjungan Anda!<br>Selamat menikmati</div>'
+    + '</div>';
 }
 
 function showReceipt(data) {
@@ -948,21 +948,20 @@ function renderHistory() {
   const history = JSON.parse(localStorage.getItem('kasirku_history') || '[]');
   const container = document.getElementById('history-list');
   if (history.length === 0) {
-    container.innerHTML = `<div style="text-align:center;padding:48px 20px;color:rgba(255,255,255,0.18);">
-      <div style="font-size:2.5rem;margin-bottom:12px;">📋</div>
-      <div style="font-size:0.83rem;">Belum ada transaksi</div>
-    </div>`;
+    container.innerHTML = '<div style="text-align:center;padding:48px 20px;color:rgba(255,255,255,0.18);">'
+      + '<div style="font-size:2.5rem;margin-bottom:12px;">📋</div>'
+      + '<div style="font-size:0.83rem;">Belum ada transaksi</div>'
+      + '</div>';
     return;
   }
-  container.innerHTML = history.map(h => `
-    <div class="history-item">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <span style="font-size:0.76rem;font-weight:700;color:#f59e0b;">${h.txId}</span>
-        <span style="font-size:0.76rem;font-weight:800;">${formatRp(h.total)}</span>
-      </div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-bottom:6px;">${h.time} · ${h.items.length} item</div>
-      <div style="font-size:0.7rem;color:rgba(255,255,255,0.45);">${h.items.map(i => i.emoji + ' ' + i.name + ' x' + i.qty).join(', ')}</div>
-    </div>`).join('');
+  container.innerHTML = history.map(h => '<div class="history-item">'
+    + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
+    + '<span style="font-size:0.76rem;font-weight:700;color:#f59e0b;">' + h.txId + '</span>'
+    + '<span style="font-size:0.76rem;font-weight:800;">' + formatRp(h.total) + '</span>'
+    + '</div>'
+    + '<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-bottom:6px;">' + h.time + ' · ' + h.items.length + ' item</div>'
+    + '<div style="font-size:0.7rem;color:rgba(255,255,255,0.45);">' + h.items.map(i => i.emoji + ' ' + i.name + ' x' + i.qty).join(', ') + '</div>'
+    + '</div>').join('');
 }
 
 function clearHistory() {
@@ -1025,7 +1024,7 @@ function showToast(msg, icon) {
     toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,#1e293b,#1a2540);color:white;padding:12px 20px;border-radius:12px;font-size:0.82rem;font-weight:600;z-index:9999;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;gap:9px;box-shadow:0 10px 30px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.07);white-space:nowrap;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);';
     document.body.appendChild(toast);
   }
-  toast.innerHTML = `<span style="font-size:1rem;">${icon||'✓'}</span><span>${msg}</span>`;
+  toast.innerHTML = '<span style="font-size:1rem;">' + (icon||'✓') + '</span><span>' + msg + '</span>';
   toast.style.transform = 'translateX(-50%) translateY(0)';
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => { toast.style.transform = 'translateX(-50%) translateY(60px)'; }, 2800);
@@ -1053,12 +1052,9 @@ $(document).on('keydown', function(e) {
 renderProducts();
 renderHistory();
 </script>
-<<<<<<< HEAD
 
 <footer style="border-top:1px solid rgba(255,255,255,0.08);padding:20px 24px;text-align:center;">
   <p style="font-size:12px;color:rgba(255,255,255,0.4);">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
 </footer>
-=======
->>>>>>> 0b95c1f3996afef6added228e4ea9f761b190b7e
 </body>
 </html>
