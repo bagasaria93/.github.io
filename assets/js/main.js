@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Footer copyright year
     var footerCopy = document.getElementById('footerCopy');
-    if (footerCopy) footerCopy.textContent = new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';
+    if (footerCopy) footerCopy.textContent = '© ' + new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';
 
     // Carousel init
     carouselGoTo(0);
@@ -132,11 +132,13 @@ document.addEventListener('DOMContentLoaded', function() {
     var typingSpeed = 80;
     var typingTexts = [
         'Laravel Development',
-        'React JS Applications',
-        'Full-Stack Solutions',
+        'React Applications',
+        'Database Architecture',
         'REST API Design',
         'ERP Systems',
         'Next.js & TypeScript',
+        'Dashboard & Analytics',
+        'Business Automation',
     ];
 
     function type() {
