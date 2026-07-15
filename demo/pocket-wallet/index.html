@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>PocketWallet - Personal Finance PWA</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4f46e5">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="PocketWallet">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="description" content="PocketWallet - Installable expense & budget tracker PWA. Works offline, installable to home screen.">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --indigo:#4f46e5; --violet:#7c3aed; --emerald:#10b981; --rose:#f43f5e; --amber:#f59e0b;
+  --bg:#f4f4f8; --card:#ffffff; --ink:#14142b; --ink-dim:#6b7280; --border:#e7e7ef;
+}
+html.dark{
+  --bg:#0b0b14; --card:#15151f; --ink:#f2f2f7; --ink-dim:#8b8b9c; --border:#232332;
+}
+*{box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--ink);margin:0;transition:background .3s,color .3s;}
+.app-shell{max-width:440px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;box-shadow:0 0 60px rgba(0,0,0,0.08);}
+@media(min-width:480px){.app-shell{min-height:100vh;}}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;}
+.screen{display:none;padding:16px 18px 100px;animation:fadeIn .25s ease both;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+.bottom-nav{position:sticky;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:10px 6px calc(10px + env(safe-area-inset-bottom));z-index:40;}
+.nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:var(--ink-dim);font-size:10.5px;font-weight:600;cursor:pointer;padding:4px 10px;border-radius:12px;transition:all .2s;}
+.nav-btn.active{color:var(--indigo);}
+.nav-btn.active svg{transform:translateY(-1px);}
+
+.topbar{position:sticky;top:0;z-index:30;background:var(--bg);padding:16px 18px 8px;display:flex;align-items:center;justify-content:space-between;}
+.icon-btn{width:38px;height:38px;border-radius:12px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink);}
+
+.balance-card{background:linear-gradient(135deg,var(--indigo),var(--violet));border-radius:22px;padding:22px;color:white;position:relative;overflow:hidden;}
+.balance-card::after{content:'';position:absolute;width:180px;height:180px;background:rgba(255,255,255,0.08);border-radius:50%;top:-70px;right:-50px;}
+.balance-card::before{content:'';position:absolute;width:120px;height:120px;background:rgba(255,255,255,0.06);border-radius:50%;bottom:-50px;left:-30px;}
+
+.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.pill-income{background:rgba(16,185,129,0.12);color:var(--emerald);}
+.pill-expense{background:rgba(244,63,94,0.12);color:var(--rose);}
+
+.tx-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;transition:background .15s;}
+.tx-item:hover{background:var(--bg);}
+.tx-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+.fab{position:fixed;bottom:88px;right:calc(50% - 220px + 20px);width:56px;height:56px;border-radius:18px;background:linear-gradient(135deg,var(--indigo),var(--violet));color:white;border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 26px rgba(79,70,229,0.45);cursor:pointer;z-index:35;}
+@media(max-width:480px){.fab{right:20px;}}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(10,10,20,0.55);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:flex-end;justify-content:center;}
+.modal-sheet{background:var(--card);width:100%;max-width:440px;border-radius:24px 24px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom));max-height:88vh;overflow-y:auto;animation:slideUp .28s cubic-bezier(.34,1.1,.64,1) both;}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+
+.type-toggle{display:flex;background:var(--bg);border-radius:14px;padding:4px;gap:4px;}
+.type-toggle button{flex:1;padding:10px;border-radius:11px;border:none;background:none;font-weight:700;font-size:13px;color:var(--ink-dim);cursor:pointer;transition:all .2s;}
+.type-toggle button.active-expense{background:var(--rose);color:white;}
+.type-toggle button.active-income{background:var(--emerald);color:white;}
+
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.cat-btn{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 4px;border-radius:14px;border:1.5px solid var(--border);background:var(--card);cursor:pointer;font-size:10.5px;font-weight:600;color:var(--ink-dim);transition:all .18s;}
+.cat-btn.selected{border-color:var(--indigo);background:rgba(79,70,229,0.08);color:var(--indigo);}
+.cat-icon-wrap{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;}
+
+.inp{width:100%;border:1.5px solid var(--border);border-radius:13px;padding:11px 14px;font-size:14px;background:var(--card);color:var(--ink);outline:none;font-family:inherit;transition:border-color .2s;}
+.inp:focus{border-color:var(--indigo);}
+
+.budget-bar{height:8px;border-radius:6px;background:var(--border);overflow:hidden;}
+.budget-bar-fill{height:100%;border-radius:6px;transition:width .4s ease;}
+
+.toggle-switch{width:44px;height:24px;border-radius:20px;background:var(--border);position:relative;cursor:pointer;transition:background .25s;flex-shrink:0;}
+.toggle-switch.on{background:var(--indigo);}
+.toggle-switch .knob{width:18px;height:18px;border-radius:50%;background:white;position:absolute;top:3px;left:3px;transition:left .25s;box-shadow:0 1px 3px rgba(0,0,0,0.3);}
+.toggle-switch.on .knob{left:23px;}
+
+.offline-banner{position:sticky;top:0;z-index:50;background:var(--amber);color:#111;font-size:12px;font-weight:700;text-align:center;padding:7px;display:none;align-items:center;justify-content:center;gap:6px;}
+.offline-banner.show{display:flex;}
+
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:30px;font-size:12.5px;font-weight:600;z-index:200;opacity:0;pointer-events:none;transition:opacity .25s, bottom .25s;}
+.toast.show{opacity:1;bottom:110px;}
+
+.empty-state{text-align:center;padding:40px 20px;color:var(--ink-dim);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="appShell">
+
+  <div class="offline-banner" id="offlineBanner">
+    <i data-lucide="wifi-off" style="width:13px;height:13px;"></i>
+    <span>Mode Offline — data tetap tersimpan di perangkatmu</span>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="topbar">
+      <div>
+        <div style="font-size:12px;color:var(--ink-dim);font-weight:600;">Selamat datang 👋</div>
+        <div style="font-size:17px;font-weight:800;">PocketWallet</div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="icon-btn" id="installBtnTop" style="display:none;" title="Install App">
+          <i data-lucide="download" style="width:17px;height:17px;"></i>
+        </button>
+        <button class="icon-btn" onclick="goScreen('settings')">
+          <i data-lucide="settings" style="width:17px;height:17px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <div style="padding:6px 18px 0;">
+      <div class="balance-card">
+        <div style="position:relative;z-index:2;">
+          <div style="font-size:12px;opacity:.85;font-weight:600;">Total Saldo</div>
+          <div style="font-size:30px;font-weight:800;margin-top:2px;" id="homeBalance">Rp 0</div>
+          <div style="display:flex;gap:18px;margin-top:16px;">
+            <div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;opacity:.85;font-weight:600;">
+                <i data-lucide="arrow-down-circle" style="width:13px;height:13px;"></i> Pemasukan
+              </div>
+              <div style="font-size:14.5px;font-weight:700;margin-top:2px;" id="homeIncome">Rp 0</div>
+            </div>
+            <div>
+              <div style="display:flex;align-items:center;gap:5px;font-size:11px;opacity:.85;font-weight:600;">
+                <i data-lucide="arrow-up-circle" style="width:13px;height:13px;"></i> Pengeluaran
+              </div>
+              <div style="font-size:14.5px;font-weight:700;margin-top:2px;" id="homeExpense">Rp 0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 18px 0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-size:14px;font-weight:800;">Pengeluaran per Kategori</div>
+        <span style="font-size:11px;color:var(--ink-dim);font-weight:600;">Bulan ini</span>
+      </div>
+      <div class="card" style="padding:16px;">
+        <div style="position:relative;height:180px;" id="chartWrap">
+          <canvas id="categoryChart"></canvas>
+        </div>
+        <div id="chartLegend" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px;"></div>
+        <div class="empty-state" id="chartEmpty" style="display:none;padding:20px 10px;">
+          <i data-lucide="pie-chart" style="width:28px;height:28px;margin:0 auto 8px;opacity:.4;"></i>
+          <div style="font-size:12.5px;">Belum ada pengeluaran bulan ini</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 18px 0;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div style="font-size:14px;font-weight:800;">Transaksi Terbaru</div>
+        <button style="font-size:11.5px;font-weight:700;color:var(--indigo);background:none;border:none;cursor:pointer;" onclick="goScreen('transactions')">Lihat Semua</button>
+      </div>
+      <div class="card" id="recentTxList" style="padding:6px;"></div>
+    </div>
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div class="screen" id="screen-transactions">
+    <div class="topbar">
+      <div style="font-size:17px;font-weight:800;">Transaksi</div>
+    </div>
+    <div style="padding:0 18px;">
+      <div class="inp" style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <i data-lucide="search" style="width:15px;height:15px;color:var(--ink-dim);"></i>
+        <input id="txSearch" type="text" placeholder="Cari transaksi..." style="border:none;outline:none;background:none;flex:1;font-family:inherit;font-size:13.5px;color:var(--ink);" oninput="renderTransactions()">
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:14px;">
+        <button class="type-toggle" style="flex:1;display:flex;padding:0;" id="txFilterWrap">
+          <button class="filt-btn active" data-f="all" onclick="setTxFilter('all')" style="flex:1;padding:9px;border-radius:11px;border:none;font-weight:700;font-size:12.5px;cursor:pointer;">Semua</button>
+          <button class="filt-btn" data-f="income" onclick="setTxFilter('income')" style="flex:1;padding:9px;border-radius:11px;border:none;font-weight:700;font-size:12.5px;cursor:pointer;background:none;color:var(--ink-dim);">Masuk</button>
+          <button class="filt-btn" data-f="expense" onclick="setTxFilter('expense')" style="flex:1;padding:9px;border-radius:11px;border:none;font-weight:700;font-size:12.5px;cursor:pointer;background:none;color:var(--ink-dim);">Keluar</button>
+        </button>
+      </div>
+      <div id="fullTxList"></div>
+    </div>
+  </div>
+
+  <!-- BUDGET -->
+  <div class="screen" id="screen-budget">
+    <div class="topbar">
+      <div style="font-size:17px;font-weight:800;">Anggaran</div>
+    </div>
+    <div style="padding:0 18px;">
+      <p style="font-size:12.5px;color:var(--ink-dim);margin:0 0 16px;">Atur batas pengeluaran bulanan per kategori. Progress dihitung dari transaksi bulan berjalan.</p>
+      <div id="budgetList"></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="screen" id="screen-settings">
+    <div class="topbar">
+      <div style="font-size:17px;font-weight:800;">Pengaturan</div>
+    </div>
+    <div style="padding:0 18px;">
+
+      <div class="card" style="padding:16px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <i data-lucide="moon" style="width:17px;height:17px;"></i>
+            <span style="font-size:13.5px;font-weight:700;">Mode Gelap</span>
+          </div>
+          <div class="toggle-switch" id="darkToggle" onclick="toggleDark()"><div class="knob"></div></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <i data-lucide="wifi" style="width:17px;height:17px;"></i>
+            <span style="font-size:13.5px;font-weight:700;">Status Koneksi</span>
+          </div>
+          <span id="connStatus" class="pill pill-income">Online</span>
+        </div>
+      </div>
+
+      <div class="card" style="padding:16px;margin-bottom:14px;" id="installCard">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <i data-lucide="smartphone" style="width:17px;height:17px;"></i>
+          <span style="font-size:13.5px;font-weight:700;">Install ke Home Screen</span>
+        </div>
+        <p style="font-size:12px;color:var(--ink-dim);margin:0 0 10px;" id="installDesc">Pasang PocketWallet sebagai aplikasi mandiri di perangkatmu. Bisa dibuka langsung dari home screen dan tetap berfungsi tanpa koneksi internet.</p>
+        <button class="icon-btn" id="installBtn" style="width:100%;border-radius:12px;background:linear-gradient(135deg,var(--indigo),var(--violet));color:white;border:none;font-weight:700;font-size:13px;gap:7px;display:none;">
+          <i data-lucide="download" style="width:15px;height:15px;"></i> Install App
+        </button>
+      </div>
+
+      <div class="card" style="padding:16px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+          <i data-lucide="database" style="width:17px;height:17px;"></i>
+          <span style="font-size:13.5px;font-weight:700;">Data</span>
+        </div>
+        <p style="font-size:12px;color:var(--ink-dim);margin:0 0 12px;">Semua data disimpan lokal di perangkatmu (localStorage), tidak dikirim ke server manapun.</p>
+        <div style="display:flex;gap:8px;">
+          <button onclick="exportData()" style="flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--border);background:none;color:var(--ink);font-weight:700;font-size:12.5px;cursor:pointer;">Export JSON</button>
+          <button onclick="resetData()" style="flex:1;padding:10px;border-radius:11px;border:1.5px solid var(--rose);background:none;color:var(--rose);font-weight:700;font-size:12.5px;cursor:pointer;">Reset Data</button>
+        </div>
+      </div>
+
+      <div class="card" style="padding:16px;">
+        <div style="font-size:12px;color:var(--ink-dim);line-height:1.7;">
+          <b style="color:var(--ink);">PocketWallet v1.0</b><br>
+          Progressive Web App demo oleh Bagas Aria Sativa.<br>
+          Installable, offline-first, dan responsif untuk perangkat mobile.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button class="fab" onclick="openAddModal()">
+    <i data-lucide="plus" style="width:24px;height:24px;"></i>
+  </button>
+
+  <div class="bottom-nav">
+    <button class="nav-btn active" data-screen="home" onclick="goScreen('home')">
+      <i data-lucide="home" style="width:20px;height:20px;"></i> Home
+    </button>
+    <button class="nav-btn" data-screen="transactions" onclick="goScreen('transactions')">
+      <i data-lucide="list" style="width:20px;height:20px;"></i> Transaksi
+    </button>
+    <button class="nav-btn" data-screen="budget" onclick="goScreen('budget')">
+      <i data-lucide="pie-chart" style="width:20px;height:20px;"></i> Anggaran
+    </button>
+    <button class="nav-btn" data-screen="settings" onclick="goScreen('settings')">
+      <i data-lucide="settings" style="width:20px;height:20px;"></i> Atur
+    </button>
+  </div>
+</div>
+
+<!-- ADD TRANSACTION MODAL -->
+<div class="modal-overlay" id="addModal" style="display:none;">
+  <div class="modal-sheet">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="font-size:16px;font-weight:800;">Tambah Transaksi</div>
+      <button class="icon-btn" onclick="closeAddModal()"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+    </div>
+
+    <div class="type-toggle" style="margin-bottom:16px;">
+      <button id="typeExpenseBtn" class="active-expense" onclick="setTxType('expense')">Pengeluaran</button>
+      <button id="typeIncomeBtn" onclick="setTxType('income')">Pemasukan</button>
+    </div>
+
+    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">JUMLAH (Rp)</label>
+    <input id="txAmount" type="text" inputmode="numeric" class="inp" placeholder="0" style="font-size:22px;font-weight:800;margin:6px 0 16px;padding:12px 14px;">
+
+    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">KATEGORI</label>
+    <div class="cat-grid" id="catGrid" style="margin:8px 0 16px;"></div>
+
+    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">CATATAN (opsional)</label>
+    <input id="txNote" type="text" class="inp" placeholder="mis. Makan siang di kantor" style="margin:6px 0 16px;">
+
+    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">TANGGAL</label>
+    <input id="txDate" type="date" class="inp" style="margin:6px 0 20px;">
+
+    <button onclick="saveTx()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--indigo),var(--violet));color:white;font-weight:800;font-size:14.5px;cursor:pointer;">Simpan Transaksi</button>
+  </div>
+</div>
+
+<!-- BUDGET EDIT MODAL -->
+<div class="modal-overlay" id="budgetModal" style="display:none;">
+  <div class="modal-sheet">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="font-size:16px;font-weight:800;">Atur Batas Anggaran</div>
+      <button class="icon-btn" onclick="closeBudgetModal()"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+    </div>
+    <div id="budgetModalCatLabel" style="font-size:13px;font-weight:700;margin-bottom:10px;"></div>
+    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">BATAS BULANAN (Rp)</label>
+    <input id="budgetAmount" type="text" inputmode="numeric" class="inp" placeholder="0" style="font-size:20px;font-weight:800;margin:6px 0 20px;padding:12px 14px;">
+    <button onclick="saveBudget()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--indigo),var(--violet));color:white;font-weight:800;font-size:14.5px;cursor:pointer;">Simpan</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===================== DATA LAYER ===================== */
+const STORAGE_KEY = 'pocketwallet_data_v1';
+const CATEGORIES = {
+  expense: [
+    {id:'makanan', label:'Makanan', icon:'utensils', color:'#f59e0b'},
+    {id:'transport', label:'Transport', icon:'car', color:'#3b82f6'},
+    {id:'belanja', label:'Belanja', icon:'shopping-bag', color:'#ec4899'},
+    {id:'tagihan', label:'Tagihan', icon:'receipt', color:'#8b5cf6'},
+    {id:'hiburan', label:'Hiburan', icon:'popcorn', color:'#f43f5e'},
+    {id:'kesehatan', label:'Kesehatan', icon:'heart-pulse', color:'#10b981'},
+    {id:'pendidikan', label:'Pendidikan', icon:'graduation-cap', color:'#06b6d4'},
+    {id:'lainnya', label:'Lainnya', icon:'more-horizontal', color:'#6b7280'},
+  ],
+  income: [
+    {id:'gaji', label:'Gaji', icon:'briefcase', color:'#10b981'},
+    {id:'bonus', label:'Bonus', icon:'gift', color:'#f59e0b'},
+    {id:'freelance', label:'Freelance', icon:'laptop', color:'#3b82f6'},
+    {id:'investasi', label:'Investasi', icon:'trending-up', color:'#8b5cf6'},
+    {id:'hadiah', label:'Hadiah', icon:'party-popper', color:'#ec4899'},
+    {id:'lainnya', label:'Lainnya', icon:'more-horizontal', color:'#6b7280'},
+  ]
+};
+
+function loadData(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return { transactions: seedTransactions(), budgets: { makanan: 1500000, transport: 500000, hiburan: 300000 }, darkMode: false };
+}
+
+function seedTransactions(){
+  const today = new Date();
+  const d = (offset) => { const t = new Date(today); t.setDate(t.getDate()-offset); return t.toISOString().slice(0,10); };
+  return [
+    {id:cryptoId(), type:'income', category:'gaji', amount:8500000, note:'Gaji bulanan', date:d(2)},
+    {id:cryptoId(), type:'expense', category:'makanan', amount:65000, note:'Makan siang', date:d(1)},
+    {id:cryptoId(), type:'expense', category:'transport', amount:25000, note:'Ojek online', date:d(1)},
+    {id:cryptoId(), type:'expense', category:'belanja', amount:340000, note:'Belanja bulanan', date:d(3)},
+    {id:cryptoId(), type:'expense', category:'tagihan', amount:250000, note:'Internet & listrik', date:d(4)},
+    {id:cryptoId(), type:'income', category:'freelance', amount:1200000, note:'Project web', date:d(6)},
+    {id:cryptoId(), type:'expense', category:'hiburan', amount:120000, note:'Nonton bioskop', date:d(5)},
+  ];
+}
+function cryptoId(){ return 'tx_' + Math.random().toString(36).slice(2,10) + Date.now().toString(36); }
+
+let DATA = loadData();
+function persist(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(DATA)); }
+
+/* ===================== HELPERS ===================== */
+function formatRp(n){
+  const sign = n < 0 ? '-' : '';
+  return sign + 'Rp ' + Math.abs(Math.round(n)).toLocaleString('id-ID');
+}
+function parseAmountInput(str){
+  return parseInt(String(str).replace(/[^0-9]/g,''),10) || 0;
+}
+function formatAmountInput(el){
+  const digits = el.value.replace(/[^0-9]/g,'');
+  el.value = digits ? parseInt(digits,10).toLocaleString('id-ID') : '';
+}
+function catInfo(type, id){
+  return (CATEGORIES[type] || CATEGORIES.expense).find(c => c.id === id) || CATEGORIES.expense[CATEGORIES.expense.length-1];
+}
+function monthKey(dateStr){ return dateStr.slice(0,7); }
+function currentMonthKey(){ return new Date().toISOString().slice(0,7); }
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* ===================== NAVIGATION ===================== */
+function goScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.dataset.screen===name));
+  window.scrollTo(0,0);
+  if(name==='transactions') renderTransactions();
+  if(name==='budget') renderBudgets();
+}
+
+/* ===================== RENDER: HOME ===================== */
+let chartInstance = null;
+function renderHome(){
+  const monthTx = DATA.transactions.filter(t => monthKey(t.date) === currentMonthKey());
+  const income = monthTx.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const expense = monthTx.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+  const totalIncome = DATA.transactions.filter(t=>t.type==='income').reduce((s,t)=>s+t.amount,0);
+  const totalExpense = DATA.transactions.filter(t=>t.type==='expense').reduce((s,t)=>s+t.amount,0);
+
+  document.getElementById('homeBalance').textContent = formatRp(totalIncome - totalExpense);
+  document.getElementById('homeIncome').textContent = formatRp(income);
+  document.getElementById('homeExpense').textContent = formatRp(expense);
+
+  // category chart (expense, this month)
+  const byCat = {};
+  monthTx.filter(t=>t.type==='expense').forEach(t=>{ byCat[t.category] = (byCat[t.category]||0) + t.amount; });
+  const labels = Object.keys(byCat);
+  const chartEmpty = document.getElementById('chartEmpty');
+  const chartWrap = document.getElementById('chartWrap');
+
+  if(labels.length === 0){
+    chartWrap.style.display='none'; chartEmpty.style.display='block';
+    document.getElementById('chartLegend').innerHTML = '';
+  } else {
+    chartWrap.style.display='block'; chartEmpty.style.display='none';
+    const colors = labels.map(id => catInfo('expense', id).color);
+    const ctx = document.getElementById('categoryChart').getContext('2d');
+    if(chartInstance) chartInstance.destroy();
+    chartInstance = new Chart(ctx, {
+      type:'doughnut',
+      data:{ labels: labels.map(id=>catInfo('expense',id).label), datasets:[{ data: labels.map(id=>byCat[id]), backgroundColor: colors, borderWidth:0 }]},
+      options:{ cutout:'68%', plugins:{ legend:{ display:false } }, maintainAspectRatio:false }
+    });
+    document.getElementById('chartLegend').innerHTML = labels.map(id=>{
+      const c = catInfo('expense', id);
+      return `<div style="display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--ink-dim);">
+        <span style="width:8px;height:8px;border-radius:50%;background:${c.color};display:inline-block;"></span>${c.label}
+      </div>`;
+    }).join('');
+  }
+
+  // recent transactions
+  const recent = [...DATA.transactions].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5);
+  document.getElementById('recentTxList').innerHTML = recent.length ? recent.map(txRowHtml).join('') :
+    `<div class="empty-state"><i data-lucide="inbox" style="width:26px;height:26px;margin:0 auto 8px;opacity:.4;"></i><div style="font-size:12.5px;">Belum ada transaksi</div></div>`;
+  lucide.createIcons();
+}
+
+function txRowHtml(t){
+  const c = catInfo(t.type, t.category);
+  const sign = t.type==='income' ? '+' : '-';
+  const color = t.type==='income' ? 'var(--emerald)' : 'var(--rose)';
+  const dateFmt = new Date(t.date+'T00:00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short'});
+  return `<div class="tx-item">
+    <div class="tx-icon" style="background:${c.color}22;color:${c.color};">
+      <i data-lucide="${c.icon}" style="width:19px;height:19px;"></i>
+    </div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.note || c.label}</div>
+      <div style="font-size:11px;color:var(--ink-dim);">${c.label} • ${dateFmt}</div>
+    </div>
+    <div style="text-align:right;">
+      <div style="font-size:13px;font-weight:800;color:${color};">${sign}${formatRp(t.amount)}</div>
+      <button onclick="deleteTx('${t.id}')" style="border:none;background:none;color:var(--ink-dim);font-size:10px;cursor:pointer;padding:2px;">Hapus</button>
+    </div>
+  </div>`;
+}
+
+/* ===================== RENDER: TRANSACTIONS ===================== */
+let txFilter = 'all';
+function setTxFilter(f){
+  txFilter = f;
+  document.querySelectorAll('.filt-btn').forEach(b=>{
+    const active = b.dataset.f === f;
+    b.style.background = active ? 'var(--indigo)' : 'none';
+    b.style.color = active ? 'white' : 'var(--ink-dim)';
+  });
+  renderTransactions();
+}
+function renderTransactions(){
+  const q = (document.getElementById('txSearch').value || '').toLowerCase();
+  let list = [...DATA.transactions].sort((a,b)=>b.date.localeCompare(a.date));
+  if(txFilter !== 'all') list = list.filter(t=>t.type===txFilter);
+  if(q) list = list.filter(t => (t.note||'').toLowerCase().includes(q) || catInfo(t.type,t.category).label.toLowerCase().includes(q));
+
+  const groups = {};
+  list.forEach(t=>{ (groups[t.date] = groups[t.date] || []).push(t); });
+  const dates = Object.keys(groups).sort((a,b)=>b.localeCompare(a));
+
+  const html = dates.map(date=>{
+    const label = new Date(date+'T00:00:00').toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long'});
+    return `<div style="margin-bottom:14px;">
+      <div style="font-size:11px;font-weight:700;color:var(--ink-dim);margin:14px 4px 6px;text-transform:capitalize;">${label}</div>
+      <div class="card" style="padding:6px;">${groups[date].map(txRowHtml).join('')}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('fullTxList').innerHTML = html || `<div class="empty-state"><i data-lucide="search-x" style="width:26px;height:26px;margin:20px auto 8px;opacity:.4;"></i><div style="font-size:12.5px;">Tidak ada transaksi ditemukan</div></div>`;
+  lucide.createIcons();
+}
+
+/* ===================== RENDER: BUDGET ===================== */
+function renderBudgets(){
+  const monthTx = DATA.transactions.filter(t => t.type==='expense' && monthKey(t.date) === currentMonthKey());
+  const spentByCat = {};
+  monthTx.forEach(t=>{ spentByCat[t.category] = (spentByCat[t.category]||0) + t.amount; });
+
+  const cats = CATEGORIES.expense;
+  document.getElementById('budgetList').innerHTML = cats.map(c=>{
+    const limit = DATA.budgets[c.id] || 0;
+    const spent = spentByCat[c.id] || 0;
+    const pct = limit > 0 ? Math.min(100, Math.round((spent/limit)*100)) : 0;
+    const over = limit > 0 && spent > limit;
+    const barColor = over ? 'var(--rose)' : (pct > 75 ? 'var(--amber)' : 'var(--emerald)');
+    return `<div class="card" style="padding:14px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:9px;">
+          <div class="tx-icon" style="width:34px;height:34px;background:${c.color}22;color:${c.color};">
+            <i data-lucide="${c.icon}" style="width:16px;height:16px;"></i>
+          </div>
+          <div style="font-size:13px;font-weight:700;">${c.label}</div>
+        </div>
+        <button onclick="openBudgetModal('${c.id}')" style="border:none;background:none;color:var(--indigo);font-size:11px;font-weight:700;cursor:pointer;">${limit>0?'Ubah':'Atur'}</button>
+      </div>
+      ${limit>0 ? `
+        <div class="budget-bar"><div class="budget-bar-fill" style="width:${pct}%;background:${barColor};"></div></div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--ink-dim);font-weight:600;">
+          <span>${formatRp(spent)} terpakai</span>
+          <span style="color:${over?'var(--rose)':'var(--ink-dim)'};">${over?'Melebihi ':''}${formatRp(limit)}</span>
+        </div>
+      ` : `<div style="font-size:11.5px;color:var(--ink-dim);">Belum ada batas anggaran untuk kategori ini.</div>`}
+    </div>`;
+  }).join('');
+  lucide.createIcons();
+}
+
+let budgetModalCat = null;
+function openBudgetModal(catId){
+  budgetModalCat = catId;
+  const c = catInfo('expense', catId);
+  document.getElementById('budgetModalCatLabel').textContent = c.label;
+  document.getElementById('budgetAmount').value = DATA.budgets[catId] ? DATA.budgets[catId].toLocaleString('id-ID') : '';
+  document.getElementById('budgetModal').style.display = 'flex';
+}
+function closeBudgetModal(){ document.getElementById('budgetModal').style.display = 'none'; }
+function saveBudget(){
+  const amt = parseAmountInput(document.getElementById('budgetAmount').value);
+  if(!budgetModalCat) return;
+  DATA.budgets[budgetModalCat] = amt;
+  persist(); closeBudgetModal(); renderBudgets();
+  showToast('Anggaran disimpan');
+}
+document.addEventListener('input', (e)=>{ if(e.target.id === 'budgetAmount') formatAmountInput(e.target); });
+
+/* ===================== ADD TRANSACTION MODAL ===================== */
+let currentTxType = 'expense';
+function setTxType(type){
+  currentTxType = type;
+  document.getElementById('typeExpenseBtn').className = type==='expense' ? 'active-expense' : '';
+  document.getElementById('typeIncomeBtn').className = type==='income' ? 'active-income' : '';
+  renderCatGrid();
+}
+function renderCatGrid(){
+  const cats = CATEGORIES[currentTxType];
+  document.getElementById('catGrid').innerHTML = cats.map((c,i)=>`
+    <button class="cat-btn ${i===0?'selected':''}" data-cat="${c.id}" onclick="selectCat('${c.id}')">
+      <div class="cat-icon-wrap" style="background:${c.color}22;color:${c.color};"><i data-lucide="${c.icon}" style="width:16px;height:16px;"></i></div>
+      ${c.label}
+    </button>`).join('');
+  lucide.createIcons();
+}
+function selectCat(id){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('selected', b.dataset.cat===id));
+}
+function openAddModal(){
+  setTxType('expense');
+  document.getElementById('txAmount').value = '';
+  document.getElementById('txNote').value = '';
+  document.getElementById('txDate').value = new Date().toISOString().slice(0,10);
+  document.getElementById('addModal').style.display = 'flex';
+}
+function closeAddModal(){ document.getElementById('addModal').style.display = 'none'; }
+document.addEventListener('input', (e)=>{ if(e.target.id === 'txAmount') formatAmountInput(e.target); });
+
+function saveTx(){
+  const amount = parseAmountInput(document.getElementById('txAmount').value);
+  if(amount <= 0){ showToast('Masukkan jumlah yang valid'); return; }
+  const selectedCat = document.querySelector('.cat-btn.selected');
+  const category = selectedCat ? selectedCat.dataset.cat : CATEGORIES[currentTxType][0].id;
+  const note = document.getElementById('txNote').value.trim();
+  const date = document.getElementById('txDate').value || new Date().toISOString().slice(0,10);
+
+  DATA.transactions.push({ id: cryptoId(), type: currentTxType, category, amount, note, date });
+  persist();
+  closeAddModal();
+  renderHome(); renderTransactions(); renderBudgets();
+  showToast('Transaksi tersimpan');
+}
+function deleteTx(id){
+  DATA.transactions = DATA.transactions.filter(t=>t.id!==id);
+  persist();
+  renderHome(); renderTransactions(); renderBudgets();
+  showToast('Transaksi dihapus');
+}
+
+/* ===================== SETTINGS ===================== */
+function applyDarkMode(){
+  document.documentElement.classList.toggle('dark', !!DATA.darkMode);
+  document.getElementById('darkToggle').classList.toggle('on', !!DATA.darkMode);
+  document.querySelector('meta[name="theme-color"]').setAttribute('content', DATA.darkMode ? '#0b0b14' : '#4f46e5');
+}
+function toggleDark(){
+  DATA.darkMode = !DATA.darkMode;
+  persist();
+  applyDarkMode();
+}
+function exportData(){
+  const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'pocketwallet-data.json'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('Data diexport');
+}
+function resetData(){
+  if(!confirm('Hapus semua data transaksi dan anggaran? Tindakan ini tidak bisa dibatalkan.')) return;
+  DATA = { transactions: [], budgets: {}, darkMode: DATA.darkMode };
+  persist();
+  renderHome(); renderTransactions(); renderBudgets();
+  showToast('Semua data telah direset');
+}
+
+/* ===================== ONLINE / OFFLINE ===================== */
+function updateConnStatus(){
+  const online = navigator.onLine;
+  document.getElementById('offlineBanner').classList.toggle('show', !online);
+  const pill = document.getElementById('connStatus');
+  pill.textContent = online ? 'Online' : 'Offline';
+  pill.className = online ? 'pill pill-income' : 'pill pill-expense';
+}
+window.addEventListener('online', updateConnStatus);
+window.addEventListener('offline', updateConnStatus);
+
+/* ===================== PWA INSTALL ===================== */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBtn').style.display = 'flex';
+  document.getElementById('installBtn').style.alignItems = 'center';
+  document.getElementById('installBtn').style.justifyContent = 'center';
+  document.getElementById('installBtnTop').style.display = 'flex';
+});
+async function triggerInstall(){
+  if(!deferredPrompt){
+    const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+    showToast(isIOS ? 'Buka menu Share lalu pilih "Add to Home Screen"' : 'App sudah terpasang atau tidak didukung browser ini');
+    return;
+  }
+  deferredPrompt.prompt();
+  const {outcome} = await deferredPrompt.userChoice;
+  if(outcome === 'accepted') showToast('Aplikasi berhasil diinstall');
+  deferredPrompt = null;
+  document.getElementById('installBtn').style.display = 'none';
+  document.getElementById('installBtnTop').style.display = 'none';
+}
+document.getElementById('installBtn').addEventListener('click', triggerInstall);
+document.getElementById('installBtnTop').addEventListener('click', triggerInstall);
+window.addEventListener('appinstalled', ()=>{
+  document.getElementById('installBtn').style.display = 'none';
+  document.getElementById('installBtnTop').style.display = 'none';
+});
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('service-worker.js').catch(()=>{});
+  });
+}
+
+/* ===================== INIT ===================== */
+document.getElementById('txDate').value = new Date().toISOString().slice(0,10);
+applyDarkMode();
+updateConnStatus();
+renderHome();
+renderCatGrid();
+lucide.createIcons();
+</script>
+</body>
+</html>
