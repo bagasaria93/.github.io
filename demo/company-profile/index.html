@@ -25,7 +25,7 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; scroll-snap-type: y proximity; scroll-padding-top: 72px; }
+        html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 
         body {
             background: var(--white);
@@ -145,7 +145,6 @@
         #hero {
             min-height: 100vh;
             min-height: 100dvh;
-            scroll-snap-align: start;
             background: var(--black);
             position: relative;
             overflow: hidden;
@@ -618,28 +617,22 @@
 
         .divider { height: 1px; background: var(--border); }
 
-        /* ── Full-Viewport Scroll Snap ──────────────────── */
+        /* ── Section spacing (natural height, tidak dipaksa 100vh) ─── */
         .snap-section {
-            min-height: 100vh;
-            min-height: 100dvh;
-            scroll-snap-align: start;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            padding: 5rem 0;
         }
         #cta-section {
-            min-height: 100vh;
-            min-height: 100dvh;
-            scroll-snap-align: start;
             background: var(--red);
+            padding: 5rem 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        footer { scroll-snap-align: start; }
-        .snap-section .mb-14 { margin-bottom: 1.5rem !important; }
-        .snap-section .program-card { padding: 1.25rem; }
-        .snap-section .trainer-avatar { height: 160px; aspect-ratio: unset; }
+
+        @media (max-width: 640px) {
+            .snap-section { padding: 3.5rem 0; }
+            #cta-section { padding: 3.5rem 0; }
+        }
     </style>
 </head>
 <body>
