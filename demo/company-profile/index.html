@@ -143,13 +143,22 @@
         }
 
         #hero {
-            min-height: 100vh;
-            min-height: 100dvh;
+            height: 100vh;
+            height: 100dvh;
             background: var(--black);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+        }
+
+        .hero-content {
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .hero-stats, .marquee-wrap {
+            flex-shrink: 0;
         }
 
         .hero-bg-img {
@@ -185,7 +194,7 @@
 
         .hero-title {
             font-family: 'Oswald', sans-serif;
-            font-size: clamp(3rem, 13vw, 11rem);
+            font-size: clamp(1.75rem, 3.25vw + 2.25vh, 4.5rem);
             font-weight: 700;
             line-height: 0.9;
             letter-spacing: -0.02em;
@@ -212,13 +221,26 @@
             letter-spacing: 0.2em;
             text-transform: uppercase;
             padding: 0.4rem 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 0.875rem;
+        }
+
+        .hero-content {
+            padding-top: 5rem;
+            padding-bottom: 1.5rem;
+        }
+
+        @media (max-height: 760px) {
+            .hero-content { padding-top: 4.25rem; padding-bottom: 1rem; }
+        }
+
+        @media (max-height: 640px) {
+            .hero-content { padding-top: 3.25rem; padding-bottom: 0.75rem; }
         }
 
         .marquee-wrap {
             overflow: hidden;
             background: var(--red);
-            padding: 0.8rem 0;
+            padding: 0.6rem 0;
         }
 
         .marquee-track {
@@ -258,7 +280,7 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.35rem;
         }
 
         .section-label::before {
@@ -270,7 +292,7 @@
 
         .section-title {
             font-family: 'Oswald', sans-serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2rem, 4.5vw, 3.25rem);
             font-weight: 700;
             text-transform: uppercase;
             line-height: 1;
@@ -312,9 +334,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            color: var(--red);
             margin-bottom: 1.25rem;
         }
+
+        .program-icon svg { width: 24px; height: 24px; }
 
         .tag-red {
             background: var(--red-light);
@@ -348,7 +372,7 @@
 
         .trainer-avatar {
             width: 100%;
-            aspect-ratio: 1;
+            height: min(30vh, 280px);
             overflow: hidden;
             position: relative;
             border-bottom: 4px solid var(--red);
@@ -371,7 +395,7 @@
             background: var(--white);
             border: 1px solid var(--border);
             border-top: 4px solid var(--border);
-            padding: 2.5rem;
+            padding: 1.5rem;
             transition: all 0.35s ease;
         }
 
@@ -390,7 +414,7 @@
 
         .price-amount {
             font-family: 'Oswald', sans-serif;
-            font-size: 3.5rem;
+            font-size: 2.25rem;
             font-weight: 700;
             line-height: 1;
             color: var(--black);
@@ -401,10 +425,10 @@
         .price-row {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.6rem 0;
+            gap: 0.6rem;
+            padding: 0.2rem 0;
             border-bottom: 1px solid var(--border);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
         }
 
         .pricing-card.featured .price-row {
@@ -619,8 +643,10 @@
 
         /* ── Section spacing (natural height, tidak dipaksa 100vh) ─── */
         .snap-section {
-            padding: 5rem 0;
+            padding: 2rem 0;
         }
+
+        .mb-14 { margin-bottom: 0.75rem !important; }
         #cta-section {
             background: var(--red);
             padding: 5rem 0;
@@ -650,6 +676,7 @@
                 <a href="#program" class="nav-link">Program</a>
                 <a href="#trainer" class="nav-link">Trainer</a>
                 <a href="#harga" class="nav-link">Harga</a>
+                <a href="#testimoni" class="nav-link">Testimoni</a>
                 <a href="#faq" class="nav-link">FAQ</a>
                 <a href="#kontak" class="btn-red" style="padding:0.6rem 1.5rem;font-size:0.8rem;">Daftar Sekarang</a>
             </div>
@@ -672,6 +699,7 @@
         <a href="#program" onclick="toggleMenu()">Program</a>
         <a href="#trainer" onclick="toggleMenu()">Trainer</a>
         <a href="#harga" onclick="toggleMenu()">Harga</a>
+        <a href="#testimoni" onclick="toggleMenu()">Testimoni</a>
         <a href="#faq" onclick="toggleMenu()">FAQ</a>
         <a href="#kontak" onclick="toggleMenu()" style="color:var(--red);">Daftar Sekarang</a>
     </div>
@@ -682,7 +710,7 @@
         <div class="hero-diagonal"></div>
         <div class="hero-pattern"></div>
 
-        <div class="max-w-7xl mx-auto px-6 flex-1 flex items-center relative z-10 py-32 w-full">
+        <div class="max-w-7xl mx-auto px-6 flex-1 flex items-center relative z-10 hero-content w-full">
             <div class="w-full">
                 <div class="hero-badge reveal">Pusat Kebugaran Premium - Jakarta</div>
                 <h1 class="hero-title reveal" style="animation-delay:0.1s;">
@@ -691,7 +719,7 @@
                     <span class="outline">BEST</span><br>
                     <span class="red">SELF.</span>
                 </h1>
-                <div class="flex flex-wrap gap-4 mt-10 reveal" style="animation-delay:0.25s;">
+                <div class="flex flex-wrap gap-4 mt-6 reveal" style="animation-delay:0.25s;">
                     <a href="#kontak" class="btn-red">
                         Coba 7 Hari Gratis
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -702,23 +730,23 @@
         </div>
 
         <!-- Stats bar -->
-        <div style="position:relative;z-index:10;background:rgba(255,255,255,0.06);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,0.08);">
+        <div class="hero-stats" style="position:relative;z-index:10;background:rgba(255,255,255,0.06);backdrop-filter:blur(8px);border-top:1px solid rgba(255,255,255,0.08);">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="grid grid-cols-2 md:grid-cols-4">
-                    <div style="padding:1.5rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
-                        <div class="stat-number" data-count="500" style="font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:700;color:#fff;line-height:1;">0</div>
+                    <div style="padding:1rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
+                        <div class="stat-number" data-count="500" style="font-family:'Oswald',sans-serif;font-size:1.75rem;font-weight:700;color:#fff;line-height:1;">0</div>
                         <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.1em;">Member Aktif</div>
                     </div>
-                    <div style="padding:1.5rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
-                        <div class="stat-number" data-count="15" style="font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:700;color:#fff;line-height:1;">0</div>
+                    <div style="padding:1rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
+                        <div class="stat-number" data-count="15" style="font-family:'Oswald',sans-serif;font-size:1.75rem;font-weight:700;color:#fff;line-height:1;">0</div>
                         <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.1em;">Trainer Expert</div>
                     </div>
-                    <div style="padding:1.5rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
-                        <div class="stat-number" data-count="8" style="font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:700;color:#fff;line-height:1;">0</div>
+                    <div style="padding:1rem 1rem;text-align:center;border-right:1px solid rgba(255,255,255,0.08);">
+                        <div class="stat-number" data-count="8" style="font-family:'Oswald',sans-serif;font-size:1.75rem;font-weight:700;color:#fff;line-height:1;">0</div>
                         <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.1em;">Tahun Berdiri</div>
                     </div>
-                    <div style="padding:1.5rem 1rem;text-align:center;">
-                        <div style="font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:700;color:#fff;line-height:1;">24/7</div>
+                    <div style="padding:1rem 1rem;text-align:center;">
+                        <div style="font-family:'Oswald',sans-serif;font-size:1.75rem;font-weight:700;color:#fff;line-height:1;">24/7</div>
                         <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-top:0.25rem;text-transform:uppercase;letter-spacing:0.1em;">Jam Buka</div>
                     </div>
                 </div>
@@ -762,7 +790,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div class="program-card reveal" style="transition-delay:0.05s;">
                     <div class="program-number">01</div>
-                    <div class="program-icon">🏋️</div>
+                    <div class="program-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="9" width="3" height="6" rx="1"/><rect x="20" y="9" width="3" height="6" rx="1"/>
+                        <rect x="4.5" y="7" width="2.5" height="10" rx="1"/><rect x="17" y="7" width="2.5" height="10" rx="1"/>
+                        <line x1="7" y1="12" x2="17" y2="12"/>
+                    </svg></div>
                     <h3 style="font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;text-transform:uppercase;margin-bottom:0.75rem;">Strength & Muscle</h3>
                     <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Program pembentukan otot dan peningkatan kekuatan dengan metode progressive overload yang terstruktur dan terukur.</p>
                     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
@@ -773,7 +805,10 @@
 
                 <div class="program-card reveal" style="transition-delay:0.1s;">
                     <div class="program-number">02</div>
-                    <div class="program-icon">🔥</div>
+                    <div class="program-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3c2.5 2.8 3.5 5 3.5 7.2A3.5 3.5 0 0 1 12 13.7a3.5 3.5 0 0 1-3.5-3.5c0-1 .3-1.8.9-2.6.2 1 .8 1.5 1.3 1.7-.3-2 .6-3.8 1.3-5.3z"/>
+                        <path d="M9 14.5c0 2 1.3 3.5 3 3.5s3-1.5 3-3.5c0-.9-.3-1.5-.7-2.1"/>
+                    </svg></div>
                     <h3 style="font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;text-transform:uppercase;margin-bottom:0.75rem;">HIIT & Fat Burn</h3>
                     <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Latihan intensitas tinggi yang membakar kalori maksimal dalam waktu singkat dan menjaga metabolisme tetap tinggi.</p>
                     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
@@ -784,7 +819,13 @@
 
                 <div class="program-card reveal" style="transition-delay:0.15s;">
                     <div class="program-number">03</div>
-                    <div class="program-icon">🧘</div>
+                    <div class="program-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="4"/>
+                        <line x1="12" y1="1" x2="12" y2="3.5"/><line x1="12" y1="20.5" x2="12" y2="23"/>
+                        <line x1="1" y1="12" x2="3.5" y2="12"/><line x1="20.5" y1="12" x2="23" y2="12"/>
+                        <line x1="4.2" y1="4.2" x2="6" y2="6"/><line x1="18" y1="18" x2="19.8" y2="19.8"/>
+                        <line x1="19.8" y1="4.2" x2="18" y2="6"/><line x1="6" y1="18" x2="4.2" y2="19.8"/>
+                    </svg></div>
                     <h3 style="font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;text-transform:uppercase;margin-bottom:0.75rem;">Yoga & Mobility</h3>
                     <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Fleksibilitas, keseimbangan, dan pemulihan otot melalui sesi yoga dan mobilitas yang dipandu instruktur bersertifikat.</p>
                     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
@@ -795,7 +836,10 @@
 
                 <div class="program-card reveal" style="transition-delay:0.2s;">
                     <div class="program-number">04</div>
-                    <div class="program-icon">🥊</div>
+                    <div class="program-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M7 8V6a2 2 0 0 1 4 0v1"/><path d="M11 7V5a2 2 0 0 1 4 0v2"/>
+                        <path d="M15 7a2 2 0 0 1 4 0v5"/><path d="M7 8a3 3 0 0 0-3 3v3a5 5 0 0 0 5 5h4a5 5 0 0 0 5-5V9"/>
+                    </svg></div>
                     <h3 style="font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;text-transform:uppercase;margin-bottom:0.75rem;">Muay Thai & Boxing</h3>
                     <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Latihan bela diri yang membangun ketangkasan, kekuatan, dan kepercayaan diri sekaligus membakar lemak tubuh.</p>
                     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
@@ -806,7 +850,9 @@
 
                 <div class="program-card reveal" style="transition-delay:0.25s;">
                     <div class="program-number">05</div>
-                    <div class="program-icon">👤</div>
+                    <div class="program-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg></div>
                     <h3 style="font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;text-transform:uppercase;margin-bottom:0.75rem;">Personal Training</h3>
                     <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Sesi satu-satu dengan trainer pribadi untuk program yang disesuaikan penuh dengan target dan kondisi tubuh Anda.</p>
                     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
@@ -817,7 +863,10 @@
 
                 <div class="program-card reveal" style="transition-delay:0.3s;">
                     <div class="program-number">06</div>
-                    <div class="program-icon">🥗</div>
+                    <div class="program-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 8.5c-2.5-2-6-1-6 2.5 0 4 3 8 5 8 .8 0 1.2-.3 2-.3.8 0 1.2.3 2 .3 2 0 5-3.5 5-7.5 0-3.8-3.2-4.8-5.5-3.2"/>
+                        <path d="M12 8.5c0-1.5.5-2.8 1.8-3.5"/>
+                    </svg></div>
                     <h3 style="font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;text-transform:uppercase;margin-bottom:0.75rem;">Nutrition Coaching</h3>
                     <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">Konsultasi pola makan dan perencanaan nutrisi oleh ahli gizi bersertifikat untuk mendukung target kebugaran Anda.</p>
                     <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
@@ -912,14 +961,14 @@
             <div class="reveal mb-14 text-center">
                 <div class="section-label" style="justify-content:center;">Pilihan Membership</div>
                 <h2 class="section-title">Harga <span style="color:var(--red);">Member</span></h2>
-                <p style="color:var(--muted);margin-top:1rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.7;">Investasi terbaik untuk tubuh dan kesehatan Anda. Tanpa biaya tersembunyi, tanpa kontrak paksa.</p>
+                <p style="color:var(--muted);margin-top:0.5rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.5;">Investasi terbaik untuk tubuh dan kesehatan Anda. Tanpa biaya tersembunyi, tanpa kontrak paksa.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="pricing-card reveal" style="transition-delay:0.05s;">
-                    <div style="font-family:'Oswald',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">Starter</div>
+                    <div style="font-family:'Oswald',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.35rem;">Starter</div>
                     <div class="price-amount">Rp 299<span style="font-size:1.4rem;font-weight:400;color:var(--muted);">rb</span></div>
-                    <div style="font-size:0.8rem;color:var(--muted);margin-top:0.25rem;margin-bottom:1.5rem;">per bulan</div>
+                    <div style="font-size:0.8rem;color:var(--muted);margin-top:0.2rem;margin-bottom:0.5rem;">per bulan</div>
                     <div class="flex flex-col">
                         <div class="price-row">Akses gym weekday</div>
                         <div class="price-row">Locker & shower</div>
@@ -927,16 +976,16 @@
                         <div class="price-row muted-row">Kelas grup</div>
                         <div class="price-row muted-row">Personal trainer</div>
                     </div>
-                    <a href="#kontak" class="btn-outline-red" style="margin-top:2rem;width:100%;justify-content:center;">Pilih Starter</a>
+                    <a href="#kontak" class="btn-outline-red" style="margin-top:1rem;width:100%;justify-content:center;padding:0.65rem 1.5rem;">Pilih Starter</a>
                 </div>
 
                 <div class="pricing-card featured reveal" style="transition-delay:0.1s;position:relative;">
                     <div style="position:absolute;top:-1px;left:50%;transform:translateX(-50%);">
                         <span style="background:var(--red);color:#fff;font-family:'Oswald',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;padding:0.3rem 1rem;white-space:nowrap;">Paling Populer</span>
                     </div>
-                    <div style="font-family:'Oswald',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.75rem;margin-top:0.5rem;">Pro</div>
-                    <div style="font-family:'Oswald',sans-serif;font-size:3.5rem;font-weight:700;line-height:1;color:#fff;">Rp 499<span style="font-size:1.4rem;font-weight:400;color:rgba(255,255,255,0.5);">rb</span></div>
-                    <div style="font-size:0.8rem;color:rgba(255,255,255,0.4);margin-top:0.25rem;margin-bottom:1.5rem;">per bulan</div>
+                    <div style="font-family:'Oswald',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:0.35rem;margin-top:0.15rem;">Pro</div>
+                    <div style="font-family:'Oswald',sans-serif;font-size:2.25rem;font-weight:700;line-height:1;color:#fff;">Rp 499<span style="font-size:1.4rem;font-weight:400;color:rgba(255,255,255,0.5);">rb</span></div>
+                    <div style="font-size:0.8rem;color:rgba(255,255,255,0.4);margin-top:0.2rem;margin-bottom:0.5rem;">per bulan</div>
                     <div class="flex flex-col">
                         <div class="price-row">Akses gym 24/7</div>
                         <div class="price-row">Locker & shower</div>
@@ -944,13 +993,13 @@
                         <div class="price-row">Semua kelas grup</div>
                         <div class="price-row muted-row">Personal trainer</div>
                     </div>
-                    <a href="#kontak" class="btn-red" style="margin-top:2rem;width:100%;justify-content:center;background:#fff;color:var(--red);">Pilih Pro</a>
+                    <a href="#kontak" class="btn-red" style="margin-top:1rem;width:100%;justify-content:center;padding:0.65rem 1.5rem;background:#fff;color:var(--red);">Pilih Pro</a>
                 </div>
 
                 <div class="pricing-card reveal" style="transition-delay:0.15s;">
-                    <div style="font-family:'Oswald',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.75rem;">Elite</div>
+                    <div style="font-family:'Oswald',sans-serif;font-size:0.72rem;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:0.35rem;">Elite</div>
                     <div class="price-amount">Rp 899<span style="font-size:1.4rem;font-weight:400;color:var(--muted);">rb</span></div>
-                    <div style="font-size:0.8rem;color:var(--muted);margin-top:0.25rem;margin-bottom:1.5rem;">per bulan</div>
+                    <div style="font-size:0.8rem;color:var(--muted);margin-top:0.2rem;margin-bottom:0.5rem;">per bulan</div>
                     <div class="flex flex-col">
                         <div class="price-row">Akses gym 24/7</div>
                         <div class="price-row">Locker & shower premium</div>
@@ -958,7 +1007,7 @@
                         <div class="price-row">Semua kelas grup</div>
                         <div class="price-row">4x sesi personal trainer</div>
                     </div>
-                    <a href="#kontak" class="btn-outline-red" style="margin-top:2rem;width:100%;justify-content:center;">Pilih Elite</a>
+                    <a href="#kontak" class="btn-outline-red" style="margin-top:1rem;width:100%;justify-content:center;padding:0.65rem 1.5rem;">Pilih Elite</a>
                 </div>
             </div>
         </div>
@@ -972,7 +1021,7 @@
                 <h2 class="section-title">Hasil <span style="color:var(--red);">Nyata</span></h2>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                 <div class="testi-card reveal" style="transition-delay:0.05s;">
                     <div class="testi-stars">★★★★★</div>
                     <p style="color:var(--muted);line-height:1.8;font-size:0.95rem;margin:1rem 0 1.5rem;">
@@ -1136,7 +1185,7 @@
                                 <label class="form-label" for="f-nama">Nama Lengkap</label>
                                 <input type="text" id="f-nama" class="form-input" placeholder="Nama Anda">
                             </div>
-                            <div class="grid grid-cols-2 gap-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label class="form-label" for="f-wa">Nomor WhatsApp</label>
                                     <input type="text" id="f-wa" class="form-input" placeholder="08xx-xxxx-xxxx">
@@ -1194,10 +1243,11 @@
                 </div>
                 <span style="font-family:'Oswald',sans-serif;font-weight:700;font-size:1rem;text-transform:uppercase;letter-spacing:0.05em;color:#fff;">ForgeX Gym</span>
             </div>
-            <div style="display:flex;gap:2rem;">
+            <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:1.25rem 2rem;">
                 <a href="#program" class="footer-link">Program</a>
                 <a href="#trainer" class="footer-link">Trainer</a>
                 <a href="#harga" class="footer-link">Harga</a>
+                <a href="#testimoni" class="footer-link">Testimoni</a>
                 <a href="#faq" class="footer-link">FAQ</a>
                 <a href="#kontak" class="footer-link">Kontak</a>
             </div>
@@ -1308,9 +1358,5 @@
             }, 700);
         }
     </script>
-
-<footer style="border-top:1px solid #e4e4e4;padding:20px 24px;text-align:center;">
-  <p style="font-size:12px;color:#6b6b6b;">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#e11d24;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
-</footer>
 </body>
 </html>
