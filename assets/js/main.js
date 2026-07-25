@@ -74,30 +74,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Custom cursor (desktop only)
     var cursor = document.getElementById('cursor');
-    var follower = document.getElementById('cursorFollower');
-    var mouseX = 0, mouseY = 0;
-    var followerX = 0, followerY = 0;
 
-    if (cursor && follower) {
+    if (cursor) {
         document.addEventListener('mousemove', function(e) {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursor.style.left = mouseX + 'px';
-            cursor.style.top = mouseY + 'px';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        function animateFollower() {
-            followerX += (mouseX - followerX) * 0.12;
-            followerY += (mouseY - followerY) * 0.12;
-            follower.style.left = followerX + 'px';
-            follower.style.top = followerY + 'px';
-            requestAnimationFrame(animateFollower);
-        }
-        animateFollower();
-
         document.querySelectorAll('a, button, .skill-tag, .project-card, .contact-item').forEach(function(el) {
-            el.addEventListener('mouseenter', function() { follower.classList.add('hovering'); });
-            el.addEventListener('mouseleave', function() { follower.classList.remove('hovering'); });
+            el.addEventListener('mouseenter', function() { cursor.classList.add('hovering'); });
+            el.addEventListener('mouseleave', function() { cursor.classList.remove('hovering'); });
         });
     }
 
