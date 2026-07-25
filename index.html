@@ -62,7 +62,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=3">
+    <link rel="stylesheet" href="assets/css/style.css?v=4">
 </head>
 <body>
 
@@ -119,27 +119,47 @@
         </div>
         <div class="hero-top-bar"></div>
         <div class="hero-bottom-bar"></div>
+        <div class="hero-spotlight" id="heroSpotlight" aria-hidden="true"></div>
         <div class="hero-glow"></div>
-        <div class="hero-code-symbol" aria-hidden="true">&lt;/&gt;</div>
+        <div class="hero-deco-symbol hero-deco-brace" aria-hidden="true">{ }</div>
+        <div class="hero-deco-symbol hero-deco-paren" aria-hidden="true">( )</div>
+        <div class="hero-deco-symbol hero-deco-semi" aria-hidden="true">;</div>
+        <i class="hero-float-icon hero-float-icon-1" data-lucide="terminal" aria-hidden="true"></i>
+        <i class="hero-float-icon hero-float-icon-2" data-lucide="database" aria-hidden="true"></i>
+        <i class="hero-float-icon hero-float-icon-3" data-lucide="layers" aria-hidden="true"></i>
+        <div class="hero-code-symbol" aria-hidden="true">
+            <svg viewBox="0 0 300 300">
+                <path d="M90 60 L20 150 L90 240"></path>
+                <path d="M190 30 L110 270"></path>
+                <path d="M210 60 L280 150 L210 240"></path>
+            </svg>
+        </div>
         <div class="hero-content">
-            <div class="hero-eyebrow">
+            <div class="hero-eyebrow hero-reveal">
                 <div class="hero-eyebrow-line"></div>
                 <span class="hero-eyebrow-text">Full-Stack Web Developer</span>
                 <div class="hero-eyebrow-dot"></div>
             </div>
-            <h1 class="hero-name">
+            <h1 class="hero-name hero-reveal hero-reveal-delay-1">
                 <span class="hero-name-first">BAGAS</span>
                 <span class="hero-name-middle">ARIA</span>
                 <span class="hero-name-last">SATIVA</span>
             </h1>
-            <div class="hero-bottom-row">
+            <div class="hero-bottom-row hero-reveal hero-reveal-delay-2">
                 <div class="hero-desc-col">
                     <p class="hero-desc">
                         Full-Stack Developer specializing in end-to-end business systems with 1+ year of professional experience across manufacturing and service industries.
                     </p>
-                    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.25);border-radius:20px;padding:5px 12px;margin-bottom:14px;">
-                        <span style="width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 6px #10b981;flex-shrink:0;display:inline-block;"></span>
-                        <span style="font-size:0.72rem;font-weight:700;color:#10b981;">Available for new projects</span>
+                    <div class="hero-tech-badges">
+                        <span class="hero-tech-badge">Laravel</span>
+                        <span class="hero-tech-badge">React JS</span>
+                        <span class="hero-tech-badge">Next.js</span>
+                        <span class="hero-tech-badge">MySQL</span>
+                        <span class="hero-tech-badge">REST API</span>
+                    </div>
+                    <div class="hero-availability-badge">
+                        <span class="hero-availability-dot"></span>
+                        <span class="hero-availability-text">Available for new projects</span>
                     </div>
                     <div class="hero-cta">
                         <a href="#projects" class="btn-primary">
@@ -150,6 +170,22 @@
                             <i data-lucide="download" style="width:15px;height:15px;"></i>
                             <span>Download CV</span>
                         </a>
+                    </div>
+                    <div class="hero-stats-row">
+                        <div class="hero-stat-item">
+                            <span class="hero-stat-number">1+</span>
+                            <span class="hero-stat-label">Year Experience</span>
+                        </div>
+                        <div class="hero-stat-divider"></div>
+                        <div class="hero-stat-item">
+                            <span class="hero-stat-number">5+</span>
+                            <span class="hero-stat-label">Apps Delivered</span>
+                        </div>
+                        <div class="hero-stat-divider"></div>
+                        <div class="hero-stat-item">
+                            <span class="hero-stat-number">2</span>
+                            <span class="hero-stat-label">Industries</span>
+                        </div>
                     </div>
                 </div>
                 <div class="hero-center-col">
@@ -192,6 +228,10 @@
         <div class="hero-typing-bar">
             <span class="hero-typing-label">Specializing in</span>
             <span class="hero-typing" id="typingText"><span class="cursor-blink"></span></span>
+        </div>
+        <div class="hero-clock-bar">
+            <span class="hero-clock-dot"></span>
+            <span class="hero-clock-text" id="heroClockText">Bekasi, ID</span>
         </div>
     </section>
 
@@ -1040,7 +1080,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
-    <script src="assets/js/main.js?v=4"></script>
+    <script src="assets/js/main.js?v=5"></script>
 
 </body>
 </html>

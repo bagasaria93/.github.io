@@ -96,6 +96,39 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Hero spotlight follow
+    var heroSection = document.getElementById('hero');
+    var heroSpotlight = document.getElementById('heroSpotlight');
+
+    if (heroSection && heroSpotlight && window.matchMedia('(pointer: fine)').matches) {
+        heroSection.addEventListener('mousemove', function(e) {
+            var rect = heroSection.getBoundingClientRect();
+            var x = ((e.clientX - rect.left) / rect.width) * 100;
+            var y = ((e.clientY - rect.top) / rect.height) * 100;
+            heroSpotlight.style.setProperty('--spot-x', x + '%');
+            heroSpotlight.style.setProperty('--spot-y', y + '%');
+        });
+    }
+
+    // Hero live clock (WIB)
+    var heroClockText = document.getElementById('heroClockText');
+
+    function updateHeroClock() {
+        var now = new Date();
+        var timeStr = now.toLocaleTimeString('en-GB', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            timeZone: 'Asia/Jakarta'
+        });
+        heroClockText.textContent = 'Bekasi, ID · ' + timeStr + ' WIB';
+    }
+
+    if (heroClockText) {
+        updateHeroClock();
+        setInterval(updateHeroClock, 1000);
+    }
+
     // Navbar scroll state + scroll-spy
     var navbar = document.getElementById('navbar');
     var navSections = ['about', 'skills', 'experience', 'education', 'projects', 'testimonials', 'contact'];
