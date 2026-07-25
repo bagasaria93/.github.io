@@ -36,18 +36,48 @@ top: 0;
 left: 0;
 width: 22px;
 height: 22px;
-background: var(--gold);
-clip-path: polygon(12% 0%, 12% 76%, 34% 60%, 51% 100%, 63% 96%, 48% 58%, 92% 58%);
 pointer-events: none;
 z-index: 99999;
-transform: translate(-2px, -2px);
-transition: transform 0.15s ease, background 0.15s ease;
-filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.9)) drop-shadow(0 1px 3px rgba(0, 0, 0, 0.55));
+transform: translate(-3px, -2px);
+transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cursor path {
+fill: var(--gold);
+stroke: rgba(0, 0, 0, 0.85);
+stroke-width: 1.2;
+stroke-linejoin: round;
+stroke-linecap: round;
+transition: fill 0.15s ease;
 }
 
 .cursor.hovering {
-background: var(--white);
-transform: translate(-2px, -2px) scale(1.3);
+transform: translate(-3px, -2px) scale(1.3);
+}
+
+.cursor.hovering path {
+fill: var(--white);
+}
+
+.cursor-trail {
+position: fixed;
+top: 0;
+left: 0;
+width: 7px;
+height: 7px;
+border-radius: 50%;
+background: var(--gold);
+opacity: 0.4;
+pointer-events: none;
+z-index: 99998;
+transform: translate(-50%, -50%);
+filter: blur(1.5px);
+transition: left 0.32s cubic-bezier(0.22, 1, 0.36, 1), top 0.32s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cursor-trail.hovering {
+opacity: 0.7;
+transform: translate(-50%, -50%) scale(1.8);
 }
 
 .noise-overlay {

@@ -28,7 +28,7 @@
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="assets/img/favicon.png" type="image/png">
 
-    <noscript><style>body { cursor: auto !important; } .cursor { display: none; }</style></noscript>
+    <noscript><style>body { cursor: auto !important; } .cursor, .cursor-trail { display: none; }</style></noscript>
 
     <title>Bagas Aria Sativa - Full-Stack Developer</title>
 
@@ -66,7 +66,10 @@
 </head>
 <body>
 
-    <div class="cursor" id="cursor"></div>
+    <svg class="cursor" id="cursor" viewBox="0 0 24 24">
+        <path d="M3 2 L3 19 L7.5 15.3 L10.8 21.5 L13.9 20 L10.7 13.9 L17.5 13.9 Z"></path>
+    </svg>
+    <div class="cursor-trail" id="cursorTrail"></div>
     <div class="noise-overlay"></div>
 
     <nav id="navbar">

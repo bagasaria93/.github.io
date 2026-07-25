@@ -74,16 +74,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Custom cursor (desktop only)
     var cursor = document.getElementById('cursor');
+    var cursorTrail = document.getElementById('cursorTrail');
 
-    if (cursor) {
+    if (cursor && cursorTrail) {
         document.addEventListener('mousemove', function(e) {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
+            cursorTrail.style.left = e.clientX + 'px';
+            cursorTrail.style.top = e.clientY + 'px';
         });
 
         document.querySelectorAll('a, button, .skill-tag, .project-card, .contact-item').forEach(function(el) {
-            el.addEventListener('mouseenter', function() { cursor.classList.add('hovering'); });
-            el.addEventListener('mouseleave', function() { cursor.classList.remove('hovering'); });
+            el.addEventListener('mouseenter', function() {
+                cursor.classList.add('hovering');
+                cursorTrail.classList.add('hovering');
+            });
+            el.addEventListener('mouseleave', function() {
+                cursor.classList.remove('hovering');
+                cursorTrail.classList.remove('hovering');
+            });
         });
     }
 
