@@ -191,7 +191,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Project card click (entire card opens demo)
     document.querySelectorAll('.project-card').forEach(function(card) {
-        card.style.cursor = 'pointer';
         card.addEventListener('click', function(e) {
             if (e.target.closest('.project-link')) return;
             var link = card.querySelector('.project-link');

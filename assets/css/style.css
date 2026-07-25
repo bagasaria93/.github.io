@@ -30,6 +30,10 @@ cursor: none;
 overflow-x: hidden;
 }
 
+a, button, input, textarea, select, .project-card, [role="button"] {
+cursor: none;
+}
+
 .cursor {
 position: fixed;
 top: 0;
@@ -1504,7 +1508,7 @@ font-weight: 800;
 letter-spacing: 0.16em;
 text-transform: uppercase;
 border: none;
-cursor: pointer;
+cursor: none;
 transition: all 0.3s ease;
 font-family: var(--font-body);
 clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
