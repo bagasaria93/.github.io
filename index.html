@@ -26,7 +26,6 @@
     <meta name="twitter:image" content="https://bagasaria93.github.io/assets/img/profile.png">
 
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="assets/img/favicon.png" type="image/png">
 
     <noscript><style>body { cursor: auto !important; } .cursor, .cursor-trail { display: none; }</style></noscript>
 
@@ -62,9 +61,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=4">
+    <link rel="stylesheet" href="assets/css/style.css?v=5">
 </head>
 <body>
+
+    <a href="#main-content" class="skip-link">Skip to content</a>
 
     <svg class="cursor" id="cursor" viewBox="0 0 24 24">
         <path d="M3 2 L3 19 L7.5 15.3 L10.8 21.5 L13.9 20 L10.7 13.9 L17.5 13.9 Z"></path>
@@ -100,7 +101,7 @@
         <a href="#contact" class="mobile-menu-link">Contact</a>
     </div>
 
-    <main>
+    <main id="main-content">
 
     <section id="hero">
         <div class="hero-grid-lines">
@@ -247,8 +248,14 @@
                     <div class="about-photo-wrap">
                         <div class="photo-carousel">
                             <div class="photo-carousel-track" id="carouselTrack">
-                                <img src="assets/img/profile.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide" loading="lazy">
-                                <img src="assets/img/profile2.png" alt="Bagas Aria Sativa" class="about-photo carousel-slide" loading="lazy">
+                                <picture class="carousel-slide">
+                                    <source srcset="assets/img/profile.webp" type="image/webp">
+                                    <img src="assets/img/profile.png" alt="Bagas Aria Sativa" class="about-photo" loading="lazy">
+                                </picture>
+                                <picture class="carousel-slide">
+                                    <source srcset="assets/img/profile2.webp" type="image/webp">
+                                    <img src="assets/img/profile2.png" alt="Bagas Aria Sativa" class="about-photo" loading="lazy">
+                                </picture>
                             </div>
                             <button class="carousel-btn carousel-btn-prev" id="carouselPrev" aria-label="Previous photo">
                                 <i data-lucide="chevron-left" style="width:16px;height:16px;"></i>
@@ -450,7 +457,7 @@
                     </div>
                     <div class="timeline-right">
                         <div class="timeline-company">PT Ganzu Gisma Seiko</div>
-                        <div class="timeline-role">IT System Analyst & Full-Stack Developer</div>
+                        <h3 class="timeline-role">IT System Analyst & Full-Stack Developer</h3>
                         <ul class="timeline-bullets">
                             <li>Analyzed business processes across 9 departments, identifying bottlenecks and automation opportunities.</li>
                             <li>Developed end-to-end manufacturing ERP system from database design to user interface using Laravel & MySQL.</li>
@@ -472,7 +479,7 @@
                     </div>
                     <div class="timeline-right">
                         <div class="timeline-company">Rainbrow Sulam Alis</div>
-                        <div class="timeline-role">IT Developer: HR & Customer System</div>
+                        <h3 class="timeline-role">IT Developer: HR & Customer System</h3>
                         <ul class="timeline-bullets">
                             <li>Led full-stack development of 3 business management applications, delivered ahead of schedule.</li>
                             <li>HRIS Dashboard: Built comprehensive HR system with GPS-based attendance, geofencing validation, automated training management, role-based authentication, and real-time analytics dashboard.</li>
@@ -495,7 +502,7 @@
                     </div>
                     <div class="timeline-right">
                         <div class="timeline-company">PT Komatsu Undercarriage Indonesia</div>
-                        <div class="timeline-role">IT Support Intern</div>
+                        <h3 class="timeline-role">IT Support Intern</h3>
                         <ul class="timeline-bullets">
                             <li>Assisted IT team with technical support, hardware maintenance, and system deployment activities.</li>
                             <li>Contributed to development of Delivery Note Module Application using Alpha Anywhere platform.</li>
@@ -519,7 +526,7 @@
                 <div class="edu-card section-reveal stagger-1">
                     <div class="edu-card-number">01</div>
                     <div class="edu-year">2026 - Present</div>
-                    <div class="edu-degree">Master of Computer Science</div>
+                    <h3 class="edu-degree">Master of Computer Science</h3>
                     <div class="edu-school">Universitas Esa Unggul</div>
                     <div class="edu-meta">
                         <span class="edu-badge">In Progress</span>
@@ -529,7 +536,7 @@
                 <div class="edu-card section-reveal stagger-2">
                     <div class="edu-card-number">02</div>
                     <div class="edu-year">2020 - 2025</div>
-                    <div class="edu-degree">Bachelor of Information Technology</div>
+                    <h3 class="edu-degree">Bachelor of Information Technology</h3>
                     <div class="edu-school">Universitas Bina Sarana Informatika</div>
                     <div class="edu-meta">
                         <span class="edu-badge">GPA 3.95 / 4.00</span>
@@ -557,7 +564,7 @@
                 <div class="edu-card">
                     <div class="edu-card-number">01</div>
                     <div class="edu-year">2024</div>
-                    <div class="edu-degree">PHP Certificate, Beginner to Advanced</div>
+                    <h3 class="edu-degree">PHP Certificate, Beginner to Advanced</h3>
                     <div class="edu-school">Udemy</div>
                     <div class="edu-meta">
                         <span class="edu-badge">Online Course</span>
@@ -567,7 +574,7 @@
                 <div class="edu-card">
                     <div class="edu-card-number">02</div>
                     <div class="edu-year">2024</div>
-                    <div class="edu-degree">Front-End Web Development</div>
+                    <h3 class="edu-degree">Front-End Web Development</h3>
                     <div class="edu-school">Coding Studio</div>
                     <div class="edu-meta">
                         <span class="edu-badge">Bootcamp</span>
@@ -577,7 +584,7 @@
                 <div class="edu-card">
                     <div class="edu-card-number">03</div>
                     <div class="edu-year">2024</div>
-                    <div class="edu-degree">Internship Completion</div>
+                    <h3 class="edu-degree">Internship Completion</h3>
                     <div class="edu-school">PT Komatsu Undercarriage Indonesia</div>
                     <div class="edu-meta">
                         <span class="edu-badge">Industry</span>
@@ -600,7 +607,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">01</div>
-                    <div class="project-title">ForgeX</div>
+                    <h3 class="project-title">ForgeX</h3>
                     <div class="project-subtitle">Gym & Fitness Landing Page</div>
                     <p class="project-desc">Premium gym landing page with program showcase, trainer profiles, membership pricing, FAQ accordion, and trial registration form.</p>
                     <div class="project-tags">
@@ -618,7 +625,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">02</div>
-                    <div class="project-title">KasirKu</div>
+                    <h3 class="project-title">KasirKu</h3>
                     <div class="project-subtitle">Point of Sale Cashier App</div>
                     <p class="project-desc">Coffee shop cashier app with product grid, cart management, coupon discounts, tax calculation, and print-friendly receipt generation.</p>
                     <div class="project-tags">
@@ -636,7 +643,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">03</div>
-                    <div class="project-title">APIJelajah</div>
+                    <h3 class="project-title">APIJelajah</h3>
                     <div class="project-subtitle">REST API Testing & Explorer Tool</div>
                     <p class="project-desc">Public REST API exploration tool with syntax highlighting, real-time response time tracking, TypeScript-style type annotations, and request history.</p>
                     <div class="project-tags">
@@ -654,7 +661,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">04</div>
-                    <div class="project-title">ChatCerdas</div>
+                    <h3 class="project-title">ChatCerdas</h3>
                     <div class="project-subtitle">AI Chatbot App with Claude API</div>
                     <p class="project-desc">AI chat interface built with React 18 and Anthropic API (claude-sonnet-4-6), featuring typewriter effect, system prompt customization, and conversation history.</p>
                     <div class="project-tags">
@@ -672,7 +679,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">05</div>
-                    <div class="project-title">CG HRIS</div>
+                    <h3 class="project-title">CG HRIS</h3>
                     <div class="project-subtitle">Human Resource Information System</div>
                     <p class="project-desc">12-module HRIS SPA covering employee management, attendance, leave approval, payroll with PPh21 tax, recruitment pipeline, performance KPI, training, org chart, and analytics reports. Role-based access for 4 user types.</p>
                     <div class="project-tags">
@@ -691,7 +698,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">06</div>
-                    <div class="project-title">BookinAja</div>
+                    <h3 class="project-title">BookinAja</h3>
                     <div class="project-subtitle">Spa Appointment & Booking System</div>
                     <p class="project-desc">Beauty spa booking platform with multi-step booking flow, QR code confirmation, therapist leaderboard, branch analytics, and admin panel.</p>
                     <div class="project-tags">
@@ -709,7 +716,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">07</div>
-                    <div class="project-title">ErpCore</div>
+                    <h3 class="project-title">ErpCore</h3>
                     <div class="project-subtitle">Multi-Module Enterprise Resource Planning (ERP)</div>
                     <p class="project-desc">Manufacturing ERP for PT Sentosa Manufaktur with 7 connected modules: Sales Order, Production, Warehouse, QC, Purchase, Invoice, and Dashboard.</p>
                     <div class="project-tags">
@@ -728,7 +735,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">08</div>
-                    <div class="project-title">TopUpKu</div>
+                    <h3 class="project-title">TopUpKu</h3>
                     <div class="project-subtitle">Game Voucher Top-Up & Payment Platform</div>
                     <p class="project-desc">Game top-up platform with 5-step flow, supplier API integration simulation, multi-method payment system, real-time transaction status, and admin panel with Chart.js.</p>
                     <div class="project-tags">
@@ -747,7 +754,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">09</div>
-                    <div class="project-title">MitraCRM</div>
+                    <h3 class="project-title">MitraCRM</h3>
                     <div class="project-subtitle">Customer Relationship Management System</div>
                     <p class="project-desc">CRM with contact & lead management, Kanban sales pipeline across 5 stages, deal tracking with probability scoring, revenue analytics dashboard, and activity feed.</p>
                     <div class="project-tags">
@@ -766,7 +773,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">10</div>
-                    <div class="project-title">BlazeNotif</div>
+                    <h3 class="project-title">BlazeNotif</h3>
                     <div class="project-subtitle">WA & Email Blast Platform</div>
                     <p class="project-desc">WhatsApp and email blast notification platform with contact management, dynamic message templates, real-time mass sending simulation, and complete delivery history.</p>
                     <div class="project-tags">
@@ -784,7 +791,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">11</div>
-                    <div class="project-title">CerdasKu</div>
+                    <h3 class="project-title">CerdasKu</h3>
                     <div class="project-subtitle">Online IQ Test & Score Analysis Platform</div>
                     <p class="project-desc">Online IQ test with timed multi-category questions, blurred result teaser, simulated payment flow to unlock full analysis, and score breakdown by cognitive domain.</p>
                     <div class="project-tags">
@@ -802,7 +809,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">12</div>
-                    <div class="project-title">PortalAkademik</div>
+                    <h3 class="project-title">PortalAkademik</h3>
                     <div class="project-subtitle">E-Learning & Academic Management System</div>
                     <p class="project-desc">Multi-role academic portal built with CodeIgniter 4. Features admin dashboard (CRUD users, courses, enrollment management, CSV export), lecturer panel (materials, assignments, grading), and student portal (submit tasks, track grades), with fully interactive demo flows for each role.</p>
                     <div class="project-tags">
@@ -822,7 +829,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">13</div>
-                    <div class="project-title">DataXplorer</div>
+                    <h3 class="project-title">DataXplorer</h3>
                     <div class="project-subtitle">Python Data Analysis Tool</div>
                     <p class="project-desc">Interactive data analysis tool powered by real Python running in the browser via Pyodide (WebAssembly). Upload and analyze 3 built-in datasets (Sales, Employee, Inventory) with descriptive statistics, Pearson correlation heatmap, and distribution charts.</p>
                     <div class="project-tags">
@@ -841,7 +848,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">14</div>
-                    <div class="project-title">PocketWallet</div>
+                    <h3 class="project-title">PocketWallet</h3>
                     <div class="project-subtitle">Installable Personal Finance Tracker (PWA)</div>
                     <p class="project-desc">Progressive Web App for expense and budget tracking, installable to home screen and fully functional offline via service worker caching. Includes category spending charts, budget limit warnings, and dark mode.</p>
                     <div class="project-tags">
@@ -860,7 +867,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">15</div>
-                    <div class="project-title">HabitFlow</div>
+                    <h3 class="project-title">HabitFlow</h3>
                     <div class="project-subtitle">React Native Habit Tracker (Mobile App)</div>
                     <p class="project-desc">Daily habit tracker built with genuine React Native components (View, TouchableOpacity, Modal, Switch) via react-native-web, compiled to a web demo with esbuild. Full source included and portable to a native iOS/Android build via Expo without rewriting app logic.</p>
                     <div class="project-tags">
@@ -878,7 +885,7 @@
                 <div class="project-card">
                     <div class="project-card-top-line"></div>
                     <div class="project-number">16</div>
-                    <div class="project-title">PredikML</div>
+                    <h3 class="project-title">PredikML</h3>
                     <div class="project-subtitle">Python Sales Prediction with Linear Regression</div>
                     <p class="project-desc">Sales forecasting demo powered by real Python running in the browser via Pyodide (WebAssembly). Fits an OLS linear regression with NumPy on 3 sample datasets (Retail, SaaS, Manufacturing), then visualizes historical data, regression line, and a 3-month forecast with R² and MAE accuracy metrics on an interactive chart.</p>
                     <div class="project-tags">
@@ -912,7 +919,7 @@
                     <div class="testi-author">
                         <div class="testi-avatar">DR</div>
                         <div class="testi-author-info">
-                            <div class="testi-name">Dian Rahmawati</div>
+                            <h3 class="testi-name">Dian Rahmawati</h3>
                             <div class="testi-role">HR Supervisor, Rainbrow Sulam Alis</div>
                         </div>
                     </div>
@@ -924,7 +931,7 @@
                     <div class="testi-author">
                         <div class="testi-avatar">AP</div>
                         <div class="testi-author-info">
-                            <div class="testi-name">Aprizal</div>
+                            <h3 class="testi-name">Aprizal</h3>
                             <div class="testi-role">Warehouse Supervisor, PT Ganzu Gisma Seiko</div>
                         </div>
                     </div>
@@ -936,7 +943,7 @@
                     <div class="testi-author">
                         <div class="testi-avatar">YZ</div>
                         <div class="testi-author-info">
-                            <div class="testi-name">Yuzrisal</div>
+                            <h3 class="testi-name">Yuzrisal</h3>
                             <div class="testi-role">PPIC Manager, PT Ganzu Gisma Seiko</div>
                         </div>
                     </div>
@@ -1032,7 +1039,7 @@
                         </button>
                         <div class="form-success" id="formSuccess" style="display:none;">
                             <i data-lucide="check-circle" style="width:16px;height:16px;"></i>
-                            <span>Your email client should have opened. If not, reach me directly at <strong>bagasativa@gmail.com</strong></span>
+                            <span>Your email client should have opened. If not, reach me directly at <a href="mailto:bagasativa@gmail.com" class="form-success-link">bagasativa@gmail.com</a></span>
                         </div>
                         <div class="form-error" id="formError" style="display:none;"></div>
                     </form>
@@ -1068,7 +1075,10 @@
             <div class="footer-copy" id="footerCopy"></div>
             <div class="footer-links">
                 <a href="https://github.com/bagasaria93/bagasaria93.github.io" target="_blank" rel="noopener" class="footer-source-link">
-                    <i data-lucide="github" style="width:13px;height:13px;"></i>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/>
+                        <path d="M9 18c-4.51 2-5-2-7-2"/>
+                    </svg>
                     <span>View Source</span>
                 </a>
                 <a href="#hero" class="footer-back">
@@ -1079,8 +1089,8 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
-    <script src="assets/js/main.js?v=5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.31.0/dist/umd/lucide.min.js"></script>
+    <script src="assets/js/main.js?v=6"></script>
 
 </body>
 </html>

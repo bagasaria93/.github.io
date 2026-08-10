@@ -26,17 +26,12 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://bagasaria93.github.io/demo/hrd-dashboard/</loc>
+    <loc>https://bagasaria93.github.io/demo/hris-system/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://bagasaria93.github.io/demo/booking-system/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://bagasaria93.github.io/demo/code-showcase/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -51,12 +46,42 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://bagasaria93.github.io/demo/inventory/</loc>
+    <loc>https://bagasaria93.github.io/demo/crm-system/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://bagasaria93.github.io/demo/notifikasi/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bagasaria93.github.io/demo/iq-test/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bagasaria93.github.io/demo/portal-akademik/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bagasaria93.github.io/demo/dataxplorer/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bagasaria93.github.io/demo/pocket-wallet/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bagasaria93.github.io/demo/habitflow-mobile/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://bagasaria93.github.io/demo/predikml/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

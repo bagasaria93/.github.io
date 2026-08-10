@@ -195,32 +195,8 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(function(entry) {
             if (entry.isIntersecting) entry.target.classList.add('visible');
         });
-    }, { threshold: 0.1 });
+    }, { threshold: 0.1, rootMargin: '0px 0px 15% 0px' });
     reveals.forEach(function(el) { observer.observe(el); });
-
-    // Counter animation
-    var counters = document.querySelectorAll('[data-count]');
-    var counterObserver = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-                var el = entry.target;
-                var target = parseInt(el.getAttribute('data-count'));
-                var start = 0;
-                var duration = 1200;
-                var step = Math.ceil(duration / target);
-                var interval = setInterval(function() {
-                    start++;
-                    el.textContent = start + '+';
-                    if (start >= target) {
-                        el.textContent = target + '+';
-                        clearInterval(interval);
-                    }
-                }, step);
-                counterObserver.unobserve(el);
-            }
-        });
-    }, { threshold: 0.5 });
-    counters.forEach(function(el) { counterObserver.observe(el); });
 
     // Project card click (entire card opens demo)
     document.querySelectorAll('.project-card').forEach(function(card) {
