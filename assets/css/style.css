@@ -982,8 +982,17 @@ filter: grayscale(10%) contrast(1.05);
 
 .carousel-slide {
 display: block;
+width: 100%;
 min-width: 100%;
+max-width: 100%;
 flex-shrink: 0;
+overflow: hidden;
+}
+
+.carousel-slide .about-photo {
+width: 100%;
+max-width: 100%;
+display: block;
 }
 
 .carousel-btn {
