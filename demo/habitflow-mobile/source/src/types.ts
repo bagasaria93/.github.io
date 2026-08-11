@@ -1,17 +1,10 @@
-export type HabitColor = {
-  id: string;
-  bg: string;
-  fg: string;
-};
-
 export interface Habit {
   id: string;
   name: string;
-  icon: string; // emoji, kept dependency-free (no icon font needed)
+  icon: string;
   color: string;
-  frequency: number[]; // 0=Sun..6=Sat, days this habit is scheduled
-  createdAt: string; // ISO date
-  reminderTime?: string; // "HH:mm"
+  frequency: number[];
+  createdAt: string;
 }
 
 export interface AppData {

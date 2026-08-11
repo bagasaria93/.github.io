@@ -10,7 +10,6 @@ interface AppContextValue {
   toggleDarkMode: () => void;
   toggleCompletion: (habitId: string, dateISO?: string) => void;
   addHabit: (habit: Omit<Habit, 'id' | 'createdAt'>) => void;
-  updateHabit: (id: string, patch: Partial<Habit>) => void;
   deleteHabit: (id: string) => void;
   resetAll: () => void;
   exportJSON: () => void;
@@ -45,13 +44,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
-  const updateHabit = (id: string, patch: Partial<Habit>) => {
-    setData((d) => ({
-      ...d,
-      habits: d.habits.map((h) => (h.id === id ? { ...h, ...patch } : h)),
-    }));
-  };
-
   const deleteHabit = (id: string) => {
     setData((d) => ({ ...d, habits: d.habits.filter((h) => h.id !== id) }));
   };
@@ -77,7 +69,6 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     toggleDarkMode,
     toggleCompletion,
     addHabit,
-    updateHabit,
     deleteHabit,
     resetAll,
     exportJSON,

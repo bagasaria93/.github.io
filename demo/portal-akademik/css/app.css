@@ -266,6 +266,7 @@ svg { display: inline-block; vertical-align: middle; }
   cursor: pointer;
 }
 .course-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-2px); }
+.course-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .course-card-header {
   height: 8px;
   background: linear-gradient(90deg, var(--primary) 0%, #818CF8 100%);
@@ -553,6 +554,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
    DETAIL VIEW
    ============================================================ */
 .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .detail-item { padding: 12px 0; border-bottom: 1px solid var(--border); }
 .detail-item:nth-last-child(-n+2) { border-bottom: none; }
 .detail-label { font-size: 11.5px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 3px; }
@@ -615,6 +617,7 @@ textarea.form-control { resize: vertical; min-height: 80px; }
   .login-form-panel { padding: 32px 24px; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
   .detail-grid { grid-template-columns: 1fr; }
+  .profile-grid { grid-template-columns: 1fr; }
   .profile-header { flex-direction: column; text-align: center; }
 }
 

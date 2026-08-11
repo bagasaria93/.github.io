@@ -13,14 +13,19 @@ window.AttendanceModule = (function () {
     return isHR ? renderHRView() : renderEmployeeView(session);
   }
 
+  function getAvailableMonths() {
+    const months = [...new Set(DB.attendance.getAll().map(a => a.month))];
+    return months.sort((a, b) => a - b);
+  }
+
   function renderHRView() {
     const summary = getSummary(filterMonth, filterYear);
     const canCreate = Auth.can('create_attendance');
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Rekap Kehadiran</div>
-        <div class="page-subtitle">Data kehadiran seluruh karyawan</div>
+        <h1 class="page-title">Rekap Kehadiran</h1>
+        <p class="page-subtitle">Data kehadiran seluruh karyawan</p>
       </div>
       <div class="page-actions">
         <button class="btn btn-secondary btn-sm" onclick="AttendanceModule.exportCSV()">
@@ -49,7 +54,7 @@ window.AttendanceModule = (function () {
       <div class="card-body" style="padding-bottom:0;">
         <div class="filter-bar">
           <select class="filter-select" id="att-month">
-            ${[4,5].map(m => `<option value="${m}" ${m===filterMonth?'selected':''}>${monthName(m)}</option>`).join('')}
+            ${getAvailableMonths().map(m => `<option value="${m}" ${m===filterMonth?'selected':''}>${monthName(m)}</option>`).join('')}
           </select>
           <select class="filter-select" id="att-year">
             <option value="2026" ${filterYear===2026?'selected':''}>2026</option>
@@ -80,8 +85,8 @@ window.AttendanceModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Kehadiran Saya</div>
-        <div class="page-subtitle">${monthName(filterMonth)} ${filterYear}</div>
+        <h1 class="page-title">Kehadiran Saya</h1>
+        <p class="page-subtitle">${monthName(filterMonth)} ${filterYear}</p>
       </div>
     </div>
 
@@ -116,7 +121,7 @@ window.AttendanceModule = (function () {
         <div class="card-title">Riwayat Kehadiran</div>
         <div style="display:flex;gap:8px;">
           <select class="filter-select" id="att-month-emp">
-            ${[4,5].map(m => `<option value="${m}" ${m===filterMonth?'selected':''}>${monthName(m)} 2026</option>`).join('')}
+            ${getAvailableMonths().map(m => `<option value="${m}" ${m===filterMonth?'selected':''}>${monthName(m)} 2026</option>`).join('')}
           </select>
         </div>
       </div>

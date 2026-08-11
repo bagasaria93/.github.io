@@ -10,7 +10,7 @@ window.MyMaterialsModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Materi Perkuliahan</div><div class="page-subtitle">Akses materi dari mata kuliah yang Anda ikuti</div></div>
+      <div><h1 class="page-title">Materi Perkuliahan</h1><div class="page-subtitle">Akses materi dari mata kuliah yang Anda ikuti</div></div>
       <div class="page-actions">
         <select class="filter-select" id="mymat-course-sel" style="min-width:220px;">
           ${enrolled.map(c => `<option value="${c.id}" ${c.id===activeCourseId?'selected':''}>${escapeHtml(c.code)} - ${escapeHtml(c.name)}</option>`).join('')}
@@ -24,7 +24,7 @@ window.MyMaterialsModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title" id="modal-mat-view-title">Detail Materi</span>
-          <button class="modal-close" onclick="closeModal('modal-view-mat')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-view-mat')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body" id="modal-mat-view-body"></div>
         <div class="modal-footer">
@@ -99,16 +99,23 @@ window.MyMaterialsModule = (function () {
     openModal('modal-view-mat');
   }
 
+  let _clickHandler = null;
+
   function init() {
     renderContent();
     document.getElementById('mymat-course-sel')?.addEventListener('change', e => {
       activeCourseId = e.target.value;
       renderContent();
     });
-    document.addEventListener('click', function(e) {
+    _clickHandler = function (e) {
       if (e.target.closest('.btn-view-mat')) viewMaterial(e.target.closest('.btn-view-mat').dataset.id);
-    });
+    };
+    document.addEventListener('click', _clickHandler);
   }
 
-  return { render, init };
+  function destroy() {
+    if (_clickHandler) { document.removeEventListener('click', _clickHandler); _clickHandler = null; }
+  }
+
+  return { render, init, destroy };
 })();

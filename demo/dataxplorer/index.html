@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Demo aplikasi DataXplorer untuk eksplorasi dan analisis data berbasis Python di browser, mencakup statistik deskriptif, visualisasi distribusi, dan matriks korelasi.">
 <title>DataXplorer - Python Data Analysis Tool</title>
-<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -17,7 +17,7 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
 ::-webkit-scrollbar{width:5px;height:5px;}
 ::-webkit-scrollbar-track{background:#f1f5f9;}
 ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:99px;}
-::-webkit-scrollbar-thumb:hover{background:#94a3b8;}
+::-webkit-scrollbar-thumb:hover{background:#64748b;}
 #loading-overlay{position:fixed;inset:0;background:#f8fafc;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:20px;}
 .py-logo{animation:pulse-logo 2s ease-in-out infinite;}
 @keyframes pulse-logo{0%,100%{transform:scale(1);opacity:0.8;}50%{transform:scale(1.05);opacity:1;}}
@@ -38,16 +38,16 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
 .ds-btn.active{border-color:#3b82f6;background:#eff6ff;color:#1d4ed8;box-shadow:0 0 0 3px rgba(59,130,246,0.1);}
 .ds-btn .ds-icon{font-size:20px;margin-bottom:6px;display:block;}
 .ds-btn .ds-name{font-weight:700;font-size:13px;display:block;color:#0f172a;}
-.ds-btn .ds-sub{font-size:11px;color:#94a3b8;margin-top:2px;display:block;}
+.ds-btn .ds-sub{font-size:11px;color:#64748b;margin-top:2px;display:block;}
 .ds-btn.active .ds-name{color:#1d4ed8;}
 .card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
 .sc-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
 .sc-label{font-size:11px;color:#64748b;font-weight:500;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;}
 .sc-value{font-size:28px;font-weight:700;color:#1d4ed8;line-height:1;}
-.sc-sub{font-size:11px;color:#94a3b8;margin-top:4px;}
+.sc-sub{font-size:11px;color:#64748b;margin-top:4px;}
 .panel-hdr{padding:14px 18px;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:8px;}
 .panel-title{font-size:13px;font-weight:600;color:#0f172a;}
-.panel-sub{font-size:11px;color:#94a3b8;margin-left:auto;}
+.panel-sub{font-size:11px;color:#64748b;margin-left:auto;}
 .data-tbl{width:100%;font-size:12px;border-collapse:collapse;}
 .data-tbl th{padding:9px 14px;text-align:left;color:#475569;border-bottom:2px solid #f1f5f9;font-weight:600;white-space:nowrap;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;}
 .data-tbl td{padding:8px 14px;border-bottom:1px solid #f8fafc;color:#334155;white-space:nowrap;}
@@ -70,6 +70,18 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
 .fade-in{animation:fadeIn 0.35s ease forwards;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 @keyframes spin{to{transform:rotate(360deg);}}
+@media (max-width: 900px){
+    #results-grid{grid-template-columns:1fr !important;}
+}
+@media (max-width: 640px){
+    #cards{grid-template-columns:repeat(2,1fr) !important;}
+    .header-inner{padding:0 16px;}
+    #results-grid{padding-left:16px !important;padding-right:16px !important;}
+    #results > div:first-child{padding-left:16px !important;padding-right:16px !important;}
+}
+@media (max-width: 420px){
+    #cards{grid-template-columns:1fr !important;}
+}
 </style>
 </head>
 <body>
@@ -90,7 +102,7 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
     <div id="load-msg" style="font-size:13px;color:#64748b;">Memuat Python runtime...</div>
   </div>
   <div class="progress-outer"><div id="prog-bar" class="progress-inner"></div></div>
-  <div style="font-size:11px;color:#94a3b8;">Powered by Pyodide - Python in WebAssembly</div>
+  <div style="font-size:11px;color:#64748b;">Powered by Pyodide - Python in WebAssembly</div>
 </div>
 
 <div id="app" style="display:none;min-height:100vh;">
@@ -119,7 +131,7 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
       <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
         <div>
           <div style="font-size:13px;font-weight:600;color:#0f172a;margin-bottom:2px;">Pilih Dataset</div>
-          <div style="font-size:12px;color:#94a3b8;">3 dataset tersedia untuk dianalisis</div>
+          <div style="font-size:12px;color:#64748b;">3 dataset tersedia untuk dianalisis</div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
           <button class="ds-btn active" id="ds-sales" onclick="selectDataset('sales')">
@@ -158,7 +170,7 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
           </div>
         </div>
         <div style="background:#f8fafc;border-radius:10px;padding:20px;min-width:200px;">
-          <div style="font-size:11px;font-weight:600;color:#94a3b8;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Fitur Analisis</div>
+          <div style="font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Fitur Analisis</div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#334155;"><span style="color:#3b82f6;font-weight:700;">+</span> Statistik deskriptif lengkap</div>
             <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#334155;"><span style="color:#3b82f6;font-weight:700;">+</span> Correlation heatmap (Pearson)</div>
@@ -197,7 +209,7 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
     <div style="max-width:1200px;margin:0 auto;padding:24px 24px 0;">
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;" id="cards"></div>
     </div>
-    <div style="max-width:1200px;margin:0 auto;padding:0 24px 24px;display:grid;grid-template-columns:1fr 1.6fr;gap:16px;">
+    <div id="results-grid" style="max-width:1200px;margin:0 auto;padding:0 24px 24px;display:grid;grid-template-columns:1fr 1.6fr;gap:16px;">
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div class="card">
           <div class="panel-hdr"><span class="panel-title">Statistical Summary</span><span class="panel-sub">Kolom numerik</span></div>
@@ -221,7 +233,7 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
           <button class="tab-btn" id="tab-corr" onclick="switchTab('corr')">Correlation</button>
           <button class="tab-btn" id="tab-stat" onclick="switchTab('stat')">Statistics</button>
           <div id="dist-ctrl" style="margin-left:auto;display:flex;align-items:center;gap:8px;">
-            <span style="font-size:11px;color:#94a3b8;font-weight:500;">Kolom:</span>
+            <label for="col-select" style="font-size:11px;color:#64748b;font-weight:500;">Kolom:</label>
             <select id="col-select" onchange="renderDist()" style="background:#f8fafc;border:1px solid #e2e8f0;color:#1d4ed8;font-size:11px;padding:4px 8px;font-family:'Inter',sans-serif;cursor:pointer;border-radius:6px;font-weight:600;"></select>
           </div>
         </div>
@@ -239,7 +251,7 @@ body{background:#f1f5f9;color:#0f172a;font-family:'Inter',sans-serif;min-height:
           <svg id="code-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transform:rotate(-90deg);transition:transform 0.25s;flex-shrink:0;"><polyline points="6,9 12,15 18,9"/></svg>
           <span style="font-size:14px;">🐍</span>
           <span style="font-weight:600;color:#0f172a;">Python Code</span>
-          <span style="color:#94a3b8;margin-left:6px;font-size:12px;">Klik untuk melihat kode Python yang dijalankan di browser</span>
+          <span style="color:#64748b;margin-left:6px;font-size:12px;">Klik untuk melihat kode Python yang dijalankan di browser</span>
           <span class="badge badge-yellow" style="margin-left:auto;flex-shrink:0;">Pyodide - WebAssembly</span>
         </button>
         <div class="code-body" id="code-body">
@@ -386,7 +398,7 @@ async function runAnalysis(){
   btn.disabled=false;btn.innerHTML='<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"/></svg> Run Analysis';
 }
 
-function fmt(n){n=Number(n);if(Math.abs(n)>=1e9)return(n/1e9).toFixed(1)+'B';if(Math.abs(n)>=1e6)return(n/1e6).toFixed(1)+'M';if(Math.abs(n)>=1e3)return(n/1e3).toFixed(1)+'K';return n.toLocaleString('id-ID',{maximumFractionDigits:2});}
+function fmt(n){n=Number(n);if(Math.abs(n)>=1e9)return(n/1e9).toFixed(1)+'B';if(Math.abs(n)>=1e6)return(n/1e6).toFixed(1)+'M';if(Math.abs(n)>=1e3)return(n/1e3).toFixed(1)+'K';return Number.isInteger(n)?String(n):n.toFixed(2);}
 
 function render(d){
   const numC=Object.keys(d.stats).length,catC=Object.keys(d.cats).length;
@@ -409,13 +421,13 @@ function renderDist(){
   const ctx=document.getElementById('c-dist').getContext('2d');
   let labels,values,label;
   if(type==='cat'){const cats=curResult.cats[col];labels=Object.keys(cats);values=Object.values(cats);label='Frekuensi';}
-  else{const vals=curResult.num_cols[col];const mn=Math.min(...vals),mx=Math.max(...vals),B=8,step=(mx-mn)/B;const cnt=new Array(B).fill(0);vals.forEach(v=>{const i=Math.min(Math.floor((v-mn)/step),B-1);cnt[i]++;});labels=Array.from({length:B},(_,i)=>fmt(mn+i*step));values=cnt;label='Distribusi';}
-  charts.dist=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label,data:values,backgroundColor:'rgba(59,130,246,0.15)',borderColor:'#3b82f6',borderWidth:2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#94a3b8',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}},y:{ticks:{color:'#94a3b8',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}}}}});
+  else{const vals=curResult.num_cols[col];const mn=Math.min(...vals),mx=Math.max(...vals),B=8,step=(mx-mn)/B;const cnt=new Array(B).fill(0);if(step===0){cnt[0]=vals.length;}else{vals.forEach(v=>{const i=Math.min(Math.floor((v-mn)/step),B-1);cnt[i]++;});}labels=Array.from({length:B},(_,i)=>fmt(mn+i*step));values=cnt;label='Distribusi';}
+  charts.dist=new Chart(ctx,{type:'bar',data:{labels,datasets:[{label,data:values,backgroundColor:'rgba(59,130,246,0.15)',borderColor:'#3b82f6',borderWidth:2,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#64748b',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}},y:{ticks:{color:'#64748b',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}}}}});
 }
 
 function renderCorr(d){
   const cols=Object.keys(d.corr);
-  if(!cols.length){document.getElementById('corr-map').innerHTML='<p style="color:#94a3b8;font-size:12px;">Tidak cukup kolom numerik.</p>';return;}
+  if(!cols.length){document.getElementById('corr-map').innerHTML='<p style="color:#64748b;font-size:12px;">Tidak cukup kolom numerik.</p>';return;}
   function bg(v){return v>=0?`rgba(59,130,246,${(v*0.7).toFixed(2)})`:`rgba(239,68,68,${(Math.abs(v)*0.7).toFixed(2)})`;}
   let html='<table style="border-collapse:collapse;width:100%;"><tr><th class="corr-hdr" style="background:#f8fafc;"></th>';
   cols.forEach(c=>{html+=`<th class="corr-hdr" title="${c}">${c.length>9?c.slice(0,9)+'...':c}</th>`;});html+='</tr>';
@@ -430,7 +442,7 @@ function renderCorr(d){
 function renderStat(d){
   if(charts.stat){charts.stat.destroy();charts.stat=null;}
   const ctx=document.getElementById('c-stat').getContext('2d');const cols=Object.keys(d.stats);
-  charts.stat=new Chart(ctx,{type:'bar',data:{labels:cols,datasets:[{label:'Mean',data:cols.map(c=>d.stats[c].mean),backgroundColor:'rgba(59,130,246,0.2)',borderColor:'#3b82f6',borderWidth:2,borderRadius:4},{label:'Median',data:cols.map(c=>d.stats[c].median),backgroundColor:'rgba(99,102,241,0.15)',borderColor:'#6366f1',borderWidth:1.5,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{labels:{color:'#64748b',font:{size:11,family:'Inter'},boxWidth:12,boxHeight:12}}},scales:{x:{ticks:{color:'#94a3b8',font:{size:10,family:'Inter'},callback:v=>fmt(v)},grid:{color:'#f1f5f9'}},y:{ticks:{color:'#334155',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}}}}});
+  charts.stat=new Chart(ctx,{type:'bar',data:{labels:cols,datasets:[{label:'Mean',data:cols.map(c=>d.stats[c].mean),backgroundColor:'rgba(59,130,246,0.2)',borderColor:'#3b82f6',borderWidth:2,borderRadius:4},{label:'Median',data:cols.map(c=>d.stats[c].median),backgroundColor:'rgba(99,102,241,0.15)',borderColor:'#6366f1',borderWidth:1.5,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{labels:{color:'#64748b',font:{size:11,family:'Inter'},boxWidth:12,boxHeight:12}}},scales:{x:{ticks:{color:'#64748b',font:{size:10,family:'Inter'},callback:v=>fmt(v)},grid:{color:'#f1f5f9'}},y:{ticks:{color:'#334155',font:{size:10,family:'Inter'}},grid:{color:'#f1f5f9'}}}}});
 }
 
 function switchTab(t){
@@ -445,7 +457,7 @@ init();
 </script>
 
 <footer style="border-top:1px solid #e2e8f0;padding:20px 24px;text-align:center;">
-  <p style="font-size:12px;color:#94a3b8;">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#3b82f6;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
+  <p style="font-size:12px;color:#64748b;">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#3b82f6;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
 </footer>
 </body>
 </html>

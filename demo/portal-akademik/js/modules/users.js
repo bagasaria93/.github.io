@@ -7,7 +7,7 @@ window.UsersModule = (function () {
   function render() {
     return `
     <div class="page-header">
-      <div><div class="page-title">Manajemen Pengguna</div><div class="page-subtitle">Kelola semua akun pengguna sistem</div></div>
+      <div><h1 class="page-title">Manajemen Pengguna</h1><div class="page-subtitle">Kelola semua akun pengguna sistem</div></div>
       <div class="page-actions">
         <button class="btn btn-primary" id="btn-add-user"><i data-lucide="user-plus"></i> Tambah Pengguna</button>
       </div>
@@ -38,7 +38,7 @@ window.UsersModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title" id="modal-user-title">Tambah Pengguna</span>
-          <button class="modal-close" onclick="closeModal('modal-user')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-user')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body">
           <input type="hidden" id="u-id">
@@ -115,8 +115,8 @@ window.UsersModule = (function () {
           <td><span class="badge ${u.status==='aktif'?'badge-success':'badge-secondary'}">${u.status}</span></td>
           <td>
             <div style="display:flex;gap:6px;">
-              <button class="btn btn-outline btn-sm btn-edit-user" data-id="${u.id}"><i data-lucide="pencil"></i></button>
-              ${u.id !== Auth.getSession().id ? `<button class="btn btn-danger btn-sm btn-del-user" data-id="${u.id}"><i data-lucide="trash-2"></i></button>` : ''}
+              <button class="btn btn-outline btn-sm btn-edit-user" aria-label="Edit pengguna ${escapeHtml(u.name)}" data-id="${u.id}"><i data-lucide="pencil"></i></button>
+              ${u.id !== Auth.getSession().id ? `<button class="btn btn-danger btn-sm btn-del-user" aria-label="Hapus pengguna ${escapeHtml(u.name)}" data-id="${u.id}"><i data-lucide="trash-2"></i></button>` : ''}
             </div>
           </td>
         </tr>`).join('');
@@ -190,6 +190,8 @@ window.UsersModule = (function () {
     renderTable();
   }
 
+  let _clickHandler = null;
+
   function init() {
     renderTable();
     document.getElementById('btn-add-user')?.addEventListener('click', openAdd);
@@ -198,7 +200,7 @@ window.UsersModule = (function () {
     document.getElementById('search-user')?.addEventListener('input', e => { search = e.target.value; page = 1; renderTable(); });
     document.getElementById('filter-role')?.addEventListener('change', e => { filterRole = e.target.value; page = 1; renderTable(); });
 
-    document.addEventListener('click', function handler(e) {
+    _clickHandler = function (e) {
       if (e.target.closest('.btn-edit-user')) openEdit(e.target.closest('.btn-edit-user').dataset.id);
       if (e.target.closest('.btn-del-user')) {
         const id = e.target.closest('.btn-del-user').dataset.id;
@@ -209,8 +211,13 @@ window.UsersModule = (function () {
           renderTable();
         });
       }
-    });
+    };
+    document.addEventListener('click', _clickHandler);
   }
 
-  return { render, init };
+  function destroy() {
+    if (_clickHandler) { document.removeEventListener('click', _clickHandler); _clickHandler = null; }
+  }
+
+  return { render, init, destroy };
 })();

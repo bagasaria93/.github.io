@@ -1,5 +1,6 @@
 import { Platform } from 'react-native-web';
 import { AppData } from './types';
+import { isoDate } from './utils';
 
 const STORAGE_KEY = 'habitflow_data_v1';
 
@@ -16,7 +17,7 @@ function seedCompletions(): Record<string, string[]> {
   for (let i = 1; i <= 6; i++) {
     const d = new Date(today);
     d.setDate(d.getDate() - i);
-    const iso = d.toISOString().slice(0, 10);
+    const iso = isoDate(d);
     const ids = ['h1', 'h3', 'h4'];
     if (i % 2 === 0) ids.push('h2');
     out[iso] = ids;

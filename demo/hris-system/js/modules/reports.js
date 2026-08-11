@@ -1,3 +1,5 @@
+'use strict';
+
 window.ReportsModule = (function () {
   let _activeReport = 'headcount';
 
@@ -405,7 +407,7 @@ window.ReportsModule = (function () {
   function _renderTurnover(el) {
     const employees = DB.employees.getAll();
     const active = employees.filter(e => e.status === 'Aktif').length;
-    const resigned = employees.filter(e => e.status === 'Nonaktif').length;
+    const resigned = employees.filter(e => e.status === 'Resign').length;
     const recruitments = DB.recruitment.getAll();
     const open = recruitments.filter(r => r.status === 'Buka').length;
     const allCandidates = recruitments.flatMap(r => r.candidates || []);
@@ -414,7 +416,7 @@ window.ReportsModule = (function () {
     el.innerHTML = `
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
   ${_kpi('Karyawan Aktif', active, 'users', 'green')}
-  ${_kpi('Karyawan Nonaktif', resigned, 'user-x', 'red')}
+  ${_kpi('Karyawan Resign', resigned, 'user-x', 'red')}
   ${_kpi('Lowongan Aktif', open, 'briefcase', 'blue')}
   ${_kpi('Kandidat Diterima', hired, 'user-check', 'teal')}
 </div>

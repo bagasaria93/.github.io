@@ -10,14 +10,14 @@ window.MyCoursesModule = (function () {
     const mySubs   = isDosen ? [] : DB.submissions.getByUser(session.id);
 
     if (!courses.length) {
-      return `<div class="page-header"><div><div class="page-title">Mata Kuliah Saya</div></div></div>
+      return `<div class="page-header"><div><h1 class="page-title">Mata Kuliah Saya</h1></div></div>
         <div class="empty-state"><i data-lucide="book-open"></i><h3>Belum ada mata kuliah</h3><p>${isDosen ? 'Belum ada mata kuliah yang diampu.' : 'Anda belum terdaftar di mata kuliah apapun.'}</p></div>`;
     }
 
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Mata Kuliah ${isDosen ? 'Diampu' : 'Saya'}</div>
+        <h1 class="page-title">Mata Kuliah ${isDosen ? 'Diampu' : 'Saya'}</h1>
         <div class="page-subtitle">${courses.length} mata kuliah${isDosen ? ' yang Anda ampu' : ' yang Anda ikuti'}</div>
       </div>
     </div>

@@ -19,8 +19,8 @@ window.LeaveModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Manajemen Cuti</div>
-        <div class="page-subtitle">${pendingCount > 0 ? `<span style="color:var(--warning);">${pendingCount} pengajuan menunggu approval</span>` : 'Semua pengajuan sudah diproses'}</div>
+        <h1 class="page-title">Manajemen Cuti</h1>
+        <p class="page-subtitle">${pendingCount > 0 ? `<span style="color:var(--warning);">${pendingCount} pengajuan menunggu approval</span>` : 'Semua pengajuan sudah diproses'}</p>
       </div>
     </div>
 
@@ -101,8 +101,8 @@ window.LeaveModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Cuti Saya</div>
-        <div class="page-subtitle">Riwayat dan saldo cuti Anda</div>
+        <h1 class="page-title">Cuti Saya</h1>
+        <p class="page-subtitle">Riwayat dan saldo cuti Anda</p>
       </div>
       <button class="btn btn-primary" onclick="LeaveModule.openApply()">
         <i data-lucide="plus"></i> Ajukan Cuti
@@ -364,7 +364,12 @@ window.LeaveModule = (function () {
 
   function approve(id) {
     const session = Auth.getSession();
+    const leave = DB.leave.getById(id);
     DB.leave.update(id, { status: 'Disetujui', approvedBy: session.id, approvedDate: todayStr() });
+    if (leave) {
+      const year = parseInt(leave.startDate.slice(0, 4));
+      DB.leave.deductBalance(leave.employeeId, year, leave.type, leave.days);
+    }
     showToast('Cuti disetujui', 'success');
     refreshTable();
     const notifBadge = document.querySelector('.notif-badge');

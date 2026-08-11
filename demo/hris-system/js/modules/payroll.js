@@ -11,6 +11,11 @@ window.PayrollModule = (function () {
     return isHR ? renderHRView() : renderEmployeeView(session);
   }
 
+  function getAvailableMonths() {
+    const months = [...new Set(DB.payroll.getAll().map(p => p.month))];
+    return months.sort((a, b) => a - b);
+  }
+
   function renderHRView() {
     const payrolls = DB.payroll.getByMonth(filterMonth, filterYear);
     const totalNet = payrolls.reduce((s, p) => s + p.netSalary, 0);
@@ -21,12 +26,12 @@ window.PayrollModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Penggajian</div>
-        <div class="page-subtitle">${monthName(filterMonth)} ${filterYear}</div>
+        <h1 class="page-title">Penggajian</h1>
+        <p class="page-subtitle">${monthName(filterMonth)} ${filterYear}</p>
       </div>
       <div class="page-actions">
         <select class="filter-select" id="pay-month">
-          ${[4,5].map(m=>`<option value="${m}" ${m===filterMonth?'selected':''}>${monthName(m)} ${filterYear}</option>`).join('')}
+          ${getAvailableMonths().map(m=>`<option value="${m}" ${m===filterMonth?'selected':''}>${monthName(m)} ${filterYear}</option>`).join('')}
         </select>
         ${Auth.can('mark_paid_payroll') && payrolls.some(p=>p.status==='Proses') ? `
         <button class="btn btn-success" onclick="PayrollModule.markAllPaid()">
@@ -98,8 +103,8 @@ window.PayrollModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Slip Gaji</div>
-        <div class="page-subtitle">Riwayat penggajian Anda</div>
+        <h1 class="page-title">Slip Gaji</h1>
+        <p class="page-subtitle">Riwayat penggajian Anda</p>
       </div>
     </div>
 

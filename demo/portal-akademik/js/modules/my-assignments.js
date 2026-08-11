@@ -14,7 +14,7 @@ window.MyAssignmentsModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Tugas & Nilai</div><div class="page-subtitle">Kumpulkan tugas dan lihat penilaian</div></div>
+      <div><h1 class="page-title">Tugas & Nilai</h1><div class="page-subtitle">Kumpulkan tugas dan lihat penilaian</div></div>
     </div>
 
     <div class="stat-grid" style="margin-bottom:20px;">
@@ -54,7 +54,7 @@ window.MyAssignmentsModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title" id="modal-submit-title">Kumpulkan Tugas</span>
-          <button class="modal-close" onclick="closeModal('modal-submit')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-submit')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body">
           <div id="submit-assign-info" style="background:var(--primary-xlight);border-radius:var(--radius);padding:14px;margin-bottom:16px;"></div>
@@ -75,7 +75,7 @@ window.MyAssignmentsModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title">Detail Nilai</span>
-          <button class="modal-close" onclick="closeModal('modal-grade-view')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-grade-view')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body" id="grade-view-body"></div>
         <div class="modal-footer">

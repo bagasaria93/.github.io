@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="ForgeX Gym - Pusat kebugaran premium dengan trainer bersertifikat internasional, fasilitas modern, dan program latihan terstruktur untuk semua level.">
     <title>ForgeX Gym - Forge Your Best Self</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="tailwind.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -555,7 +555,32 @@
         }
 
         .form-input:focus { border-bottom-color: var(--red); }
-        .form-input::placeholder { color: #aaa; }
+        .form-input::placeholder { color: var(--muted); }
+        .form-input.error { border-bottom-color: var(--red); background: var(--red-light); }
+        .form-error-msg { display: none; color: var(--red); font-size: 0.78rem; margin-top: 0.4rem; }
+        .form-error-msg.show { display: block; }
+
+        .icon-badge {
+            width: 44px; height: 44px;
+            background: var(--red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .avatar-initials {
+            width: 42px; height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
 
         select.form-input option {
             background: var(--white);
@@ -646,7 +671,7 @@
             padding: 2rem 0;
         }
 
-        .mb-14 { margin-bottom: 0.75rem !important; }
+        .section-heading-gap { margin-bottom: 0.75rem !important; }
         #cta-section {
             background: var(--red);
             padding: 5rem 0;
@@ -779,7 +804,7 @@
     <!-- Program -->
     <section id="program" class="snap-section">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="reveal mb-14">
+            <div class="reveal section-heading-gap">
                 <div class="section-label">Apa yang Kami Tawarkan</div>
                 <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
                     <h2 class="section-title">Program<br><span style="color:var(--red);">Latihan</span></h2>
@@ -881,7 +906,7 @@
     <!-- Trainers -->
     <section id="trainer" class="snap-section" style="background:var(--light);">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="reveal mb-14 text-center">
+            <div class="reveal section-heading-gap text-center">
                 <div class="section-label" style="justify-content:center;">Tim Profesional</div>
                 <h2 class="section-title">Trainer <span style="color:var(--red);">Kami</span></h2>
                 <p style="color:var(--muted);margin-top:1rem;max-width:440px;margin-left:auto;margin-right:auto;line-height:1.7;">Dipilih ketat, bersertifikat internasional, dan berdedikasi penuh untuk membantu Anda mencapai target kebugaran.</p>
@@ -958,7 +983,7 @@
     <!-- Pricing -->
     <section id="harga" class="snap-section">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="reveal mb-14 text-center">
+            <div class="reveal section-heading-gap text-center">
                 <div class="section-label" style="justify-content:center;">Pilihan Membership</div>
                 <h2 class="section-title">Harga <span style="color:var(--red);">Member</span></h2>
                 <p style="color:var(--muted);margin-top:0.5rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.5;">Investasi terbaik untuk tubuh dan kesehatan Anda. Tanpa biaya tersembunyi, tanpa kontrak paksa.</p>
@@ -1016,7 +1041,7 @@
     <!-- Testimonials -->
     <section id="testimoni" class="snap-section" style="background:var(--light);">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="reveal mb-14">
+            <div class="reveal section-heading-gap">
                 <div class="section-label">Kata Member Kami</div>
                 <h2 class="section-title">Hasil <span style="color:var(--red);">Nyata</span></h2>
             </div>
@@ -1028,7 +1053,7 @@
                         Dalam 4 bulan bersama ForgeX, berat badan saya turun 12 kg dan massa otot bertambah signifikan. Program dan nutrisinya terstruktur dan tidak bikin bingung sama sekali.
                     </p>
                     <div style="display:flex;align-items:center;gap:0.75rem;">
-                        <div style="width:42px;height:42px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-weight:700;color:#fff;font-size:0.9rem;">RH</div>
+                        <div class="avatar-initials" style="background:var(--red);">RH</div>
                         <div>
                             <div style="font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;font-size:0.9rem;">Rendra Hidayat</div>
                             <div style="font-size:0.75rem;color:var(--muted);">Member Pro &bull; 4 Bulan</div>
@@ -1042,7 +1067,7 @@
                         Kelas Muay Thai-nya luar biasa. Trainer Dimas sangat sabar mengajar dari dasar. Sekarang saya bisa sparring dan badan jauh lebih fit dari sebelumnya.
                     </p>
                     <div style="display:flex;align-items:center;gap:0.75rem;">
-                        <div style="width:42px;height:42px;background:var(--black);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-weight:700;color:#fff;font-size:0.9rem;">NA</div>
+                        <div class="avatar-initials" style="background:var(--black);">NA</div>
                         <div>
                             <div style="font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;font-size:0.9rem;">Nadia Amalia</div>
                             <div style="font-size:0.75rem;color:var(--muted);">Member Elite &bull; 7 Bulan</div>
@@ -1056,7 +1081,7 @@
                         Fasilitas bersih, alat lengkap, dan buka 24/7 sangat membantu karena jadwal kerja saya tidak tentu. Personal trainer saya selalu on-point dengan programnya.
                     </p>
                     <div style="display:flex;align-items:center;gap:0.75rem;">
-                        <div style="width:42px;height:42px;background:var(--red);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-weight:700;color:#fff;font-size:0.9rem;">BP</div>
+                        <div class="avatar-initials" style="background:var(--red);">BP</div>
                         <div>
                             <div style="font-family:'Oswald',sans-serif;font-weight:600;text-transform:uppercase;font-size:0.9rem;">Bimo Prasetyo</div>
                             <div style="font-size:0.75rem;color:var(--muted);">Member Elite &bull; 1 Tahun</div>
@@ -1070,7 +1095,7 @@
     <!-- FAQ -->
     <section id="faq" class="snap-section">
         <div class="max-w-4xl mx-auto px-6">
-            <div class="reveal mb-14 text-center">
+            <div class="reveal section-heading-gap text-center">
                 <div class="section-label" style="justify-content:center;">Pertanyaan Umum</div>
                 <h2 class="section-title">FAQ</h2>
             </div>
@@ -1154,21 +1179,21 @@
 
                     <div class="flex flex-col gap-5">
                         <div style="display:flex;align-items:center;gap:1rem;">
-                            <div style="width:44px;height:44px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">📍</div>
+                            <div class="icon-badge">📍</div>
                             <div>
                                 <div style="font-size:0.7rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.2rem;">Alamat</div>
                                 <div style="font-weight:500;">Jl. Sudirman No. 88, Jakarta Selatan</div>
                             </div>
                         </div>
                         <div style="display:flex;align-items:center;gap:1rem;">
-                            <div style="width:44px;height:44px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">📞</div>
+                            <div class="icon-badge">📞</div>
                             <div>
                                 <div style="font-size:0.7rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.2rem;">WhatsApp</div>
                                 <a href="https://wa.me/6281255557994" style="color:var(--black);text-decoration:none;font-weight:500;">+62 812-5555-7994</a>
                             </div>
                         </div>
                         <div style="display:flex;align-items:center;gap:1rem;">
-                            <div style="width:44px;height:44px;background:var(--red);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">🕐</div>
+                            <div class="icon-badge">🕐</div>
                             <div>
                                 <div style="font-size:0.7rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.2rem;">Jam Operasional</div>
                                 <div style="font-weight:500;">24 Jam / 7 Hari</div>
@@ -1184,11 +1209,13 @@
                             <div>
                                 <label class="form-label" for="f-nama">Nama Lengkap</label>
                                 <input type="text" id="f-nama" class="form-input" placeholder="Nama Anda">
+                                <div class="form-error-msg" id="f-nama-error">Nama wajib diisi.</div>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div>
                                     <label class="form-label" for="f-wa">Nomor WhatsApp</label>
                                     <input type="text" id="f-wa" class="form-input" placeholder="08xx-xxxx-xxxx">
+                                    <div class="form-error-msg" id="f-wa-error">Nomor WhatsApp wajib diisi.</div>
                                 </div>
                                 <div>
                                     <label class="form-label" for="f-usia">Usia</label>
@@ -1205,6 +1232,7 @@
                                     <option value="fleksibel">Fleksibilitas & mobilitas</option>
                                     <option value="sehat">Menjaga kesehatan umum</option>
                                 </select>
+                                <div class="form-error-msg" id="f-target-error">Pilih target kebugaran Anda.</div>
                             </div>
                             <div>
                                 <label class="form-label" for="f-program">Program yang Diminati</label>
@@ -1217,6 +1245,7 @@
                                     <option value="personal">Personal Training</option>
                                     <option value="nutrisi">Nutrition Coaching</option>
                                 </select>
+                                <div class="form-error-msg" id="f-program-error">Pilih program yang diminati.</div>
                             </div>
                             <button onclick="daftarTrial()" class="btn-red" style="width:100%;justify-content:center;padding:1rem;">
                                 Klaim 7 Hari Gratis
@@ -1265,15 +1294,19 @@
     <script>
         const navbar = document.getElementById('navbar');
 
-        window.addEventListener('scroll', () => {
-            const scrolled = window.scrollY > 50;
+        function updateNavbarStyle() {
+            const menuOpen = document.getElementById('mobile-menu').classList.contains('open');
+            const scrolled = window.scrollY > 50 || menuOpen;
             navbar.classList.toggle('scrolled', scrolled);
             document.getElementById('ham1').style.background = scrolled ? 'var(--black)' : 'var(--white)';
             document.getElementById('ham3').style.background = scrolled ? 'var(--black)' : 'var(--white)';
-        });
+        }
+
+        window.addEventListener('scroll', updateNavbarStyle);
 
         function toggleMenu() {
             document.getElementById('mobile-menu').classList.toggle('open');
+            updateNavbarStyle();
         }
 
         document.getElementById('mobile-menu').addEventListener('click', function(e) {
@@ -1337,14 +1370,40 @@
             }
         }
 
-        function daftarTrial() {
-            const nama = document.getElementById('f-nama').value.trim();
-            const wa = document.getElementById('f-wa').value.trim();
-            const target = document.getElementById('f-target').value;
-            const program = document.getElementById('f-program').value;
+        const requiredFields = ['f-nama', 'f-wa', 'f-target', 'f-program'];
 
-            if (!nama || !wa || !target || !program) {
-                alert('Mohon lengkapi semua field terlebih dahulu.');
+        requiredFields.forEach(id => {
+            const el = document.getElementById(id);
+            const clearError = () => {
+                el.classList.remove('error');
+                const errorEl = document.getElementById(id + '-error');
+                if (errorEl) errorEl.classList.remove('show');
+            };
+            el.addEventListener('input', clearError);
+            el.addEventListener('change', clearError);
+        });
+
+        function daftarTrial() {
+            let hasError = false;
+            let firstInvalid = null;
+
+            requiredFields.forEach(id => {
+                const el = document.getElementById(id);
+                const errorEl = document.getElementById(id + '-error');
+                const value = el.value.trim();
+                if (!value) {
+                    el.classList.add('error');
+                    if (errorEl) errorEl.classList.add('show');
+                    hasError = true;
+                    if (!firstInvalid) firstInvalid = el;
+                } else {
+                    el.classList.remove('error');
+                    if (errorEl) errorEl.classList.remove('show');
+                }
+            });
+
+            if (hasError) {
+                if (firstInvalid) firstInvalid.focus();
                 return;
             }
 

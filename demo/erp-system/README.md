@@ -2,13 +2,10 @@
 
 Sistem ERP manufaktur multi-modul untuk PT Sentosa Manufaktur dengan inter-module automation workflow.
 
-## URL Demo
-
-[https://bagasaria93.github.io/demo/10-erp-system/](https://bagasaria93.github.io/demo/10-erp-system/)
-
 ## Tech Stack
 
-- HTML5, Tailwind CSS, Vanilla JavaScript
+- HTML5, CSS3
+- Tailwind CSS (dikompilasi via CLI, bukan CDN runtime)
 - jQuery 3.7.1 - DOM manipulation
 - Chart.js - visualisasi dashboard
 - Plus Jakarta Sans - Google Fonts
@@ -39,30 +36,10 @@ Semua data fiktif Indonesia:
 - Supplier: 5 supplier Indonesia
 - Material: 8 material produksi dengan harga Rupiah
 
+## Cara Menjalankan
+
+Buka file `index.html` langsung di browser. CSS Tailwind sudah dikompilasi ke `tailwind.min.css` di folder yang sama, tidak memerlukan server atau proses build tambahan untuk menjalankannya.
+
 ---
 
 Demo project by [Bagas Aria Sativa](https://bagasaria93.github.io) - Portfolio Demo
-```
-
----
-
-Struktur folder final Phase 10:
-```
-demo/10-erp-system/
-├── index.html
-├── assets/
-│   ├── css/
-│   │   └── style.css
-│   └── js/
-│       ├── data.js
-│       ├── state.js
-│       ├── modules/
-│       │   ├── dashboard.js
-│       │   ├── sales.js
-│       │   ├── production.js
-│       │   ├── warehouse.js
-│       │   ├── qc.js
-│       │   ├── purchase.js
-│       │   └── invoice.js
-│       └── main.js
-└── README.md

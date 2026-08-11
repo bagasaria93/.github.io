@@ -12,7 +12,7 @@ window.AssignmentsModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Kelola Tugas & Penilaian</div><div class="page-subtitle">Buat tugas dan nilai submission mahasiswa</div></div>
+      <div><h1 class="page-title">Kelola Tugas & Penilaian</h1><div class="page-subtitle">Buat tugas dan nilai submission mahasiswa</div></div>
       <div class="page-actions">
         <select class="filter-select" id="assign-course-sel" style="min-width:200px;">
           ${courses.map(c => `<option value="${c.id}" ${c.id===activeCourseId?'selected':''}>${escapeHtml(c.code)} - ${escapeHtml(c.name)}</option>`).join('')}
@@ -27,7 +27,7 @@ window.AssignmentsModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title" id="modal-assign-title">Buat Tugas</span>
-          <button class="modal-close" onclick="closeModal('modal-assign')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-assign')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body">
           <input type="hidden" id="a-id">
@@ -62,7 +62,7 @@ window.AssignmentsModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title">Beri Nilai</span>
-          <button class="modal-close" onclick="closeModal('modal-grade')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-grade')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body">
           <div id="grade-submission-detail"></div>
@@ -214,13 +214,15 @@ window.AssignmentsModule = (function () {
     renderContent();
   }
 
+  let _clickHandler = null;
+
   function init() {
     renderContent();
     document.getElementById('btn-add-assign')?.addEventListener('click', openAdd);
     document.getElementById('btn-save-assign')?.addEventListener('click', saveAssign);
     document.getElementById('btn-save-grade')?.addEventListener('click', saveGrade);
     document.getElementById('assign-course-sel')?.addEventListener('change', e => { activeCourseId = e.target.value; renderContent(); });
-    document.addEventListener('click', function(e) {
+    _clickHandler = function (e) {
       if (e.target.closest('.btn-edit-assign')) openEdit(e.target.closest('.btn-edit-assign').dataset.id);
       if (e.target.closest('.btn-grade')) {
         const btn = e.target.closest('.btn-grade');
@@ -235,8 +237,13 @@ window.AssignmentsModule = (function () {
           renderContent();
         });
       }
-    });
+    };
+    document.addEventListener('click', _clickHandler);
   }
 
-  return { render, init };
+  function destroy() {
+    if (_clickHandler) { document.removeEventListener('click', _clickHandler); _clickHandler = null; }
+  }
+
+  return { render, init, destroy };
 })();

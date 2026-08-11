@@ -5,7 +5,7 @@
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MitraCRM – Customer Relationship Management</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<meta name="description" content="Demo aplikasi CRM (Customer Relationship Management) untuk PT Nusantara Digital Solusi, mencakup manajemen kontak, pipeline deal kanban, dan laporan analitik sales.">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -51,19 +51,20 @@ html,body { height: 100%; font-family: var(--font); background: var(--body-bg); 
 .sidebar-brand { padding: 1.25rem 1rem; display: flex; align-items: center; gap: 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
 .brand-icon { width: 38px; height: 38px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 800; color: #fff; flex-shrink: 0; box-shadow: 0 2px 12px rgba(37,99,235,0.45); letter-spacing: -0.03em; }
 .brand-name { font-weight: 700; font-size: 0.9rem; color: #fff; }
-.brand-sub { font-size: 0.65rem; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.brand-sub { font-size: 0.65rem; color: rgba(255,255,255,0.55); margin-top: 1px; }
 .sidebar-nav { padding: 1rem 0.75rem; flex: 1; }
-.nav-section-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.28); padding: 0.5rem 0.6rem; margin-top: 0.75rem; }
+.nav-section-label { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.55); padding: 0.5rem 0.6rem; margin-top: 0.75rem; }
 .nav-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.75rem; border-radius: 8px; color: rgba(255,255,255,0.58); cursor: pointer; transition: all 0.15s; font-size: 0.83rem; font-weight: 500; margin-bottom: 2px; user-select: none; }
 .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
 .nav-item.active { background: rgba(37,99,235,0.2); color: #fff; box-shadow: inset 3px 0 0 var(--primary); }
+.nav-item:focus-visible, .user-card:focus-visible, .deal-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .nav-icon { font-size: 0.95rem; width: 20px; text-align: center; flex-shrink: 0; }
 .sidebar-footer { padding: 1rem 0.75rem; border-top: 1px solid rgba(255,255,255,0.06); }
 .user-card { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.75rem; border-radius: 8px; cursor: pointer; transition: background 0.15s; }
 .user-card:hover { background: rgba(255,255,255,0.07); }
 .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 700; color: #fff; flex-shrink: 0; }
 .user-name { font-size: 0.8rem; font-weight: 600; color: #fff; }
-.user-role { font-size: 0.67rem; color: rgba(255,255,255,0.38); }
+.user-role { font-size: 0.67rem; color: rgba(255,255,255,0.55); }
 
 /* Main */
 #main-wrap { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
@@ -171,6 +172,26 @@ html,body { height: 100%; font-family: var(--font); background: var(--body-bg); 
 .chart-box { position: relative; height: 210px; }
 .two-col { display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
 .two-equal { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+/* Mobile menu toggle */
+.menu-toggle { display: none; background: transparent; border: none; font-size: 1.2rem; cursor: pointer; padding: 0.3rem 0.5rem; margin-right: 0.5rem; color: var(--text-primary); }
+#sidebar-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 899; }
+#sidebar-backdrop.open { display: block; }
+
+@media (max-width: 900px) {
+    .menu-toggle { display: inline-flex; align-items: center; justify-content: center; }
+    #sidebar { position: fixed; top: 0; left: 0; z-index: 900; transform: translateX(-100%); transition: transform 0.25s ease; box-shadow: 0 0 40px rgba(0,0,0,0.35); }
+    #sidebar.open { transform: translateX(0); }
+    .kpi-grid { grid-template-columns: repeat(2,1fr); }
+    .two-col, .two-equal { grid-template-columns: 1fr; }
+    .search-wrap input { width: 140px; }
+}
+
+@media (max-width: 520px) {
+    .kpi-grid { grid-template-columns: 1fr; }
+    #page-content { padding: 1rem; }
+    .m-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -182,11 +203,11 @@ html,body { height: 100%; font-family: var(--font); background: var(--body-bg); 
     <h1 style="font-size:1.4rem;font-weight:700;margin-bottom:0.3rem;">Selamat Datang</h1>
     <p style="font-size:0.83rem;color:var(--text-secondary);margin-bottom:1.75rem;">MitraCRM · PT Nusantara Digital Solusi</p>
     <div class="form-group">
-      <label class="form-label">Email</label>
+      <label class="form-label" for="li-email">Email</label>
       <input type="email" id="li-email" class="form-input" value="sales@nusantaradigital.co.id" placeholder="email@perusahaan.co.id">
     </div>
     <div class="form-group">
-      <label class="form-label">Password</label>
+      <label class="form-label" for="li-pass">Password</label>
       <input type="password" id="li-pass" class="form-input" value="Demo@123" placeholder="Password">
     </div>
     <button class="btn-login" onclick="doLogin()">Masuk ke CRM</button>
@@ -210,37 +231,41 @@ html,body { height: 100%; font-family: var(--font); background: var(--body-bg); 
     </div>
     <nav class="sidebar-nav">
       <div class="nav-section-label">Menu Utama</div>
-      <div class="nav-item active" data-page="dashboard" onclick="go('dashboard')">
+      <div class="nav-item active" data-page="dashboard" tabindex="0" role="button" aria-current="page" aria-label="Menu Dashboard" onclick="go('dashboard')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('dashboard');}">
         <span class="nav-icon">📊</span>Dashboard
       </div>
-      <div class="nav-item" data-page="contacts" onclick="go('contacts')">
+      <div class="nav-item" data-page="contacts" tabindex="0" role="button" aria-label="Menu Kontak" onclick="go('contacts')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('contacts');}">
         <span class="nav-icon">👥</span>Kontak
       </div>
-      <div class="nav-item" data-page="pipeline" onclick="go('pipeline')">
+      <div class="nav-item" data-page="pipeline" tabindex="0" role="button" aria-label="Menu Pipeline" onclick="go('pipeline')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('pipeline');}">
         <span class="nav-icon">🔀</span>Pipeline
       </div>
       <div class="nav-section-label">Analitik</div>
-      <div class="nav-item" data-page="reports" onclick="go('reports')">
+      <div class="nav-item" data-page="reports" tabindex="0" role="button" aria-label="Menu Laporan" onclick="go('reports')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('reports');}">
         <span class="nav-icon">📈</span>Laporan
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="user-card" onclick="doLogout()">
+      <div class="user-card" tabindex="0" role="button" aria-label="Logout dari MitraCRM" onclick="doLogout()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();doLogout();}">
         <div class="user-avatar">AS</div>
         <div style="flex:1;min-width:0;">
           <div class="user-name">Ahmad Santoso</div>
           <div class="user-role">Sales Manager</div>
         </div>
-        <span style="font-size:0.75rem;color:rgba(255,255,255,0.25);">⎋</span>
+        <span style="font-size:0.75rem;color:rgba(255,255,255,0.55);" aria-hidden="true">⎋</span>
       </div>
     </div>
   </aside>
+  <div id="sidebar-backdrop" onclick="toggleSidebar(false)"></div>
 
   <div id="main-wrap">
     <div id="topbar">
-      <div>
-        <div class="topbar-title" id="tb-title">Dashboard</div>
-        <div class="topbar-sub" id="tb-sub">Ringkasan performa sales & pipeline</div>
+      <div style="display:flex;align-items:center;">
+        <button class="menu-toggle" aria-label="Buka menu navigasi" onclick="toggleSidebar()">☰</button>
+        <div>
+          <div class="topbar-title" id="tb-title">Dashboard</div>
+          <div class="topbar-sub" id="tb-sub">Ringkasan performa sales & pipeline</div>
+        </div>
       </div>
       <div class="topbar-right" id="tb-actions"></div>
     </div>
@@ -315,6 +340,18 @@ function saveDB(d){ localStorage.setItem(KEY,JSON.stringify(d)); }
 // ══════════════════════════════════════════
 // UTILS
 // ══════════════════════════════════════════
+function escapeHtml(str){
+    if(str==null) return '';
+    return String(str).replace(/[&<>"']/g, function(c){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+}
+function toggleSidebar(force){
+    const sb=document.getElementById('sidebar'), bd=document.getElementById('sidebar-backdrop');
+    const open = force!==undefined ? force : !sb.classList.contains('open');
+    sb.classList.toggle('open', open);
+    bd.classList.toggle('open', open);
+}
 function fc(n){ if(n===0)return'Rp —'; if(n>=1e9)return'Rp '+(n/1e9).toFixed(1)+'M'; if(n>=1e6)return'Rp '+(n/1e6).toFixed(0)+' jt'; return'Rp '+n.toLocaleString('id-ID'); }
 function fd(d){ if(!d)return'—'; const[y,m,day]=d.split('-'); return`${+day} ${['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'][+m-1]} ${y}`; }
 function initials(n){ return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
@@ -364,8 +401,12 @@ function doLogout(){
   if(!confirm('Keluar dari MitraCRM?'))return;
   document.getElementById('app').classList.remove('active');
   document.getElementById('login-screen').style.display='flex';
+  cSearch=''; cFilter='all';
 }
-document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none')doLogin(); });
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none')doLogin();
+  if(e.key==='Escape')closeMod();
+});
 
 // ══════════════════════════════════════════
 // ROUTER
@@ -378,8 +419,11 @@ const PAGES = {
 };
 
 function go(page){
-  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
-  document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(el=>{ el.classList.remove('active'); el.removeAttribute('aria-current'); });
+  const activeItem=document.querySelector(`[data-page="${page}"]`);
+  activeItem?.classList.add('active');
+  activeItem?.setAttribute('aria-current','page');
+  toggleSidebar(false);
   const cfg=PAGES[page]||PAGES.dashboard;
   document.getElementById('tb-title').textContent=cfg.title;
   document.getElementById('tb-sub').textContent=cfg.sub;
@@ -451,14 +495,14 @@ function renderDashboard(){
     <div class="card">
       <div class="card-header"><span class="card-title">Aktivitas Terbaru</span></div>
       <div class="card-body" style="padding-top:0.5rem;padding-bottom:0.5rem;">
-        ${db.activities.slice(0,5).map(a=>{ const c=gc(a.contactId); return`<div class="act-item">${actIcon(a.type)}<div><div class="act-title">${a.desc}</div><div class="act-meta">${c.name||'—'} · ${c.company||''} · ${fd(a.date)}</div></div></div>`; }).join('')}
+        ${db.activities.slice(0,5).map(a=>{ const c=gc(a.contactId); return`<div class="act-item">${actIcon(a.type)}<div><div class="act-title">${escapeHtml(a.desc)}</div><div class="act-meta">${escapeHtml(c.name||'—')} · ${escapeHtml(c.company||'')} · ${fd(a.date)}</div></div></div>`; }).join('')}
       </div>
     </div>
     <div class="card">
       <div class="card-header"><span class="card-title">Deal Terbesar</span></div>
       <div style="overflow:hidden;border-radius:0 0 12px 12px;">
         <table class="tbl"><thead><tr><th>Deal</th><th>Tahap</th><th>Nilai</th></tr></thead><tbody>
-        ${deals.filter(d=>d.value>0).sort((a,b)=>b.value-a.value).slice(0,5).map(d=>{ const c=gc(d.contactId); return`<tr><td><div style="font-weight:600;font-size:0.8rem;">${d.title.length>28?d.title.slice(0,28)+'…':d.title}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${c.company||'—'}</div></td><td>${stageBadge(d.stage)}</td><td style="font-weight:700;font-size:0.8rem;color:var(--primary);">${fc(d.value)}</td></tr>`; }).join('')}
+        ${deals.filter(d=>d.value>0).sort((a,b)=>b.value-a.value).slice(0,5).map(d=>{ const c=gc(d.contactId); const t=d.title.length>28?d.title.slice(0,28)+'…':d.title; return`<tr><td><div style="font-weight:600;font-size:0.8rem;">${escapeHtml(t)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${escapeHtml(c.company||'—')}</div></td><td>${stageBadge(d.stage)}</td><td style="font-weight:700;font-size:0.8rem;color:var(--primary);">${fc(d.value)}</td></tr>`; }).join('')}
         </tbody></table>
       </div>
     </div>
@@ -500,7 +544,7 @@ function renderContacts(){
   <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;">
     <div class="search-wrap">
       <span style="font-size:0.9rem;color:var(--text-secondary);">🔍</span>
-      <input type="text" placeholder="Cari nama, perusahaan..." value="${cSearch}" oninput="cSearch=this.value;renderContacts()">
+      <input type="text" aria-label="Cari kontak" placeholder="Cari nama, perusahaan..." value="${escapeHtml(cSearch)}" oninput="cSearch=this.value;renderContacts()">
     </div>
     <select class="form-select" style="width:auto;padding:0.42rem 0.75rem;" onchange="cFilter=this.value;renderContacts()">
       <option value="all" ${cFilter==='all'?'selected':''}>Semua Status</option>
@@ -518,10 +562,10 @@ function renderContacts(){
       ${list.length===0?`<tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--text-secondary);">Tidak ada kontak ditemukan</td></tr>`
       :list.map(c=>`<tr>
         <td><div style="display:flex;align-items:center;gap:0.6rem;">
-          <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
-          <div><div style="font-weight:600;">${c.name}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${c.industry}</div></div></div></td>
-        <td style="font-weight:500;">${c.company}</td>
-        <td><div style="font-size:0.8rem;">${c.email}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${c.phone}</div></td>
+          <div class="avatar" style="background:${avatarColor(c.name)}">${escapeHtml(initials(c.name))}</div>
+          <div><div style="font-weight:600;">${escapeHtml(c.name)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${escapeHtml(c.industry)}</div></div></div></td>
+        <td style="font-weight:500;">${escapeHtml(c.company)}</td>
+        <td><div style="font-size:0.8rem;">${escapeHtml(c.email)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${escapeHtml(c.phone)}</div></td>
         <td>${badge(c.status)}</td>
         <td style="font-size:0.78rem;color:var(--text-secondary);">${srcLabel(c.source)}</td>
         <td style="font-size:0.78rem;color:var(--text-secondary);">${fd(c.lastActivity)}</td>
@@ -539,17 +583,17 @@ function renderContacts(){
 function openContactModal(id=null){
   const db=getDB(), c=id?db.contacts.find(x=>x.id===id):null;
   openMod(`
-<div class="modal-head"><div class="modal-ttl">${c?'Edit':'Tambah'} Kontak</div><button class="modal-x" onclick="closeMod()">×</button></div>
+<div class="modal-head"><div class="modal-ttl">${c?'Edit':'Tambah'} Kontak</div><button class="modal-x" aria-label="Tutup" onclick="closeMod()">×</button></div>
 <div class="modal-body">
   <div class="m-grid">
-    <div class="m-full"><div class="form-group"><label class="form-label">Nama Lengkap</label><input class="form-input" id="cn-name" value="${c?.name||''}" placeholder="Nama kontak"></div></div>
-    <div><div class="form-group"><label class="form-label">Perusahaan</label><input class="form-input" id="cn-co" value="${c?.company||''}" placeholder="Nama perusahaan"></div></div>
-    <div><div class="form-group"><label class="form-label">Industri</label><input class="form-input" id="cn-ind" value="${c?.industry||''}" placeholder="Industri"></div></div>
-    <div><div class="form-group"><label class="form-label">Email</label><input class="form-input" type="email" id="cn-email" value="${c?.email||''}" placeholder="email@co.id"></div></div>
-    <div><div class="form-group"><label class="form-label">Telepon</label><input class="form-input" id="cn-phone" value="${c?.phone||''}" placeholder="08xx-xxxx-xxxx"></div></div>
-    <div><div class="form-group"><label class="form-label">Status</label>
+    <div class="m-full"><div class="form-group"><label class="form-label" for="cn-name">Nama Lengkap</label><input class="form-input" id="cn-name" value="${escapeHtml(c?.name||'')}" placeholder="Nama kontak"></div></div>
+    <div><div class="form-group"><label class="form-label" for="cn-co">Perusahaan</label><input class="form-input" id="cn-co" value="${escapeHtml(c?.company||'')}" placeholder="Nama perusahaan"></div></div>
+    <div><div class="form-group"><label class="form-label" for="cn-ind">Industri</label><input class="form-input" id="cn-ind" value="${escapeHtml(c?.industry||'')}" placeholder="Industri"></div></div>
+    <div><div class="form-group"><label class="form-label" for="cn-email">Email</label><input class="form-input" type="email" id="cn-email" value="${escapeHtml(c?.email||'')}" placeholder="email@co.id"></div></div>
+    <div><div class="form-group"><label class="form-label" for="cn-phone">Telepon</label><input class="form-input" id="cn-phone" value="${escapeHtml(c?.phone||'')}" placeholder="08xx-xxxx-xxxx"></div></div>
+    <div><div class="form-group"><label class="form-label" for="cn-status">Status</label>
       <select class="form-select" id="cn-status">${['lead','prospect','customer','churned'].map(s=>`<option value="${s}" ${c?.status===s?'selected':''}>${s[0].toUpperCase()+s.slice(1)}</option>`).join('')}</select></div></div>
-    <div><div class="form-group"><label class="form-label">Sumber</label>
+    <div><div class="form-group"><label class="form-label" for="cn-src">Sumber</label>
       <select class="form-select" id="cn-src">${['referral','website','cold-call','event','social'].map(s=>`<option value="${s}" ${c?.source===s?'selected':''}>${srcLabel(s)}</option>`).join('')}</select></div></div>
   </div>
 </div>
@@ -599,9 +643,9 @@ function renderPipeline(){
           <div class="k-col-meta"><span>${tot>0?fc(tot):'—'}</span><span class="k-count">${ds.length}</span></div>
         </div>
         <div class="k-cards">
-          ${ds.map(d=>{ const c=gc(d.contactId); return`<div class="deal-card" onclick="openDealModal('${d.id}')">
-            <div class="deal-title">${d.title}</div>
-            <div class="deal-co">🏢 ${c.company||'—'}</div>
+          ${ds.map(d=>{ const c=gc(d.contactId); return`<div class="deal-card" tabindex="0" role="button" aria-label="Deal: ${escapeHtml(d.title)}" onclick="openDealModal('${d.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openDealModal('${d.id}');}">
+            <div class="deal-title">${escapeHtml(d.title)}</div>
+            <div class="deal-co">🏢 ${escapeHtml(c.company||'—')}</div>
             <div class="deal-val">${d.value>0?fc(d.value):'<span style="color:var(--text-secondary);font-weight:400;">Nilai TBD</span>'}</div>
             <div class="deal-foot">
               <span class="deal-prob">${d.probability}% prob.</span>
@@ -625,18 +669,18 @@ function advDeal(id){
 
 function openDealModal(id=null){
   const db=getDB(), d=id?db.deals.find(x=>x.id===id):null;
-  const coOpts=db.contacts.map(c=>`<option value="${c.id}" ${d?.contactId===c.id?'selected':''}>${c.name} – ${c.company}</option>`).join('');
+  const coOpts=db.contacts.map(c=>`<option value="${c.id}" ${d?.contactId===c.id?'selected':''}>${escapeHtml(c.name)} – ${escapeHtml(c.company)}</option>`).join('');
   openMod(`
-<div class="modal-head"><div class="modal-ttl">${d?'Edit':'Tambah'} Deal</div><button class="modal-x" onclick="closeMod()">×</button></div>
+<div class="modal-head"><div class="modal-ttl">${d?'Edit':'Tambah'} Deal</div><button class="modal-x" aria-label="Tutup" onclick="closeMod()">×</button></div>
 <div class="modal-body">
   <div class="m-grid">
-    <div class="m-full"><div class="form-group"><label class="form-label">Nama Deal</label><input class="form-input" id="dm-title" value="${d?.title||''}" placeholder="Nama deal / peluang"></div></div>
-    <div class="m-full"><div class="form-group"><label class="form-label">Kontak</label><select class="form-select" id="dm-contact">${coOpts}</select></div></div>
-    <div><div class="form-group"><label class="form-label">Nilai (Rp)</label><input class="form-input" type="number" id="dm-val" value="${d?.value||''}" placeholder="0"></div></div>
-    <div><div class="form-group"><label class="form-label">Tahap</label>
+    <div class="m-full"><div class="form-group"><label class="form-label" for="dm-title">Nama Deal</label><input class="form-input" id="dm-title" value="${escapeHtml(d?.title||'')}" placeholder="Nama deal / peluang"></div></div>
+    <div class="m-full"><div class="form-group"><label class="form-label" for="dm-contact">Kontak</label><select class="form-select" id="dm-contact">${coOpts}</select></div></div>
+    <div><div class="form-group"><label class="form-label" for="dm-val">Nilai (Rp)</label><input class="form-input" type="number" id="dm-val" value="${d?.value||''}" placeholder="0"></div></div>
+    <div><div class="form-group"><label class="form-label" for="dm-stage">Tahap</label>
       <select class="form-select" id="dm-stage">${['prospek','proposal','negosiasi','won','lost'].map(s=>`<option value="${s}" ${d?.stage===s?'selected':''}>${stageLabel(s)}</option>`).join('')}</select></div></div>
-    <div><div class="form-group"><label class="form-label">Probability (%)</label><input class="form-input" type="number" id="dm-prob" value="${d?.probability||30}" min="0" max="100"></div></div>
-    <div><div class="form-group"><label class="form-label">Expected Close</label><input class="form-input" type="date" id="dm-close" value="${d?.expectedClose||''}"></div></div>
+    <div><div class="form-group"><label class="form-label" for="dm-prob">Probability (%)</label><input class="form-input" type="number" id="dm-prob" value="${d?.probability||30}" min="0" max="100"></div></div>
+    <div><div class="form-group"><label class="form-label" for="dm-close">Expected Close</label><input class="form-input" type="date" id="dm-close" value="${d?.expectedClose||''}"></div></div>
   </div>
 </div>
 <div class="modal-foot">
@@ -670,12 +714,21 @@ function renderReports(){
   const active=deals.filter(d=>!['won','lost'].includes(d.stage));
   const rev=won.reduce((s,d)=>s+d.value,0);
   const pipe=active.reduce((s,d)=>s+d.value,0);
+  const lostVal=lost.reduce((s,d)=>s+d.value,0);
   const closed=won.length+lost.length;
   const wr=closed>0?Math.round(won.length/closed*100):0;
   const avg=won.length>0?Math.round(rev/won.length):0;
 
-  const months=['Des\'25','Jan\'26','Feb\'26','Mar\'26','Apr\'26','Mei\'26'];
-  const mRev=[12,18,32,22,48,18];
+  const MONTH_NAMES=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'];
+  function shiftMonth(ym,delta){ let[y,m]=ym.split('-').map(Number); m+=delta; while(m<1){m+=12;y--;} while(m>12){m-=12;y++;} return y+'-'+String(m).padStart(2,'0'); }
+  function monthLabel(ym){ const[y,m]=ym.split('-'); return MONTH_NAMES[+m-1]+"'"+y.slice(2); }
+  const wonByMonth={};
+  won.forEach(d=>{ if(!d.expectedClose)return; const ym=d.expectedClose.slice(0,7); wonByMonth[ym]=(wonByMonth[ym]||0)+d.value; });
+  const wonMonthKeys=Object.keys(wonByMonth).sort();
+  const endYm=wonMonthKeys.length?wonMonthKeys[wonMonthKeys.length-1]:new Date().toISOString().slice(0,7);
+  const windowKeys=[]; for(let i=5;i>=0;i--)windowKeys.push(shiftMonth(endYm,-i));
+  const months=windowKeys.map(monthLabel);
+  const mRev=windowKeys.map(k=>Math.round((wonByMonth[k]||0)/1e6));
 
   document.getElementById('page-content').innerHTML=`
 <div class="page-sec">
@@ -705,7 +758,7 @@ function renderReports(){
         <tbody>
         ${['prospek','proposal','negosiasi','won','lost'].map(s=>{
           const sl=deals.filter(d=>d.stage===s), tot=sl.reduce((x,d)=>x+d.value,0), avgs=sl.length>0?Math.round(tot/sl.length):0;
-          const totalAll=rev+pipe; const pct=totalAll>0?Math.round(tot/totalAll*100):0;
+          const totalAll=rev+pipe+lostVal; const pct=totalAll>0?Math.round(tot/totalAll*100):0;
           return`<tr><td>${stageBadge(s)}</td><td style="font-weight:700;">${sl.length}</td><td style="font-weight:600;">${tot>0?fc(tot):'—'}</td><td style="color:var(--text-secondary);">${avgs>0?fc(avgs):'—'}</td>
           <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:var(--primary);border-radius:3px;"></div></div><span style="font-size:0.72rem;color:var(--text-secondary);min-width:28px;">${pct}%</span></div></td></tr>`;
         }).join('')}

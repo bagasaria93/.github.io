@@ -12,8 +12,8 @@ window.EmployeesModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Manajemen Karyawan</div>
-        <div class="page-subtitle">Kelola data seluruh karyawan perusahaan</div>
+        <h1 class="page-title">Manajemen Karyawan</h1>
+        <p class="page-subtitle">Kelola data seluruh karyawan perusahaan</p>
       </div>
       <div class="page-actions">
         <button class="btn btn-secondary btn-sm" onclick="EmployeesModule.exportCSV()">

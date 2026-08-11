@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native-web';
 import { useApp } from '../context/AppContext';
 import AddHabitModal from '../components/AddHabitModal';
-import { calcStreak, WEEKDAY_LABELS } from '../utils';
+import { calcStreak, WEEKDAY_LABELS, dayPillTextColor } from '../utils';
 
 export default function HabitsScreen() {
   const { theme, data, deleteHabit } = useApp();
@@ -37,13 +37,14 @@ export default function HabitsScreen() {
                   <Text style={{ fontSize: 19 }}>{h.icon}</Text>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <Text style={[styles.name, { color: theme.ink }]}>{h.name}</Text>
+                  <Text numberOfLines={1} style={[styles.name, { color: theme.ink }]}>{h.name}</Text>
                   <Text style={[styles.streakLine, { color: theme.inkDim }]}>
                     🔥 Streak {streak} hari
                   </Text>
                 </View>
                 <TouchableOpacity
                   onPress={() => setConfirmDeleteId(confirmDeleteId === h.id ? null : h.id)}
+                  accessibilityLabel={`Hapus kebiasaan ${h.name}`}
                   style={[styles.deleteBtn, { backgroundColor: theme.bg }]}
                 >
                   <Text style={{ color: theme.danger, fontSize: 13 }}>🗑</Text>
@@ -61,7 +62,7 @@ export default function HabitsScreen() {
                         { backgroundColor: active ? h.color : theme.bg, borderColor: active ? h.color : theme.border },
                       ]}
                     >
-                      <Text style={{ fontSize: 9.5, fontWeight: '700', color: active ? 'white' : theme.inkDim }}>
+                      <Text style={{ fontSize: 9.5, fontWeight: '700', color: active ? dayPillTextColor(h.color) : theme.inkDim }}>
                         {label[0]}
                       </Text>
                     </View>

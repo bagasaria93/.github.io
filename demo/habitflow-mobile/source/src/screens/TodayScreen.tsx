@@ -61,7 +61,11 @@ export default function TodayScreen() {
         </View>
       </ScrollView>
 
-      <TouchableOpacity style={[styles.fab, { backgroundColor: theme.primary }]} onPress={() => setModalVisible(true)}>
+      <TouchableOpacity
+        style={[styles.fab, { backgroundColor: theme.primary }]}
+        onPress={() => setModalVisible(true)}
+        accessibilityLabel="Tambah kebiasaan baru"
+      >
         <Text style={styles.fabText}>+</Text>
       </TouchableOpacity>
 

@@ -13,6 +13,7 @@ export default function HabitRow({ habit }: { habit: Habit }) {
     <View style={[styles.row, { borderColor: theme.border }]}>
       <TouchableOpacity
         onPress={() => toggleCompletion(habit.id)}
+        accessibilityLabel={doneToday ? `Tandai ${habit.name} belum selesai` : `Tandai ${habit.name} selesai`}
         style={[
           styles.checkbox,
           {
@@ -30,6 +31,7 @@ export default function HabitRow({ habit }: { habit: Habit }) {
 
       <View style={{ flex: 1 }}>
         <Text
+          numberOfLines={1}
           style={[
             styles.name,
             { color: theme.ink, textDecorationLine: doneToday ? 'line-through' : 'none', opacity: doneToday ? 0.55 : 1 },

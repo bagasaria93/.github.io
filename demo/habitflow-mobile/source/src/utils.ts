@@ -1,7 +1,10 @@
 import { Habit } from './types';
 
 export function isoDate(d: Date): string {
-  return d.toISOString().slice(0, 10);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
 }
 
 export function todayISO(): string {
@@ -81,4 +84,14 @@ export function longestStreakAcrossHabits(habits: Habit[], completions: Record<s
 
 export function uid(): string {
   return 'h_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+}
+
+export function dayPillTextColor(bgColor: string): string {
+  const hex = bgColor.replace('#', '');
+  const r = parseInt(hex.slice(0, 2), 16) / 255;
+  const g = parseInt(hex.slice(2, 4), 16) / 255;
+  const b = parseInt(hex.slice(4, 6), 16) / 255;
+  const toLinear = (v: number) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  const luminance = 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+  return luminance > 0.45 ? '#14142b' : '#ffffff';
 }

@@ -24,8 +24,8 @@ window.PerformanceModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Manajemen Kinerja</div>
-        <div class="page-subtitle">Penilaian KPI dan evaluasi performa karyawan</div>
+        <h1 class="page-title">Manajemen Kinerja</h1>
+        <p class="page-subtitle">Penilaian KPI dan evaluasi performa karyawan</p>
       </div>
       ${canCreate ? `<button class="btn btn-primary" onclick="PerformanceModule.openAdd()">
         <i data-lucide="plus"></i> Tambah Review
@@ -96,7 +96,7 @@ window.PerformanceModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Kinerja Saya</div><div class="page-subtitle">Hasil evaluasi performa Anda</div></div>
+      <div><h1 class="page-title">Kinerja Saya</h1><p class="page-subtitle">Hasil evaluasi performa Anda</p></div>
     </div>
 
     ${myPerfs.length === 0 ? `<div class="card"><div class="empty-state" style="padding:60px;"><i data-lucide="bar-chart-2"></i><h3>Belum ada penilaian kinerja</h3><p>Hubungi HR Manager untuk informasi lebih lanjut</p></div></div>` : ''}

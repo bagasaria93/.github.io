@@ -1,3 +1,5 @@
+'use strict';
+
 window.TrainingModule = (function () {
   let _page = 1;
   const PER_PAGE = 8;

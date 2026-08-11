@@ -15,7 +15,7 @@ window.ReportsModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Laporan Akademik</div><div class="page-subtitle">Rekap data akademik seluruh sistem</div></div>
+      <div><h1 class="page-title">Laporan Akademik</h1><div class="page-subtitle">Rekap data akademik seluruh sistem</div></div>
       <div class="page-actions">
         <button class="btn btn-success" id="btn-export-csv"><i data-lucide="download"></i> Export CSV</button>
       </div>

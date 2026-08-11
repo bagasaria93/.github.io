@@ -16,7 +16,6 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <meta name="description" content="PocketWallet - Installable expense & budget tracker PWA. Works offline, installable to home screen.">
 
-<script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
@@ -24,7 +23,7 @@
 <style>
 :root{
   --indigo:#4f46e5; --violet:#7c3aed; --emerald:#10b981; --rose:#f43f5e; --amber:#f59e0b;
-  --bg:#f4f4f8; --card:#ffffff; --ink:#14142b; --ink-dim:#6b7280; --border:#e7e7ef;
+  --bg:#f4f4f8; --card:#ffffff; --ink:#14142b; --ink-dim:#56606f; --border:#e7e7ef;
 }
 html.dark{
   --bg:#0b0b14; --card:#15151f; --ink:#f2f2f7; --ink-dim:#8b8b9c; --border:#232332;
@@ -51,8 +50,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .balance-card::before{content:'';position:absolute;width:120px;height:120px;background:rgba(255,255,255,0.06);border-radius:50%;bottom:-50px;left:-30px;}
 
 .pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:700;}
-.pill-income{background:rgba(16,185,129,0.12);color:var(--emerald);}
-.pill-expense{background:rgba(244,63,94,0.12);color:var(--rose);}
+.pill-income{background:rgba(16,185,129,0.12);color:#047857;}
+.pill-expense{background:rgba(244,63,94,0.12);color:#be123c;}
+html.dark .pill-income{color:var(--emerald);}
+html.dark .pill-expense{color:#fb7185;}
 
 .tx-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;transition:background .15s;}
 .tx-item:hover{background:var(--bg);}
@@ -114,10 +115,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
         <div style="font-size:17px;font-weight:800;">PocketWallet</div>
       </div>
       <div style="display:flex;gap:8px;">
-        <button class="icon-btn" id="installBtnTop" style="display:none;" title="Install App">
+        <button class="icon-btn" id="installBtnTop" style="display:none;" title="Install App" aria-label="Install aplikasi">
           <i data-lucide="download" style="width:17px;height:17px;"></i>
         </button>
-        <button class="icon-btn" onclick="goScreen('settings')">
+        <button class="icon-btn" onclick="goScreen('settings')" aria-label="Buka pengaturan">
           <i data-lucide="settings" style="width:17px;height:17px;"></i>
         </button>
       </div>
@@ -217,7 +218,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
             <i data-lucide="moon" style="width:17px;height:17px;"></i>
             <span style="font-size:13.5px;font-weight:700;">Mode Gelap</span>
           </div>
-          <div class="toggle-switch" id="darkToggle" onclick="toggleDark()"><div class="knob"></div></div>
+          <div class="toggle-switch" id="darkToggle" tabindex="0" role="switch" aria-checked="false" aria-label="Mode gelap" onclick="toggleDark()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleDark();}"><div class="knob"></div></div>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;">
           <div style="display:flex;align-items:center;gap:10px;">
@@ -261,7 +262,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
     </div>
   </div>
 
-  <button class="fab" onclick="openAddModal()">
+  <button class="fab" onclick="openAddModal()" aria-label="Tambah transaksi">
     <i data-lucide="plus" style="width:24px;height:24px;"></i>
   </button>
 
@@ -286,7 +287,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   <div class="modal-sheet">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
       <div style="font-size:16px;font-weight:800;">Tambah Transaksi</div>
-      <button class="icon-btn" onclick="closeAddModal()"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      <button class="icon-btn" onclick="closeAddModal()" aria-label="Tutup"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
     </div>
 
     <div class="type-toggle" style="margin-bottom:16px;">
@@ -294,16 +295,16 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
       <button id="typeIncomeBtn" onclick="setTxType('income')">Pemasukan</button>
     </div>
 
-    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">JUMLAH (Rp)</label>
+    <label for="txAmount" style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">JUMLAH (Rp)</label>
     <input id="txAmount" type="text" inputmode="numeric" class="inp" placeholder="0" style="font-size:22px;font-weight:800;margin:6px 0 16px;padding:12px 14px;">
 
-    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">KATEGORI</label>
-    <div class="cat-grid" id="catGrid" style="margin:8px 0 16px;"></div>
+    <span style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">KATEGORI</span>
+    <div class="cat-grid" id="catGrid" role="group" aria-label="Pilih kategori transaksi" style="margin:8px 0 16px;"></div>
 
-    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">CATATAN (opsional)</label>
+    <label for="txNote" style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">CATATAN (opsional)</label>
     <input id="txNote" type="text" class="inp" placeholder="mis. Makan siang di kantor" style="margin:6px 0 16px;">
 
-    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">TANGGAL</label>
+    <label for="txDate" style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">TANGGAL</label>
     <input id="txDate" type="date" class="inp" style="margin:6px 0 20px;">
 
     <button onclick="saveTx()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--indigo),var(--violet));color:white;font-weight:800;font-size:14.5px;cursor:pointer;">Simpan Transaksi</button>
@@ -315,10 +316,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   <div class="modal-sheet">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
       <div style="font-size:16px;font-weight:800;">Atur Batas Anggaran</div>
-      <button class="icon-btn" onclick="closeBudgetModal()"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
+      <button class="icon-btn" onclick="closeBudgetModal()" aria-label="Tutup"><i data-lucide="x" style="width:16px;height:16px;"></i></button>
     </div>
     <div id="budgetModalCatLabel" style="font-size:13px;font-weight:700;margin-bottom:10px;"></div>
-    <label style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">BATAS BULANAN (Rp)</label>
+    <label for="budgetAmount" style="font-size:11.5px;font-weight:700;color:var(--ink-dim);">BATAS BULANAN (Rp)</label>
     <input id="budgetAmount" type="text" inputmode="numeric" class="inp" placeholder="0" style="font-size:20px;font-weight:800;margin:6px 0 20px;padding:12px 14px;">
     <button onclick="saveBudget()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--indigo),var(--violet));color:white;font-weight:800;font-size:14.5px;cursor:pointer;">Simpan</button>
   </div>
@@ -327,6 +328,21 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 <div class="toast" id="toast"></div>
 
 <script>
+function escapeHtml(str){
+    if(str==null) return '';
+    return String(str).replace(/[&<>"']/g, function(c){
+        return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+    });
+}
+function localDateStr(d){
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return year + '-' + month + '-' + day;
+}
+function localMonthKey(d){
+    return localDateStr(d).slice(0, 7);
+}
 /* ===================== DATA LAYER ===================== */
 const STORAGE_KEY = 'pocketwallet_data_v1';
 const CATEGORIES = {
@@ -360,7 +376,7 @@ function loadData(){
 
 function seedTransactions(){
   const today = new Date();
-  const d = (offset) => { const t = new Date(today); t.setDate(t.getDate()-offset); return t.toISOString().slice(0,10); };
+  const d = (offset) => { const t = new Date(today); t.setDate(t.getDate()-offset); return localDateStr(t); };
   return [
     {id:cryptoId(), type:'income', category:'gaji', amount:8500000, note:'Gaji bulanan', date:d(2)},
     {id:cryptoId(), type:'expense', category:'makanan', amount:65000, note:'Makan siang', date:d(1)},
@@ -392,7 +408,7 @@ function catInfo(type, id){
   return (CATEGORIES[type] || CATEGORIES.expense).find(c => c.id === id) || CATEGORIES.expense[CATEGORIES.expense.length-1];
 }
 function monthKey(dateStr){ return dateStr.slice(0,7); }
-function currentMonthKey(){ return new Date().toISOString().slice(0,7); }
+function currentMonthKey(){ return localMonthKey(new Date()); }
 function showToast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
@@ -468,8 +484,8 @@ function txRowHtml(t){
       <i data-lucide="${c.icon}" style="width:19px;height:19px;"></i>
     </div>
     <div style="flex:1;min-width:0;">
-      <div style="font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.note || c.label}</div>
-      <div style="font-size:11px;color:var(--ink-dim);">${c.label} • ${dateFmt}</div>
+      <div style="font-size:13.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${escapeHtml(t.note) || escapeHtml(c.label)}</div>
+      <div style="font-size:11px;color:var(--ink-dim);">${escapeHtml(c.label)} • ${dateFmt}</div>
     </div>
     <div style="text-align:right;">
       <div style="font-size:13px;font-weight:800;color:${color};">${sign}${formatRp(t.amount)}</div>
@@ -588,7 +604,7 @@ function openAddModal(){
   setTxType('expense');
   document.getElementById('txAmount').value = '';
   document.getElementById('txNote').value = '';
-  document.getElementById('txDate').value = new Date().toISOString().slice(0,10);
+  document.getElementById('txDate').value = localDateStr(new Date());
   document.getElementById('addModal').style.display = 'flex';
 }
 function closeAddModal(){ document.getElementById('addModal').style.display = 'none'; }
@@ -600,7 +616,7 @@ function saveTx(){
   const selectedCat = document.querySelector('.cat-btn.selected');
   const category = selectedCat ? selectedCat.dataset.cat : CATEGORIES[currentTxType][0].id;
   const note = document.getElementById('txNote').value.trim();
-  const date = document.getElementById('txDate').value || new Date().toISOString().slice(0,10);
+  const date = document.getElementById('txDate').value || localDateStr(new Date());
 
   DATA.transactions.push({ id: cryptoId(), type: currentTxType, category, amount, note, date });
   persist();
@@ -619,6 +635,7 @@ function deleteTx(id){
 function applyDarkMode(){
   document.documentElement.classList.toggle('dark', !!DATA.darkMode);
   document.getElementById('darkToggle').classList.toggle('on', !!DATA.darkMode);
+  document.getElementById('darkToggle').setAttribute('aria-checked', !!DATA.darkMode);
   document.querySelector('meta[name="theme-color"]').setAttribute('content', DATA.darkMode ? '#0b0b14' : '#4f46e5');
 }
 function toggleDark(){
@@ -690,7 +707,7 @@ if('serviceWorker' in navigator){
 }
 
 /* ===================== INIT ===================== */
-document.getElementById('txDate').value = new Date().toISOString().slice(0,10);
+document.getElementById('txDate').value = localDateStr(new Date());
 applyDarkMode();
 updateConnStatus();
 renderHome();

@@ -59,11 +59,6 @@ function nilaiColor(nilai) {
   return 'danger';
 }
 
-function generateId(prefix, existing) {
-  const nums = existing.map(id => parseInt(id.replace(prefix,''))).filter(n => !isNaN(n));
-  return prefix + String(Math.max(0, ...nums) + 1).padStart(3, '0');
-}
-
 // ============================================================
 // TOAST
 // ============================================================

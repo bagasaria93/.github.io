@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native-web';
 import { useApp } from '../context/AppContext';
-import { WEEKDAY_LABELS } from '../utils';
+import { WEEKDAY_LABELS, dayPillTextColor } from '../utils';
 
 const ICONS = ['💧', '🏃', '📚', '🌙', '🧘', '🥗', '💊', '✍️', '🎯', '🎸', '🚭', '💰'];
 const COLORS = ['#0d9488', '#f97316', '#8b5cf6', '#0ea5e9', '#ef4444', '#10b981', '#ec4899', '#eab308'];
+const NAME_MAX_LENGTH = 40;
 
 export default function AddHabitModal({ visible, onClose }: { visible: boolean; onClose: () => void }) {
   const { theme, addHabit } = useApp();
@@ -17,24 +18,37 @@ export default function AddHabitModal({ visible, onClose }: { visible: boolean; 
     setFrequency((f) => (f.includes(day) ? f.filter((d) => d !== day) : [...f, day].sort()));
   };
 
-  const handleSave = () => {
-    if (!name.trim() || frequency.length === 0) return;
-    addHabit({ name: name.trim(), icon, color, frequency });
+  const resetForm = () => {
     setName('');
     setIcon(ICONS[0]);
     setColor(COLORS[0]);
     setFrequency([0, 1, 2, 3, 4, 5, 6]);
+  };
+
+  const handleSave = () => {
+    if (!name.trim() || frequency.length === 0) return;
+    addHabit({ name: name.trim(), icon, color, frequency });
+    resetForm();
+    onClose();
+  };
+
+  const handleClose = () => {
+    resetForm();
     onClose();
   };
 
   return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={handleClose}>
       <View style={styles.overlay}>
         <View style={[styles.sheet, { backgroundColor: theme.card }]}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.headerRow}>
               <Text style={[styles.title, { color: theme.ink }]}>Kebiasaan Baru</Text>
-              <TouchableOpacity onPress={onClose} style={[styles.closeBtn, { backgroundColor: theme.bg }]}>
+              <TouchableOpacity
+                onPress={handleClose}
+                accessibilityLabel="Tutup form tambah kebiasaan"
+                style={[styles.closeBtn, { backgroundColor: theme.bg }]}
+              >
                 <Text style={{ color: theme.ink, fontSize: 15 }}>✕</Text>
               </TouchableOpacity>
             </View>
@@ -43,6 +57,7 @@ export default function AddHabitModal({ visible, onClose }: { visible: boolean; 
             <TextInput
               value={name}
               onChangeText={setName}
+              maxLength={NAME_MAX_LENGTH}
               placeholder="mis. Meditasi 10 menit"
               placeholderTextColor={theme.inkDim}
               style={[styles.input, { borderColor: theme.border, color: theme.ink, backgroundColor: theme.bg }]}
@@ -54,6 +69,7 @@ export default function AddHabitModal({ visible, onClose }: { visible: boolean; 
                 <TouchableOpacity
                   key={ic}
                   onPress={() => setIcon(ic)}
+                  accessibilityLabel={`Pilih ikon ${ic}`}
                   style={[
                     styles.iconBtn,
                     { borderColor: ic === icon ? color : theme.border, backgroundColor: ic === icon ? color + '22' : theme.bg },
@@ -70,6 +86,7 @@ export default function AddHabitModal({ visible, onClose }: { visible: boolean; 
                 <TouchableOpacity
                   key={c}
                   onPress={() => setColor(c)}
+                  accessibilityLabel={`Pilih warna ${c}`}
                   style={[
                     styles.colorDot,
                     { backgroundColor: c, borderWidth: c === color ? 3 : 0, borderColor: theme.ink },
@@ -91,7 +108,7 @@ export default function AddHabitModal({ visible, onClose }: { visible: boolean; 
                       { backgroundColor: active ? color : theme.bg, borderColor: active ? color : theme.border },
                     ]}
                   >
-                    <Text style={{ fontSize: 11, fontWeight: '700', color: active ? 'white' : theme.inkDim }}>{label}</Text>
+                    <Text style={{ fontSize: 11, fontWeight: '700', color: active ? dayPillTextColor(color) : theme.inkDim }}>{label}</Text>
                   </TouchableOpacity>
                 );
               })}

@@ -1,10 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
     <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BlazeNotif - Platform Notifikasi WhatsApp & Email</title>
+<meta name="description" content="Demo platform notifikasi WhatsApp dan Email BlazeNotif, mencakup blast pesan massal, manajemen kontak dan grup, template pesan dengan variabel dinamis, dan riwayat pengiriman.">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -69,7 +70,7 @@ body { font-family: var(--font); background: var(--body-bg); color: var(--text-p
 .nav-item.active { color: white; background: rgba(124,58,237,0.2); border-right-color: var(--primary-light); }
 .nav-item svg { flex-shrink: 0; opacity: 0.7; }
 .nav-item.active svg, .nav-item:hover svg { opacity: 1; }
-.nav-section-label { padding: 14px 20px 6px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.2); text-transform: uppercase; letter-spacing: 0.08em; }
+.nav-section-label { padding: 14px 20px 6px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
 .sidebar-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.07); }
 
 .main-content { margin-left: 240px; min-height: 100vh; }
@@ -136,14 +137,10 @@ body { font-family: var(--font); background: var(--body-bg); color: var(--text-p
 .form-control-custom:focus { border-color: var(--primary-light); }
 .form-control-custom option { background: white; }
 
-.channel-card {
-    border: 2px solid var(--border-color);
-    border-radius: 12px; padding: 16px;
-    cursor: pointer; transition: all 0.2s; text-align: center;
+.template-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 480px) {
+    .template-card-grid { grid-template-columns: 1fr; }
 }
-.channel-card:hover { border-color: var(--primary-light); background: var(--primary-bg); }
-.channel-card.selected-wa { border-color: var(--wa-color); background: var(--wa-bg); }
-.channel-card.selected-email { border-color: var(--email-color); background: var(--email-bg); }
 
 .template-card {
     border: 1.5px solid var(--border-color);
@@ -209,6 +206,8 @@ body { font-family: var(--font); background: var(--body-bg); color: var(--text-p
 
 .grup-badge { display: inline-flex; align-items: center; background: var(--primary-bg); color: var(--primary); border-radius: 6px; padding: 2px 8px; font-size: 11px; font-weight: 600; margin: 2px; }
 
+.var-chip:focus-visible, .template-card:focus-visible, .nav-item:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
 @media (max-width: 991px) {
     .sidebar { transform: translateX(-100%); }
     .sidebar.mob-open { transform: translateX(0); }
@@ -230,8 +229,6 @@ body { font-family: var(--font); background: var(--body-bg); color: var(--text-p
 .btn-primary-custom:hover { background: var(--primary-dark); box-shadow: 0 4px 18px rgba(124,58,237,0.4); }
 .btn-wa:hover { box-shadow: 0 4px 18px rgba(37,211,102,0.35); opacity: 1; filter: brightness(1.05); }
 .btn-email:hover { box-shadow: 0 4px 18px rgba(37,99,235,0.35); opacity: 1; filter: brightness(1.05); }
-.channel-card:hover { box-shadow: 0 4px 20px rgba(124,58,237,0.12); transform: translateY(-1px); }
-.channel-card { transition: all 0.2s ease; }
 .card-section { transition: box-shadow 0.25s ease; }
 .card-section:hover { box-shadow: 0 4px 24px rgba(124,58,237,0.08); }
 .topbar { box-shadow: 0 1px 0 var(--border-color), 0 4px 16px rgba(0,0,0,0.04); }
@@ -337,19 +334,19 @@ body { font-family: var(--font); background: var(--body-bg); color: var(--text-p
         </div>
         <div class="row g-3">
             <div class="col-6">
-                <label class="form-label-custom">Nama</label>
+                <label class="form-label-custom" for="kf-nama">Nama</label>
                 <input type="text" class="form-control-custom" id="kf-nama" placeholder="Nama lengkap">
             </div>
             <div class="col-6">
-                <label class="form-label-custom">No. WhatsApp</label>
+                <label class="form-label-custom" for="kf-wa">No. WhatsApp</label>
                 <input type="text" class="form-control-custom" id="kf-wa" placeholder="628123456789">
             </div>
             <div class="col-12">
-                <label class="form-label-custom">Email</label>
+                <label class="form-label-custom" for="kf-email">Email</label>
                 <input type="email" class="form-control-custom" id="kf-email" placeholder="nama@email.com">
             </div>
             <div class="col-6">
-                <label class="form-label-custom">Grup</label>
+                <label class="form-label-custom" for="kf-grup">Grup</label>
                 <select class="form-control-custom" id="kf-grup">
                     <option value="Umum">Umum</option>
                     <option value="Pelanggan">Pelanggan</option>
@@ -359,7 +356,7 @@ body { font-family: var(--font); background: var(--body-bg); color: var(--text-p
                 </select>
             </div>
             <div class="col-6">
-                <label class="form-label-custom">Tag (opsional)</label>
+                <label class="form-label-custom" for="kf-tag">Tag (opsional)</label>
                 <input type="text" class="form-control-custom" id="kf-tag" placeholder="promo, member, dll">
             </div>
         </div>
@@ -380,30 +377,30 @@ body { font-family: var(--font); background: var(--body-bg); color: var(--text-p
         </div>
         <div class="row g-3">
             <div class="col-8">
-                <label class="form-label-custom">Nama Template</label>
+                <label class="form-label-custom" for="tf-nama">Nama Template</label>
                 <input type="text" class="form-control-custom" id="tf-nama" placeholder="Contoh: Promo Ramadan">
             </div>
             <div class="col-4">
-                <label class="form-label-custom">Channel</label>
-                <select class="form-control-custom" id="tf-channel">
+                <label class="form-label-custom" for="tf-channel">Channel</label>
+                <select class="form-control-custom" id="tf-channel" onchange="toggleTemplateSubjectField()">
                     <option value="wa">WhatsApp</option>
                     <option value="email">Email</option>
                     <option value="both">Keduanya</option>
                 </select>
             </div>
             <div class="col-12" id="tf-subject-wrap">
-                <label class="form-label-custom">Subject Email</label>
+                <label class="form-label-custom" for="tf-subject">Subject Email</label>
                 <input type="text" class="form-control-custom" id="tf-subject" placeholder="Subject email...">
             </div>
             <div class="col-12">
-                <label class="form-label-custom">Isi Pesan</label>
+                <label class="form-label-custom" for="tf-pesan">Isi Pesan</label>
                 <div style="margin-bottom:6px;">
                     <span style="font-size:11px;color:var(--text-secondary);">Variabel dinamis:</span>
-                    <span class="var-chip" onclick="insertVar('{{nama}}')">{{nama}}</span>
-                    <span class="var-chip" onclick="insertVar('{{tanggal}}')">{{tanggal}}</span>
-                    <span class="var-chip" onclick="insertVar('{{kode}}')">{{kode}}</span>
-                    <span class="var-chip" onclick="insertVar('{{produk}}')">{{produk}}</span>
-                    <span class="var-chip" onclick="insertVar('{{nominal}}')">{{nominal}}</span>
+                    <span class="var-chip" tabindex="0" role="button" aria-label="Sisipkan variabel nama" onclick="insertVar('{{nama}}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();insertVar('{{nama}}');}">{{nama}}</span>
+                    <span class="var-chip" tabindex="0" role="button" aria-label="Sisipkan variabel tanggal" onclick="insertVar('{{tanggal}}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();insertVar('{{tanggal}}');}">{{tanggal}}</span>
+                    <span class="var-chip" tabindex="0" role="button" aria-label="Sisipkan variabel kode" onclick="insertVar('{{kode}}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();insertVar('{{kode}}');}">{{kode}}</span>
+                    <span class="var-chip" tabindex="0" role="button" aria-label="Sisipkan variabel produk" onclick="insertVar('{{produk}}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();insertVar('{{produk}}');}">{{produk}}</span>
+                    <span class="var-chip" tabindex="0" role="button" aria-label="Sisipkan variabel nominal" onclick="insertVar('{{nominal}}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();insertVar('{{nominal}}');}">{{nominal}}</span>
                 </div>
                 <textarea class="form-control-custom" id="tf-pesan" rows="5" placeholder="Tulis isi pesan..."></textarea>
             </div>
@@ -429,8 +426,14 @@ body { font-family: var(--font); background: var(--body-bg); color: var(--text-p
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+function escapeHtml(str) {
+    if (str == null) return '';
+    return String(str).replace(/[&<>"']/g, function(c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+}
+
 var charts = {};
 var editingKontakId = null;
 var editingTemplateId = null;
@@ -527,7 +530,7 @@ function renderDashboard() {
     html += '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Blast Terbaru</span><button class="btn-outline-custom" style="padding:5px 12px;font-size:12px;" onclick="showSection(\'riwayat\')">Lihat Semua</button></div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr><th>Judul</th><th>Channel</th><th>Total</th><th>Terkirim</th><th>Gagal</th><th>Success Rate</th><th>Waktu</th></tr></thead><tbody>';
     html += riwayat.slice(0, 4).map(function(r) {
         var rate = r.total > 0 ? Math.round(r.terkirim / r.total * 100) : 0;
-        return '<tr><td style="font-weight:600;">' + r.judul + '</td><td><span class="badge-status badge-' + r.channel + '">' + (r.channel === 'wa' ? '💬 WhatsApp' : '✉️ Email') + '</span></td><td>' + r.total + '</td><td style="color:var(--success);font-weight:600;">' + r.terkirim + '</td><td style="color:var(--danger);">' + r.gagal + '</td><td><span style="font-weight:700;color:' + (rate >= 80 ? '#16a34a' : rate >= 50 ? '#d97706' : '#dc2626') + ';">' + rate + '%</span></td><td style="color:var(--text-secondary);font-size:12px;">' + r.waktu + '</td></tr>';
+        return '<tr><td style="font-weight:600;">' + escapeHtml(r.judul) + '</td><td><span class="badge-status badge-' + r.channel + '">' + (r.channel === 'wa' ? '💬 WhatsApp' : '✉️ Email') + '</span></td><td>' + r.total + '</td><td style="color:var(--success);font-weight:600;">' + r.terkirim + '</td><td style="color:var(--danger);">' + r.gagal + '</td><td><span style="font-weight:700;color:' + (rate >= 80 ? '#16a34a' : rate >= 50 ? '#d97706' : '#dc2626') + ';">' + rate + '%</span></td><td style="color:var(--text-secondary);font-size:12px;">' + r.waktu + '</td></tr>';
     }).join('');
     html += '</tbody></table></div></div></div>';
 
@@ -616,9 +619,9 @@ function renderBlastForm(channel) {
     if (tplFiltered.length === 0) {
         html += '<div class="empty-state"><p>Belum ada template untuk channel ini</p></div>';
     } else {
-        html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+        html += '<div class="template-card-grid">';
         html += tplFiltered.map(function(t) {
-            return '<div class="template-card" id="tpl-' + channel + '-' + t.id + '" onclick="selectBlastTemplate(\'' + channel + '\',\'' + t.id + '\')"><div class="template-title">' + t.nama + '</div><div class="template-preview">' + t.pesan.slice(0, 60) + '...</div></div>';
+            return '<div class="template-card" id="tpl-' + channel + '-' + t.id + '" tabindex="0" role="button" aria-label="Pilih template ' + escapeHtml(t.nama) + '" onclick="selectBlastTemplate(\'' + channel + '\',\'' + t.id + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectBlastTemplate(\'' + channel + '\',\'' + t.id + '\');}"><div class="template-title">' + escapeHtml(t.nama) + '</div><div class="template-preview">' + escapeHtml(t.pesan.slice(0, 60)) + '...</div></div>';
         }).join('');
         html += '</div>';
     }
@@ -631,7 +634,7 @@ function renderBlastForm(channel) {
     html += '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">3. Isi Pesan</span></div><div class="card-body-custom">';
     html += '<div style="margin-bottom:8px;"><span style="font-size:11px;color:var(--text-secondary);">Variabel:</span>';
     ['{{nama}}', '{{tanggal}}', '{{kode}}', '{{produk}}', '{{nominal}}'].forEach(function(v) {
-        html += '<span class="var-chip" onclick="insertBlastVar(\'' + channel + '\',\'' + v + '\')">' + v + '</span>';
+        html += '<span class="var-chip" tabindex="0" role="button" aria-label="Sisipkan variabel ' + v + '" onclick="insertBlastVar(\'' + channel + '\',\'' + v + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();insertBlastVar(\'' + channel + '\',\'' + v + '\');}">' + v + '</span>';
     });
     html += '</div>';
     html += '<textarea class="form-control-custom" id="blast-pesan-' + channel + '" rows="6" placeholder="Tulis pesan di sini atau pilih template di atas..." oninput="updateBlastPreview(\'' + channel + '\')"></textarea>';
@@ -649,8 +652,8 @@ function renderBlastForm(channel) {
 
     html += '<div class="card-section mb-3"><div class="card-header-custom"><span class="card-header-title">Konfigurasi Pengiriman</span></div><div class="card-body-custom">';
     html += '<div class="row g-2">';
-    html += '<div class="col-6"><label class="form-label-custom" style="font-size:12px;">Delay per pesan (detik)</label><input type="number" class="form-control-custom" id="blast-delay-' + channel + '" value="1" min="0.5" max="5" step="0.5" style="font-size:13px;padding:8px 12px;"></div>';
-    html += '<div class="col-6"><label class="form-label-custom" style="font-size:12px;">Nama Pengirim</label><input type="text" class="form-control-custom" id="blast-sender-' + channel + '" value="BlazeNotif" style="font-size:13px;padding:8px 12px;"></div>';
+    html += '<div class="col-6"><label class="form-label-custom" for="blast-delay-' + channel + '" style="font-size:12px;">Delay per pesan (detik)</label><input type="number" class="form-control-custom" id="blast-delay-' + channel + '" value="1" min="0.5" max="5" step="0.5" style="font-size:13px;padding:8px 12px;"></div>';
+    html += '<div class="col-6"><label class="form-label-custom" for="blast-sender-' + channel + '" style="font-size:12px;">Nama Pengirim</label><input type="text" class="form-control-custom" id="blast-sender-' + channel + '" value="BlazeNotif" style="font-size:13px;padding:8px 12px;"></div>';
     html += '</div></div></div>';
 
     html += '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Progress Pengiriman</span></div><div class="card-body-custom">';
@@ -686,7 +689,7 @@ function updateBlastKontakList(channel) {
     var field = channel === 'wa' ? 'wa' : 'email';
     var html = filtered.map(function(k) {
         var checked = blastState.selectedKontak.indexOf(k.id) !== -1 ? 'checked' : '';
-        return '<label style="display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--border-color);font-size:13px;" onmouseenter="this.style.background=\'#f8fafc\'" onmouseleave="this.style.background=\'\'"><input type="checkbox" ' + checked + ' value="' + k.id + '" onchange="toggleBlastKontak(\'' + channel + '\',\'' + k.id + '\',this.checked)" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"><div class="kontak-avatar" style="background:' + k.color + ';width:28px;height:28px;font-size:11px;">' + initials(k.nama) + '</div><div style="flex:1;min-width:0;"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + k.nama + '</div><div style="font-size:11px;color:var(--text-secondary);">' + k[field] + '</div></div><span class="grup-badge">' + k.grup + '</span></label>';
+        return '<label style="display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;border-bottom:1px solid var(--border-color);font-size:13px;" onmouseenter="this.style.background=\'#f8fafc\'" onmouseleave="this.style.background=\'\'"><input type="checkbox" ' + checked + ' value="' + k.id + '" onchange="toggleBlastKontak(\'' + channel + '\',\'' + k.id + '\',this.checked)" style="accent-color:var(--primary);width:15px;height:15px;cursor:pointer;"><div class="kontak-avatar" style="background:' + k.color + ';width:28px;height:28px;font-size:11px;">' + escapeHtml(initials(k.nama)) + '</div><div style="flex:1;min-width:0;"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(k.nama) + '</div><div style="font-size:11px;color:var(--text-secondary);">' + escapeHtml(k[field]) + '</div></div><span class="grup-badge">' + escapeHtml(k.grup) + '</span></label>';
     }).join('');
     document.getElementById('blast-kontak-list-' + channel).innerHTML = html || '<div style="padding:16px;text-align:center;color:var(--text-secondary);font-size:13px;">Tidak ada kontak</div>';
     updateBlastCount(channel);
@@ -751,7 +754,7 @@ function updateBlastPreview(channel) {
         if (bubble) bubble.textContent = preview || 'Tulis pesan untuk melihat preview...';
     } else {
         var emailPrev = document.getElementById('preview-email');
-        if (emailPrev) emailPrev.innerHTML = preview ? '<pre style="font-family:var(--font);white-space:pre-wrap;margin:0;font-size:13px;">' + preview + '</pre>' : '<span style="color:var(--text-secondary);">Tulis pesan untuk melihat preview...</span>';
+        if (emailPrev) emailPrev.innerHTML = preview ? '<pre style="font-family:var(--font);white-space:pre-wrap;margin:0;font-size:13px;">' + escapeHtml(preview) + '</pre>' : '<span style="color:var(--text-secondary);">Tulis pesan untuk melihat preview...</span>';
     }
 }
 
@@ -782,9 +785,11 @@ function startBlast(channel) {
     var terkirim = 0;
     var gagal = 0;
 
-    var judul = (document.getElementById('blast-sender-' + channel) || {}).value || 'BlazeNotif';
+    var sender = (document.getElementById('blast-sender-' + channel) || {}).value || 'BlazeNotif';
     var subjectEl = document.getElementById('blast-subject-email');
     var subject = subjectEl ? subjectEl.value : '';
+    var baseJudul = (blastState.selectedTemplate ? blastState.selectedTemplate.nama : subject) || (sender + ' Blast');
+    var judul = baseJudul + ' (' + (channel === 'wa' ? 'WhatsApp' : 'Email') + ')';
 
     function processNext() {
         if (done >= total) {
@@ -792,7 +797,7 @@ function startBlast(channel) {
             if (btn) btn.disabled = false;
             var label = document.getElementById('blast-progress-label-' + channel);
             if (label) label.textContent = 'Selesai! ' + terkirim + ' terkirim, ' + gagal + ' gagal.';
-            var r = { id: genId('R'), judul: judul + ' Blast', channel: channel, total: total, terkirim: terkirim, gagal: gagal, pending: 0, waktu: formatDateTime(new Date()) };
+            var r = { id: genId('R'), judul: judul, channel: channel, total: total, terkirim: terkirim, gagal: gagal, pending: 0, waktu: formatDateTime(new Date()) };
             riwayat.unshift(r);
             if (riwayat.length > 100) riwayat = riwayat.slice(0, 100);
             localStorage.setItem('blaze_riwayat', JSON.stringify(riwayat));
@@ -816,7 +821,7 @@ function startBlast(channel) {
         if (progressItems) {
             var item = document.createElement('div');
             item.className = 'progress-item';
-            item.innerHTML = '<div class="progress-status-dot" style="background:' + (sukses ? '#16a34a' : '#dc2626') + ';"></div><div class="kontak-avatar" style="background:' + k.color + ';width:24px;height:24px;font-size:10px;">' + initials(k.nama) + '</div><div style="flex:1;"><span style="font-weight:600;">' + k.nama + '</span> <span style="color:var(--text-secondary);font-size:12px;">' + (channel === 'wa' ? k.wa : k.email) + '</span></div><span class="badge-status badge-' + (sukses ? 'terkirim' : 'gagal') + '">' + (sukses ? 'Terkirim' : 'Gagal') + '</span>';
+            item.innerHTML = '<div class="progress-status-dot" style="background:' + (sukses ? '#16a34a' : '#dc2626') + ';"></div><div class="kontak-avatar" style="background:' + k.color + ';width:24px;height:24px;font-size:10px;">' + escapeHtml(initials(k.nama)) + '</div><div style="flex:1;"><span style="font-weight:600;">' + escapeHtml(k.nama) + '</span> <span style="color:var(--text-secondary);font-size:12px;">' + escapeHtml(channel === 'wa' ? k.wa : k.email) + '</span></div><span class="badge-status badge-' + (sukses ? 'terkirim' : 'gagal') + '">' + (sukses ? 'Terkirim' : 'Gagal') + '</span>';
             progressItems.appendChild(item);
             progressItems.scrollTop = progressItems.scrollHeight;
         }
@@ -843,7 +848,7 @@ function renderKontak() {
 function renderKontakRows(data) {
     if (data.length === 0) return '<tr><td colspan="6"><div class="empty-state"><p>Tidak ada kontak ditemukan</p></div></td></tr>';
     return data.map(function(k) {
-        return '<tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="kontak-avatar" style="background:' + k.color + ';">' + initials(k.nama) + '</div><span style="font-weight:600;">' + k.nama + '</span></div></td><td style="font-size:12px;font-family:monospace;">' + k.wa + '</td><td style="font-size:12px;">' + k.email + '</td><td><span class="badge-status badge-grup">' + k.grup + '</span></td><td style="font-size:12px;color:var(--text-secondary);">' + (k.tag || '-') + '</td><td><div style="display:flex;gap:6px;"><button onclick="editKontak(\'' + k.id + '\')" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Edit</button><button onclick="deleteKontak(\'' + k.id + '\')" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Hapus</button></div></td></tr>';
+        return '<tr><td><div style="display:flex;align-items:center;gap:8px;"><div class="kontak-avatar" style="background:' + k.color + ';">' + escapeHtml(initials(k.nama)) + '</div><span style="font-weight:600;">' + escapeHtml(k.nama) + '</span></div></td><td style="font-size:12px;font-family:monospace;">' + escapeHtml(k.wa) + '</td><td style="font-size:12px;">' + escapeHtml(k.email) + '</td><td><span class="badge-status badge-grup">' + escapeHtml(k.grup) + '</span></td><td style="font-size:12px;color:var(--text-secondary);">' + escapeHtml(k.tag || '-') + '</td><td><div style="display:flex;gap:6px;"><button onclick="editKontak(\'' + k.id + '\')" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Edit</button><button onclick="deleteKontak(\'' + k.id + '\')" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Hapus</button></div></td></tr>';
     }).join('');
 }
 
@@ -922,7 +927,7 @@ function renderTemplate() {
     var html = '<div class="card-section"><div class="card-header-custom"><span class="card-header-title">Template Pesan (' + templates.length + ')</span><button class="btn-primary-custom" onclick="openTemplateModal()">+ Tambah Template</button></div><div class="card-body-custom p-0"><div class="table-responsive"><table class="table-custom"><thead><tr><th>Nama Template</th><th>Channel</th><th>Subject</th><th>Preview Pesan</th><th>Aksi</th></tr></thead><tbody>';
     html += templates.map(function(t) {
         var chLabel = t.channel === 'wa' ? '<span class="badge-status badge-wa">💬 WA</span>' : t.channel === 'email' ? '<span class="badge-status badge-email">✉️ Email</span>' : '<span class="badge-status badge-proses">🔀 Keduanya</span>';
-        return '<tr><td style="font-weight:600;">' + t.nama + '</td><td>' + chLabel + '</td><td style="font-size:12px;color:var(--text-secondary);">' + (t.subject || '-') + '</td><td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--text-secondary);">' + t.pesan.slice(0, 60) + '...' + '</td><td><div style="display:flex;gap:6px;"><button onclick="editTemplate(\'' + t.id + '\')" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Edit</button><button onclick="deleteTemplate(\'' + t.id + '\')" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Hapus</button></div></td></tr>';
+        return '<tr><td style="font-weight:600;">' + escapeHtml(t.nama) + '</td><td>' + chLabel + '</td><td style="font-size:12px;color:var(--text-secondary);">' + escapeHtml(t.subject || '-') + '</td><td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--text-secondary);">' + escapeHtml(t.pesan.slice(0, 60)) + '...' + '</td><td><div style="display:flex;gap:6px;"><button onclick="editTemplate(\'' + t.id + '\')" style="background:rgba(124,58,237,0.08);border:1px solid rgba(124,58,237,0.2);color:var(--primary);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Edit</button><button onclick="deleteTemplate(\'' + t.id + '\')" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.2);color:#dc2626;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;font-family:var(--font);font-weight:600;">Hapus</button></div></td></tr>';
     }).join('');
     html += '</tbody></table></div></div></div>';
     document.getElementById('section-template').innerHTML = html;
@@ -945,11 +950,18 @@ function openTemplateModal(id) {
         document.getElementById('tf-subject').value = '';
         document.getElementById('tf-pesan').value = '';
     }
+    toggleTemplateSubjectField();
     document.getElementById('template-modal').classList.add('open');
 }
 
 function closeTemplateModal() { document.getElementById('template-modal').classList.remove('open'); }
 function editTemplate(id) { openTemplateModal(id); }
+
+function toggleTemplateSubjectField() {
+    var channel = document.getElementById('tf-channel').value;
+    var wrap = document.getElementById('tf-subject-wrap');
+    if (wrap) wrap.style.display = channel === 'wa' ? 'none' : '';
+}
 
 function insertVar(v) {
     var ta = document.getElementById('tf-pesan');
@@ -1002,7 +1014,7 @@ function renderRiwayatRows(data) {
     return data.map(function(r) {
         var rate = r.total > 0 ? Math.round(r.terkirim / r.total * 100) : 0;
         var chLabel = r.channel === 'wa' ? '<span class="badge-status badge-wa">💬 WhatsApp</span>' : '<span class="badge-status badge-email">✉️ Email</span>';
-        return '<tr><td style="font-weight:600;">' + r.judul + '</td><td>' + chLabel + '</td><td style="font-weight:600;">' + r.total + '</td><td style="color:var(--success);font-weight:600;">' + r.terkirim + '</td><td style="color:var(--danger);">' + r.gagal + '</td><td style="color:var(--warning);">' + r.pending + '</td><td><span style="font-weight:700;color:' + (rate >= 80 ? '#16a34a' : rate >= 50 ? '#d97706' : '#dc2626') + ';">' + rate + '%</span></td><td style="color:var(--text-secondary);font-size:12px;">' + r.waktu + '</td></tr>';
+        return '<tr><td style="font-weight:600;">' + escapeHtml(r.judul) + '</td><td>' + chLabel + '</td><td style="font-weight:600;">' + r.total + '</td><td style="color:var(--success);font-weight:600;">' + r.terkirim + '</td><td style="color:var(--danger);">' + r.gagal + '</td><td style="color:var(--warning);">' + r.pending + '</td><td><span style="font-weight:700;color:' + (rate >= 80 ? '#16a34a' : rate >= 50 ? '#d97706' : '#dc2626') + ';">' + rate + '%</span></td><td style="color:var(--text-secondary);font-size:12px;">' + r.waktu + '</td></tr>';
     }).join('');
 }
 
@@ -1073,12 +1085,6 @@ document.addEventListener('keydown', function(e) {
 renderDashboard();
 </script>
 
-<<<<<<< HEAD
-<footer style="border-top:1px solid #e2e8f0;padding:20px 24px;text-align:center;">
-  <p style="font-size:12px;color:#94a3b8;">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#3b82f6;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
-</footer>
-=======
-<footer style="position:fixed;bottom:0;left:0;right:0;height:30px;background:rgba(8,10,18,0.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;gap:5px;font-size:0.7rem;font-family:system-ui,-apple-system,sans-serif;color:rgba(255,255,255,0.3);letter-spacing:0.02em;z-index:9998;"><span>This BlazeNotif WhatsApp &amp; Email Notification Platform is created by</span><a href="https://bagasaria93.github.io/" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:700;">Bagas Aria Sativa</a></footer>
->>>>>>> 0b95c1f3996afef6added228e4ea9f761b190b7e
+<footer style="position:fixed;bottom:0;left:0;right:0;height:30px;background:rgba(8,10,18,0.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;gap:5px;font-size:0.7rem;font-family:system-ui,-apple-system,sans-serif;color:rgba(255,255,255,0.55);letter-spacing:0.02em;z-index:9998;"><span>This BlazeNotif WhatsApp &amp; Email Notification Platform is created by</span><a href="https://bagasaria93.github.io/" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:700;">Bagas Aria Sativa</a></footer>
 </body>
 </html>

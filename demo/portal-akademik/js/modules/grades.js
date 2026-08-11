@@ -8,7 +8,7 @@ window.GradesModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Rekap Nilai</div><div class="page-subtitle">Rekap nilai mahasiswa per mata kuliah</div></div>
+      <div><h1 class="page-title">Rekap Nilai</h1><div class="page-subtitle">Rekap nilai mahasiswa per mata kuliah</div></div>
     </div>
 
     ${courses.map(c => {

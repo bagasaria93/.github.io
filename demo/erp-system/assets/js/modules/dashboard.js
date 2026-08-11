@@ -18,6 +18,10 @@ const ModuleDashboard = (function () {
         const completedWO = wos.filter(function (w) { return w.status === 'Completed'; }).length;
         const activities = State.get('activities') || [];
 
+        const doneWOs = wos.filter(function (w) { return w.status === 'Completed' && w.completedDate; });
+        const onTimeWOs = doneWOs.filter(function (w) { return !w.targetDate || w.completedDate <= w.targetDate; });
+        const onTimePct = doneWOs.length ? Math.round((onTimeWOs.length / doneWOs.length) * 100) : 100;
+
         $('#module-dashboard').html(
             '<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">' +
                 kpiCard('Total Sales Order', totalSO, '+2 bulan ini', 'bg-blue-500/10', iconDoc(), '<span class="stat-trend up">+18%</span>') +
@@ -28,7 +32,7 @@ const ModuleDashboard = (function () {
             '<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">' +
                 miniStat('Total Revenue', 'Rp ' + fmtNum(totalRevenue), '#34d399') +
                 miniStat('WO Completed', completedWO + ' order', '#60a5fa') +
-                miniStat('On-Time Delivery', '87%', '#a78bfa') +
+                miniStat('On-Time Delivery', onTimePct + '%', '#a78bfa') +
             '</div>' +
             '<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">' +
                 '<div class="lg:col-span-2 bg-card border border-border rounded-2xl p-5">' +

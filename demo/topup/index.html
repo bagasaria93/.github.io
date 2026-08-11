@@ -5,7 +5,7 @@
     <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TopUpKu - Platform Top Up Game</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<meta name="description" content="Demo platform top up game TopUpKu. Isi ulang diamond, UC, dan voucher game favorit dengan proses cepat dan berbagai metode pembayaran.">
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@ body { font-family: 'Inter', sans-serif; background: #0d1117; color: #e2e8f0; }
 }
 .brand-icon {
     width: 34px; height: 34px;
-    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    background: linear-gradient(135deg, #c9a84c, #8a6f2e);
     border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
     font-weight: 800; color: white; font-size: 0.85rem;
@@ -45,12 +45,12 @@ select option {
     font-family: 'Inter', sans-serif;
     border: 1px solid rgba(255,255,255,0.08);
     background: transparent;
-    color: rgba(255,255,255,0.45);
+    color: rgba(255,255,255,0.6);
     cursor: pointer;
     transition: all 0.2s;
 }
 .main-tab-btn:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.05); }
-.main-tab-btn.active { background: rgba(6,182,212,0.15); color: #06b6d4; border-color: rgba(6,182,212,0.3); }
+.main-tab-btn.active { background: rgba(201,168,76,0.15); color: #c9a84c; border-color: rgba(201,168,76,0.3); }
 
 .section-wrap { max-width: 1100px; margin: 0 auto; padding: 28px 20px; }
 
@@ -64,25 +64,25 @@ select option {
     font-size: 0.72rem; font-weight: 700;
     background: rgba(255,255,255,0.06);
     border: 1.5px solid rgba(255,255,255,0.1);
-    color: rgba(255,255,255,0.35);
+    color: rgba(255,255,255,0.5);
     flex-shrink: 0;
     transition: all 0.3s;
 }
-.step-dot.active { background: #06b6d4; border-color: #06b6d4; color: white; }
-.step-dot.done { background: rgba(6,182,212,0.2); border-color: rgba(6,182,212,0.4); color: #06b6d4; }
+.step-dot.active { background: #c9a84c; border-color: #c9a84c; color: white; }
+.step-dot.done { background: rgba(201,168,76,0.2); border-color: rgba(201,168,76,0.4); color: #c9a84c; }
 .step-line {
     flex: 1; height: 1.5px;
     background: rgba(255,255,255,0.07);
     transition: background 0.3s;
 }
-.step-line.done { background: rgba(6,182,212,0.35); }
+.step-line.done { background: rgba(201,168,76,0.35); }
 .step-label {
-    font-size: 0.68rem; color: rgba(255,255,255,0.35);
+    font-size: 0.68rem; color: rgba(255,255,255,0.5);
     text-align: center; margin-top: 4px;
     transition: color 0.3s;
 }
-.step-label.active { color: #06b6d4; }
-.step-label.done { color: rgba(6,182,212,0.6); }
+.step-label.active { color: #c9a84c; }
+.step-label.done { color: rgba(201,168,76,0.6); }
 
 .game-card {
     background: rgba(255,255,255,0.03);
@@ -96,19 +96,19 @@ select option {
     overflow: hidden;
 }
 .game-card:hover {
-    background: rgba(6,182,212,0.07);
-    border-color: rgba(6,182,212,0.3);
+    background: rgba(201,168,76,0.07);
+    border-color: rgba(201,168,76,0.3);
     transform: translateY(-2px);
 }
 .game-card.selected {
-    background: rgba(6,182,212,0.12);
-    border-color: #06b6d4;
+    background: rgba(201,168,76,0.12);
+    border-color: #c9a84c;
 }
 .game-card.selected::after {
     content: '✓';
     position: absolute; top: 8px; right: 10px;
     width: 18px; height: 18px;
-    background: #06b6d4;
+    background: #c9a84c;
     border-radius: 50%;
     font-size: 0.6rem; font-weight: 800; color: white;
     display: flex; align-items: center; justify-content: center;
@@ -116,7 +116,7 @@ select option {
 }
 .game-emoji { font-size: 2.2rem; display: block; margin-bottom: 8px; }
 .game-name { font-size: 0.8rem; font-weight: 700; color: #e2e8f0; }
-.game-currency { font-size: 0.68rem; color: rgba(255,255,255,0.35); margin-top: 3px; }
+.game-currency { font-size: 0.68rem; color: rgba(255,255,255,0.5); margin-top: 3px; }
 
 .nominal-card {
     background: rgba(255,255,255,0.03);
@@ -129,12 +129,12 @@ select option {
     position: relative;
 }
 .nominal-card:hover {
-    background: rgba(6,182,212,0.07);
-    border-color: rgba(6,182,212,0.25);
+    background: rgba(201,168,76,0.07);
+    border-color: rgba(201,168,76,0.25);
 }
 .nominal-card.selected {
-    background: rgba(6,182,212,0.12);
-    border-color: #06b6d4;
+    background: rgba(201,168,76,0.12);
+    border-color: #c9a84c;
 }
 .nominal-card.popular::before {
     content: 'POPULER';
@@ -144,8 +144,8 @@ select option {
     padding: 3px 7px; border-radius: 0 12px 0 8px;
 }
 .nominal-amount { font-size: 0.95rem; font-weight: 800; color: #e2e8f0; }
-.nominal-unit { font-size: 0.68rem; color: rgba(255,255,255,0.4); margin-bottom: 6px; }
-.nominal-price { font-size: 0.82rem; font-weight: 700; color: #06b6d4; }
+.nominal-unit { font-size: 0.68rem; color: rgba(255,255,255,0.55); margin-bottom: 6px; }
+.nominal-price { font-size: 0.82rem; font-weight: 700; color: #c9a84c; }
 .nominal-bonus { font-size: 0.65rem; color: #10b981; margin-top: 2px; }
 
 .form-input {
@@ -158,19 +158,19 @@ select option {
     transition: border-color 0.2s;
     width: 100%;
 }
-.form-input:focus { border-color: #06b6d4; }
-.form-input::placeholder { color: rgba(255,255,255,0.25); }
+.form-input:focus { border-color: #c9a84c; }
+.form-input::placeholder { color: rgba(255,255,255,0.52); }
 .form-label { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.6); margin-bottom: 6px; display: block; }
 
 .btn-primary {
-    background: linear-gradient(135deg, #06b6d4, #0891b2);
+    background: linear-gradient(135deg, #c9a84c, #8a6f2e);
     color: white; font-weight: 700; font-size: 0.9rem;
     font-family: 'Inter', sans-serif;
     border: none; border-radius: 10px;
     padding: 12px 24px;
     cursor: pointer; transition: all 0.2s;
 }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(6,182,212,0.35); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.35); }
 .btn-primary:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; }
 
 .btn-secondary {
@@ -192,16 +192,16 @@ select option {
     transition: all 0.2s;
     display: flex; align-items: center; gap: 12px;
 }
-.payment-card:hover { background: rgba(6,182,212,0.06); border-color: rgba(6,182,212,0.2); }
-.payment-card.selected { background: rgba(6,182,212,0.1); border-color: #06b6d4; }
+.payment-card:hover { background: rgba(201,168,76,0.06); border-color: rgba(201,168,76,0.2); }
+.payment-card.selected { background: rgba(201,168,76,0.1); border-color: #c9a84c; }
 .payment-icon {
     width: 38px; height: 38px; border-radius: 9px;
     display: flex; align-items: center; justify-content: center;
     font-size: 1.2rem; flex-shrink: 0;
 }
 .payment-name { font-size: 0.82rem; font-weight: 700; }
-.payment-desc { font-size: 0.68rem; color: rgba(255,255,255,0.4); margin-top: 1px; }
-.payment-fee { font-size: 0.72rem; color: rgba(255,255,255,0.35); margin-left: auto; flex-shrink: 0; }
+.payment-desc { font-size: 0.68rem; color: rgba(255,255,255,0.55); margin-top: 1px; }
+.payment-fee { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-left: auto; flex-shrink: 0; }
 
 .order-summary-row {
     display: flex; justify-content: space-between; align-items: center;
@@ -210,13 +210,13 @@ select option {
     font-size: 0.82rem;
 }
 .order-summary-row:last-child { border-bottom: none; }
-.order-summary-label { color: rgba(255,255,255,0.45); }
+.order-summary-label { color: rgba(255,255,255,0.6); }
 .order-summary-value { font-weight: 600; color: #e2e8f0; }
 
 .processing-spinner {
     width: 52px; height: 52px;
-    border: 3px solid rgba(6,182,212,0.15);
-    border-top-color: #06b6d4;
+    border: 3px solid rgba(201,168,76,0.15);
+    border-top-color: #c9a84c;
     border-radius: 50%;
     animation: spin 0.9s linear infinite;
 }
@@ -259,7 +259,7 @@ select option {
 .badge-success { background: rgba(16,185,129,0.15); color: #10b981; }
 .badge-pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
 .badge-failed { background: rgba(239,68,68,0.15); color: #ef4444; }
-.badge-processing { background: rgba(6,182,212,0.15); color: #06b6d4; }
+.badge-processing { background: rgba(201,168,76,0.15); color: #c9a84c; }
 
 .admin-tab-btn {
     padding: 9px 18px;
@@ -268,12 +268,12 @@ select option {
     font-family: 'Inter', sans-serif;
     border: 1px solid transparent;
     background: transparent;
-    color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.55);
     cursor: pointer;
     transition: all 0.2s;
 }
 .admin-tab-btn:hover { color: rgba(255,255,255,0.75); }
-.admin-tab-btn.active { background: rgba(6,182,212,0.12); color: #06b6d4; border-color: rgba(6,182,212,0.25); }
+.admin-tab-btn.active { background: rgba(201,168,76,0.12); color: #c9a84c; border-color: rgba(201,168,76,0.25); }
 
 .stat-card {
     background: rgba(255,255,255,0.03);
@@ -282,13 +282,13 @@ select option {
     padding: 18px 20px;
 }
 .stat-card-value { font-size: 1.5rem; font-weight: 800; color: #e2e8f0; margin-bottom: 2px; }
-.stat-card-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); }
+.stat-card-label { font-size: 0.72rem; color: rgba(255,255,255,0.55); }
 .stat-card-change { font-size: 0.7rem; margin-top: 6px; }
 
 .data-table { width: 100%; border-collapse: collapse; }
 .data-table th {
     text-align: left; font-size: 0.7rem; font-weight: 700;
-    color: rgba(255,255,255,0.35); text-transform: uppercase;
+    color: rgba(255,255,255,0.5); text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 10px 14px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -338,27 +338,46 @@ select option {
 }
 .api-log .log-success { color: #10b981; }
 .api-log .log-error { color: #ef4444; }
-.api-log .log-info { color: #06b6d4; }
+.api-log .log-info { color: #c9a84c; }
 .api-log .log-warn { color: #f59e0b; }
+
+.game-card:focus-visible,
+.nominal-card:focus-visible,
+.payment-card:focus-visible {
+    outline: 2px solid #c9a84c;
+    outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+    .topbar { padding: 0 12px; gap: 8px; }
+    .topbar-status { display: none; }
+    .topbar-tabs { gap: 4px; }
+    .main-tab-btn { padding: 7px 10px; font-size: 0.72rem; }
+    .section-wrap { padding: 18px 14px; }
+}
+
+@media (max-width: 720px) {
+    .payment-step-grid { grid-template-columns: 1fr !important; }
+}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-    <div style="display:flex;align-items:center;gap:10px;">
+    <div class="topbar-brand" style="display:flex;align-items:center;gap:10px;">
         <div class="brand-icon">T</div>
         <div>
             <div style="font-weight:800;font-size:0.95rem;">TopUpKu</div>
-            <div style="font-size:0.65rem;color:rgba(255,255,255,0.35);">Platform Top Up Game</div>
+            <div style="font-size:0.65rem;color:rgba(255,255,255,0.5);">Platform Top Up Game</div>
         </div>
     </div>
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div class="topbar-tabs" style="display:flex;align-items:center;gap:8px;">
         <button class="main-tab-btn active" id="tab-user-btn" onclick="switchMainTab('user')">🎮 Beli Top Up</button>
         <button class="main-tab-btn" id="tab-admin-btn" onclick="switchMainTab('admin')">⚙️ Admin Panel</button>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;">
+    <div class="topbar-status" style="display:flex;align-items:center;gap:10px;">
         <div style="width:7px;height:7px;border-radius:50%;background:#10b981;box-shadow:0 0 6px #10b981;"></div>
-        <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);">Supplier API <span style="color:#10b981;font-weight:600;">Online</span></div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.55);">Supplier API <span style="color:#10b981;font-weight:600;">Online</span></div>
     </div>
 </div>
 
@@ -368,7 +387,7 @@ select option {
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
             <div>
                 <div style="font-size:1.15rem;font-weight:800;margin-bottom:2px;">Top Up Game</div>
-                <div style="font-size:0.75rem;color:rgba(255,255,255,0.35);">Proses otomatis, langsung masuk dalam 60 detik</div>
+                <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);">Proses otomatis, langsung masuk dalam 60 detik</div>
             </div>
         </div>
 
@@ -428,7 +447,7 @@ select option {
             <div style="max-width:440px;">
                 <label class="form-label">ID Player</label>
                 <input type="text" class="form-input" id="player-id-input" placeholder="Masukkan ID Player..." oninput="validatePlayerID()">
-                <div style="font-size:0.7rem;color:rgba(255,255,255,0.3);margin-top:6px;" id="player-id-hint"></div>
+                <div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:6px;" id="player-id-hint"></div>
                 <div style="font-size:0.72rem;margin-top:6px;" id="player-id-validation"></div>
 
                 <div id="server-field" style="margin-top:14px;display:none;">
@@ -438,9 +457,9 @@ select option {
                     </select>
                 </div>
 
-                <div id="player-verify-box" style="display:none;margin-top:14px;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.2);border-radius:10px;padding:12px 14px;">
-                    <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin-bottom:3px;">Akun Terverifikasi</div>
-                    <div style="font-size:0.88rem;font-weight:700;color:#06b6d4;" id="player-verify-name"></div>
+                <div id="player-verify-box" style="display:none;margin-top:14px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);border-radius:10px;padding:12px 14px;">
+                    <div style="font-size:0.72rem;color:rgba(255,255,255,0.55);margin-bottom:3px;">Akun Terverifikasi</div>
+                    <div style="font-size:0.88rem;font-weight:700;color:#c9a84c;" id="player-verify-name"></div>
                 </div>
 
                 <button class="btn-primary" style="width:100%;margin-top:20px;" id="btn-step3-next" onclick="goToStep(4)" disabled>Lanjut ke Pembayaran</button>
@@ -452,13 +471,13 @@ select option {
                 <button class="btn-secondary" style="padding:8px 14px;font-size:0.78rem;" onclick="goToStep(3)">← Kembali</button>
                 <div style="font-size:0.85rem;font-weight:700;">Pilih Metode Pembayaran</div>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
+            <div class="payment-step-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;">
                 <div>
-                    <div style="font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Dompet Digital</div>
+                    <div style="font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:10px;">Dompet Digital</div>
                     <div style="display:flex;flex-direction:column;gap:8px;" id="payment-ewallet"></div>
-                    <div style="font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;margin:16px 0 10px;">Transfer Bank</div>
+                    <div style="font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.05em;margin:16px 0 10px;">Transfer Bank</div>
                     <div style="display:flex;flex-direction:column;gap:8px;" id="payment-bank"></div>
-                    <div style="font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;margin:16px 0 10px;">Lainnya</div>
+                    <div style="font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.55);text-transform:uppercase;letter-spacing:0.05em;margin:16px 0 10px;">Lainnya</div>
                     <div style="display:flex;flex-direction:column;gap:8px;" id="payment-other"></div>
                 </div>
                 <div>
@@ -478,7 +497,7 @@ select option {
                         </div>
                         <div class="order-summary-row">
                             <span class="order-summary-label">Harga</span>
-                            <span class="order-summary-value" style="color:#06b6d4;" id="os-price"></span>
+                            <span class="order-summary-value" style="color:#c9a84c;" id="os-price"></span>
                         </div>
                         <div class="order-summary-row" id="os-fee-row">
                             <span class="order-summary-label">Biaya Layanan</span>
@@ -486,10 +505,10 @@ select option {
                         </div>
                         <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;margin-top:4px;border-top:1px solid rgba(255,255,255,0.08);">
                             <span style="font-size:0.85rem;font-weight:700;">Total Bayar</span>
-                            <span style="font-size:1.05rem;font-weight:800;color:#06b6d4;" id="os-total"></span>
+                            <span style="font-size:1.05rem;font-weight:800;color:#c9a84c;" id="os-total"></span>
                         </div>
                         <button class="btn-primary" style="width:100%;margin-top:16px;" id="btn-pay" onclick="processPayment()" disabled>Bayar Sekarang</button>
-                        <div style="margin-top:10px;padding:10px 12px;background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.18);border-radius:8px;font-size:0.7rem;color:rgba(255,255,255,0.4);line-height:1.6;">
+                        <div style="margin-top:10px;padding:10px 12px;background:rgba(245,158,11,0.07);border:1px solid rgba(245,158,11,0.18);border-radius:8px;font-size:0.7rem;color:rgba(255,255,255,0.55);line-height:1.6;">
                             <span style="color:#f59e0b;font-weight:700;">📋 Catatan Demo:</span>
                             E-wallet & QRIS memiliki simulasi 80% sukses / 20% gagal untuk menunjukkan error handling.
                             Transfer bank selalu menghasilkan status <span style="color:#f59e0b;">Pending</span> dengan countdown timer dan simulasi konfirmasi pembayaran.
@@ -507,7 +526,7 @@ select option {
                         <div class="processing-spinner"></div>
                     </div>
                     <div style="font-size:1rem;font-weight:700;margin-bottom:8px;">Memproses Transaksi</div>
-                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);">Menghubungi supplier API...</div>
+                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.55);">Menghubungi supplier API...</div>
                     <div class="api-log" style="text-align:left;margin:16px auto 0;max-width:440px;" id="api-log-box"></div>
                 </div>
 
@@ -516,11 +535,11 @@ select option {
                         <div class="status-icon-success">✓</div>
                     </div>
                     <div style="font-size:1.1rem;font-weight:800;color:#10b981;margin-bottom:6px;">Transaksi Berhasil!</div>
-                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:20px;">Diamond sudah masuk ke akun kamu</div>
+                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.55);margin-bottom:20px;">Diamond sudah masuk ke akun kamu</div>
                     <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:18px;text-align:left;max-width:400px;margin:0 auto;">
                         <div class="order-summary-row">
                             <span class="order-summary-label">No. Transaksi</span>
-                            <span class="order-summary-value" id="final-txid" style="color:#06b6d4;font-size:0.75rem;"></span>
+                            <span class="order-summary-value" id="final-txid" style="color:#c9a84c;font-size:0.75rem;"></span>
                         </div>
                         <div class="order-summary-row">
                             <span class="order-summary-label">Game</span>
@@ -540,7 +559,7 @@ select option {
                         </div>
                         <div class="order-summary-row">
                             <span class="order-summary-label">Total Bayar</span>
-                            <span class="order-summary-value" style="color:#06b6d4;" id="final-total"></span>
+                            <span class="order-summary-value" style="color:#c9a84c;" id="final-total"></span>
                         </div>
                         <div class="order-summary-row">
                             <span class="order-summary-label">Status Supplier</span>
@@ -558,7 +577,7 @@ select option {
                         <div class="status-icon-failed">✕</div>
                     </div>
                     <div style="font-size:1.1rem;font-weight:800;color:#ef4444;margin-bottom:6px;">Transaksi Gagal</div>
-                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:20px;" id="failed-reason">Supplier tidak merespons, silakan coba lagi</div>
+                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.55);margin-bottom:20px;" id="failed-reason">Supplier tidak merespons, silakan coba lagi</div>
                     <div style="display:flex;gap:10px;justify-content:center;">
                         <button class="btn-secondary" onclick="resetToStep1()">Transaksi Baru</button>
                         <button class="btn-primary" onclick="retryPayment()">Coba Lagi</button>
@@ -570,11 +589,11 @@ select option {
                         <div class="status-icon-pending">⏳</div>
                     </div>
                     <div style="font-size:1.1rem;font-weight:800;color:#f59e0b;margin-bottom:6px;">Menunggu Pembayaran</div>
-                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.4);margin-bottom:16px;">Selesaikan pembayaran sebelum waktu habis</div>
+                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.55);margin-bottom:16px;">Selesaikan pembayaran sebelum waktu habis</div>
                     <div style="background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:12px;padding:16px;max-width:320px;margin:0 auto 20px;">
-                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);margin-bottom:4px;">Batas Waktu Pembayaran</div>
+                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.55);margin-bottom:4px;">Batas Waktu Pembayaran</div>
                         <div style="font-size:1.5rem;font-weight:800;color:#f59e0b;" id="countdown-timer">14:59</div>
-                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.3);margin-top:4px;">No. VA: <span style="color:#f59e0b;font-weight:700;" id="va-number"></span></div>
+                        <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:4px;">No. VA: <span style="color:#f59e0b;font-weight:700;" id="va-number"></span></div>
                     </div>
                     <div style="display:flex;gap:10px;justify-content:center;">
                         <button class="btn-secondary" onclick="resetToStep1()">Batalkan</button>
@@ -594,7 +613,7 @@ select option {
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;">
             <div>
                 <div style="font-size:1.1rem;font-weight:800;">Admin Panel</div>
-                <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:2px;">Kelola transaksi dan produk top up</div>
+                <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px;">Kelola transaksi dan produk top up</div>
             </div>
             <div style="display:flex;gap:8px;">
                 <button class="admin-tab-btn active" id="atab-dashboard" onclick="switchAdminTab('dashboard')">📊 Dashboard</button>
@@ -666,7 +685,7 @@ select option {
                 </select>
             </div>
             <div>
-                <label class="form-label">Jumlah <span id="pf-currency-label" style="color:#06b6d4;"></span></label>
+                <label class="form-label">Jumlah <span id="pf-currency-label" style="color:#c9a84c;"></span></label>
                 <input type="number" class="form-input" id="pf-amount" placeholder="Contoh: 86">
             </div>
             <div>
@@ -674,7 +693,7 @@ select option {
                 <input type="number" class="form-input" id="pf-price" placeholder="Contoh: 20000">
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
-                <input type="checkbox" id="pf-popular" style="width:16px;height:16px;accent-color:#06b6d4;cursor:pointer;">
+                <input type="checkbox" id="pf-popular" style="width:16px;height:16px;accent-color:#c9a84c;cursor:pointer;">
                 <label for="pf-popular" style="font-size:0.8rem;color:rgba(255,255,255,0.6);cursor:pointer;">Tandai sebagai Populer</label>
             </div>
             <div style="display:flex;gap:8px;margin-top:6px;">
@@ -690,7 +709,7 @@ select option {
         <div style="text-align:center;padding:8px 0 16px;">
             <div style="font-size:2.2rem;margin-bottom:12px;">⚠️</div>
             <div style="font-weight:700;font-size:0.92rem;margin-bottom:6px;" id="confirm-text">Yakin?</div>
-            <div style="font-size:0.78rem;color:rgba(255,255,255,0.35);">Tindakan ini tidak dapat dibatalkan</div>
+            <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);">Tindakan ini tidak dapat dibatalkan</div>
         </div>
         <div style="display:flex;gap:8px;">
             <button class="btn-secondary" style="flex:1;" onclick="closeConfirm()">Batal</button>
@@ -887,7 +906,7 @@ function goToStep(n) {
 function renderGames() {
     const html = gamesData.map(g => {
         const sel = state.selectedGame && state.selectedGame.id === g.id ? 'selected' : '';
-        return `<div class="game-card ${sel}" onclick="selectGame('${g.id}')">
+        return `<div class="game-card ${sel}" tabindex="0" role="button" aria-pressed="${sel ? 'true' : 'false'}" aria-label="Pilih game ${g.name}" onclick="selectGame('${g.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectGame('${g.id}');}">
             <span class="game-emoji">${g.emoji}</span>
             <div class="game-name">${g.name}</div>
             <div class="game-currency">${g.currency}</div>
@@ -913,13 +932,14 @@ function renderNominals() {
     const html = gameNominals.map(n => {
         const sel = state.selectedNominal && state.selectedNominal.id === n.id ? 'selected' : '';
         const popularClass = n.popular ? 'popular' : '';
-        return `<div class="nominal-card ${popularClass} ${sel}" onclick="selectNominal('${n.id}')">
+        const aLabel = 'Pilih nominal ' + n.amount.toLocaleString('id-ID') + ' ' + n.unit + ', ' + formatRp(n.price);
+        return `<div class="nominal-card ${popularClass} ${sel}" tabindex="0" role="button" aria-pressed="${sel ? 'true' : 'false'}" aria-label="${aLabel}" onclick="selectNominal('${n.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectNominal('${n.id}');}">
             <div class="nominal-unit">${n.unit}</div>
             <div class="nominal-amount">${n.amount.toLocaleString('id-ID')}</div>
             <div class="nominal-price" style="margin-top:6px;">${formatRp(n.price)}</div>
         </div>`;
     }).join('');
-    $('#nominal-grid').html(html || '<div style="color:rgba(255,255,255,0.3);font-size:0.82rem;padding:20px 0;">Belum ada nominal untuk game ini</div>');
+    $('#nominal-grid').html(html || '<div style="color:rgba(255,255,255,0.5);font-size:0.82rem;padding:20px 0;">Belum ada nominal untuk game ini</div>');
 }
 
 function selectNominal(nominalId) {
@@ -951,6 +971,12 @@ function renderStep3() {
     }
 }
 
+function hashStr(str) {
+    let h = 0;
+    for (let i = 0; i < str.length; i++) { h = (h * 31 + str.charCodeAt(i)) >>> 0; }
+    return h;
+}
+
 let verifyTimeout = null;
 function validatePlayerID() {
     const val = $('#player-id-input').val().trim();
@@ -964,10 +990,10 @@ function validatePlayerID() {
         $('#player-id-validation').html('<span style="color:#ef4444;">ID terlalu pendek</span>');
         return;
     }
-    $('#player-id-validation').html('<span style="color:rgba(255,255,255,0.35);">Memverifikasi ID...</span>');
+    $('#player-id-validation').html('<span style="color:rgba(255,255,255,0.5);">Memverifikasi ID...</span>');
     verifyTimeout = setTimeout(() => {
         const names = fakePlayerNames[state.selectedGame.id] || ['Player'];
-        const randomName = names[Math.floor(Math.random() * names.length)];
+        const randomName = names[hashStr(val) % names.length];
         state.playerName = randomName + '#' + val.slice(-4);
         $('#player-verify-name').text(state.playerName);
         $('#player-verify-box').show();
@@ -982,7 +1008,7 @@ function renderPaymentStep() {
     if (!state.selectedGame || !state.selectedNominal) return;
     const renderGroup = (methods, containerId) => {
         const html = methods.map(m => `
-            <div class="payment-card" id="pm-${m.id}" onclick="selectPayment('${m.id}')">
+            <div class="payment-card" id="pm-${m.id}" tabindex="0" role="button" aria-label="Pilih metode pembayaran ${m.name}" onclick="selectPayment('${m.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();selectPayment('${m.id}');}">
                 <div class="payment-icon" style="background:rgba(255,255,255,0.05);">${m.emoji}</div>
                 <div>
                     <div class="payment-name">${m.name}</div>
@@ -1084,6 +1110,7 @@ function showSuccess() {
         total: total,
         status: 'success',
         time: formatDateTime(new Date()),
+        timestamp: Date.now(),
     };
     saveTransaction(tx);
     $('#final-txid').text(tx.id);
@@ -1107,7 +1134,8 @@ function showFailed(reason) {
         fee: 0,
         total: state.selectedNominal.price,
         status: 'failed',
-        time: new Date().toLocaleString('id-ID'),
+        time: formatDateTime(new Date()),
+        timestamp: Date.now(),
     };
     saveTransaction(tx);
     $('#failed-reason').text(reason);
@@ -1130,7 +1158,8 @@ function showPending() {
         total: total,
         status: 'pending',
         vaNumber: vaNum,
-        time: new Date().toLocaleString('id-ID'),
+        time: formatDateTime(new Date()),
+        timestamp: Date.now(),
     };
     saveTransaction(tx);
     $('#va-number').text(vaNum);
@@ -1190,7 +1219,7 @@ function renderAdminDashboard() {
     const pending = transactions.filter(t => t.status === 'pending').length;
 
     const statsHtml = [
-        { label: 'Total Transaksi', value: total, icon: '📋', color: '#06b6d4' },
+        { label: 'Total Transaksi', value: total, icon: '📋', color: '#c9a84c' },
         { label: 'Transaksi Sukses', value: success, icon: '✅', color: '#10b981' },
         { label: 'Total Revenue', value: formatRp(revenue), icon: '💰', color: '#f59e0b' },
         { label: 'Pending', value: pending, icon: '⏳', color: '#f59e0b' },
@@ -1221,7 +1250,7 @@ function renderRevenueChart() {
         days.push(label);
         const dayTx = transactions.filter(t => {
             if (t.status !== 'success') return false;
-            const txDate = new Date(t.time.replace(/\./g, '/'));
+            const txDate = t.timestamp ? new Date(t.timestamp) : new Date();
             return txDate.toDateString() === d.toDateString();
         });
         revenues.push(dayTx.reduce((s, t) => s + (t.total || 0), 0));
@@ -1235,8 +1264,8 @@ function renderRevenueChart() {
             datasets: [{
                 label: 'Revenue',
                 data: revenues.length && revenues.every(v => v === 0) ? [120000, 250000, 180000, 320000, 290000, 410000, 380000] : revenues,
-                backgroundColor: 'rgba(6,182,212,0.25)',
-                borderColor: '#06b6d4',
+                backgroundColor: 'rgba(201,168,76,0.25)',
+                borderColor: '#c9a84c',
                 borderWidth: 1.5,
                 borderRadius: 6,
             }]
@@ -1245,8 +1274,8 @@ function renderRevenueChart() {
             responsive: true,
             plugins: { legend: { display: false } },
             scales: {
-                x: { ticks: { color: 'rgba(255,255,255,0.35)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
-                y: { ticks: { color: 'rgba(255,255,255,0.35)', font: { size: 10 }, callback: v => 'Rp ' + (v/1000) + 'k' }, grid: { color: 'rgba(255,255,255,0.06)' } },
+                x: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 } }, grid: { color: 'rgba(255,255,255,0.04)' } },
+                y: { ticks: { color: 'rgba(255,255,255,0.5)', font: { size: 10 }, callback: v => 'Rp ' + (v/1000) + 'k' }, grid: { color: 'rgba(255,255,255,0.06)' } },
             }
         }
     });
@@ -1270,7 +1299,7 @@ function renderGameChart() {
             datasets: [{
                 data: hasData ? data : [30, 25, 20, 15, 10, 8, 6, 4],
                 backgroundColor: [
-                    'rgba(6,182,212,0.7)', 'rgba(245,158,11,0.7)', 'rgba(16,185,129,0.7)',
+                    'rgba(201,168,76,0.7)', 'rgba(245,158,11,0.7)', 'rgba(16,185,129,0.7)',
                     'rgba(139,92,246,0.7)', 'rgba(236,72,153,0.7)', 'rgba(239,68,68,0.7)',
                     'rgba(99,102,241,0.7)', 'rgba(251,191,36,0.7)'
                 ],
@@ -1289,17 +1318,17 @@ function renderGameChart() {
 function renderRecentTransactions() {
     const recent = transactions.slice(0, 5);
     if (!recent.length) {
-        $('#recent-transactions-table').html('<div style="padding:24px;text-align:center;color:rgba(255,255,255,0.25);font-size:0.82rem;">Belum ada transaksi</div>');
+        $('#recent-transactions-table').html('<div style="padding:24px;text-align:center;color:rgba(255,255,255,0.52);font-size:0.82rem;">Belum ada transaksi</div>');
         return;
     }
     const rows = recent.map(t => `<tr>
-        <td style="color:#06b6d4;font-size:0.72rem;">${t.id}</td>
+        <td style="color:#c9a84c;font-size:0.72rem;">${t.id}</td>
         <td>${t.gameEmoji || ''} ${t.game}</td>
         <td>${t.nominal}</td>
         <td style="font-size:0.75rem;">${t.player}</td>
         <td>${formatRp(t.total)}</td>
         <td><span class="badge badge-${t.status}">${t.status.toUpperCase()}</span></td>
-        <td style="font-size:0.7rem;color:rgba(255,255,255,0.35);">${t.time}</td>
+        <td style="font-size:0.7rem;color:rgba(255,255,255,0.5);">${t.time}</td>
     </tr>`).join('');
     $('#recent-transactions-table').html(`<table class="data-table">
         <thead><tr><th>No. Transaksi</th><th>Game</th><th>Nominal</th><th>Player</th><th>Total</th><th>Status</th><th>Waktu</th></tr></thead>
@@ -1327,18 +1356,18 @@ function renderTransactionTable() {
     });
 
     if (!filtered.length) {
-        $('#transaction-table-wrap').html('<div style="padding:28px;text-align:center;color:rgba(255,255,255,0.25);font-size:0.82rem;">Tidak ada transaksi ditemukan</div>');
+        $('#transaction-table-wrap').html('<div style="padding:28px;text-align:center;color:rgba(255,255,255,0.52);font-size:0.82rem;">Tidak ada transaksi ditemukan</div>');
         return;
     }
     const rows = filtered.map(t => `<tr>
-        <td style="color:#06b6d4;font-size:0.72rem;">${t.id}</td>
+        <td style="color:#c9a84c;font-size:0.72rem;">${t.id}</td>
         <td>${t.gameEmoji || ''} ${t.game}</td>
         <td>${t.nominal}</td>
         <td style="font-size:0.75rem;">${t.player}</td>
         <td>${t.payment}</td>
         <td>${formatRp(t.total)}</td>
         <td><span class="badge badge-${t.status}">${t.status.toUpperCase()}</span></td>
-        <td style="font-size:0.7rem;color:rgba(255,255,255,0.35);">${t.time}</td>
+        <td style="font-size:0.7rem;color:rgba(255,255,255,0.5);">${t.time}</td>
         <td>
             <button onclick="deleteTransaction('${t.id}')" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#ef4444;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:0.7rem;font-family:'Inter',sans-serif;">Hapus</button>
         </td>
@@ -1370,18 +1399,18 @@ function clearAllTransactions() {
 
 function renderProductTable() {
     if (!products.length) {
-        $('#product-table-wrap').html('<div style="padding:28px;text-align:center;color:rgba(255,255,255,0.25);font-size:0.82rem;">Belum ada produk</div>');
+        $('#product-table-wrap').html('<div style="padding:28px;text-align:center;color:rgba(255,255,255,0.52);font-size:0.82rem;">Belum ada produk</div>');
         return;
     }
     const rows = products.map(p => `<tr>
         <td>${gamesData.find(g => g.id === p.gameId)?.emoji || ''} ${p.gameName}</td>
         <td style="font-weight:700;">${p.amount.toLocaleString('id-ID')}</td>
         <td style="color:rgba(255,255,255,0.5);">${p.unit}</td>
-        <td style="color:#06b6d4;font-weight:700;">${formatRp(p.price)}</td>
-        <td>${p.popular ? '<span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;">POPULER</span>' : '<span style="color:rgba(255,255,255,0.25);font-size:0.75rem;">-</span>'}</td>
+        <td style="color:#c9a84c;font-weight:700;">${formatRp(p.price)}</td>
+        <td>${p.popular ? '<span class="badge" style="background:rgba(245,158,11,0.15);color:#f59e0b;">POPULER</span>' : '<span style="color:rgba(255,255,255,0.52);font-size:0.75rem;">-</span>'}</td>
         <td>
             <div style="display:flex;gap:6px;">
-                <button onclick="editProduct('${p.id}')" style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);color:#06b6d4;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:0.72rem;font-family:'Inter',sans-serif;">Edit</button>
+                <button onclick="editProduct('${p.id}')" style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);color:#c9a84c;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:0.72rem;font-family:'Inter',sans-serif;">Edit</button>
                 <button onclick="deleteProduct('${p.id}')" style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:#ef4444;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:0.72rem;font-family:'Inter',sans-serif;">Hapus</button>
             </div>
         </td>
@@ -1498,7 +1527,7 @@ renderGames();
 </script>
 
 <footer style="border-top:1px solid rgba(255,255,255,0.08);padding:20px 24px;text-align:center;">
-  <p style="font-size:12px;color:rgba(255,255,255,0.4);">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
+  <p style="font-size:12px;color:rgba(255,255,255,0.55);">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
 </footer>
 </body>
 </html>

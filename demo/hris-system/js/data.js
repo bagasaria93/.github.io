@@ -679,6 +679,17 @@ const DB = {
       const idx = list.findIndex(b => b.employeeId === empId && b.year === year);
       if (idx > -1) { list[idx] = { ...list[idx], ...data }; DB.set('leaveBalances', list); }
     },
+    deductBalance(empId, year, type, days) {
+      const map = { 'Cuti Tahunan': 'annual', 'Cuti Sakit': 'sick', 'Cuti Penting': 'important' };
+      const key = map[type];
+      if (!key) return;
+      const balance = DB.leave.getBalance(empId, year);
+      if (!balance || !balance[key]) return;
+      const current = balance[key];
+      const used = current.used + days;
+      const remaining = Math.max(current.total - used, 0);
+      DB.leave.updateBalance(empId, year, { [key]: { total: current.total, used, remaining } });
+    },
   },
 
   // ---- Payroll ----

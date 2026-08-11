@@ -12,11 +12,11 @@ window.ProfileModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Profil Saya</div><div class="page-subtitle">Kelola informasi akun Anda</div></div>
+      <div><h1 class="page-title">Profil Saya</h1><div class="page-subtitle">Kelola informasi akun Anda</div></div>
     </div>
 
     <div class="profile-header">
-      <div class="profile-avatar-big">${(user.name||'?').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase()}</div>
+      <div class="profile-avatar-big">${escapeHtml((user.name||'?').split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase())}</div>
       <div>
         <div class="profile-name">${escapeHtml(user.name)}</div>
         <div class="profile-role">${getRoleLabel(user.role)}</div>
@@ -24,7 +24,7 @@ window.ProfileModule = (function () {
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="profile-grid">
+    <div class="profile-grid">
       <!-- Edit Profil -->
       <div class="card">
         <div class="card-header"><div class="card-title">Edit Informasi</div></div>
@@ -120,10 +120,6 @@ window.ProfileModule = (function () {
       document.getElementById('p-pw-confirm').value = '';
       showToast('Password berhasil diubah.', 'success');
     });
-
-    // Responsive grid
-    const grid = document.querySelector('.profile-grid');
-    if (grid && window.innerWidth < 768) grid.style.gridTemplateColumns = '1fr';
   }
 
   return { render, init };

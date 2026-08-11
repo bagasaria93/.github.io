@@ -9,7 +9,7 @@ window.CoursesModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Mata Kuliah & Enrollment</div><div class="page-subtitle">Kelola mata kuliah dan data mahasiswa terdaftar</div></div>
+      <div><h1 class="page-title">Mata Kuliah & Enrollment</h1><div class="page-subtitle">Kelola mata kuliah dan data mahasiswa terdaftar</div></div>
       <div class="page-actions" id="courses-actions">
         <button class="btn btn-primary" id="btn-add-course"><i data-lucide="plus"></i> Tambah Mata Kuliah</button>
       </div>
@@ -38,8 +38,8 @@ window.CoursesModule = (function () {
                   <td>${count}</td>
                   <td>
                     <div style="display:flex;gap:6px;">
-                      <button class="btn btn-outline btn-sm btn-edit-course" data-id="${c.id}"><i data-lucide="pencil"></i></button>
-                      <button class="btn btn-danger btn-sm btn-del-course" data-id="${c.id}"><i data-lucide="trash-2"></i></button>
+                      <button class="btn btn-outline btn-sm btn-edit-course" aria-label="Edit mata kuliah ${escapeHtml(c.name)}" data-id="${c.id}"><i data-lucide="pencil"></i></button>
+                      <button class="btn btn-danger btn-sm btn-del-course" aria-label="Hapus mata kuliah ${escapeHtml(c.name)}" data-id="${c.id}"><i data-lucide="trash-2"></i></button>
                     </div>
                   </td>
                 </tr>`;
@@ -68,7 +68,7 @@ window.CoursesModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title" id="modal-course-title">Tambah Mata Kuliah</span>
-          <button class="modal-close" onclick="closeModal('modal-course')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-course')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body">
           <input type="hidden" id="c-id">
@@ -116,7 +116,7 @@ window.CoursesModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title">Tambah Mahasiswa</span>
-          <button class="modal-close" onclick="closeModal('modal-enroll')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-enroll')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body">
           <div class="form-group">
@@ -201,6 +201,8 @@ window.CoursesModule = (function () {
     App.navigate('courses');
   }
 
+  let _clickHandler = null;
+
   function init() {
     document.getElementById('btn-add-course')?.addEventListener('click', openAddCourse);
     document.getElementById('btn-save-course')?.addEventListener('click', saveCourse);
@@ -242,7 +244,7 @@ window.CoursesModule = (function () {
       renderEnrollTable(cid);
     });
 
-    document.addEventListener('click', function(e) {
+    _clickHandler = function (e) {
       if (e.target.closest('.btn-edit-course')) openEditCourse(e.target.closest('.btn-edit-course').dataset.id);
       if (e.target.closest('.btn-del-course')) {
         const id = e.target.closest('.btn-del-course').dataset.id;
@@ -261,8 +263,13 @@ window.CoursesModule = (function () {
           renderEnrollTable(btn.dataset.cid);
         });
       }
-    });
+    };
+    document.addEventListener('click', _clickHandler);
   }
 
-  return { render, init };
+  function destroy() {
+    if (_clickHandler) { document.removeEventListener('click', _clickHandler); _clickHandler = null; }
+  }
+
+  return { render, init, destroy };
 })();

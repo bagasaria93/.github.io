@@ -1,3 +1,5 @@
+'use strict';
+
 window.SettingsModule = (function () {
   let _activeTab = 'company';
 
@@ -318,8 +320,8 @@ window.SettingsModule = (function () {
 
   function _infoRow(label, value) {
     return `<div style="padding:10px 0;border-bottom:1px solid var(--border)">
-      <p style="font-size:11px;color:var(--text-muted);margin-bottom:2px">${label}</p>
-      <p style="font-weight:500">${value}</p>
+      <p style="font-size:11px;color:var(--text-muted);margin-bottom:2px">${escapeHtml(label)}</p>
+      <p style="font-weight:500">${escapeHtml(String(value))}</p>
     </div>`;
   }
 

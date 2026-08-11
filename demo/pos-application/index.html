@@ -5,8 +5,7 @@
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KasirKu - Aplikasi Kasir Kafe</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<meta name="description" content="KasirKu, aplikasi kasir kafe dengan manajemen produk, keranjang, kode kupon, perhitungan pajak, dan struk cetak siap pakai.">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -43,11 +42,11 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   50% { box-shadow: 0 0 30px rgba(245,158,11,0.75), 0 2px 8px rgba(0,0,0,0.3); }
 }
 .brand-name { font-weight: 800; font-size: 0.97rem; letter-spacing: -0.01em; }
-.brand-sub { font-size: 0.62rem; color: rgba(255,255,255,0.35); margin-top: 1px; }
+.brand-sub { font-size: 0.62rem; color: rgba(255,255,255,0.5); margin-top: 1px; }
 .topbar-info { display: flex; align-items: center; gap: 10px; }
 .topbar-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.08); }
 .topbar-clock { font-size: 0.8rem; color: rgba(255,255,255,0.5); font-variant-numeric: tabular-nums; font-weight: 600; }
-.topbar-label { font-size: 0.73rem; color: rgba(255,255,255,0.4); }
+.topbar-label { font-size: 0.73rem; color: rgba(255,255,255,0.5); }
 .topbar-value { color: #f59e0b; font-weight: 700; font-size: 0.73rem; }
 .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #10b981; box-shadow: 0 0 6px #10b981; flex-shrink: 0; }
 
@@ -81,7 +80,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   transition: all 0.2s;
 }
 .search-bar:focus { border-color: rgba(245,158,11,0.5); background: rgba(245,158,11,0.04); box-shadow: 0 0 0 3px rgba(245,158,11,0.08); }
-.search-bar::placeholder { color: rgba(255,255,255,0.25); }
+.search-bar::placeholder { color: rgba(255,255,255,0.48); }
 
 .cat-filters { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 4px; }
 .cat-btn {
@@ -152,11 +151,13 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
 .product-card.out-of-stock { opacity: 0.35; cursor: not-allowed; }
 .product-card.out-of-stock:hover { transform: none; background: rgba(255,255,255,0.035); border-color: rgba(255,255,255,0.07); box-shadow: none; }
 .product-card.out-of-stock::before { opacity: 0 !important; }
+.product-card:focus-visible { outline: 2px solid #f59e0b; outline-offset: 2px; }
 
-.product-emoji { font-size: 2.1rem; margin-bottom: 10px; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.product-emoji { color: #f59e0b; margin-bottom: 10px; display: block; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+.product-emoji svg { width: 28px; height: 28px; }
 .product-name { font-size: 0.81rem; font-weight: 600; color: #e2e8f0; margin-bottom: 5px; line-height: 1.35; }
 .product-price { font-size: 0.83rem; font-weight: 800; color: #f59e0b; letter-spacing: -0.01em; }
-.product-stock { font-size: 0.68rem; color: rgba(255,255,255,0.3); margin-top: 5px; }
+.product-stock { font-size: 0.68rem; color: rgba(255,255,255,0.5); margin-top: 5px; }
 .search-highlight { background: rgba(245,158,11,0.28); border-radius: 3px; padding: 0 1px; }
 
 /* ── Cart Panel ─────────────────────── */
@@ -191,7 +192,8 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
 }
 @keyframes cart-slide-in { from { opacity: 0; transform: translateX(14px); } to { opacity: 1; transform: translateX(0); } }
 .cart-item:hover { background: rgba(245,158,11,0.05); border-color: rgba(245,158,11,0.15); }
-.cart-item-emoji { font-size: 1.25rem; flex-shrink: 0; }
+.cart-item-emoji { color: #f59e0b; flex-shrink: 0; display: flex; }
+.cart-item-emoji svg { width: 18px; height: 18px; }
 .cart-item-info { flex: 1; min-width: 0; }
 .cart-item-name { font-size: 0.77rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cart-item-price { font-size: 0.74rem; color: #f59e0b; font-weight: 700; margin-top: 2px; }
@@ -218,7 +220,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
 }
 .remove-btn:hover { background: rgba(239,68,68,0.25); border-color: rgba(239,68,68,0.4); }
 
-.cart-empty { text-align: center; padding: 48px 20px; color: rgba(255,255,255,0.18); }
+.cart-empty { text-align: center; padding: 48px 20px; color: rgba(255,255,255,0.5); }
 .cart-empty-icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.6; }
 .cart-empty-text { font-size: 0.83rem; line-height: 1.6; }
 
@@ -249,7 +251,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   text-transform: uppercase;
 }
 .coupon-input:focus { border-color: rgba(245,158,11,0.4); box-shadow: 0 0 0 2px rgba(245,158,11,0.07); }
-.coupon-input::placeholder { color: rgba(255,255,255,0.2); text-transform: none; }
+.coupon-input::placeholder { color: rgba(255,255,255,0.45); text-transform: none; }
 .coupon-btn {
   background: rgba(245,158,11,0.1);
   border: 1px solid rgba(245,158,11,0.25);
@@ -302,7 +304,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   padding: 12px 16px;
   font-size: 0.79rem; font-weight: 600;
   font-family: 'Inter', sans-serif;
-  color: rgba(255,255,255,0.38);
+  color: rgba(255,255,255,0.5);
   background: none; border: none;
   cursor: pointer;
   border-bottom: 2px solid transparent;
@@ -374,8 +376,9 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   background: rgba(255,255,255,0.18);
   border-radius: 99px;
   margin: 12px auto 2px;
-  cursor: grab;
+  cursor: pointer;
 }
+.cart-drag-handle:focus-visible { outline: 2px solid #f59e0b; outline-offset: 3px; }
 
 .mobile-bar {
   display: none;
@@ -391,7 +394,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   box-shadow: 0 -8px 24px rgba(0,0,0,0.4);
 }
 .mobile-cart-info { flex: 1; }
-.mobile-cart-count-text { font-size: 0.73rem; color: rgba(255,255,255,0.4); }
+.mobile-cart-count-text { font-size: 0.73rem; color: rgba(255,255,255,0.5); }
 .mobile-cart-total-text { font-size: 0.93rem; font-weight: 800; color: #f59e0b; letter-spacing: -0.01em; }
 .mobile-cart-toggle {
   background: linear-gradient(135deg, #f59e0b, #d97706);
@@ -413,13 +416,13 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   gap: 5px;
   font-size: 0.72rem;
   font-family: system-ui, -apple-system, sans-serif;
-  color: rgba(255,255,255,0.25);
+  color: rgba(255,255,255,0.48);
   border-top: 1px solid rgba(255,255,255,0.04);
   background: rgba(10,10,20,0.4);
   letter-spacing: 0.01em;
 }
-.pos-footer a { color: #c9a84c; text-decoration: none; font-weight: 700; }
-.pos-footer a:hover { color: #f59e0b; }
+.pos-footer a { color: #f59e0b; text-decoration: none; font-weight: 700; }
+.pos-footer a:hover { color: #fbbf24; }
 
 /* ── Print ─────────────────────── */
 @media print {
@@ -462,7 +465,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
 @media (max-width: 480px) {
   .product-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .product-card { padding: 13px; }
-  .product-emoji { font-size: 1.8rem; }
+  .product-emoji svg { width: 24px; height: 24px; }
   .topbar-clock { display: none; }
   .topbar-clock-divider { display: none; }
 }
@@ -498,7 +501,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
         <span class="search-icon">🔍</span>
         <input type="text" class="search-bar" id="search-input" placeholder="Cari menu..." oninput="searchProducts(this.value)">
       </div>
-      <div style="font-size:0.73rem;color:rgba(255,255,255,0.3);" id="search-result-info"></div>
+      <div style="font-size:0.73rem;color:rgba(255,255,255,0.5);" id="search-result-info"></div>
     </div>
     <div class="cat-filters" id="cat-filters">
       <button class="cat-btn active" onclick="filterCategory('Semua',this)">Semua</button>
@@ -512,7 +515,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   </div>
 
   <div class="cart-panel" id="cart-panel">
-    <div class="cart-drag-handle"></div>
+    <div class="cart-drag-handle" role="button" tabindex="0" aria-label="Tutup keranjang" onclick="closeMobileCart()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();closeMobileCart();}"></div>
     <div class="tab-bar">
       <button class="tab-bar-btn active" onclick="switchCartTab('cart',this)">🛒 Keranjang</button>
       <button class="tab-bar-btn" onclick="switchCartTab('history',this)">📋 Riwayat</button>
@@ -522,7 +525,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
       <div class="cart-header">
         <span class="cart-title">Pesanan</span>
         <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-size:0.72rem;color:rgba(255,255,255,0.35);background:rgba(255,255,255,0.05);padding:3px 8px;border-radius:6px;" id="table-no">Meja 4</span>
+          <span style="font-size:0.72rem;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.05);padding:3px 8px;border-radius:6px;" id="table-no">Meja 4</span>
           <div class="cart-count" id="cart-count">0</div>
         </div>
       </div>
@@ -566,7 +569,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
         <button style="font-size:0.7rem;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.18);color:#ef4444;padding:4px 10px;border-radius:7px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:700;" onclick="clearHistory()">Hapus</button>
       </div>
       <div style="flex:1;overflow-y:auto;padding:10px;" id="history-list">
-        <div style="text-align:center;padding:48px 20px;color:rgba(255,255,255,0.18);">
+        <div style="text-align:center;padding:48px 20px;color:rgba(255,255,255,0.5);">
           <div style="font-size:2.5rem;margin-bottom:12px;">📋</div>
           <div style="font-size:0.83rem;">Belum ada transaksi</div>
         </div>
@@ -593,12 +596,12 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   </button>
 </div>
 
-<div class="modal-overlay" id="receipt-modal">
+<div class="modal-overlay" id="receipt-modal" role="dialog" aria-modal="true" aria-label="Transaksi berhasil" onclick="if(event.target===this)closeReceipt();">
   <div class="modal-box">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
       <div>
         <div style="font-weight:800;font-size:1rem;">✅ Transaksi Berhasil</div>
-        <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:2px;">Terima kasih atas kunjungan Anda</div>
+        <div style="font-size:0.72rem;color:rgba(255,255,255,0.5);margin-top:2px;">Terima kasih atas kunjungan Anda</div>
       </div>
       <button onclick="closeReceipt()" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;">✕</button>
     </div>
@@ -610,12 +613,12 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
   </div>
 </div>
 
-<div class="modal-overlay" id="confirm-modal">
+<div class="modal-overlay" id="confirm-modal" role="dialog" aria-modal="true" aria-label="Konfirmasi" onclick="if(event.target===this)closeConfirm();">
   <div class="modal-box" style="width:320px;">
     <div style="text-align:center;padding:8px 0 16px;">
       <div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div>
       <div style="font-weight:700;font-size:0.93rem;margin-bottom:8px;" id="confirm-text">Yakin ingin membatalkan semua item?</div>
-      <div style="font-size:0.78rem;color:rgba(255,255,255,0.35);">Tindakan ini tidak dapat dibatalkan</div>
+      <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);">Tindakan ini tidak dapat dibatalkan</div>
     </div>
     <div style="display:flex;gap:8px;">
       <button onclick="closeConfirm()" style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);color:rgba(255,255,255,0.65);padding:11px;border-radius:11px;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;font-size:0.83rem;">Batal</button>
@@ -665,6 +668,17 @@ let stockState = {};
 
 products.forEach(p => { stockState[p.id] = p.stock; });
 
+const CATEGORY_ICONS = {
+  'Kopi': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>',
+  'Non-Kopi': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><path d="M6 1c1 1 1 2 0 3M10 1c1 1 1 2 0 3M14 1c1 1 1 2 0 3"/></svg>',
+  'Minuman Dingin': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14l-1.5 16.5A2 2 0 0 1 15.51 21H8.49a2 2 0 0 1-1.99-1.5L5 3z"/><path d="M6 8h12"/></svg>',
+  'Makanan': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>',
+  'Snack': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"/><path d="M8.5 8.5v.01"/><path d="M16 15.5v.01"/><path d="M12 12v.01"/><path d="M11 17v.01"/><path d="M7 14v.01"/></svg>',
+};
+function categoryIcon(category) {
+  return CATEGORY_ICONS[category] || CATEGORY_ICONS['Kopi'];
+}
+
 function formatRp(val) {
   return 'Rp ' + val.toLocaleString('id-ID');
 }
@@ -689,7 +703,7 @@ function renderProducts() {
   const info = document.getElementById('search-result-info');
 
   if (filtered.length === 0) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:56px 20px;color:rgba(255,255,255,0.18);">
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:56px 20px;color:rgba(255,255,255,0.5);">
       <div style="font-size:2.5rem;margin-bottom:10px;">🔍</div>
       <div style="font-size:0.83rem;">Menu tidak ditemukan</div>
     </div>`;
@@ -707,8 +721,11 @@ function renderProducts() {
     const isOut = stockState[p.id] === 0;
     const displayName = highlightText(p.name, currentSearch);
     const cartQty = (cart.find(c => c.id === p.id) || {}).qty || 0;
-    return `<div class="product-card ${isOut ? 'out-of-stock' : ''}" id="pcard-${p.id}" onclick="${isOut ? '' : 'addToCart(' + p.id + ')'}">
-      <span class="product-emoji">${p.emoji}</span>
+    const a11yAttrs = isOut
+      ? 'aria-disabled="true"'
+      : `tabindex="0" role="button" aria-label="Tambah ${p.name}, ${formatRp(p.price)}" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();addToCart(${p.id});}"`;
+    return `<div class="product-card ${isOut ? 'out-of-stock' : ''}" id="pcard-${p.id}" onclick="${isOut ? '' : 'addToCart(' + p.id + ')'}" ${a11yAttrs}>
+      <span class="product-emoji">${categoryIcon(p.category)}</span>
       <div class="product-name">${displayName}</div>
       <div class="product-price">${formatRp(p.price)}</div>
       <div class="product-stock">${isOut ? '❌ Habis' : '📦 Stok: ' + stockState[p.id]}${cartQty > 0 ? ' · 🛒 ' + cartQty : ''}</div>
@@ -753,6 +770,7 @@ function flashCard(id) {
 function updateQty(id, delta) {
   const item = cart.find(c => c.id === id);
   if (!item) return;
+  if (delta > 0 && item.qty >= stockState[id]) { showToast('Stok tidak cukup','⚠️'); return; }
   item.qty += delta;
   if (item.qty <= 0) cart = cart.filter(c => c.id !== id);
   renderCart();
@@ -788,7 +806,7 @@ function renderCart() {
       el.className = 'cart-item';
       el.id = 'cart-item-' + item.id;
       el.innerHTML = `
-        <span class="cart-item-emoji">${item.emoji}</span>
+        <span class="cart-item-emoji">${categoryIcon(item.category)}</span>
         <div class="cart-item-info">
           <div class="cart-item-name">${item.name}</div>
           <div class="cart-item-price">${formatRp(item.price * item.qty)}</div>
@@ -948,7 +966,7 @@ function renderHistory() {
   const history = JSON.parse(localStorage.getItem('kasirku_history') || '[]');
   const container = document.getElementById('history-list');
   if (history.length === 0) {
-    container.innerHTML = '<div style="text-align:center;padding:48px 20px;color:rgba(255,255,255,0.18);">'
+    container.innerHTML = '<div style="text-align:center;padding:48px 20px;color:rgba(255,255,255,0.5);">'
       + '<div style="font-size:2.5rem;margin-bottom:12px;">📋</div>'
       + '<div style="font-size:0.83rem;">Belum ada transaksi</div>'
       + '</div>';
@@ -959,7 +977,7 @@ function renderHistory() {
     + '<span style="font-size:0.76rem;font-weight:700;color:#f59e0b;">' + h.txId + '</span>'
     + '<span style="font-size:0.76rem;font-weight:800;">' + formatRp(h.total) + '</span>'
     + '</div>'
-    + '<div style="font-size:0.7rem;color:rgba(255,255,255,0.35);margin-bottom:6px;">' + h.time + ' · ' + h.items.length + ' item</div>'
+    + '<div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-bottom:6px;">' + h.time + ' · ' + h.items.length + ' item</div>'
     + '<div style="font-size:0.7rem;color:rgba(255,255,255,0.45);">' + h.items.map(i => i.emoji + ' ' + i.name + ' x' + i.qty).join(', ') + '</div>'
     + '</div>').join('');
 }
@@ -1021,6 +1039,8 @@ function showToast(msg, icon) {
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'pos-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
     toast.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(60px);background:linear-gradient(135deg,#1e293b,#1a2540);color:white;padding:12px 20px;border-radius:12px;font-size:0.82rem;font-weight:600;z-index:9999;transition:transform 0.35s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;gap:9px;box-shadow:0 10px 30px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.07);white-space:nowrap;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(8px);';
     document.body.appendChild(toast);
   }
@@ -1038,9 +1058,18 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-$(document).on('keydown', function(e) {
-  if (e.key === 'Enter' && !$('#receipt-modal').hasClass('open') && !$('#confirm-modal').hasClass('open')) {
-    if ($('#cart-tab').is(':visible')) checkout();
+document.getElementById('coupon-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); applyCoupon(); }
+});
+
+document.addEventListener('keydown', function(e) {
+  const tag = (e.target.tagName || '').toLowerCase();
+  const isFormField = tag === 'input' || tag === 'select' || tag === 'textarea';
+  const receiptOpen = document.getElementById('receipt-modal').classList.contains('open');
+  const confirmOpen = document.getElementById('confirm-modal').classList.contains('open');
+
+  if (e.key === 'Enter' && !isFormField && !receiptOpen && !confirmOpen) {
+    if (document.getElementById('cart-tab').style.display !== 'none') checkout();
   }
   if (e.key === 'Escape') {
     closeReceipt();
@@ -1052,9 +1081,5 @@ $(document).on('keydown', function(e) {
 renderProducts();
 renderHistory();
 </script>
-
-<footer style="border-top:1px solid rgba(255,255,255,0.08);padding:20px 24px;text-align:center;">
-  <p style="font-size:12px;color:rgba(255,255,255,0.4);">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#c9a84c;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
-</footer>
 </body>
 </html>

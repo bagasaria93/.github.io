@@ -1,3 +1,5 @@
+'use strict';
+
 window.OrganizationModule = (function () {
   let _view = 'chart'; // 'chart' | 'departments' | 'positions'
   let _selectedDept = '';

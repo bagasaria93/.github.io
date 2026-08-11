@@ -2,7 +2,7 @@ const esbuild = require('esbuild');
 esbuild.build({
   entryPoints: ['src/index.tsx'],
   bundle: true,
-  outfile: 'dist/bundle.js',
+  outfile: '../bundle.js',
   minify: true,
   sourcemap: false,
   jsx: 'automatic',

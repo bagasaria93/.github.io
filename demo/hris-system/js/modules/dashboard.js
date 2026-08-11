@@ -28,8 +28,8 @@ window.DashboardModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Selamat Datang, ${escapeHtml(session.name.split(' ')[0])} 👋</div>
-        <div class="page-subtitle">${formatDate(todayStr2, 'full')} &mdash; ${getRoleLabel(session.role)}</div>
+        <h1 class="page-title">Selamat Datang, ${escapeHtml(session.name.split(' ')[0])} 👋</h1>
+        <p class="page-subtitle">${formatDate(todayStr2, 'full')} &mdash; ${getRoleLabel(session.role)}</p>
       </div>
     </div>
 
@@ -365,7 +365,12 @@ window.DashboardModule = (function () {
 
   function quickApprove(leaveId) {
     const session = Auth.getSession();
+    const leave = DB.leave.getById(leaveId);
     DB.leave.update(leaveId, { status: 'Disetujui', approvedBy: session.id, approvedDate: todayStr() });
+    if (leave) {
+      const year = parseInt(leave.startDate.slice(0, 4));
+      DB.leave.deductBalance(leave.employeeId, year, leave.type, leave.days);
+    }
     showToast('Cuti berhasil disetujui', 'success');
     App.navigate('dashboard');
   }

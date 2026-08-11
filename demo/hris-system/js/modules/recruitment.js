@@ -16,8 +16,8 @@ window.RecruitmentModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Rekrutmen</div>
-        <div class="page-subtitle">Kelola lowongan dan pipeline kandidat</div>
+        <h1 class="page-title">Rekrutmen</h1>
+        <p class="page-subtitle">Kelola lowongan dan pipeline kandidat</p>
       </div>
       ${canCreate ? `<button class="btn btn-primary" onclick="RecruitmentModule.openAddJob()">
         <i data-lucide="plus"></i> Tambah Lowongan

@@ -10,7 +10,7 @@ window.MaterialsModule = (function () {
 
     return `
     <div class="page-header">
-      <div><div class="page-title">Kelola Materi</div><div class="page-subtitle">Tambah dan atur materi untuk mata kuliah Anda</div></div>
+      <div><h1 class="page-title">Kelola Materi</h1><div class="page-subtitle">Tambah dan atur materi untuk mata kuliah Anda</div></div>
       <div class="page-actions">
         <select class="filter-select" id="mat-course-sel" style="min-width:200px;">
           ${courses.map(c => `<option value="${c.id}" ${c.id===activeCourseId?'selected':''}>${escapeHtml(c.code)} - ${escapeHtml(c.name)}</option>`).join('')}
@@ -27,7 +27,7 @@ window.MaterialsModule = (function () {
       <div class="modal-box">
         <div class="modal-header">
           <span class="modal-title" id="modal-mat-title">Tambah Materi</span>
-          <button class="modal-close" onclick="closeModal('modal-mat')"><i data-lucide="x"></i></button>
+          <button class="modal-close" aria-label="Tutup" onclick="closeModal('modal-mat')"><i data-lucide="x"></i></button>
         </div>
         <div class="modal-body">
           <input type="hidden" id="m-id">
@@ -79,8 +79,8 @@ window.MaterialsModule = (function () {
           <div class="material-sub">${escapeHtml(m.deskripsi?.substring(0,80))}... &mdash; <span class="badge badge-secondary" style="font-size:10px;">${m.tipe.toUpperCase()}</span></div>
         </div>
         <div class="material-actions">
-          <button class="btn btn-outline btn-sm btn-edit-mat" data-id="${m.id}"><i data-lucide="pencil"></i></button>
-          <button class="btn btn-danger btn-sm btn-del-mat" data-id="${m.id}"><i data-lucide="trash-2"></i></button>
+          <button class="btn btn-outline btn-sm btn-edit-mat" aria-label="Edit materi ${escapeHtml(m.judul)}" data-id="${m.id}"><i data-lucide="pencil"></i></button>
+          <button class="btn btn-danger btn-sm btn-del-mat" aria-label="Hapus materi ${escapeHtml(m.judul)}" data-id="${m.id}"><i data-lucide="trash-2"></i></button>
         </div>
       </div>`).join('')}</div>`;
     if (window.lucide) lucide.createIcons({ nodes: [list] });
@@ -127,6 +127,8 @@ window.MaterialsModule = (function () {
     renderList();
   }
 
+  let _clickHandler = null;
+
   function init() {
     renderList();
     document.getElementById('btn-add-mat')?.addEventListener('click', openAdd);
@@ -135,7 +137,7 @@ window.MaterialsModule = (function () {
       activeCourseId = e.target.value;
       renderList();
     });
-    document.addEventListener('click', function(e) {
+    _clickHandler = function (e) {
       if (e.target.closest('.btn-edit-mat')) openEdit(e.target.closest('.btn-edit-mat').dataset.id);
       if (e.target.closest('.btn-del-mat')) {
         const id = e.target.closest('.btn-del-mat').dataset.id;
@@ -146,8 +148,13 @@ window.MaterialsModule = (function () {
           renderList();
         });
       }
-    });
+    };
+    document.addEventListener('click', _clickHandler);
   }
 
-  return { render, init };
+  function destroy() {
+    if (_clickHandler) { document.removeEventListener('click', _clickHandler); _clickHandler = null; }
+  }
+
+  return { render, init, destroy };
 })();

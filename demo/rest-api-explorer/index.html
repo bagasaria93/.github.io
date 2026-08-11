@@ -5,28 +5,13 @@
     <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>APIJelajah - REST API Explorer</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<meta name="description" content="APIJelajah, tool eksplorasi REST API publik dengan syntax highlighting, tracking waktu response, dan anotasi tipe data ala TypeScript.">
+<link rel="stylesheet" href="tailwind.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: { mono: ['JetBrains Mono', 'monospace'] },
-      colors: {
-        bg: '#0a0e0a', surface: '#0f140f', panel: '#131a13',
-        border: '#1e2a1e', neon: '#39ff14', neonDim: '#1a7a06',
-        neonFaint: '#0d3d03', amber: '#f59e0b', red: '#ef4444',
-        blue: '#3b82f6', cyan: '#06b6d4', muted: '#4a6b4a',
-        text: '#c8e6c8', textDim: '#6b8f6b',
-      }
-    }
-  }
-}
-</script>
 <style>
 * { box-sizing: border-box; }
 body { background:#0a0e0a; font-family:'JetBrains Mono',monospace; color:#c8e6c8; min-height:100vh; }
@@ -42,6 +27,12 @@ body { background:#0a0e0a; font-family:'JetBrains Mono',monospace; color:#c8e6c8
 
 .method-GET { color:#39ff14; border-color:#39ff14; }
 .method-badge-GET { color:#39ff14; background:#0d3d03; }
+.method-POST { color:#3b82f6; border-color:#3b82f6; }
+.method-badge-POST { color:#3b82f6; background:rgba(59,130,246,0.15); }
+.method-PUT { color:#f59e0b; border-color:#f59e0b; }
+.method-badge-PUT { color:#f59e0b; background:rgba(245,158,11,0.15); }
+.method-DELETE { color:#ef4444; border-color:#ef4444; }
+.method-badge-DELETE { color:#ef4444; background:rgba(239,68,68,0.15); }
 
 .status-2xx { color:#39ff14; background:rgba(57,255,20,0.1); border:1px solid rgba(57,255,20,0.3); }
 .status-3xx { color:#f59e0b; background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.3); }
@@ -50,7 +41,7 @@ body { background:#0a0e0a; font-family:'JetBrains Mono',monospace; color:#c8e6c8
 .status-err { color:#ef4444; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); }
 
 .tab-active { border-bottom:2px solid #39ff14; color:#39ff14; }
-.tab-inactive { border-bottom:2px solid transparent; color:#4a6b4a; cursor:pointer; }
+.tab-inactive { border-bottom:2px solid transparent; color:#6b8f6b; cursor:pointer; }
 .tab-inactive:hover { color:#c8e6c8; }
 
 .api-card { background:#0f140f; border:1px solid #1e2a1e; transition:all 0.2s; cursor:pointer; }
@@ -76,7 +67,7 @@ body { background:#0a0e0a; font-family:'JetBrains Mono',monospace; color:#c8e6c8
 
 .hljs { background:#0a0e0a !important; font-family:'JetBrains Mono',monospace !important; font-size:12px !important; line-height:1.6 !important; }
 
-.type-annotation { font-size:11px; line-height:1.8; color:#4a6b4a; }
+.type-annotation { font-size:12px; line-height:1.8; color:#4a6b4a; }
 .type-key { color:#c8e6c8; }
 .type-type { color:#39ff14; }
 .type-comment { color:#2a4a2a; }
@@ -108,7 +99,7 @@ body { background:#0a0e0a; font-family:'JetBrains Mono',monospace; color:#c8e6c8
 <div class="mobile-sidebar" id="mobileSidebar">
   <div class="p-4 border-b border-border flex items-center justify-between sticky top-0 bg-surface z-10">
     <span class="text-xs text-textDim uppercase tracking-widest">API Explorer</span>
-    <button id="closeSidebarBtn" class="text-textDim hover:text-neon p-1 transition-colors">
+    <button id="closeSidebarBtn" aria-label="Tutup menu" class="text-textDim hover:text-neon p-1 transition-colors">
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
   </div>
@@ -133,7 +124,7 @@ body { background:#0a0e0a; font-family:'JetBrains Mono',monospace; color:#c8e6c8
 <header class="sticky top-0 z-40 border-b border-border bg-bg/95 backdrop-blur-sm">
   <div class="flex items-center justify-between px-4 py-3">
     <div class="flex items-center gap-3">
-      <button id="openSidebarBtn" class="md:hidden text-textDim hover:text-neon p-1 transition-colors">
+      <button id="openSidebarBtn" aria-label="Buka menu" class="md:hidden text-textDim hover:text-neon p-1 transition-colors">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
       </button>
       <div class="flex items-center gap-2">
@@ -290,6 +281,9 @@ const APIS = {
       { label: 'GET /users', method: 'GET', url: 'https://jsonplaceholder.typicode.com/users', params: [], desc: 'Ambil daftar semua pengguna' },
       { label: 'GET /todos', method: 'GET', url: 'https://jsonplaceholder.typicode.com/todos?_limit=10', params: [{key:'_limit',value:'10',desc:'Jumlah todo'}], desc: 'Ambil daftar todo list (dibatasi 10)' },
       { label: 'GET /comments', method: 'GET', url: 'https://jsonplaceholder.typicode.com/comments?postId=1', params: [{key:'postId',value:'1',desc:'Filter by post ID'}], desc: 'Ambil komentar berdasarkan post' },
+      { label: 'POST /posts', method: 'POST', url: 'https://jsonplaceholder.typicode.com/posts', params: [], desc: 'Buat post baru (mock, server tidak benar benar menyimpan data)', body: { title: 'Judul Post Baru', body: 'Isi konten post ini.', userId: 1 } },
+      { label: 'PUT /posts/:id', method: 'PUT', url: 'https://jsonplaceholder.typicode.com/posts/1', params: [], desc: 'Update seluruh isi post yang ada (mock)', body: { id: 1, title: 'Judul Post Diperbarui', body: 'Isi konten yang sudah diperbarui.', userId: 1 } },
+      { label: 'DELETE /posts/:id', method: 'DELETE', url: 'https://jsonplaceholder.typicode.com/posts/1', params: [], desc: 'Hapus post berdasarkan ID (mock, tidak benar benar terhapus)' },
     ],
     requestHeaders: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
   },
@@ -336,11 +330,21 @@ const TABS = ['request', 'response', 'headers', 'types'];
 
 let currentApi = 'jsonplaceholder';
 let currentEndpoint = 0;
+let currentMethod = 'GET';
+let currentBody = null;
 let lastResponseData = null;
 let reqHistory = [];
 let toastTimer = null;
 
 try { reqHistory = JSON.parse(localStorage.getItem('apijelajah_history') || '[]'); } catch(e) { reqHistory = []; }
+
+function methodTextClass(method) {
+  return { GET: 'method-GET', POST: 'method-POST', PUT: 'method-PUT', DELETE: 'method-DELETE' }[method] || 'method-GET';
+}
+
+function methodBadgeClass(method) {
+  return { GET: 'method-badge-GET', POST: 'method-badge-POST', PUT: 'method-badge-PUT', DELETE: 'method-badge-DELETE' }[method] || 'method-badge-GET';
+}
 
 function escapeHtml(str) {
   if (typeof str !== 'string') str = String(str || '');
@@ -433,9 +437,9 @@ function renderApiCards(containerId, closeOnSelect) {
     card.innerHTML = `
       <div class="flex items-start justify-between mb-1">
         <span class="text-xs font-bold text-text">${escapeHtml(api.name)}</span>
-        <span class="text-xs px-1.5 py-0.5 border method-GET" style="font-size:10px">GET</span>
+        <span class="text-xs px-1.5 py-0.5 border method-GET" style="font-size:12px">${api.endpoints.length} endpoints</span>
       </div>
-      <div class="text-xs text-textDim" style="font-size:10px">${escapeHtml(api.description.split('.')[0])}.</div>
+      <div class="text-xs text-textDim" style="font-size:12px">${escapeHtml(api.description.split('.')[0])}.</div>
     `;
     card.addEventListener('click', () => {
       selectApi(key);
@@ -454,10 +458,10 @@ function renderEndpoints(containerId, closeOnSelect) {
     item.className = 'endpoint-item p-2.5 rounded' + (i === currentEndpoint ? ' active' : '');
     item.innerHTML = `
       <div class="flex items-center gap-2 mb-0.5">
-        <span class="font-bold method-GET" style="font-size:10px">${escapeHtml(ep.method)}</span>
-        <span class="text-text truncate" style="font-size:11px">${escapeHtml(ep.label)}</span>
+        <span class="font-bold ${methodTextClass(ep.method)}" style="font-size:11px">${escapeHtml(ep.method)}</span>
+        <span class="text-text truncate" style="font-size:12px">${escapeHtml(ep.label)}</span>
       </div>
-      <div class="text-textDim" style="font-size:10px">${escapeHtml(ep.desc)}</div>
+      <div class="text-textDim" style="font-size:11px">${escapeHtml(ep.desc)}</div>
     `;
     item.addEventListener('click', () => {
       loadEndpoint(i);
@@ -491,8 +495,8 @@ function renderHistory() {
         <span class="text-xs font-bold ${col}">${h.status}</span>
         <span class="text-xs text-textDim">${h.time}ms</span>
       </div>
-      <div class="text-textDim truncate" style="font-size:10px">${escapeHtml(shortUrl)}</div>
-      <div class="text-textDim" style="font-size:10px">${getTimeAgo(h.timestamp)}</div>
+      <div class="text-textDim truncate" style="font-size:11px">${escapeHtml(shortUrl)}</div>
+      <div class="text-textDim" style="font-size:11px">${getTimeAgo(h.timestamp)}</div>
     `;
     return { el: item, idx: i };
   });
@@ -538,10 +542,12 @@ function loadEndpoint(idx) {
 
 function applyEndpointToUI(idx) {
   const ep = APIS[currentApi].endpoints[idx];
+  currentMethod = ep.method;
+  currentBody = ep.body || null;
   document.getElementById('urlInput').value = ep.url;
   const badge = document.getElementById('methodBadge');
   badge.textContent = ep.method;
-  badge.className = 'px-3 py-2 text-xs font-bold border-r border-border method-GET method-badge-GET flex-shrink-0';
+  badge.className = `px-3 py-2 text-xs font-bold border-r border-border ${methodTextClass(ep.method)} ${methodBadgeClass(ep.method)} flex-shrink-0`;
   renderParamBar(ep.params);
   renderRequestPanel();
 }
@@ -567,8 +573,8 @@ function renderRequestPanel() {
       <div>
         <div class="text-xs text-textDim uppercase tracking-widest mb-2">Request Info</div>
         <div class="bg-panel border border-border p-3 rounded space-y-2">
-          <div class="flex gap-3 text-xs"><span class="text-textDim w-20 shrink-0">Method</span><span class="font-bold method-GET">${escapeHtml(ep.method)}</span></div>
-          <div class="flex gap-3 text-xs"><span class="text-textDim w-20 shrink-0">URL</span><span class="text-text break-all font-mono" style="font-size:11px">${escapeHtml(ep.url)}</span></div>
+          <div class="flex gap-3 text-xs"><span class="text-textDim w-20 shrink-0">Method</span><span class="font-bold ${methodTextClass(ep.method)}">${escapeHtml(ep.method)}</span></div>
+          <div class="flex gap-3 text-xs"><span class="text-textDim w-20 shrink-0">URL</span><span class="text-text break-all font-mono" style="font-size:12px">${escapeHtml(ep.url)}</span></div>
           <div class="flex gap-3 text-xs"><span class="text-textDim w-20 shrink-0">API</span><span class="text-text">${escapeHtml(api.name)}</span></div>
           <div class="flex gap-3 text-xs"><span class="text-textDim w-20 shrink-0">Auth</span><span class="text-neon">None (Public API)</span></div>
         </div>
@@ -584,6 +590,11 @@ function renderRequestPanel() {
         <div class="text-xs text-textDim uppercase tracking-widest mb-2">Request Headers</div>
         <pre class="bg-panel border border-border p-3 rounded text-xs font-mono overflow-x-auto"><code class="language-json">${escapeHtml(JSON.stringify(api.requestHeaders, null, 2))}</code></pre>
       </div>
+      ${ep.body ? `
+      <div>
+        <div class="text-xs text-textDim uppercase tracking-widest mb-2">Request Body</div>
+        <pre class="bg-panel border border-border p-3 rounded text-xs font-mono overflow-x-auto"><code class="language-json">${escapeHtml(JSON.stringify(ep.body, null, 2))}</code></pre>
+      </div>` : ''}
     </div>
   `;
   safeHighlight(content);
@@ -626,7 +637,12 @@ async function sendRequest() {
   const startTime = performance.now();
 
   try {
-    const response = await fetch(url);
+    const fetchOptions = { method: currentMethod };
+    if (currentBody) {
+      fetchOptions.headers = { 'Content-Type': 'application/json' };
+      fetchOptions.body = JSON.stringify(currentBody);
+    }
+    const response = await fetch(url, fetchOptions);
     const elapsed = Math.round(performance.now() - startTime);
     const rawText = await response.text();
 
@@ -667,7 +683,7 @@ async function sendRequest() {
     const typesHtml = generateTypes(data, APIS[currentApi].name.replace(/\s+/g, '') + 'Response');
     renderTypes(typesHtml, url);
 
-    reqHistory.unshift({ api: APIS[currentApi].name, url, method: 'GET', status: response.status, time: elapsed, timestamp: Date.now() });
+    reqHistory.unshift({ api: APIS[currentApi].name, url, method: currentMethod, status: response.status, time: elapsed, timestamp: Date.now() });
     if (reqHistory.length > 20) reqHistory.pop();
     try { localStorage.setItem('apijelajah_history', JSON.stringify(reqHistory)); } catch(e) {}
     renderHistory();
@@ -773,6 +789,7 @@ document.getElementById('copyBtn').addEventListener('click', () => {
   if (!lastResponseData) return;
   const text = typeof lastResponseData === 'object' ? JSON.stringify(lastResponseData, null, 2) : String(lastResponseData);
   navigator.clipboard.writeText(text).then(() => showToast('JSON disalin ke clipboard'));
+});
 document.getElementById('openSidebarBtn').addEventListener('click', openMobileSidebar);
 document.getElementById('closeSidebarBtn').addEventListener('click', closeMobileSidebar);
 document.getElementById('mobileOverlay').addEventListener('click', closeMobileSidebar);

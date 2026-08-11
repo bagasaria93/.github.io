@@ -1,7 +1,10 @@
+'use strict';
+
 window.AnnouncementsModule = (function () {
   let _page = 1;
   const PER_PAGE = 8;
   let _filters = { category: '', status: '', search: '' };
+  const _viewedInSession = new Set();
 
   const CATEGORIES = ['SDM', 'Keuangan', 'Operasional', 'Informasi', 'Kebijakan', 'Acara'];
 
@@ -148,8 +151,11 @@ ${_modalHtml(isHR)}`;
   function openDetail(id) {
     const a = DB.announcements.getById(id);
     if (!a) return;
-    // Increment views
-    DB.announcements.update(id, { views: (a.views || 0) + 1 });
+    // Increment views hanya sekali per sesi per pengumuman
+    if (!_viewedInSession.has(id)) {
+      _viewedInSession.add(id);
+      DB.announcements.update(id, { views: (a.views || 0) + 1 });
+    }
 
     const poster = DB.employees.getById(a.postedBy);
     const catColors = {

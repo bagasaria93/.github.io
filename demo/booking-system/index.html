@@ -5,6 +5,7 @@
 <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BookinAja - Seruni Beauty</title>
+<meta name="description" content="Demo aplikasi booking online BookinAja untuk Seruni Beauty Salon. Pesan layanan kecantikan, pilih cabang dan terapis, serta lacak status booking secara real-time.">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
@@ -15,7 +16,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 .step-dot { width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;transition:all 0.3s; }
 .step-dot.done { background:linear-gradient(135deg,#e11d48,#fb7185);color:white;box-shadow:0 4px 12px rgba(225,29,72,0.35); }
 .step-dot.active { background:linear-gradient(135deg,#e11d48,#fb7185);color:white;box-shadow:0 4px 16px rgba(225,29,72,0.4); }
-.step-dot.pending { background:white;border:2px solid #e5e7eb;color:#9ca3af; }
+.step-dot.pending { background:white;border:2px solid #e5e7eb;color:#6b7280; }
 .step-line { height:2px;flex:1;transition:background 0.4s; }
 .step-line.done { background:linear-gradient(90deg,#e11d48,#fb7185); }
 .step-line.pending { background:#e5e7eb; }
@@ -54,10 +55,12 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 .chart-wrap { position:relative;height:220px; }
 ::-webkit-scrollbar { width:4px; }
 ::-webkit-scrollbar-thumb { background:#fda4af;border-radius:4px; }
-.slot-section-label { font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;margin-top:14px; }
+.slot-section-label { font-size:11px;font-weight:700;color:#6b7280;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;margin-top:14px; }
 .slot-section-label:first-child { margin-top:0; }
 .inp { width:100%;border:1.5px solid #e5e7eb;border-radius:12px;padding:10px 14px;font-size:14px;outline:none;transition:border-color 0.2s,box-shadow 0.2s;font-family:inherit; }
 .inp:focus { border-color:#e11d48;box-shadow:0 0 0 3px rgba(225,29,72,0.08); }
+.service-card:focus-visible,.branch-card:focus-visible,.staff-card:focus-visible,.cal-day:focus-visible { outline:2px solid #e11d48;outline-offset:2px; }
+.tab-btn { white-space:nowrap; }
 </style>
 </head>
 <body class="bg-rose-50 min-h-screen">
@@ -136,12 +139,18 @@ function getStatusLabel(s) {
 function showToast(msg) {
   var old = document.getElementById('_toast'); if (old) old.remove();
   var t = document.createElement('div'); t.id = '_toast';
-  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1f2937;color:white;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:400;box-shadow:0 8px 24px rgba(0,0,0,0.2);animation:fadeSlide 0.3s ease;white-space:nowrap;';
+  t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1f2937;color:white;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:600;z-index:400;box-shadow:0 8px 24px rgba(0,0,0,0.2);animation:fadeSlide 0.3s ease;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;';
   t.textContent = msg; document.body.appendChild(t);
   setTimeout(function() { if (t.parentNode) t.remove(); }, 3000);
 }
 function validatePhone(p) { return /^(\+62|62|0)8[1-9][0-9]{6,10}$/.test(p.replace(/[\s\-]/g,'')); }
 function validateEmail(e) { return !e || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str).replace(/[&<>"']/g, function(c) {
+    return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+  });
+}
 
 function render() {
   document.getElementById('app').innerHTML = buildApp();
@@ -157,10 +166,10 @@ function buildApp() {
   return buildNav() + '<div class="max-w-5xl mx-auto px-4 py-8">' + body + '</div>' + buildFooter();
 }
 function buildNav() {
-  return '<nav style="background:white;box-shadow:0 1px 0 rgba(0,0,0,0.06);" class="sticky top-0 z-50"><div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between"><div class="flex items-center gap-2"><div style="width:38px;height:38px;background:linear-gradient(135deg,#e11d48,#fb7185);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div><div><div style="font-size:17px;font-weight:800;background:linear-gradient(135deg,#e11d48,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1;">Seruni</div><div style="font-size:9px;color:#9ca3af;font-weight:600;letter-spacing:0.08em;margin-top:-1px;">BEAUTY SALON</div></div></div><div class="flex items-center gap-1"><button onclick="setView(\'booking\')" class="tab-btn ' + (state.view==='booking'?'active':'') + '">Booking</button><button onclick="setView(\'tracking\')" class="tab-btn ' + (state.view==='tracking'?'active':'') + '">Cek Status</button><button onclick="setView(\'admin\')" class="tab-btn ' + (state.view==='admin'?'active':'') + '">Admin</button></div></div></nav>';
+  return '<nav style="background:white;box-shadow:0 1px 0 rgba(0,0,0,0.06);" class="sticky top-0 z-50"><div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between gap-2"><div class="flex items-center gap-2" style="flex-shrink:0;"><div style="width:38px;height:38px;background:linear-gradient(135deg,#e11d48,#fb7185);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="18" height="18" fill="white" viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z"/></svg></div><div><div style="font-size:17px;font-weight:800;background:linear-gradient(135deg,#e11d48,#f97316);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1;">Seruni</div><div style="font-size:9px;color:#6b7280;font-weight:600;letter-spacing:0.08em;margin-top:-1px;" class="hidden sm:block">BEAUTY SALON</div></div></div><div class="flex items-center gap-1" style="overflow-x:auto;-webkit-overflow-scrolling:touch;"><button onclick="setView(\'booking\')" class="tab-btn ' + (state.view==='booking'?'active':'') + '">Booking</button><button onclick="setView(\'tracking\')" class="tab-btn ' + (state.view==='tracking'?'active':'') + '">Cek Status</button><button onclick="setView(\'admin\')" class="tab-btn ' + (state.view==='admin'?'active':'') + '">Admin</button></div></div></nav>';
 }
 function buildFooter() {
-  return '<footer style="margin-top:48px;padding:24px;border-top:1px solid #fce7f3;text-align:center;"><p style="font-size:12px;color:#94a3b8;">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#fb7185;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p></footer>';
+  return '<footer style="margin-top:48px;padding:24px;border-top:1px solid #fce7f3;text-align:center;"><p style="font-size:12px;color:#64748b;">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#fb7185;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p></footer>';
 }
 function buildBooking() {
   if (state.step === 5 && state.booking) return buildConfirmation();
@@ -171,7 +180,7 @@ function buildBooking() {
     sh += '<div class="flex flex-col items-center"><div class="step-dot ' + (done?'done':active?'active':'pending') + '">';
     if (done) sh += '<svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>';
     else sh += n;
-    sh += '</div><div style="font-size:11px;margin-top:5px;font-weight:600;color:' + (active?'#e11d48':done?'#f43f5e':'#9ca3af') + ';" class="hidden sm:block">' + s + '</div></div>';
+    sh += '</div><div style="font-size:11px;margin-top:5px;font-weight:600;color:' + (active?'#e11d48':done?'#f43f5e':'#6b7280') + ';" class="hidden sm:block">' + s + '</div></div>';
     if (i < steps.length-1) sh += '<div class="step-line mx-2 ' + (n < state.step?'done':'pending') + '"></div>';
   });
   sh += '</div>';
@@ -192,7 +201,7 @@ function buildBooking() {
 function buildStep1() {
   var cats = [];
   SERVICES.forEach(function(s) { if (cats.indexOf(s.kategori)===-1) cats.push(s.kategori); });
-  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Pilih Layanan</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:16px;">Pilih layanan yang Anda inginkan</p>';
+  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Pilih Layanan</h2><p style="font-size:13px;color:#6b7280;margin-bottom:16px;">Pilih layanan yang Anda inginkan</p>';
   html += '<div class="flex gap-2 mb-5 flex-wrap" id="cat-filters">' + catBtn('','Semua',state.catFilter);
   cats.forEach(function(c) { html += catBtn(c,c,state.catFilter); });
   html += '</div><div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="service-grid">' + buildSvcCards(state.catFilter) + '</div>';
@@ -205,22 +214,22 @@ function buildSvcCards(catFilter) {
   var filtered = catFilter ? SERVICES.filter(function(s){return s.kategori===catFilter;}) : SERVICES;
   return filtered.map(function(s) {
     var sel = state.service && state.service.id===s.id;
-    return '<div class="service-card ' + (sel?'selected':'') + '" data-sid="' + s.id + '" onclick="selectService(\'' + s.id + '\')">' +
+    return '<div class="service-card ' + (sel?'selected':'') + '" data-sid="' + s.id + '" tabindex="0" role="button" aria-pressed="' + (sel?'true':'false') + '" aria-label="Pilih layanan ' + escapeHtml(s.nama) + '" onclick="selectService(\'' + s.id + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectService(\'' + s.id + '\');}">' +
       '<div class="flex items-start gap-3">' +
       '<div style="width:44px;height:44px;background:' + (sel?'linear-gradient(135deg,#e11d48,#fb7185)':'#fff1f2') + ';border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;transition:background 0.2s;">' + s.icon + '</div>' +
       '<div class="flex-1 min-w-0"><div style="font-weight:700;color:#1f2937;font-size:14px;">' + s.nama + '</div><div style="font-size:12px;color:#6b7280;margin-top:2px;line-height:1.4;">' + s.desc + '</div>' +
-      '<div class="flex items-center gap-2 mt-2 flex-wrap"><span style="color:#e11d48;font-weight:800;font-size:13px;">' + fmtRupiah(s.harga) + '</span><span style="font-size:11px;color:#9ca3af;">&#9679; ' + s.durasi + ' menit</span><span style="font-size:11px;padding:2px 8px;border-radius:20px;background:rgba(225,29,72,0.08);color:#e11d48;font-weight:600;">' + s.kategori + '</span></div></div>' +
+      '<div class="flex items-center gap-2 mt-2 flex-wrap"><span style="color:#e11d48;font-weight:800;font-size:13px;">' + fmtRupiah(s.harga) + '</span><span style="font-size:11px;color:#6b7280;">&#9679; ' + s.durasi + ' menit</span><span style="font-size:11px;padding:2px 8px;border-radius:20px;background:rgba(225,29,72,0.08);color:#e11d48;font-weight:600;">' + s.kategori + '</span></div></div>' +
       (sel ? '<div style="color:#e11d48;flex-shrink:0;margin-left:4px;"><svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>' : '') +
       '</div></div>';
   }).join('');
 }
 
 function buildStep2() {
-  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Pilih Cabang</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:16px;">Pilih lokasi Seruni Beauty terdekat</p>';
+  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Pilih Cabang</h2><p style="font-size:13px;color:#6b7280;margin-bottom:16px;">Pilih lokasi Seruni Beauty terdekat</p>';
   html += '<div class="grid grid-cols-1 sm:grid-cols-3 gap-3" id="branch-grid">';
   BRANCHES.forEach(function(b) {
     var sel = state.branch && state.branch.id===b.id;
-    html += '<div class="branch-card ' + (sel?'selected':'') + '" data-bid="' + b.id + '" onclick="selectBranch(\'' + b.id + '\')">' +
+    html += '<div class="branch-card ' + (sel?'selected':'') + '" data-bid="' + b.id + '" tabindex="0" role="button" aria-pressed="' + (sel?'true':'false') + '" aria-label="Pilih cabang ' + escapeHtml(b.nama) + '" onclick="selectBranch(\'' + b.id + '\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectBranch(\'' + b.id + '\');}">' +
       '<div class="flex items-start justify-between mb-2"><div style="font-size:26px;">' + b.icon + '</div>' +
       (sel?'<div style="color:#e11d48;"><svg width="18" height="18" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>':'') +
       '</div><div style="font-weight:700;color:#1f2937;font-size:14px;margin-bottom:4px;">' + b.nama + '</div>' +
@@ -236,15 +245,15 @@ function buildStaffSection() {
   var svcKat = state.service ? state.service.kategori : null;
   var noSpec = svcKat && !bs.some(function(t){return t.spesialis.indexOf(svcKat)!==-1;});
   var html = '<div style="margin-top:24px;"><h3 style="font-size:14px;font-weight:700;color:#374151;margin-bottom:10px;">Pilih Terapis di ' + state.branch.nama + '</h3>';
-  if (noSpec) html += '<p style="font-size:12px;color:#9ca3af;margin-bottom:10px;">Tidak ada terapis spesialis ' + svcKat + ' di cabang ini.</p>';
+  if (noSpec) html += '<p style="font-size:12px;color:#6b7280;margin-bottom:10px;">Tidak ada terapis spesialis ' + svcKat + ' di cabang ini.</p>';
   html += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">';
   bs.forEach(function(t) {
     var sel = state.staff && state.staff.id===t.id;
-    html += '<div class="staff-card ' + (sel?'selected':'') + '" data-tid="' + t.id + '" onclick="selectStaff(\'' + t.id + '\',this)">' +
+    html += '<div class="staff-card ' + (sel?'selected':'') + '" data-tid="' + t.id + '" tabindex="0" role="button" aria-pressed="' + (sel?'true':'false') + '" aria-label="Pilih terapis ' + escapeHtml(t.nama) + '" onclick="selectStaff(\'' + t.id + '\',this)" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectStaff(\'' + t.id + '\',this);}">' +
       '<div class="flex items-center gap-3"><div style="font-size:32px;flex-shrink:0;">' + t.foto + '</div><div class="flex-1 min-w-0">' +
       '<div class="flex items-center justify-between"><div style="font-weight:700;font-size:13px;color:#1f2937;">' + t.nama + '</div>' +
       (sel?'<div style="color:#e11d48;"><svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg></div>':'') +
-      '</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px;"><span style="color:#f59e0b;">&#9733;</span><span style="font-size:12px;font-weight:700;color:#374151;">' + t.rating + '</span><span style="font-size:11px;color:#9ca3af;">(' + t.totalBooking + ')</span></div>' +
+      '</div><div style="display:flex;align-items:center;gap:4px;margin-top:2px;"><span style="color:#f59e0b;">&#9733;</span><span style="font-size:12px;font-weight:700;color:#374151;">' + t.rating + '</span><span style="font-size:11px;color:#6b7280;">(' + t.totalBooking + ')</span></div>' +
       '<div style="display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;">' +
       t.spesialis.map(function(sp){ var hi=svcKat&&sp===svcKat; return '<span style="font-size:11px;padding:2px 6px;border-radius:6px;background:' + (hi?'rgba(225,29,72,0.1)':'#f3f4f6') + ';color:' + (hi?'#e11d48':'#6b7280') + ';font-weight:' + (hi?'700':'500') + ';">' + sp + '</span>'; }).join('') +
       '</div></div></div></div>';
@@ -254,11 +263,11 @@ function buildStaffSection() {
 }
 
 function buildStep3() {
-  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Pilih Tanggal & Waktu</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:16px;">Pilih hari dan sesi yang tersedia</p>';
+  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Pilih Tanggal & Waktu</h2><p style="font-size:13px;color:#6b7280;margin-bottom:16px;">Pilih hari dan sesi yang tersedia</p>';
   html += '<div style="background:white;border-radius:20px;border:1.5px solid #f1f5f9;padding:20px;margin-bottom:16px;box-shadow:0 2px 12px rgba(0,0,0,0.04);">';
   html += '<div class="flex items-center justify-between mb-5">' + navBtn('changeMonth(-1)','15 18 9 12 15 6') + '<div id="cal-title" style="font-weight:800;color:#1f2937;font-size:14px;"></div>' + navBtn('changeMonth(1)','9 18 15 12 9 6') + '</div>';
   html += '<div class="grid grid-cols-7 gap-1 text-center mb-2">';
-  ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].forEach(function(d){ html += '<div style="font-size:11px;font-weight:700;color:#9ca3af;padding:4px 0;">' + d + '</div>'; });
+  ['Min','Sen','Sel','Rab','Kam','Jum','Sab'].forEach(function(d){ html += '<div style="font-size:11px;font-weight:700;color:#6b7280;padding:4px 0;">' + d + '</div>'; });
   html += '</div><div class="grid grid-cols-7 gap-1 text-center" id="cal-grid"></div></div>';
   if (state.date) {
     var booked = ((BOOKED_SLOTS[(state.branch||{}).id]||{})[state.date])||[];
@@ -266,7 +275,7 @@ function buildStep3() {
     html += '<div class="slot-section-label">Pagi</div><div class="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-1">' + buildSlotBtns(SLOTS_PAGI,booked) + '</div>';
     html += '<div class="slot-section-label">Siang &amp; Sore</div><div class="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-1">' + buildSlotBtns(SLOTS_SIANG,booked) + '</div>';
     html += '<div class="slot-section-label">Petang</div><div class="grid grid-cols-3 sm:grid-cols-5 gap-2">' + buildSlotBtns(SLOTS_SORE,booked) + '</div>';
-    html += '<p style="font-size:11px;color:#9ca3af;margin-top:10px;">* Tidak tersedia sesi 12:00 - 13:00 (istirahat)</p>';
+    html += '<p style="font-size:11px;color:#6b7280;margin-top:10px;">* Tidak tersedia sesi 12:00 - 13:00 (istirahat)</p>';
   }
   return html;
 }
@@ -282,11 +291,11 @@ function buildSlotBtns(slots, booked) {
 
 function buildStep4() {
   var svc=state.service, br=state.branch, st=state.staff;
-  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Data Diri & Konfirmasi</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:16px;">Periksa kembali pesanan dan isi data diri</p>';
+  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Data Diri & Konfirmasi</h2><p style="font-size:13px;color:#6b7280;margin-bottom:16px;">Periksa kembali pesanan dan isi data diri</p>';
   html += '<div style="background:linear-gradient(135deg,#fff1f2,#fce7f3);border:1.5px solid #fda4af;border-radius:18px;padding:18px;margin-bottom:20px;">';
   html += '<div style="font-size:11px;font-weight:700;color:#be123c;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Ringkasan Pesanan</div>';
-  [['Layanan',svc?svc.nama:'-'],['Cabang',br?br.nama:'-'],['Tanggal',state.date?fmtTglShort(state.date):'-'],['Waktu',state.slot||'-'],['Terapis',st?st.nama:'<span style="color:#9ca3af;">Tidak dipilih</span>']].forEach(function(r){
-    html += '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;"><span style="color:#9ca3af;">' + r[0] + '</span><span style="font-weight:600;">' + r[1] + '</span></div>';
+  [['Layanan',svc?svc.nama:'-'],['Cabang',br?br.nama:'-'],['Tanggal',state.date?fmtTglShort(state.date):'-'],['Waktu',state.slot||'-'],['Terapis',st?st.nama:'<span style="color:#6b7280;">Tidak dipilih</span>']].forEach(function(r){
+    html += '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;"><span style="color:#6b7280;">' + r[0] + '</span><span style="font-weight:600;">' + r[1] + '</span></div>';
   });
   html += '<div style="border-top:1px solid rgba(225,29,72,0.2);margin-top:6px;padding-top:10px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:14px;font-weight:700;color:#1f2937;">Total Pembayaran</span><span style="font-size:16px;font-weight:800;color:#e11d48;">' + (svc?fmtRupiah(svc.harga):'-') + '</span></div></div>';
   html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,0.04);">';
@@ -295,26 +304,26 @@ function buildStep4() {
   html += fldInp('Nama Lengkap','text','inp-nama',state.customer.nama,'nama','Nama lengkap Anda',true);
   html += fldInp('No. WhatsApp','tel','inp-telp',state.customer.telp,'telp','08xxxxxxxxxx',true);
   html += '</div><div style="margin-bottom:10px;">' + fldInp('Email','email','inp-email',state.customer.email,'email','email@contoh.com',false) + '</div>';
-  html += '<div><label style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Catatan Tambahan</label><textarea id="inp-catatan" oninput="updateCustomer(\'catatan\',this.value)" placeholder="Alergi, permintaan khusus, dll..." class="inp" style="resize:none;" rows="3">' + state.customer.catatan + '</textarea></div></div>';
+  html += '<div><label for="inp-catatan" style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">Catatan Tambahan</label><textarea id="inp-catatan" oninput="updateCustomer(\'catatan\',this.value)" placeholder="Alergi, permintaan khusus, dll..." class="inp" style="resize:none;" rows="3">' + escapeHtml(state.customer.catatan) + '</textarea></div></div>';
   return html;
 }
 function fldInp(label, type, id, val, field, ph, req) {
-  return '<div><label style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">' + label + (req?'<span style="color:#e11d48;"> *</span>':'') + '</label><input type="' + type + '" id="' + id + '" value="' + val + '" oninput="updateCustomer(\'' + field + '\',this.value)" placeholder="' + ph + '" class="inp"></div>';
+  return '<div><label for="' + id + '" style="font-size:12px;font-weight:600;color:#374151;display:block;margin-bottom:6px;">' + label + (req?'<span style="color:#e11d48;"> *</span>':'') + '</label><input type="' + type + '" id="' + id + '" value="' + escapeHtml(val) + '" oninput="updateCustomer(\'' + field + '\',this.value)" placeholder="' + ph + '" class="inp"></div>';
 }
 function buildConfirmation() {
   var b=state.booking, svc=SERVICES.find(function(s){return s.id===b.serviceId;}), br=BRANCHES.find(function(x){return x.id===b.branchId;}), st=STAFF.find(function(t){return t.id===b.staffId;});
   var statuses=['pending','confirmed','in-progress','completed'], curIdx=statuses.indexOf(b.status);
-  var html = '<div style="text-align:center;margin-bottom:28px;"><div style="width:72px;height:72px;background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><svg width="36" height="36" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="font-size:22px;font-weight:800;color:#1f2937;">Booking Berhasil!</h2><p style="font-size:13px;color:#9ca3af;margin-top:4px;">Kode booking Anda</p><div style="font-size:26px;font-weight:800;color:#e11d48;font-family:monospace;margin-top:4px;letter-spacing:0.05em;">' + b.id + '</div></div>';
+  var html = '<div style="text-align:center;margin-bottom:28px;"><div style="width:72px;height:72px;background:linear-gradient(135deg,#dcfce7,#bbf7d0);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><svg width="36" height="36" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><h2 style="font-size:22px;font-weight:800;color:#1f2937;">Booking Berhasil!</h2><p style="font-size:13px;color:#6b7280;margin-top:4px;">Kode booking Anda</p><div style="font-size:26px;font-weight:800;color:#e11d48;font-family:monospace;margin-top:4px;letter-spacing:0.05em;">' + b.id + '</div></div>';
   html += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">';
-  html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Detail Booking</div>';
+  html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:18px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">Detail Booking</div>';
   [['Layanan',svc?svc.nama:'-'],['Cabang',br?br.nama:'-'],['Tanggal',fmtTglShort(b.date)],['Waktu',b.slot],['Terapis',st?st.nama:'Tidak dipilih']].forEach(function(r){
-    html += '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;"><span style="color:#9ca3af;">' + r[0] + '</span><span style="font-weight:600;color:#1f2937;">' + r[1] + '</span></div>';
+    html += '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;"><span style="color:#6b7280;">' + r[0] + '</span><span style="font-weight:600;color:#1f2937;">' + r[1] + '</span></div>';
   });
   html += '<div style="border-top:1px solid #f1f5f9;margin-top:6px;padding-top:10px;display:flex;justify-content:space-between;"><span style="font-weight:700;">Total</span><span style="font-weight:800;color:#e11d48;">' + (svc?fmtRupiah(svc.harga):'-') + '</span></div></div>';
-  html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">QR Code Booking</div><div id="qr-container" style="margin-bottom:8px;"></div><div style="font-size:11px;color:#9ca3af;text-align:center;">Tunjukkan QR ini saat tiba di cabang</div></div></div>';
-  html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;">Status Perjalanan</div><div style="display:flex;align-items:center;overflow-x:auto;padding-bottom:4px;gap:4px;">';
+  html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;">QR Code Booking</div><div id="qr-container" style="margin-bottom:8px;"></div><div style="font-size:11px;color:#6b7280;text-align:center;">Tunjukkan QR ini saat tiba di cabang</div></div></div>';
+  html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;">Status Perjalanan</div><div style="display:flex;align-items:center;overflow-x:auto;padding-bottom:4px;gap:4px;">';
   statuses.forEach(function(s, i) {
-    html += '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;"><div style="width:30px;height:30px;border-radius:50%;background:' + (i<=curIdx?'linear-gradient(135deg,#e11d48,#f43f5e)':'#f3f4f6') + ';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:' + (i<=curIdx?'white':'#9ca3af') + ';">' + (i<curIdx?'<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>':(i+1)) + '</div><span style="font-size:12px;font-weight:' + (i<=curIdx?'600':'400') + ';color:' + (i<=curIdx?'#1f2937':'#9ca3af') + ';">' + getStatusLabel(s) + '</span></div>';
+    html += '<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;"><div style="width:30px;height:30px;border-radius:50%;background:' + (i<=curIdx?'linear-gradient(135deg,#e11d48,#f43f5e)':'#f3f4f6') + ';display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:' + (i<=curIdx?'white':'#6b7280') + ';">' + (i<curIdx?'<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>':(i+1)) + '</div><span style="font-size:12px;font-weight:' + (i<=curIdx?'600':'400') + ';color:' + (i<=curIdx?'#1f2937':'#6b7280') + ';">' + getStatusLabel(s) + '</span></div>';
     if (i<statuses.length-1) html += '<div style="width:18px;height:2px;flex-shrink:0;background:' + (i<curIdx?'#e11d48':'#e5e7eb') + ';"></div>';
   });
   html += '</div></div>';
@@ -324,13 +333,13 @@ function buildConfirmation() {
 }
 
 function buildTracking() {
-  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Cek Status Booking</h2><p style="font-size:13px;color:#9ca3af;margin-bottom:16px;">Masukkan kode booking untuk melihat status</p>';
-  html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div class="flex gap-3"><input type="text" id="track-id" placeholder="Contoh: BKN1A2B3" style="flex:1;border:1.5px solid #e5e7eb;border-radius:12px;padding:10px 14px;font-size:14px;outline:none;font-family:inherit;transition:border-color 0.2s;" onfocus="this.style.borderColor=\'#e11d48\';" onblur="this.style.borderColor=\'#e5e7eb\';"><button onclick="doTrack()" style="padding:10px 20px;background:linear-gradient(135deg,#e11d48,#f43f5e);color:white;border-radius:12px;font-size:14px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(225,29,72,0.3);">Cek</button></div></div><div id="track-result"></div>';
+  var html = '<h2 style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Cek Status Booking</h2><p style="font-size:13px;color:#6b7280;margin-bottom:16px;">Masukkan kode booking untuk melihat status</p>';
+  html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div class="flex gap-3"><input type="text" id="track-id" aria-label="Kode booking" placeholder="Contoh: BKN1A2B3" style="flex:1;border:1.5px solid #e5e7eb;border-radius:12px;padding:10px 14px;font-size:14px;outline:none;font-family:inherit;transition:border-color 0.2s;" onfocus="this.style.borderColor=\'#e11d48\';" onblur="this.style.borderColor=\'#e5e7eb\';"><button onclick="doTrack()" style="padding:10px 20px;background:linear-gradient(135deg,#e11d48,#f43f5e);color:white;border-radius:12px;font-size:14px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;box-shadow:0 4px 12px rgba(225,29,72,0.3);">Cek</button></div></div><div id="track-result"></div>';
   if (bookings.length > 0) {
     html += '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="font-size:13px;font-weight:700;color:#374151;margin-bottom:12px;">Riwayat Booking</div><div style="display:flex;flex-direction:column;gap:8px;">';
     bookings.slice(-5).reverse().forEach(function(b) {
       var svc=SERVICES.find(function(s){return s.id===b.serviceId;});
-      html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:#f9fafb;border-radius:12px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background=\'#fff1f2\';" onmouseout="this.style.background=\'#f9fafb\';" onclick="showTrackDetail(\'' + b.id + '\')"><div><div style="font-size:13px;font-weight:700;color:#1f2937;font-family:monospace;">' + b.id + '</div><div style="font-size:12px;color:#9ca3af;margin-top:2px;">' + (svc?svc.nama:'-') + ' &bull; ' + fmtTglShort(b.date) + '</div></div><span class="status-badge" style="' + getStatusColor(b.status) + '">' + getStatusLabel(b.status) + '</span></div>';
+      html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:#f9fafb;border-radius:12px;cursor:pointer;transition:background 0.2s;" onmouseover="this.style.background=\'#fff1f2\';" onmouseout="this.style.background=\'#f9fafb\';" onclick="showTrackDetail(\'' + b.id + '\')"><div><div style="font-size:13px;font-weight:700;color:#1f2937;font-family:monospace;">' + b.id + '</div><div style="font-size:12px;color:#6b7280;margin-top:2px;">' + (svc?svc.nama:'-') + ' &bull; ' + fmtTglShort(b.date) + '</div></div><span class="status-badge" style="' + getStatusColor(b.status) + '">' + getStatusLabel(b.status) + '</span></div>';
     });
     html += '</div></div>';
   }
@@ -347,17 +356,17 @@ function buildAdmin() {
   return html;
 }
 function buildAdminBookings() {
-  if (!bookings.length) return '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:48px;text-align:center;"><div style="font-size:40px;margin-bottom:10px;">📋</div><div style="color:#9ca3af;font-size:14px;">Belum ada booking masuk</div></div>';
+  if (!bookings.length) return '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:48px;text-align:center;"><div style="font-size:40px;margin-bottom:10px;">📋</div><div style="color:#6b7280;font-size:14px;">Belum ada booking masuk</div></div>';
   var html = '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="padding:16px;border-bottom:1px solid #f9fafb;font-size:13px;font-weight:700;color:#374151;">' + bookings.length + ' Booking</div><div style="overflow-x:auto;"><table style="width:100%;font-size:13px;border-collapse:collapse;"><thead><tr style="background:#f9fafb;">';
-  ['ID','Pelanggan','Layanan','Jadwal','Status','Aksi'].forEach(function(h){ html += '<th style="text-align:left;padding:12px 16px;font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">' + h + '</th>'; });
+  ['ID','Pelanggan','Layanan','Jadwal','Status','Aksi'].forEach(function(h){ html += '<th style="text-align:left;padding:12px 16px;font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap;">' + h + '</th>'; });
   html += '</tr></thead><tbody>';
   bookings.slice().reverse().forEach(function(b) {
     var svc=SERVICES.find(function(s){return s.id===b.serviceId;}), br=BRANCHES.find(function(x){return x.id===b.branchId;});
     html += '<tr style="border-top:1px solid #f9fafb;" onmouseover="this.style.background=\'#fafafa\';" onmouseout="this.style.background=\'\';">' +
-      '<td style="padding:12px 16px;font-family:monospace;font-size:11px;color:#9ca3af;">' + b.id + '</td>' +
-      '<td style="padding:12px 16px;"><div style="font-weight:600;color:#1f2937;">' + b.customer.nama + '</div><div style="font-size:11px;color:#9ca3af;">' + b.customer.telp + '</div></td>' +
+      '<td style="padding:12px 16px;font-family:monospace;font-size:11px;color:#6b7280;">' + b.id + '</td>' +
+      '<td style="padding:12px 16px;"><div style="font-weight:600;color:#1f2937;">' + escapeHtml(b.customer.nama) + '</div><div style="font-size:11px;color:#6b7280;">' + escapeHtml(b.customer.telp) + '</div></td>' +
       '<td style="padding:12px 16px;color:#374151;">' + (svc?svc.nama:'-') + '</td>' +
-      '<td style="padding:12px 16px;"><div>' + fmtTglShort(b.date) + '</div><div style="font-size:11px;color:#9ca3af;">' + b.slot + (br?' &bull; '+br.nama:'') + '</div></td>' +
+      '<td style="padding:12px 16px;"><div>' + fmtTglShort(b.date) + '</div><div style="font-size:11px;color:#6b7280;">' + b.slot + (br?' &bull; '+br.nama:'') + '</div></td>' +
       '<td style="padding:12px 16px;"><span class="status-badge" style="' + getStatusColor(b.status) + '">' + getStatusLabel(b.status) + '</span></td>' +
       '<td style="padding:12px 16px;"><select onchange="updateStatus(\'' + b.id + '\',this.value)" style="font-size:12px;border:1.5px solid #e5e7eb;border-radius:8px;padding:5px 8px;outline:none;background:white;cursor:pointer;font-family:inherit;">' +
       [['pending','Pending'],['confirmed','Konfirmasi'],['in-progress','Berlangsung'],['completed','Selesai'],['cancelled','Batalkan']].map(function(o){ return '<option value="' + o[0] + '"' + (b.status===o[0]?' selected':'') + '>' + o[1] + '</option>'; }).join('') +
@@ -376,7 +385,7 @@ function buildAdminStaff() {
   var rg=['linear-gradient(135deg,#f59e0b,#fbbf24)','linear-gradient(135deg,#94a3b8,#cbd5e1)','linear-gradient(135deg,#f97316,#fb923c)'];
   return '<div style="display:flex;flex-direction:column;gap:10px;">' + data.map(function(t,i){
     var br=BRANCHES.find(function(b){return b.id===t.cabang;}), pct=mx?Math.round(t.cnt/mx*100):0;
-    return '<div style="background:white;border-radius:16px;border:1.5px solid #f1f5f9;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="display:flex;align-items:center;gap:14px;"><div style="width:34px;height:34px;border-radius:50%;' + (i<3?rg[i]:'background:#fff1f2;') + 'display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:' + (i<3?'white':'#e11d48') + ';flex-shrink:0;">' + (i+1) + '</div><div style="font-size:32px;flex-shrink:0;">' + t.foto + '</div><div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-weight:700;font-size:14px;color:#1f2937;">' + t.nama + '</div><div><span style="color:#f59e0b;">&#9733;</span><span style="font-size:13px;font-weight:800;color:#374151;">' + t.avg + '</span></div></div><div style="font-size:12px;color:#9ca3af;margin-bottom:8px;">' + (br?br.nama:'-') + ' &bull; ' + t.spesialis.join(', ') + '</div><div style="height:6px;background:#f3f4f6;border-radius:3px;overflow:hidden;"><div style="height:100%;border-radius:3px;background:linear-gradient(90deg,#e11d48,#fb7185);width:' + pct + '%;"></div></div><div style="font-size:11px;color:#9ca3af;margin-top:4px;">' + t.cnt + ' total booking</div></div></div></div>';
+    return '<div style="background:white;border-radius:16px;border:1.5px solid #f1f5f9;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);"><div style="display:flex;align-items:center;gap:14px;"><div style="width:34px;height:34px;border-radius:50%;' + (i<3?rg[i]:'background:#fff1f2;') + 'display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:' + (i<3?'white':'#e11d48') + ';flex-shrink:0;">' + (i+1) + '</div><div style="font-size:32px;flex-shrink:0;">' + t.foto + '</div><div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:3px;"><div style="font-weight:700;font-size:14px;color:#1f2937;">' + t.nama + '</div><div><span style="color:#f59e0b;">&#9733;</span><span style="font-size:13px;font-weight:800;color:#374151;">' + t.avg + '</span></div></div><div style="font-size:12px;color:#6b7280;margin-bottom:8px;">' + (br?br.nama:'-') + ' &bull; ' + t.spesialis.join(', ') + '</div><div style="height:6px;background:#f3f4f6;border-radius:3px;overflow:hidden;"><div style="height:100%;border-radius:3px;background:linear-gradient(90deg,#e11d48,#fb7185);width:' + pct + '%;"></div></div><div style="font-size:11px;color:#6b7280;margin-top:4px;">' + t.cnt + ' total booking</div></div></div></div>';
   }).join('') + '</div>';
 }
 function buildAdminAnalitik() {
@@ -390,11 +399,11 @@ function buildAdminReviews() {
     nr.forEach(function(b){var svc=SERVICES.find(function(s){return s.id===b.serviceId;}); html+='<div style="display:flex;align-items:center;justify-content:space-between;background:white;border-radius:12px;padding:12px;"><div style="font-size:13px;"><span style="font-weight:700;">' + b.id + '</span> &bull; ' + (svc?svc.nama:'-') + '</div><button onclick="openReview(\'' + b.id + '\')" style="font-size:12px;padding:6px 14px;background:linear-gradient(135deg,#e11d48,#f43f5e);color:white;border-radius:8px;border:none;cursor:pointer;font-weight:600;">Beri Ulasan</button></div>';});
     html += '</div></div>';
   }
-  if (!reviews.length) return html + '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:48px;text-align:center;"><div style="font-size:40px;margin-bottom:10px;">&#11088;</div><div style="color:#9ca3af;font-size:14px;">Belum ada ulasan</div></div>';
+  if (!reviews.length) return html + '<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:48px;text-align:center;"><div style="font-size:40px;margin-bottom:10px;">&#11088;</div><div style="color:#6b7280;font-size:14px;">Belum ada ulasan</div></div>';
   html += '<div style="display:flex;flex-direction:column;gap:10px;">';
   reviews.slice().reverse().forEach(function(r){
     var b=bookings.find(function(bk){return bk.id===r.bookingId;}), st=STAFF.find(function(t){return t.id===r.staffId;}), svc=b?SERVICES.find(function(s){return s.id===b.serviceId;}):null;
-    html += '<div style="background:white;border-radius:16px;border:1.5px solid #f1f5f9;padding:16px;"><div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:8px;"><div><div style="font-size:14px;font-weight:700;color:#1f2937;">' + (b?b.customer.nama:'-') + '</div><div style="font-size:12px;color:#9ca3af;">' + (svc?svc.nama:'-') + ' &bull; ' + (st?st.nama:'-') + '</div></div><div>' + [1,2,3,4,5].map(function(n){return '<span style="color:' + (n<=r.rating?'#f59e0b':'#e5e7eb') + ';font-size:16px;">&#9733;</span>';}).join('') + '</div></div><p style="font-size:13px;color:#374151;line-height:1.6;">' + r.komentar + '</p></div>';
+    html += '<div style="background:white;border-radius:16px;border:1.5px solid #f1f5f9;padding:16px;"><div style="display:flex;align-items:start;justify-content:space-between;margin-bottom:8px;"><div><div style="font-size:14px;font-weight:700;color:#1f2937;">' + (b?escapeHtml(b.customer.nama):'-') + '</div><div style="font-size:12px;color:#6b7280;">' + (svc?svc.nama:'-') + ' &bull; ' + (st?st.nama:'-') + '</div></div><div>' + [1,2,3,4,5].map(function(n){return '<span style="color:' + (n<=r.rating?'#f59e0b':'#e5e7eb') + ';font-size:16px;">&#9733;</span>';}).join('') + '</div></div><p style="font-size:13px;color:#374151;line-height:1.6;">' + escapeHtml(r.komentar) + '</p></div>';
   });
   return html + '</div>';
 }
@@ -417,7 +426,7 @@ function renderCalendar() {
     else if (isSel&&isToday) cls+=' today selected';
     else if (isSel) cls+=' selected';
     else if (isToday) cls+=' today';
-    html+='<div class="'+cls+'"'+(!isPast?' onclick="selectDate(\''+ds+'\')\"':'')+'>'+d+'</div>';
+    html+='<div class="'+cls+'"'+(!isPast?' tabindex="0" role="button" aria-pressed="'+(isSel?'true':'false')+'" aria-label="Pilih tanggal '+d+' '+months[month]+' '+year+'" onclick="selectDate(\''+ds+'\')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();selectDate(\''+ds+'\');}"':'')+'>'+d+'</div>';
   }
   gridEl.innerHTML=html;
 }
@@ -434,7 +443,7 @@ function renderCharts() {
     if (ctx1) {
       if(chartInstances['branch'])chartInstances['branch'].destroy();
       var bv=Object.values(bc),hasB=bv.some(function(v){return v>0;});
-      chartInstances['branch']=new Chart(ctx1,{type:'doughnut',data:{labels:Object.keys(bc),datasets:[{data:hasB?bv:[1,1,1],backgroundColor:['#f43f5e','#fb7185','#fda4af'],borderWidth:3,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Plus Jakarta Sans',size:11},boxWidth:10,padding:12}},subtitle:hasB?{}:{display:true,text:'Contoh data (belum ada booking)',color:'#9ca3af',font:{size:11}}},animation:false}});
+      chartInstances['branch']=new Chart(ctx1,{type:'doughnut',data:{labels:Object.keys(bc),datasets:[{data:hasB?bv:[1,1,1],backgroundColor:['#f43f5e','#fb7185','#fda4af'],borderWidth:3,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Plus Jakarta Sans',size:11},boxWidth:10,padding:12}},subtitle:hasB?{}:{display:true,text:'Contoh data (belum ada booking)',color:'#6b7280',font:{size:11}}},animation:false}});
     }
     var sc={};bookings.forEach(function(b){var svc=SERVICES.find(function(s){return s.id===b.serviceId;});if(svc)sc[svc.nama]=(sc[svc.nama]||0)+1;});
     var ctx2=document.getElementById('chart-service');
@@ -442,7 +451,7 @@ function renderCharts() {
       if(chartInstances['service'])chartInstances['service'].destroy();
       var sl=Object.keys(sc),sv=Object.values(sc),hasS=sl.length>0;
       if(!hasS){sl=SERVICES.slice(0,4).map(function(s){return s.nama;});sv=[3,2,4,1];}
-      chartInstances['service']=new Chart(ctx2,{type:'bar',data:{labels:sl,datasets:[{data:sv,backgroundColor:'rgba(244,63,94,0.8)',borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},subtitle:hasS?{}:{display:true,text:'Contoh data (belum ada booking)',color:'#9ca3af',font:{size:11}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:30}},y:{beginAtZero:true,ticks:{stepSize:1}}},animation:false}});
+      chartInstances['service']=new Chart(ctx2,{type:'bar',data:{labels:sl,datasets:[{data:sv,backgroundColor:'rgba(244,63,94,0.8)',borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},subtitle:hasS?{}:{display:true,text:'Contoh data (belum ada booking)',color:'#6b7280',font:{size:11}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},maxRotation:30}},y:{beginAtZero:true,ticks:{stepSize:1}}},animation:false}});
     }
   });
 }
@@ -468,7 +477,9 @@ function filterCat(c) {
   });
 }
 function selectService(id) {
+  var oldKategori = state.service ? state.service.kategori : null;
   state.service=SERVICES.find(function(s){return s.id===id;});
+  if (state.staff && oldKategori && state.service.kategori !== oldKategori) { state.staff = null; }
   var grid=document.getElementById('service-grid');
   if(!grid){render();return;}
   grid.innerHTML=buildSvcCards(state.catFilter);
@@ -527,13 +538,13 @@ function showTrackDetail(id){
   var svc=SERVICES.find(function(s){return s.id===b.serviceId;}),br=BRANCHES.find(function(x){return x.id===b.branchId;}),st=STAFF.find(function(t){return t.id===b.staffId;});
   var statuses=['pending','confirmed','in-progress','completed'],curIdx=statuses.indexOf(b.status);
   var html='<div style="background:white;border-radius:18px;border:1.5px solid #f1f5f9;padding:18px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">';
-  html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div><div style="font-weight:800;font-family:monospace;color:#1f2937;">'+b.id+'</div><div style="font-size:12px;color:#9ca3af;">'+b.customer.nama+'</div></div><span class="status-badge" style="'+getStatusColor(b.status)+'">'+getStatusLabel(b.status)+'</span></div>';
+  html+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><div><div style="font-weight:800;font-family:monospace;color:#1f2937;">'+b.id+'</div><div style="font-size:12px;color:#6b7280;">'+escapeHtml(b.customer.nama)+'</div></div><span class="status-badge" style="'+getStatusColor(b.status)+'">'+getStatusLabel(b.status)+'</span></div>';
   [['Layanan',svc?svc.nama:'-'],['Cabang',br?br.nama:'-'],['Jadwal',fmtTglShort(b.date)+' pukul '+b.slot],['Terapis',st?st.nama:'Tidak dipilih']].forEach(function(r){
-    html+='<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span style="color:#9ca3af;">'+r[0]+'</span><span style="font-weight:600;">'+r[1]+'</span></div>';
+    html+='<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span style="color:#6b7280;">'+r[0]+'</span><span style="font-weight:600;">'+r[1]+'</span></div>';
   });
   html+='<div style="display:flex;align-items:center;overflow-x:auto;padding-bottom:4px;margin-top:14px;gap:4px;">';
   statuses.forEach(function(s,i){
-    html+='<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;"><div style="width:26px;height:26px;border-radius:50%;background:'+(i<=curIdx?'linear-gradient(135deg,#e11d48,#f43f5e)':'#f3f4f6')+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:'+(i<=curIdx?'white':'#9ca3af')+';">'+(i<curIdx?'<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>':(i+1))+'</div><span style="font-size:11px;font-weight:'+(i<=curIdx?'600':'400')+';color:'+(i<=curIdx?'#374151':'#9ca3af')+';">'+getStatusLabel(s)+'</span></div>';
+    html+='<div style="display:flex;align-items:center;gap:6px;flex-shrink:0;"><div style="width:26px;height:26px;border-radius:50%;background:'+(i<=curIdx?'linear-gradient(135deg,#e11d48,#f43f5e)':'#f3f4f6')+';display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:'+(i<=curIdx?'white':'#6b7280')+';">'+(i<curIdx?'<svg width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>':(i+1))+'</div><span style="font-size:11px;font-weight:'+(i<=curIdx?'600':'400')+';color:'+(i<=curIdx?'#374151':'#6b7280')+';">'+getStatusLabel(s)+'</span></div>';
     if(i<statuses.length-1)html+='<div style="width:14px;height:2px;flex-shrink:0;background:'+(i<curIdx?'#e11d48':'#e5e7eb')+';"></div>';
   });
   html+='</div>';
@@ -546,7 +557,7 @@ function openReview(bookingId){
   state.reviewBookingId=bookingId;state.reviewStar=0;
   var b=bookings.find(function(bk){return bk.id===bookingId;}),svc=b?SERVICES.find(function(s){return s.id===b.serviceId;}):null;
   var overlay=document.createElement('div');overlay.className='modal-overlay';overlay.id='review-modal';
-  overlay.innerHTML='<div class="modal-box p-6"><div style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Beri Ulasan</div><div style="font-size:13px;color:#9ca3af;margin-bottom:20px;">'+(svc?svc.nama:'')+'&bull;'+bookingId+'</div><div style="margin-bottom:18px;"><div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Rating <span style="color:#e11d48;">*</span></div><div style="display:flex;gap:8px;" id="star-row">'+[1,2,3,4,5].map(function(n){return '<span onclick="setReviewStar('+n+')" onmouseover="hoverStar('+n+')" onmouseout="hoverStar(0)" style="cursor:pointer;font-size:36px;color:#e5e7eb;transition:all 0.15s;" id="star-'+n+'">&#9733;</span>';}).join('')+'</div></div><div style="margin-bottom:18px;"><div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Komentar <span style="color:#e11d48;">*</span></div><textarea id="review-komentar" rows="3" placeholder="Bagaimana pengalaman Anda?" class="inp" style="resize:none;"></textarea></div><div style="display:flex;gap:10px;"><button onclick="closeReview()" style="flex:1;padding:11px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;font-weight:600;color:#6b7280;cursor:pointer;background:white;">Batal</button><button onclick="submitReview()" style="flex:1;padding:11px;background:linear-gradient(135deg,#e11d48,#f43f5e);color:white;border-radius:12px;font-size:13px;font-weight:700;border:none;cursor:pointer;">Kirim Ulasan</button></div></div>';
+  overlay.innerHTML='<div class="modal-box p-6"><div style="font-size:18px;font-weight:800;color:#1f2937;margin-bottom:4px;">Beri Ulasan</div><div style="font-size:13px;color:#6b7280;margin-bottom:20px;">'+(svc?svc.nama:'')+'&bull;'+bookingId+'</div><div style="margin-bottom:18px;"><div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Rating <span style="color:#e11d48;">*</span></div><div style="display:flex;gap:8px;" id="star-row">'+[1,2,3,4,5].map(function(n){return '<span onclick="setReviewStar('+n+')" onmouseover="hoverStar('+n+')" onmouseout="hoverStar(0)" style="cursor:pointer;font-size:36px;color:#e5e7eb;transition:all 0.15s;" id="star-'+n+'">&#9733;</span>';}).join('')+'</div></div><div style="margin-bottom:18px;"><div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">Komentar <span style="color:#e11d48;">*</span></div><textarea id="review-komentar" rows="3" placeholder="Bagaimana pengalaman Anda?" class="inp" style="resize:none;"></textarea></div><div style="display:flex;gap:10px;"><button onclick="closeReview()" style="flex:1;padding:11px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:13px;font-weight:600;color:#6b7280;cursor:pointer;background:white;">Batal</button><button onclick="submitReview()" style="flex:1;padding:11px;background:linear-gradient(135deg,#e11d48,#f43f5e);color:white;border-radius:12px;font-size:13px;font-weight:700;border:none;cursor:pointer;">Kirim Ulasan</button></div></div>';
   document.body.appendChild(overlay);
 }
 function hoverStar(n){var a=n||state.reviewStar||0;for(var i=1;i<=5;i++){var el=document.getElementById('star-'+i);if(el){el.style.color=i<=a?'#f59e0b':'#e5e7eb';el.style.transform=i<=a?'scale(1.15)':'scale(1)';}}}
@@ -563,8 +574,5 @@ function submitReview(){
 
 render();
 </script>
-<footer style="margin-top:48px;padding:24px;border-top:1px solid #fce7f3;text-align:center;">
-  <p style="font-size:12px;color:#94a3b8;">Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener noreferrer" style="color:#e11d48;text-decoration:none;font-weight:600;">Bagas Aria Sativa</a></p>
-</footer>
 </body>
 </html>

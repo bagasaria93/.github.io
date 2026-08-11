@@ -22,7 +22,7 @@ window.DashboardModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Selamat Datang, ${escapeHtml(session.name.split(' ')[0])} 👋</div>
+        <h1 class="page-title">Selamat Datang, ${escapeHtml(session.name.split(' ')[0])} 👋</h1>
         <div class="page-subtitle">${formatDate(todayStr(), 'full')} &mdash; Administrator</div>
       </div>
     </div>
@@ -93,7 +93,7 @@ window.DashboardModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Selamat Datang, ${escapeHtml(session.name.split(' ')[0])} 👋</div>
+        <h1 class="page-title">Selamat Datang, ${escapeHtml(session.name.split(' ')[0])} 👋</h1>
         <div class="page-subtitle">${formatDate(todayStr(), 'full')} &mdash; Dosen</div>
       </div>
     </div>
@@ -127,7 +127,7 @@ window.DashboardModule = (function () {
           const count = DB.enrollments.getByCourse(c.id).length;
           const mats  = DB.materials.getByCourse(c.id).length;
           const assig = DB.assignments.getByCourse(c.id).length;
-          return `<div class="course-card" onclick="App.navigate('materials')">
+          return `<div class="course-card" tabindex="0" role="button" aria-label="Buka materi ${escapeHtml(c.name)}" onclick="App.navigate('materials')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.navigate('materials');}">
             <div class="course-card-header"></div>
             <div class="course-card-body">
               <div class="course-code">${escapeHtml(c.code)}</div>
@@ -184,7 +184,7 @@ window.DashboardModule = (function () {
     return `
     <div class="page-header">
       <div>
-        <div class="page-title">Selamat Datang, ${escapeHtml(session.name.split(' ')[0])} 👋</div>
+        <h1 class="page-title">Selamat Datang, ${escapeHtml(session.name.split(' ')[0])} 👋</h1>
         <div class="page-subtitle">${formatDate(todayStr(), 'full')} &mdash; Mahasiswa</div>
       </div>
     </div>
@@ -224,7 +224,7 @@ window.DashboardModule = (function () {
           const mats  = DB.materials.getByCourse(c.id).length;
           const assig = DB.assignments.getByCourse(c.id);
           const done  = assig.filter(a => mySubs.some(s => s.assignmentId === a.id)).length;
-          return `<div class="course-card" onclick="App.navigate('my-materials')">
+          return `<div class="course-card" tabindex="0" role="button" aria-label="Buka materi ${escapeHtml(c.name)}" onclick="App.navigate('my-materials')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();App.navigate('my-materials');}">
             <div class="course-card-header"></div>
             <div class="course-card-body">
               <div class="course-code">${escapeHtml(c.code)}</div>
