@@ -300,14 +300,14 @@ const APIS = {
     requestHeaders: { 'Accept': 'application/json' }
   },
   restcountries: {
-    name: 'RestCountries',
+    name: 'CountriesData',
     description: 'Data lengkap semua negara di dunia: populasi, mata uang, bahasa, bendera, dan lainnya.',
     endpoints: [
-      { label: 'GET Indonesia', method: 'GET', url: 'https://restcountries.com/v3.1/name/indonesia', params: [], desc: 'Data lengkap negara Indonesia' },
-      { label: 'GET Asia Region', method: 'GET', url: 'https://restcountries.com/v3.1/region/asia?fields=name,capital,population,flags', params: [], desc: 'Negara di kawasan Asia (field terbatas)' },
-      { label: 'GET Asia Tenggara', method: 'GET', url: 'https://restcountries.com/v3.1/subregion/south-eastern%20asia?fields=name,capital,population,currencies', params: [], desc: 'Negara-negara Asia Tenggara' },
-      { label: 'GET Currency IDR', method: 'GET', url: 'https://restcountries.com/v3.1/currency/idr', params: [], desc: 'Negara yang menggunakan Rupiah' },
-      { label: 'GET Bahasa Indonesia', method: 'GET', url: 'https://restcountries.com/v3.1/lang/indonesian?fields=name,population,capital', params: [], desc: 'Negara yang berbahasa Indonesia' },
+      { label: 'GET Indonesia', method: 'GET', url: 'https://countries.dev/name/indonesia', params: [], desc: 'Data lengkap negara Indonesia' },
+      { label: 'GET Asia Region', method: 'GET', url: 'https://countries.dev/region/asia?fields=name,capital,population,flags', params: [], desc: 'Negara di kawasan Asia (field terbatas)' },
+      { label: 'GET Asia Tenggara', method: 'GET', url: 'https://countries.dev/subregion/south-eastern%20asia?fields=name,capital,population,currencies', params: [], desc: 'Negara-negara Asia Tenggara' },
+      { label: 'GET Currency IDR', method: 'GET', url: 'https://countries.dev/currency/idr', params: [], desc: 'Negara yang menggunakan Rupiah' },
+      { label: 'GET Bahasa Indonesia', method: 'GET', url: 'https://countries.dev/lang/id?fields=name,population,capital', params: [], desc: 'Negara yang berbahasa Indonesia' },
     ],
     requestHeaders: { 'Accept': 'application/json' }
   },
