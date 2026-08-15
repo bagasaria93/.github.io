@@ -79,6 +79,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="#skills">Skills</a></li>
             <li><a href="#experience">Experience</a></li>
+            <li><a href="#achievements">Achievements</a></li>
             <li><a href="#education">Education</a></li>
             <li><a href="#certifications">Certifications</a></li>
             <li><a href="#projects">Projects</a></li>
@@ -94,6 +95,7 @@
         <a href="#about" class="mobile-menu-link">About</a>
         <a href="#skills" class="mobile-menu-link">Skills</a>
         <a href="#experience" class="mobile-menu-link">Experience</a>
+        <a href="#achievements" class="mobile-menu-link">Achievements</a>
         <a href="#education" class="mobile-menu-link">Education</a>
         <a href="#certifications" class="mobile-menu-link">Certifications</a>
         <a href="#projects" class="mobile-menu-link">Projects</a>
@@ -346,6 +348,7 @@
                         <span class="skill-tag">Bootstrap</span>
                         <span class="skill-tag">Tailwind CSS</span>
                         <span class="skill-tag">Chart.js</span>
+                        <span class="skill-tag">ApexCharts</span>
                         <span class="skill-tag">jQuery</span>
                         <span class="skill-tag">Anthropic API</span>
                         <span class="skill-tag">WhatsApp API</span>
@@ -457,14 +460,17 @@
                     </div>
                     <div class="timeline-right">
                         <div class="timeline-company">PT Ganzu Gisma Seiko</div>
-                        <h3 class="timeline-role">IT System Analyst & Full-Stack Developer</h3>
+                        <h3 class="timeline-role">Full-Stack Developer</h3>
                         <ul class="timeline-bullets">
-                            <li>Analyzed business processes across 9 departments, identifying bottlenecks and automation opportunities.</li>
-                            <li>Developed end-to-end manufacturing ERP system from database design to user interface using Laravel & MySQL.</li>
-                            <li>Built material requirement planning (MRP) with automated purchase request generation workflow.</li>
-                            <li>Integrated financial module auto-generating invoices from delivery documents with payment tracking.</li>
+                            <li>Built and shipped a full-stack manufacturing ERP from scratch as the sole developer, now used daily across 11 departments spanning the company's full procure-to-pay and order-to-cash cycle: Sales, Procurement, Warehouse, PPC/MRP, Production, QC, Delivery, Finance (with two-way Accurate accounting integration), Subcontracting, and HRD.</li>
+                            <li>Designed a 30-role access control system with staff, supervisor, and manager tiers per department, enforcing department-specific multi-level approval workflows across every transactional module.</li>
+                            <li>Resolved conflicting ownership boundaries and N+1 query issues by designing a normalized schema across 100+ tables with targeted indexes, cutting one high-traffic dashboard query from 21 database calls down to 2.</li>
+                            <li>Built an MRP engine that calculates raw material requirements from active production orders, auto-generates purchase requests, and routes them through a role-based approval workflow per department head.</li>
+                            <li>Implemented a multi-source QC inspection system, incoming material and in-process production, with state machine transitions and a per-batch audit trail; customer orders auto-cascade into delivery documents and invoices with live payment status.</li>
+                            <li>Designed executive and per-module dashboards giving leadership real-time visibility into production, inventory, and financial performance across all departments.</li>
+                            <li>Independently owned the ERP's full lifecycle for over a year, from architecture decisions to ongoing production support, without dedicated senior engineering oversight.</li>
                         </ul>
-                        <div class="timeline-result">Key results: reduced production planning time by 70%, improved inventory accuracy to 98%, streamlined order-to-delivery cycle by 45%.</div>
+                        <div class="timeline-result">Key result: cut a high-traffic dashboard query from 21 database calls down to 2 through a normalized schema redesign across 100+ tables.</div>
                     </div>
                 </div>
 
@@ -479,15 +485,15 @@
                     </div>
                     <div class="timeline-right">
                         <div class="timeline-company">Rainbrow Sulam Alis</div>
-                        <h3 class="timeline-role">IT Developer: HR & Customer System</h3>
+                        <h3 class="timeline-role">Project-Based Full-Stack Developer</h3>
                         <ul class="timeline-bullets">
-                            <li>Led full-stack development of 3 business management applications, delivered ahead of schedule.</li>
-                            <li>HRIS Dashboard: Built comprehensive HR system with GPS-based attendance, geofencing validation, automated training management, role-based authentication, and real-time analytics dashboard.</li>
-                            <li>Aftercare Dashboard: Built multi-role system with automated WhatsApp bulk messaging, low-rating auto-detection, complaint resolution workflow, and real-time branch performance analytics.</li>
-                            <li>NailShade Booking System: Built end-to-end booking platform with QR code walk-in system, automated WhatsApp feedback collection, therapist leaderboard, and branch comparison dashboard.</li>
-                            <li>Integrated RESTful APIs with AJAX for real-time operations; implemented role-based access control protecting sensitive HR data.</li>
+                            <li>Delivered 3 full-stack business applications concurrently as a 2-person team alongside the HRD Supervisor, with no prior system infrastructure to build on, all completed 14% ahead of schedule.</li>
+                            <li>HRD Dashboard: replaced manual, unverified attendance tracking with GPS-based attendance and server-side geofencing validation, automated training scheduling with completion tracking, and RBAC separating admin, manager, and staff access.</li>
+                            <li>Aftercare Dashboard: replaced unmonitored customer ratings with a multi-role complaint workflow (open, in-progress, resolved), WhatsApp API bulk messaging, and a configurable low-rating trigger that auto-escalates unresolved complaints.</li>
+                            <li>NailShade Booking System: solved walk-in scheduling conflicts and ad hoc feedback with an end-to-end booking platform featuring QR-code walk-in check-in, automated WhatsApp feedback dispatch, a therapist performance leaderboard, and branch-level comparison analytics.</li>
+                            <li>Built a consistent RESTful API consumed via AJAX across all three apps for real-time operations, with RBAC enforced on every sensitive HR and financial endpoint.</li>
                         </ul>
-                        <div class="timeline-result">Key results: aftercare response rate +85%, recruitment processing time -80%, rating collection rate improved from 20% to 78%.</div>
+                        <div class="timeline-result">Key results: aftercare response rate +85%, recruitment processing time -80%, customer rating collection from 20% to 78%.</div>
                     </div>
                 </div>
 
@@ -504,11 +510,53 @@
                         <div class="timeline-company">PT Komatsu Undercarriage Indonesia</div>
                         <h3 class="timeline-role">IT Support Intern</h3>
                         <ul class="timeline-bullets">
-                            <li>Assisted IT team with technical support, hardware maintenance, and system deployment activities.</li>
-                            <li>Contributed to development of Delivery Note Module Application using Alpha Anywhere platform.</li>
-                            <li>Conducted research and designed a Web-Based Shipment Monitoring Application to improve logistics visibility.</li>
+                            <li>Contributed to the Delivery Note Module on Alpha Anywhere, implementing form logic and data binding for logistics documentation workflows.</li>
+                            <li>Researched and designed a Web-Based Shipment Monitoring Application, producing a system design document covering ERD, database schema, and logistics process mapping.</li>
+                            <li>Supported IT operations including hardware maintenance, network troubleshooting, and system deployment assistance.</li>
                         </ul>
                     </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="achievements">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label">Achievements</div>
+                <h2 class="section-title">Achievement Certificates</h2>
+            </div>
+            <div class="edu-grid section-reveal stagger-1">
+
+                <div class="edu-card">
+                    <div class="edu-card-number">01</div>
+                    <div class="edu-year">2025</div>
+                    <h3 class="edu-degree">NailShade App Development</h3>
+                    <div class="edu-school">Rainbrow Sulam Alis</div>
+                    <p style="margin-top:14px;font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5;">
+                        <span style="color:rgba(255,255,255,0.25);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;">Goal</span><br>
+                        Digitize the full customer journey from walk-in booking to post-session feedback collection.
+                    </p>
+                    <p style="margin-top:10px;font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5;">
+                        <span style="color:rgba(255,255,255,0.25);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;">Impact</span><br>
+                        Customer rating collection from 20% to 78%. Aftercare response rate improved by 85%.
+                    </p>
+                </div>
+
+                <div class="edu-card">
+                    <div class="edu-card-number">02</div>
+                    <div class="edu-year">2025</div>
+                    <h3 class="edu-degree">Rainbrow Management System</h3>
+                    <div class="edu-school">Rainbrow Sulam Alis</div>
+                    <p style="margin-top:14px;font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5;">
+                        <span style="color:rgba(255,255,255,0.25);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;">Goal</span><br>
+                        Replace manual HR and operational processes with an integrated multi-application management system.
+                    </p>
+                    <p style="margin-top:10px;font-size:0.78rem;color:rgba(255,255,255,0.45);line-height:1.5;">
+                        <span style="color:rgba(255,255,255,0.25);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em;">Impact</span><br>
+                        Recruitment processing time cut by 80%. GPS-based attendance eliminated manual record manipulation.
+                    </p>
                 </div>
 
             </div>
