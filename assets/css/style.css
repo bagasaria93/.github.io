@@ -715,24 +715,41 @@ display: inline-flex;
 align-items: center;
 gap: 10px;
 padding: 13px 32px;
-background: transparent;
-color: var(--white-dim);
+background: rgba(201, 168, 76, 0.08);
+color: var(--gold);
 font-size: 0.72rem;
 font-weight: 700;
 letter-spacing: 0.15em;
 text-transform: uppercase;
 text-decoration: none;
-border: 1px solid rgba(160, 152, 128, 0.25);
+border: 1.5px solid var(--gold);
 cursor: none;
 transition: all 0.3s ease;
 font-family: var(--font-body);
+position: relative;
+animation: btnCvPulse 2.6s ease-in-out infinite;
 }
 
 .btn-secondary:hover {
-background: rgba(201, 168, 76, 0.08);
-border-color: var(--gold);
-color: var(--gold);
+background: rgba(201, 168, 76, 0.16);
+border-color: var(--gold-light);
+color: var(--gold-light);
 transform: translateY(-3px);
+box-shadow: 0 16px 40px rgba(201, 168, 76, 0.25);
+animation-play-state: paused;
+}
+
+.btn-secondary i {
+transition: transform 0.3s ease;
+}
+
+.btn-secondary:hover i {
+transform: translateY(2px);
+}
+
+@keyframes btnCvPulse {
+0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.35); }
+50% { box-shadow: 0 0 0 8px rgba(201, 168, 76, 0); }
 }
 
 .hero-center-col {
@@ -2280,6 +2297,7 @@ section { padding: 80px 20px; }
 .hero-availability-dot { animation: none; }
 .contact-availability-dot { animation: none; }
 .about-currently-dot { animation: none; }
+.btn-secondary { animation: none; }
 .cursor-blink { animation: none; }
 .section-reveal {
 opacity: 1;
