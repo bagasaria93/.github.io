@@ -2,6 +2,9 @@
 --gold: #c9a84c;
 --gold-light: #e8c97a;
 --gold-dark: #8a6f2e;
+--accent: #4f46e5;
+--accent-light: #818cf8;
+--accent-dark: #3730a3;
 --black: #0a0a0a;
 --black-2: #111111;
 --black-3: #1a1a1a;
@@ -714,42 +717,62 @@ box-shadow: 0 16px 40px rgba(201, 168, 76, 0.3);
 display: inline-flex;
 align-items: center;
 gap: 10px;
-padding: 13px 32px;
-background: rgba(201, 168, 76, 0.08);
-color: var(--gold);
+padding: 14px 32px;
+background: var(--accent);
+color: var(--white);
 font-size: 0.72rem;
-font-weight: 700;
+font-weight: 800;
 letter-spacing: 0.15em;
 text-transform: uppercase;
 text-decoration: none;
-border: 1.5px solid var(--gold);
+border: none;
 cursor: none;
 transition: all 0.3s ease;
 font-family: var(--font-body);
 position: relative;
-animation: btnCvPulse 2.6s ease-in-out infinite;
+overflow: hidden;
+clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+animation: btnCvGlow 2.6s ease-in-out infinite;
+}
+
+.btn-secondary::before {
+content: '';
+position: absolute;
+top: 0;
+left: -120%;
+width: 60%;
+height: 100%;
+background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+transition: left 0.6s ease;
+}
+
+.btn-secondary:hover::before {
+left: 120%;
 }
 
 .btn-secondary:hover {
-background: rgba(201, 168, 76, 0.16);
-border-color: var(--gold-light);
-color: var(--gold-light);
+background: var(--accent-light);
 transform: translateY(-3px);
-box-shadow: 0 16px 40px rgba(201, 168, 76, 0.25);
+box-shadow: 0 16px 44px rgba(79, 70, 229, 0.55);
 animation-play-state: paused;
 }
 
 .btn-secondary i {
 transition: transform 0.3s ease;
+position: relative;
+}
+
+.btn-secondary span {
+position: relative;
 }
 
 .btn-secondary:hover i {
 transform: translateY(2px);
 }
 
-@keyframes btnCvPulse {
-0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.35); }
-50% { box-shadow: 0 0 0 8px rgba(201, 168, 76, 0); }
+@keyframes btnCvGlow {
+0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.55), 0 8px 22px rgba(79, 70, 229, 0.3); }
+50% { box-shadow: 0 0 0 10px rgba(79, 70, 229, 0), 0 8px 30px rgba(79, 70, 229, 0.5); }
 }
 
 .hero-center-col {
