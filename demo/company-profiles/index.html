@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="../company-profile/favicon.svg" type="image/svg+xml">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Company Profile demos by Bagas Aria Sativa, a growing library of full landing page demos, one per industry, built to show prospective clients what a real company profile website could look like for their business.">
+    <title>Company Profile Demos - Bagas Aria Sativa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --gold-dark: #8a6f2e;
+            --black: #0a0a0a;
+            --black-2: #111111;
+            --black-3: #1a1a1a;
+            --black-4: #242424;
+            --white: #f5f0e8;
+            --white-dim: #a09880;
+            --border: rgba(201, 168, 76, 0.16);
+            --font-display: 'DM Serif Display', serif;
+            --font-body: 'Sora', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--black-2); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); }
+
+        .wrap { max-width: 1180px; margin: 0 auto; padding: 0 1.5rem; }
+
+        /* Top bar */
+        header {
+            padding: 1.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.82rem; font-weight: 500;
+            color: var(--white-dim);
+            transition: color 0.2s ease;
+        }
+        .back-link:hover { color: var(--gold); }
+        .brand {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            letter-spacing: 0.02em;
+        }
+        .brand .dot { color: var(--gold); }
+
+        /* Hero */
+        .hub-hero { padding: 5rem 0 3.5rem; text-align: center; }
+        .hub-label {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 1.25rem;
+        }
+        .hub-label::before, .hub-label::after { content: ''; width: 22px; height: 1.5px; background: var(--gold); }
+        .hub-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+            line-height: 1.1;
+            color: var(--white);
+        }
+        .hub-title em { font-style: italic; color: var(--gold); }
+        .hub-desc {
+            max-width: 620px;
+            margin: 1.5rem auto 0;
+            color: var(--white-dim);
+            font-size: 1rem;
+            line-height: 1.75;
+        }
+
+        /* Grid */
+        .hub-grid {
+            padding: 1rem 0 5rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.75rem;
+        }
+        .hub-card {
+            background: var(--black-2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+        }
+        .hub-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(201, 168, 76, 0.5);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+        }
+        .hub-card-preview {
+            aspect-ratio: 16/10;
+            overflow: hidden;
+            background: var(--black-3);
+        }
+        .hub-card-preview img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .hub-card:hover .hub-card-preview img { transform: scale(1.06); }
+        .hub-card-body { padding: 1.75rem 1.75rem 2rem; flex: 1; display: flex; flex-direction: column; }
+        .hub-card-industry {
+            font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 0.6rem;
+        }
+        .hub-card-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+        .hub-card-desc {
+            margin-top: 0.75rem;
+            color: var(--white-dim);
+            font-size: 0.88rem;
+            line-height: 1.7;
+            flex: 1;
+        }
+        .hub-card-link {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            margin-top: 1.5rem;
+            font-size: 0.82rem; font-weight: 600;
+            letter-spacing: 0.04em;
+            color: var(--gold);
+        }
+        .hub-card-link svg { transition: transform 0.25s ease; }
+        .hub-card:hover .hub-card-link svg { transform: translateX(4px); }
+
+        /* More coming */
+        .hub-more {
+            text-align: center;
+            padding: 0 0 5rem;
+            color: var(--white-dim);
+            font-size: 0.88rem;
+        }
+        .hub-more span { color: var(--gold); }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 2.25rem 0;
+        }
+        .footer-inner {
+            display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+            gap: 1rem;
+            font-size: 0.78rem;
+            color: var(--white-dim);
+        }
+        .footer-inner a { color: var(--white-dim); }
+        .footer-inner a:hover { color: var(--gold); }
+
+        @media (max-width: 768px) {
+            .hub-grid { grid-template-columns: 1fr; }
+            .hub-hero { padding: 3.5rem 0 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="wrap header-inner">
+            <a href="../../index.html#projects" class="back-link">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Back to Portfolio
+            </a>
+            <a href="../../index.html" class="brand">Bagas Aria Sativa<span class="dot">.</span></a>
+        </div>
+    </header>
+
+    <section class="hub-hero">
+        <div class="wrap">
+            <div class="hub-label">Company Profile</div>
+            <h1 class="hub-title">Pick an <em>Industry</em>,<br>See the Demo.</h1>
+            <p class="hub-desc">Full landing page demos, one per industry, built as ready-to-show examples for prospective clients who need a website for their business. Pick a field below to open the live demo.</p>
+        </div>
+    </section>
+
+    <section class="wrap">
+        <div class="hub-grid">
+            <a href="../company-profile/" class="hub-card">
+                <div class="hub-card-preview">
+                    <img src="../company-profile/preview.jpg" alt="Preview ForgeX, gym and fitness company profile" loading="lazy">
+                </div>
+                <div class="hub-card-body">
+                    <div class="hub-card-industry">Gym &amp; Fitness</div>
+                    <h2 class="hub-card-title">ForgeX</h2>
+                    <p class="hub-card-desc">Premium gym landing page with program showcase, trainer profiles, membership pricing, FAQ accordion, and a trial registration form.</p>
+                    <span class="hub-card-link">
+                        View Demo
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </span>
+                </div>
+            </a>
+
+            <a href="../rimba-kitchen/" class="hub-card">
+                <div class="hub-card-preview">
+                    <img src="../rimba-kitchen/preview.jpg" alt="Preview Rimba Kitchen and Co, restaurant and cafe company profile" loading="lazy">
+                </div>
+                <div class="hub-card-body">
+                    <div class="hub-card-industry">Restaurant &amp; Cafe</div>
+                    <h2 class="hub-card-title">Rimba Kitchen &amp; Co.</h2>
+                    <p class="hub-card-desc">Modern Indonesian restaurant landing page with signature menu showcase, ambience gallery, testimonials, FAQ accordion, and an inline-validated reservation form.</p>
+                    <span class="hub-card-link">
+                        View Demo
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </span>
+                </div>
+            </a>
+
+            <a href="../kriya-house/" class="hub-card">
+                <div class="hub-card-preview">
+                    <img src="../kriya-house/preview.jpg" alt="Preview Kriya House, retail and local craft company profile" loading="lazy">
+                </div>
+                <div class="hub-card-body">
+                    <div class="hub-card-industry">Retail &amp; Toko</div>
+                    <h2 class="hub-card-title">Kriya House</h2>
+                    <p class="hub-card-desc">Curated local craft retail landing page with category showcase, featured products, brand story, store gallery, testimonials, FAQ accordion, and an inline-validated contact form.</p>
+                    <span class="hub-card-link">
+                        View Demo
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </span>
+                </div>
+            </a>
+        </div>
+
+        <p class="hub-more">More industries in progress, <span>Beauty, Clinic, and more.</span></p>
+    </section>
+
+    <footer>
+        <div class="wrap footer-inner">
+            <span>Copyright Bagas Aria Sativa. All rights reserved.</span>
+            <a href="../../index.html">bagasaria93.github.io</a>
+        </div>
+    </footer>
+
+</body>
+</html>

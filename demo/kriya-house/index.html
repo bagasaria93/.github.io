@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Kriya House, kurasi produk kriya dan kerajinan lokal premium untuk rumah, gaya, dan hadiah. Home decor, fashion aksesoris, self care, dan gift dari pengrajin Indonesia.">
+<title>Kriya House - Kurasi Kriya Lokal Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --rose: #b5726b;
+    --rose-deep: #8a4d48;
+    --rose-soft: #e7c6c0;
+    --cream: #faf5ec;
+    --cream-2: #f2e8d8;
+    --ink: #2a2320;
+    --ink-dim: #766a61;
+    --gold: #b1893f;
+    --gold-light: #d4b06a;
+    --white: #ffffff;
+    --border: rgba(42, 35, 32, 0.12);
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'Manrope', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul { list-style: none; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--cream-2); }
+::-webkit-scrollbar-thumb { background: var(--rose); }
+
+.wrap { max-width: 1220px; margin: 0 auto; padding: 0 1.75rem; }
+
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+.eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--rose-deep);
+}
+.eyebrow::before { content: ''; width: 26px; height: 1.5px; background: var(--gold); }
+
+.section-head { max-width: 620px; margin-bottom: 3rem; }
+.section-head.center { max-width: 660px; margin-left: auto; margin-right: auto; text-align: center; }
+.section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.9rem);
+    font-weight: 500;
+    line-height: 1.15;
+    margin-top: 0.9rem;
+    color: var(--ink);
+}
+.section-title em { font-style: italic; color: var(--rose-deep); }
+.section-desc { margin-top: 1rem; color: var(--ink-dim); font-size: 1rem; line-height: 1.75; }
+
+/* ===== Nav ===== */
+header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    background: rgba(250, 245, 236, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+header.scrolled { border-color: var(--border); box-shadow: 0 10px 30px rgba(42,35,32,0.06); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 1.35rem 0; }
+.logo { font-family: var(--font-display); font-size: 1.55rem; font-weight: 600; letter-spacing: 0.01em; color: var(--ink); }
+.logo span { color: var(--rose-deep); font-style: italic; }
+.nav-links { display: flex; align-items: center; gap: 2.4rem; }
+.nav-links a {
+    font-size: 0.85rem; font-weight: 600; color: var(--ink-dim);
+    transition: color 0.2s ease; position: relative;
+}
+.nav-links a:hover { color: var(--rose-deep); }
+.nav-cta {
+    padding: 0.7rem 1.5rem; border-radius: 999px;
+    background: var(--ink); color: var(--cream) !important;
+    font-size: 0.8rem; font-weight: 700; letter-spacing: 0.02em;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+.nav-cta:hover { background: var(--rose-deep); transform: translateY(-2px); }
+.burger { display: none; flex-direction: column; gap: 5px; z-index: 600; }
+.burger span { width: 24px; height: 2px; background: var(--ink); transition: all 0.3s ease; }
+.burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+    position: fixed; inset: 0; background: var(--cream);
+    z-index: 450; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 2.1rem;
+    transform: translateY(-100%); transition: transform 0.45s cubic-bezier(.65,0,.35,1);
+}
+.mobile-menu.active { transform: translateY(0); }
+.mobile-menu a { font-family: var(--font-display); font-size: 1.9rem; color: var(--ink); font-weight: 500; }
+.mobile-menu .nav-cta { margin-top: 1rem; }
+
+/* ===== Hero ===== */
+.hero {
+    padding: 9.5rem 0 5rem;
+    position: relative;
+    overflow: hidden;
+}
+.hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 3.5rem; align-items: center;
+}
+.hero-copy .eyebrow { margin-bottom: 1.1rem; }
+.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5.2vw, 4.1rem);
+    font-weight: 500; line-height: 1.08; color: var(--ink);
+}
+.hero-title em { font-style: italic; color: var(--rose-deep); }
+.hero-desc { margin-top: 1.4rem; font-size: 1.05rem; color: var(--ink-dim); max-width: 480px; line-height: 1.8; }
+.hero-actions { display: flex; align-items: center; gap: 1.5rem; margin-top: 2.3rem; flex-wrap: wrap; }
+.btn-primary {
+    padding: 0.95rem 2.1rem; border-radius: 999px;
+    background: var(--rose-deep); color: var(--white);
+    font-size: 0.88rem; font-weight: 700; letter-spacing: 0.02em;
+    transition: background 0.25s ease, transform 0.25s ease;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+}
+.btn-primary:hover { background: var(--ink); transform: translateY(-2px); }
+.btn-ghost {
+    font-size: 0.88rem; font-weight: 700; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1.5px solid var(--ink); padding-bottom: 3px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+.btn-ghost:hover { color: var(--rose-deep); border-color: var(--rose-deep); }
+
+.hero-stats { display: flex; gap: 2.4rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.hero-stat-num { font-family: var(--font-display); font-size: 2.1rem; font-weight: 600; color: var(--rose-deep); }
+.hero-stat-label { font-size: 0.76rem; color: var(--ink-dim); margin-top: 0.2rem; letter-spacing: 0.02em; }
+
+.hero-visual { position: relative; }
+.hero-frame {
+    position: absolute; top: -18px; right: -18px; bottom: 28px; left: 28px;
+    border: 1.5px solid var(--gold-light); border-radius: 6px;
+    z-index: 0;
+}
+.hero-img-box {
+    position: relative; z-index: 1; border-radius: 6px; overflow: hidden;
+    aspect-ratio: 4/5; box-shadow: 0 40px 70px rgba(42,35,32,0.18);
+}
+.hero-img-box img { width: 100%; height: 100%; object-fit: cover; }
+.hero-badge {
+    position: absolute; z-index: 2; bottom: -1.6rem; left: -1.6rem;
+    background: var(--white); border-radius: 6px; padding: 1.1rem 1.4rem;
+    box-shadow: 0 20px 45px rgba(42,35,32,0.14);
+    display: flex; align-items: center; gap: 0.85rem;
+    max-width: 250px;
+}
+.hero-badge-icon {
+    width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+    background: var(--rose-soft); display: flex; align-items: center; justify-content: center;
+    color: var(--rose-deep);
+}
+.hero-badge-title { font-size: 0.82rem; font-weight: 700; color: var(--ink); }
+.hero-badge-sub { font-size: 0.72rem; color: var(--ink-dim); margin-top: 0.15rem; }
+
+/* ===== Marquee ===== */
+.marquee-strip {
+    background: var(--ink); color: var(--cream);
+    padding: 1.1rem 0; overflow: hidden; white-space: nowrap;
+    border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold);
+}
+.marquee-track { display: inline-flex; animation: marquee 32s linear infinite; }
+.marquee-track span {
+    font-family: var(--font-display); font-style: italic; font-size: 1.25rem;
+    padding: 0 2.2rem; display: inline-flex; align-items: center; gap: 2.2rem;
+    color: var(--cream-2);
+}
+.marquee-track span::after { content: '\2022'; color: var(--gold-light); font-style: normal; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ===== Categories ===== */
+.categories { padding: 6.5rem 0; }
+.cat-bento {
+    display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: 1fr 1fr;
+    gap: 1.4rem; height: 640px;
+}
+.cat-card {
+    position: relative; border-radius: 8px; overflow: hidden;
+    grid-row: span 2;
+}
+.cat-card.small { grid-row: span 1; }
+.cat-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+.cat-card:hover img { transform: scale(1.07); }
+.cat-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(20,15,13,0.75) 0%, rgba(20,15,13,0.05) 55%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 1.8rem;
+}
+.cat-name { font-family: var(--font-display); font-size: 1.55rem; color: var(--white); font-weight: 500; }
+.cat-desc { color: rgba(255,255,255,0.82); font-size: 0.84rem; margin-top: 0.4rem; max-width: 300px; line-height: 1.6; }
+.cat-count {
+    align-self: flex-start; margin-bottom: 0.9rem;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--gold-light); background: rgba(255,255,255,0.12);
+    padding: 0.35rem 0.8rem; border-radius: 999px;
+}
+
+/* ===== Products ===== */
+.products { padding: 6.5rem 0; background: var(--cream-2); }
+.products-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1.5rem; flex-wrap: wrap; }
+.product-grid {
+    margin-top: 3rem;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.9rem;
+}
+.product-card {
+    background: var(--white); border-radius: 8px; overflow: hidden;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.product-card:hover { transform: translateY(-8px); box-shadow: 0 30px 55px rgba(42,35,32,0.14); }
+.product-img { position: relative; aspect-ratio: 1/1; overflow: hidden; }
+.product-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+.product-card:hover .product-img img { transform: scale(1.08); }
+.product-tag {
+    position: absolute; top: 1rem; left: 1rem;
+    background: var(--white); color: var(--rose-deep);
+    font-size: 0.68rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 0.35rem 0.75rem; border-radius: 999px;
+}
+.product-body { padding: 1.5rem 1.6rem 1.8rem; }
+.product-cat { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-dim); }
+.product-name { font-family: var(--font-display); font-size: 1.35rem; font-weight: 600; color: var(--ink); margin-top: 0.35rem; }
+.product-desc { font-size: 0.85rem; color: var(--ink-dim); margin-top: 0.55rem; line-height: 1.65; }
+.product-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 1.2rem; }
+.product-price { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; color: var(--rose-deep); }
+.product-cart {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--cream-2);
+    display: flex; align-items: center; justify-content: center; color: var(--ink);
+    transition: background 0.25s ease, color 0.25s ease;
+}
+.product-card:hover .product-cart { background: var(--ink); color: var(--cream); }
+
+/* ===== Story ===== */
+.story { padding: 6.5rem 0; }
+.story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.story-img-wrap { position: relative; }
+.story-img-wrap img { border-radius: 8px; aspect-ratio: 4/3.4; object-fit: cover; box-shadow: 0 30px 60px rgba(42,35,32,0.15); }
+.story-quote {
+    position: absolute; bottom: -2rem; right: -1.5rem;
+    background: var(--rose-deep); color: var(--white);
+    border-radius: 8px; padding: 1.6rem 1.8rem; max-width: 260px;
+    box-shadow: 0 25px 50px rgba(138,77,72,0.35);
+}
+.story-quote p { font-family: var(--font-display); font-style: italic; font-size: 1.1rem; line-height: 1.5; }
+.pillars { margin-top: 2.4rem; display: flex; flex-direction: column; gap: 1.6rem; }
+.pillar { display: flex; gap: 1.2rem; }
+.pillar-num {
+    font-family: var(--font-display); font-size: 1.6rem; font-weight: 600;
+    color: var(--gold); flex-shrink: 0; width: 42px;
+}
+.pillar-title { font-weight: 700; font-size: 1rem; color: var(--ink); }
+.pillar-text { font-size: 0.86rem; color: var(--ink-dim); margin-top: 0.3rem; line-height: 1.65; }
+
+/* ===== Gallery ===== */
+.gallery { padding: 6.5rem 0; background: var(--ink); color: var(--cream); }
+.gallery .eyebrow { color: var(--gold-light); }
+.gallery .eyebrow::before { background: var(--gold-light); }
+.gallery .section-title { color: var(--cream); }
+.gallery .section-title em { color: var(--rose-soft); }
+.gallery .section-desc { color: rgba(250,245,236,0.62); }
+.gallery-strip {
+    margin-top: 3rem; display: flex; gap: 1.4rem; overflow-x: auto;
+    scroll-snap-type: x mandatory; padding-bottom: 1rem;
+}
+.gallery-strip::-webkit-scrollbar { height: 5px; }
+.gallery-strip::-webkit-scrollbar-track { background: rgba(255,255,255,0.08); }
+.gallery-strip::-webkit-scrollbar-thumb { background: var(--gold); }
+.gallery-item {
+    scroll-snap-align: start; flex: 0 0 340px; border-radius: 8px; overflow: hidden;
+    aspect-ratio: 3/4; position: relative;
+}
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.gallery-item:hover img { transform: scale(1.06); }
+.gallery-cap {
+    position: absolute; left: 1.2rem; bottom: 1.1rem; right: 1.2rem;
+    font-size: 0.78rem; font-weight: 600; color: var(--white);
+    background: rgba(20,15,13,0.5); backdrop-filter: blur(4px);
+    padding: 0.6rem 0.9rem; border-radius: 6px;
+}
+.gallery-hint { margin-top: 1.1rem; font-size: 0.78rem; color: rgba(250,245,236,0.5); display: flex; align-items: center; gap: 0.5rem; }
+
+/* ===== Testimonials ===== */
+.testimonials { padding: 6.5rem 0; }
+.testi-grid { margin-top: 3rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.9rem; }
+.testi-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 8px;
+    padding: 2.1rem 2rem;
+}
+.testi-mark { font-family: var(--font-display); font-size: 3rem; color: var(--rose-soft); line-height: 1; }
+.testi-text { font-size: 0.94rem; color: var(--ink); line-height: 1.75; margin-top: 0.6rem; }
+.testi-person { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.5rem; }
+.testi-avatar {
+    width: 42px; height: 42px; border-radius: 50%; background: var(--rose-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 600; color: var(--rose-deep); font-size: 1.05rem;
+}
+.testi-name { font-size: 0.86rem; font-weight: 700; color: var(--ink); }
+.testi-role { font-size: 0.74rem; color: var(--ink-dim); }
+
+/* ===== FAQ ===== */
+.faq { padding: 6.5rem 0; background: var(--cream-2); }
+.faq-list { margin-top: 2.5rem; max-width: 780px; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-q {
+    width: 100%; display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 0; text-align: left; gap: 1rem;
+}
+.faq-q span { font-family: var(--font-display); font-size: 1.2rem; font-weight: 500; color: var(--ink); }
+.faq-icon {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--ink);
+    flex-shrink: 0; position: relative; transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+.faq-icon::before, .faq-icon::after {
+    content: ''; position: absolute; background: var(--ink); top: 50%; left: 50%;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+.faq-icon::before { width: 11px; height: 1.4px; transform: translate(-50%,-50%); }
+.faq-icon::after { width: 1.4px; height: 11px; transform: translate(-50%,-50%); }
+.faq-item.active .faq-icon { background: var(--rose-deep); border-color: var(--rose-deep); }
+.faq-item.active .faq-icon::before, .faq-item.active .faq-icon::after { background: var(--white); }
+.faq-item.active .faq-icon::after { transform: translate(-50%,-50%) rotate(90deg) scaleY(0); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-a p { padding: 0 0 1.6rem; font-size: 0.9rem; color: var(--ink-dim); line-height: 1.75; max-width: 640px; }
+
+/* ===== Contact ===== */
+.contact { padding: 6.5rem 0; }
+.contact-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 3.5rem; }
+.contact-info-card {
+    background: var(--ink); color: var(--cream); border-radius: 8px; padding: 2.6rem 2.3rem;
+    display: flex; flex-direction: column; gap: 1.7rem;
+}
+.contact-info-card .eyebrow { color: var(--gold-light); }
+.contact-info-card .eyebrow::before { background: var(--gold-light); }
+.ci-title { font-family: var(--font-display); font-size: 1.6rem; margin-top: 0.7rem; }
+.ci-row { display: flex; gap: 1rem; align-items: flex-start; }
+.ci-icon {
+    width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.09);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--gold-light);
+}
+.ci-label { font-size: 0.72rem; color: rgba(250,245,236,0.55); letter-spacing: 0.04em; text-transform: uppercase; }
+.ci-value { font-size: 0.92rem; margin-top: 0.2rem; color: var(--cream); }
+
+.form-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 2.6rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.3rem; }
+.field { margin-bottom: 1.3rem; }
+.field label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+.field input, .field textarea, .field select {
+    width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 6px;
+    font-family: var(--font-body); font-size: 0.9rem; background: var(--cream); color: var(--ink);
+    transition: border-color 0.2s ease;
+}
+.field input:focus, .field textarea:focus, .field select:focus { outline: none; border-color: var(--rose-deep); }
+.field textarea { resize: vertical; min-height: 110px; }
+.field-error {
+    font-size: 0.76rem; color: #a33a34; margin-top: 0.4rem; display: none;
+}
+.field.invalid input, .field.invalid textarea, .field.invalid select { border-color: #a33a34; }
+.field.invalid .field-error { display: block; }
+.form-submit {
+    width: 100%; padding: 1rem; border-radius: 6px; background: var(--rose-deep); color: var(--white);
+    font-size: 0.9rem; font-weight: 700; letter-spacing: 0.02em; margin-top: 0.4rem;
+    transition: background 0.25s ease;
+}
+.form-submit:hover { background: var(--ink); }
+.form-success {
+    display: none; align-items: center; gap: 0.7rem; margin-top: 1.1rem;
+    background: #eef4ea; color: #3c6b2e; padding: 0.9rem 1.1rem; border-radius: 6px; font-size: 0.85rem;
+}
+.form-success.show { display: flex; }
+
+/* ===== Footer ===== */
+footer { background: var(--ink); color: var(--cream); padding: 3.5rem 0 2rem; }
+.footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 2.5rem; padding-bottom: 2.6rem; border-bottom: 1px solid rgba(250,245,236,0.12); }
+.footer-brand .logo { color: var(--cream); }
+.footer-desc { font-size: 0.85rem; color: rgba(250,245,236,0.55); margin-top: 1rem; max-width: 280px; line-height: 1.7; }
+.footer-col-title { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-light); margin-bottom: 1.1rem; }
+.footer-col a, .footer-col span { display: block; font-size: 0.86rem; color: rgba(250,245,236,0.68); margin-bottom: 0.7rem; }
+.footer-col a:hover { color: var(--cream); }
+.footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 1.6rem; flex-wrap: wrap; gap: 1rem; font-size: 0.78rem; color: rgba(250,245,236,0.5); }
+.footer-back { color: rgba(250,245,236,0.5); }
+.footer-back:hover { color: var(--gold-light); }
+
+/* ===== WhatsApp float ===== */
+.wa-float {
+    position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 400;
+    width: 58px; height: 58px; border-radius: 50%; background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 14px 30px rgba(37,211,102,0.4);
+    transition: transform 0.25s ease;
+}
+.wa-float:hover { transform: scale(1.08); }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { order: -1; max-width: 420px; margin: 0 auto; }
+    .cat-bento { height: auto; grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .cat-card { grid-row: span 1; height: 300px; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); }
+    .story-grid { grid-template-columns: 1fr; }
+    .story-quote { position: static; margin-top: 1.5rem; max-width: 100%; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .burger { display: flex; }
+    .hero { padding: 7.5rem 0 3.5rem; }
+    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
+    .cat-bento { grid-template-columns: 1fr; }
+    .product-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .gallery-item { flex: 0 0 78vw; }
+}
+@media (max-width: 480px) {
+    .wrap { padding: 0 1.25rem; }
+    .hero-badge { left: 0; bottom: -1.3rem; padding: 0.85rem 1rem; }
+    .products-head { flex-direction: column; align-items: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+    <div class="wrap nav-inner">
+        <a href="#top" class="logo">Kriya<span> House</span></a>
+        <nav class="nav-links">
+            <a href="#kategori">Kategori</a>
+            <a href="#produk">Produk</a>
+            <a href="#cerita">Cerita Kami</a>
+            <a href="#galeri">Galeri</a>
+            <a href="#faq">FAQ</a>
+            <a href="#kontak" class="nav-cta">Hubungi Kami</a>
+        </nav>
+        <button class="burger" id="burger" aria-label="Buka menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#kategori">Kategori</a>
+    <a href="#produk">Produk</a>
+    <a href="#cerita">Cerita Kami</a>
+    <a href="#galeri">Galeri</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontak" class="nav-cta">Hubungi Kami</a>
+</div>
+
+<section class="hero" id="top">
+    <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+            <div class="eyebrow">Kurasi Kriya Lokal</div>
+            <h1 class="hero-title">Setiap Karya Punya <em>Cerita</em> untuk Dibawa Pulang</h1>
+            <p class="hero-desc">Kriya House mengumpulkan hasil tangan pengrajin lokal terbaik, dari keramik, anyaman, hingga wewangian, untuk melengkapi rumah dan gaya Anda dengan sentuhan yang personal.</p>
+            <div class="hero-actions">
+                <a href="#produk" class="btn-primary">
+                    Jelajahi Produk
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#cerita" class="btn-ghost">Kenali Kriya House</a>
+            </div>
+            <div class="hero-stats">
+                <div>
+                    <div class="hero-stat-num"><span data-count="120">0</span>+</div>
+                    <div class="hero-stat-label">Produk Kurasi</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num"><span data-count="35">0</span>+</div>
+                    <div class="hero-stat-label">Pengrajin Mitra</div>
+                </div>
+                <div>
+                    <div class="hero-stat-num"><span data-count="6">0</span></div>
+                    <div class="hero-stat-label">Tahun Berkarya</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual reveal" style="transition-delay:0.15s;">
+            <div class="hero-frame"></div>
+            <div class="hero-img-box">
+                <img src="https://images.unsplash.com/photo-1667746213225-431db3ed8d13?auto=format&fit=crop&w=800&q=80" alt="Etalase produk kriya Kriya House" loading="eager">
+            </div>
+            <div class="hero-badge">
+                <div class="hero-badge-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
+                </div>
+                <div>
+                    <div class="hero-badge-title">Kemasan Siap Hadiah</div>
+                    <div class="hero-badge-sub">Setiap pesanan dibungkus rapi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="marquee-strip">
+    <div class="marquee-track">
+        <span>Home & Living</span><span>Fashion & Aksesoris</span><span>Self Care & Fragrance</span><span>Gift & Stationery</span>
+        <span>Home & Living</span><span>Fashion & Aksesoris</span><span>Self Care & Fragrance</span><span>Gift & Stationery</span>
+    </div>
+</div>
+
+<section class="categories" id="kategori">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div class="eyebrow">Kategori</div>
+            <h2 class="section-title">Empat Dunia, Satu <em>Kurasi</em></h2>
+            <p class="section-desc">Dari pernak-pernik rumah hingga hadiah berkesan, semua kami pilih dengan standar yang sama, buatan tangan dan bermakna.</p>
+        </div>
+        <div class="cat-bento reveal">
+            <a href="#produk" class="cat-card">
+                <img src="https://images.unsplash.com/photo-1597696929736-6d13bed8e6a8?auto=format&fit=crop&w=800&q=80" alt="Kategori Home and Living" loading="lazy">
+                <div class="cat-overlay">
+                    <div class="cat-count">Home & Living</div>
+                    <div class="cat-name">Rumah dan Ruang</div>
+                    <p class="cat-desc">Vas, keramik, dan pernak-pernik rumah dari tangan pengrajin lokal.</p>
+                </div>
+            </a>
+            <a href="#produk" class="cat-card small">
+                <img src="https://images.unsplash.com/photo-1524679813234-66a389fe1a42?auto=format&fit=crop&w=700&q=80" alt="Kategori Fashion dan Aksesoris" loading="lazy">
+                <div class="cat-overlay">
+                    <div class="cat-count">Fashion & Aksesoris</div>
+                    <div class="cat-name">Gaya Sehari-hari</div>
+                    <p class="cat-desc">Tas anyam dan syal bergaya etnik modern.</p>
+                </div>
+            </a>
+            <a href="#produk" class="cat-card small">
+                <img src="https://images.unsplash.com/photo-1612293905607-b003de9e54fb?auto=format&fit=crop&w=700&q=80" alt="Kategori Self Care dan Fragrance" loading="lazy">
+                <div class="cat-overlay">
+                    <div class="cat-count">Self Care & Fragrance</div>
+                    <div class="cat-name">Waktu untuk Diri</div>
+                    <p class="cat-desc">Lilin aromaterapi dengan sentuhan alami.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="products" id="produk">
+    <div class="wrap">
+        <div class="products-head reveal">
+            <div class="section-head" style="margin-bottom:0;">
+                <div class="eyebrow">Produk Unggulan</div>
+                <h2 class="section-title">Pilihan yang Paling <em>Dicari</em></h2>
+            </div>
+            <a href="#kontak" class="btn-ghost">Tanya Ketersediaan</a>
+        </div>
+        <div class="product-grid">
+            <div class="product-card reveal">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1631125915902-d8abe9225ff2?auto=format&fit=crop&w=600&q=80" alt="Vas Keramik Artisan" loading="lazy">
+                    <div class="product-tag">Best Seller</div>
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Home & Living</div>
+                    <div class="product-name">Vas Keramik Artisan</div>
+                    <p class="product-desc">Dibentuk tangan dengan glasir matte, tampil menenangkan di meja atau rak buku.</p>
+                    <div class="product-foot">
+                        <span class="product-price">Rp 245.000</span>
+                        <span class="product-cart"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card reveal" style="transition-delay:0.08s;">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1620762727504-81d357f4d022?auto=format&fit=crop&w=600&q=80" alt="Tas Rotan Anyam Bali" loading="lazy">
+                    <div class="product-tag">Favorit</div>
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Fashion & Aksesoris</div>
+                    <div class="product-name">Tas Rotan Anyam Bali</div>
+                    <p class="product-desc">Anyaman rapat khas pengrajin Bali, kuat dipakai harian maupun ke acara santai.</p>
+                    <div class="product-foot">
+                        <span class="product-price">Rp 320.000</span>
+                        <span class="product-cart"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card reveal" style="transition-delay:0.16s;">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1643122966676-29e8597257f7?auto=format&fit=crop&w=600&q=80" alt="Lilin Aromaterapi Kayu Cendana" loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Self Care & Fragrance</div>
+                    <div class="product-name">Lilin Aromaterapi Kayu Cendana</div>
+                    <p class="product-desc">Aroma hangat kayu cendana, dituang dari lilin kedelai dengan waktu bakar panjang.</p>
+                    <div class="product-foot">
+                        <span class="product-price">Rp 95.000</span>
+                        <span class="product-cart"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card reveal">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1784382358820-c6de5921b6f4?auto=format&fit=crop&w=600&q=80" alt="Syal Sutra Motif Nusantara" loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Fashion & Aksesoris</div>
+                    <div class="product-name">Syal Sutra Motif Nusantara</div>
+                    <p class="product-desc">Motif tenun khas Nusantara dicetak lembut di atas kain sutra, ringan dipakai sepanjang hari.</p>
+                    <div class="product-foot">
+                        <span class="product-price">Rp 275.000</span>
+                        <span class="product-cart"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card reveal" style="transition-delay:0.08s;">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1654542645651-5196f4931cd6?auto=format&fit=crop&w=600&q=80" alt="Jurnal Kulit Nabati" loading="lazy">
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Gift & Stationery</div>
+                    <div class="product-name">Jurnal Kulit Nabati</div>
+                    <p class="product-desc">Sampul kulit nabati yang makin indah seiring waktu, cocok untuk mencatat ide dan rencana.</p>
+                    <div class="product-foot">
+                        <span class="product-price">Rp 165.000</span>
+                        <span class="product-cart"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card reveal" style="transition-delay:0.16s;">
+                <div class="product-img">
+                    <img src="https://images.unsplash.com/photo-1610377507996-dcd4f0cfc125?auto=format&fit=crop&w=600&q=80" alt="Hampers Kado Kurasi" loading="lazy">
+                    <div class="product-tag">Cocok untuk Hadiah</div>
+                </div>
+                <div class="product-body">
+                    <div class="product-cat">Gift & Stationery</div>
+                    <div class="product-name">Hampers Kado Kurasi</div>
+                    <p class="product-desc">Kombinasi produk pilihan dalam satu paket, dikemas rapi dan siap dikirim sebagai hadiah.</p>
+                    <div class="product-foot">
+                        <span class="product-price">Rp 450.000</span>
+                        <span class="product-cart"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="story" id="cerita">
+    <div class="wrap story-grid">
+        <div class="story-img-wrap reveal">
+            <img src="https://images.unsplash.com/photo-1769107805412-90d9191d53e9?auto=format&fit=crop&w=800&q=80" alt="Interior toko Kriya House" loading="lazy">
+            <div class="story-quote">
+                <p>"Kurasi bukan soal jumlah, tapi soal kejujuran pada setiap karya."</p>
+            </div>
+        </div>
+        <div class="reveal" style="transition-delay:0.1s;">
+            <div class="eyebrow">Cerita Kami</div>
+            <h2 class="section-title">Lahir dari Kecintaan pada <em>Karya Tangan</em></h2>
+            <p class="section-desc">Kriya House dimulai dari perjalanan berkeliling sentra kriya, dari anyaman di Bali hingga keramik di Yogyakarta, untuk memilih satu per satu produk yang layak mendapat tempat di rumah Anda. Setiap barang yang kami kurasi bukan sekadar dekorasi, melainkan cerita tentang tangan yang membuatnya.</p>
+            <div class="pillars">
+                <div class="pillar">
+                    <div class="pillar-num">01</div>
+                    <div>
+                        <div class="pillar-title">Kurasi Personal</div>
+                        <p class="pillar-text">Setiap produk dipilih langsung oleh tim kami, bukan sekadar mengikuti tren pasar.</p>
+                    </div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">02</div>
+                    <div>
+                        <div class="pillar-title">Kriya Tangan Asli</div>
+                        <p class="pillar-text">Bekerja sama langsung dengan pengrajin di berbagai daerah, bukan produksi massal.</p>
+                    </div>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-num">03</div>
+                    <div>
+                        <div class="pillar-title">Kemasan Premium</div>
+                        <p class="pillar-text">Setiap pesanan dikemas rapi, siap menjadi hadiah tanpa perlu dibungkus ulang.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="gallery" id="galeri">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div class="eyebrow">Galeri Toko</div>
+            <h2 class="section-title">Suasana <em>Kriya House</em></h2>
+            <p class="section-desc">Sekilas suasana toko kami, tempat setiap produk dipajang dengan cerita masing-masing.</p>
+        </div>
+        <div class="gallery-strip reveal">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1630905119003-329447458f85?auto=format&fit=crop&w=600&q=80" alt="Rak busana Kriya House" loading="lazy">
+                <div class="gallery-cap">Sudut Fashion & Aksesoris</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1769107805412-90d9191d53e9?auto=format&fit=crop&w=600&q=80" alt="Sudut display Kriya House" loading="lazy">
+                <div class="gallery-cap">Sudut Home & Living</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1760182200277-fae00dfb149f?auto=format&fit=crop&w=600&q=80" alt="Dinding anyaman Kriya House" loading="lazy">
+                <div class="gallery-cap">Dinding Kriya Anyaman</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1527385352018-3c26dd6c3916?auto=format&fit=crop&w=600&q=80" alt="Tas rotan bordir Kriya House" loading="lazy">
+                <div class="gallery-cap">Koleksi Tas Anyam</div>
+            </div>
+        </div>
+        <div class="gallery-hint">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            Geser untuk melihat lebih banyak
+        </div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="wrap">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Testimoni</div>
+            <h2 class="section-title">Kata Mereka yang Sudah <em>Berbelanja</em></h2>
+        </div>
+        <div class="testi-grid">
+            <div class="testi-card reveal">
+                <div class="testi-mark">&ldquo;</div>
+                <p class="testi-text">Vas keramiknya bahkan lebih indah dari foto. Packing juga rapi sekali, langsung saya kasih ke ibu saya.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">A</div>
+                    <div>
+                        <div class="testi-name">Anin R.</div>
+                        <div class="testi-role">Pelanggan Home & Living</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal" style="transition-delay:0.08s;">
+                <div class="testi-mark">&ldquo;</div>
+                <p class="testi-text">Suka konsepnya, satu tempat tapi setiap barangnya beda cerita dan terasa personal, bukan produk pasaran.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">D</div>
+                    <div>
+                        <div class="testi-name">Damar S.</div>
+                        <div class="testi-role">Pelanggan Fashion & Aksesoris</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal" style="transition-delay:0.16s;">
+                <div class="testi-mark">&ldquo;</div>
+                <p class="testi-text">Hampers dari Kriya House jadi andalan kado kantor akhir tahun kemarin. Semua rekan menanyakan belinya dari mana.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">P</div>
+                    <div>
+                        <div class="testi-name">Prita W.</div>
+                        <div class="testi-role">Pelanggan Gift & Stationery</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq" id="faq">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div class="eyebrow">FAQ</div>
+            <h2 class="section-title">Pertanyaan yang Sering <em>Ditanyakan</em></h2>
+        </div>
+        <div class="faq-list reveal">
+            <div class="faq-item active">
+                <button class="faq-q">
+                    <span>Apakah semua produk benar-benar buatan tangan?</span>
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-a"><p>Ya, seluruh produk yang kami kurasi dibuat oleh pengrajin lokal secara manual, bukan hasil produksi massal pabrik.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Apakah bisa memesan hampers dengan isi custom?</span>
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-a"><p>Bisa. Anda dapat memilih kombinasi produk sendiri untuk hampers, silakan hubungi tim kami melalui form kontak atau WhatsApp untuk diskusi lebih lanjut.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Berapa lama proses pengiriman pesanan?</span>
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-a"><p>Pesanan diproses dalam 1 sampai 2 hari kerja, dan waktu pengiriman menyesuaikan lokasi tujuan setelah paket diserahkan ke jasa kurir.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Bagaimana jika barang rusak saat pengiriman?</span>
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-a"><p>Kami menyediakan garansi untuk kerusakan akibat pengiriman. Kirimkan foto barang dan kemasan dalam 1x24 jam setelah paket diterima untuk proses klaim.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Apakah ada toko fisik yang bisa dikunjungi?</span>
+                    <span class="faq-icon"></span>
+                </button>
+                <div class="faq-a"><p>Ada, Anda bisa mengunjungi butik kami langsung. Jam operasional dan lokasi lengkap tersedia di bagian kontak halaman ini.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="kontak">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div class="eyebrow">Kontak</div>
+            <h2 class="section-title">Mari <em>Berkunjung</em> atau Bertanya</h2>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info-card reveal">
+                <div>
+                    <div class="eyebrow">Kriya House</div>
+                    <div class="ci-title">Kunjungi Butik Kami</div>
+                </div>
+                <div class="ci-row">
+                    <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                    <div>
+                        <div class="ci-label">Alamat</div>
+                        <div class="ci-value">Jl. Kemang Selatan No. 24, Jakarta Selatan</div>
+                    </div>
+                </div>
+                <div class="ci-row">
+                    <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                    <div>
+                        <div class="ci-label">Telepon / WhatsApp</div>
+                        <div class="ci-value">+62 811 2345 678</div>
+                    </div>
+                </div>
+                <div class="ci-row">
+                    <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                    <div>
+                        <div class="ci-label">Jam Operasional</div>
+                        <div class="ci-value">Selasa - Minggu, 10.00 - 19.00 WIB</div>
+                    </div>
+                </div>
+                <div class="ci-row">
+                    <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg></div>
+                    <div>
+                        <div class="ci-label">Email</div>
+                        <div class="ci-value">hello@kriyahouse.id</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-card reveal" style="transition-delay:0.1s;">
+                <form id="contactForm" novalidate>
+                    <div class="form-row">
+                        <div class="field" id="field-name">
+                            <label for="cf-name">Nama Lengkap</label>
+                            <input type="text" id="cf-name" name="name" placeholder="Nama Anda">
+                            <div class="field-error">Nama wajib diisi.</div>
+                        </div>
+                        <div class="field" id="field-phone">
+                            <label for="cf-phone">Nomor WhatsApp</label>
+                            <input type="text" id="cf-phone" name="phone" placeholder="0812xxxxxxx">
+                            <div class="field-error">Masukkan nomor yang valid.</div>
+                        </div>
+                    </div>
+                    <div class="field" id="field-email">
+                        <label for="cf-email">Email</label>
+                        <input type="text" id="cf-email" name="email" placeholder="nama@email.com">
+                        <div class="field-error">Masukkan alamat email yang valid.</div>
+                    </div>
+                    <div class="field" id="field-topic">
+                        <label for="cf-topic">Topik</label>
+                        <select id="cf-topic" name="topic">
+                            <option value="">Pilih topik</option>
+                            <option value="produk">Tanya Ketersediaan Produk</option>
+                            <option value="hampers">Custom Hampers</option>
+                            <option value="kunjungan">Kunjungan Toko</option>
+                            <option value="lainnya">Lainnya</option>
+                        </select>
+                        <div class="field-error">Silakan pilih salah satu topik.</div>
+                    </div>
+                    <div class="field" id="field-message">
+                        <label for="cf-message">Pesan</label>
+                        <textarea id="cf-message" name="message" placeholder="Tulis pertanyaan atau kebutuhan Anda"></textarea>
+                        <div class="field-error">Pesan wajib diisi.</div>
+                    </div>
+                    <button type="submit" class="form-submit">Kirim Pesan</button>
+                    <div class="form-success" id="formSuccess">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6L9 17l-5-5"/></svg>
+                        Terima kasih, pesan Anda sudah kami terima. Tim kami akan segera menghubungi Anda.
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="#top" class="logo">Kriya<span> House</span></a>
+                <p class="footer-desc">Kurasi produk kriya dan kerajinan lokal premium untuk rumah, gaya, dan hadiah bermakna.</p>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Jelajah</div>
+                <a href="#kategori">Kategori</a>
+                <a href="#produk">Produk</a>
+                <a href="#cerita">Cerita Kami</a>
+                <a href="#galeri">Galeri</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Kategori</div>
+                <span>Home & Living</span>
+                <span>Fashion & Aksesoris</span>
+                <span>Self Care & Fragrance</span>
+                <span>Gift & Stationery</span>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Kontak</div>
+                <span>Jl. Kemang Selatan No. 24, Jakarta Selatan</span>
+                <span>+62 811 2345 678</span>
+                <span>hello@kriyahouse.id</span>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Copyright Kriya House. Seluruh hak cipta dilindungi.</span>
+            <a href="../../index.html" class="footer-back">Demo ini dibuat oleh Bagas Aria Sativa</a>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/6281123456780" target="_blank" rel="noopener" class="wa-float" aria-label="Hubungi via WhatsApp">
+    <svg width="27" height="27" viewBox="0 0 24 24" fill="#ffffff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/><path d="M12.04 0C5.398 0 0 5.398 0 12.041c0 2.125.554 4.203 1.606 6.032L0 24l6.063-1.591a12.018 12.018 0 0 0 5.977 1.523h.005c6.642 0 12.04-5.398 12.04-12.041C24.084 5.398 18.686 0 12.04 0zm0 22.006h-.004a9.99 9.99 0 0 1-5.09-1.393l-.365-.217-3.598.944.96-3.507-.238-.36a9.965 9.965 0 0 1-1.53-5.33c0-5.51 4.484-9.994 9.998-9.994 2.67 0 5.178 1.04 7.066 2.93a9.937 9.937 0 0 1 2.93 7.072c-.002 5.51-4.486 9.855-9.13 9.855z"/></svg>
+</a>
+
+<script>
+// Header scroll state
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+});
+
+// Mobile menu
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+    burger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+        burger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+    });
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+revealEls.forEach((el) => revealObserver.observe(el));
+
+// Stat counters
+const countEls = document.querySelectorAll('[data-count]');
+let countStarted = false;
+const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting && !countStarted) {
+            countStarted = true;
+            countEls.forEach((el) => {
+                const target = parseInt(el.getAttribute('data-count'), 10);
+                let current = 0;
+                const step = Math.max(1, Math.round(target / 40));
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) { current = target; clearInterval(timer); }
+                    el.textContent = current;
+                }, 30);
+            });
+        }
+    });
+}, { threshold: 0.4 });
+if (countEls.length) statsObserver.observe(countEls[0].closest('.hero-stats'));
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-a');
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach((other) => {
+            other.classList.remove('active');
+            other.querySelector('.faq-a').style.maxHeight = null;
+        });
+        if (!isActive) {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+    });
+});
+// Initialize the default-open FAQ height
+window.addEventListener('load', () => {
+    const activeAnswer = document.querySelector('.faq-item.active .faq-a');
+    if (activeAnswer) activeAnswer.style.maxHeight = activeAnswer.scrollHeight + 'px';
+});
+
+// Contact form validation (no browser alert)
+const form = document.getElementById('contactForm');
+const formSuccess = document.getElementById('formSuccess');
+
+function setInvalid(fieldId, invalid) {
+    const field = document.getElementById(fieldId);
+    field.classList.toggle('invalid', invalid);
+}
+
+function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+function isValidPhone(value) {
+    return /^[0-9+\s-]{8,16}$/.test(value);
+}
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    formSuccess.classList.remove('show');
+
+    const name = document.getElementById('cf-name').value.trim();
+    const phone = document.getElementById('cf-phone').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const topic = document.getElementById('cf-topic').value;
+    const message = document.getElementById('cf-message').value.trim();
+
+    let valid = true;
+
+    if (!name) { setInvalid('field-name', true); valid = false; } else { setInvalid('field-name', false); }
+    if (!phone || !isValidPhone(phone)) { setInvalid('field-phone', true); valid = false; } else { setInvalid('field-phone', false); }
+    if (!email || !isValidEmail(email)) { setInvalid('field-email', true); valid = false; } else { setInvalid('field-email', false); }
+    if (!topic) { setInvalid('field-topic', true); valid = false; } else { setInvalid('field-topic', false); }
+    if (!message) { setInvalid('field-message', true); valid = false; } else { setInvalid('field-message', false); }
+
+    if (valid) {
+        formSuccess.classList.add('show');
+        form.reset();
+    }
+});
+</script>
+
+</body>
+</html>

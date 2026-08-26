@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rimba Kitchen and Co, restoran modern Indonesia dengan bahan segar lokal, suasana hangat, dan cita rasa autentik yang dikemas kontemporer.">
+    <title>Rimba Kitchen and Co - Rasa Asli, Alam Sejati</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #faf6ee;
+            --cream-2: #f2ead9;
+            --ivory: #fffdf8;
+            --forest: #26402f;
+            --forest-dark: #16241a;
+            --forest-light: rgba(38, 64, 47, 0.08);
+            --terracotta: #c1622d;
+            --terracotta-dark: #9c4c22;
+            --terracotta-light: rgba(193, 98, 45, 0.1);
+            --gold: #b8935a;
+            --dark: #22201b;
+            --muted: #6f6a5f;
+            --border: #e7ddc8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+
+        body {
+            background: var(--cream);
+            color: var(--dark);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+        }
+
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: var(--cream-2); }
+        ::-webkit-scrollbar-thumb { background: var(--terracotta); }
+
+        .max-w { max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+
+        h1, h2, h3, .serif { font-family: 'Fraunces', serif; }
+
+        /* Navbar */
+        #navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            padding: 1.5rem 0;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        #navbar.scrolled {
+            background: rgba(250, 246, 238, 0.94);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(34, 32, 27, 0.06);
+        }
+        .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo {
+            font-family: 'Fraunces', serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            letter-spacing: 0.01em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        #navbar:not(.scrolled) .nav-logo,
+        #navbar:not(.scrolled) .nav-link { color: var(--ivory); }
+        #navbar.scrolled .nav-logo,
+        #navbar.scrolled .nav-link { color: var(--forest-dark); }
+        .nav-logo-mark {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: var(--terracotta);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--ivory);
+            font-size: 0.9rem;
+        }
+        .nav-links { display: flex; align-items: center; gap: 2.25rem; }
+        .nav-link {
+            font-size: 0.86rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: opacity 0.2s ease;
+        }
+        .nav-link:hover { opacity: 0.65; }
+        .nav-cta {
+            padding: 0.65rem 1.4rem;
+            border-radius: 999px;
+            background: var(--terracotta);
+            color: var(--ivory) !important;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        #nav-toggle { display: none; }
+
+        /* Mobile menu */
+        #mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: var(--forest-dark);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+        }
+        #mobile-menu.open { display: flex; }
+        #mobile-menu a {
+            color: var(--ivory);
+            font-family: 'Fraunces', serif;
+            font-size: 1.7rem;
+            font-weight: 600;
+        }
+        #mobile-menu .nav-cta { margin-top: 1rem; }
+        #mobile-close {
+            position: absolute;
+            top: 1.75rem; right: 1.75rem;
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--ivory);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.9rem 1.75rem;
+            border-radius: 999px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+        .btn-primary {
+            background: var(--terracotta);
+            color: var(--ivory);
+            box-shadow: 0 10px 30px rgba(193, 98, 45, 0.35);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(193, 98, 45, 0.45); }
+        .btn-outline {
+            border: 1.5px solid rgba(255,255,255,0.5);
+            color: var(--ivory);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); }
+        .btn-outline-dark {
+            border: 1.5px solid var(--forest);
+            color: var(--forest);
+        }
+        .btn-outline-dark:hover { background: var(--forest-light); }
+
+        /* Hero */
+        #hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding-top: 6rem;
+            color: var(--ivory);
+        }
+        .hero-bg {
+            position: absolute; inset: 0;
+            background-image: linear-gradient(180deg, rgba(22, 36, 26, 0.55) 0%, rgba(22, 36, 26, 0.78) 55%, rgba(22, 36, 26, 0.94) 100%),
+                url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .hero-content { position: relative; z-index: 2; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(6px);
+            font-size: 0.78rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .hero-title {
+            font-family: 'Fraunces', serif;
+            font-weight: 600;
+            font-size: clamp(2.6rem, 7vw, 5.4rem);
+            line-height: 1.03;
+            letter-spacing: -0.01em;
+        }
+        .hero-title em { font-style: italic; color: var(--gold); font-weight: 500; }
+        .hero-title .accent { color: var(--terracotta); }
+        .hero-sub {
+            max-width: 480px;
+            margin-top: 1.5rem;
+            font-size: 1.02rem;
+            line-height: 1.7;
+            color: rgba(255,255,255,0.8);
+        }
+        .hero-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2.25rem; }
+
+        .hero-stats {
+            position: relative; z-index: 2;
+            margin-top: 3.5rem;
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(255,255,255,0.12);
+        }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); }
+        .stat-item { padding: 1.4rem 1rem; text-align: center; border-right: 1px solid rgba(255,255,255,0.12); }
+        .stat-item:last-child { border-right: none; }
+        .stat-number { font-family: 'Fraunces', serif; font-size: 1.9rem; font-weight: 700; line-height: 1; }
+        .stat-label { font-size: 0.74rem; color: rgba(255,255,255,0.55); margin-top: 0.4rem; text-transform: uppercase; letter-spacing: 0.08em; }
+
+        /* Marquee */
+        .marquee-wrap {
+            position: relative; z-index: 2;
+            overflow: hidden;
+            background: var(--terracotta);
+            padding: 0.85rem 0;
+        }
+        .marquee-track {
+            display: flex; gap: 2.5rem; white-space: nowrap;
+            animation: marquee 32s linear infinite;
+            width: max-content;
+        }
+        .marquee-track span { font-family: 'Fraunces', serif; font-style: italic; font-size: 1rem; color: var(--ivory); }
+        .marquee-track .dot { font-style: normal; opacity: 0.6; }
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* Section shared */
+        section { padding: 6.5rem 0; }
+        .section-label {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--terracotta);
+            margin-bottom: 0.9rem;
+        }
+        .section-label::before { content: ''; width: 22px; height: 1.5px; background: var(--terracotta); }
+        .section-title { font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 600; line-height: 1.15; color: var(--forest-dark); }
+        .section-desc { color: var(--muted); margin-top: 1rem; max-width: 480px; line-height: 1.7; }
+        .section-heading-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 3rem; }
+
+        /* Reveal animation */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        .reveal.in { opacity: 1; transform: translateY(0); }
+
+        /* Menu section */
+        #menu { background: var(--ivory); }
+        .menu-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+        .menu-card {
+            background: var(--cream);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .menu-card:hover { transform: translateY(-6px); box-shadow: 0 24px 48px rgba(34,32,27,0.1); }
+        .menu-card-img { height: 210px; overflow: hidden; }
+        .menu-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .menu-card:hover .menu-card-img img { transform: scale(1.07); }
+        .menu-card-body { padding: 1.4rem 1.5rem 1.6rem; }
+        .menu-card-tag { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+        .menu-card-title { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 600; color: var(--forest-dark); }
+        .menu-card-desc { font-size: 0.86rem; color: var(--muted); margin-top: 0.5rem; line-height: 1.6; }
+        .menu-card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 1.1rem; }
+        .menu-card-price { font-family: 'Fraunces', serif; font-weight: 700; color: var(--terracotta); font-size: 1.05rem; }
+
+        /* Gallery */
+        #galeri { background: var(--forest-dark); color: var(--ivory); }
+        #galeri .section-desc { color: rgba(255,255,255,0.6); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+        .gallery-item { border-radius: 16px; overflow: hidden; aspect-ratio: 3/4; }
+        .gallery-item:nth-child(1), .gallery-item:nth-child(4) { aspect-ratio: 3/4.6; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .gallery-item:hover img { transform: scale(1.08); }
+
+        /* Testimoni */
+        .testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.75rem; }
+        .testi-card {
+            background: var(--ivory);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+        .testi-stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 0.1em; margin-bottom: 1rem; }
+        .testi-text { font-size: 0.95rem; line-height: 1.75; color: var(--dark); }
+        .testi-author { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.5rem; }
+        .testi-avatar {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--forest);
+            color: var(--ivory);
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Fraunces', serif; font-weight: 700; font-size: 0.9rem;
+        }
+        .testi-name { font-weight: 600; font-size: 0.92rem; }
+        .testi-role { font-size: 0.78rem; color: var(--muted); }
+
+        /* FAQ */
+        #faq { background: var(--ivory); }
+        .faq-item { border-bottom: 1px solid var(--border); }
+        .faq-q {
+            display: flex; align-items: center; justify-content: space-between;
+            width: 100%;
+            padding: 1.6rem 0;
+            text-align: left;
+            font-family: 'Fraunces', serif;
+            font-size: 1.08rem;
+            font-weight: 600;
+            color: var(--forest-dark);
+        }
+        .faq-icon { width: 22px; height: 22px; flex-shrink: 0; transition: transform 0.3s ease; color: var(--terracotta); }
+        .faq-item.open .faq-icon { transform: rotate(45deg); }
+        .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+        .faq-item.open .faq-a { max-height: 220px; }
+        .faq-a p { padding-bottom: 1.6rem; color: var(--muted); line-height: 1.7; font-size: 0.92rem; max-width: 640px; }
+
+        /* Reservasi */
+        #reservasi { background: var(--forest); color: var(--ivory); }
+        #reservasi .section-label { color: var(--gold); }
+        #reservasi .section-label::before { background: var(--gold); }
+        #reservasi .section-title { color: var(--ivory); }
+        #reservasi .section-desc { color: rgba(255,255,255,0.65); }
+        .reservasi-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-field { margin-bottom: 1rem; }
+        .form-field.full { grid-column: 1 / -1; }
+        .form-field label { display: block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em; margin-bottom: 0.5rem; color: rgba(255,255,255,0.75); }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            border: 1.5px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.06);
+            color: var(--ivory);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.92rem;
+        }
+        .form-field input::placeholder, .form-field textarea::placeholder { color: rgba(255,255,255,0.4); }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+            outline: none; border-color: var(--gold); background: rgba(255,255,255,0.1);
+        }
+        .form-field.error input, .form-field.error select { border-color: #e57272; }
+        .field-error { display: none; font-size: 0.76rem; color: #f2a3a3; margin-top: 0.4rem; }
+        .form-field.error .field-error { display: block; }
+        .form-note { display: none; margin-top: 1rem; padding: 0.9rem 1.1rem; border-radius: 10px; background: rgba(184, 147, 90, 0.18); border: 1px solid rgba(184, 147, 90, 0.4); font-size: 0.86rem; }
+        .form-note.show { display: block; }
+        select option { color: var(--dark); }
+
+        /* Kontak */
+        #kontak { background: var(--cream-2); }
+        .kontak-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; }
+        .kontak-card {
+            background: var(--ivory);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.9rem;
+        }
+        .kontak-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: var(--terracotta-light);
+            color: var(--terracotta);
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .kontak-title { font-family: 'Fraunces', serif; font-weight: 600; font-size: 1.05rem; color: var(--forest-dark); margin-bottom: 0.4rem; }
+        .kontak-text { font-size: 0.88rem; color: var(--muted); line-height: 1.65; }
+
+        /* Footer */
+        footer { background: var(--forest-dark); color: rgba(255,255,255,0.55); padding: 3rem 0 2rem; }
+        .footer-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2rem; padding-bottom: 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .footer-logo { font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.3rem; color: var(--ivory); }
+        .footer-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .footer-links a { font-size: 0.86rem; }
+        .footer-links a:hover { color: var(--ivory); }
+        .footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; font-size: 0.78rem; }
+
+        /* WhatsApp floating button */
+        #wa-float {
+            position: fixed;
+            bottom: 1.75rem; right: 1.75rem;
+            z-index: 900;
+            width: 56px; height: 56px;
+            border-radius: 50%;
+            background: #25D366;
+            color: #fff;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 10px 28px rgba(37, 211, 102, 0.45);
+            transition: transform 0.25s ease;
+        }
+        #wa-float:hover { transform: scale(1.08); }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .menu-grid { grid-template-columns: repeat(2, 1fr); }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .testi-grid { grid-template-columns: 1fr; }
+            .reservasi-wrap { grid-template-columns: 1fr; }
+            .kontak-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            #nav-toggle { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: inherit; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-item:nth-child(2) { border-right: none; }
+            .menu-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            section { padding: 4.5rem 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="max-w nav-inner">
+            <a href="#hero" class="nav-logo">
+                <span class="nav-logo-mark">R</span>
+                Rimba Kitchen &amp; Co.
+            </a>
+            <div class="nav-links">
+                <a href="#menu" class="nav-link">Menu</a>
+                <a href="#galeri" class="nav-link">Suasana</a>
+                <a href="#testimoni" class="nav-link">Testimoni</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#kontak" class="nav-link">Kontak</a>
+                <a href="#reservasi" class="nav-link nav-cta">Reservasi</a>
+            </div>
+            <button id="nav-toggle" aria-label="Buka menu">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+        </div>
+    </nav>
+
+    <div id="mobile-menu" role="dialog" aria-modal="true" aria-label="Menu navigasi">
+        <button id="mobile-close" aria-label="Tutup menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+        <a href="#menu">Menu</a>
+        <a href="#galeri">Suasana</a>
+        <a href="#testimoni">Testimoni</a>
+        <a href="#faq">FAQ</a>
+        <a href="#kontak">Kontak</a>
+        <a href="#reservasi" class="btn btn-primary nav-cta">Reservasi Meja</a>
+    </div>
+
+    <section id="hero">
+        <div class="hero-bg"></div>
+        <div class="max-w hero-content">
+            <div class="hero-badge">Restoran &amp; Kafe Modern - Jakarta Selatan</div>
+            <h1 class="hero-title reveal">
+                Rasa Asli,<br>
+                <em>Alam</em> Sejati.
+            </h1>
+            <p class="hero-sub reveal" style="transition-delay:0.1s;">Kami menyajikan masakan Indonesia kontemporer dari bahan segar lokal, diracik dengan resep turun temurun dan sentuhan modern di setiap piring.</p>
+            <div class="hero-actions reveal" style="transition-delay:0.2s;">
+                <a href="#reservasi" class="btn btn-primary">
+                    Reservasi Meja
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+                <a href="#menu" class="btn btn-outline">Lihat Menu</a>
+            </div>
+        </div>
+
+        <div class="hero-stats">
+            <div class="max-w stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number"><span data-count="12">0</span>+</div>
+                    <div class="stat-label">Tahun Berdiri</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number"><span data-count="48">0</span>+</div>
+                    <div class="stat-label">Menu Andalan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">4.9</div>
+                    <div class="stat-label">Rating Pelanggan</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Hari Buka Penuh</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="marquee-wrap">
+            <div class="marquee-track">
+                <span>Nasi Bakar Rimba</span><span class="dot">&#9670;</span>
+                <span>Sate Rempah Nusantara</span><span class="dot">&#9670;</span>
+                <span>Sambal Matah Segar</span><span class="dot">&#9670;</span>
+                <span>Kopi Susu Gula Aren</span><span class="dot">&#9670;</span>
+                <span>Ikan Bakar Rimba</span><span class="dot">&#9670;</span>
+                <span>Rendang Daging Sapi</span><span class="dot">&#9670;</span>
+                <span>Es Kelapa Kopyor</span><span class="dot">&#9670;</span>
+                <span>Pisang Bakar Karamel</span><span class="dot">&#9670;</span>
+                <span>Nasi Bakar Rimba</span><span class="dot">&#9670;</span>
+                <span>Sate Rempah Nusantara</span><span class="dot">&#9670;</span>
+                <span>Sambal Matah Segar</span><span class="dot">&#9670;</span>
+                <span>Kopi Susu Gula Aren</span><span class="dot">&#9670;</span>
+                <span>Ikan Bakar Rimba</span><span class="dot">&#9670;</span>
+                <span>Rendang Daging Sapi</span><span class="dot">&#9670;</span>
+                <span>Es Kelapa Kopyor</span><span class="dot">&#9670;</span>
+                <span>Pisang Bakar Karamel</span><span class="dot">&#9670;</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="max-w">
+            <div class="section-heading-row reveal">
+                <div>
+                    <div class="section-label">Menu Andalan</div>
+                    <h2 class="section-title">Hidangan Favorit<br>Pelanggan Kami</h2>
+                </div>
+                <p class="section-desc">Setiap hidangan diracik dari bumbu rempah asli Nusantara dan bahan segar yang dipilih setiap pagi.</p>
+            </div>
+
+            <div class="menu-grid">
+                <div class="menu-card reveal" style="transition-delay:0.05s;">
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1666239308345-c4c12ef3e177?auto=format&fit=crop&w=500&q=80" alt="Nasi Bakar Rimba" loading="lazy"></div>
+                    <div class="menu-card-body">
+                        <div class="menu-card-tag">Signature</div>
+                        <div class="menu-card-title">Nasi Bakar Rimba</div>
+                        <p class="menu-card-desc">Nasi bakar daun pisang dengan suwiran ayam rempah dan sambal ijo.</p>
+                        <div class="menu-card-foot">
+                            <span class="menu-card-price">Rp 45.000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card reveal" style="transition-delay:0.1s;">
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1751212352288-d5811798804c?auto=format&fit=crop&w=500&q=80" alt="Sate Rempah Nusantara" loading="lazy"></div>
+                    <div class="menu-card-body">
+                        <div class="menu-card-tag">Best Seller</div>
+                        <div class="menu-card-title">Sate Rempah Nusantara</div>
+                        <p class="menu-card-desc">Sate ayam bumbu rempah pilihan, dibakar di atas arang kayu.</p>
+                        <div class="menu-card-foot">
+                            <span class="menu-card-price">Rp 38.000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card reveal" style="transition-delay:0.15s;">
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1600175074394-f2f4c500f7ea?auto=format&fit=crop&w=500&q=80" alt="Ikan Bakar Sambal Matah" loading="lazy"></div>
+                    <div class="menu-card-body">
+                        <div class="menu-card-tag">Signature</div>
+                        <div class="menu-card-title">Ikan Bakar Sambal Matah</div>
+                        <p class="menu-card-desc">Ikan segar dibakar sempurna, disajikan dengan sambal matah khas Bali.</p>
+                        <div class="menu-card-foot">
+                            <span class="menu-card-price">Rp 65.000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card reveal" style="transition-delay:0.2s;">
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1606143704849-eb181ba1543a?auto=format&fit=crop&w=500&q=80" alt="Rendang Daging Sapi" loading="lazy"></div>
+                    <div class="menu-card-body">
+                        <div class="menu-card-tag">Signature</div>
+                        <div class="menu-card-title">Rendang Daging Sapi</div>
+                        <p class="menu-card-desc">Daging sapi empuk dimasak berjam-jam dalam santan dan rempah pilihan, gaya rendang khas Minang.</p>
+                        <div class="menu-card-foot">
+                            <span class="menu-card-price">Rp 55.000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card reveal" style="transition-delay:0.25s;">
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1561962880-6001fa04d2c1?auto=format&fit=crop&w=500&q=80" alt="Es Kelapa Kopyor Gula Aren" loading="lazy"></div>
+                    <div class="menu-card-body">
+                        <div class="menu-card-tag">Minuman</div>
+                        <div class="menu-card-title">Es Kelapa Kopyor Gula Aren</div>
+                        <p class="menu-card-desc">Kelapa muda segar dengan gula aren asli dan sedikit susu.</p>
+                        <div class="menu-card-foot">
+                            <span class="menu-card-price">Rp 28.000</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card reveal" style="transition-delay:0.3s;">
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" alt="Kopi Susu Gula Aren" loading="lazy"></div>
+                    <div class="menu-card-body">
+                        <div class="menu-card-tag">Minuman</div>
+                        <div class="menu-card-title">Kopi Susu Gula Aren</div>
+                        <p class="menu-card-desc">Kopi robusta lokal, susu segar, dan gula aren racikan sendiri.</p>
+                        <div class="menu-card-foot">
+                            <span class="menu-card-price">Rp 25.000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="galeri">
+        <div class="max-w">
+            <div class="section-heading-row reveal">
+                <div>
+                    <div class="section-label">Suasana Kami</div>
+                    <h2 class="section-title">Hangat, Asri,<br>dan Bersahabat</h2>
+                </div>
+                <p class="section-desc">Ruang makan indoor dan outdoor dengan sentuhan kayu dan tanaman hijau, cocok untuk santai maupun acara khusus.</p>
+            </div>
+            <div class="gallery-grid">
+                <div class="gallery-item reveal" style="transition-delay:0.05s;"><img src="https://images.unsplash.com/photo-1622140739492-f82f386260b5?auto=format&fit=crop&w=500&q=80" alt="Suasana ruang makan Rimba Kitchen" loading="lazy"></div>
+                <div class="gallery-item reveal" style="transition-delay:0.1s;"><img src="https://images.unsplash.com/photo-1558473399-6773c890474c?auto=format&fit=crop&w=500&q=80" alt="Meja outdoor Rimba Kitchen" loading="lazy"></div>
+                <div class="gallery-item reveal" style="transition-delay:0.15s;"><img src="https://images.unsplash.com/photo-1770991966683-472a770d0ebf?auto=format&fit=crop&w=500&q=80" alt="Sudut kopi Rimba Kitchen" loading="lazy"></div>
+                <div class="gallery-item reveal" style="transition-delay:0.2s;"><img src="https://images.unsplash.com/photo-1667388968964-4aa652df0a9b?auto=format&fit=crop&w=500&q=80" alt="Interior Rimba Kitchen" loading="lazy"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimoni">
+        <div class="max-w">
+            <div class="reveal" style="text-align:center;margin-bottom:3rem;">
+                <div class="section-label" style="justify-content:center;">Testimoni</div>
+                <h2 class="section-title">Kata Mereka<br>Tentang Kami</h2>
+            </div>
+            <div class="testi-grid">
+                <div class="testi-card reveal" style="transition-delay:0.05s;">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">Sambal matahnya juara, ikan bakarnya segar banget. Suasananya juga adem buat kerja sambil makan siang.</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">DP</div>
+                        <div>
+                            <div class="testi-name">Dewi Puspita</div>
+                            <div class="testi-role">Pelanggan Tetap</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal" style="transition-delay:0.1s;">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">Sering pesan untuk acara kantor, rasanya konsisten dan pelayanannya ramah. Anak-anak juga suka nasi bakarnya.</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">AR</div>
+                        <div>
+                            <div class="testi-name">Andra Ramadhan</div>
+                            <div class="testi-role">Klien Korporat</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card reveal" style="transition-delay:0.15s;">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">Tempat favorit untuk kumpul keluarga. Kopi susu gula arennya bikin nagih dan harganya masih masuk akal untuk kualitas segini.</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">SN</div>
+                        <div>
+                            <div class="testi-name">Siti Nuraini</div>
+                            <div class="testi-role">Food Blogger</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="max-w">
+            <div class="reveal" style="margin-bottom:2.5rem;">
+                <div class="section-label">FAQ</div>
+                <h2 class="section-title">Pertanyaan yang<br>Sering Ditanyakan</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item reveal">
+                    <button class="faq-q" type="button">
+                        Jam berapa Rimba Kitchen buka?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                    <div class="faq-a"><p>Kami buka setiap hari pukul 10.00 sampai 22.00 WIB, termasuk hari libur nasional.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q" type="button">
+                        Apakah perlu reservasi sebelum datang?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                    <div class="faq-a"><p>Untuk kunjungan biasa tidak wajib, tapi untuk rombongan di atas 6 orang atau jam makan siang akhir pekan kami sarankan reservasi lewat form di bawah atau WhatsApp.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q" type="button">
+                        Apakah tersedia menu vegetarian?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                    <div class="faq-a"><p>Tersedia beberapa pilihan menu vegetarian seperti sayur asem, tanya staf kami untuk pilihan lengkapnya.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q" type="button">
+                        Apakah menerima pesanan catering atau acara privat?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                    <div class="faq-a"><p>Kami menerima pesanan catering untuk acara kantor maupun keluarga, serta penyewaan ruang untuk acara privat dengan kapasitas hingga 40 orang.</p></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-q" type="button">
+                        Apakah ada layanan delivery?
+                        <svg class="faq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                    <div class="faq-a"><p>Ada, pesanan bisa dilakukan lewat WhatsApp atau aplikasi pesan antar favorit Anda dengan area jangkauan sekitar 8 km dari lokasi.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="reservasi">
+        <div class="max-w">
+            <div class="reservasi-wrap">
+                <div class="reveal">
+                    <div class="section-label">Reservasi</div>
+                    <h2 class="section-title">Amankan Meja<br>Favorit Anda</h2>
+                    <p class="section-desc">Isi form di samping dan tim kami akan menghubungi Anda untuk konfirmasi dalam waktu satu jam pada jam operasional.</p>
+                </div>
+                <form id="reservasi-form" class="reveal" style="transition-delay:0.1s;" novalidate>
+                    <div class="form-grid">
+                        <div class="form-field" data-field="nama">
+                            <label for="f-nama">Nama Lengkap</label>
+                            <input type="text" id="f-nama" placeholder="Nama Anda">
+                            <div class="field-error">Nama wajib diisi.</div>
+                        </div>
+                        <div class="form-field" data-field="telepon">
+                            <label for="f-telepon">Nomor WhatsApp</label>
+                            <input type="tel" id="f-telepon" placeholder="08xxxxxxxxxx">
+                            <div class="field-error">Nomor WhatsApp wajib diisi.</div>
+                        </div>
+                        <div class="form-field" data-field="tanggal">
+                            <label for="f-tanggal">Tanggal</label>
+                            <input type="date" id="f-tanggal">
+                            <div class="field-error">Pilih tanggal reservasi.</div>
+                        </div>
+                        <div class="form-field" data-field="tamu">
+                            <label for="f-tamu">Jumlah Tamu</label>
+                            <select id="f-tamu">
+                                <option value="">Pilih jumlah</option>
+                                <option>1-2 orang</option>
+                                <option>3-4 orang</option>
+                                <option>5-8 orang</option>
+                                <option>Lebih dari 8 orang</option>
+                            </select>
+                            <div class="field-error">Pilih jumlah tamu.</div>
+                        </div>
+                        <div class="form-field full" data-field="catatan">
+                            <label for="f-catatan">Catatan Tambahan (opsional)</label>
+                            <textarea id="f-catatan" rows="3" placeholder="Contoh: meja outdoor, alergi tertentu, atau kebutuhan khusus lainnya"></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Kirim Reservasi</button>
+                    <div class="form-note" id="form-note">Terima kasih, permintaan reservasi Anda sudah kami terima. Tim kami akan menghubungi via WhatsApp untuk konfirmasi.</div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <section id="kontak">
+        <div class="max-w">
+            <div class="reveal" style="margin-bottom:2.75rem;">
+                <div class="section-label">Kontak &amp; Lokasi</div>
+                <h2 class="section-title">Kunjungi Kami</h2>
+            </div>
+            <div class="kontak-grid">
+                <div class="kontak-card reveal">
+                    <div class="kontak-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                    </div>
+                    <div class="kontak-title">Alamat</div>
+                    <p class="kontak-text">Jl. Kemang Raya No. 88, Kemang, Jakarta Selatan, DKI Jakarta 12730</p>
+                </div>
+                <div class="kontak-card reveal" style="transition-delay:0.05s;">
+                    <div class="kontak-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+                    </div>
+                    <div class="kontak-title">Jam Operasional</div>
+                    <p class="kontak-text">Setiap hari, 10.00 sampai 22.00 WIB<br>Termasuk hari libur nasional</p>
+                </div>
+                <div class="kontak-card reveal" style="transition-delay:0.1s;">
+                    <div class="kontak-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                    <div class="kontak-title">Hubungi Kami</div>
+                    <p class="kontak-text">WhatsApp: 0812-9900-1122<br>Email: halo@rimbakitchen.id</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="max-w">
+            <div class="footer-top">
+                <div class="footer-logo">Rimba Kitchen &amp; Co.</div>
+                <div class="footer-links">
+                    <a href="#menu">Menu</a>
+                    <a href="#galeri">Suasana</a>
+                    <a href="#testimoni">Testimoni</a>
+                    <a href="#faq">FAQ</a>
+                    <a href="#kontak">Kontak</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>Copyright Rimba Kitchen and Co. Seluruh hak cipta dilindungi.</span>
+                <span>Demo project by <a href="https://bagasaria93.github.io" style="color:rgba(255,255,255,0.75);">Bagas Aria Sativa</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <a id="wa-float" href="https://wa.me/6281299001122" target="_blank" rel="noopener" aria-label="Hubungi via WhatsApp">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.44 9.9-9.9 0-2.64-1.03-5.13-2.9-7a9.82 9.82 0 0 0-6.99-2.94zm5.8 14.14c-.24.68-1.4 1.3-1.94 1.38-.5.08-1.12.11-1.8-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.79-4.17-4.94-4.36-.14-.2-1.18-1.57-1.18-2.99 0-1.42.75-2.12 1.01-2.41.27-.29.58-.36.78-.36l.56.01c.18 0 .42-.07.65.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.1.19-.15.31-.3.48-.15.17-.31.38-.44.51-.15.14-.3.3-.13.6.17.29.76 1.25 1.63 2.02 1.12.99 2.06 1.3 2.36 1.45.3.15.47.12.65-.08.18-.19.75-.87.95-1.17.2-.29.4-.24.67-.14.28.1 1.75.82 2.05.97.3.15.5.22.57.35.07.13.07.75-.17 1.43z"/></svg>
+    </a>
+
+    <script>
+        const navbar = document.getElementById('navbar');
+        function updateNavbarStyle() {
+            const menuOpen = document.getElementById('mobile-menu').classList.contains('open');
+            if (window.scrollY > 40 || menuOpen) { navbar.classList.add('scrolled'); }
+            else { navbar.classList.remove('scrolled'); }
+        }
+        window.addEventListener('scroll', updateNavbarStyle);
+
+        document.getElementById('nav-toggle').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.add('open');
+            updateNavbarStyle();
+        });
+        document.getElementById('mobile-close').addEventListener('click', function () {
+            document.getElementById('mobile-menu').classList.remove('open');
+            updateNavbarStyle();
+        });
+        document.getElementById('mobile-menu').addEventListener('click', function (e) {
+            if (e.target.tagName === 'A') {
+                document.getElementById('mobile-menu').classList.remove('open');
+                updateNavbarStyle();
+            }
+        });
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+        const countEls = document.querySelectorAll('[data-count]');
+        let countStarted = false;
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting && !countStarted) {
+                    countStarted = true;
+                    countEls.forEach((el) => {
+                        const target = parseInt(el.getAttribute('data-count'), 10);
+                        let current = 0;
+                        const step = Math.max(1, Math.round(target / 40));
+                        const timer = setInterval(() => {
+                            current += step;
+                            if (current >= target) { current = target; clearInterval(timer); }
+                            el.textContent = current;
+                        }, 30);
+                    });
+                }
+            });
+        }, { threshold: 0.4 });
+        const statsSection = document.querySelector('.hero-stats');
+        if (statsSection) { statsObserver.observe(statsSection); }
+
+        document.querySelectorAll('.faq-q').forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const item = btn.closest('.faq-item');
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item.open').forEach((openItem) => openItem.classList.remove('open'));
+                if (!wasOpen) { item.classList.add('open'); }
+            });
+        });
+
+        const form = document.getElementById('reservasi-form');
+        const requiredFields = ['nama', 'telepon', 'tanggal', 'tamu'];
+        function clearError(e) {
+            const wrap = e.target.closest('.form-field');
+            if (wrap) { wrap.classList.remove('error'); }
+        }
+        form.querySelectorAll('input, select, textarea').forEach((el) => {
+            el.addEventListener('input', clearError);
+            el.addEventListener('change', clearError);
+        });
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            let valid = true;
+            requiredFields.forEach((name) => {
+                const wrap = form.querySelector('[data-field="' + name + '"]');
+                const input = wrap.querySelector('input, select');
+                if (!input.value.trim()) {
+                    wrap.classList.add('error');
+                    valid = false;
+                } else {
+                    wrap.classList.remove('error');
+                }
+            });
+            const note = document.getElementById('form-note');
+            if (valid) {
+                note.classList.add('show');
+                form.reset();
+                setTimeout(() => note.classList.remove('show'), 6000);
+            } else {
+                note.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>

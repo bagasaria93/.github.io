@@ -1,5 +1,67 @@
 # Changelog
 
+## [2026-08-26]
+
+### Kriya House - new Company Profile demo, Retail and Toko
+
+**Added**
+- Demo 03 Kriya House (`demo/kriya-house/`), a fictional retail company profile for a curated local craft and home decor store, covering Home and Living, Fashion and Aksesoris, Self Care and Fragrance, and Gift and Stationery
+  - Sections: hero with scroll triggered stat counters, marquee of category names, bento style category grid, 6 item featured product grid, brand story with three value pillars, horizontal scroll store gallery, testimonials, FAQ accordion, contact section with location and hours plus inline validated contact form, footer, WhatsApp floating button
+  - Uses a light cream, rose, and ink color palette with gold accents, Cormorant Garamond and Manrope fonts, deliberately different from ForgeX (dark gold and black) and Rimba Kitchen (forest and terracotta) so each demo feels distinct
+  - Self contained HTML, CSS, and JS, hand written CSS with no Tailwind dependency
+  - Every product and gallery photo was opened individually on Unsplash and checked for a free license (not Unsplash Plus) and for no visible real brand names or logos before use
+  - Verified HTML tag balance and zero em or en dash after the build
+  - `preview.jpg` is a real browser screenshot of the live hero (captured via the local Laragon server), not a placeholder
+
+### Company Profile Hub Update - `demo/company-profiles/index.html`
+
+**Changed**
+- Added a new hub card linking to Kriya House, industry label Retail and Toko, positioned after the Rimba Kitchen card
+- Updated the "more industries in progress" note to remove Retail from the list since it is now live, leaving Beauty, Clinic, and more
+
+### Portfolio Update - `index.html`
+
+**Changed**
+- Company Profile project card description updated to mention Retail alongside the existing Gym and Fitness, and Restaurant and Cafe industries
+
+### Company Profile Hub - new picker page
+
+**Added**
+- New hub page `demo/company-profiles/` (plural, separate from ForgeX's own `demo/company-profile/` folder), a picker page listing every Company Profile demo by industry. Visitors land here first, then choose which industry demo to open
+- Demo 02 Rimba Kitchen & Co. (`demo/rimba-kitchen/`), a fictional modern Indonesian restaurant and cafe company profile landing page
+  - Sections: hero with scroll triggered stat counters, marquee, 6 item signature menu grid, ambience gallery, testimonials, FAQ accordion, reservation form with inline validation, contact and location, footer
+  - Self contained HTML, CSS, and JS, hand written CSS with no Tailwind dependency, Google Fonts Fraunces and Outfit
+  - Fully responsive on mobile, tablet, and desktop, verified with Playwright at desktop and mobile viewports plus interaction tests for the FAQ accordion, mobile menu, and form validation
+  - `preview.jpg` is a real browser screenshot of the live hero (captured via the local Laragon server), not a placeholder
+
+### Portfolio Restructure - `index.html`
+
+**Changed**
+- The ForgeX card in the Projects grid was replaced by a single "Company Profile" card, linking to the new `demo/company-profiles/` hub instead of straight to ForgeX. This keeps the whole thing inside the existing Projects section and grid, no separate section was added
+- Card copy: title "Company Profile", subtitle "Multi-Industry Landing Page Demos", explains it currently covers Gym and Fitness plus Restaurant and Cafe
+- Projects grid stays at 17 cards total (01 to 17), same count as before, card 01 is now the Company Profile hub card and the rest shifted down by one number, no other card content changed
+- `assets/css/style.css` had a scoped rule added for a separate `#company-profile` section during an earlier draft of this change, then removed again once the section was folded back into Projects
+- `demo/company-profiles/preview.jpg` also replaced with a real screenshot of the hub page hero, same reasoning as above
+
+### Rimba Kitchen Image Fix - `demo/rimba-kitchen/index.html`
+
+**Changed**
+- All 6 menu item photos were mismatched to their dish names (for example a burger photo labeled as grilled fish). Replaced all 6 with visually accurate photos matching each dish: Nasi Bakar Rimba, Sate Rempah Nusantara, Ikan Bakar Sambal Matah, Rendang Daun Singkong, Es Kelapa Kopyor Gula Aren, Kopi Susu Gula Aren
+- The 4 ambience gallery photos had the same issue (for example a pancake stack captioned as an outdoor table). Replaced all 4 with photos that actually match their captions: dining room, outdoor table, coffee corner, interior
+- Every replacement photo was opened and visually checked on Unsplash before use, not just checked for a valid URL
+- Verified HTML tag balance and zero em or en dash after the edit
+
+### Rendang Daging Sapi - `demo/rimba-kitchen/index.html`
+
+**Changed**
+- Renamed the menu item "Rendang Daun Singkong" to "Rendang Daging Sapi" per Bagas's request, and swapped in a photo he picked directly on Unsplash showing shredded beef in thick spiced gravy
+- Category tag changed from Vegetarian to Signature since the dish is no longer vegetarian
+- Description rewritten for the beef version, still crediting the Minang rendang style
+- Price adjusted from Rp 32.000 to Rp 55.000 to sit correctly among the other signature mains
+- The FAQ answer that listed Rendang Daun Singkong as a vegetarian option was corrected so it no longer references this dish
+- Renamed in both marquee loops and the image alt text as well, no leftover references to the old name
+- Verified HTML tag balance and zero em or en dash after the edit
+
 ## [2026-05-28]
 
 ### Portfolio Restructure — `index.html`
