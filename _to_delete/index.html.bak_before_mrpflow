@@ -353,7 +353,6 @@
                         <span class="skill-tag">Anthropic API</span>
                         <span class="skill-tag">WhatsApp API</span>
                         <span class="skill-tag">Accurate API</span>
-                        <span class="skill-tag">Drizzle ORM</span>
                     </div>
                 </div>
 
@@ -367,7 +366,6 @@
                         <span class="skill-tag">PostgreSQL</span>
                         <span class="skill-tag">Database Design</span>
                         <span class="skill-tag">Query Optimization</span>
-                        <span class="skill-tag">Neon (Serverless Postgres)</span>
                     </div>
                 </div>
 
@@ -967,27 +965,6 @@
                     </a>
                 </div>
 
-
-                <div class="project-card">
-                    <div class="project-card-top-line"></div>
-                    <div class="project-number">17</div>
-                    <div class="card-preview-wrap"><img src="demo/mrp-flow/preview.jpg" alt="Preview MRP Flow" loading="lazy"></div>
-                    <h3 class="project-title">MRP Flow</h3>
-                    <div class="project-subtitle">Multi-Level BOM & MRP Explosion System</div>
-                    <p class="project-desc">Material requirements planning module for PT Sentosa Manufaktur: multi-level bill of materials, MRP explosion with stock netting, auto-generated purchase requests, and a two-tier Supervisor-to-Manager approval workflow. A real full-stack app with a live database, not a static mockup.</p>
-                    <div class="project-tags">
-                        <span class="project-tag">Next.js</span>
-                        <span class="project-tag">TypeScript</span>
-                        <span class="project-tag">React</span>
-                        <span class="project-tag">Tailwind CSS</span>
-                        <span class="project-tag">Drizzle ORM</span>
-                        <span class="project-tag">Neon Postgres</span>
-                    </div>
-                    <a href="https://bagasaria-mrp-flow.vercel.app/" target="_blank" rel="noopener" class="project-link">
-                        <span>View Demo</span>
-                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
-                    </a>
-                </div>
             </div>
         </div>
     </section>
