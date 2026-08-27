@@ -1,5 +1,15 @@
 # Changelog
 
+### Company profile hub page - grid layout changed to 4 columns
+
+**Added**
+- Changed the hub page's demo grid from a 2 column by 4 row layout to a 4 column by 2 row layout, at Bagas's request, so all eight demo cards are visible within two rows on desktop
+- Widened the grid section's container from the shared 1180px wrap to a new 1560px wide wrap, used only for this section, so each card keeps enough room for its preview image, title, and description
+- Reduced card body padding, title font size, description font size, and description line height slightly to keep the narrower cards feeling balanced rather than cramped
+- Shortened all eight card descriptions to one focused sentence highlighting each demo's standout interactive mechanic, instead of the longer multi clause descriptions used before
+- Added a new tablet breakpoint at 1200px that drops the grid to 2 columns, keeping the existing 768px breakpoint that drops it to 1 column for mobile
+- Verified HTML tag balance and zero em or en dash on the hub page after all edits, and visually confirmed the new 4 column layout renders correctly in the browser
+
 ### Cendekia Prima - new demo, eighth and final entry completing all seven Tier 1 industries
 
 **Added**
