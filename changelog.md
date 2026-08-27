@@ -1,6 +1,197 @@
 # Changelog
 
+### Cendekia Prima - new demo, eighth and final entry completing all seven Tier 1 industries
+
+**Added**
+- New company profile demo for the Kursus and Bimbel industry, the seventh and last of the Tier 1 industries Bagas listed, built after Bagas replied lanjut giving explicit permission to move on from Torsi Garage
+- Business identity: Cendekia Prima, a tutoring center covering SD, SMP, SMA, and UTBK exam prep, positioned around structured modules, small class sizes, and regular try outs to track student progress
+- Palette and fonts chosen to stay distinct from all seven prior demos: indigo and coral over a cream background, paired with Baloo 2 and Nunito Sans, a rounded friendly display and a clean humanist body pairing not used anywhere else in the project
+- Hero includes an animated stats row, years established, active students, and experienced tutors, counting up on scroll, plus a floating try out rutin highlight card over the hero photo
+- New interactive mechanic not present in any other demo: a four option Jenjang tab switcher, SD, SMP, SMA, and UTBK, in the Program dan Harga section that swaps the entire program and pricing grid per jenjang, deliberately shaped as discrete pill tabs rather than the binary toggle used in Torsi Garage to keep the interaction pattern distinct
+- Each jenjang panel carries three program cards with one featured program, covering all four jenjang with real pricing content for every tier
+- Four card Keunggulan grid, small classes, structured modules, regular try outs, and parent consultations
+- Photo gallery of classroom and study scenes
+- Testimonial grid with parent and student quotes and star ratings
+- Konsultasi Gratis form with fields for full name, WhatsApp number, child's jenjang, school name, subject to consult about, and an optional note, with inline validation per field and no browser alert, tested both the empty submit error state and a full valid submission showing the success message
+- FAQ accordion covering trial classes, class size, curriculum, and scheduling
+- Education photography needed the same branding diligence as prior demos, several strong candidates were rejected for a visible SAMSUNG logo on a laptop lid and clearly legible GAP and Nike logos on students' clothing in an otherwise excellent classroom series, the accepted hero and gallery photos were each zoomed into uniform badges, bags, and printed material before acceptance, full list kept in the demo folder's image sourcing notes, including a favorable find of an Indonesian context photographer whose free photos of a batik uniform exam scene and a hijab wearing teacher fit the brand and locale well
+- New favicon with an indigo gradient square and a CP monogram in coral
+- Hub page updated with a new card for Cendekia Prima, and the More industries in progress note removed entirely since this completes all seven Tier 1 industries
+- Root portfolio page's company profile collection description updated to include Education alongside the other six industries
+- Verified HTML tag balance and zero em or en dash on the new index.html, the new README, the hub page edit, the root page edit, and this changelog entry
+- This closes out the full Tier 1 sequence: Gym and Fitness, Restaurant and Cafe, Electronics and Gadget, Beauty, Health, Contractor, Automotive, and Education, all seven live and cross linked from the hub page
+
+### Torsi Garage - new demo, seventh in the company profile collection
+
+**Added**
+- New company profile demo for the Bengkel and Otomotif industry, the sixth of the seven Tier 1 industries Bagas listed, built after Bagas replied oke lanjut giving explicit permission to move on from Karsa Bangun to Bengkel, with Kursus and Bimbel still not started
+- Business identity: Torsi Garage, a workshop servicing both cars and motorcycles, covering routine service, oil changes, wheel alignment and balancing, electrical and AC repair, and matic or clutch service for motorcycles, positioned around honest pricing and upfront cost estimates
+- Palette and fonts chosen to stay distinct from all six live demos: asphalt black and racing yellow over a concrete gray background, paired with Oswald and Mulish, a condensed industrial display and a clean humanist body pairing not used anywhere else in the project
+- Hero includes an animated stats row, years of experience, vehicles serviced, and certified mechanics, counting up on scroll, plus a floating service warranty highlight card over the hero photo
+- New interactive mechanic not present in any other demo: a Mobil and Motor toggle switch in the Harga Servis section that swaps the entire price list between car and motorcycle services with an animated knob and a fade transition
+- Six service cards each tagged Mobil, Motor, or both, a trust badge strip for original parts, experienced mechanics, service warranty, and transparent estimates
+- Filterable gallery with category buttons, Semua, Mobil, and Motor, tested and confirmed filtering works correctly
+- Testimonial grid with client quotes and star ratings
+- Booking Servis form with fields for full name, WhatsApp number, vehicle type, service type, preferred service date, plate number, and an optional note, with inline validation per field and no browser alert, tested both the empty submit error state and a full valid submission showing the success message
+- FAQ accordion covering booking requirements, service duration, parts authenticity, warranty coverage, and waiting at the workshop
+- Automotive photography carried a higher branding risk than any prior demo, several strong candidates were rejected mid session for a legible engine manufacturer name embossed on a carburetor, a partial motorcycle model badge on a fuel tank, and a clearly readable glove brand wordmark, the accepted hero and gallery photos were each zoomed into grilles, tanks, and printed labels before acceptance, full list kept in the demo folder's image sourcing notes
+- New favicon with an asphalt black gradient square and a TG monogram in racing yellow
+- Hub page updated with a new card for Torsi Garage, and the More industries in progress note updated to only mention Kursus and Bimbel going forward
+- Root portfolio page's company profile collection description updated to include Automotive alongside the other six industries
+- Verified HTML tag balance and zero em or en dash on the new index.html, the new README, the hub page edit, the root page edit, and this changelog entry
+- Visually and interactively tested in Chrome via the local Laragon server: hero counter animation, Mobil and Motor pricing toggle, gallery filter buttons, booking form validation and success state, FAQ accordion, footer, and the mobile hamburger full screen menu
+- Per Bagas's instruction, Kursus and Bimbel remain untouched and will not be started until Torsi Garage is approved and further permission is given
+
+### Klinik Nirmala - structural redesign, breaking the shared template
+
+**Changed**
+- Last demo in the redesign queue after Kriya House and Studio Embun. Like Studio Embun, Klinik Nirmala's business concept, a family clinic, was never flagged as a problem, so this was a pure structural and visual redesign, not a content pivot
+- All business content preserved verbatim: the four poli descriptions, all 4 doctor profiles with their exact specializations, practice days, and hours, all 6 featured services with their original prices, the 3 facility captions, all 3 testimonials with their exact quote text, all 5 FAQ questions and answers, and every contact detail
+- Full color and font swap: dropped the old teal, coral, and mint palette for a blue and violet palette over a cool off white background, and dropped Plus Jakarta Sans and Inter for Outfit and Karla, a rounded geometric sans pairing not used anywhere else in the project, chosen to read as a modern clinic or health app rather than a medical brochure
+- Hero rebuilt from the old floating stat card pattern into a rounded photo card over a subtle dot pattern background, paired with a new live status widget that reads the visitor's current time against the clinic's real operating hours and shows Klinik Buka Sekarang or Klinik Sedang Tutup with a pulsing status dot, this is a new interactive feature not present in any other demo
+- Hero stat row and the old marquee strip both removed, replaced with a full stat card section below the hero showing 3 icon cards with animated counters, distinct from the strip and dark band patterns used elsewhere
+- Poli grid changed from full bleed photo cards with a dark gradient overlay into cards with a solid gradient color block header containing a line icon per poli, Poli Umum, Gigi, Anak, and Kandungan each get a distinct blue or violet toned gradient, no photography used in this section at all
+- Jadwal Dokter changed from a 4 column static card grid into a compact schedule table with a doctor avatar, name, specialization, practice days, and a pill shaped time badge per row, reinforcing the appointment app feel started in the hero
+- Layanan Unggulan changed from a 3 column static grid into a horizontal scroll snap carousel with no arrow buttons, native touch and mouse wheel scrolling with a visible peek of the next card and a Geser untuk lihat semua hint
+- Fasilitas gallery changed from an asymmetric photo grid with dark gradient overlay captions into a simple 3 photo row with captions placed below each photo in plain typography instead of over the image
+- Testimonials changed from a static 3 card grid into a single large auto rotating spotlight quote with dot indicators, tested clicking dots to jump between testimonials and confirmed the auto rotation timer restarts correctly
+- FAQ changed from a single column plus and cross accordion into a two panel help center style layout, a list of questions on the left and the answer for the selected question on the right, tested switching between all 5 questions
+- New favicon with a blue to violet gradient circle, replacing the old solid teal one
+- One icon bug caught and fixed during visual verification, the Poli Umum SVG icon initially rendered as a malformed shape instead of a pulse line, replaced with a clean EKG style pulse icon and re verified before shipping
+- Verified HTML tag balance and zero em or en dash on the new index.html, the new README, and this changelog entry
+- Visually and interactively tested in Chrome via the local Laragon server: hero live status widget accuracy, animated stat counters, poli card gradients and icons, doctor schedule table, layanan carousel scroll snap behavior, facility photo row, testimonial spotlight auto rotate and dot navigation, FAQ sidebar panel switching, contact form inline validation on empty submit, and the mobile hamburger full screen menu
+- With this redesign, Nexbyte, the new Kriya House, Studio Embun, and Klinik Nirmala are all now structurally and visually distinct from each other in hero mechanic, stat presentation, category or poli display, product or service presentation, testimonial presentation, and FAQ style, completing the standing rule that nothing should repeat too closely across demos
+- This closes out the one industry at a time redesign queue that started with Kriya House, all three flagged demos have now been rebuilt and approved in sequence
+
+### Karsa Bangun - new demo, sixth in the company profile collection
+
+**Added**
+- New company profile demo for the Kontraktor and Konstruksi industry, the fifth of the seven Tier 1 industries Bagas listed, built after explicit approval to start with Kontraktor and not begin Bengkel or Kursus/Bimbel without further permission
+- Business identity: Karsa Bangun, a contractor handling new construction, renovation, and interior finishing for houses and small shops across Jabodetabek, with a RAB transparent positioning, clear cost planning with no surprise charges mid project
+- Palette and fonts chosen to stay distinct from all five live demos: graphite and charcoal with a steel blue gray accent over a warm stone background, paired with Archivo and Source Sans 3, a bold industrial display and body pairing not used anywhere else in the project
+- Hero includes an animated credential row, years of experience, projects completed, permanent team size, and warranty period, counting up on scroll, plus a floating RAB Transparan highlight card over the hero photo
+- New interactive mechanic not present in any other demo: a draggable before and after comparison slider showing a real renovation project, mouse and touch dragging both supported, with Sebelum and Sesudah tags
+- Four service cards, a horizontal four step process timeline with a dashed connector line, Konsultasi Awal, Survey and RAB, Pengerjaan, and Serah Terima
+- Filterable project portfolio gallery with category buttons, Semua, Renovasi Rumah, Bangun Baru, and Interior, tested and confirmed filtering works correctly
+- Testimonial grid with client quotes tagged by project type
+- Minta Penawaran Gratis quote request form instead of a booking form, fields for name, WhatsApp number, project type, project location, an optional budget range, and project details, with inline validation per field and no browser alert, tested both the empty submit error state and a full valid submission showing the success message
+- FAQ accordion covering survey cost, project timeline, material sourcing, warranty, payment terms, and commercial projects
+- All six photos sourced from Unsplash and individually checked for free license, not Unsplash Plus, and absence of visible real brand names or logos before use, one candidate was rejected mid session for a tight, low quality crop despite being free licensed, and a kitchen candidate with an unreadable stove badge was swapped for a cleaner alternative out of caution, full list kept in the demo folder's image sourcing notes
+- One bug caught and fixed during visual verification: the before and after slider's Sebelum and Sesudah tags were initially swapped relative to which image actually displayed on each side, corrected before delivery
+- New favicon with a charcoal to steel blue gradient square and a KB monogram
+- Hub page updated with a new card for Karsa Bangun, and the More industries in progress note updated to only mention Bengkel and Kursus/Bimbel going forward
+- Root portfolio page's company profile collection description updated to include Contractor alongside the other five industries
+- Verified HTML tag balance and zero em or en dash on the new index.html, the new README, the hub page edit, the root page edit, and this changelog entry
+- Visually and interactively tested in Chrome via the local Laragon server: hero counter animation, before and after slider drag interaction, portfolio filter buttons, quote form validation and success state, FAQ accordion, footer, and the mobile hamburger full screen menu
+- Per Bagas's instruction, Bengkel and Kursus/Bimbel remain untouched and will not be started until Karsa Bangun is approved and further permission is given
+
+## [2026-08-27]
+
+### Kriya House - structural redesign, breaking the shared template with Studio Embun and Klinik Nirmala
+
+**Changed**
+- Bagas flagged that Kriya House, Studio Embun, and Klinik Nirmala looked too similar to each other, same hero pattern with a floating badge card and stat row, same marquee strip right after the hero, same 3 card testimonial grid, same accordion FAQ style, same base cream background tone across 3 of the 5 demos. He was right, colors and fonts differed but the underlying structure was templated, not genuinely unique per industry as originally requested
+- Full color and font swap for Kriya House: dropped the cream, rose, and gold palette (too close to Rimba Kitchen's cream and terracotta, and to Studio Embun's cream and blush) for a deep indigo, warm stone, and rust palette, and dropped the elegant italic serif pairing (Cormorant Garamond, shared visual family with Rimba Kitchen's Fraunces and Studio Embun's Marcellus) for a bold slab serif Bitter paired with Work Sans
+- Hero rebuilt from the shared text-left, image-right, floating badge card pattern into a shop window collage, 3 staggered postcard style photos with white borders and slight rotation, no floating card at all
+- Stat counters moved out of the hero copy block into their own full width dark band below the hero with icons, instead of a plain number row with a top border
+- Marquee strip removed entirely, replaced with a sticky category tab bar (Semua Kategori, Home and Living, Fashion and Aksesoris, Self Care and Fragrance, Gift and Stationery) that functions as an in page filter link row
+- Testimonial grid of 3 identical cards replaced with a single large editorial quote carousel, prev and next arrow buttons plus dot indicators, tested and confirmed working
+- FAQ changed from a single column accordion with a plus and cross icon to a two column layout with a chevron icon that rotates on open
+- Story section's floating overlapping quote card (a second instance of the same floating card trick used in the old hero) replaced with an inline pull quote with a left border accent, no overlap
+- Favicon recolored to match the new indigo and rust identity
+- Verified HTML tag balance and zero em or en dash after the rebuild
+- Product catalog, category descriptions, story copy, FAQ answers, and contact details were kept as is since Bagas did not flag the content itself, only the structure and color repetition
+- Studio Embun and Klinik Nirmala are next in line for the same treatment, one at a time with approval before moving to the next, per the existing workflow
+
+### Kriya House replaced by Nexbyte - retail concept swap, structure kept
+
+**Changed**
+- Right after the Kriya House structural redesign above, Bagas said the new version still did not feel right. Not the colors or layout this time, the underlying business idea itself. Kriya House was a curated craft and artisan boutique selling things like meditation stones and home decor trinkets, and Bagas pointed out that is not a common or relatable retail business, most people have never shopped at a store like that
+- Asked Bagas to pick a more common retail type instead, options offered were Fashion and Pakaian, Elektronik and Gadget, Sepatu and Tas, and Perlengkapan Rumah Tangga. He chose Elektronik and Gadget
+- Kriya House retired, replaced with a new fictional demo, Nexbyte, an electronics and gadget store, at `demo/nexbyte/`
+- Kept the structural redesign patterns from the Kriya House rebuild that were never criticized, diagonal hero panel treatment was reworked further for Nexbyte specifically rather than copied as is, see below
+- New color palette for Nexbyte: deep navy and amber over a cool light gray paper background, distinct from every other demo's palette so far, and new font pairing Space Grotesk and Manrope, a geometric sans display face not used anywhere else in the project
+- Deliberately varied the layout further from the Kriya House structure so the two do not become a new templated pair, since Bagas asked that nothing repeat too closely in color, layout, or anything else going forward
+  - Hero changed from Kriya House's 3 photo shop window collage to a single product photo inside a diagonal clipped navy panel with an amber glow spotlight and a small floating garansi chip
+  - Stats moved from a full width dark icon band into a plain light numeric strip with thin dividers, no icons
+  - Categories changed from a photo bento grid into 4 flat icon tiles, no photography, matching how electronics retailers usually present categories
+  - Products changed from a static 3 column grid into a horizontal scroll carousel with prev and next arrow buttons, cards include a star rating row
+  - Testimonials changed from Kriya House's single quote carousel into a static 2 column grid of rating cards
+  - FAQ changed from Kriya House's 2 column chevron accordion into a single column numbered accordion with a plus and minus icon
+  - Story image and text columns were swapped left to right compared to Kriya House, and the pull quote became a solid amber highlight box instead of a left border quote
+- Sourced 7 new product and store photos for Nexbyte (TWS earbuds, smartwatch, power bank and cable set, mechanical keyboard, audio store display wall, gaming mouse, phone case), each checked individually for a free Unsplash license and for no visible real brand names or logos
+  - Rejected several Apple associated results during sourcing even when license was free, including a phone case wall display with visible Designed in California text, an iPhone X shaped screen mockup, a photo with a visible Apple logo on a phone back, and multiple unboxing shots that were clearly iPhone or iPad. Full list kept in the working sourcing notes for this demo
+  - No dedicated Smartphone and Tablet device photo could be found without Apple branding or an Unsplash Plus lock after extensive searching, so the phone case product photo doubles as that category's card image instead
+- Updated the Company Profile hub page card and the root portfolio project description to reference Nexbyte and Electronics and Gadget instead of Kriya House and Retail
+- Verified HTML tag balance and zero em or en dash on the new index.html, the updated README, and this changelog entry
+- Studio Embun and Klinik Nirmala are still next in line for their own structural redesign, one at a time with approval before moving to the next, per the existing workflow
+
+### Studio Embun - structural redesign, breaking the shared template
+
+**Changed**
+- Following the same approval pattern used for Kriya House, moved on to Studio Embun next. Unlike Kriya House, Bagas never flagged Studio Embun's business concept as uncommon or unrelatable, a beauty and skincare studio is a normal business, so this was a pure structural and visual redesign, not a content or concept pivot
+- All business content preserved verbatim from the old version: services (Facial and Skincare, Makeup and Styling, Brow and Lash, Body and Spa), all 6 treatments with their original durations and prices, all 3 pricing packages with their original bullet lists, the story quote, the 3 brand pillars, all 3 testimonials with their exact quote text, all 5 FAQ questions and answers, and every contact detail
+- Full color and font swap: dropped the old cream and blush palette (shared visual family with Rimba Kitchen and the old Kriya House) for a wine and gold palette over a warm greige background, and dropped the old font pairing for Playfair Display and DM Sans, a serif and sans pairing not repeated anywhere else in the project
+- Hero rebuilt from the old text-left image-right floating badge card pattern into an organic blob shaped photo (asymmetric border radius) with a thin gold ring accent behind it and a hand drawn gold underline SVG beneath the emphasis word in the headline, no floating badge card at all
+- Hero stat row and the old auto scrolling marquee strip both removed, replaced with a single thin credential strip band below the hero showing 4 static figures (klien puas, terapis bersertifikat, treatment signature, keamanan produk untuk kulit sensitif), no counting animation this time since the strip is meant to read as a quiet trust line rather than a big number showcase
+- Categories changed from a bento photo grid into a tabbed category showcase, clicking a category name on the left swaps the photo and suasana tag on the right, built with plain JavaScript, tested and confirmed switching correctly for all 4 categories
+- Treatments changed from a 3 column card grid into a list of horizontal rows, each with a small thumbnail, name, description, duration, price, and a booking link, all 6 treatments kept
+- Pricing kept its 3 column layout but the featured package card changed from a scale transform with a floating pill badge into a flat card with a 4px gold top border strip and a corner ribbon style tag reading Paling Diminati
+- Story section gained a new photo (reused from the Facial category) inside an offset gold bordered frame, something the old version did not have, and the 3 pillars moved from a vertical stack into a horizontal row
+- Gallery changed from a horizontal scroll strip into a 2x2 plus 1 mosaic grid built with CSS Grid, each tile reveals a bottom right label on hover, reused the original 3 gallery photos plus the Body & Spa massage photo as a 4th tile
+- Testimonials changed from a static grid into an auto scrolling marquee that pauses on hover, content duplicated for a seamless loop, all 3 original testimonials kept with their exact wording
+- FAQ changed from a rotate-45 plus and cross icon into a circular chevron icon that rotates on open, with a wine tinted background on the active item
+- New favicon in the wine and gold identity, replacing the old blush toned one
+- Verified HTML tag balance and zero em or en dash on the new index.html, the new README, and this changelog entry
+- Visually and interactively tested in Chrome via the local Laragon server: hero blob and underline rendering, credential strip, category tab switching, treatment list rows, pricing cards, story photo and pillar row, gallery mosaic hover tags, testimonial marquee auto scroll and hover pause, FAQ chevron accordion open and close, contact form inline validation on empty submit, and the mobile hamburger full screen menu
+- Nexbyte, the new Kriya House rebuild, and Studio Embun are now visually and structurally distinct from each other in hero treatment, stat or credential presentation, category display, product or treatment presentation, testimonial presentation, and FAQ style, honoring the standing rule that nothing should repeat too closely across demos
+- Klinik Nirmala is next in line for the same treatment, pending approval before starting
+
 ## [2026-08-26]
+
+### Klinik Nirmala - new Company Profile demo, Klinik and Kesehatan
+
+**Added**
+- Demo 05 Klinik Nirmala (`demo/klinik-nirmala/`), a fictional family clinic company profile, covering Poli Umum, Poli Gigi, Poli Anak, and Poli Kandungan
+  - Sections: hero with trust badges for Izin Praktik Resmi and BPJS Kesehatan plus scroll triggered stat counters, marquee of poli and service names, four card poli grid, Jadwal Dokter section (unique feature) showing 4 doctor profile cards with practice days and hours, 6 item Layanan Unggulan grid with photo, description, and price, asymmetric facility gallery, testimonials, FAQ accordion, appointment booking section with inline validated form, footer, WhatsApp floating button
+  - Uses a medical teal, mint, and warm coral accent color palette, Plus Jakarta Sans and Inter fonts, deliberately dropping the italic serif editorial look used by Rimba Kitchen, Kriya House, and Studio Embun so the demo reads as clinical and modern instead
+  - Self contained HTML, CSS, and JS, hand written CSS with no Tailwind dependency
+  - Every doctor and clinic photo was opened individually on Unsplash and checked for a free license (not Unsplash Plus) and for no visible real brand names, logos, or readable patient information before use
+  - Verified HTML tag balance and zero em or en dash after the build
+  - `preview.jpg` is a real browser screenshot of the live hero (captured via the local Laragon server), not a placeholder
+
+### Company Profile Hub Update - `demo/company-profiles/index.html`
+
+**Changed**
+- Added a new hub card linking to Klinik Nirmala, industry label Klinik and Kesehatan, positioned after the Studio Embun card
+- Updated the "more industries in progress" note to remove Clinic from the list since it is now live, leaving Contractor, Bengkel, and more
+
+### Portfolio Update - `index.html`
+
+**Changed**
+- Company Profile project card description updated to mention Health alongside the existing Gym and Fitness, Restaurant and Cafe, Retail, and Beauty industries
+
+### Studio Embun - new Company Profile demo, Kecantikan and Skincare
+
+**Added**
+- Demo 04 Studio Embun (`demo/studio-embun/`), a fictional beauty and skincare studio company profile, covering Facial and Skincare, Makeup and Styling, Brow and Lash, and Body and Spa
+  - Sections: hero with scroll triggered stat counters, marquee of service names, bento style category grid, 6 item featured treatment grid with duration and price, three tier paket and membership pricing with one tier highlighted as most popular, brand story with three value pillars, studio ambience gallery, testimonials, FAQ accordion, booking style contact section with inline validated form, footer, WhatsApp floating button
+  - Uses a blush pink, sage green, cream, and ink charcoal color palette with no gold accent, Marcellus and Jost fonts, deliberately different from ForgeX, Rimba Kitchen, and Kriya House so each demo feels distinct
+  - Self contained HTML, CSS, and JS, hand written CSS with no Tailwind dependency
+  - Every treatment and gallery photo was opened individually on Unsplash and checked for a free license (not Unsplash Plus) and for no visible real brand names or logos before use
+  - Verified HTML tag balance and zero em or en dash after the build
+  - `preview.jpg` is a real browser screenshot of the live hero (captured via the local Laragon server), not a placeholder
+
+### Company Profile Hub Update - `demo/company-profiles/index.html`
+
+**Changed**
+- Added a new hub card linking to Studio Embun, industry label Kecantikan and Skincare, positioned after the Kriya House card
+- Updated the "more industries in progress" note to remove Beauty from the list since it is now live, leaving Clinic, Contractor, and more
+
+### Portfolio Update - `index.html`
+
+**Changed**
+- Company Profile project card description updated to mention Beauty alongside the existing Gym and Fitness, Restaurant and Cafe, and Retail industries
 
 ### Kriya House - new Company Profile demo, Retail and Toko
 

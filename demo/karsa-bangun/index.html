@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karsa Bangun - Kontraktor Bangun dan Renovasi Rumah</title>
+<meta name="description" content="Karsa Bangun menangani proyek bangun baru, renovasi, dan interior rumah tinggal maupun ruko, dari konsultasi dan RAB sampai serah terima.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+        --charcoal: #23262b;
+        --charcoal-deep: #14161a;
+        --steel: #5c7c93;
+        --steel-deep: #3f5c70;
+        --steel-soft: #e6edf1;
+        --stone: #f2efe8;
+        --stone-2: #eae4d8;
+        --ink: #21242a;
+        --ink-dim: #6b6f77;
+        --white: #ffffff;
+        --ochre: #c1852f;
+        --border: rgba(33, 36, 42, 0.12);
+        --shadow: 0 20px 50px rgba(20, 22, 26, 0.14);
+        --font-display: 'Archivo', sans-serif;
+        --font-body: 'Source Sans 3', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: var(--font-body);
+        background: var(--stone);
+        color: var(--ink);
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    input, select, textarea { font-family: inherit; }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.78rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--steel-deep);
+    }
+
+    .eyebrow::before {
+        content: '';
+        width: 26px;
+        height: 2px;
+        background: var(--ochre);
+        display: inline-block;
+    }
+
+    .section-head {
+        max-width: 640px;
+        margin-bottom: 3rem;
+    }
+
+    .section-head.center {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .section-head h2 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+        margin-top: 0.9rem;
+        letter-spacing: -0.01em;
+        color: var(--charcoal-deep);
+    }
+
+    .section-head p {
+        margin-top: 1rem;
+        color: var(--ink-dim);
+        font-size: 1.05rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.55rem;
+        padding: 0.95rem 1.9rem;
+        border-radius: 6px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.95rem;
+        letter-spacing: 0.01em;
+        transition: all 0.25s ease;
+        white-space: nowrap;
+    }
+
+    .btn-primary {
+        background: var(--charcoal-deep);
+        color: var(--white);
+        box-shadow: 0 10px 25px rgba(20, 22, 26, 0.25);
+    }
+
+    .btn-primary:hover {
+        background: var(--steel-deep);
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(20, 22, 26, 0.3);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: var(--charcoal-deep);
+        border: 2px solid var(--charcoal-deep);
+    }
+
+    .btn-outline:hover {
+        background: var(--charcoal-deep);
+        color: var(--white);
+    }
+
+    .btn-block { width: 100%; }
+
+    /* ============ NAVBAR ============ */
+    .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 1.3rem 0;
+        transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+        background: rgba(242, 239, 232, 0.92);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        padding: 0.9rem 0;
+        box-shadow: 0 4px 20px rgba(20, 22, 26, 0.08);
+    }
+
+    .navbar .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.25rem;
+        color: var(--charcoal-deep);
+    }
+
+    .logo-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--charcoal-deep), var(--steel-deep));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        font-family: var(--font-display);
+        font-weight: 900;
+        font-size: 1.05rem;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2.2rem;
+    }
+
+    .nav-links a {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--charcoal);
+        position: relative;
+        padding: 0.3rem 0;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 0;
+        height: 2px;
+        background: var(--ochre);
+        transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta { display: flex; align-items: center; gap: 1.4rem; }
+
+    .burger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        z-index: 1100;
+        width: 30px;
+    }
+
+    .burger span {
+        display: block;
+        height: 2.5px;
+        width: 100%;
+        background: var(--charcoal-deep);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    .burger.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .burger.active span:nth-child(2) { opacity: 0; }
+    .burger.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+    .mobile-menu {
+        position: fixed;
+        inset: 0;
+        background: var(--charcoal-deep);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.8rem;
+        transform: translateY(-100%);
+        transition: transform 0.4s ease;
+        z-index: 1050;
+    }
+
+    .mobile-menu.active { transform: translateY(0); }
+
+    .mobile-menu a {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--white);
+    }
+
+    .mobile-menu .btn-primary { margin-top: 1rem; }
+
+    /* ============ HERO ============ */
+    .hero {
+        padding: 10rem 0 6rem;
+        background:
+            radial-gradient(circle at 85% 12%, rgba(92, 124, 147, 0.12), transparent 45%),
+            var(--stone);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero-grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 3.5rem;
+        align-items: center;
+    }
+
+    .hero-copy h1 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(2.3rem, 4.4vw, 3.4rem);
+        line-height: 1.14;
+        margin-top: 1.1rem;
+        color: var(--charcoal-deep);
+        letter-spacing: -0.015em;
+    }
+
+    .hero-copy p {
+        margin-top: 1.4rem;
+        font-size: 1.12rem;
+        color: var(--ink-dim);
+        max-width: 500px;
+    }
+
+    .hero-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2.2rem;
+        flex-wrap: wrap;
+    }
+
+    .hero-credentials {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.4rem;
+        margin-top: 3.2rem;
+        padding-top: 2.2rem;
+        border-top: 1px solid var(--border);
+    }
+
+    .cred-item .cred-num {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.7rem;
+        color: var(--charcoal-deep);
+    }
+
+    .cred-item .cred-label {
+        font-size: 0.82rem;
+        color: var(--ink-dim);
+        margin-top: 0.2rem;
+    }
+
+    .hero-visual {
+        position: relative;
+    }
+
+    .hero-visual-frame {
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        aspect-ratio: 4 / 3.1;
+    }
+
+    .hero-visual-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .hero-float-card {
+        position: absolute;
+        bottom: -1.6rem;
+        left: -1.8rem;
+        background: var(--white);
+        border-radius: 12px;
+        padding: 1.2rem 1.5rem;
+        box-shadow: 0 18px 40px rgba(20, 22, 26, 0.18);
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+        max-width: 260px;
+    }
+
+    .hero-float-card .icon-badge {
+        width: 46px;
+        height: 46px;
+        border-radius: 10px;
+        background: var(--steel-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: var(--steel-deep);
+    }
+
+    .hero-float-card strong {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 0.95rem;
+        color: var(--charcoal-deep);
+    }
+
+    .hero-float-card span {
+        font-size: 0.8rem;
+        color: var(--ink-dim);
+    }
+
+    /* ============ LOGO STRIP / TRUST ============ */
+    .trust-strip {
+        padding: 2.2rem 0;
+        background: var(--charcoal-deep);
+    }
+
+    .trust-strip .container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .trust-strip p {
+        color: rgba(255,255,255,0.65);
+        font-size: 0.92rem;
+    }
+
+    .trust-strip strong { color: var(--white); }
+
+    /* ============ LAYANAN ============ */
+    .layanan-section { padding: 6.5rem 0; }
+
+    .layanan-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.6rem;
+    }
+
+    .layanan-card {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 2.2rem 1.8rem;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+    }
+
+    .layanan-card:hover {
+        transform: translateY(-6px);
+        box-shadow: var(--shadow);
+        border-color: transparent;
+    }
+
+    .layanan-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 10px;
+        background: var(--charcoal-deep);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--white);
+        margin-bottom: 1.4rem;
+    }
+
+    .layanan-card h3 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.12rem;
+        color: var(--charcoal-deep);
+        margin-bottom: 0.6rem;
+    }
+
+    .layanan-card p {
+        font-size: 0.93rem;
+        color: var(--ink-dim);
+    }
+
+    /* ============ BEFORE/AFTER ============ */
+    .compare-section {
+        padding: 6.5rem 0;
+        background: var(--stone-2);
+    }
+
+    .compare-wrap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3.5rem;
+        align-items: center;
+    }
+
+    .ba-slider {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        cursor: ew-resize;
+        user-select: none;
+        -webkit-user-select: none;
+    }
+
+    .ba-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+    }
+
+    .ba-after-wrap {
+        position: absolute;
+        inset: 0;
+        width: 50%;
+        overflow: hidden;
+    }
+
+    .ba-after-wrap img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 200%;
+        max-width: none;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .ba-handle {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        width: 3px;
+        background: var(--white);
+        transform: translateX(-50%);
+        pointer-events: none;
+    }
+
+    .ba-handle-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 18px rgba(20, 22, 26, 0.3);
+        color: var(--charcoal-deep);
+        pointer-events: none;
+    }
+
+    .ba-tag {
+        position: absolute;
+        top: 1rem;
+        padding: 0.4rem 0.9rem;
+        border-radius: 999px;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.75rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        background: rgba(20, 22, 26, 0.72);
+        color: var(--white);
+        pointer-events: none;
+    }
+
+    .ba-tag-before { left: 1rem; }
+    .ba-tag-after { right: 1rem; background: var(--ochre); }
+
+    .compare-copy .feature-list {
+        margin-top: 1.6rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+    }
+
+    .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 0.7rem;
+        font-size: 0.96rem;
+        color: var(--ink);
+    }
+
+    .feature-list .check {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: var(--steel-soft);
+        color: var(--steel-deep);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        margin-top: 0.1rem;
+    }
+
+    .compare-hint {
+        margin-top: 1.4rem;
+        font-size: 0.85rem;
+        color: var(--ink-dim);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* ============ PROSES KERJA ============ */
+    .proses-section { padding: 6.5rem 0; }
+
+    .proses-track {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        position: relative;
+        margin-top: 1rem;
+    }
+
+    .proses-track::before {
+        content: '';
+        position: absolute;
+        top: 27px;
+        left: 12.5%;
+        right: 12.5%;
+        height: 2px;
+        background: repeating-linear-gradient(90deg, var(--border) 0 10px, transparent 10px 20px);
+        z-index: 0;
+    }
+
+    .proses-step {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 0 1.2rem;
+    }
+
+    .proses-num {
+        width: 54px;
+        height: 54px;
+        border-radius: 50%;
+        background: var(--white);
+        border: 2px solid var(--charcoal-deep);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.4rem;
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: 1.15rem;
+        color: var(--charcoal-deep);
+        transition: all 0.3s ease;
+    }
+
+    .proses-step:hover .proses-num {
+        background: var(--charcoal-deep);
+        color: var(--white);
+    }
+
+    .proses-step h3 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--charcoal-deep);
+        margin-bottom: 0.6rem;
+    }
+
+    .proses-step p {
+        font-size: 0.9rem;
+        color: var(--ink-dim);
+    }
+
+    /* ============ PORTOFOLIO ============ */
+    .portofolio-section {
+        padding: 6.5rem 0;
+        background: var(--stone-2);
+    }
+
+    .portofolio-filters {
+        display: flex;
+        gap: 0.7rem;
+        flex-wrap: wrap;
+        margin-bottom: 2.6rem;
+    }
+
+    .filter-btn {
+        padding: 0.65rem 1.4rem;
+        border-radius: 999px;
+        border: 1.5px solid var(--border);
+        background: var(--white);
+        font-weight: 600;
+        font-size: 0.88rem;
+        color: var(--charcoal);
+        transition: all 0.25s ease;
+    }
+
+    .filter-btn:hover { border-color: var(--charcoal-deep); }
+
+    .filter-btn.active {
+        background: var(--charcoal-deep);
+        border-color: var(--charcoal-deep);
+        color: var(--white);
+    }
+
+    .portofolio-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.6rem;
+    }
+
+    .portofolio-card {
+        position: relative;
+        border-radius: 12px;
+        overflow: hidden;
+        aspect-ratio: 4 / 3.3;
+        box-shadow: 0 8px 24px rgba(20, 22, 26, 0.1);
+        transition: all 0.4s ease;
+    }
+
+    .portofolio-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .portofolio-card:hover img { transform: scale(1.06); }
+
+    .portofolio-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(0deg, rgba(20,22,26,0.88) 0%, rgba(20,22,26,0.1) 55%, transparent 75%);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 1.4rem;
+    }
+
+    .portofolio-tag {
+        display: inline-block;
+        align-self: flex-start;
+        padding: 0.3rem 0.8rem;
+        border-radius: 999px;
+        background: var(--ochre);
+        color: var(--white);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 0.6rem;
+    }
+
+    .portofolio-overlay h3 {
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: var(--white);
+    }
+
+    /* ============ TESTIMONI ============ */
+    .testi-section { padding: 6.5rem 0; }
+
+    .testi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1.6rem;
+    }
+
+    .testi-card {
+        background: var(--white);
+        border-radius: 12px;
+        padding: 2.2rem;
+        border: 1px solid var(--border);
+        transition: all 0.3s ease;
+    }
+
+    .testi-card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--shadow);
+    }
+
+    .testi-quote-mark {
+        font-family: var(--font-display);
+        font-size: 2.6rem;
+        color: var(--steel-soft);
+        line-height: 1;
+        margin-bottom: 0.6rem;
+    }
+
+    .testi-card p.testi-text {
+        font-size: 0.97rem;
+        color: var(--ink);
+        margin-bottom: 1.6rem;
+    }
+
+    .testi-person {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+    }
+
+    .testi-avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: var(--charcoal-deep);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1rem;
+        flex-shrink: 0;
+    }
+
+    .testi-person strong {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 0.92rem;
+        color: var(--charcoal-deep);
+    }
+
+    .testi-project-tag {
+        display: inline-block;
+        margin-top: 0.2rem;
+        font-size: 0.76rem;
+        font-weight: 700;
+        color: var(--steel-deep);
+        background: var(--steel-soft);
+        padding: 0.15rem 0.6rem;
+        border-radius: 999px;
+    }
+
+    /* ============ QUOTE FORM ============ */
+    .quote-section {
+        padding: 6.5rem 0;
+        background: var(--charcoal-deep);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .quote-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+        background-size: 42px 42px;
+        pointer-events: none;
+    }
+
+    .quote-wrap {
+        position: relative;
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+        gap: 3.5rem;
+        align-items: flex-start;
+    }
+
+    .quote-copy .eyebrow { color: var(--ochre); }
+
+    .quote-copy .eyebrow::before { background: var(--white); }
+
+    .quote-copy h2 {
+        font-family: var(--font-display);
+        font-weight: 800;
+        font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+        color: var(--white);
+        margin-top: 0.9rem;
+        line-height: 1.2;
+    }
+
+    .quote-copy p {
+        margin-top: 1.1rem;
+        color: rgba(255,255,255,0.68);
+        font-size: 1rem;
+        max-width: 400px;
+    }
+
+    .quote-contact-mini {
+        margin-top: 2.2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .quote-contact-mini a {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        color: var(--white);
+        font-weight: 600;
+        font-size: 0.94rem;
+    }
+
+    .quote-contact-mini .icon-badge {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .quote-form {
+        background: var(--white);
+        border-radius: 14px;
+        padding: 2.4rem;
+        box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.1rem;
+    }
+
+    .form-group { margin-bottom: 1.1rem; }
+
+    .form-group label {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--charcoal-deep);
+        margin-bottom: 0.4rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        border-radius: 8px;
+        border: 1.5px solid var(--border);
+        font-size: 0.94rem;
+        color: var(--ink);
+        background: var(--stone);
+        transition: all 0.2s ease;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+        outline: none;
+        border-color: var(--steel-deep);
+        background: var(--white);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 100px; }
+
+    .form-error {
+        display: none;
+        color: #b3402f;
+        font-size: 0.78rem;
+        margin-top: 0.35rem;
+        font-weight: 600;
+    }
+
+    .form-group.invalid input,
+    .form-group.invalid select,
+    .form-group.invalid textarea {
+        border-color: #b3402f;
+    }
+
+    .form-group.invalid .form-error { display: block; }
+
+    .form-success {
+        display: none;
+        background: var(--steel-soft);
+        color: var(--steel-deep);
+        padding: 1rem 1.2rem;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        margin-top: 1rem;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .form-success.active { display: flex; }
+
+    /* ============ FAQ ============ */
+    .faq-section { padding: 6.5rem 0; }
+
+    .faq-list {
+        max-width: 780px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.9rem;
+    }
+
+    .faq-item {
+        background: var(--white);
+        border-radius: 10px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+    }
+
+    .faq-question {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.3rem 1.6rem;
+        width: 100%;
+        text-align: left;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 0.98rem;
+        color: var(--charcoal-deep);
+    }
+
+    .faq-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--stone);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+        color: var(--charcoal-deep);
+    }
+
+    .faq-item.active .faq-icon {
+        background: var(--charcoal-deep);
+        color: var(--white);
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.35s ease;
+    }
+
+    .faq-answer p {
+        padding: 0 1.6rem 1.4rem;
+        font-size: 0.92rem;
+        color: var(--ink-dim);
+    }
+
+    /* ============ CONTACT ============ */
+    .contact-section {
+        padding: 6.5rem 0;
+        background: var(--stone-2);
+    }
+
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.6rem;
+    }
+
+    .contact-info-card {
+        background: var(--white);
+        border-radius: 14px;
+        padding: 2.2rem;
+        display: flex;
+        align-items: flex-start;
+        gap: 1.1rem;
+        border: 1px solid var(--border);
+    }
+
+    .contact-info-card .icon-badge {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        background: var(--charcoal-deep);
+        color: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .contact-info-card strong {
+        display: block;
+        font-family: var(--font-display);
+        font-size: 1rem;
+        color: var(--charcoal-deep);
+        margin-bottom: 0.35rem;
+    }
+
+    .contact-info-card p { font-size: 0.9rem; color: var(--ink-dim); }
+
+    .contact-map-note {
+        grid-column: 1 / -1;
+        background: repeating-linear-gradient(45deg, var(--stone) 0 10px, var(--white) 10px 20px);
+        border-radius: 14px;
+        border: 1px dashed var(--border);
+        padding: 2.4rem;
+        text-align: center;
+        color: var(--ink-dim);
+        font-size: 0.9rem;
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+        background: var(--charcoal-deep);
+        padding: 4.5rem 0 2rem;
+        color: rgba(255,255,255,0.65);
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr 1fr;
+        gap: 2.5rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .footer-brand .logo { color: var(--white); }
+
+    .footer-brand p {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        max-width: 280px;
+        line-height: 1.7;
+    }
+
+    footer h4 {
+        font-family: var(--font-display);
+        font-size: 0.9rem;
+        color: var(--white);
+        margin-bottom: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    footer ul li { margin-bottom: 0.7rem; font-size: 0.9rem; }
+    footer ul li a:hover { color: var(--white); }
+
+    .footer-bottom {
+        padding-top: 1.8rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.82rem;
+    }
+
+    .footer-bottom a { color: rgba(255,255,255,0.75); }
+
+    /* ============ WA FLOAT ============ */
+    .wa-float {
+        position: fixed;
+        bottom: 1.8rem;
+        right: 1.8rem;
+        width: 58px;
+        height: 58px;
+        border-radius: 50%;
+        background: #25D366;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+        z-index: 900;
+        transition: transform 0.25s ease;
+    }
+
+    .wa-float:hover { transform: scale(1.08); }
+
+    /* ============ REVEAL ANIMATION ============ */
+    .reveal {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1024px) {
+        .hero-grid { grid-template-columns: 1fr; }
+        .hero-visual { order: -1; }
+        .hero-credentials { grid-template-columns: repeat(4, 1fr); gap: 0.9rem; }
+        .layanan-grid { grid-template-columns: repeat(2, 1fr); }
+        .compare-wrap { grid-template-columns: 1fr; }
+        .proses-track { grid-template-columns: repeat(2, 1fr); row-gap: 2.5rem; }
+        .proses-track::before { display: none; }
+        .portofolio-grid { grid-template-columns: repeat(2, 1fr); }
+        .testi-grid { grid-template-columns: repeat(2, 1fr); }
+        .quote-wrap { grid-template-columns: 1fr; }
+        .contact-grid { grid-template-columns: 1fr; }
+        .footer-grid { grid-template-columns: 1fr 1fr; row-gap: 2.2rem; }
+    }
+
+    @media (max-width: 768px) {
+        .nav-links, .nav-cta .btn { display: none; }
+        .burger { display: flex; }
+        .hero { padding: 8rem 0 4rem; }
+        .hero-credentials { grid-template-columns: repeat(2, 1fr); }
+        .hero-float-card { position: static; margin-top: 1.4rem; max-width: 100%; }
+        .layanan-grid { grid-template-columns: 1fr; }
+        .proses-track { grid-template-columns: 1fr; }
+        .portofolio-grid { grid-template-columns: 1fr; }
+        .testi-grid { grid-template-columns: 1fr; }
+        .form-row { grid-template-columns: 1fr; }
+        .footer-grid { grid-template-columns: 1fr; }
+        .footer-bottom { flex-direction: column; align-items: flex-start; }
+        .quote-form { padding: 1.6rem; }
+        .trust-strip .container { justify-content: center; text-align: center; }
+    }
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="#" class="logo">
+            <span class="logo-mark">KB</span>
+            Karsa Bangun
+        </a>
+        <ul class="nav-links">
+            <li><a href="#beranda">Beranda</a></li>
+            <li><a href="#layanan">Layanan</a></li>
+            <li><a href="#proses">Proses Kerja</a></li>
+            <li><a href="#portofolio">Portofolio</a></li>
+            <li><a href="#testimoni">Testimoni</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#kontak">Kontak</a></li>
+        </ul>
+        <div class="nav-cta">
+            <a href="#penawaran" class="btn btn-primary">Minta Penawaran</a>
+            <button class="burger" id="burger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#beranda">Beranda</a>
+    <a href="#layanan">Layanan</a>
+    <a href="#proses">Proses Kerja</a>
+    <a href="#portofolio">Portofolio</a>
+    <a href="#testimoni">Testimoni</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontak">Kontak</a>
+    <a href="#penawaran" class="btn btn-primary">Minta Penawaran</a>
+</div>
+
+<section class="hero" id="beranda">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-copy">
+                <span class="eyebrow">Kontraktor Bangun &amp; Renovasi</span>
+                <h1>Bangun dan Renovasi Rumah dengan Perencanaan yang Jelas, Tanpa Kejutan Biaya</h1>
+                <p>Karsa Bangun menangani proyek bangun baru, renovasi, dan interior rumah tinggal maupun ruko, mulai dari konsultasi dan survey RAB di awal, sampai serah terima akhir dengan garansi pengerjaan.</p>
+                <div class="hero-actions">
+                    <a href="#penawaran" class="btn btn-primary">Minta Penawaran Gratis</a>
+                    <a href="#portofolio" class="btn btn-outline">Lihat Portofolio</a>
+                </div>
+                <div class="hero-credentials">
+                    <div class="cred-item">
+                        <div class="cred-num" data-count="9" data-suffix="+">0</div>
+                        <div class="cred-label">Tahun Pengalaman</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-num" data-count="80" data-suffix="+">0</div>
+                        <div class="cred-label">Proyek Selesai</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-num" data-count="12" data-suffix="">0</div>
+                        <div class="cred-label">Tim Tetap</div>
+                    </div>
+                    <div class="cred-item">
+                        <div class="cred-num" data-count="6" data-suffix=" Bln">0</div>
+                        <div class="cred-label">Garansi Pengerjaan</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-visual-frame">
+                    <img src="https://images.unsplash.com/photo-1742112125567-3e8967bad60f?q=80&w=1200&auto=format&fit=crop" alt="Tim Karsa Bangun mendiskusikan rencana kerja di lokasi proyek">
+                </div>
+                <div class="hero-float-card">
+                    <div class="icon-badge">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                    </div>
+                    <div>
+                        <strong>RAB Transparan</strong>
+                        <span>Rincian biaya jelas sejak awal</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="trust-strip">
+    <div class="container">
+        <p>Dipercaya keluarga dan pemilik ruko di area <strong>Jabodetabek</strong> untuk proyek bangun baru, renovasi, dan interior sejak 2016.</p>
+        <p><strong>4.9 / 5</strong> rata-rata kepuasan klien</p>
+    </div>
+</div>
+
+<section class="layanan-section" id="layanan">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Layanan Kami</span>
+            <h2>Satu Tim untuk Seluruh Proses Pembangunan</h2>
+            <p>Dari konsultasi awal sampai finishing, Karsa Bangun menangani setiap tahap agar Anda tidak perlu mengurus banyak vendor terpisah.</p>
+        </div>
+        <div class="layanan-grid">
+            <div class="layanan-card reveal">
+                <div class="layanan-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-6 9 6"/><path d="M4 10v10h16V10"/><path d="M9 20v-6h6v6"/></svg>
+                </div>
+                <h3>Bangun Baru</h3>
+                <p>Pembangunan rumah tinggal dan ruko dari nol, mulai dari desain, pondasi, struktur, sampai finishing akhir.</p>
+            </div>
+            <div class="layanan-card reveal">
+                <div class="layanan-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <h3>Renovasi Rumah</h3>
+                <p>Renovasi total maupun sebagian: dapur, kamar mandi, atap, atau perluasan ruangan sesuai kebutuhan.</p>
+            </div>
+            <div class="layanan-card reveal">
+                <div class="layanan-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+                </div>
+                <h3>Interior &amp; Finishing</h3>
+                <p>Plafon, lantai, pengecatan, dan furniture built-in untuk hasil akhir yang rapi dan konsisten.</p>
+            </div>
+            <div class="layanan-card reveal">
+                <div class="layanan-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+                </div>
+                <h3>Konsultasi &amp; RAB</h3>
+                <p>Survey lokasi langsung, gambar kerja, dan rencana anggaran biaya sebelum proyek dimulai.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="compare-section" id="hasil">
+    <div class="container">
+        <div class="compare-wrap">
+            <div class="ba-slider reveal" id="baSlider">
+                <img class="ba-img" src="https://images.unsplash.com/photo-1724582586458-a51791349977?q=80&w=1200&h=800&fit=crop&crop=bottom&auto=format" alt="Kondisi ruangan setelah renovasi">
+                <div class="ba-after-wrap" id="baAfterWrap">
+                    <img src="https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?q=80&w=1200&auto=format&fit=crop" alt="Kondisi ruangan sebelum renovasi">
+                </div>
+                <span class="ba-tag ba-tag-before">Sebelum</span>
+                <span class="ba-tag ba-tag-after">Sesudah</span>
+                <div class="ba-handle" id="baHandle">
+                    <div class="ba-handle-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/></svg>
+                    </div>
+                </div>
+            </div>
+            <div class="compare-copy">
+                <span class="eyebrow">Transformasi Nyata</span>
+                <h2>Lihat Sendiri Hasilnya</h2>
+                <p style="margin-top: 1rem; color: var(--ink-dim);">Salah satu proyek renovasi yang kami kerjakan, dari kondisi bongkar total sampai ruang jadi yang siap ditinggali.</p>
+                <ul class="feature-list">
+                    <li><span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Progress dilaporkan berkala dengan foto dan catatan</li>
+                    <li><span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Material dan spesifikasi sesuai kesepakatan di RAB</li>
+                    <li><span class="check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span> Pengecekan akhir bersama sebelum serah terima</li>
+                </ul>
+                <div class="compare-hint">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/></svg>
+                    Geser slider untuk membandingkan sebelum dan sesudah
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="proses-section" id="proses">
+    <div class="container">
+        <div class="section-head center">
+            <span class="eyebrow">Proses Kerja</span>
+            <h2>Empat Tahap yang Jelas dari Awal Sampai Selesai</h2>
+            <p>Anda tahu persis apa yang sedang dikerjakan di setiap tahap, tanpa proses yang tersembunyi.</p>
+        </div>
+        <div class="proses-track">
+            <div class="proses-step reveal">
+                <div class="proses-num">1</div>
+                <h3>Konsultasi Awal</h3>
+                <p>Diskusi kebutuhan, budget, dan target waktu pengerjaan bersama tim kami.</p>
+            </div>
+            <div class="proses-step reveal">
+                <div class="proses-num">2</div>
+                <h3>Survey &amp; RAB</h3>
+                <p>Survey lokasi langsung untuk menyusun gambar kerja dan rencana anggaran biaya yang detail.</p>
+            </div>
+            <div class="proses-step reveal">
+                <div class="proses-num">3</div>
+                <h3>Pengerjaan</h3>
+                <p>Proses konstruksi berjalan dengan laporan progres berkala agar Anda selalu tahu perkembangannya.</p>
+            </div>
+            <div class="proses-step reveal">
+                <div class="proses-num">4</div>
+                <h3>Serah Terima</h3>
+                <p>Pengecekan akhir bersama Anda sebelum serah terima, dilengkapi garansi pengerjaan.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="portofolio-section" id="portofolio">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Portofolio</span>
+            <h2>Beberapa Proyek yang Sudah Kami Kerjakan</h2>
+            <p>Cuplikan hasil kerja dari berbagai kategori proyek, mulai dari renovasi rumah sampai bangun baru.</p>
+        </div>
+        <div class="portofolio-filters">
+            <button class="filter-btn active" data-filter="all">Semua</button>
+            <button class="filter-btn" data-filter="renovasi">Renovasi Rumah</button>
+            <button class="filter-btn" data-filter="baru">Bangun Baru</button>
+            <button class="filter-btn" data-filter="interior">Interior</button>
+        </div>
+        <div class="portofolio-grid">
+            <div class="portofolio-card reveal" data-cat="renovasi">
+                <img src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=900&auto=format&fit=crop" alt="Renovasi ruang keluarga di Jakarta Selatan">
+                <div class="portofolio-overlay">
+                    <span class="portofolio-tag">Renovasi Rumah</span>
+                    <h3>Renovasi Ruang Keluarga - Jakarta Selatan</h3>
+                </div>
+            </div>
+            <div class="portofolio-card reveal" data-cat="baru">
+                <img src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=900&h=750&fit=crop&crop=top&auto=format" alt="Rumah baru dua lantai di Bekasi">
+                <div class="portofolio-overlay">
+                    <span class="portofolio-tag">Bangun Baru</span>
+                    <h3>Rumah Baru 2 Lantai - Bekasi</h3>
+                </div>
+            </div>
+            <div class="portofolio-card reveal" data-cat="interior">
+                <img src="https://images.unsplash.com/photo-1669046222569-a7672da06e12?q=80&w=900&auto=format&fit=crop" alt="Interior dapur modern di Tangerang">
+                <div class="portofolio-overlay">
+                    <span class="portofolio-tag">Interior</span>
+                    <h3>Interior Dapur Modern - Tangerang</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testi-section" id="testimoni">
+    <div class="container">
+        <div class="section-head center">
+            <span class="eyebrow">Testimoni</span>
+            <h2>Apa Kata Klien Kami</h2>
+            <p>Pengalaman langsung dari klien yang sudah menyelesaikan proyek bersama Karsa Bangun.</p>
+        </div>
+        <div class="testi-grid">
+            <div class="testi-card reveal">
+                <div class="testi-quote-mark">&ldquo;</div>
+                <p class="testi-text">RAB dijelaskan detail dari awal, jadi tidak ada biaya tambahan mendadak di tengah jalan. Hasil renovasi dapur juga rapi dan selesai tepat waktu.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">H</div>
+                    <div>
+                        <strong>Pak Hendra</strong>
+                        <span class="testi-project-tag">Renovasi Rumah</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="testi-quote-mark">&ldquo;</div>
+                <p class="testi-text">Proses bangun rumah dari nol ternyata bisa setenang ini. Tim selalu update progres lewat WA dan datang survey tepat waktu setiap minggu.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">R</div>
+                    <div>
+                        <strong>Ibu Ratna</strong>
+                        <span class="testi-project-tag">Bangun Baru</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="testi-quote-mark">&ldquo;</div>
+                <p class="testi-text">Hasil interior dapur sesuai permintaan, kualitas material juga sesuai yang dijanjikan di RAB. Komunikasi dengan tim mudah sepanjang proyek.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">Y</div>
+                    <div>
+                        <strong>Pak Yudi</strong>
+                        <span class="testi-project-tag">Interior</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="quote-section" id="penawaran">
+    <div class="container">
+        <div class="quote-wrap">
+            <div class="quote-copy">
+                <span class="eyebrow">Minta Penawaran</span>
+                <h2>Ceritakan Rencana Proyek Anda, Kami Bantu Hitungkan Biayanya</h2>
+                <p>Isi form di samping, tim kami akan menghubungi Anda untuk menjadwalkan survey lokasi dan diskusi awal secara gratis.</p>
+                <div class="quote-contact-mini">
+                    <a href="https://wa.me/6281523456789" target="_blank" rel="noopener">
+                        <span class="icon-badge">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                        </span>
+                        +62 815 2345 6789
+                    </a>
+                    <a href="mailto:halo@karsabangun.id">
+                        <span class="icon-badge">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+                        </span>
+                        halo@karsabangun.id
+                    </a>
+                </div>
+            </div>
+            <form class="quote-form" id="quoteForm" novalidate>
+                <div class="form-row">
+                    <div class="form-group" id="group-nama">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" placeholder="Nama Anda">
+                        <span class="form-error">Nama wajib diisi</span>
+                    </div>
+                    <div class="form-group" id="group-wa">
+                        <label for="whatsapp">Nomor WhatsApp</label>
+                        <input type="tel" id="whatsapp" placeholder="08xx xxxx xxxx">
+                        <span class="form-error">Nomor WhatsApp wajib diisi</span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" id="group-jenis">
+                        <label for="jenisProyek">Jenis Proyek</label>
+                        <select id="jenisProyek">
+                            <option value="">Pilih jenis proyek</option>
+                            <option value="baru">Bangun Baru</option>
+                            <option value="renovasi">Renovasi Rumah</option>
+                            <option value="interior">Interior &amp; Finishing</option>
+                            <option value="konsultasi">Konsultasi Saja</option>
+                        </select>
+                        <span class="form-error">Pilih salah satu jenis proyek</span>
+                    </div>
+                    <div class="form-group" id="group-lokasi">
+                        <label for="lokasi">Lokasi Proyek</label>
+                        <input type="text" id="lokasi" placeholder="Kota / kecamatan">
+                        <span class="form-error">Lokasi proyek wajib diisi</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="budget">Perkiraan Budget (opsional)</label>
+                    <select id="budget">
+                        <option value="">Pilih kisaran budget</option>
+                        <option value="di bawah 50 juta">Di bawah Rp 50 juta</option>
+                        <option value="50 - 150 juta">Rp 50 - 150 juta</option>
+                        <option value="150 - 300 juta">Rp 150 - 300 juta</option>
+                        <option value="di atas 300 juta">Di atas Rp 300 juta</option>
+                        <option value="belum tahu">Belum tahu, perlu konsultasi</option>
+                    </select>
+                </div>
+                <div class="form-group" id="group-detail">
+                    <label for="detail">Detail Kebutuhan</label>
+                    <textarea id="detail" placeholder="Ceritakan singkat kondisi dan kebutuhan proyek Anda"></textarea>
+                    <span class="form-error">Detail kebutuhan wajib diisi</span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Kirim Permintaan Penawaran</button>
+                <div class="form-success" id="formSuccess">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                    Permintaan terkirim. Tim kami akan menghubungi Anda segera.
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section" id="faq">
+    <div class="container">
+        <div class="section-head center">
+            <span class="eyebrow">FAQ</span>
+            <h2>Pertanyaan yang Sering Ditanyakan</h2>
+            <p>Beberapa hal yang biasa ditanyakan sebelum memulai proyek bersama kami.</p>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item">
+                <button class="faq-question">
+                    Apakah survey dan pembuatan RAB dikenakan biaya?
+                    <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                </button>
+                <div class="faq-answer"><p>Survey lokasi dan penyusunan RAB awal kami berikan gratis untuk area Jabodetabek. Untuk lokasi di luar area tersebut, akan dikonfirmasi terlebih dahulu saat konsultasi.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Berapa lama proses renovasi atau bangun rumah?
+                    <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                </button>
+                <div class="faq-answer"><p>Tergantung skala proyek. Renovasi ringan biasanya selesai dalam 2-4 minggu, sementara pembangunan rumah baru dua lantai umumnya membutuhkan waktu 4-6 bulan.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Apakah material disediakan oleh Karsa Bangun?
+                    <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                </button>
+                <div class="faq-answer"><p>Kami dapat menyediakan material sesuai dengan RAB yang disepakati, atau Anda juga bisa menyediakan material sendiri jika sudah memiliki preferensi tertentu.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Apakah ada garansi setelah pekerjaan selesai?
+                    <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                </button>
+                <div class="faq-answer"><p>Ya, kami memberikan garansi pengerjaan selama 6 bulan untuk struktur dan finishing utama, terhitung sejak tanggal serah terima.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Bagaimana sistem pembayaran proyek?
+                    <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                </button>
+                <div class="faq-answer"><p>Pembayaran dilakukan bertahap sesuai progres pekerjaan, dan disepakati bersama di awal sebelum kontrak kerja ditandatangani.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">
+                    Apakah bisa menangani proyek ruko atau bangunan komersial kecil?
+                    <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+                </button>
+                <div class="faq-answer"><p>Bisa. Selain rumah tinggal, kami juga menangani ruko dan bangunan komersial skala kecil dengan proses kerja yang sama.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact-section" id="kontak">
+    <div class="container">
+        <div class="section-head">
+            <span class="eyebrow">Kontak</span>
+            <h2>Hubungi Kami</h2>
+            <p>Sampaikan rencana proyek Anda, atau kunjungi kantor kami untuk diskusi langsung.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info-card reveal">
+                <span class="icon-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </span>
+                <div>
+                    <strong>Alamat</strong>
+                    <p>Jl. Radin Inten II No. 22, Jakarta Timur</p>
+                </div>
+            </div>
+            <div class="contact-info-card reveal">
+                <span class="icon-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </span>
+                <div>
+                    <strong>Jam Operasional</strong>
+                    <p>Senin - Sabtu, 08.00 - 17.00 WIB</p>
+                </div>
+            </div>
+            <div class="contact-info-card reveal">
+                <span class="icon-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+                </span>
+                <div>
+                    <strong>WhatsApp</strong>
+                    <p>+62 815 2345 6789</p>
+                </div>
+            </div>
+            <div class="contact-info-card reveal">
+                <span class="icon-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+                </span>
+                <div>
+                    <strong>Email</strong>
+                    <p>halo@karsabangun.id</p>
+                </div>
+            </div>
+            <div class="contact-map-note reveal">
+                Area layanan: Jabodetabek dan sekitarnya. Kunjungan survey lokasi dijadwalkan setelah konsultasi awal.
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <span class="logo-mark">KB</span>
+                    Karsa Bangun
+                </a>
+                <p>Kontraktor bangun baru, renovasi, dan interior untuk rumah tinggal serta ruko di area Jabodetabek.</p>
+            </div>
+            <div>
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="#layanan">Layanan</a></li>
+                    <li><a href="#proses">Proses Kerja</a></li>
+                    <li><a href="#portofolio">Portofolio</a></li>
+                    <li><a href="#testimoni">Testimoni</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="#layanan">Bangun Baru</a></li>
+                    <li><a href="#layanan">Renovasi Rumah</a></li>
+                    <li><a href="#layanan">Interior &amp; Finishing</a></li>
+                    <li><a href="#layanan">Konsultasi &amp; RAB</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Kontak</h4>
+                <ul>
+                    <li>Jl. Radin Inten II No. 22, Jakarta Timur</li>
+                    <li>+62 815 2345 6789</li>
+                    <li>halo@karsabangun.id</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Karsa Bangun. Seluruh hak cipta dilindungi.</span>
+            <span>Demo project oleh <a href="https://bagasaria93.github.io" target="_blank" rel="noopener">Bagas Aria Sativa</a></span>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/6281523456789" target="_blank" rel="noopener" class="wa-float" aria-label="Chat WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.802.477 3.545 1.382 5.076L2 22l5.06-1.362A9.958 9.958 0 0012.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2zm0 18.062a8.03 8.03 0 01-4.354-1.278l-.312-.192-3.005.808.808-2.94-.203-.312A8.021 8.021 0 013.94 12c0-4.44 3.62-8.061 8.062-8.061 4.44 0 8.06 3.62 8.06 8.061 0 4.44-3.62 8.061-8.061 8.061z"/></svg>
+</a>
+
+<script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Mobile menu
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+            burger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        });
+    });
+
+    // Reveal on scroll
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // Animated counters
+    const credNums = document.querySelectorAll('.cred-num');
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const target = parseInt(el.getAttribute('data-count'), 10);
+                const suffix = el.getAttribute('data-suffix') || '';
+                let current = 0;
+                const duration = 1200;
+                const stepTime = Math.max(Math.floor(duration / target), 20);
+                const timer = setInterval(() => {
+                    current++;
+                    el.textContent = current + suffix;
+                    if (current >= target) clearInterval(timer);
+                }, stepTime);
+                counterObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.5 });
+    credNums.forEach(el => counterObserver.observe(el));
+
+    // Before / After slider
+    const baSlider = document.getElementById('baSlider');
+    const baAfterWrap = document.getElementById('baAfterWrap');
+    const baHandle = document.getElementById('baHandle');
+    let baDragging = false;
+
+    function setBaPosition(clientX) {
+        const rect = baSlider.getBoundingClientRect();
+        let pct = ((clientX - rect.left) / rect.width) * 100;
+        pct = Math.min(100, Math.max(0, pct));
+        baAfterWrap.style.width = pct + '%';
+        baHandle.style.left = pct + '%';
+    }
+
+    baSlider.addEventListener('mousedown', (e) => {
+        baDragging = true;
+        setBaPosition(e.clientX);
+    });
+    window.addEventListener('mousemove', (e) => {
+        if (baDragging) setBaPosition(e.clientX);
+    });
+    window.addEventListener('mouseup', () => { baDragging = false; });
+
+    baSlider.addEventListener('touchstart', (e) => {
+        baDragging = true;
+        setBaPosition(e.touches[0].clientX);
+    }, { passive: true });
+    baSlider.addEventListener('touchmove', (e) => {
+        if (baDragging) setBaPosition(e.touches[0].clientX);
+    }, { passive: true });
+    window.addEventListener('touchend', () => { baDragging = false; });
+
+    // Portfolio filter
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portCards = document.querySelectorAll('.portofolio-card');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.getAttribute('data-filter');
+            portCards.forEach(card => {
+                const match = filter === 'all' || card.getAttribute('data-cat') === filter;
+                card.style.display = match ? '' : 'none';
+            });
+        });
+    });
+
+    // FAQ accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        question.addEventListener('click', () => {
+            const isActive = item.classList.contains('active');
+            faqItems.forEach(other => {
+                other.classList.remove('active');
+                other.querySelector('.faq-answer').style.maxHeight = null;
+            });
+            if (!isActive) {
+                item.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        });
+    });
+
+    // Quote form validation
+    const quoteForm = document.getElementById('quoteForm');
+    const formSuccess = document.getElementById('formSuccess');
+
+    function validateField(id, groupId, condition) {
+        const group = document.getElementById(groupId);
+        if (!condition) {
+            group.classList.add('invalid');
+            return false;
+        }
+        group.classList.remove('invalid');
+        return true;
+    }
+
+    quoteForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const nama = document.getElementById('nama').value.trim();
+        const wa = document.getElementById('whatsapp').value.trim();
+        const jenis = document.getElementById('jenisProyek').value;
+        const lokasi = document.getElementById('lokasi').value.trim();
+        const detail = document.getElementById('detail').value.trim();
+
+        let valid = true;
+        valid = validateField('nama', 'group-nama', nama.length > 0) && valid;
+        valid = validateField('whatsapp', 'group-wa', wa.length >= 8) && valid;
+        valid = validateField('jenisProyek', 'group-jenis', jenis.length > 0) && valid;
+        valid = validateField('lokasi', 'group-lokasi', lokasi.length > 0) && valid;
+        valid = validateField('detail', 'group-detail', detail.length > 0) && valid;
+
+        if (valid) {
+            formSuccess.classList.add('active');
+            quoteForm.reset();
+            setTimeout(() => { formSuccess.classList.remove('active'); }, 5000);
+        } else {
+            formSuccess.classList.remove('active');
+        }
+    });
+</script>
+
+</body>
+</html>

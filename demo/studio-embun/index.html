@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Studio Embun, studio kecantikan dan perawatan kulit premium. Facial, makeup, brow and lash, body and spa, dengan terapis berpengalaman dan produk yang aman untuk kulit.">
+<title>Studio Embun - Beauty and Skincare Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --wine: #6d2c3f;
+    --wine-deep: #4a1c29;
+    --wine-soft: #f1e2e6;
+    --gold: #c9a227;
+    --gold-deep: #96741a;
+    --greige: #f4f1ec;
+    --greige-2: #e8e1d3;
+    --ink: #2b2422;
+    --ink-dim: #7a6f68;
+    --white: #ffffff;
+    --border: rgba(43, 36, 34, 0.12);
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+    background: var(--greige);
+    color: var(--ink);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+ul { list-style: none; }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--greige-2); }
+::-webkit-scrollbar-thumb { background: var(--wine); }
+
+.wrap { max-width: 1220px; margin: 0 auto; padding: 0 1.75rem; }
+
+.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+.eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--wine);
+}
+.eyebrow::before { content: ''; width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+.section-head { max-width: 620px; margin-bottom: 3rem; }
+.section-head.center { max-width: 660px; margin-left: auto; margin-right: auto; text-align: center; }
+.section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.95rem, 3.8vw, 2.8rem);
+    font-weight: 600;
+    line-height: 1.2;
+    margin-top: 0.9rem;
+    color: var(--ink);
+}
+.section-title em { font-style: italic; color: var(--wine); }
+.section-desc { margin-top: 1rem; color: var(--ink-dim); font-size: 1rem; line-height: 1.75; }
+
+/* ===== Nav ===== */
+header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    background: rgba(244, 241, 236, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+header.scrolled { border-color: var(--border); box-shadow: 0 10px 30px rgba(43,36,34,0.06); }
+.nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 1.3rem 0; }
+.logo { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--ink); }
+.logo span { color: var(--gold-deep); font-style: italic; }
+.nav-links { display: flex; align-items: center; gap: 2.3rem; }
+.nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--ink-dim); transition: color 0.2s ease; }
+.nav-links a:hover { color: var(--wine); }
+.nav-cta {
+    padding: 0.65rem 1.45rem; border-radius: 999px; border: 1.5px solid var(--wine);
+    color: var(--wine) !important; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.02em;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+.nav-cta:hover { background: var(--wine); color: var(--white) !important; }
+.burger { display: none; flex-direction: column; gap: 5px; z-index: 600; }
+.burger span { width: 24px; height: 2px; background: var(--ink); transition: all 0.3s ease; }
+.burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+    position: fixed; inset: 0; background: var(--wine-deep);
+    z-index: 450; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 2rem;
+    transform: translateY(-100%); transition: transform 0.45s cubic-bezier(.65,0,.35,1);
+}
+.mobile-menu.active { transform: translateY(0); }
+.mobile-menu a { font-family: var(--font-display); font-size: 1.8rem; color: var(--greige); font-weight: 600; }
+.mobile-menu .nav-cta { margin-top: 1rem; border-color: var(--gold); color: var(--gold) !important; }
+.mobile-menu .nav-cta:hover { background: var(--gold); color: var(--wine-deep) !important; }
+
+/* ===== Hero (organic blob photo, no floating badge) ===== */
+.hero { padding: 9.5rem 0 0; position: relative; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1fr 0.95fr; gap: 3rem; align-items: center; padding-bottom: 4.5rem; }
+.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.35rem, 4.6vw, 3.5rem);
+    font-weight: 600; line-height: 1.18; color: var(--ink);
+    margin-top: 1rem;
+}
+.hero-title .emph { position: relative; display: inline-block; color: var(--wine); }
+.hero-title .emph svg { position: absolute; left: 0; bottom: -8px; width: 100%; height: 12px; }
+.hero-desc { margin-top: 1.5rem; font-size: 1.02rem; color: var(--ink-dim); max-width: 470px; line-height: 1.8; }
+.hero-actions { display: flex; align-items: center; gap: 1.5rem; margin-top: 2.2rem; flex-wrap: wrap; }
+.btn-primary {
+    padding: 0.92rem 2.1rem; border-radius: 999px;
+    background: var(--wine); color: var(--white);
+    font-size: 0.87rem; font-weight: 700; letter-spacing: 0.02em;
+    transition: background 0.25s ease, transform 0.25s ease;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+}
+.btn-primary:hover { background: var(--wine-deep); transform: translateY(-2px); }
+.btn-ghost {
+    font-size: 0.87rem; font-weight: 700; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    border-bottom: 1.5px solid var(--gold); padding-bottom: 3px;
+    transition: color 0.2s ease;
+}
+.btn-ghost:hover { color: var(--wine); }
+
+.hero-visual { position: relative; height: 460px; }
+.hero-blob-ring {
+    position: absolute; width: 320px; height: 380px; top: 6%; right: 10px;
+    border: 1.5px solid var(--gold); border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+    z-index: 0;
+}
+.hero-blob-img {
+    position: absolute; width: 360px; height: 420px; top: 0; right: 46px;
+    border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%; overflow: hidden;
+    box-shadow: 0 35px 65px rgba(43,36,34,0.2); z-index: 1;
+}
+.hero-blob-img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* ===== Credentials strip (replaces marquee and hero stat row) ===== */
+.cred-strip { background: var(--greige-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.cred-strip-inner { display: flex; justify-content: space-between; padding: 1.6rem 0; flex-wrap: wrap; gap: 1.2rem; }
+.cred-item { display: flex; align-items: center; gap: 0.7rem; }
+.cred-icon {
+    width: 38px; height: 38px; border-radius: 50%; background: var(--white);
+    display: flex; align-items: center; justify-content: center; color: var(--wine); flex-shrink: 0;
+}
+.cred-text { font-size: 0.82rem; font-weight: 600; color: var(--ink); }
+.cred-text strong { color: var(--wine); }
+
+/* ===== Categories (tabbed showcase) ===== */
+.categories { padding: 6rem 0; }
+.cat-showcase { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: 3rem; margin-top: 3rem; align-items: stretch; }
+.cat-tablist { display: flex; flex-direction: column; }
+.cat-tab-btn {
+    text-align: left; padding: 1.3rem 0 1.3rem 1.2rem; border-bottom: 1px solid var(--border);
+    border-left: 3px solid transparent; transition: border-color 0.25s ease, background 0.25s ease;
+}
+.cat-tab-btn:first-child { border-top: 1px solid var(--border); }
+.cat-tab-btn.active { border-left-color: var(--gold); background: var(--white); }
+.cat-tab-name { font-family: var(--font-display); font-size: 1.2rem; color: var(--ink); font-weight: 600; }
+.cat-tab-btn.active .cat-tab-name { color: var(--wine); }
+.cat-tab-desc { font-size: 0.83rem; color: var(--ink-dim); margin-top: 0.4rem; display: none; line-height: 1.6; }
+.cat-tab-btn.active .cat-tab-desc { display: block; }
+.cat-panel { position: relative; border-radius: 14px; overflow: hidden; min-height: 420px; background: var(--greige-2); }
+.cat-panel-img { position: absolute; inset: 0; opacity: 0; transition: opacity 0.4s ease; }
+.cat-panel-img.active { opacity: 1; }
+.cat-panel-img img { width: 100%; height: 100%; object-fit: cover; }
+.cat-panel-tag {
+    position: absolute; bottom: 1.5rem; left: 1.5rem; background: rgba(255,255,255,0.94);
+    padding: 0.6rem 1.15rem; border-radius: 999px; font-family: var(--font-display);
+    font-weight: 600; color: var(--wine); font-size: 0.95rem; opacity: 0; transition: opacity 0.4s ease;
+}
+.cat-panel-tag.active { opacity: 1; }
+
+/* ===== Treatments (list rows, not a card grid) ===== */
+.treatments { padding: 6rem 0; background: var(--greige-2); }
+.treat-list { margin-top: 3rem; display: flex; flex-direction: column; }
+.treat-row {
+    display: flex; align-items: center; gap: 1.6rem; padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+}
+.treat-row:first-child { padding-top: 0; }
+.treat-row:last-child { border-bottom: none; }
+.treat-thumb { width: 92px; height: 92px; border-radius: 10px; overflow: hidden; flex-shrink: 0; }
+.treat-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.treat-info { flex: 1; }
+.treat-row-name { font-family: var(--font-display); font-size: 1.12rem; font-weight: 600; color: var(--ink); }
+.treat-row-desc { font-size: 0.84rem; color: var(--ink-dim); margin-top: 0.35rem; line-height: 1.6; }
+.treat-meta { display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.55rem; font-size: 0.72rem; color: var(--wine); font-weight: 600; }
+.treat-row-side { text-align: right; flex-shrink: 0; }
+.treat-row-price { font-family: var(--font-display); font-size: 1.2rem; color: var(--wine); font-weight: 600; }
+.treat-row-price small { display: block; font-family: var(--font-body); font-size: 0.68rem; color: var(--ink-dim); font-weight: 400; margin-top: 0.15rem; }
+.treat-row-link { margin-top: 0.6rem; display: inline-flex; font-size: 0.76rem; font-weight: 700; color: var(--ink); gap: 0.3rem; align-items: center; }
+.treat-row-link:hover { color: var(--wine); }
+
+/* ===== Pricing ===== */
+.pricing { padding: 6rem 0; }
+.price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.7rem; align-items: stretch; }
+.price-card {
+    background: var(--white); border: 1px solid var(--border); border-radius: 12px;
+    padding: 2.4rem 2rem; position: relative; overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.price-card:hover { transform: translateY(-6px); box-shadow: 0 26px 55px rgba(43,36,34,0.1); }
+.price-card.featured { border-color: var(--gold); }
+.price-card.featured::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--gold); }
+.price-tag {
+    position: absolute; top: 1.3rem; right: 1.3rem; background: var(--gold); color: var(--wine-deep);
+    font-size: 0.64rem; font-weight: 700; padding: 0.32rem 0.75rem; border-radius: 999px; letter-spacing: 0.03em;
+}
+.price-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 600; color: var(--ink); }
+.price-sub { font-size: 0.82rem; color: var(--ink-dim); margin-top: 0.5rem; min-height: 40px; }
+.price-amount { font-family: var(--font-display); font-size: 2.1rem; margin-top: 1.4rem; color: var(--wine); font-weight: 600; }
+.price-amount span { font-family: var(--font-body); font-size: 0.76rem; color: var(--ink-dim); font-weight: 400; }
+.price-list { margin-top: 1.6rem; text-align: left; display: flex; flex-direction: column; gap: 0.75rem; }
+.price-list li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.85rem; color: var(--ink-dim); }
+.price-list li svg { flex-shrink: 0; margin-top: 3px; color: var(--gold-deep); }
+.price-cta {
+    display: block; margin-top: 1.8rem; padding: 0.85rem; border-radius: 999px;
+    border: 1.5px solid var(--ink); font-size: 0.83rem; font-weight: 700; text-align: center;
+    transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+.price-cta:hover { background: var(--ink); color: var(--white); }
+.price-card.featured .price-cta { border-color: var(--wine); background: var(--wine); color: var(--white); }
+.price-card.featured .price-cta:hover { background: var(--wine-deep); }
+
+/* ===== Story (photo added, horizontal pillar row) ===== */
+.story { padding: 6.5rem 0; background: var(--wine-deep); color: var(--greige); }
+.story-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 3.5rem; align-items: center; }
+.story-img-wrap { position: relative; }
+.story-img-frame { position: absolute; top: -16px; left: -16px; right: 16px; bottom: 16px; border: 1.5px solid var(--gold); border-radius: 10px; z-index: 0; }
+.story-img-wrap img { position: relative; z-index: 1; border-radius: 10px; aspect-ratio: 4/4.6; object-fit: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.32); }
+.story .eyebrow { color: var(--gold); }
+.story .eyebrow::before { background: var(--gold); }
+.story-title { font-family: var(--font-display); font-size: clamp(1.85rem, 3.4vw, 2.5rem); font-weight: 600; line-height: 1.25; margin-top: 0.9rem; }
+.story-title em { font-style: italic; color: var(--gold); }
+.story-quote {
+    font-family: var(--font-display); font-style: italic; font-size: 1.12rem;
+    line-height: 1.6; color: var(--greige-2); margin-top: 1.5rem; padding-left: 1.2rem;
+    border-left: 2px solid var(--gold);
+}
+.pillars-row { display: flex; gap: 1.6rem; margin-top: 2.3rem; flex-wrap: wrap; }
+.pillar-col { flex: 1; min-width: 150px; }
+.pillar-col-icon {
+    width: 44px; height: 44px; border-radius: 50%; background: rgba(201,162,39,0.16);
+    display: flex; align-items: center; justify-content: center; color: var(--gold); margin-bottom: 0.8rem;
+}
+.pillar-col-title { font-family: var(--font-display); font-size: 1rem; font-weight: 600; }
+.pillar-col-desc { font-size: 0.8rem; color: rgba(244,241,236,0.65); margin-top: 0.4rem; line-height: 1.6; }
+
+/* ===== Gallery (2x2+1 mosaic, not a scroll strip) ===== */
+.gallery { padding: 6.5rem 0; }
+.gallery-mosaic { display: grid; grid-template-columns: 1.4fr 1fr 1fr; grid-template-rows: 220px 220px; gap: 1.2rem; margin-top: 3rem; }
+.g-item-1 { grid-column: 1; grid-row: 1 / 3; }
+.g-item-2 { grid-column: 2; grid-row: 1; }
+.g-item-3 { grid-column: 3; grid-row: 1; }
+.g-item-4 { grid-column: 2 / 4; grid-row: 2; }
+.gallery-item { position: relative; border-radius: 12px; overflow: hidden; }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.gallery-item:hover img { transform: scale(1.06); }
+.gallery-tag {
+    position: absolute; bottom: 0.9rem; right: 0.9rem; background: var(--wine); color: var(--white);
+    font-size: 0.7rem; font-weight: 600; padding: 0.35rem 0.85rem; border-radius: 999px;
+    opacity: 0; transition: opacity 0.3s ease;
+}
+.gallery-item:hover .gallery-tag { opacity: 1; }
+
+/* ===== Testimonials (auto scroll marquee, not a static grid) ===== */
+.testimonials { padding: 6.5rem 0; background: var(--greige-2); overflow: hidden; }
+.testi-marquee { margin-top: 3rem; overflow: hidden; }
+.testi-track { display: flex; gap: 1.6rem; width: max-content; animation: testiScroll 34s linear infinite; }
+.testi-marquee:hover .testi-track { animation-play-state: paused; }
+@keyframes testiScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.testi-card { flex: 0 0 360px; background: var(--white); border-radius: 12px; padding: 2rem; box-shadow: 0 16px 40px rgba(43,36,34,0.06); }
+.testi-stars { display: flex; gap: 0.25rem; color: var(--gold-deep); }
+.testi-text { font-size: 0.9rem; color: var(--ink); line-height: 1.75; margin-top: 1rem; }
+.testi-person { display: flex; align-items: center; gap: 0.8rem; margin-top: 1.3rem; padding-top: 1.2rem; border-top: 1px solid var(--border); }
+.testi-avatar {
+    width: 42px; height: 42px; border-radius: 50%; background: var(--wine-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 1.05rem; color: var(--wine);
+}
+.testi-name { font-size: 0.86rem; font-weight: 700; color: var(--ink); }
+.testi-role { font-size: 0.74rem; color: var(--ink-dim); margin-top: 0.1rem; }
+.testi-hint { margin-top: 1rem; font-size: 0.76rem; color: var(--ink-dim); text-align: center; }
+
+/* ===== FAQ (single column, chevron in circle) ===== */
+.faq { padding: 6.5rem 0; }
+.faq-list { max-width: 760px; margin: 2.5rem auto 0; }
+.faq-item { border-bottom: 1px solid var(--border); transition: background 0.25s ease; border-radius: 8px; }
+.faq-item.active { background: var(--wine-soft); }
+.faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.3rem 1rem; text-align: left; }
+.faq-q span { font-family: var(--font-display); font-weight: 600; font-size: 1.02rem; color: var(--ink); }
+.faq-item.active .faq-q span { color: var(--wine); }
+.faq-chev {
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--wine);
+    transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+.faq-item.active .faq-chev { transform: rotate(180deg); border-color: var(--gold); background: var(--gold); color: var(--wine-deep); }
+.faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+.faq-a p { padding: 0 1rem 1.4rem; font-size: 0.88rem; color: var(--ink-dim); line-height: 1.7; }
+
+/* ===== Contact ===== */
+.contact { padding: 6.5rem 0; background: var(--greige-2); }
+.contact-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 3rem; }
+.contact-info-card {
+    background: var(--wine-deep); color: var(--greige); border-radius: 14px; padding: 2.6rem 2.2rem;
+    background-image: repeating-linear-gradient(135deg, rgba(201,162,39,0.07) 0px, rgba(201,162,39,0.07) 1px, transparent 1px, transparent 14px);
+}
+.contact-info-card .eyebrow { color: var(--gold); }
+.contact-info-card .eyebrow::before { background: var(--gold); }
+.contact-info-title { font-family: var(--font-display); font-size: 1.6rem; font-weight: 600; margin-top: 0.8rem; line-height: 1.3; }
+.ci-row { display: flex; gap: 0.9rem; margin-top: 1.7rem; }
+.ci-icon {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    background: rgba(201,162,39,0.18); display: flex; align-items: center; justify-content: center; color: var(--gold);
+}
+.ci-label { font-size: 0.72rem; color: rgba(244,241,236,0.55); letter-spacing: 0.03em; text-transform: uppercase; }
+.ci-value { font-size: 0.92rem; margin-top: 0.2rem; }
+
+.form-card { background: var(--white); border-radius: 14px; padding: 2.5rem; box-shadow: 0 20px 50px rgba(43,36,34,0.08); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.field { margin-bottom: 1.2rem; }
+.field label { display: block; font-size: 0.78rem; font-weight: 700; color: var(--ink); margin-bottom: 0.5rem; }
+.field input, .field select, .field textarea {
+    width: 100%; padding: 0.85rem 1rem; border: 1.5px solid var(--border); border-radius: 8px;
+    font-family: inherit; font-size: 0.9rem; color: var(--ink); background: var(--greige);
+    transition: border-color 0.2s ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--wine); }
+.field textarea { min-height: 110px; resize: vertical; }
+.field-error { display: none; font-size: 0.75rem; color: #b3413a; margin-top: 0.4rem; }
+.field.invalid input, .field.invalid select, .field.invalid textarea { border-color: #b3413a; }
+.field.invalid .field-error { display: block; }
+.form-submit {
+    width: 100%; padding: 1rem; border-radius: 999px; background: var(--wine); color: var(--white);
+    font-size: 0.9rem; font-weight: 700; transition: background 0.25s ease;
+}
+.form-submit:hover { background: var(--wine-deep); }
+.form-success {
+    display: none; align-items: center; gap: 0.6rem; margin-top: 1.2rem;
+    padding: 0.9rem 1.1rem; border-radius: 8px; background: #eef4ea; color: #3c6b2e;
+    font-size: 0.85rem; font-weight: 500;
+}
+.form-success.show { display: flex; }
+
+/* ===== Footer ===== */
+footer { padding: 4.5rem 0 2rem; }
+.footer-top { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1.2fr; gap: 2.5rem; padding-bottom: 3rem; border-bottom: 1px solid var(--border); }
+.footer-brand .logo { display: inline-block; margin-bottom: 0.9rem; }
+.footer-desc { font-size: 0.85rem; color: var(--ink-dim); line-height: 1.7; max-width: 280px; }
+.footer-col-title { font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--wine); margin-bottom: 1rem; }
+.footer-col a, .footer-col span { display: block; font-size: 0.85rem; color: var(--ink-dim); margin-bottom: 0.7rem; transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--wine); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 1.8rem; font-size: 0.78rem; color: var(--ink-dim); flex-wrap: wrap; gap: 0.8rem; }
+.footer-back { font-weight: 600; color: var(--ink); }
+.footer-back:hover { color: var(--wine); }
+
+/* ===== WhatsApp float ===== */
+.wa-float {
+    position: fixed; bottom: 1.8rem; right: 1.8rem; z-index: 400;
+    width: 58px; height: 58px; border-radius: 50%; background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 14px 34px rgba(37,211,102,0.4);
+    transition: transform 0.25s ease;
+}
+.wa-float:hover { transform: scale(1.08); }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { order: -1; max-width: 380px; margin: 0 auto; height: 400px; }
+    .cat-showcase { grid-template-columns: 1fr; }
+    .cat-panel { min-height: 340px; }
+    .treat-grid, .price-grid, .test-grid { grid-template-columns: repeat(2, 1fr); }
+    .price-grid { grid-template-columns: 1fr 1fr; }
+    .story-grid { grid-template-columns: 1fr; }
+    .story-img-wrap { max-width: 360px; margin: 0 auto; }
+    .gallery-mosaic { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
+    .g-item-1 { grid-column: 1 / 3; grid-row: 1; }
+    .g-item-2 { grid-column: 1; grid-row: 2; }
+    .g-item-3 { grid-column: 2; grid-row: 2; }
+    .g-item-4 { grid-column: 1 / 3; grid-row: 3; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+    .nav-links { display: none; }
+    .burger { display: flex; }
+    .hero { padding: 7.5rem 0 0; }
+    .hero-grid { padding-bottom: 3rem; }
+    .cred-strip-inner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+    .price-grid { grid-template-columns: 1fr; }
+    .treat-row { flex-wrap: wrap; }
+    .treat-row-side { text-align: left; margin-left: 108px; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .gallery-mosaic { grid-template-columns: 1fr; grid-template-rows: 220px 220px 220px 220px; }
+    .g-item-1, .g-item-2, .g-item-3, .g-item-4 { grid-column: 1; }
+    .g-item-1 { grid-row: 1; } .g-item-2 { grid-row: 2; } .g-item-3 { grid-row: 3; } .g-item-4 { grid-row: 4; }
+    .testi-card { flex-basis: 300px; }
+}
+@media (max-width: 480px) {
+    .wrap { padding: 0 1.25rem; }
+    .section-head { margin-bottom: 2rem; }
+    .form-card, .contact-info-card { padding: 1.7rem; }
+    .treat-row-side { margin-left: 0; margin-top: 0.6rem; }
+}
+</style>
+</head>
+<body id="top">
+
+<header id="site-header">
+    <div class="wrap nav-inner">
+        <a href="#top" class="logo">Studio<span> Embun</span></a>
+        <nav class="nav-links">
+            <a href="#layanan">Layanan</a>
+            <a href="#treatment">Treatment</a>
+            <a href="#paket">Paket</a>
+            <a href="#galeri">Galeri</a>
+            <a href="#kontak">Kontak</a>
+        </nav>
+        <a href="#kontak" class="nav-cta">Booking Sekarang</a>
+        <button class="burger" id="burger" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#layanan">Layanan</a>
+    <a href="#treatment">Treatment</a>
+    <a href="#paket">Paket</a>
+    <a href="#galeri">Galeri</a>
+    <a href="#kontak">Kontak</a>
+    <a href="#kontak" class="nav-cta">Booking Sekarang</a>
+</div>
+
+<section class="hero">
+    <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+            <div class="eyebrow">Beauty and Skincare Studio</div>
+            <h1 class="hero-title">Kecantikan yang
+                <span class="emph">Merawat
+                    <svg viewBox="0 0 200 12" preserveAspectRatio="none"><path d="M2 9 Q 50 2, 100 8 T 198 6" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="color:var(--gold);"/></svg>
+                </span>, Bukan Menutupi</h1>
+            <p class="hero-desc">Studio Embun menghadirkan perawatan wajah, tubuh, dan riasan yang disesuaikan dengan kondisi kulit setiap klien, ditangani langsung oleh terapis berpengalaman dengan produk yang aman dan lembut di kulit.</p>
+            <div class="hero-actions">
+                <a href="#kontak" class="btn-primary">
+                    Booking Treatment
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+                <a href="#treatment" class="btn-ghost">Lihat Semua Treatment</a>
+            </div>
+        </div>
+        <div class="hero-visual reveal" style="transition-delay:0.15s;">
+            <div class="hero-blob-ring"></div>
+            <div class="hero-blob-img">
+                <img src="https://images.unsplash.com/photo-1600428853876-fb5a850b444f?q=80&w=1000&auto=format&fit=crop" alt="Skincare tools dan serum di Studio Embun" loading="eager">
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="cred-strip">
+    <div class="wrap cred-strip-inner">
+        <div class="cred-item">
+            <div class="cred-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 4 5v6c0 5.5 3.8 9.7 8 11 4.2-1.3 8-5.5 8-11V5z"/></svg></div>
+            <div class="cred-text"><strong>500+</strong> Klien Puas</div>
+        </div>
+        <div class="cred-item">
+            <div class="cred-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+            <div class="cred-text"><strong>8+</strong> Terapis Bersertifikat</div>
+        </div>
+        <div class="cred-item">
+            <div class="cred-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+            <div class="cred-text"><strong>12</strong> Treatment Signature</div>
+        </div>
+        <div class="cred-item">
+            <div class="cred-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21l7.78-7.55 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <div class="cred-text">Produk Aman untuk Kulit Sensitif</div>
+        </div>
+    </div>
+</div>
+
+<section class="categories" id="layanan">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div class="eyebrow">Layanan Kami</div>
+            <h2 class="section-title">Empat Kategori Perawatan, <em>Satu Studio</em></h2>
+            <p class="section-desc">Dari perawatan wajah harian sampai persiapan hari besar, semua ditangani di satu tempat dengan pendekatan yang personal. Klik salah satu kategori untuk melihat suasananya.</p>
+        </div>
+        <div class="cat-showcase reveal">
+            <div class="cat-tablist" id="catTablist">
+                <button class="cat-tab-btn active" data-cat="0">
+                    <div class="cat-tab-name">Facial &amp; Skincare</div>
+                    <p class="cat-tab-desc">Perawatan wajah yang disesuaikan dengan jenis dan kondisi kulit.</p>
+                </button>
+                <button class="cat-tab-btn" data-cat="1">
+                    <div class="cat-tab-name">Makeup &amp; Styling</div>
+                    <p class="cat-tab-desc">Riasan natural hingga bold untuk kebutuhan harian dan acara khusus.</p>
+                </button>
+                <button class="cat-tab-btn" data-cat="2">
+                    <div class="cat-tab-name">Brow &amp; Lash</div>
+                    <p class="cat-tab-desc">Membentuk alis dan bulu mata agar wajah terlihat lebih hidup.</p>
+                </button>
+                <button class="cat-tab-btn" data-cat="3">
+                    <div class="cat-tab-name">Body &amp; Spa</div>
+                    <p class="cat-tab-desc">Relaksasi tubuh dengan aromaterapi dan pijat profesional.</p>
+                </button>
+            </div>
+            <div class="cat-panel" id="catPanel">
+                <div class="cat-panel-img active" data-panel="0">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=900&auto=format&fit=crop" alt="Facial and Skincare treatment" loading="lazy">
+                </div>
+                <div class="cat-panel-img" data-panel="1">
+                    <img src="https://images.unsplash.com/photo-1622336889416-8d790ad807d7?q=80&w=700&auto=format&fit=crop" alt="Makeup and Styling" loading="lazy">
+                </div>
+                <div class="cat-panel-img" data-panel="2">
+                    <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?q=80&w=700&auto=format&fit=crop" alt="Brow and Lash treatment" loading="lazy">
+                </div>
+                <div class="cat-panel-img" data-panel="3">
+                    <img src="https://images.unsplash.com/photo-1693578538512-fc66f318c833?q=80&w=1400&auto=format&fit=crop" alt="Body and Spa treatment room" loading="lazy">
+                </div>
+                <div class="cat-panel-tag active" data-tag="0">Facial &amp; Skincare</div>
+                <div class="cat-panel-tag" data-tag="1">Makeup &amp; Styling</div>
+                <div class="cat-panel-tag" data-tag="2">Brow &amp; Lash</div>
+                <div class="cat-panel-tag" data-tag="3">Body &amp; Spa</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="treatments" id="treatment">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div class="eyebrow">Treatment Unggulan</div>
+            <h2 class="section-title">Dipilih Karena <em>Hasilnya Nyata</em></h2>
+            <p class="section-desc">Enam treatment paling diminati klien Studio Embun, lengkap dengan durasi dan harga.</p>
+        </div>
+        <div class="treat-list reveal">
+            <div class="treat-row">
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1531299244174-d247dd4e5a66?q=80&w=700&auto=format&fit=crop" alt="Detox Facial Glow" loading="lazy"></div>
+                <div class="treat-info">
+                    <div class="treat-row-name">Detox Facial Glow</div>
+                    <p class="treat-row-desc">Pembersihan mendalam dan masker detox untuk kulit yang terasa kusam dan lelah.</p>
+                    <div class="treat-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 60 menit</div>
+                </div>
+                <div class="treat-row-side">
+                    <div class="treat-row-price">Rp 285.000<small>per sesi</small></div>
+                    <a href="#kontak" class="treat-row-link">Booking &rarr;</a>
+                </div>
+            </div>
+            <div class="treat-row">
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=700&auto=format&fit=crop" alt="Hair Spa and Styling" loading="lazy"></div>
+                <div class="treat-info">
+                    <div class="treat-row-name">Hair Spa &amp; Styling</div>
+                    <p class="treat-row-desc">Perawatan rambut dan penataan untuk tampilan yang rapi dan sehat berkilau.</p>
+                    <div class="treat-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 45 menit</div>
+                </div>
+                <div class="treat-row-side">
+                    <div class="treat-row-price">Rp 195.000<small>per sesi</small></div>
+                    <a href="#kontak" class="treat-row-link">Booking &rarr;</a>
+                </div>
+            </div>
+            <div class="treat-row">
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1709477542149-f4e0e21d590b?q=80&w=700&auto=format&fit=crop" alt="Bridal and Event Makeup" loading="lazy"></div>
+                <div class="treat-info">
+                    <div class="treat-row-name">Bridal &amp; Event Makeup</div>
+                    <p class="treat-row-desc">Riasan tahan lama untuk hari pernikahan, wisuda, atau acara penting lainnya.</p>
+                    <div class="treat-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 90 menit</div>
+                </div>
+                <div class="treat-row-side">
+                    <div class="treat-row-price">Rp 650.000<small>per sesi</small></div>
+                    <a href="#kontak" class="treat-row-link">Booking &rarr;</a>
+                </div>
+            </div>
+            <div class="treat-row">
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?q=80&w=700&auto=format&fit=crop" alt="Body Massage Aromaterapi" loading="lazy"></div>
+                <div class="treat-info">
+                    <div class="treat-row-name">Body Massage Aromaterapi</div>
+                    <p class="treat-row-desc">Pijat relaksasi dengan minyak esensial pilihan untuk melepas ketegangan tubuh.</p>
+                    <div class="treat-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 60 menit</div>
+                </div>
+                <div class="treat-row-side">
+                    <div class="treat-row-price">Rp 320.000<small>per sesi</small></div>
+                    <a href="#kontak" class="treat-row-link">Booking &rarr;</a>
+                </div>
+            </div>
+            <div class="treat-row">
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=700&auto=format&fit=crop" alt="Manicure and Nail Care" loading="lazy"></div>
+                <div class="treat-info">
+                    <div class="treat-row-name">Manicure &amp; Nail Care</div>
+                    <p class="treat-row-desc">Perawatan kuku lengkap dengan pilihan warna dan finishing sesuai selera.</p>
+                    <div class="treat-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 45 menit</div>
+                </div>
+                <div class="treat-row-side">
+                    <div class="treat-row-price">Rp 145.000<small>per sesi</small></div>
+                    <a href="#kontak" class="treat-row-link">Booking &rarr;</a>
+                </div>
+            </div>
+            <div class="treat-row">
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1587910234573-d6fc84743bc8?q=80&w=700&auto=format&fit=crop" alt="Brow Sculpting and Lamination" loading="lazy"></div>
+                <div class="treat-info">
+                    <div class="treat-row-name">Brow Sculpting &amp; Lamination</div>
+                    <p class="treat-row-desc">Membentuk dan merapikan alis agar terlihat natural dan tahan lama.</p>
+                    <div class="treat-meta"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 30 menit</div>
+                </div>
+                <div class="treat-row-side">
+                    <div class="treat-row-price">Rp 175.000<small>per sesi</small></div>
+                    <a href="#kontak" class="treat-row-link">Booking &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pricing" id="paket">
+    <div class="wrap">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Paket &amp; Membership</div>
+            <h2 class="section-title">Pilih Paket yang <em>Sesuai Kebutuhan</em></h2>
+            <p class="section-desc">Untuk yang baru mencoba, pelanggan rutin, atau persiapan hari besar, ada paket yang pas untuk setiap kebutuhan.</p>
+        </div>
+        <div class="price-grid">
+            <div class="price-card reveal">
+                <div class="price-name">Essential</div>
+                <p class="price-sub">Cocok untuk yang baru pertama kali mencoba Studio Embun.</p>
+                <div class="price-amount">Rp 380<span>ribu, sekali kunjungan</span></div>
+                <ul class="price-list">
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 1x Detox Facial Glow</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 1x Brow Sculpting</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Konsultasi kulit gratis</li>
+                </ul>
+                <a href="#kontak" class="price-cta">Pilih Paket</a>
+            </div>
+            <div class="price-card featured reveal" style="transition-delay:0.05s;">
+                <div class="price-tag">Paling Diminati</div>
+                <div class="price-name">Signature Membership</div>
+                <p class="price-sub">Untuk perawatan rutin bulanan dengan harga lebih hemat.</p>
+                <div class="price-amount">Rp 950<span>ribu, per bulan</span></div>
+                <ul class="price-list">
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> 4x sesi campuran (facial, massage, atau nail)</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Prioritas jadwal booking</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Member card dan diskon produk</li>
+                </ul>
+                <a href="#kontak" class="price-cta">Pilih Paket</a>
+            </div>
+            <div class="price-card reveal" style="transition-delay:0.1s;">
+                <div class="price-name">Bridal Premium</div>
+                <p class="price-sub">Rangkaian perawatan lengkap untuk persiapan hari pernikahan.</p>
+                <div class="price-amount">Rp 2.4<span>juta, paket lengkap</span></div>
+                <ul class="price-list">
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Rangkaian facial 3x sebelum hari-H</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Trial makeup dan makeup hari-H</li>
+                    <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Body treatment dan nail care</li>
+                </ul>
+                <a href="#kontak" class="price-cta">Pilih Paket</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="story">
+    <div class="wrap story-grid">
+        <div class="story-img-wrap reveal">
+            <div class="story-img-frame"></div>
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=900&auto=format&fit=crop" alt="Terapis Studio Embun sedang menangani klien" loading="lazy">
+        </div>
+        <div class="reveal" style="transition-delay:0.1s;">
+            <div class="eyebrow">Cerita Kami</div>
+            <h2 class="story-title">Dibangun dari Kepercayaan pada <em>Kulit yang Sehat</em></h2>
+            <p class="story-quote">"Kami percaya kecantikan sejati dimulai dari kulit yang sehat, bukan dari lapisan yang menutupinya."</p>
+            <div class="pillars-row">
+                <div class="pillar-col">
+                    <div class="pillar-col-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4v6l4 2"/></svg></div>
+                    <div class="pillar-col-title">Perawatan Personal</div>
+                    <p class="pillar-col-desc">Setiap treatment disesuaikan dengan konsultasi kulit di awal kunjungan.</p>
+                </div>
+                <div class="pillar-col">
+                    <div class="pillar-col-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2s6 4 6 10a6 6 0 0 1-12 0c0-6 6-10 6-10z"/></svg></div>
+                    <div class="pillar-col-title">Produk Bersih dan Aman</div>
+                    <p class="pillar-col-desc">Produk teruji dan ramah untuk kulit sensitif, termasuk riwayat alergi.</p>
+                </div>
+                <div class="pillar-col">
+                    <div class="pillar-col-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+                    <div class="pillar-col-title">Terapis Berpengalaman</div>
+                    <p class="pillar-col-desc">Seluruh terapis bersertifikat dan rutin mengikuti pelatihan teknik terbaru.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="gallery" id="galeri">
+    <div class="wrap">
+        <div class="section-head reveal">
+            <div class="eyebrow">Galeri Studio</div>
+            <h2 class="section-title">Suasana yang <em>Tenang dan Nyaman</em></h2>
+        </div>
+        <div class="gallery-mosaic reveal">
+            <div class="gallery-item g-item-1">
+                <img src="https://images.unsplash.com/photo-1676536162793-faa565d976d4?q=80&w=1100&auto=format&fit=crop" alt="Display produk nail care di Studio Embun" loading="lazy">
+                <div class="gallery-tag">Nail Care Corner</div>
+            </div>
+            <div class="gallery-item g-item-2">
+                <img src="https://images.unsplash.com/photo-1706795033849-7ca391f007c5?q=80&w=700&auto=format&fit=crop" alt="Vignette handuk, lilin, dan madu di ruang perawatan" loading="lazy">
+                <div class="gallery-tag">Ruang Perawatan</div>
+            </div>
+            <div class="gallery-item g-item-3">
+                <img src="https://images.unsplash.com/photo-1619596663253-a296b155aae8?q=80&w=700&auto=format&fit=crop" alt="Meja rias dengan kursi blush pink" loading="lazy">
+                <div class="gallery-tag">Meja Rias</div>
+            </div>
+            <div class="gallery-item g-item-4">
+                <img src="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?q=80&w=1400&auto=format&fit=crop" alt="Ruang body massage Studio Embun" loading="lazy">
+                <div class="gallery-tag">Ruang Body Spa</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="wrap">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Testimoni</div>
+            <h2 class="section-title">Kata Mereka yang <em>Sudah Mencoba</em></h2>
+        </div>
+        <div class="testi-marquee reveal">
+            <div class="testi-track">
+                <div class="testi-card">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">"Facial di sini beda, kulit saya yang gampang breakout jadi jauh lebih tenang setelah beberapa kali treatment. Terapisnya juga sabar jelasin kondisi kulit."</p>
+                    <div class="testi-person">
+                        <div class="testi-avatar">R</div>
+                        <div>
+                            <div class="testi-name">Rania Putri</div>
+                            <div class="testi-role">Klien Signature Membership</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">"Makeup pernikahan saya hasilnya awet dari pagi sampai malam, padahal acara outdoor dan cuaca panas. Tim Studio Embun benar-benar profesional."</p>
+                    <div class="testi-person">
+                        <div class="testi-avatar">D</div>
+                        <div>
+                            <div class="testi-name">Dinda Amelia</div>
+                            <div class="testi-role">Paket Bridal Premium</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">"Brow lamination di sini rapi banget dan hasilnya natural, ga kaku. Sekarang jadi langganan tiap bulan sekalian manicure."</p>
+                    <div class="testi-person">
+                        <div class="testi-avatar">S</div>
+                        <div>
+                            <div class="testi-name">Salsabila Hakim</div>
+                            <div class="testi-role">Klien Reguler</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card" aria-hidden="true">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">"Facial di sini beda, kulit saya yang gampang breakout jadi jauh lebih tenang setelah beberapa kali treatment. Terapisnya juga sabar jelasin kondisi kulit."</p>
+                    <div class="testi-person">
+                        <div class="testi-avatar">R</div>
+                        <div>
+                            <div class="testi-name">Rania Putri</div>
+                            <div class="testi-role">Klien Signature Membership</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card" aria-hidden="true">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">"Makeup pernikahan saya hasilnya awet dari pagi sampai malam, padahal acara outdoor dan cuaca panas. Tim Studio Embun benar-benar profesional."</p>
+                    <div class="testi-person">
+                        <div class="testi-avatar">D</div>
+                        <div>
+                            <div class="testi-name">Dinda Amelia</div>
+                            <div class="testi-role">Paket Bridal Premium</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card" aria-hidden="true">
+                    <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                    <p class="testi-text">"Brow lamination di sini rapi banget dan hasilnya natural, ga kaku. Sekarang jadi langganan tiap bulan sekalian manicure."</p>
+                    <div class="testi-person">
+                        <div class="testi-avatar">S</div>
+                        <div>
+                            <div class="testi-name">Salsabila Hakim</div>
+                            <div class="testi-role">Klien Reguler</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="testi-hint">Arahkan kursor untuk berhenti sejenak</p>
+    </div>
+</section>
+
+<section class="faq">
+    <div class="wrap">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Pertanyaan Umum</div>
+            <h2 class="section-title">Yang Sering <em>Ditanyakan</em></h2>
+        </div>
+        <div class="faq-list reveal">
+            <div class="faq-item active">
+                <button class="faq-q">
+                    <span>Apakah perlu booking dulu sebelum datang?</span>
+                    <span class="faq-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6"/></svg></span>
+                </button>
+                <div class="faq-a"><p>Sangat disarankan untuk booking terlebih dahulu melalui WhatsApp atau form kontak di halaman ini, agar kami bisa menyiapkan terapis dan jadwal yang sesuai. Walk in tetap kami layani jika slot tersedia.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Apakah produk yang digunakan aman untuk kulit sensitif?</span>
+                    <span class="faq-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6"/></svg></span>
+                </button>
+                <div class="faq-a"><p>Ya, kami menggunakan produk yang sudah teruji dan cocok untuk berbagai jenis kulit termasuk kulit sensitif. Saat konsultasi awal, terapis akan menanyakan riwayat alergi atau kondisi kulit klien terlebih dahulu.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Bisakah saya request terapis tertentu?</span>
+                    <span class="faq-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6"/></svg></span>
+                </button>
+                <div class="faq-a"><p>Bisa. Cukup sampaikan preferensi terapis saat melakukan booking, dan kami akan menyesuaikan jadwal sebaik mungkin sesuai ketersediaan.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Bagaimana kebijakan pembatalan atau reschedule?</span>
+                    <span class="faq-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6"/></svg></span>
+                </button>
+                <div class="faq-a"><p>Pembatalan atau perubahan jadwal dapat dilakukan maksimal 6 jam sebelum waktu booking melalui WhatsApp, tanpa biaya tambahan. Untuk perubahan mendadak, silakan hubungi tim kami langsung.</p></div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-q">
+                    <span>Apakah tersedia layanan khusus untuk pengantin?</span>
+                    <span class="faq-chev"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 9l6 6 6-6"/></svg></span>
+                </button>
+                <div class="faq-a"><p>Tersedia, melalui paket Bridal Premium yang mencakup rangkaian facial sebelum hari-H, trial makeup, makeup hari pernikahan, hingga body treatment dan nail care.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact" id="kontak">
+    <div class="wrap contact-grid">
+        <div class="contact-info-card reveal">
+            <div class="eyebrow">Kontak Kami</div>
+            <h3 class="contact-info-title">Booking Treatment atau Tanya Dulu, Kami Siap Bantu</h3>
+            <div class="ci-row">
+                <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div>
+                    <div class="ci-label">Lokasi</div>
+                    <div class="ci-value">Jl. Panglima Polim Raya No. 8, Jakarta Selatan</div>
+                </div>
+            </div>
+            <div class="ci-row">
+                <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <div>
+                    <div class="ci-label">Telepon / WhatsApp</div>
+                    <div class="ci-value">+62 813 7890 1234</div>
+                </div>
+            </div>
+            <div class="ci-row">
+                <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+                <div>
+                    <div class="ci-label">Jam Operasional</div>
+                    <div class="ci-value">Senin sampai Sabtu, 09.00 - 20.00 WIB</div>
+                </div>
+            </div>
+            <div class="ci-row">
+                <div class="ci-icon"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg></div>
+                <div>
+                    <div class="ci-label">Email</div>
+                    <div class="ci-value">hello@studioembun.id</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-card reveal" style="transition-delay:0.1s;">
+            <form id="contactForm" novalidate>
+                <div class="form-row">
+                    <div class="field" id="field-name">
+                        <label for="cf-name">Nama Lengkap</label>
+                        <input type="text" id="cf-name" name="name" placeholder="Nama Anda">
+                        <div class="field-error">Nama wajib diisi.</div>
+                    </div>
+                    <div class="field" id="field-phone">
+                        <label for="cf-phone">Nomor WhatsApp</label>
+                        <input type="text" id="cf-phone" name="phone" placeholder="0812xxxxxxx">
+                        <div class="field-error">Masukkan nomor yang valid.</div>
+                    </div>
+                </div>
+                <div class="field" id="field-email">
+                    <label for="cf-email">Email</label>
+                    <input type="text" id="cf-email" name="email" placeholder="nama@email.com">
+                    <div class="field-error">Masukkan alamat email yang valid.</div>
+                </div>
+                <div class="field" id="field-topic">
+                    <label for="cf-topic">Treatment yang Diminati</label>
+                    <select id="cf-topic" name="topic">
+                        <option value="">Pilih treatment</option>
+                        <option value="facial">Facial &amp; Skincare</option>
+                        <option value="makeup">Makeup &amp; Styling</option>
+                        <option value="brow">Brow &amp; Lash</option>
+                        <option value="body">Body &amp; Spa</option>
+                        <option value="bridal">Paket Bridal Premium</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                    <div class="field-error">Silakan pilih salah satu treatment.</div>
+                </div>
+                <div class="field" id="field-message">
+                    <label for="cf-message">Pesan</label>
+                    <textarea id="cf-message" name="message" placeholder="Tulis tanggal yang diinginkan atau pertanyaan lain"></textarea>
+                    <div class="field-error">Pesan wajib diisi.</div>
+                </div>
+                <button type="submit" class="form-submit">Kirim Booking</button>
+                <div class="form-success" id="formSuccess">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M20 6L9 17l-5-5"/></svg>
+                    Terima kasih, permintaan booking Anda sudah kami terima. Tim kami akan segera menghubungi Anda.
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="#top" class="logo">Studio<span> Embun</span></a>
+                <p class="footer-desc">Studio kecantikan dan perawatan kulit dengan pendekatan personal, produk yang aman, dan terapis berpengalaman.</p>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Jelajah</div>
+                <a href="#layanan">Layanan</a>
+                <a href="#treatment">Treatment</a>
+                <a href="#paket">Paket</a>
+                <a href="#galeri">Galeri</a>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Layanan</div>
+                <span>Facial &amp; Skincare</span>
+                <span>Makeup &amp; Styling</span>
+                <span>Brow &amp; Lash</span>
+                <span>Body &amp; Spa</span>
+            </div>
+            <div class="footer-col">
+                <div class="footer-col-title">Kontak</div>
+                <span>Jl. Panglima Polim Raya No. 8, Jakarta Selatan</span>
+                <span>+62 813 7890 1234</span>
+                <span>hello@studioembun.id</span>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Copyright Studio Embun. Seluruh hak cipta dilindungi.</span>
+            <a href="../../index.html" class="footer-back">Demo ini dibuat oleh Bagas Aria Sativa</a>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/6281378901234" target="_blank" rel="noopener" class="wa-float" aria-label="Hubungi via WhatsApp">
+    <svg width="27" height="27" viewBox="0 0 24 24" fill="#ffffff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347z"/><path d="M12.04 0C5.398 0 0 5.398 0 12.041c0 2.125.554 4.203 1.606 6.032L0 24l6.063-1.591a12.018 12.018 0 0 0 5.977 1.523h.005c6.642 0 12.04-5.398 12.04-12.041C24.084 5.398 18.686 0 12.04 0zm0 22.006h-.004a9.99 9.99 0 0 1-5.09-1.393l-.365-.217-3.598.944.96-3.507-.238-.36a9.965 9.965 0 0 1-1.53-5.33c0-5.51 4.484-9.994 9.998-9.994 2.67 0 5.178 1.04 7.066 2.93a9.937 9.937 0 0 1 2.93 7.072c-.002 5.51-4.486 9.855-9.13 9.855z"/></svg>
+</a>
+
+<script>
+// Header scroll state
+const header = document.getElementById('site-header');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) header.classList.add('scrolled');
+    else header.classList.remove('scrolled');
+});
+
+// Mobile menu
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+    burger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+});
+mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+        burger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+    });
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+revealEls.forEach((el) => revealObserver.observe(el));
+
+// Category tabbed showcase
+document.querySelectorAll('.cat-tab-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const idx = btn.getAttribute('data-cat');
+        document.querySelectorAll('.cat-tab-btn').forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.cat-panel-img').forEach((p) => {
+            p.classList.toggle('active', p.getAttribute('data-panel') === idx);
+        });
+        document.querySelectorAll('.cat-panel-tag').forEach((t) => {
+            t.classList.toggle('active', t.getAttribute('data-tag') === idx);
+        });
+    });
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-q').forEach((btn) => {
+    btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const answer = item.querySelector('.faq-a');
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach((other) => {
+            other.classList.remove('active');
+            other.querySelector('.faq-a').style.maxHeight = null;
+        });
+        if (!isActive) {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+    });
+});
+// Initialize the default-open FAQ height
+window.addEventListener('load', () => {
+    const activeAnswer = document.querySelector('.faq-item.active .faq-a');
+    if (activeAnswer) activeAnswer.style.maxHeight = activeAnswer.scrollHeight + 'px';
+});
+
+// Contact form validation (no browser alert)
+const form = document.getElementById('contactForm');
+const formSuccess = document.getElementById('formSuccess');
+
+function setInvalid(fieldId, invalid) {
+    const field = document.getElementById(fieldId);
+    field.classList.toggle('invalid', invalid);
+}
+
+function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+function isValidPhone(value) {
+    return /^[0-9+\s-]{8,16}$/.test(value);
+}
+
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    formSuccess.classList.remove('show');
+
+    const name = document.getElementById('cf-name').value.trim();
+    const phone = document.getElementById('cf-phone').value.trim();
+    const email = document.getElementById('cf-email').value.trim();
+    const topic = document.getElementById('cf-topic').value;
+    const message = document.getElementById('cf-message').value.trim();
+
+    let valid = true;
+
+    if (!name) { setInvalid('field-name', true); valid = false; } else { setInvalid('field-name', false); }
+    if (!phone || !isValidPhone(phone)) { setInvalid('field-phone', true); valid = false; } else { setInvalid('field-phone', false); }
+    if (!email || !isValidEmail(email)) { setInvalid('field-email', true); valid = false; } else { setInvalid('field-email', false); }
+    if (!topic) { setInvalid('field-topic', true); valid = false; } else { setInvalid('field-topic', false); }
+    if (!message) { setInvalid('field-message', true); valid = false; } else { setInvalid('field-message', false); }
+
+    if (valid) {
+        formSuccess.classList.add('show');
+        form.reset();
+    }
+});
+</script>
+
+</body>
+</html>

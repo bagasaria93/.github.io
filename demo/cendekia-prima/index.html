@@ -1,0 +1,1859 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cendekia Prima - Bimbingan Belajar SD, SMP, SMA, dan UTBK</title>
+<meta name="description" content="Cendekia Prima adalah bimbingan belajar untuk siswa SD, SMP, SMA, dan persiapan UTBK dengan tentor berpengalaman, kelas kecil, dan try out rutin.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,500;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --indigo: #372b64;
+    --indigo-deep: #221a42;
+    --coral: #ff6b45;
+    --coral-deep: #e2532c;
+    --cream: #faf7ef;
+    --cream-2: #f1ead9;
+    --ink: #241c3d;
+    --ink-dim: #6e6785;
+    --white: #ffffff;
+    --border: rgba(36, 28, 61, 0.12);
+    --shadow: 0 20px 50px rgba(34, 26, 66, 0.16);
+    --font-display: 'Baloo 2', sans-serif;
+    --font-body: 'Nunito Sans', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+
+a { text-decoration: none; color: inherit; }
+
+ul { list-style: none; }
+
+.container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--indigo-deep);
+    font-weight: 700;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--coral-deep);
+    margin-bottom: 14px;
+}
+
+.eyebrow::before {
+    content: "";
+    width: 26px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--coral);
+    display: inline-block;
+}
+
+.section-head {
+    max-width: 640px;
+    margin-bottom: 46px;
+}
+
+.section-head h2 {
+    font-size: clamp(28px, 4vw, 40px);
+    line-height: 1.2;
+    margin-bottom: 14px;
+}
+
+.section-head p {
+    color: var(--ink-dim);
+    font-size: 16px;
+}
+
+.section-head.center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+section { padding: 96px 0; }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 30px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--coral);
+    color: var(--white);
+}
+
+.btn-primary:hover {
+    background: var(--coral-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(255, 107, 69, 0.4);
+}
+
+.btn-dark {
+    background: var(--indigo);
+    color: var(--white);
+}
+
+.btn-dark:hover {
+    background: var(--indigo-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(34, 26, 66, 0.35);
+}
+
+.btn-outline {
+    background: transparent;
+    border-color: var(--indigo);
+    color: var(--indigo);
+}
+
+.btn-outline:hover {
+    background: var(--indigo);
+    color: var(--white);
+}
+
+.btn-outline-light {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.4);
+    color: var(--white);
+}
+
+.btn-outline-light:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: var(--white);
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 900;
+    background: rgba(250, 247, 239, 0);
+    transition: background 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease;
+    padding: 22px 0;
+}
+
+.navbar.scrolled {
+    background: rgba(250, 247, 239, 0.94);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(34, 26, 66, 0.1);
+    padding: 14px 0;
+}
+
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--indigo-deep);
+}
+
+.logo .logo-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--coral);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-weight: 800;
+    font-size: 17px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover { color: var(--coral-deep); }
+
+.nav-cta { display: flex; align-items: center; gap: 18px; }
+
+.burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    padding: 6px;
+}
+
+.burger span {
+    width: 26px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--indigo-deep);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.burger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--indigo-deep);
+    z-index: 950;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.mobile-menu.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.mobile-menu a {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--white);
+}
+
+.mobile-menu a:hover { color: var(--coral); }
+
+/* Hero */
+.hero {
+    position: relative;
+    background: linear-gradient(180deg, var(--cream-2) 0%, var(--cream) 60%);
+    padding: 168px 0 100px;
+    overflow: hidden;
+}
+
+.hero::before, .hero::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.hero::before {
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(255, 107, 69, 0.18), transparent 70%);
+    top: -80px;
+    right: -100px;
+}
+
+.hero::after {
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(55, 43, 100, 0.14), transparent 70%);
+    bottom: -60px;
+    left: -80px;
+}
+
+.hero .container {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-copy h1 {
+    font-size: clamp(36px, 5vw, 54px);
+    line-height: 1.14;
+    margin-bottom: 22px;
+}
+
+.hero-copy h1 span { color: var(--coral); }
+
+.hero-copy p {
+    color: var(--ink-dim);
+    font-size: 17px;
+    max-width: 500px;
+    margin-bottom: 34px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 46px;
+}
+
+.hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 36px;
+}
+
+.hero-stat .num {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--indigo-deep);
+    line-height: 1;
+    margin-bottom: 6px;
+}
+
+.hero-stat .label {
+    color: var(--ink-dim);
+    font-size: 13px;
+}
+
+.hero-media { position: relative; }
+
+.hero-media .img-wrap {
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 6px solid var(--white);
+}
+
+.hero-media img { height: 460px; object-fit: cover; width: 100%; }
+
+.hero-badge {
+    position: absolute;
+    left: -28px;
+    bottom: -26px;
+    background: var(--white);
+    padding: 18px 22px;
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 240px;
+}
+
+.hero-badge .icon {
+    width: 46px;
+    height: 46px;
+    background: var(--coral);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.hero-badge .icon svg { width: 22px; height: 22px; stroke: var(--white); }
+
+.hero-badge strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 15px;
+    color: var(--indigo-deep);
+    line-height: 1.3;
+}
+
+.hero-badge span { font-size: 12.5px; color: var(--ink-dim); font-weight: 600; }
+
+/* Trust strip */
+.trust-strip {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 34px 0;
+}
+
+.trust-strip .container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.trust-item .icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--cream-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.trust-item .icon svg { width: 22px; height: 22px; stroke: var(--coral-deep); }
+
+.trust-item strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 14.5px;
+    color: var(--indigo-deep);
+    margin-bottom: 3px;
+}
+
+.trust-item p { font-size: 13px; color: var(--ink-dim); }
+
+/* Jenjang / Program dan Harga */
+.jenjang { background: var(--cream); }
+
+.jenjang-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 44px;
+    flex-wrap: wrap;
+}
+
+.jenjang-tab {
+    padding: 13px 26px;
+    border-radius: 30px;
+    border: 2px solid var(--border);
+    background: var(--white);
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.jenjang-tab.active {
+    background: var(--indigo);
+    border-color: var(--indigo);
+    color: var(--white);
+    box-shadow: 0 12px 26px rgba(55, 43, 100, 0.28);
+}
+
+.jenjang-tab:hover:not(.active) {
+    border-color: var(--coral);
+    color: var(--coral-deep);
+}
+
+.jenjang-panel { display: none; }
+
+.jenjang-panel.active { display: block; animation: fadeIn 0.4s ease; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.program-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.program-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 32px 28px;
+    border: 1px solid var(--border);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.program-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow);
+}
+
+.program-card.featured {
+    background: var(--indigo);
+    border-color: var(--indigo);
+}
+
+.program-card .badge {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: var(--cream-2);
+    color: var(--indigo-deep);
+    margin-bottom: 16px;
+}
+
+.program-card.featured .badge {
+    background: var(--coral);
+    color: var(--white);
+}
+
+.program-card h3 {
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.program-card.featured h3 { color: var(--white); }
+
+.program-card .desc {
+    font-size: 14px;
+    color: var(--ink-dim);
+    margin-bottom: 20px;
+    min-height: 42px;
+}
+
+.program-card.featured .desc { color: rgba(255, 255, 255, 0.72); }
+
+.program-card .price {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--indigo-deep);
+}
+
+.program-card.featured .price { color: var(--white); }
+
+.program-card .price span {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-dim);
+}
+
+.program-card.featured .price span { color: rgba(255, 255, 255, 0.6); }
+
+.program-card ul {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.program-card li {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    font-size: 13.5px;
+    color: var(--ink-dim);
+}
+
+.program-card.featured li { color: rgba(255, 255, 255, 0.82); }
+
+.program-card li svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--coral-deep);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.program-card.featured li svg { stroke: var(--coral); }
+
+/* Keunggulan */
+.keunggulan { background: var(--white); }
+
+.keunggulan-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+.keunggulan-card {
+    text-align: center;
+    padding: 30px 20px;
+}
+
+.keunggulan-card .icon {
+    width: 66px;
+    height: 66px;
+    border-radius: 20px;
+    background: var(--cream-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.keunggulan-card .icon svg { width: 28px; height: 28px; stroke: var(--coral-deep); }
+
+.keunggulan-card h3 {
+    font-size: 16.5px;
+    margin-bottom: 10px;
+}
+
+.keunggulan-card p {
+    font-size: 13.5px;
+    color: var(--ink-dim);
+}
+
+/* Galeri */
+.galeri { background: var(--cream); }
+
+.galeri-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: 18px;
+}
+
+.galeri-item {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.galeri-item.wide { grid-column: span 2; }
+
+.galeri-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.galeri-item:hover img { transform: scale(1.08); }
+
+.galeri-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(34, 26, 66, 0.82), transparent 55%);
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.galeri-item:hover .galeri-overlay { opacity: 1; }
+
+.galeri-overlay span {
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Testimoni */
+.testimoni { background: var(--white); }
+
+.testimoni-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+}
+
+.testimoni-card {
+    background: var(--cream);
+    border-radius: 18px;
+    padding: 30px;
+    border: 1px solid var(--border);
+}
+
+.testimoni-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+}
+
+.testimoni-stars svg { width: 16px; height: 16px; fill: var(--coral); }
+
+.testimoni-card p.quote {
+    font-size: 14.5px;
+    color: var(--ink);
+    margin-bottom: 22px;
+}
+
+.testimoni-person {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.testimoni-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--indigo);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+
+.testimoni-person strong {
+    display: block;
+    font-size: 14.5px;
+}
+
+.testimoni-person span {
+    font-size: 12.5px;
+    color: var(--ink-dim);
+}
+
+/* Konsultasi Form */
+.konsultasi { background: var(--indigo-deep); color: var(--white); }
+
+.konsultasi .container {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 60px;
+}
+
+.konsultasi-intro .eyebrow { color: var(--coral); }
+
+.konsultasi-intro h2 {
+    color: var(--white);
+    font-size: clamp(26px, 3.6vw, 36px);
+    margin-bottom: 18px;
+    line-height: 1.2;
+}
+
+.konsultasi-intro p {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 15px;
+    margin-bottom: 28px;
+}
+
+.konsultasi-points { display: flex; flex-direction: column; gap: 16px; }
+
+.konsultasi-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 14.5px;
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.konsultasi-point svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--coral);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.konsultasi-form {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 38px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+}
+
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 13px 16px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    border-radius: 10px;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.form-group select option { color: var(--ink); }
+
+.form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255, 255, 255, 0.38); }
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--coral);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea { border-color: #ff8a75; }
+
+.error-msg {
+    display: none;
+    color: #ffb3a3;
+    font-size: 12.5px;
+    margin-top: 7px;
+}
+
+.form-group.error .error-msg { display: block; }
+
+.konsultasi-form textarea { resize: vertical; min-height: 90px; }
+
+.konsultasi-submit { width: 100%; margin-top: 6px; }
+
+.form-success {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.form-success.active { display: block; animation: fadeIn 0.4s ease; }
+
+.form-success .icon-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--coral);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.form-success .icon-circle svg { width: 30px; height: 30px; stroke: var(--white); }
+
+.form-success h3 {
+    color: var(--white);
+    font-size: 21px;
+    margin-bottom: 10px;
+}
+
+.form-success p { color: rgba(255, 255, 255, 0.68); font-size: 14.5px; }
+
+.konsultasi-form-inner.hidden { display: none; }
+
+/* FAQ */
+.faq { background: var(--cream); }
+
+.faq-list {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--border);
+}
+
+.faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 24px 4px;
+    cursor: pointer;
+}
+
+.faq-question h4 {
+    font-size: 16.5px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    color: var(--ink);
+}
+
+.faq-question .plus {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+}
+
+.faq-question .plus::before,
+.faq-question .plus::after {
+    content: "";
+    position: absolute;
+    background: var(--indigo);
+}
+
+.faq-question .plus::before { width: 11px; height: 2px; }
+.faq-question .plus::after { width: 2px; height: 11px; }
+
+.faq-item.active .faq-question .plus {
+    background: var(--coral);
+    border-color: var(--coral);
+    transform: rotate(135deg);
+}
+
+.faq-item.active .faq-question .plus::before,
+.faq-item.active .faq-question .plus::after { background: var(--white); }
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+}
+
+.faq-item.active .faq-answer { max-height: 240px; }
+
+.faq-answer p {
+    padding: 0 4px 26px;
+    color: var(--ink-dim);
+    font-size: 14.5px;
+    max-width: 680px;
+}
+
+/* Contact */
+.kontak { background: var(--white); }
+
+.kontak .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+}
+
+.kontak-card {
+    background: var(--cream);
+    border-radius: 18px;
+    padding: 30px;
+    border: 1px solid var(--border);
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+}
+
+.kontak-card .icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--indigo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kontak-card .icon svg { width: 22px; height: 22px; stroke: var(--coral); }
+
+.kontak-card h4 {
+    font-size: 15px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 6px;
+}
+
+.kontak-card p { font-size: 14px; color: var(--ink-dim); }
+
+/* Footer */
+footer {
+    background: var(--indigo-deep);
+    color: rgba(255, 255, 255, 0.65);
+    padding: 70px 0 30px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr 0.8fr 1fr;
+    gap: 40px;
+    padding-bottom: 46px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-brand .logo { margin-bottom: 16px; }
+.footer-brand .logo span { color: var(--white); }
+
+.footer-brand p { font-size: 14px; max-width: 300px; margin-bottom: 20px; }
+
+.footer-social { display: flex; gap: 12px; }
+
+.footer-social a {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.footer-social a:hover { background: var(--coral); }
+
+.footer-social a svg { width: 16px; height: 16px; stroke: var(--white); }
+
+.footer-col h5 {
+    color: var(--white);
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-family: var(--font-display);
+}
+
+.footer-col ul { display: flex; flex-direction: column; gap: 12px; }
+
+.footer-col a { font-size: 14px; transition: color 0.2s ease; }
+
+.footer-col a:hover { color: var(--coral); }
+
+.footer-bottom {
+    padding-top: 26px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.footer-bottom a { color: var(--coral); }
+
+/* WA Float */
+.wa-float {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.45);
+    z-index: 500;
+    transition: transform 0.2s ease;
+}
+
+.wa-float:hover { transform: scale(1.08); }
+
+.wa-float svg { width: 28px; height: 28px; fill: var(--white); }
+
+/* Reveal animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .keunggulan-grid { grid-template-columns: repeat(2, 1fr); }
+    .program-grid { grid-template-columns: repeat(2, 1fr); }
+    .galeri-grid { grid-template-columns: repeat(2, 1fr); }
+    .galeri-item.wide { grid-column: span 2; }
+    .testimoni-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-strip .container { grid-template-columns: repeat(2, 1fr); }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .konsultasi .container { grid-template-columns: 1fr; }
+    .hero .container { grid-template-columns: 1fr; }
+    .hero-media { order: -1; }
+}
+
+@media (max-width: 860px) {
+    .nav-links, .nav-cta .btn-outline { display: none; }
+    .burger { display: flex; }
+    section { padding: 70px 0; }
+    .keunggulan-grid { grid-template-columns: 1fr 1fr; }
+    .program-grid { grid-template-columns: 1fr; }
+    .galeri-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; }
+    .galeri-item.wide { grid-column: span 2; }
+    .testimoni-grid { grid-template-columns: 1fr; }
+    .kontak .container { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: repeat(3, auto); gap: 20px; }
+    .hero-badge { left: 16px; bottom: -24px; max-width: 200px; }
+}
+
+@media (max-width: 560px) {
+    .hero { padding: 140px 0 90px; }
+    .hero-actions { flex-direction: column; }
+    .hero-actions .btn { width: 100%; }
+    .trust-strip .container { grid-template-columns: 1fr; }
+    .keunggulan-grid { grid-template-columns: 1fr; }
+    .galeri-grid { grid-template-columns: 1fr; }
+    .galeri-item.wide { grid-column: span 1; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .konsultasi-form { padding: 26px; }
+    .jenjang-tabs { gap: 8px; }
+    .jenjang-tab { padding: 11px 18px; font-size: 13.5px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="#home" class="logo"><span class="logo-mark">CP</span> Cendekia Prima</a>
+        <div class="nav-links">
+            <a href="#program">Program</a>
+            <a href="#keunggulan">Keunggulan</a>
+            <a href="#galeri">Galeri</a>
+            <a href="#testimoni">Testimoni</a>
+            <a href="#faq">FAQ</a>
+            <a href="#kontak">Kontak</a>
+        </div>
+        <div class="nav-cta">
+            <a href="#konsultasi" class="btn btn-primary">Konsultasi Gratis</a>
+            <button class="burger" id="burger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#program">Program</a>
+    <a href="#keunggulan">Keunggulan</a>
+    <a href="#galeri">Galeri</a>
+    <a href="#testimoni">Testimoni</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontak">Kontak</a>
+    <a href="#konsultasi" class="btn btn-primary" style="margin-top: 10px;">Konsultasi Gratis</a>
+</div>
+
+<header class="hero" id="home">
+    <div class="container">
+        <div class="hero-copy">
+            <div class="eyebrow">Bimbingan Belajar SD, SMP, SMA, dan UTBK</div>
+            <h1>Belajar Jadi <span>Terarah,</span> Nilai dan Percaya Diri Ikut Naik</h1>
+            <p>Cendekia Prima mendampingi siswa SD, SMP, SMA, hingga persiapan UTBK dengan tentor berpengalaman, kelas kecil, modul terstruktur, dan try out rutin untuk mengukur perkembangan belajar.</p>
+            <div class="hero-actions">
+                <a href="#konsultasi" class="btn btn-primary">Konsultasi Gratis</a>
+                <a href="#program" class="btn btn-outline">Lihat Program dan Harga</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="num" data-count="11">0</div>
+                    <div class="label">Tahun Berdiri</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num"><span data-count="850">0</span>+</div>
+                    <div class="label">Siswa Aktif</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num" data-count="30">0</div>
+                    <div class="label">Tentor Berpengalaman</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-media">
+            <div class="img-wrap">
+                <img src="https://images.unsplash.com/photo-1742549586702-c23994895082?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" alt="Siswa Cendekia Prima mengerjakan latihan soal di kelas" loading="eager">
+            </div>
+            <div class="hero-badge">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                </div>
+                <div>
+                    <strong>Try Out Rutin</strong>
+                    <span>Setiap bulan untuk semua jenjang</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="trust-strip">
+    <div class="container">
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"></path></svg></div>
+            <div><strong>Tentor S1 dan S2</strong><p>Berpengalaman mengajar</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 4v2m8-2v2"></path></svg></div>
+            <div><strong>Modul Terstruktur</strong><p>Sesuai kurikulum terbaru</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M9 12l2 2 4-4"></path></svg></div>
+            <div><strong>Try Out Berkala</strong><p>Pantau perkembangan nilai</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"></path><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8"></path></svg></div>
+            <div><strong>Kelas Kecil</strong><p>Maksimal 8 siswa per kelas</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="jenjang" id="program">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Program dan Harga</div>
+            <h2>Pilih Jenjang, Lihat Program yang Sesuai</h2>
+            <p>Setiap jenjang punya fokus dan kebutuhan belajar yang berbeda, pilih jenjang anak untuk melihat program dan harga yang tersedia.</p>
+        </div>
+        <div class="jenjang-tabs reveal">
+            <button class="jenjang-tab active" data-jenjang="sd">SD</button>
+            <button class="jenjang-tab" data-jenjang="smp">SMP</button>
+            <button class="jenjang-tab" data-jenjang="sma">SMA</button>
+            <button class="jenjang-tab" data-jenjang="utbk">UTBK</button>
+        </div>
+        <div class="reveal">
+            <div class="jenjang-panel active" id="panel-sd">
+                <div class="program-grid">
+                    <div class="program-card">
+                        <span class="badge">Kelas 1-2</span>
+                        <h3>Program Calistung</h3>
+                        <p class="desc">Membaca, menulis, dan berhitung dasar dengan pendekatan yang menyenangkan.</p>
+                        <div class="price">Rp 300.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>2 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Modul latihan mingguan</li>
+                        </ul>
+                    </div>
+                    <div class="program-card featured">
+                        <span class="badge">Kelas 3-6</span>
+                        <h3>Semua Mata Pelajaran SD</h3>
+                        <p class="desc">Pendampingan lengkap Matematika, IPA, Bahasa Indonesia, dan Bahasa Inggris.</p>
+                        <div class="price">Rp 350.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>3 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Laporan perkembangan bulanan</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Konsultasi orang tua</li>
+                        </ul>
+                    </div>
+                    <div class="program-card">
+                        <span class="badge">Kelas 6</span>
+                        <h3>Persiapan UAS SD</h3>
+                        <p class="desc">Pemantapan materi dan latihan soal menjelang ujian akhir sekolah.</p>
+                        <div class="price">Rp 250.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Latihan soal terarah</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Pembahasan tiap sesi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="jenjang-panel" id="panel-smp">
+                <div class="program-grid">
+                    <div class="program-card">
+                        <span class="badge">Kelas 7-9</span>
+                        <h3>Matematika dan IPA</h3>
+                        <p class="desc">Fokus penguatan logika dan konsep dasar sains untuk jenjang SMP.</p>
+                        <div class="price">Rp 400.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>3 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Latihan soal harian</li>
+                        </ul>
+                    </div>
+                    <div class="program-card featured">
+                        <span class="badge">Kelas 7-9</span>
+                        <h3>Semua Mata Pelajaran SMP</h3>
+                        <p class="desc">Pendampingan menyeluruh untuk mata pelajaran inti dan tugas sekolah.</p>
+                        <div class="price">Rp 450.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>4 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Laporan perkembangan bulanan</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Pendampingan tugas sekolah</li>
+                        </ul>
+                    </div>
+                    <div class="program-card">
+                        <span class="badge">Kelas 9</span>
+                        <h3>Persiapan ANBK</h3>
+                        <p class="desc">Latihan literasi dan numerasi menjelang asesmen nasional.</p>
+                        <div class="price">Rp 300.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Simulasi soal ANBK</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Pembahasan tiap sesi</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="jenjang-panel" id="panel-sma">
+                <div class="program-grid">
+                    <div class="program-card">
+                        <span class="badge">Kelas 10-12</span>
+                        <h3>Program IPA</h3>
+                        <p class="desc">Matematika, Fisika, Kimia, dan Biologi dengan latihan soal terstruktur.</p>
+                        <div class="price">Rp 500.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>4 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Try out per bulan</li>
+                        </ul>
+                    </div>
+                    <div class="program-card">
+                        <span class="badge">Kelas 10-12</span>
+                        <h3>Program IPS</h3>
+                        <p class="desc">Matematika, Ekonomi, Sosiologi, dan Geografi dengan latihan soal terarah.</p>
+                        <div class="price">Rp 500.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>4 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Try out per bulan</li>
+                        </ul>
+                    </div>
+                    <div class="program-card featured">
+                        <span class="badge">Kelas 10-12</span>
+                        <h3>Semua Mata Pelajaran SMA</h3>
+                        <p class="desc">Pendampingan lengkap seluruh mata pelajaran inti sesuai jurusan.</p>
+                        <div class="price">Rp 600.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>5 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Laporan perkembangan bulanan</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Konsultasi jurusan kuliah</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="jenjang-panel" id="panel-utbk">
+                <div class="program-grid">
+                    <div class="program-card featured">
+                        <span class="badge">Kelas 12 dan Gap Year</span>
+                        <h3>Intensif UTBK Saintek</h3>
+                        <p class="desc">Pemantapan Tes Potensi Skolastik dan mata pelajaran saintek untuk UTBK.</p>
+                        <div class="price">Rp 750.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>5 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Try out mingguan</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Konsultasi pemilihan jurusan</li>
+                        </ul>
+                    </div>
+                    <div class="program-card">
+                        <span class="badge">Kelas 12 dan Gap Year</span>
+                        <h3>Intensif UTBK Soshum</h3>
+                        <p class="desc">Pemantapan Tes Potensi Skolastik dan mata pelajaran soshum untuk UTBK.</p>
+                        <div class="price">Rp 750.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>5 kali pertemuan per minggu</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Try out mingguan</li>
+                        </ul>
+                    </div>
+                    <div class="program-card">
+                        <span class="badge">Semua Jurusan</span>
+                        <h3>Try Out Rutin UTBK</h3>
+                        <p class="desc">Simulasi UTBK dengan pembahasan lengkap dan analisis skor per subtes.</p>
+                        <div class="price">Rp 200.000 <span>/bulan</span></div>
+                        <ul>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>2 kali simulasi per bulan</li>
+                            <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Analisis skor per subtes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="keunggulan" id="keunggulan">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Keunggulan</div>
+            <h2>Kenapa Orang Tua Memilih Cendekia Prima</h2>
+        </div>
+        <div class="keunggulan-grid">
+            <div class="keunggulan-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><circle cx="17" cy="9" r="2.5"></circle><path d="M3 20c0-3 2.5-5 6-5s6 2 6 5"></path><path d="M14.5 15.2c2.5.3 4.5 2 4.5 4.8"></path></svg></div>
+                <h3>Kelas Kecil</h3>
+                <p>Maksimal 8 siswa per kelas agar tentor bisa memperhatikan tiap siswa secara personal.</p>
+            </div>
+            <div class="keunggulan-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 4v2m8-2v2"></path></svg></div>
+                <h3>Modul Terstruktur</h3>
+                <p>Materi disusun bertahap mengikuti kurikulum terbaru dan kebutuhan tiap jenjang.</p>
+            </div>
+            <div class="keunggulan-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 15l4-6 4 3 5-8"></path></svg></div>
+                <h3>Try Out Berkala</h3>
+                <p>Simulasi ujian rutin dengan laporan skor untuk memantau perkembangan belajar.</p>
+            </div>
+            <div class="keunggulan-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg></div>
+                <h3>Konsultasi Orang Tua</h3>
+                <p>Laporan perkembangan bulanan dan sesi konsultasi dengan tentor dan orang tua.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="galeri" id="galeri">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Galeri</div>
+            <h2>Suasana Belajar di Cendekia Prima</h2>
+            <p>Sebagian dokumentasi kegiatan belajar dan tentor kami di kelas.</p>
+        </div>
+        <div class="galeri-grid reveal">
+            <div class="galeri-item wide">
+                <img src="https://images.unsplash.com/photo-1758270704763-22072a90d3b6?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" alt="Siswa berdiskusi santai di dalam kelas" loading="lazy">
+                <div class="galeri-overlay"><span>Diskusi Kelompok</span></div>
+            </div>
+            <div class="galeri-item">
+                <img src="https://images.unsplash.com/photo-1746513399803-e988cc54e812?q=80&amp;w=800&amp;auto=format&amp;fit=crop" alt="Tentor Cendekia Prima menjelaskan materi di depan kelas" loading="lazy">
+                <div class="galeri-overlay"><span>Tentor Mengajar</span></div>
+            </div>
+            <div class="galeri-item">
+                <img src="https://images.unsplash.com/photo-1598981457915-aea220950616?q=80&amp;w=800&amp;auto=format&amp;fit=crop" alt="Siswa mengerjakan latihan soal di meja kelas" loading="lazy">
+                <div class="galeri-overlay"><span>Sesi Latihan Soal</span></div>
+            </div>
+            <div class="galeri-item">
+                <img src="https://images.unsplash.com/photo-1560785477-d43d2b34e0df?q=80&amp;w=800&amp;auto=format&amp;fit=crop" alt="Siswa SD mengerjakan lembar kerja matematika" loading="lazy">
+                <div class="galeri-overlay"><span>Latihan Matematika SD</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimoni" id="testimoni">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Testimoni</div>
+            <h2>Kata Orang Tua dan Siswa Kami</h2>
+            <p>Pengalaman keluarga yang sudah belajar bersama Cendekia Prima.</p>
+        </div>
+        <div class="testimoni-grid">
+            <div class="testimoni-card reveal">
+                <div class="testimoni-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                </div>
+                <p class="quote">"Anak saya jadi lebih percaya diri menghadapi ulangan sejak ikut kelas SD di sini. Laporan bulanannya juga membantu saya memantau perkembangannya."</p>
+                <div class="testimoni-person">
+                    <div class="testimoni-avatar">SW</div>
+                    <div><strong>Sri Wahyuni</strong><span>Orang Tua Siswa SD</span></div>
+                </div>
+            </div>
+            <div class="testimoni-card reveal">
+                <div class="testimoni-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                </div>
+                <p class="quote">"Kelas UTBK di sini padat tapi jelas, try out mingguan bikin saya tahu bagian mana yang masih lemah dan harus diperbaiki sebelum ujian."</p>
+                <div class="testimoni-person">
+                    <div class="testimoni-avatar">RA</div>
+                    <div><strong>Rafi Ardiansyah</strong><span>Siswa Program UTBK</span></div>
+                </div>
+            </div>
+            <div class="testimoni-card reveal">
+                <div class="testimoni-stars">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"></path></svg>
+                </div>
+                <p class="quote">"Tentornya sabar menjelaskan sampai anak saya benar benar paham, bukan cuma dikasih rumus. Nilai IPA anak saya naik cukup jauh dalam satu semester."</p>
+                <div class="testimoni-person">
+                    <div class="testimoni-avatar">DP</div>
+                    <div><strong>Dedi Purnomo</strong><span>Orang Tua Siswa SMP</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="konsultasi" id="konsultasi">
+    <div class="container">
+        <div class="konsultasi-intro reveal">
+            <div class="eyebrow">Konsultasi Gratis</div>
+            <h2>Konsultasikan Kebutuhan Belajar Anak</h2>
+            <p>Isi formulir berikut dan tim kami akan menghubungi Anda untuk membahas program yang paling sesuai.</p>
+            <div class="konsultasi-points">
+                <div class="konsultasi-point">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                    Konsultasi dijawab dalam waktu maksimal 1 hari kerja
+                </div>
+                <div class="konsultasi-point">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                    Rekomendasi program disesuaikan dengan kondisi anak
+                </div>
+                <div class="konsultasi-point">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                    Bisa jadwalkan kelas percobaan sebelum daftar
+                </div>
+            </div>
+        </div>
+        <div class="konsultasi-form reveal">
+            <div class="konsultasi-form-inner" id="konsultasiFormInner">
+                <form id="konsultasiForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group" id="group-nama">
+                            <label for="nama">Nama Orang Tua / Siswa</label>
+                            <input type="text" id="nama" name="nama" placeholder="Nama Anda">
+                            <div class="error-msg">Nama wajib diisi</div>
+                        </div>
+                        <div class="form-group" id="group-hp">
+                            <label for="hp">No HP / WhatsApp</label>
+                            <input type="text" id="hp" name="hp" placeholder="08xx xxxx xxxx">
+                            <div class="error-msg">Nomor HP tidak valid</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" id="group-jenjang">
+                            <label for="jenjangAnak">Jenjang Anak</label>
+                            <select id="jenjangAnak" name="jenjangAnak">
+                                <option value="">Pilih jenjang</option>
+                                <option value="sd">SD</option>
+                                <option value="smp">SMP</option>
+                                <option value="sma">SMA</option>
+                                <option value="utbk">Persiapan UTBK</option>
+                            </select>
+                            <div class="error-msg">Pilih jenjang anak Anda</div>
+                        </div>
+                        <div class="form-group" id="group-sekolah">
+                            <label for="sekolah">Sekolah Asal</label>
+                            <input type="text" id="sekolah" name="sekolah" placeholder="Nama sekolah">
+                            <div class="error-msg">Sekolah asal wajib diisi</div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="group-mapel">
+                        <label for="mapel">Mata Pelajaran yang Ingin Dikonsultasikan</label>
+                        <input type="text" id="mapel" name="mapel" placeholder="Contoh: Matematika, Fisika, Persiapan UTBK Saintek">
+                        <div class="error-msg">Mohon isi mata pelajaran</div>
+                    </div>
+                    <div class="form-group" id="group-catatan">
+                        <label for="catatan">Catatan Tambahan (opsional)</label>
+                        <textarea id="catatan" name="catatan" placeholder="Ceritakan kebutuhan belajar anak Anda"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary konsultasi-submit">Kirim Konsultasi</button>
+                </form>
+            </div>
+            <div class="form-success" id="formSuccess">
+                <div class="icon-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>
+                </div>
+                <h3>Konsultasi Berhasil Dikirim</h3>
+                <p>Terima kasih, tim kami akan menghubungi Anda melalui WhatsApp untuk membahas program yang sesuai.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq" id="faq">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">FAQ</div>
+            <h2>Pertanyaan yang Sering Diajukan</h2>
+        </div>
+        <div class="faq-list reveal">
+            <div class="faq-item active">
+                <div class="faq-question">
+                    <h4>Apakah bisa ikut kelas percobaan sebelum mendaftar?</h4>
+                    <div class="plus"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Bisa, kami menyediakan satu kali kelas percobaan gratis agar orang tua dan siswa bisa merasakan metode belajar sebelum mendaftar program penuh.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Berapa jumlah siswa dalam satu kelas?</h4>
+                    <div class="plus"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Setiap kelas maksimal diisi 8 siswa agar tentor bisa memperhatikan perkembangan tiap siswa secara personal.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Apakah materi mengikuti kurikulum sekolah masing masing siswa?</h4>
+                    <div class="plus"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Modul dasar mengikuti kurikulum nasional terbaru, dan tentor menyesuaikan penekanan materi dengan kebutuhan sekolah asal siswa.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Apakah orang tua mendapat laporan perkembangan anak?</h4>
+                    <div class="plus"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Ya, orang tua mendapat laporan perkembangan bulanan beserta hasil try out, dan bisa menjadwalkan sesi konsultasi dengan tentor kapan saja.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h4>Bagaimana jika siswa ingin pindah jadwal kelas?</h4>
+                    <div class="plus"></div>
+                </div>
+                <div class="faq-answer">
+                    <p>Perpindahan jadwal bisa diajukan melalui admin kami, mengikuti ketersediaan kelas dan jenjang yang sama.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="kontak" id="kontak">
+    <div class="container">
+        <div class="kontak-card reveal">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+            <div>
+                <h4>Alamat Bimbel</h4>
+                <p>Jl. Kemang Raya No. 21, Bekasi Selatan, Jawa Barat</p>
+            </div>
+        </div>
+        <div class="kontak-card reveal">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg></div>
+            <div>
+                <h4>Jam Operasional</h4>
+                <p>Senin - Sabtu, 09.00 - 20.00 WIB. Minggu dan hari libur tutup.</p>
+            </div>
+        </div>
+        <div class="kontak-card reveal">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.68 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.9.32 1.85.55 2.81.68A2 2 0 0122 16.92z"></path></svg></div>
+            <div>
+                <h4>Telepon dan WhatsApp</h4>
+                <p>+62 813 2345 6789</p>
+            </div>
+        </div>
+        <div class="kontak-card reveal">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M22 6l-10 7L2 6"></path></svg></div>
+            <div>
+                <h4>Email</h4>
+                <p>halo@cendekiaprima.id</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#home" class="logo"><span class="logo-mark">CP</span> <span>Cendekia Prima</span></a>
+                <p>Bimbingan belajar SD, SMP, SMA, dan persiapan UTBK dengan tentor berpengalaman dan kelas kecil yang terarah.</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg></a>
+                    <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path></svg></a>
+                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="4"></rect><path d="M10 9l6 3-6 3z"></path></svg></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h5>Navigasi</h5>
+                <ul>
+                    <li><a href="#program">Program</a></li>
+                    <li><a href="#keunggulan">Keunggulan</a></li>
+                    <li><a href="#galeri">Galeri</a></li>
+                    <li><a href="#testimoni">Testimoni</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Program</h5>
+                <ul>
+                    <li><a href="#program">Bimbel SD</a></li>
+                    <li><a href="#program">Bimbel SMP</a></li>
+                    <li><a href="#program">Bimbel SMA</a></li>
+                    <li><a href="#program">Intensif UTBK</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h5>Kontak</h5>
+                <ul>
+                    <li>Jl. Kemang Raya No. 21, Bekasi Selatan</li>
+                    <li>+62 813 2345 6789</li>
+                    <li>halo@cendekiaprima.id</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Cendekia Prima. Semua hak cipta dilindungi.</span>
+            <span>Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener">Bagas Aria Sativa</a></span>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/6281323456789" class="wa-float" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.6 6.32A8.86 8.86 0 0012.05 4a8.94 8.94 0 00-7.75 13.4L3 21l3.7-1.28A8.94 8.94 0 0012.05 21h.004a8.94 8.94 0 008.94-8.94 8.87 8.87 0 00-3.35-5.74zM12.05 19.4a7.4 7.4 0 01-3.78-1.03l-.27-.16-2.8.97.94-2.73-.18-.28a7.4 7.4 0 1113.7-3.9 7.4 7.4 0 01-7.6 7.13zm4.06-5.54c-.22-.11-1.3-.64-1.5-.72-.2-.07-.35-.11-.5.11-.15.22-.57.72-.7.87-.13.15-.26.16-.48.05-.22-.11-.94-.35-1.79-1.1-.66-.59-1.11-1.32-1.24-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.4.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.4-.07-.11-.5-1.21-.69-1.65-.18-.44-.36-.38-.5-.38-.13-.01-.28-.01-.43-.01-.15 0-.4.06-.6.28-.2.22-.8.78-.8 1.9 0 1.12.82 2.2.93 2.35.11.15 1.6 2.45 3.89 3.43.54.24.97.38 1.3.48.55.17 1.04.15 1.44.09.44-.07 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.05-.1-.2-.15-.42-.26z"></path></svg>
+</a>
+
+<script>
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+});
+
+// Mobile menu
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+burger.addEventListener('click', () => {
+    burger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+});
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+        burger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+    });
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// Animated counters
+const counters = document.querySelectorAll('[data-count]');
+let countersStarted = false;
+function animateCounters() {
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-count'), 10);
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const value = Math.floor(progress * target);
+            counter.textContent = value.toLocaleString('id-ID');
+            if (progress < 1) requestAnimationFrame(tick);
+            else counter.textContent = target.toLocaleString('id-ID');
+        }
+        requestAnimationFrame(tick);
+    });
+}
+const heroStatsEl = document.querySelector('.hero-stats');
+if (heroStatsEl) {
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !countersStarted) {
+                countersStarted = true;
+                animateCounters();
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.4 });
+    statsObserver.observe(heroStatsEl);
+}
+
+// Jenjang tabs
+const jenjangTabs = document.querySelectorAll('.jenjang-tab');
+const jenjangPanels = document.querySelectorAll('.jenjang-panel');
+jenjangTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-jenjang');
+        jenjangTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        jenjangPanels.forEach(p => p.classList.remove('active'));
+        document.getElementById('panel-' + target).classList.add('active');
+    });
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const wasActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!wasActive) item.classList.add('active');
+    });
+});
+
+// Konsultasi form validation
+const konsultasiForm = document.getElementById('konsultasiForm');
+const konsultasiFormInner = document.getElementById('konsultasiFormInner');
+const formSuccess = document.getElementById('formSuccess');
+
+function showError(id) {
+    document.getElementById('group-' + id).classList.add('error');
+}
+function clearError(id) {
+    document.getElementById('group-' + id).classList.remove('error');
+}
+
+konsultasiForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+
+    const nama = document.getElementById('nama').value.trim();
+    if (nama.length < 3) { showError('nama'); valid = false; } else { clearError('nama'); }
+
+    const hp = document.getElementById('hp').value.trim();
+    const hpPattern = /^[0-9+\s-]{9,15}$/;
+    if (!hpPattern.test(hp)) { showError('hp'); valid = false; } else { clearError('hp'); }
+
+    const jenjangAnak = document.getElementById('jenjangAnak').value;
+    if (!jenjangAnak) { showError('jenjang'); valid = false; } else { clearError('jenjang'); }
+
+    const sekolah = document.getElementById('sekolah').value.trim();
+    if (sekolah.length < 2) { showError('sekolah'); valid = false; } else { clearError('sekolah'); }
+
+    const mapel = document.getElementById('mapel').value.trim();
+    if (mapel.length < 2) { showError('mapel'); valid = false; } else { clearError('mapel'); }
+
+    if (valid) {
+        konsultasiFormInner.classList.add('hidden');
+        formSuccess.classList.add('active');
+    }
+});
+
+['nama', 'hp', 'sekolah', 'mapel'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => clearError(id));
+});
+document.getElementById('jenjangAnak').addEventListener('change', () => clearError('jenjang'));
+</script>
+
+</body>
+</html>

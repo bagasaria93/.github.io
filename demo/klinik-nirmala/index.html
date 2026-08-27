@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klinik Nirmala - Klinik Keluarga dan Kesehatan Umum</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --blue: #3457d5;
+    --blue-deep: #1f3a99;
+    --blue-soft: #e8edfc;
+    --violet: #7c6ff0;
+    --violet-deep: #5b4fd6;
+    --violet-soft: #efecfd;
+    --paper: #f6f7fb;
+    --paper-2: #eceffa;
+    --ink: #1b1f2e;
+    --ink-dim: #60657a;
+    --white: #ffffff;
+    --border: rgba(27, 31, 46, 0.1);
+    --shadow: 0 20px 50px rgba(31, 58, 153, 0.12);
+    --font-display: 'Outfit', sans-serif;
+    --font-body: 'Karla', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--paper);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+.container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    color: var(--ink);
+    line-height: 1.2;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    background: var(--blue-soft);
+    padding: 8px 16px;
+    border-radius: 999px;
+}
+
+.section-head {
+    max-width: 640px;
+    margin: 0 auto 52px;
+    text-align: center;
+}
+
+.section-head h2 {
+    font-size: clamp(1.7rem, 3.4vw, 2.5rem);
+    margin: 16px 0 14px;
+    font-weight: 700;
+}
+
+.section-head p {
+    color: var(--ink-dim);
+    font-size: 1.02rem;
+}
+
+.section-head.align-left {
+    text-align: left;
+    margin: 0 0 44px;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 30px;
+    border-radius: 12px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    white-space: nowrap;
+}
+
+.btn-primary {
+    background: var(--blue);
+    color: var(--white);
+    box-shadow: 0 14px 30px rgba(52, 87, 213, 0.32);
+}
+
+.btn-primary:hover {
+    background: var(--blue-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 18px 36px rgba(52, 87, 213, 0.42);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--blue-deep);
+    border: 1.5px solid var(--border);
+}
+
+.btn-outline:hover {
+    border-color: var(--blue);
+    background: var(--blue-soft);
+}
+
+/* ============ HEADER ============ */
+
+#site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 18px 0;
+    transition: all 0.35s ease;
+    background: rgba(246, 247, 251, 0.0);
+}
+
+#site-header.scrolled {
+    padding: 12px 0;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 8px 30px rgba(27, 31, 46, 0.08);
+}
+
+.nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.28rem;
+    color: var(--ink);
+}
+
+.logo-mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--blue), var(--violet));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    font-size: 1.15rem;
+    flex-shrink: 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--ink);
+    position: relative;
+    padding: 4px 0;
+}
+
+.nav-links a:not(.btn)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: var(--violet);
+    transition: width 0.25s ease;
+}
+
+.nav-links a:not(.btn):hover::after { width: 100%; }
+
+.nav-cta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    z-index: 1200;
+}
+
+.burger span {
+    width: 24px;
+    height: 2.5px;
+    background: var(--ink);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.burger.active span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+
+#mobileMenu {
+    position: fixed;
+    inset: 0;
+    background: var(--blue-deep);
+    z-index: 1100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: all 0.4s ease;
+    pointer-events: none;
+}
+
+#mobileMenu.active {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#mobileMenu a {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--white);
+}
+
+#mobileMenu .btn-primary { margin-top: 10px; }
+
+/* ============ HERO ============ */
+
+.hero {
+    padding: 160px 0 100px;
+    position: relative;
+    overflow: hidden;
+    background-image: radial-gradient(circle, rgba(52,87,213,0.14) 1.6px, transparent 1.6px);
+    background-size: 26px 26px;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-copy h1 {
+    font-size: clamp(2.2rem, 4.4vw, 3.35rem);
+    margin: 18px 0 20px;
+    font-weight: 800;
+}
+
+.hero-copy h1 span {
+    background: linear-gradient(90deg, var(--blue), var(--violet));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.hero-copy p {
+    font-size: 1.08rem;
+    color: var(--ink-dim);
+    max-width: 500px;
+    margin-bottom: 32px;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+}
+
+.trust-badges {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+}
+
+.trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--ink-dim);
+}
+
+.trust-badge .badge-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--violet-soft);
+    color: var(--violet-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.hero-visual {
+    position: relative;
+}
+
+.hero-photo-card {
+    background: var(--white);
+    padding: 14px;
+    border-radius: 30px;
+    box-shadow: var(--shadow);
+}
+
+.hero-photo-card img {
+    width: 100%;
+    aspect-ratio: 4 / 3.3;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+.hero-status-widget {
+    position: absolute;
+    bottom: -26px;
+    left: -26px;
+    background: var(--white);
+    border-radius: 18px;
+    padding: 16px 22px;
+    box-shadow: 0 20px 44px rgba(31, 58, 153, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.status-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #2fb672;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.status-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: #2fb672;
+    opacity: 0.35;
+    animation: pulse-dot 1.8s ease-out infinite;
+}
+
+.status-dot.closed { background: #b3b7c6; }
+.status-dot.closed::after { background: #b3b7c6; }
+
+@keyframes pulse-dot {
+    0% { transform: scale(1); opacity: 0.35; }
+    100% { transform: scale(2.4); opacity: 0; }
+}
+
+.status-text strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.status-text span {
+    font-size: 0.74rem;
+    color: var(--ink-dim);
+}
+
+/* ============ STATS CARDS ============ */
+
+.stats-section {
+    padding: 90px 0 40px;
+}
+
+.stats-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.stat-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 26px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 14px 34px rgba(31, 58, 153, 0.08);
+}
+
+.stat-card-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1.4rem;
+}
+
+.stat-card:nth-child(1) .stat-card-icon { background: var(--blue-soft); color: var(--blue-deep); }
+.stat-card:nth-child(2) .stat-card-icon { background: var(--violet-soft); color: var(--violet-deep); }
+.stat-card:nth-child(3) .stat-card-icon { background: var(--blue-soft); color: var(--blue-deep); }
+
+.stat-card-num {
+    font-family: var(--font-display);
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: var(--ink);
+}
+
+.stat-card-label {
+    font-size: 0.8rem;
+    color: var(--ink-dim);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* ============ POLI GRID ============ */
+
+.poli-section {
+    padding: 100px 0;
+}
+
+.poli-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.poli-card {
+    background: var(--white);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 14px 34px rgba(31, 58, 153, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.poli-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 44px rgba(31, 58, 153, 0.16);
+}
+
+.poli-card-head {
+    height: 132px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.poli-card-head svg { width: 48px; height: 48px; position: relative; z-index: 1; }
+
+.poli-card-head::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.35) 1.4px, transparent 1.4px);
+    background-size: 16px 16px;
+}
+
+.poli-card:nth-child(1) .poli-card-head { background: linear-gradient(135deg, var(--blue), var(--blue-deep)); color: var(--white); }
+.poli-card:nth-child(2) .poli-card-head { background: linear-gradient(135deg, var(--violet), var(--violet-deep)); color: var(--white); }
+.poli-card:nth-child(3) .poli-card-head { background: linear-gradient(135deg, #6fa1f7, var(--blue)); color: var(--white); }
+.poli-card:nth-child(4) .poli-card-head { background: linear-gradient(135deg, #a89af7, var(--violet)); color: var(--white); }
+
+.poli-card-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    margin-bottom: 8px;
+}
+
+.poli-card-body { padding: 20px 20px 24px; }
+
+.poli-card-body h3 { font-size: 1.1rem; margin-bottom: 8px; }
+
+.poli-card-body p { font-size: 0.86rem; color: var(--ink-dim); }
+
+/* ============ JADWAL DOKTER (timetable) ============ */
+
+.dokter-section {
+    padding: 100px 0;
+    background: var(--white);
+}
+
+.dokter-table {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--border);
+}
+
+.dokter-row {
+    display: grid;
+    grid-template-columns: 64px 1.4fr 1fr 1fr;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 10px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.25s ease;
+}
+
+.dokter-row:hover { background: var(--paper-2); }
+
+.dokter-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.dokter-avatar img { width: 100%; height: 100%; object-fit: cover; }
+
+.dokter-row-name h3 { font-size: 1.02rem; margin-bottom: 4px; }
+
+.dokter-row-spec { font-size: 0.82rem; color: var(--violet-deep); font-weight: 700; }
+
+.dokter-row-days {
+    font-family: var(--font-display);
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.dokter-row-days span {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.76rem;
+    color: var(--ink-dim);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.dokter-row-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.86rem;
+    color: var(--blue-deep);
+    background: var(--blue-soft);
+    padding: 8px 14px;
+    border-radius: 999px;
+    width: fit-content;
+}
+
+.dokter-table-head {
+    display: grid;
+    grid-template-columns: 64px 1.4fr 1fr 1fr;
+    gap: 20px;
+    padding: 0 10px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-dim);
+}
+
+.dokter-table-head span:first-child { grid-column: 2; }
+
+/* ============ LAYANAN UNGGULAN (scroll snap) ============ */
+
+.layanan-section {
+    padding: 100px 0;
+}
+
+.layanan-scroll-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.layanan-scroll-hint {
+    font-size: 0.82rem;
+    color: var(--ink-dim);
+    font-weight: 600;
+}
+
+.layanan-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.layanan-nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    color: var(--blue-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.layanan-nav-btn:hover {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: var(--white);
+}
+
+.layanan-nav-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+    background: var(--white);
+    border-color: var(--border);
+    color: var(--blue-deep);
+}
+
+.layanan-nav-btn svg { width: 18px; height: 18px; }
+
+.layanan-track-wrap { position: relative; }
+
+.layanan-track-wrap::before,
+.layanan-track-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 20px;
+    width: 46px;
+    z-index: 2;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.layanan-track-wrap::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--paper), rgba(246,247,251,0));
+    opacity: 0;
+}
+
+.layanan-track-wrap::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--paper), rgba(246,247,251,0));
+}
+
+.layanan-track-wrap.at-start::before { opacity: 0; }
+.layanan-track-wrap.at-end::after { opacity: 0; }
+
+.layanan-track {
+    display: flex;
+    gap: 22px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 20px;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    cursor: grab;
+    scroll-behavior: smooth;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.layanan-track.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+}
+
+.layanan-track::-webkit-scrollbar { height: 7px; }
+.layanan-track::-webkit-scrollbar-thumb { background: var(--border); border-radius: 999px; }
+
+.layanan-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+    border-radius: 20px;
+    overflow: hidden;
+    background: var(--white);
+    box-shadow: 0 14px 34px rgba(31, 58, 153, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.layanan-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 44px rgba(31, 58, 153, 0.16);
+}
+
+.layanan-img { aspect-ratio: 16 / 11; overflow: hidden; }
+.layanan-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.layanan-body { padding: 22px 22px 26px; }
+.layanan-body h3 { font-size: 1.08rem; margin-bottom: 8px; }
+.layanan-body p { font-size: 0.86rem; color: var(--ink-dim); margin-bottom: 18px; min-height: 62px; }
+
+.layanan-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+}
+
+.layanan-price {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--blue-deep);
+    font-size: 1.05rem;
+}
+
+.layanan-price span {
+    font-size: 0.72rem;
+    color: var(--ink-dim);
+    font-weight: 500;
+    display: block;
+}
+
+.layanan-arrow {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--violet-soft);
+    color: var(--violet-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    transition: all 0.25s ease;
+}
+
+.layanan-card:hover .layanan-arrow {
+    background: var(--violet);
+    color: var(--white);
+    transform: rotate(45deg);
+}
+
+/* ============ FASILITAS ============ */
+
+.fasilitas-section {
+    padding: 100px 0;
+    background: var(--white);
+}
+
+.fasilitas-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.fas-item img {
+    width: 100%;
+    aspect-ratio: 4 / 3.2;
+    object-fit: cover;
+    border-radius: 18px;
+    margin-bottom: 16px;
+}
+
+.fas-caption {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.98rem;
+}
+
+/* ============ TESTIMONI (spotlight) ============ */
+
+.testi-section {
+    padding: 100px 0;
+}
+
+.testi-spotlight {
+    max-width: 720px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    min-height: 260px;
+}
+
+.testi-slide {
+    display: none;
+    animation: fade-in-testi 0.5s ease;
+}
+
+.testi-slide.active { display: block; }
+
+@keyframes fade-in-testi {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.testi-stars {
+    color: var(--violet);
+    font-size: 1.1rem;
+    margin-bottom: 22px;
+    letter-spacing: 3px;
+}
+
+.testi-slide p.testi-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.testi-person {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.testi-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue), var(--violet));
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.98rem;
+    flex-shrink: 0;
+}
+
+.testi-person-info { text-align: left; }
+.testi-person-info strong { display: block; font-size: 0.94rem; font-family: var(--font-display); }
+.testi-person-info span { font-size: 0.78rem; color: var(--ink-dim); }
+
+.testi-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.testi-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease;
+    border: none;
+    padding: 0;
+}
+
+.testi-dot.active {
+    background: var(--violet);
+    transform: scale(1.3);
+}
+
+/* ============ FAQ (sidebar) ============ */
+
+.faq-section {
+    padding: 100px 0;
+    background: var(--white);
+}
+
+.faq-layout {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.faq-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.faq-nav-btn {
+    text-align: left;
+    background: none;
+    border: none;
+    border-left: 3px solid transparent;
+    padding: 16px 20px;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: all 0.25s ease;
+    border-radius: 0 12px 12px 0;
+}
+
+.faq-nav-btn.active {
+    color: var(--blue-deep);
+    background: var(--blue-soft);
+    border-left-color: var(--blue);
+}
+
+.faq-panel {
+    background: var(--paper-2);
+    border-radius: 20px;
+    padding: 36px 34px;
+    min-height: 200px;
+}
+
+.faq-panel-item { display: none; animation: fade-in-testi 0.4s ease; }
+.faq-panel-item.active { display: block; }
+
+.faq-panel-item h3 {
+    font-size: 1.15rem;
+    margin-bottom: 16px;
+}
+
+.faq-panel-item p {
+    color: var(--ink-dim);
+    font-size: 0.95rem;
+    line-height: 1.75;
+}
+
+/* ============ CONTACT ============ */
+
+.contact-section {
+    padding: 100px 0 110px;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 50px;
+}
+
+.contact-info-card {
+    background: var(--blue-deep);
+    border-radius: 24px;
+    padding: 40px 34px;
+    color: var(--white);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-info-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+}
+
+.contact-info-card > * { position: relative; z-index: 1; }
+
+.contact-info-card h3 { color: var(--white); font-size: 1.4rem; margin-bottom: 10px; }
+.contact-info-card > p { color: rgba(255,255,255,0.72); font-size: 0.92rem; margin-bottom: 30px; }
+
+.contact-info-item { display: flex; gap: 14px; margin-bottom: 22px; }
+
+.contact-info-item .ci-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    background: rgba(255,255,255,0.14);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+}
+
+.contact-info-item strong { display: block; font-size: 0.88rem; margin-bottom: 3px; }
+.contact-info-item span, .contact-info-item p { color: rgba(255,255,255,0.72); font-size: 0.85rem; line-height: 1.6; }
+
+.contact-form-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 42px 40px;
+    box-shadow: 0 20px 50px rgba(31, 58, 153, 0.1);
+}
+
+.contact-form-card h3 { font-size: 1.3rem; margin-bottom: 6px; }
+.contact-form-card > p { color: var(--ink-dim); font-size: 0.9rem; margin-bottom: 26px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form-group { margin-bottom: 18px; }
+
+.form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--ink);
+}
+
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 13px 15px;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    color: var(--ink);
+    background: var(--white);
+    transition: border-color 0.25s ease;
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--blue);
+}
+
+.form-group textarea { resize: vertical; min-height: 100px; }
+
+.form-error {
+    color: #d94f36;
+    font-size: 0.76rem;
+    font-weight: 600;
+    margin-top: 6px;
+    display: none;
+}
+
+.form-group.invalid input, .form-group.invalid select, .form-group.invalid textarea { border-color: #d94f36; }
+.form-group.invalid .form-error { display: block; }
+
+.form-success {
+    display: none;
+    background: var(--blue-soft);
+    color: var(--blue-deep);
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+
+.form-success.show { display: block; }
+
+.contact-form-card .btn-primary { width: 100%; padding: 16px; margin-top: 6px; }
+
+/* ============ FOOTER ============ */
+
+footer {
+    background: #12172a;
+    color: rgba(255,255,255,0.7);
+    padding: 64px 0 28px;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.footer-brand .logo { color: var(--white); margin-bottom: 16px; }
+.footer-brand p { font-size: 0.88rem; line-height: 1.7; max-width: 280px; }
+.footer-col h4 { color: var(--white); font-size: 0.95rem; margin-bottom: 18px; }
+.footer-col ul { display: flex; flex-direction: column; gap: 12px; }
+.footer-col a { font-size: 0.86rem; transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--white); }
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 26px;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* ============ WHATSAPP FLOAT ============ */
+
+.wa-float {
+    position: fixed;
+    bottom: 26px;
+    right: 26px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #25d366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 14px 30px rgba(37, 211, 102, 0.4);
+    z-index: 900;
+    transition: transform 0.25s ease;
+}
+
+.wa-float:hover { transform: scale(1.08); }
+.wa-float svg { width: 28px; height: 28px; }
+
+/* ============ REVEAL ANIMATION ============ */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 980px) {
+    .nav-links { display: none; }
+    .burger { display: flex; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-visual { order: -1; }
+    .hero-status-widget { position: static; margin-top: 20px; width: fit-content; }
+    .stats-cards { grid-template-columns: 1fr; }
+    .poli-grid { grid-template-columns: repeat(2, 1fr); }
+    .dokter-table-head { display: none; }
+    .dokter-row { grid-template-columns: 56px 1fr; row-gap: 10px; }
+    .dokter-row-days, .dokter-row-time { grid-column: 2; }
+    .fasilitas-row { grid-template-columns: 1fr; }
+    .faq-layout { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 640px) {
+    .container { padding: 0 18px; }
+    .hero { padding: 130px 0 60px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .poli-grid { grid-template-columns: 1fr; }
+    .layanan-card { flex: 0 0 260px; }
+    .form-row { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; text-align: center; }
+    .contact-form-card { padding: 30px 24px; }
+    .contact-info-card { padding: 32px 26px; }
+}
+</style>
+</head>
+<body>
+
+<header id="site-header">
+    <div class="container nav-inner">
+        <a href="#top" class="logo">
+            <span class="logo-mark">N</span>
+            Klinik Nirmala
+        </a>
+        <nav class="nav-links">
+            <a href="#poli">Layanan Poli</a>
+            <a href="#dokter">Dokter Kami</a>
+            <a href="#layanan">Layanan Unggulan</a>
+            <a href="#fasilitas">Fasilitas</a>
+            <a href="#testimoni">Testimoni</a>
+            <a href="#faq">FAQ</a>
+        </nav>
+        <div class="nav-cta">
+            <a href="#kontak" class="btn btn-primary">Buat Janji</a>
+            <button class="burger" id="burger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div id="mobileMenu">
+    <a href="#poli">Layanan Poli</a>
+    <a href="#dokter">Dokter Kami</a>
+    <a href="#layanan">Layanan Unggulan</a>
+    <a href="#fasilitas">Fasilitas</a>
+    <a href="#testimoni">Testimoni</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontak" class="btn btn-primary">Buat Janji</a>
+</div>
+
+<section class="hero" id="top">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-copy reveal">
+                <span class="eyebrow">Klinik Keluarga dan Kesehatan Umum</span>
+                <h1>Kesehatan Keluarga Anda, <span>Kami yang Jaga</span></h1>
+                <p>Klinik Nirmala melayani pemeriksaan umum, gigi, anak, dan kandungan dengan dokter berpengalaman, jadwal yang jelas, dan proses pendaftaran yang mudah tanpa antre lama.</p>
+                <div class="hero-actions">
+                    <a href="#kontak" class="btn btn-primary">Buat Janji Sekarang</a>
+                    <a href="#dokter" class="btn btn-outline">Lihat Jadwal Dokter</a>
+                </div>
+                <div class="trust-badges">
+                    <div class="trust-badge">
+                        <span class="badge-icon">&#10003;</span>
+                        Izin Praktik Resmi
+                    </div>
+                    <div class="trust-badge">
+                        <span class="badge-icon">&#10003;</span>
+                        Bekerja Sama dengan BPJS Kesehatan
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual reveal">
+                <div class="hero-photo-card">
+                    <img src="img/hero.jpg" alt="Dokter Klinik Nirmala sedang berkonsultasi dengan pasien">
+                </div>
+                <div class="hero-status-widget">
+                    <span class="status-dot" id="statusDot"></span>
+                    <div class="status-text">
+                        <strong id="statusLabel">Memuat status...</strong>
+                        <span id="statusHours">Cek jam operasional</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-cards reveal">
+            <div class="stat-card">
+                <div class="stat-card-icon">&#129658;</div>
+                <div>
+                    <div class="stat-card-num"><span data-count="10">0</span>+</div>
+                    <div class="stat-card-label">Dokter Berpengalaman</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon">&#127775;</div>
+                <div>
+                    <div class="stat-card-num"><span data-count="8">0</span></div>
+                    <div class="stat-card-label">Tahun Melayani Keluarga Jakarta</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-icon">&#128100;</div>
+                <div>
+                    <div class="stat-card-num"><span data-count="12000">0</span>+</div>
+                    <div class="stat-card-label">Pasien Terlayani</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="poli-section" id="poli">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Layanan Poliklinik</span>
+            <h2>Empat Poli Utama untuk Kebutuhan Keluarga</h2>
+            <p>Dari pemeriksaan harian hingga kebutuhan khusus, setiap poli ditangani oleh dokter dengan bidang keahliannya masing-masing.</p>
+        </div>
+        <div class="poli-grid">
+            <div class="poli-card reveal">
+                <div class="poli-card-head">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h3.5l1.8-5 3.4 10 1.8-5H21"/></svg>
+                </div>
+                <div class="poli-card-body">
+                    <span class="poli-card-tag">Poli Umum</span>
+                    <h3>Pemeriksaan Umum</h3>
+                    <p>Konsultasi keluhan harian dan pemeriksaan kesehatan rutin.</p>
+                </div>
+            </div>
+            <div class="poli-card reveal">
+                <div class="poli-card-head">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c-3 0-5.5 1.6-5.5 4.6 0 2.3 1 3.4 1.4 5.7.4 2.3.6 6.7 2.3 6.7 1.8 0 1.5-4.6 1.8-6 .2-1 .5-1.5 1-1.5s.8.5 1 1.5c.3 1.4 0 6 1.8 6 1.7 0 1.9-4.4 2.3-6.7.4-2.3 1.4-3.4 1.4-5.7C17.5 4.6 15 3 12 3z"/></svg>
+                </div>
+                <div class="poli-card-body">
+                    <span class="poli-card-tag">Poli Gigi</span>
+                    <h3>Kesehatan Gigi</h3>
+                    <p>Perawatan gigi dan mulut, mulai dari scaling hingga tambal gigi.</p>
+                </div>
+            </div>
+            <div class="poli-card reveal">
+                <div class="poli-card-head">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="3.2"/><path d="M6 21c0-3.5 2.7-6.2 6-6.2s6 2.7 6 6.2"/><path d="M9.2 9.5c0 1.2 1.2 2 2.8 2s2.8-.8 2.8-2"/></svg>
+                </div>
+                <div class="poli-card-body">
+                    <span class="poli-card-tag">Poli Anak</span>
+                    <h3>Kesehatan Anak</h3>
+                    <p>Tumbuh kembang anak, imunisasi, hingga penanganan keluhan si kecil.</p>
+                </div>
+            </div>
+            <div class="poli-card reveal">
+                <div class="poli-card-head">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s-7.5-4.6-7.5-10.3A4.7 4.7 0 0112 7.5a4.7 4.7 0 017.5 3.2C19.5 16.4 12 21 12 21z"/><path d="M9.5 11h1.6l1-1.8L13.4 13l1-2h1.1" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="poli-card-body">
+                    <span class="poli-card-tag">Poli Kandungan</span>
+                    <h3>Kesehatan Kandungan</h3>
+                    <p>Pemeriksaan kehamilan, USG, dan konsultasi kesehatan reproduksi.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="dokter-section" id="dokter">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Jadwal Dokter</span>
+            <h2>Kenali Dokter dan Jam Prakteknya</h2>
+            <p>Cek jadwal praktik sebelum datang agar tidak menunggu lama. Jadwal dapat berubah sewaktu-waktu, konfirmasi ulang lewat WhatsApp jika diperlukan.</p>
+        </div>
+        <div class="dokter-table reveal">
+            <div class="dokter-table-head">
+                <span>Dokter</span>
+                <span>Hari Praktik</span>
+                <span>Jam Praktik</span>
+            </div>
+            <div class="dokter-row">
+                <div class="dokter-avatar"><img src="img/doctor-1.jpg" alt="dr. Andika Pratama, Sp.PD"></div>
+                <div class="dokter-row-name">
+                    <h3>dr. Andika Pratama, Sp.PD</h3>
+                    <div class="dokter-row-spec">Penyakit Dalam dan Umum</div>
+                </div>
+                <div class="dokter-row-days">Senin, Rabu, Jumat</div>
+                <div class="dokter-row-time">&#128337; 08.00 - 14.00 WIB</div>
+            </div>
+            <div class="dokter-row">
+                <div class="dokter-avatar"><img src="img/doctor-4.jpg" alt="dr. Ratna Wijayanti"></div>
+                <div class="dokter-row-name">
+                    <h3>dr. Ratna Wijayanti</h3>
+                    <div class="dokter-row-spec">Dokter Umum</div>
+                </div>
+                <div class="dokter-row-days">Selasa, Kamis, Sabtu</div>
+                <div class="dokter-row-time">&#128337; 09.00 - 15.00 WIB</div>
+            </div>
+            <div class="dokter-row">
+                <div class="dokter-avatar"><img src="img/doctor-3.jpg" alt="dr. H. Soemitro, Sp.PD"></div>
+                <div class="dokter-row-name">
+                    <h3>dr. H. Soemitro, Sp.PD</h3>
+                    <div class="dokter-row-spec">Penyakit Dalam Senior</div>
+                </div>
+                <div class="dokter-row-days">Senin sampai Jumat</div>
+                <div class="dokter-row-time">&#128337; 15.00 - 20.00 WIB</div>
+            </div>
+            <div class="dokter-row">
+                <div class="dokter-avatar"><img src="img/doctor-2.jpg" alt="dr. Kirana Maheswari"></div>
+                <div class="dokter-row-name">
+                    <h3>dr. Kirana Maheswari</h3>
+                    <div class="dokter-row-spec">Dokter Umum</div>
+                </div>
+                <div class="dokter-row-days">Senin, Rabu, Jumat</div>
+                <div class="dokter-row-time">&#128337; 15.00 - 20.00 WIB</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="layanan-section" id="layanan">
+    <div class="container">
+        <div class="section-head align-left reveal">
+            <span class="eyebrow">Layanan Unggulan</span>
+            <h2>Layanan yang Paling Sering Dicari Pasien</h2>
+            <p>Enam layanan yang paling banyak dimanfaatkan pasien Klinik Nirmala, lengkap dengan estimasi biaya.</p>
+        </div>
+        <div class="layanan-scroll-bar reveal">
+            <span class="layanan-scroll-hint">Geser, scroll, atau pakai tombol panah untuk lihat semua layanan</span>
+            <div class="layanan-nav">
+                <button class="layanan-nav-btn" id="layananPrev" aria-label="Layanan sebelumnya" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+                </button>
+                <button class="layanan-nav-btn" id="layananNext" aria-label="Layanan berikutnya">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="layanan-track-wrap at-start reveal">
+        <div class="layanan-track">
+            <div class="layanan-card">
+                <div class="layanan-img"><img src="img/service-checkup.jpg" alt="Medical Check Up"></div>
+                <div class="layanan-body">
+                    <h3>Medical Check Up</h3>
+                    <p>Pemeriksaan kesehatan menyeluruh untuk deteksi dini, cocok untuk kebutuhan pribadi atau perusahaan.</p>
+                    <div class="layanan-price-row">
+                        <div class="layanan-price">Rp 350.000<span>per paket</span></div>
+                        <div class="layanan-arrow">&#8594;</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layanan-card">
+                <div class="layanan-img"><img src="img/service-vaksin.jpg" alt="Vaksinasi"></div>
+                <div class="layanan-body">
+                    <h3>Vaksinasi Dewasa dan Anak</h3>
+                    <p>Layanan imunisasi rutin dan vaksinasi tambahan sesuai anjuran dokter.</p>
+                    <div class="layanan-price-row">
+                        <div class="layanan-price">Rp 250.000<span>mulai dari</span></div>
+                        <div class="layanan-arrow">&#8594;</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layanan-card">
+                <div class="layanan-img"><img src="img/service-usg.jpg" alt="USG Kandungan"></div>
+                <div class="layanan-body">
+                    <h3>USG Kandungan</h3>
+                    <p>Pemeriksaan USG untuk memantau perkembangan kehamilan bersama dokter kandungan.</p>
+                    <div class="layanan-price-row">
+                        <div class="layanan-price">Rp 300.000<span>per sesi</span></div>
+                        <div class="layanan-arrow">&#8594;</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layanan-card">
+                <div class="layanan-img"><img src="img/service-lab.jpg" alt="Lab Test"></div>
+                <div class="layanan-body">
+                    <h3>Lab Test dan Cek Darah</h3>
+                    <p>Pemeriksaan laboratorium dasar dengan hasil yang dapat diambil di hari yang sama.</p>
+                    <div class="layanan-price-row">
+                        <div class="layanan-price">Rp 150.000<span>mulai dari</span></div>
+                        <div class="layanan-arrow">&#8594;</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layanan-card">
+                <div class="layanan-img"><img src="img/service-fisio.jpg" alt="Fisioterapi"></div>
+                <div class="layanan-body">
+                    <h3>Fisioterapi</h3>
+                    <p>Terapi fisik untuk pemulihan cedera, nyeri otot, dan gangguan gerak tubuh.</p>
+                    <div class="layanan-price-row">
+                        <div class="layanan-price">Rp 200.000<span>per sesi</span></div>
+                        <div class="layanan-arrow">&#8594;</div>
+                    </div>
+                </div>
+            </div>
+            <div class="layanan-card">
+                <div class="layanan-img"><img src="img/service-luka.jpg" alt="Rawat Luka"></div>
+                <div class="layanan-body">
+                    <h3>Rawat Luka</h3>
+                    <p>Perawatan luka pasca operasi maupun luka ringan dengan penanganan steril.</p>
+                    <div class="layanan-price-row">
+                        <div class="layanan-price">Rp 100.000<span>mulai dari</span></div>
+                        <div class="layanan-arrow">&#8594;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</section>
+
+<section class="fasilitas-section" id="fasilitas">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Fasilitas Klinik</span>
+            <h2>Ruang Tunggu dan Ruang Periksa yang Nyaman</h2>
+            <p>Fasilitas dirancang bersih dan nyaman agar pasien merasa tenang selama menunggu dan menjalani pemeriksaan.</p>
+        </div>
+        <div class="fasilitas-row reveal">
+            <div class="fas-item">
+                <img src="img/fasilitas-3.jpg" alt="Lobi Klinik Nirmala">
+                <div class="fas-caption">Lobi dan Area Penerimaan</div>
+            </div>
+            <div class="fas-item">
+                <img src="img/fasilitas-1.jpg" alt="Ruang Tunggu Klinik Nirmala">
+                <div class="fas-caption">Ruang Tunggu</div>
+            </div>
+            <div class="fas-item">
+                <img src="img/fasilitas-2.jpg" alt="Ruang Periksa Klinik Nirmala">
+                <div class="fas-caption">Ruang Periksa</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testi-section" id="testimoni">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Testimoni Pasien</span>
+            <h2>Apa Kata Pasien Kami</h2>
+            <p>Pengalaman langsung dari pasien yang sudah berobat di Klinik Nirmala.</p>
+        </div>
+        <div class="testi-spotlight reveal">
+            <div class="testi-slide active">
+                <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="testi-text">"Pendaftarannya cepat, tidak perlu antre lama seperti klinik lain. Dokternya juga jelas menjelaskan kondisi anak saya waktu di Poli Anak."</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">DA</div>
+                    <div class="testi-person-info">
+                        <strong>Dewi Anggraini</strong>
+                        <span>Pasien Poli Anak</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-slide">
+                <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="testi-text">"Saya rutin medical check up di sini setiap tahun. Hasilnya lengkap dan dokter selalu meluangkan waktu untuk menjelaskan hasilnya satu per satu."</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">HS</div>
+                    <div class="testi-person-info">
+                        <strong>Herman Susanto</strong>
+                        <span>Pasien Medical Check Up</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-slide">
+                <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="testi-text">"Kontrol kehamilan saya selalu di Poli Kandungan Klinik Nirmala. Ruang USG nyaman dan dokternya sabar menjawab semua pertanyaan saya."</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">YA</div>
+                    <div class="testi-person-info">
+                        <strong>Yuli Astuti</strong>
+                        <span>Pasien Poli Kandungan</span>
+                    </div>
+                </div>
+            </div>
+            <div class="testi-dots">
+                <button class="testi-dot active" data-slide="0" aria-label="Testimoni 1"></button>
+                <button class="testi-dot" data-slide="1" aria-label="Testimoni 2"></button>
+                <button class="testi-dot" data-slide="2" aria-label="Testimoni 3"></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq-section" id="faq">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Pertanyaan Umum</span>
+            <h2>FAQ Seputar Klinik Nirmala</h2>
+            <p>Beberapa pertanyaan yang paling sering ditanyakan pasien sebelum berkunjung.</p>
+        </div>
+        <div class="faq-layout reveal">
+            <div class="faq-nav">
+                <button class="faq-nav-btn active" data-faq="0">Apakah menerima BPJS Kesehatan?</button>
+                <button class="faq-nav-btn" data-faq="1">Perlukah membuat janji dulu?</button>
+                <button class="faq-nav-btn" data-faq="2">Jam operasional klinik?</button>
+                <button class="faq-nav-btn" data-faq="3">Vaksinasi untuk anak?</button>
+                <button class="faq-nav-btn" data-faq="4">Metode pembayaran?</button>
+            </div>
+            <div class="faq-panel">
+                <div class="faq-panel-item active" data-faq-panel="0">
+                    <h3>Apakah Klinik Nirmala menerima pasien BPJS Kesehatan?</h3>
+                    <p>Ya, Klinik Nirmala bekerja sama dengan BPJS Kesehatan untuk layanan Poli Umum. Pastikan membawa kartu BPJS dan KTP saat pendaftaran.</p>
+                </div>
+                <div class="faq-panel-item" data-faq-panel="1">
+                    <h3>Apakah saya perlu membuat janji sebelum datang?</h3>
+                    <p>Disarankan membuat janji lebih dulu melalui form di halaman ini atau WhatsApp agar tidak menunggu lama, terutama untuk Poli Gigi dan Poli Kandungan yang menggunakan sistem jadwal.</p>
+                </div>
+                <div class="faq-panel-item" data-faq-panel="2">
+                    <h3>Berapa jam operasional Klinik Nirmala?</h3>
+                    <p>Klinik buka Senin sampai Sabtu pukul 08.00 sampai 20.00 WIB, dan Minggu pukul 09.00 sampai 14.00 WIB.</p>
+                </div>
+                <div class="faq-panel-item" data-faq-panel="3">
+                    <h3>Apakah tersedia layanan vaksinasi untuk anak?</h3>
+                    <p>Tersedia. Poli Anak melayani imunisasi dasar sesuai jadwal Kementerian Kesehatan serta vaksinasi tambahan atas rekomendasi dokter.</p>
+                </div>
+                <div class="faq-panel-item" data-faq-panel="4">
+                    <h3>Metode pembayaran apa saja yang diterima?</h3>
+                    <p>Kami menerima pembayaran tunai, kartu debit atau kredit, QRIS, serta klaim BPJS Kesehatan untuk layanan yang tercakup.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="contact-section" id="kontak">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">Buat Janji</span>
+            <h2>Hubungi Kami atau Buat Janji Kunjungan</h2>
+            <p>Isi form di bawah ini dan tim kami akan menghubungi Anda untuk konfirmasi jadwal.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info-card reveal">
+                <h3>Informasi Klinik</h3>
+                <p>Kunjungi kami langsung atau hubungi lewat WhatsApp untuk pertanyaan cepat.</p>
+                <div class="contact-info-item">
+                    <span class="ci-icon">&#128205;</span>
+                    <div>
+                        <strong>Alamat</strong>
+                        <p>Jl. Fatmawati Raya No. 45, Jakarta Selatan</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <span class="ci-icon">&#128222;</span>
+                    <div>
+                        <strong>Telepon dan WhatsApp</strong>
+                        <p>+62 812 3456 7890</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <span class="ci-icon">&#9200;</span>
+                    <div>
+                        <strong>Jam Operasional</strong>
+                        <p>Senin - Sabtu, 08.00 - 20.00 WIB<br>Minggu, 09.00 - 14.00 WIB</p>
+                    </div>
+                </div>
+                <div class="contact-info-item">
+                    <span class="ci-icon">&#9993;</span>
+                    <div>
+                        <strong>Email</strong>
+                        <p>halo@kliniknirmala.id</p>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form-card reveal">
+                <h3>Form Buat Janji</h3>
+                <p>Lengkapi data berikut, tim kami akan menghubungi Anda dalam waktu 1x24 jam.</p>
+                <div class="form-success" id="formSuccess">Terima kasih, permintaan janji Anda sudah kami terima. Tim kami akan segera menghubungi Anda.</div>
+                <form id="bookingForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group" id="group-nama">
+                            <label for="nama">Nama Lengkap</label>
+                            <input type="text" id="nama" name="nama" placeholder="Nama Anda">
+                            <span class="form-error">Nama wajib diisi.</span>
+                        </div>
+                        <div class="form-group" id="group-telepon">
+                            <label for="telepon">Nomor WhatsApp</label>
+                            <input type="text" id="telepon" name="telepon" placeholder="08xxxxxxxxxx">
+                            <span class="form-error">Masukkan nomor telepon yang valid.</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" id="group-poli">
+                            <label for="poli">Pilih Poli</label>
+                            <select id="poli" name="poli">
+                                <option value="">Pilih poli tujuan</option>
+                                <option value="Poli Umum">Poli Umum</option>
+                                <option value="Poli Gigi">Poli Gigi</option>
+                                <option value="Poli Anak">Poli Anak</option>
+                                <option value="Poli Kandungan">Poli Kandungan</option>
+                            </select>
+                            <span class="form-error">Silakan pilih poli tujuan.</span>
+                        </div>
+                        <div class="form-group" id="group-tanggal">
+                            <label for="tanggal">Tanggal Kunjungan</label>
+                            <input type="date" id="tanggal" name="tanggal">
+                            <span class="form-error">Pilih tanggal kunjungan.</span>
+                        </div>
+                    </div>
+                    <div class="form-group" id="group-keluhan">
+                        <label for="keluhan">Keluhan atau Catatan</label>
+                        <textarea id="keluhan" name="keluhan" placeholder="Ceritakan keluhan Anda secara singkat"></textarea>
+                        <span class="form-error">Mohon ceritakan keluhan Anda secara singkat.</span>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kirim Permintaan Janji</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#top" class="logo">
+                    <span class="logo-mark">N</span>
+                    Klinik Nirmala
+                </a>
+                <p>Klinik keluarga dengan layanan Poli Umum, Gigi, Anak, dan Kandungan, melayani kebutuhan kesehatan keluarga Anda dengan hangat dan profesional.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Layanan</h4>
+                <ul>
+                    <li><a href="#poli">Poli Umum</a></li>
+                    <li><a href="#poli">Poli Gigi</a></li>
+                    <li><a href="#poli">Poli Anak</a></li>
+                    <li><a href="#poli">Poli Kandungan</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Klinik</h4>
+                <ul>
+                    <li><a href="#dokter">Dokter Kami</a></li>
+                    <li><a href="#layanan">Layanan Unggulan</a></li>
+                    <li><a href="#fasilitas">Fasilitas</a></li>
+                    <li><a href="#testimoni">Testimoni</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <ul>
+                    <li>Jl. Fatmawati Raya No. 45, Jakarta Selatan</li>
+                    <li>+62 812 3456 7890</li>
+                    <li>halo@kliniknirmala.id</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Klinik Nirmala. Seluruh hak cipta dilindungi.</span>
+            <span>Company Profile Demo oleh Bagas Aria Sativa</span>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/6281234567890" class="wa-float" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12.001 2C6.478 2 2 6.477 2 12c0 1.86.5 3.601 1.376 5.09L2 22l5.06-1.339A9.958 9.958 0 0012.001 22C17.523 22 22 17.523 22 12S17.523 2 12.001 2zm0 18.187a8.16 8.16 0 01-4.161-1.135l-.298-.177-3.096.82.826-3.017-.194-.31A8.166 8.166 0 013.815 12c0-4.518 3.671-8.188 8.186-8.188 4.518 0 8.188 3.67 8.188 8.188 0 4.517-3.67 8.187-8.188 8.187z"/></svg>
+</a>
+
+<script>
+(function() {
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 40) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burger.addEventListener('click', function() {
+        burger.classList.toggle('active');
+        mobileMenu.classList.toggle('active');
+    });
+    mobileMenu.querySelectorAll('a').forEach(function(a) {
+        a.addEventListener('click', function() {
+            burger.classList.remove('active');
+            mobileMenu.classList.remove('active');
+        });
+    });
+
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+    revealEls.forEach(function(el) { revealObserver.observe(el); });
+
+    const counters = document.querySelectorAll('[data-count]');
+    const counterObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    counters.forEach(function(el) { counterObserver.observe(el); });
+
+    function animateCounter(el) {
+        const target = parseInt(el.getAttribute('data-count'), 10);
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target).toLocaleString('id-ID');
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            } else {
+                el.textContent = target.toLocaleString('id-ID');
+            }
+        }
+        requestAnimationFrame(tick);
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('href');
+            if (targetId.length > 1) {
+                const target = document.querySelector(targetId);
+                if (target) {
+                    e.preventDefault();
+                    window.scrollTo({
+                        top: target.offsetTop - 84,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+
+    function isValidPhone(value) {
+        const digits = value.replace(/[\s-]/g, '');
+        return /^(\+62|62|0)8[0-9]{8,12}$/.test(digits);
+    }
+
+    const form = document.getElementById('bookingForm');
+    const formSuccess = document.getElementById('formSuccess');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        let valid = true;
+
+        const nama = document.getElementById('nama');
+        const groupNama = document.getElementById('group-nama');
+        if (nama.value.trim().length < 3) {
+            groupNama.classList.add('invalid');
+            valid = false;
+        } else {
+            groupNama.classList.remove('invalid');
+        }
+
+        const telepon = document.getElementById('telepon');
+        const groupTelepon = document.getElementById('group-telepon');
+        if (!isValidPhone(telepon.value.trim())) {
+            groupTelepon.classList.add('invalid');
+            valid = false;
+        } else {
+            groupTelepon.classList.remove('invalid');
+        }
+
+        const poli = document.getElementById('poli');
+        const groupPoli = document.getElementById('group-poli');
+        if (!poli.value) {
+            groupPoli.classList.add('invalid');
+            valid = false;
+        } else {
+            groupPoli.classList.remove('invalid');
+        }
+
+        const tanggal = document.getElementById('tanggal');
+        const groupTanggal = document.getElementById('group-tanggal');
+        if (!tanggal.value) {
+            groupTanggal.classList.add('invalid');
+            valid = false;
+        } else {
+            groupTanggal.classList.remove('invalid');
+        }
+
+        const keluhan = document.getElementById('keluhan');
+        const groupKeluhan = document.getElementById('group-keluhan');
+        if (keluhan.value.trim().length < 5) {
+            groupKeluhan.classList.add('invalid');
+            valid = false;
+        } else {
+            groupKeluhan.classList.remove('invalid');
+        }
+
+        if (valid) {
+            formSuccess.classList.add('show');
+            form.reset();
+            setTimeout(function() {
+                formSuccess.classList.remove('show');
+            }, 6000);
+        }
+    });
+
+    function updateClinicStatus() {
+        const now = new Date();
+        const day = now.getDay();
+        const hour = now.getHours() + now.getMinutes() / 60;
+        let isOpen = false;
+        let hoursText = '';
+        if (day === 0) {
+            isOpen = hour >= 9 && hour < 14;
+            hoursText = 'Minggu, 09.00 - 14.00 WIB';
+        } else {
+            isOpen = hour >= 8 && hour < 20;
+            hoursText = 'Senin - Sabtu, 08.00 - 20.00 WIB';
+        }
+        const dot = document.getElementById('statusDot');
+        const label = document.getElementById('statusLabel');
+        const hoursEl = document.getElementById('statusHours');
+        if (isOpen) {
+            dot.classList.remove('closed');
+            label.textContent = 'Klinik Buka Sekarang';
+        } else {
+            dot.classList.add('closed');
+            label.textContent = 'Klinik Sedang Tutup';
+        }
+        hoursEl.textContent = hoursText;
+    }
+    updateClinicStatus();
+
+    const testiSlides = document.querySelectorAll('.testi-slide');
+    const testiDots = document.querySelectorAll('.testi-dot');
+    let testiIndex = 0;
+    let testiTimer = null;
+
+    function showTesti(index) {
+        testiSlides.forEach(function(s, i) { s.classList.toggle('active', i === index); });
+        testiDots.forEach(function(d, i) { d.classList.toggle('active', i === index); });
+        testiIndex = index;
+    }
+
+    function nextTesti() {
+        showTesti((testiIndex + 1) % testiSlides.length);
+    }
+
+    function startTestiAuto() {
+        testiTimer = setInterval(nextTesti, 5000);
+    }
+
+    testiDots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+            clearInterval(testiTimer);
+            showTesti(parseInt(dot.getAttribute('data-slide'), 10));
+            startTestiAuto();
+        });
+    });
+
+    startTestiAuto();
+
+    const faqNavBtns = document.querySelectorAll('.faq-nav-btn');
+    const faqPanels = document.querySelectorAll('.faq-panel-item');
+    faqNavBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const target = btn.getAttribute('data-faq');
+            faqNavBtns.forEach(function(b) { b.classList.remove('active'); });
+            faqPanels.forEach(function(p) { p.classList.remove('active'); });
+            btn.classList.add('active');
+            document.querySelector('[data-faq-panel="' + target + '"]').classList.add('active');
+        });
+    });
+
+    const layananTrack = document.querySelector('.layanan-track');
+    const layananWrap = document.querySelector('.layanan-track-wrap');
+    const layananPrev = document.getElementById('layananPrev');
+    const layananNext = document.getElementById('layananNext');
+
+    if (layananTrack && layananWrap && layananPrev && layananNext) {
+        function layananCardStep() {
+            const card = layananTrack.querySelector('.layanan-card');
+            const gap = parseFloat(getComputedStyle(layananTrack).gap) || 22;
+            return card ? card.getBoundingClientRect().width + gap : 300;
+        }
+
+        function updateLayananEdges() {
+            const maxScroll = layananTrack.scrollWidth - layananTrack.clientWidth - 2;
+            layananWrap.classList.toggle('at-start', layananTrack.scrollLeft <= 2);
+            layananWrap.classList.toggle('at-end', layananTrack.scrollLeft >= maxScroll);
+            layananPrev.disabled = layananTrack.scrollLeft <= 2;
+            layananNext.disabled = layananTrack.scrollLeft >= maxScroll;
+        }
+
+        layananPrev.addEventListener('click', function() {
+            layananTrack.scrollBy({ left: -layananCardStep(), behavior: 'smooth' });
+        });
+
+        layananNext.addEventListener('click', function() {
+            layananTrack.scrollBy({ left: layananCardStep(), behavior: 'smooth' });
+        });
+
+        layananTrack.addEventListener('scroll', updateLayananEdges);
+        window.addEventListener('resize', updateLayananEdges);
+        updateLayananEdges();
+
+        layananTrack.addEventListener('wheel', function(e) {
+            if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+                e.preventDefault();
+                layananTrack.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
+
+        let isDragging = false;
+        let dragStartX = 0;
+        let dragStartScroll = 0;
+        let dragMoved = false;
+
+        layananTrack.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            dragMoved = false;
+            dragStartX = e.pageX;
+            dragStartScroll = layananTrack.scrollLeft;
+            layananTrack.classList.add('dragging');
+        });
+
+        window.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+            const delta = e.pageX - dragStartX;
+            if (Math.abs(delta) > 4) dragMoved = true;
+            layananTrack.scrollLeft = dragStartScroll - delta;
+        });
+
+        window.addEventListener('mouseup', function() {
+            if (!isDragging) return;
+            isDragging = false;
+            layananTrack.classList.remove('dragging');
+        });
+
+        layananTrack.addEventListener('click', function(e) {
+            if (dragMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+                dragMoved = false;
+            }
+        }, true);
+    }
+})();
+</script>
+
+</body>
+</html>
