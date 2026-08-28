@@ -1,5 +1,21 @@
 # Changelog
 
+### Studio Embun - hero photo still off center, real fix
+
+**Fixed**
+- The previous fix shrank the photo and ring to fit the mobile container but Bagas sent a fresh screenshot showing it was still sitting off to the left, not centered
+- Traced it properly this time by inspecting live computed styles instead of just eyeballing a screenshot: the hero visual container was rendering at zero width. The container's only children are the photo and the decorative ring, both position absolute, and absolutely positioned elements do not count toward their parent's size when that size is based on content, so once margin auto was added for centering, the container had nothing to size itself against and collapsed to zero width, which threw off every position calculated relative to it
+- Fixed by giving the container an explicit width instead of only a max-width, so it has a real size for the centering margins and the photo and ring inside it to be positioned against
+- Verified the fix by reading the actual rendered position and width of the container, the photo, and the ring in the browser rather than relying on a screenshot alone, confirmed balanced margins on both sides at a simulated 390px phone width, then re-verified HTML tag balance and zero em or en dash on the updated index.html
+
+### Studio Embun - hero photo mobile centering fix
+
+**Fixed**
+- Bagas sent a screenshot from his own phone showing the hero photo sitting off to the left on mobile instead of centered, with a sliver of the decorative ring visible at the far right edge
+- Root cause: the hero photo and its decorative ring are absolutely positioned elements with fixed desktop sized widths, 360px and 320px, anchored from the right edge of their container, the mobile override only shrank and centered the container itself down to 380px but never resized the fixed width photo and ring inside it, so on real phone widths the photo overflowed past the container's left edge instead of sitting centered
+- Fixed by shrinking the mobile hero visual container further to 300px and scaling the photo and ring down to fit inside it with balanced margins on both sides, so the whole hero visual now sits genuinely centered on phone screens
+- Verified HTML tag balance and zero em or en dash on the updated index.html, and visually confirmed the centered result by rendering the live page inside a sized iframe to simulate a real 390px phone width
+
 ### Studio Embun - mobile responsiveness fixes
 
 **Fixed**
