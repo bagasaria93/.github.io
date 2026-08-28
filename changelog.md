@@ -1,5 +1,14 @@
 # Changelog
 
+### Studio Embun - mobile responsiveness fixes
+
+**Fixed**
+- Bagas reported the mobile view of Studio Embun did not look tidy, checked it by rendering the live page inside a sized iframe to simulate real phone width, since the browser's own resize tool does not change the actual page viewport
+- Navbar issue: the Booking Sekarang button in the header was not hidden at the mobile breakpoint like it is in every other demo, which squeezed the Studio Embun logo into two cramped lines next to the button and hamburger icon, fixed by hiding that header button under 768px, matching the pattern already used in Torsi Garage and Karsa Bangun
+- Treatment list issue: each row in the Treatment Unggulan section kept its thumbnail image and text side by side even on narrow phone screens, leaving only a very cramped column for the title, description, and price, causing heavy word wrapping and a messy look, fixed under 480px by stacking each row vertically, full width photo on top, followed by title, description, duration, price, and the booking link
+- Minor polish: the two column feature list in the Cerita Kami section was tight at small phone widths, changed to stack into a single column under 480px for better breathing room
+- Verified HTML tag balance and zero em or en dash on the updated index.html, and visually confirmed all three fixes render correctly at simulated phone width in the browser
+
 ### Company profile hub page - grid layout changed to 4 columns
 
 **Added**
