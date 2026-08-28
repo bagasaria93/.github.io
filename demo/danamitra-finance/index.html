@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Danamitra Finance - Pembiayaan Kendaraan dan Elektronik</title>
+<meta name="description" content="Danamitra Finance melayani pembiayaan kredit motor, mobil, elektronik, dan dana tunai jaminan BPKB dengan proses cepat, syarat mudah, dan cicilan yang transparan.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --teal: #0e4d47;
+    --teal-deep: #082f2b;
+    --teal-soft: #16665e;
+    --gold: #d3a94e;
+    --gold-deep: #b88f31;
+    --mint: #e6f1ee;
+    --bg: #f3f7f5;
+    --bg-2: #e8efec;
+    --white: #ffffff;
+    --ink: #13201d;
+    --ink-dim: #5a6a66;
+    --border: rgba(19, 32, 29, 0.1);
+    --shadow-sm: 0 6px 20px rgba(8, 47, 43, 0.08);
+    --shadow: 0 24px 60px rgba(8, 47, 43, 0.14);
+    --font-display: 'Plus Jakarta Sans', sans-serif;
+    --font-body: 'Inter', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--teal-deep);
+    line-height: 1.15;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 14px;
+}
+.eyebrow::before {
+    content: "";
+    width: 22px;
+    height: 2px;
+    background: var(--gold);
+    display: inline-block;
+}
+
+.section-head { max-width: 620px; margin-bottom: 46px; }
+.section-head h2 { font-size: clamp(28px, 4vw, 40px); margin-bottom: 14px; }
+.section-head p { color: var(--ink-dim); font-size: 16px; }
+.section-head.center { margin-left: auto; margin-right: auto; text-align: center; }
+
+section { padding: 92px 0; }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 14px 28px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-primary { background: var(--gold); color: var(--teal-deep); border-color: var(--gold); }
+.btn-primary:hover { background: var(--gold-deep); border-color: var(--gold-deep); }
+.btn-teal { background: var(--teal); color: var(--white); border-color: var(--teal); }
+.btn-teal:hover { background: var(--teal-deep); border-color: var(--teal-deep); }
+.btn-outline { background: transparent; color: var(--teal); border-color: rgba(14, 77, 71, 0.25); }
+.btn-outline:hover { background: var(--teal); color: var(--white); border-color: var(--teal); }
+.btn-outline-light { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.35); }
+.btn-outline-light:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    padding: 18px 0;
+    transition: all 0.25s ease;
+}
+.navbar.scrolled {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    padding: 12px 0;
+    box-shadow: 0 4px 24px rgba(8,47,43,0.08);
+}
+.navbar .container { display: flex; align-items: center; justify-content: space-between; }
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 800;
+    color: var(--white);
+    transition: color 0.25s ease;
+}
+.navbar.scrolled .logo { color: var(--teal-deep); }
+.logo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: var(--gold);
+    color: var(--teal-deep);
+    font-size: 17px;
+    font-weight: 800;
+    border-radius: 11px;
+}
+.nav-links { display: flex; align-items: center; gap: 28px; }
+.nav-links a {
+    color: rgba(255,255,255,0.85);
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+.navbar.scrolled .nav-links a { color: var(--ink-dim); }
+.nav-links a:hover { color: var(--gold); }
+.navbar.scrolled .nav-links a:hover { color: var(--teal); }
+.nav-cta { display: flex; align-items: center; gap: 14px; }
+.nav-cta .btn { padding: 10px 20px; font-size: 14px; }
+
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 42px;
+    height: 42px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.burger span { width: 24px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.25s ease; }
+.navbar.scrolled .burger span { background: var(--teal-deep); }
+.burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+    position: fixed;
+    top: 0; right: -100%;
+    width: 80%;
+    max-width: 340px;
+    height: 100vh;
+    background: var(--teal-deep);
+    z-index: 300;
+    padding: 100px 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+.mobile-menu.active { right: 0; }
+.mobile-menu a { color: rgba(255,255,255,0.88); font-size: 17px; font-weight: 500; }
+.mobile-menu a:hover { color: var(--gold); }
+.menu-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 250;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.menu-overlay.active { opacity: 1; pointer-events: auto; }
+
+/* Reveal */
+.reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Hero */
+.hero {
+    position: relative;
+    padding: 150px 0 100px;
+    background: radial-gradient(1200px 600px at 80% -10%, #14615a 0%, var(--teal) 35%, var(--teal-deep) 100%);
+    overflow: hidden;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    width: 420px; height: 420px;
+    right: -80px; top: 120px;
+    background: radial-gradient(circle, rgba(211,169,78,0.22) 0%, rgba(211,169,78,0) 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+.hero .container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 0.92fr;
+    gap: 56px;
+    align-items: center;
+}
+.hero-copy .eyebrow { color: var(--gold); }
+.hero-copy h1 { font-size: clamp(34px, 4.8vw, 52px); color: var(--white); margin-bottom: 20px; }
+.hero-copy h1 span { color: var(--gold); }
+.hero-copy p { color: rgba(255,255,255,0.78); font-size: 16.5px; max-width: 500px; margin-bottom: 30px; }
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 42px; }
+.hero-stats {
+    display: flex; gap: 34px; flex-wrap: wrap;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+}
+.hero-stat .num { font-family: var(--font-display); font-size: 28px; font-weight: 800; color: var(--white); }
+.hero-stat .num span { color: var(--gold); }
+.hero-stat .label { font-size: 12.5px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+
+/* Calculator card (hero mechanic) */
+.calc-card {
+    background: var(--white);
+    border-radius: 22px;
+    padding: 30px 30px 32px;
+    box-shadow: var(--shadow);
+    position: relative;
+}
+.calc-card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.calc-card-head .icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--mint); color: var(--teal);
+    display: flex; align-items: center; justify-content: center;
+}
+.calc-card-head .icon svg { width: 24px; height: 24px; }
+.calc-card-head h3 { font-size: 18px; margin-bottom: 1px; }
+.calc-card-head p { font-size: 12.5px; color: var(--ink-dim); }
+
+.calc-field { margin-bottom: 20px; }
+.calc-field-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.calc-field-label .cap { font-size: 13px; font-weight: 600; color: var(--ink); }
+.calc-field-label .val { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--teal); }
+
+input[type="range"].calc-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 6px;
+    background: var(--bg-2);
+    outline: none;
+}
+input[type="range"].calc-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 3px solid var(--white);
+    box-shadow: 0 2px 8px rgba(184,143,49,0.5);
+    cursor: pointer;
+}
+input[type="range"].calc-slider::-moz-range-thumb {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 3px solid var(--white);
+    box-shadow: 0 2px 8px rgba(184,143,49,0.5);
+    cursor: pointer;
+}
+.calc-range-hints { display: flex; justify-content: space-between; margin-top: 7px; font-size: 11px; color: var(--ink-dim); }
+
+.tenor-row { display: flex; gap: 8px; }
+.tenor-btn {
+    flex: 1;
+    padding: 10px 4px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    border-radius: 10px;
+    font-family: var(--font-display);
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+.tenor-btn.active { background: var(--teal); border-color: var(--teal); color: var(--white); }
+
+.calc-result {
+    margin-top: 24px;
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+    border-radius: 16px;
+    padding: 20px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.calc-result .r-label { font-size: 12.5px; color: rgba(255,255,255,0.7); }
+.calc-result .r-value { font-family: var(--font-display); font-size: 27px; font-weight: 800; color: var(--white); }
+.calc-result .r-value small { font-size: 14px; font-weight: 600; color: rgba(255,255,255,0.65); }
+.calc-result .btn { padding: 11px 18px; font-size: 13.5px; }
+.calc-note { font-size: 11px; color: var(--ink-dim); margin-top: 12px; text-align: center; }
+
+/* Trust strip */
+.trust-strip { background: var(--white); padding: 26px 0; border-bottom: 1px solid var(--border); }
+.trust-strip .container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+.trust-item { display: flex; align-items: center; gap: 13px; }
+.trust-item .icon {
+    width: 42px; height: 42px; border-radius: 11px;
+    background: var(--mint); color: var(--teal);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.trust-item .icon svg { width: 21px; height: 21px; }
+.trust-item strong { display: block; font-size: 14px; color: var(--teal-deep); }
+.trust-item p { font-size: 12px; color: var(--ink-dim); }
+
+/* Produk */
+.produk { background: var(--bg); }
+.produk-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.produk-card {
+    background: var(--white);
+    border-radius: 18px;
+    padding: 28px 24px;
+    border: 1px solid var(--border);
+    transition: all 0.25s ease;
+    display: flex;
+    flex-direction: column;
+}
+.produk-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); border-color: transparent; }
+.produk-card .icon {
+    width: 56px; height: 56px; border-radius: 15px;
+    background: var(--teal); color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+}
+.produk-card .icon svg { width: 28px; height: 28px; }
+.produk-card h3 { font-size: 19px; margin-bottom: 9px; }
+.produk-card p { font-size: 14px; color: var(--ink-dim); margin-bottom: 18px; flex: 1; }
+.produk-card .from { font-size: 12px; color: var(--ink-dim); }
+.produk-card .from strong { display: block; font-family: var(--font-display); font-size: 17px; color: var(--gold-deep); margin-top: 2px; }
+
+/* Keunggulan */
+.keunggulan { background: var(--white); }
+.keunggulan .container { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+.keunggulan-media { position: relative; }
+.keunggulan-media img { width: 100%; height: 480px; object-fit: cover; border-radius: 22px; }
+.keunggulan-media .float-badge {
+    position: absolute;
+    right: -20px; bottom: 30px;
+    background: var(--white);
+    border-radius: 16px;
+    padding: 18px 22px;
+    box-shadow: var(--shadow);
+    display: flex; align-items: center; gap: 14px;
+}
+.keunggulan-media .float-badge .big {
+    font-family: var(--font-display); font-size: 30px; font-weight: 800; color: var(--teal);
+}
+.keunggulan-media .float-badge span { font-size: 12.5px; color: var(--ink-dim); max-width: 110px; }
+.keunggulan-list { display: flex; flex-direction: column; gap: 22px; margin-top: 30px; }
+.keunggulan-item { display: flex; gap: 16px; align-items: flex-start; }
+.keunggulan-item .icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    background: var(--mint); color: var(--teal);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.keunggulan-item .icon svg { width: 22px; height: 22px; }
+.keunggulan-item h4 { font-size: 16.5px; margin-bottom: 4px; }
+.keunggulan-item p { font-size: 14px; color: var(--ink-dim); }
+
+/* Cara Pengajuan */
+.pengajuan { background: var(--teal-deep); position: relative; overflow: hidden; }
+.pengajuan::before {
+    content: "";
+    position: absolute; width: 500px; height: 500px;
+    left: -120px; bottom: -160px;
+    background: radial-gradient(circle, rgba(211,169,78,0.14) 0%, rgba(211,169,78,0) 70%);
+    border-radius: 50%;
+}
+.pengajuan .container { position: relative; }
+.pengajuan .section-head h2, .pengajuan .section-head p { color: var(--white); }
+.pengajuan .section-head p { color: rgba(255,255,255,0.65); }
+.pengajuan .eyebrow { color: var(--gold); }
+.langkah-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.langkah-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 28px 24px;
+    position: relative;
+}
+.langkah-num {
+    font-family: var(--font-display);
+    font-size: 15px; font-weight: 800;
+    color: var(--teal-deep);
+    background: var(--gold);
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+}
+.langkah-card h4 { color: var(--white); font-size: 17px; margin-bottom: 8px; }
+.langkah-card p { color: rgba(255,255,255,0.62); font-size: 13.5px; }
+
+/* Cabang */
+.cabang { background: var(--bg); }
+.cabang .container { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 50px; align-items: center; }
+.cabang-stat-row { display: flex; gap: 30px; margin: 26px 0 8px; }
+.cabang-stat .num { font-family: var(--font-display); font-size: 34px; font-weight: 800; color: var(--teal); }
+.cabang-stat .num span { color: var(--gold-deep); }
+.cabang-stat .label { font-size: 13px; color: var(--ink-dim); }
+.kota-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.kota-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; font-weight: 600; color: var(--teal-deep);
+    transition: all 0.2s ease;
+}
+.kota-item:hover { border-color: var(--gold); box-shadow: var(--shadow-sm); }
+.kota-item svg { width: 18px; height: 18px; color: var(--gold-deep); flex-shrink: 0; }
+
+/* Testimoni */
+.testimoni { background: var(--white); }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.testi-card {
+    background: var(--bg);
+    border-radius: 18px;
+    padding: 30px;
+    border: 1px solid var(--border);
+}
+.testi-stars { color: var(--gold); margin-bottom: 16px; letter-spacing: 2px; font-size: 15px; }
+.testi-card p.quote { font-size: 14.5px; color: var(--ink); line-height: 1.7; margin-bottom: 22px; }
+.testi-person { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--teal); color: var(--gold);
+    font-family: var(--font-display); font-weight: 800; font-size: 15px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.testi-person strong { display: block; font-size: 14.5px; color: var(--teal-deep); }
+.testi-person span { font-size: 12.5px; color: var(--ink-dim); }
+
+/* Form Pengajuan */
+.ajukan { background: var(--bg); }
+.ajukan-wrap {
+    display: grid; grid-template-columns: 0.85fr 1.15fr;
+    background: var(--white); border-radius: 24px; overflow: hidden;
+    box-shadow: var(--shadow);
+}
+.ajukan-info { background: linear-gradient(160deg, var(--teal) 0%, var(--teal-deep) 100%); padding: 46px 40px; color: var(--white); }
+.ajukan-info .eyebrow { color: var(--gold); }
+.ajukan-info h3 { color: var(--white); font-size: 25px; margin-bottom: 14px; }
+.ajukan-info p { color: rgba(255,255,255,0.68); font-size: 14.5px; margin-bottom: 28px; }
+.ajukan-info-list { display: flex; flex-direction: column; gap: 16px; }
+.ajukan-info-item { display: flex; gap: 13px; align-items: center; }
+.ajukan-info-item .icon {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: rgba(211,169,78,0.18); color: var(--gold);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ajukan-info-item .icon svg { width: 16px; height: 16px; }
+.ajukan-info-item span { font-size: 13.5px; color: rgba(255,255,255,0.85); }
+
+.ajukan-form-wrap { padding: 46px 42px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form-group { margin-bottom: 18px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 7px; color: var(--teal-deep); }
+.form-group input, .form-group select {
+    width: 100%; padding: 13px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 11px;
+    font-family: var(--font-body); font-size: 14.5px;
+    color: var(--ink); background: var(--bg);
+    transition: border-color 0.2s ease;
+}
+.form-group input:focus, .form-group select:focus {
+    outline: none; border-color: var(--gold); background: var(--white);
+}
+.form-group .err-msg { display: none; color: #c0392b; font-size: 12.5px; margin-top: 6px; }
+.form-group.error input, .form-group.error select { border-color: #c0392b; }
+.form-group.error .err-msg { display: block; }
+.ajukan-form-wrap .btn { width: 100%; padding: 16px; font-size: 15px; margin-top: 4px; }
+.form-success { display: none; text-align: center; padding: 40px 10px; }
+.form-success.active { display: block; }
+.form-success .icon {
+    width: 66px; height: 66px; border-radius: 50%;
+    background: var(--mint); color: var(--teal);
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;
+}
+.form-success .icon svg { width: 32px; height: 32px; }
+.form-success h3 { font-size: 22px; margin-bottom: 10px; }
+.form-success p { color: var(--ink-dim); font-size: 14.5px; }
+
+/* FAQ */
+.faq { background: var(--white); }
+.faq-list { max-width: 780px; margin: 0 auto; }
+.faq-item { border-bottom: 1px solid var(--border); }
+.faq-question {
+    display: flex; align-items: center; justify-content: space-between; gap: 20px;
+    padding: 22px 4px; cursor: pointer; background: none; border: none;
+    width: 100%; text-align: left; font-family: var(--font-body);
+}
+.faq-question h4 { font-size: 16.5px; font-weight: 600; color: var(--teal-deep); }
+.faq-question .plus {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: var(--mint); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; transition: all 0.25s ease;
+}
+.faq-question .plus::before, .faq-question .plus::after {
+    content: ""; position: absolute; background: var(--teal); transition: all 0.25s ease;
+}
+.faq-question .plus::before { width: 11px; height: 2px; }
+.faq-question .plus::after { width: 2px; height: 11px; }
+.faq-item.active .plus { background: var(--gold); transform: rotate(45deg); }
+.faq-item.active .plus::before, .faq-item.active .plus::after { background: var(--teal-deep); }
+.faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+.faq-item.active .faq-answer { max-height: 240px; }
+.faq-answer p { padding: 0 4px 22px; color: var(--ink-dim); font-size: 14.5px; line-height: 1.7; }
+
+/* Kontak */
+.kontak { background: var(--bg); }
+.kontak-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.kontak-card { background: var(--white); padding: 30px; border-radius: 18px; border: 1px solid var(--border); }
+.kontak-card .icon {
+    width: 48px; height: 48px; border-radius: 13px;
+    background: var(--teal); color: var(--gold);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 18px;
+}
+.kontak-card .icon svg { width: 22px; height: 22px; }
+.kontak-card h3 { font-size: 17px; margin-bottom: 8px; }
+.kontak-card p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; }
+.kontak-card a.link { color: var(--gold-deep); font-weight: 600; font-size: 14px; }
+
+/* Footer */
+footer { background: var(--teal-deep); color: rgba(255,255,255,0.6); padding: 68px 0 26px; }
+.footer-grid {
+    display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 40px;
+    padding-bottom: 44px; border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.footer-brand .logo { color: var(--white); margin-bottom: 16px; }
+.footer-brand p { font-size: 13.5px; line-height: 1.7; max-width: 300px; }
+.footer-col h4 { color: var(--white); font-size: 15px; margin-bottom: 18px; }
+.footer-col ul { display: flex; flex-direction: column; gap: 11px; }
+.footer-col a { font-size: 13.5px; transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--gold); }
+.footer-bottom { padding-top: 24px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; gap: 12px; }
+.footer-bottom a { color: var(--gold); }
+
+/* WA float */
+.wa-float {
+    position: fixed; right: 24px; bottom: 24px;
+    width: 58px; height: 58px; border-radius: 50%;
+    background: #25D366;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 30px rgba(37,211,102,0.4);
+    z-index: 150; transition: transform 0.2s ease;
+}
+.wa-float:hover { transform: scale(1.08); }
+.wa-float svg { width: 28px; height: 28px; fill: var(--white); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .hero .container { grid-template-columns: 1fr; gap: 44px; }
+    .calc-card { max-width: 460px; }
+    .produk-grid { grid-template-columns: repeat(2, 1fr); }
+    .keunggulan .container { grid-template-columns: 1fr; gap: 40px; }
+    .keunggulan-media img { height: 380px; }
+    .langkah-grid { grid-template-columns: repeat(2, 1fr); }
+    .cabang .container { grid-template-columns: 1fr; gap: 36px; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .ajukan-wrap { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 760px) {
+    .nav-links { display: none; }
+    .nav-cta .btn:not(.burger) { display: none; }
+    .burger { display: flex; }
+    .trust-strip .container { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .kontak-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+    section { padding: 64px 0; }
+    .hero { padding: 120px 0 70px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn { width: 100%; }
+    .hero-stats { gap: 22px; }
+    .calc-card { padding: 24px 22px 26px; }
+    .produk-grid { grid-template-columns: 1fr; }
+    .langkah-grid { grid-template-columns: 1fr; }
+    .kota-grid { grid-template-columns: repeat(2, 1fr); }
+    .keunggulan-media .float-badge { right: 12px; left: 12px; }
+    .ajukan-info { padding: 36px 26px; }
+    .ajukan-form-wrap { padding: 32px 24px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .calc-result { flex-direction: column; align-items: stretch; gap: 14px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="#home" class="logo"><span class="logo-mark">DF</span> Danamitra Finance</a>
+        <div class="nav-links">
+            <a href="#produk">Produk</a>
+            <a href="#simulasi">Simulasi</a>
+            <a href="#keunggulan">Keunggulan</a>
+            <a href="#cabang">Cabang</a>
+            <a href="#faq">FAQ</a>
+            <a href="#kontak">Kontak</a>
+        </div>
+        <div class="nav-cta">
+            <a href="#ajukan" class="btn btn-primary">Ajukan Kredit</a>
+            <button class="burger" id="burger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#produk">Produk</a>
+    <a href="#simulasi">Simulasi</a>
+    <a href="#keunggulan">Keunggulan</a>
+    <a href="#cabang">Cabang</a>
+    <a href="#testimoni">Testimoni</a>
+    <a href="#faq">FAQ</a>
+    <a href="#kontak">Kontak</a>
+    <a href="#ajukan" class="btn btn-primary" style="margin-top: 10px;">Ajukan Kredit</a>
+</div>
+
+<header class="hero" id="home">
+    <div class="container">
+        <div class="hero-copy">
+            <div class="eyebrow">Pembiayaan Cepat dan Terpercaya</div>
+            <h1>Wujudkan Kebutuhan Anda dengan <span>Cicilan yang Ringan</span></h1>
+            <p>Danamitra Finance melayani pembiayaan motor, mobil, elektronik, dan dana tunai jaminan BPKB dengan proses cepat, syarat mudah, dan simulasi cicilan yang transparan sejak awal.</p>
+            <div class="hero-actions">
+                <a href="#ajukan" class="btn btn-primary">Ajukan Kredit Sekarang</a>
+                <a href="#produk" class="btn btn-outline-light">Lihat Produk</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="num"><span data-count="15">0</span>+</div>
+                    <div class="label">Tahun Pengalaman</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num"><span data-count="42">0</span></div>
+                    <div class="label">Kantor Cabang</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num"><span data-count="180">0</span>rb+</div>
+                    <div class="label">Nasabah Terlayani</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="calc-card" id="simulasi">
+            <div class="calc-card-head">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"></rect><path d="M8 6h8M8 10h8M8 14h3M8 18h3M15 14h1M15 18h1"></path></svg>
+                </div>
+                <div>
+                    <h3>Simulasi Cicilan</h3>
+                    <p>Hitung estimasi angsuran per bulan</p>
+                </div>
+            </div>
+
+            <div class="calc-field">
+                <div class="calc-field-label">
+                    <span class="cap">Jumlah Pinjaman</span>
+                    <span class="val" id="calcAmountLabel">Rp 25.000.000</span>
+                </div>
+                <input type="range" class="calc-slider" id="calcAmount" min="2000000" max="300000000" step="1000000" value="25000000">
+                <div class="calc-range-hints"><span>Rp 2 jt</span><span>Rp 300 jt</span></div>
+            </div>
+
+            <div class="calc-field">
+                <div class="calc-field-label">
+                    <span class="cap">Tenor (bulan)</span>
+                </div>
+                <div class="tenor-row" id="tenorRow">
+                    <button class="tenor-btn active" data-tenor="12">12</button>
+                    <button class="tenor-btn" data-tenor="24">24</button>
+                    <button class="tenor-btn" data-tenor="36">36</button>
+                    <button class="tenor-btn" data-tenor="48">48</button>
+                </div>
+            </div>
+
+            <div class="calc-result">
+                <div>
+                    <div class="r-label">Estimasi cicilan per bulan</div>
+                    <div class="r-value" id="calcResult">Rp 2.375.000<small></small></div>
+                </div>
+                <a href="#ajukan" class="btn btn-primary">Ajukan</a>
+            </div>
+            <p class="calc-note">Estimasi simulasi, bukan penawaran resmi. Angka final mengikuti hasil analisa kredit.</p>
+        </div>
+    </div>
+</header>
+
+<section class="trust-strip">
+    <div class="container">
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-4z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+            <div><strong>Berizin dan Diawasi</strong><p>Sesuai regulasi OJK</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg></div>
+            <div><strong>Proses Cepat</strong><p>Persetujuan 1 hari kerja</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h20M2 12l4-4M2 12l4 4"></path><rect x="14" y="4" width="8" height="16" rx="1"></rect></svg></div>
+            <div><strong>Cicilan Transparan</strong><p>Tanpa biaya tersembunyi</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+            <div><strong>Jaringan Luas</strong><p>42 cabang di Indonesia</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="produk" id="produk">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Produk Pembiayaan</div>
+            <h2>Pilihan Pembiayaan untuk Setiap Kebutuhan</h2>
+            <p>Dari kendaraan hingga dana tunai, kami menyediakan solusi pembiayaan yang fleksibel dengan tenor yang bisa disesuaikan.</p>
+        </div>
+        <div class="produk-grid">
+            <div class="produk-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="17" r="3"></circle><circle cx="18" cy="17" r="3"></circle><path d="M6 17h4l3-7h4l2 4M10 10l-2-4H5"></path></svg></div>
+                <h3>Kredit Motor</h3>
+                <p>Pembiayaan motor baru maupun bekas dengan DP ringan dan proses persetujuan yang cepat.</p>
+                <div class="from">Cicilan mulai dari<strong>Rp 450 rb/bulan</strong></div>
+            </div>
+            <div class="produk-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17a2 2 0 01-2-2v-2l2-5h10l3 5v2a2 2 0 01-2 2M5 17v1a1 1 0 001 1h1a1 1 0 001-1v-1m8 0v1a1 1 0 001 1h1a1 1 0 001-1v-1"></path><circle cx="7.5" cy="14" r="1"></circle><circle cx="16.5" cy="14" r="1"></circle></svg></div>
+                <h3>Kredit Mobil</h3>
+                <p>Miliki mobil impian, baru atau bekas, dengan tenor hingga 48 bulan dan angsuran terjangkau.</p>
+                <div class="from">Cicilan mulai dari<strong>Rp 2,5 jt/bulan</strong></div>
+            </div>
+            <div class="produk-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"></rect><path d="M8 21h8M12 18v3"></path></svg></div>
+                <h3>Kredit Elektronik</h3>
+                <p>Beli gadget, laptop, dan peralatan elektronik rumah tangga secara mencicil tanpa ribet.</p>
+                <div class="from">Cicilan mulai dari<strong>Rp 200 rb/bulan</strong></div>
+            </div>
+            <div class="produk-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2.5"></circle><path d="M6 12h.01M18 12h.01"></path></svg></div>
+                <h3>Dana Tunai BPKB</h3>
+                <p>Cairkan dana tunai dengan jaminan BPKB motor atau mobil untuk kebutuhan mendesak Anda.</p>
+                <div class="from">Plafon hingga<strong>Rp 300 jt</strong></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="keunggulan" id="keunggulan">
+    <div class="container">
+        <div class="keunggulan-media reveal">
+            <img src="images/consultation.jpg" alt="Petugas Danamitra Finance mendampingi nasabah saat konsultasi pembiayaan" loading="lazy">
+            <div class="float-badge">
+                <div class="big">1 hari</div>
+                <span>Rata-rata proses persetujuan kredit</span>
+            </div>
+        </div>
+        <div class="keunggulan-copy">
+            <div class="eyebrow reveal">Kenapa Danamitra</div>
+            <h2 class="reveal" style="font-size: clamp(28px, 4vw, 38px);">Pendampingan yang Membuat Proses Terasa Mudah</h2>
+            <div class="keunggulan-list">
+                <div class="keunggulan-item reveal">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path></svg></div>
+                    <div><h4>Syarat Mudah</h4><p>Cukup KTP, KK, dan dokumen pendukung. Tanpa proses yang berbelit.</p></div>
+                </div>
+                <div class="keunggulan-item reveal">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg></div>
+                    <div><h4>Persetujuan Cepat</h4><p>Analisa kredit dikerjakan sigap, banyak pengajuan disetujui dalam 1 hari kerja.</p></div>
+                </div>
+                <div class="keunggulan-item reveal">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"></path></svg></div>
+                    <div><h4>Angsuran Transparan</h4><p>Rincian cicilan, bunga, dan biaya dijelaskan di awal tanpa ada yang disembunyikan.</p></div>
+                </div>
+                <div class="keunggulan-item reveal">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg></div>
+                    <div><h4>Didampingi Tim Ramah</h4><p>Tim kami siap membantu memilih skema pembiayaan yang paling sesuai kemampuan Anda.</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pengajuan">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Cara Pengajuan</div>
+            <h2>Empat Langkah Mudah</h2>
+            <p>Proses pengajuan yang sederhana, dari isi formulir hingga dana atau kendaraan sampai ke tangan Anda.</p>
+        </div>
+        <div class="langkah-grid">
+            <div class="langkah-card reveal">
+                <div class="langkah-num">1</div>
+                <h4>Isi Formulir</h4>
+                <p>Lengkapi formulir pengajuan online atau kunjungi kantor cabang terdekat.</p>
+            </div>
+            <div class="langkah-card reveal">
+                <div class="langkah-num">2</div>
+                <h4>Lengkapi Dokumen</h4>
+                <p>Siapkan KTP, KK, dan dokumen pendukung sesuai jenis pembiayaan.</p>
+            </div>
+            <div class="langkah-card reveal">
+                <div class="langkah-num">3</div>
+                <h4>Proses Analisa</h4>
+                <p>Tim kami melakukan verifikasi dan analisa kredit dengan cepat.</p>
+            </div>
+            <div class="langkah-card reveal">
+                <div class="langkah-num">4</div>
+                <h4>Pencairan</h4>
+                <p>Setelah disetujui, dana atau unit langsung diproses untuk Anda.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cabang" id="cabang">
+    <div class="container">
+        <div class="cabang-copy">
+            <div class="eyebrow reveal">Jaringan Cabang</div>
+            <h2 class="reveal" style="font-size: clamp(28px, 4vw, 38px);">Dekat dengan Anda di Berbagai Kota</h2>
+            <p class="reveal" style="color: var(--ink-dim); margin-top: 12px;">Kantor cabang kami tersebar di kota-kota besar sehingga Anda selalu bisa berkonsultasi langsung dengan tim terdekat.</p>
+            <div class="cabang-stat-row reveal">
+                <div class="cabang-stat">
+                    <div class="num"><span data-count="42">0</span></div>
+                    <div class="label">Kantor Cabang</div>
+                </div>
+                <div class="cabang-stat">
+                    <div class="num"><span data-count="18">0</span></div>
+                    <div class="label">Provinsi</div>
+                </div>
+                <div class="cabang-stat">
+                    <div class="num"><span data-count="900">0</span>+</div>
+                    <div class="label">Mitra Dealer</div>
+                </div>
+            </div>
+        </div>
+        <div class="kota-grid reveal">
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Jakarta</div>
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Bekasi</div>
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Bandung</div>
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Surabaya</div>
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Semarang</div>
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Medan</div>
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Makassar</div>
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Denpasar</div>
+            <div class="kota-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>Balikpapan</div>
+        </div>
+    </div>
+</section>
+
+<section class="testimoni" id="testimoni">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Testimoni</div>
+            <h2>Cerita Nasabah Kami</h2>
+            <p>Ribuan nasabah telah mempercayakan kebutuhan pembiayaannya kepada Danamitra Finance.</p>
+        </div>
+        <div class="testi-grid">
+            <div class="testi-card reveal">
+                <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="quote">Prosesnya cepat, cuma sehari langsung disetujui untuk kredit motor. Cicilannya juga sesuai simulasi di awal, tidak ada biaya tambahan yang mengagetkan.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">AS</div>
+                    <div><strong>Andri Setiawan</strong><span>Nasabah Kredit Motor, Bekasi</span></div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="quote">Butuh dana tunai mendesak dan dibantu lewat jaminan BPKB mobil. Petugasnya menjelaskan rinciannya dengan sabar sampai saya benar-benar paham.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">RW</div>
+                    <div><strong>Rina Wulandari</strong><span>Nasabah Dana Tunai, Bandung</span></div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="testi-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                <p class="quote">Beli laptop untuk kerja lewat kredit elektronik di sini. Simulasi cicilannya transparan dari awal jadi saya bisa atur anggaran dengan tenang.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">HP</div>
+                    <div><strong>Hendra Pratama</strong><span>Nasabah Kredit Elektronik, Jakarta</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ajukan" id="ajukan">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Formulir Pengajuan</div>
+            <h2>Ajukan Pembiayaan Anda</h2>
+            <p>Isi data berikut dan tim kami akan menghubungi Anda untuk membantu proses pengajuan.</p>
+        </div>
+        <div class="ajukan-wrap reveal">
+            <div class="ajukan-info" style="background-image: linear-gradient(160deg, rgba(14,77,71,0.94) 0%, rgba(8,47,43,0.96) 100%), url('images/signing.jpg'); background-size: cover; background-position: center;">
+                <div class="eyebrow">Butuh Bantuan</div>
+                <h3>Kami Siap Mendampingi Anda</h3>
+                <p>Setelah formulir dikirim, tim kami akan menghubungi Anda maksimal 1 hari kerja untuk melanjutkan proses pengajuan.</p>
+                <div class="ajukan-info-list">
+                    <div class="ajukan-info-item">
+                        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"></path></svg></div>
+                        <span>+62 812-5555-7994</span>
+                    </div>
+                    <div class="ajukan-info-item">
+                        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></div>
+                        <span>bagasativa@gmail.com</span>
+                    </div>
+                    <div class="ajukan-info-item">
+                        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg></div>
+                        <span>Senin - Sabtu, 08.00 - 17.00 WIB</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ajukan-form-wrap">
+                <form id="ajukanForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group" id="group-nama">
+                            <label for="nama">Nama Lengkap</label>
+                            <input type="text" id="nama" placeholder="Nama sesuai KTP">
+                            <span class="err-msg">Nama wajib diisi</span>
+                        </div>
+                        <div class="form-group" id="group-hp">
+                            <label for="hp">No. HP / WhatsApp</label>
+                            <input type="text" id="hp" placeholder="08xxxxxxxxxx">
+                            <span class="err-msg">Nomor HP tidak valid</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" id="group-produk">
+                            <label for="jenisPembiayaan">Jenis Pembiayaan</label>
+                            <select id="jenisPembiayaan">
+                                <option value="">Pilih jenis pembiayaan</option>
+                                <option value="motor">Kredit Motor</option>
+                                <option value="mobil">Kredit Mobil</option>
+                                <option value="elektronik">Kredit Elektronik</option>
+                                <option value="danatunai">Dana Tunai BPKB</option>
+                            </select>
+                            <span class="err-msg">Pilih jenis pembiayaan</span>
+                        </div>
+                        <div class="form-group" id="group-kota">
+                            <label for="kota">Kota Domisili</label>
+                            <input type="text" id="kota" placeholder="Contoh: Bekasi">
+                            <span class="err-msg">Kota domisili wajib diisi</span>
+                        </div>
+                    </div>
+                    <div class="form-group full" id="group-nominal">
+                        <label for="nominal">Estimasi Nominal Pembiayaan</label>
+                        <input type="text" id="nominal" placeholder="Contoh: Rp 25.000.000">
+                        <span class="err-msg">Estimasi nominal wajib diisi</span>
+                    </div>
+                    <button type="submit" class="btn btn-teal">Kirim Pengajuan</button>
+                </form>
+                <div class="form-success" id="formSuccess">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path></svg></div>
+                    <h3>Pengajuan Terkirim</h3>
+                    <p>Terima kasih, tim kami akan segera menghubungi Anda maksimal 1 hari kerja.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq" id="faq">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">FAQ</div>
+            <h2>Pertanyaan yang Sering Diajukan</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item active reveal">
+                <button class="faq-question"><h4>Apa saja syarat untuk mengajukan pembiayaan?</h4><span class="plus"></span></button>
+                <div class="faq-answer"><p>Secara umum Anda memerlukan KTP, Kartu Keluarga, dan dokumen pendukung seperti slip gaji atau bukti penghasilan. Untuk dana tunai BPKB, diperlukan juga BPKB kendaraan atas nama sendiri. Detail syarat menyesuaikan jenis pembiayaan.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question"><h4>Berapa lama proses persetujuan kredit?</h4><span class="plus"></span></button>
+                <div class="faq-answer"><p>Banyak pengajuan dapat disetujui dalam 1 hari kerja setelah dokumen lengkap dan lolos proses analisa kredit. Waktu bisa bervariasi tergantung kelengkapan data dan jenis pembiayaan.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question"><h4>Apakah simulasi cicilan di website sudah pasti?</h4><span class="plus"></span></button>
+                <div class="faq-answer"><p>Simulasi di halaman ini adalah estimasi untuk gambaran awal, bukan penawaran resmi. Angka final cicilan mengikuti hasil analisa kredit, jenis produk, dan tenor yang disepakati.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question"><h4>Apakah bisa mengajukan tanpa datang ke kantor?</h4><span class="plus"></span></button>
+                <div class="faq-answer"><p>Bisa. Anda dapat mengisi formulir pengajuan online di halaman ini, lalu tim kami akan menghubungi Anda untuk melanjutkan proses. Kunjungan ke kantor cabang bersifat opsional sesuai kebutuhan.</p></div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question"><h4>Apakah ada biaya tambahan di luar cicilan?</h4><span class="plus"></span></button>
+                <div class="faq-answer"><p>Seluruh komponen biaya seperti bunga, administrasi, dan asuransi akan dijelaskan secara transparan di awal sebelum akad. Kami berkomitmen tidak ada biaya tersembunyi.</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="kontak" id="kontak">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Kontak</div>
+            <h2>Hubungi Kami</h2>
+            <p>Punya pertanyaan seputar pembiayaan? Tim kami siap membantu Anda.</p>
+        </div>
+        <div class="kontak-grid">
+            <div class="kontak-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                <h3>Kantor Pusat</h3>
+                <p>Kawasan Bisnis Bekasi, Jawa Barat, Indonesia</p>
+            </div>
+            <div class="kontak-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.13.96.36 1.9.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0122 16.92z"></path></svg></div>
+                <h3>Telepon &amp; WhatsApp</h3>
+                <p>Senin - Sabtu, 08.00 - 17.00 WIB</p>
+                <a href="https://wa.me/6281255557994" class="link" target="_blank" rel="noopener">+62 812-5555-7994</a>
+            </div>
+            <div class="kontak-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></div>
+                <h3>Email</h3>
+                <p>Untuk pertanyaan umum dan pengajuan</p>
+                <a href="mailto:bagasativa@gmail.com" class="link">bagasativa@gmail.com</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#home" class="logo"><span class="logo-mark">DF</span> Danamitra Finance</a>
+                <p>Perusahaan pembiayaan yang melayani kredit motor, mobil, elektronik, dan dana tunai jaminan BPKB dengan proses cepat dan cicilan yang transparan.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Produk</h4>
+                <ul>
+                    <li><a href="#produk">Kredit Motor</a></li>
+                    <li><a href="#produk">Kredit Mobil</a></li>
+                    <li><a href="#produk">Kredit Elektronik</a></li>
+                    <li><a href="#produk">Dana Tunai BPKB</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Perusahaan</h4>
+                <ul>
+                    <li><a href="#keunggulan">Keunggulan</a></li>
+                    <li><a href="#cabang">Jaringan Cabang</a></li>
+                    <li><a href="#testimoni">Testimoni</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <ul>
+                    <li>Kawasan Bisnis Bekasi, Jawa Barat</li>
+                    <li>+62 812-5555-7994</li>
+                    <li>bagasativa@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Danamitra Finance. Seluruh hak cipta dilindungi.</span>
+            <span>Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener">Bagas Aria Sativa</a></span>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/6281255557994" class="wa-float" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.6 6.32A8.86 8.86 0 0012.05 4a8.94 8.94 0 00-7.75 13.4L3 21l3.7-1.28A8.94 8.94 0 0012.05 21h.004a8.94 8.94 0 008.94-8.94 8.87 8.87 0 00-3.35-5.74zM12.05 19.4a7.4 7.4 0 01-3.78-1.03l-.27-.16-2.8.97.94-2.73-.18-.28a7.4 7.4 0 1113.7-3.9 7.4 7.4 0 01-7.6 7.13zm4.06-5.54c-.22-.11-1.3-.64-1.5-.72-.2-.07-.35-.11-.5.11-.15.22-.57.72-.7.87-.13.15-.26.16-.48.05-.22-.11-.94-.35-1.79-1.1-.66-.59-1.11-1.32-1.24-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.4.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.4-.07-.11-.5-1.21-.69-1.65-.18-.44-.36-.38-.5-.38-.13-.01-.28-.01-.43-.01-.15 0-.4.06-.6.28-.2.22-.8.78-.8 1.9 0 1.12.82 2.2.93 2.35.11.15 1.6 2.45 3.89 3.43.54.24.97.38 1.3.48.55.17 1.04.15 1.44.09.44-.07 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.05-.1-.2-.15-.42-.26z"></path></svg>
+</a>
+
+<script>
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+});
+
+// Mobile menu
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+function closeMenu() {
+    burger.classList.remove('active');
+    mobileMenu.classList.remove('active');
+    menuOverlay.classList.remove('active');
+}
+burger.addEventListener('click', () => {
+    burger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+});
+menuOverlay.addEventListener('click', closeMenu);
+document.querySelectorAll('.mobile-menu a').forEach(link => link.addEventListener('click', closeMenu));
+
+// Scroll reveal
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// Animated counters
+function animateCounters(scope) {
+    scope.querySelectorAll('[data-count]').forEach(counter => {
+        if (counter.dataset.done) return;
+        counter.dataset.done = '1';
+        const target = parseInt(counter.getAttribute('data-count'), 10);
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            counter.textContent = Math.floor(progress * target).toLocaleString('id-ID');
+            if (progress < 1) requestAnimationFrame(tick);
+            else counter.textContent = target.toLocaleString('id-ID');
+        }
+        requestAnimationFrame(tick);
+    });
+}
+document.querySelectorAll('.hero-stats, .cabang-stat-row').forEach(el => {
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) { animateCounters(entry.target); obs.unobserve(entry.target); }
+        });
+    }, { threshold: 0.4 });
+    obs.observe(el);
+});
+
+// Simulasi cicilan calculator
+const calcAmount = document.getElementById('calcAmount');
+const calcAmountLabel = document.getElementById('calcAmountLabel');
+const calcResult = document.getElementById('calcResult');
+const tenorRow = document.getElementById('tenorRow');
+let activeTenor = 12;
+const FLAT_RATE_PER_YEAR = 0.14; // asumsi bunga flat untuk ilustrasi simulasi
+
+function formatRupiah(n) {
+    return 'Rp ' + Math.round(n).toLocaleString('id-ID');
+}
+function hitungCicilan() {
+    const pokok = parseInt(calcAmount.value, 10);
+    const tahun = activeTenor / 12;
+    const totalBunga = pokok * FLAT_RATE_PER_YEAR * tahun;
+    const cicilan = (pokok + totalBunga) / activeTenor;
+    calcAmountLabel.textContent = formatRupiah(pokok);
+    calcResult.innerHTML = formatRupiah(cicilan) + '<small></small>';
+}
+calcAmount.addEventListener('input', hitungCicilan);
+tenorRow.querySelectorAll('.tenor-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        tenorRow.querySelectorAll('.tenor-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeTenor = parseInt(btn.getAttribute('data-tenor'), 10);
+        hitungCicilan();
+    });
+});
+hitungCicilan();
+
+// FAQ accordion
+document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const wasActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!wasActive) item.classList.add('active');
+    });
+});
+
+// Form validation
+const ajukanForm = document.getElementById('ajukanForm');
+const formSuccess = document.getElementById('formSuccess');
+function showError(id) { document.getElementById('group-' + id).classList.add('error'); }
+function clearError(id) { document.getElementById('group-' + id).classList.remove('error'); }
+
+ajukanForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+
+    const nama = document.getElementById('nama').value.trim();
+    if (nama.length < 3) { showError('nama'); valid = false; } else { clearError('nama'); }
+
+    const hp = document.getElementById('hp').value.trim();
+    if (!/^[0-9+\s-]{9,15}$/.test(hp)) { showError('hp'); valid = false; } else { clearError('hp'); }
+
+    const produk = document.getElementById('jenisPembiayaan').value;
+    if (!produk) { showError('produk'); valid = false; } else { clearError('produk'); }
+
+    const kota = document.getElementById('kota').value.trim();
+    if (kota.length < 2) { showError('kota'); valid = false; } else { clearError('kota'); }
+
+    const nominal = document.getElementById('nominal').value.trim();
+    if (nominal.length < 1) { showError('nominal'); valid = false; } else { clearError('nominal'); }
+
+    if (valid) {
+        ajukanForm.style.display = 'none';
+        formSuccess.classList.add('active');
+    }
+});
+</script>
+
+</body>
+</html>

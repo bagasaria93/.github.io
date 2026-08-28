@@ -1,5 +1,30 @@
 # Changelog
 
+### Danamitra Finance - new company profile demo added, tenth in the collection, hub grid now 5x2
+
+**Added**
+- New company profile demo for Danamitra Finance, a fictional multifinance company serving motorcycle credit, car credit, electronics credit, and cash loans against BPKB collateral
+- Distinct deep teal and warm gold palette on a cool mist white background, paired with Plus Jakarta Sans and Inter for a trustworthy yet modern fintech feel, kept different from every other demo's colors and fonts
+- New interactive mechanic not used anywhere else in the collection: a live installment simulator placed right inside the hero, with a slider for the loan amount and tenor buttons for 12, 24, 36, and 48 months that recalculates the estimated monthly installment in real time, clearly labeled as an estimate and not a formal offer
+- Product cards, advantages, and application steps all use custom SVG icons rather than photos, both for a cleaner premium look and to avoid the vehicle brand logo risk that comes with motorcycle and car photos
+- Content includes a financing product grid, an advantages section with a consultation photo and a floating stat badge, a four step application flow, a branch network section with city list, star rated testimonials, an application form with inline validation, and an FAQ
+- Sourced two lifestyle photos from Unsplash, each checked at full resolution for free license and absence of visible real brand names or logos, with the sourcing log kept in the demo's own notes file
+- Added the tenth card to the company profile hub page for Danamitra Finance and widened the hub grid from four columns to five so it now shows a 5 by 2 layout, with adjusted responsive breakpoints for tablet and mobile, exactly as Bagas had planned once both new demos were done
+- Added Finance to the industry list on the homepage project description
+- Fixed a duplicate id bug found during testing where the financing product section and the form select field shared the same id, which made the jenis pembiayaan field always fail validation, resolved by giving the select a unique id
+- Verified HTML tag balance and zero em or en dash on every file touched, confirmed the installment calculator math and form validation behavior, and checked the layout across desktop and simulated mobile widths before delivery
+
+### Karya Presisi - new company profile demo added, ninth in the collection
+
+**Added**
+- New company profile demo for Karya Presisi, a fictional contract manufacturing business serving CNC machining, metal fabrication and welding, plastic injection molding, and assembly line services for industrial clients around Bekasi, Cikarang, and Karawang
+- Distinct charcoal and industrial safety orange palette on a light steel gray background, paired with Saira Condensed, IBM Plex Sans, and IBM Plex Mono for a technical, engineering feel, kept deliberately different from every other demo's colors and fonts
+- New interactive mechanic not used anywhere else in the collection: a numbered five stage production line flow, from raw material through processing, quality control, assembly, and shipping, with a connecting progress line and a detail panel that swaps photo and copy per stage on click
+- B2B oriented content structure throughout, including a capability grid, an industries served grid, ISO 9001:2015 and K3 certification badges, a facility photo gallery, B2B style testimonials, and a request for quotation form with company, PIC, need type, and volume fields instead of a consumer booking form
+- Sourced seven photos from Unsplash, each checked individually at full resolution for free license and absence of visible real brand names or logos, including checking whether the uploading account itself was a real named company, with the full sourcing log kept in the demo's own notes file
+- Added a ninth card to the company profile hub page for Karya Presisi, keeping the existing four column grid and every other demo untouched, and added Manufacturing to the industry list on the homepage project description
+- Verified HTML tag balance and zero em or en dash on every file touched, and checked the new page's layout and interactive production line flow across desktop and simulated mobile widths before delivery
+
 ### Studio Embun - hero photo still off center, real fix
 
 **Fixed**

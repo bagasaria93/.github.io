@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karya Presisi - Precision Contract Manufacturing Bekasi</title>
+<meta name="description" content="Karya Presisi adalah mitra contract manufacturing untuk kebutuhan CNC machining, fabrikasi logam, plastic injection molding, dan assembly line di kawasan industri Bekasi dan sekitarnya.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    --charcoal: #1e2226;
+    --charcoal-deep: #14171a;
+    --orange: #ff5c1a;
+    --orange-deep: #e04a0d;
+    --steel: #4a5568;
+    --steel-light: #7b8695;
+    --bg: #eef0f2;
+    --bg-2: #e3e6e9;
+    --white: #ffffff;
+    --ink: #1e2226;
+    --ink-dim: #62676e;
+    --border: rgba(30, 34, 38, 0.12);
+    --shadow: 0 20px 50px rgba(20, 23, 26, 0.16);
+    --font-display: 'Saira Condensed', sans-serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background: var(--bg);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+.container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--charcoal);
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 14px;
+}
+
+.eyebrow::before {
+    content: "";
+    width: 26px;
+    height: 2px;
+    background: var(--orange);
+    display: inline-block;
+}
+
+.section-head {
+    max-width: 640px;
+    margin-bottom: 48px;
+}
+
+.section-head h2 {
+    font-size: clamp(30px, 4vw, 42px);
+    line-height: 1.12;
+    margin-bottom: 14px;
+}
+
+.section-head p {
+    color: var(--ink-dim);
+    font-size: 16px;
+}
+
+.section-head.center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+section { padding: 96px 0; }
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 30px;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background: var(--orange);
+    color: var(--white);
+    border-color: var(--orange);
+}
+.btn-primary:hover { background: var(--orange-deep); border-color: var(--orange-deep); }
+
+.btn-outline {
+    background: transparent;
+    color: var(--charcoal);
+    border-color: var(--charcoal);
+}
+.btn-outline:hover { background: var(--charcoal); color: var(--white); }
+
+.btn-outline-light {
+    background: transparent;
+    color: var(--white);
+    border-color: rgba(255,255,255,0.4);
+}
+.btn-outline-light:hover { background: rgba(255,255,255,0.12); border-color: var(--white); }
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    padding: 20px 0;
+    transition: all 0.25s ease;
+    background: transparent;
+}
+.navbar.scrolled {
+    background: rgba(30, 34, 38, 0.96);
+    backdrop-filter: blur(10px);
+    padding: 14px 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+}
+.navbar .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-size: 21px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--white);
+}
+.logo-mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    background: var(--orange);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 4px;
+}
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+.nav-links a {
+    color: rgba(255,255,255,0.82);
+    font-size: 14.5px;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+.nav-links a:hover { color: var(--orange); }
+.nav-cta { display: flex; align-items: center; gap: 16px; }
+.nav-cta .btn { padding: 11px 22px; font-size: 13.5px; }
+
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+.burger span {
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.25s ease;
+}
+.burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger.active span:nth-child(2) { opacity: 0; }
+.burger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+    position: fixed;
+    top: 0; right: -100%;
+    width: 78%;
+    max-width: 340px;
+    height: 100vh;
+    background: var(--charcoal-deep);
+    z-index: 300;
+    padding: 100px 32px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+}
+.mobile-menu.active { right: 0; }
+.mobile-menu a {
+    color: rgba(255,255,255,0.86);
+    font-size: 17px;
+    font-weight: 500;
+}
+.mobile-menu a:hover { color: var(--orange); }
+
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 250;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.menu-overlay.active { opacity: 1; pointer-events: auto; }
+
+/* Hero */
+.hero {
+    position: relative;
+    padding: 168px 0 100px;
+    background: linear-gradient(150deg, var(--charcoal) 0%, var(--charcoal-deep) 100%);
+    overflow: hidden;
+}
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+}
+.hero .container {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 56px;
+    align-items: center;
+}
+.hero-copy .eyebrow { color: var(--orange); }
+.hero-copy h1 {
+    font-size: clamp(34px, 5vw, 54px);
+    line-height: 1.08;
+    color: var(--white);
+    margin-bottom: 20px;
+}
+.hero-copy h1 span { color: var(--orange); }
+.hero-copy p {
+    color: rgba(255,255,255,0.72);
+    font-size: 16.5px;
+    max-width: 520px;
+    margin-bottom: 32px;
+}
+.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 44px; }
+
+.hero-stats {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.14);
+}
+.hero-stat .num {
+    font-family: var(--font-mono);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--white);
+}
+.hero-stat .label {
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.58);
+    margin-top: 2px;
+}
+
+.hero-media { position: relative; }
+.hero-img-wrap {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+.hero-img-wrap img { width: 100%; height: 460px; object-fit: cover; }
+.hero-img-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(30,34,38,0) 40%, rgba(20,23,26,0.55) 100%);
+}
+.hero-badge {
+    position: absolute;
+    left: -24px;
+    bottom: -24px;
+    background: var(--white);
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow);
+    z-index: 2;
+}
+.hero-badge .icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255,92,26,0.12);
+    color: var(--orange-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.hero-badge .icon svg { width: 22px; height: 22px; }
+.hero-badge strong {
+    display: block;
+    font-size: 14px;
+    color: var(--charcoal);
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+.hero-badge span { font-size: 12.5px; color: var(--ink-dim); }
+
+/* Trust strip */
+.trust-strip {
+    background: var(--charcoal-deep);
+    padding: 30px 0;
+}
+.trust-strip .container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.trust-item .icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,92,26,0.14);
+    color: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.trust-item .icon svg { width: 22px; height: 22px; }
+.trust-item strong {
+    display: block;
+    font-size: 14.5px;
+    color: var(--white);
+    font-weight: 600;
+}
+.trust-item p { font-size: 12.5px; color: rgba(255,255,255,0.55); }
+
+/* Reveal animation */
+.reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Kapabilitas */
+.kapabilitas { background: var(--bg); }
+.kap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+.kap-card {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 32px 26px;
+    border: 1px solid var(--border);
+    transition: all 0.25s ease;
+}
+.kap-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow);
+    border-color: transparent;
+}
+.kap-card .icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 8px;
+    background: var(--charcoal);
+    color: var(--orange);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.kap-card .icon svg { width: 26px; height: 26px; }
+.kap-card h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.kap-card p { color: var(--ink-dim); font-size: 14.5px; margin-bottom: 14px; }
+.kap-card .spec-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--orange-deep);
+    background: rgba(255,92,26,0.09);
+    padding: 5px 10px;
+    border-radius: 3px;
+}
+
+/* Lini Produksi */
+.lini-produksi { background: var(--charcoal); position: relative; overflow: hidden; }
+.lini-produksi::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events: none;
+}
+.lini-produksi .container { position: relative; }
+.lini-produksi .section-head h2, .lini-produksi .section-head p { color: var(--white); }
+.lini-produksi .section-head p { color: rgba(255,255,255,0.62); }
+.lini-produksi .eyebrow { color: var(--orange); }
+
+.flow-track {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 48px;
+}
+.flow-line {
+    position: absolute;
+    top: 27px;
+    left: 27px;
+    right: 27px;
+    height: 2px;
+    background: rgba(255,255,255,0.14);
+    z-index: 0;
+}
+.flow-line-fill {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%;
+    background: var(--orange);
+    width: 0%;
+    transition: width 0.35s ease;
+}
+.flow-step {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 18%;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: var(--font-body);
+    padding: 0;
+}
+.flow-step .num {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: var(--charcoal-deep);
+    border: 2px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.65);
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    transition: all 0.25s ease;
+}
+.flow-step .title {
+    font-family: var(--font-display);
+    font-size: 15.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: rgba(255,255,255,0.55);
+    transition: color 0.25s ease;
+}
+.flow-step.active .num {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: var(--white);
+}
+.flow-step.active .title { color: var(--white); }
+.flow-step:hover .title { color: rgba(255,255,255,0.85); }
+
+.flow-panel {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: 0;
+    background: var(--charcoal-deep);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.flow-panel-img { height: 100%; min-height: 340px; position: relative; }
+.flow-panel-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: none;
+}
+.flow-panel-img img.active { display: block; }
+.flow-panel-body { padding: 44px 44px; display: flex; flex-direction: column; justify-content: center; }
+.flow-panel-body .step-tag {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--orange);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: none;
+}
+.flow-panel-body .step-tag.active { display: block; }
+.flow-panel-body .step-title {
+    font-size: 26px;
+    color: var(--white);
+    margin-bottom: 14px;
+    display: none;
+}
+.flow-panel-body .step-title.active { display: block; }
+.flow-panel-body .step-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.65);
+    display: none;
+    line-height: 1.7;
+}
+.flow-panel-body .step-desc.active { display: block; }
+
+/* Industri */
+.industri { background: var(--white); }
+.industri-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+.industri-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    background: var(--bg);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+.industri-card:hover { background: var(--charcoal); }
+.industri-card:hover strong, .industri-card:hover p { color: var(--white); }
+.industri-card:hover p { color: rgba(255,255,255,0.6); }
+.industri-card .icon {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: rgba(255,92,26,0.12);
+    color: var(--orange-deep);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.industri-card .icon svg { width: 22px; height: 22px; }
+.industri-card strong { display: block; font-size: 15.5px; margin-bottom: 2px; }
+.industri-card p { font-size: 12.5px; color: var(--ink-dim); }
+
+/* Sertifikasi */
+.sertifikasi { background: var(--bg); }
+.sert-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+.sert-card {
+    display: flex;
+    gap: 22px;
+    align-items: flex-start;
+    background: var(--white);
+    padding: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+.sert-card .badge {
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    background: var(--charcoal);
+    color: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.sert-card .badge svg { width: 32px; height: 32px; }
+.sert-card h3 { font-size: 19px; margin-bottom: 8px; }
+.sert-card p { font-size: 14.5px; color: var(--ink-dim); }
+
+/* Galeri Fasilitas */
+.fasilitas { background: var(--white); }
+.fasilitas-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 220px);
+    gap: 14px;
+}
+.fasilitas-item { border-radius: 8px; overflow: hidden; position: relative; }
+.fasilitas-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.fasilitas-item:hover img { transform: scale(1.06); }
+.fasilitas-item.big { grid-column: span 2; grid-row: span 2; }
+.fasilitas-item::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(20,23,26,0) 55%, rgba(20,23,26,0.6) 100%);
+}
+.fasilitas-cap {
+    position: absolute;
+    left: 16px; bottom: 14px;
+    z-index: 1;
+    color: var(--white);
+    font-family: var(--font-display);
+    font-size: 14.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+/* Testimoni */
+.testimoni { background: var(--charcoal); }
+.testimoni .section-head h2 { color: var(--white); }
+.testimoni .section-head p { color: rgba(255,255,255,0.6); }
+.testimoni .eyebrow { color: var(--orange); }
+.testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+.testi-card {
+    background: var(--charcoal-deep);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 30px;
+}
+.testi-quote-icon { color: var(--orange); margin-bottom: 16px; }
+.testi-quote-icon svg { width: 28px; height: 28px; }
+.testi-card p.quote {
+    color: rgba(255,255,255,0.78);
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+.testi-person { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: var(--white);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.testi-person strong { display: block; font-size: 14.5px; color: var(--white); }
+.testi-person span { font-size: 12.5px; color: rgba(255,255,255,0.5); }
+
+/* RFQ Form */
+.rfq { background: var(--bg); }
+.rfq-wrap {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 0;
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+.rfq-info {
+    background: var(--charcoal);
+    padding: 48px 40px;
+    color: var(--white);
+}
+.rfq-info .eyebrow { color: var(--orange); }
+.rfq-info h3 { font-size: 26px; margin-bottom: 16px; color: var(--white); }
+.rfq-info p { color: rgba(255,255,255,0.65); font-size: 14.5px; margin-bottom: 30px; }
+.rfq-info-list { display: flex; flex-direction: column; gap: 18px; }
+.rfq-info-item { display: flex; gap: 14px; align-items: flex-start; }
+.rfq-info-item .icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,92,26,0.15);
+    color: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.rfq-info-item .icon svg { width: 17px; height: 17px; }
+.rfq-info-item strong { display: block; font-size: 14px; }
+.rfq-info-item span { font-size: 13px; color: rgba(255,255,255,0.55); }
+
+.rfq-form-wrap { padding: 48px 44px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.form-group { margin-bottom: 18px; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: var(--charcoal);
+}
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 5px;
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    color: var(--ink);
+    background: var(--bg);
+    transition: border-color 0.2s ease;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+    background: var(--white);
+}
+.form-group textarea { resize: vertical; min-height: 96px; }
+.form-group .err-msg { display: none; color: #c0392b; font-size: 12.5px; margin-top: 6px; }
+.form-group.error input, .form-group.error select, .form-group.error textarea { border-color: #c0392b; }
+.form-group.error .err-msg { display: block; }
+.rfq-form-wrap .btn { width: 100%; padding: 16px; font-size: 15px; }
+.form-success {
+    display: none;
+    text-align: center;
+    padding: 40px 10px;
+}
+.form-success.active { display: block; }
+.form-success .icon {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(255,92,26,0.12);
+    color: var(--orange-deep);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+}
+.form-success .icon svg { width: 30px; height: 30px; }
+.form-success h3 { font-size: 22px; margin-bottom: 10px; }
+.form-success p { color: var(--ink-dim); font-size: 14.5px; }
+
+/* FAQ */
+.faq { background: var(--white); }
+.faq-list { max-width: 780px; margin: 0 auto; }
+.faq-item {
+    border-bottom: 1px solid var(--border);
+}
+.faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 4px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--font-body);
+}
+.faq-question h4 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 600;
+}
+.faq-question .plus {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid var(--charcoal);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    transition: all 0.25s ease;
+}
+.faq-question .plus::before, .faq-question .plus::after {
+    content: "";
+    position: absolute;
+    background: var(--charcoal);
+    transition: all 0.25s ease;
+}
+.faq-question .plus::before { width: 10px; height: 1.5px; }
+.faq-question .plus::after { width: 1.5px; height: 10px; }
+.faq-item.active .plus { background: var(--orange); border-color: var(--orange); transform: rotate(45deg); }
+.faq-item.active .plus::before, .faq-item.active .plus::after { background: var(--white); }
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+.faq-item.active .faq-answer { max-height: 240px; }
+.faq-answer p { padding: 0 4px 22px; color: var(--ink-dim); font-size: 14.5px; line-height: 1.7; }
+
+/* Kontak */
+.kontak { background: var(--bg); }
+.kontak-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+.kontak-card {
+    background: var(--white);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+.kontak-card .icon {
+    width: 46px; height: 46px;
+    border-radius: 8px;
+    background: var(--charcoal);
+    color: var(--orange);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+}
+.kontak-card .icon svg { width: 22px; height: 22px; }
+.kontak-card h3 { font-size: 17px; margin-bottom: 8px; }
+.kontak-card p { font-size: 14px; color: var(--ink-dim); line-height: 1.6; }
+.kontak-card a.link { color: var(--orange-deep); font-weight: 600; font-size: 14px; }
+
+/* Footer */
+footer {
+    background: var(--charcoal-deep);
+    color: rgba(255,255,255,0.6);
+    padding: 70px 0 26px;
+}
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1.2fr;
+    gap: 40px;
+    padding-bottom: 46px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.footer-brand .logo { margin-bottom: 16px; }
+.footer-brand p { font-size: 13.5px; line-height: 1.7; max-width: 300px; }
+.footer-col h4 {
+    font-family: var(--font-display);
+    color: var(--white);
+    font-size: 15px;
+    margin-bottom: 18px;
+    text-transform: uppercase;
+}
+.footer-col ul { display: flex; flex-direction: column; gap: 11px; }
+.footer-col a { font-size: 13.5px; transition: color 0.2s ease; }
+.footer-col a:hover { color: var(--orange); }
+.footer-bottom {
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12.5px;
+}
+.footer-bottom a { color: var(--orange); }
+
+/* WA Float */
+.wa-float {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #25D366;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(37,211,102,0.4);
+    z-index: 150;
+    transition: transform 0.2s ease;
+}
+.wa-float:hover { transform: scale(1.08); }
+.wa-float svg { width: 28px; height: 28px; fill: var(--white); }
+
+/* Responsive */
+@media (max-width: 1080px) {
+    .hero .container { grid-template-columns: 1fr; }
+    .hero-media { max-width: 520px; }
+    .kap-grid { grid-template-columns: repeat(2, 1fr); }
+    .industri-grid { grid-template-columns: repeat(2, 1fr); }
+    .fasilitas-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 180px); }
+    .fasilitas-item.big { grid-column: span 2; grid-row: span 2; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .rfq-wrap { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-cta .btn { display: none; }
+    .burger { display: flex; }
+    .trust-strip .container { grid-template-columns: repeat(2, 1fr); }
+    .flow-track { flex-wrap: wrap; gap: 20px 0; }
+    .flow-line { display: none; }
+    .flow-step { width: 30%; }
+    .flow-panel { grid-template-columns: 1fr; }
+    .flow-panel-img { min-height: 220px; }
+    .flow-panel-body { padding: 32px 28px; }
+    .sert-grid { grid-template-columns: 1fr; }
+    .kontak-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+    section { padding: 64px 0; }
+    .hero { padding: 130px 0 70px; }
+    .hero-actions { flex-direction: column; align-items: stretch; }
+    .hero-actions .btn { width: 100%; }
+    .hero-stats { gap: 24px; }
+    .hero-img-wrap img { height: 320px; }
+    .hero-badge { left: 12px; right: 12px; bottom: -20px; }
+    .kap-grid { grid-template-columns: 1fr; }
+    .industri-grid { grid-template-columns: 1fr; }
+    .fasilitas-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 160px); }
+    .fasilitas-item.big { grid-column: span 2; grid-row: span 1; }
+    .flow-step { width: 47%; }
+    .flow-panel-body { padding: 26px 22px; }
+    .flow-panel-body .step-title { font-size: 21px; }
+    .rfq-info { padding: 36px 28px; }
+    .rfq-form-wrap { padding: 32px 24px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar">
+    <div class="container">
+        <a href="#home" class="logo"><span class="logo-mark">KP</span> Karya Presisi</a>
+        <div class="nav-links">
+            <a href="#kapabilitas">Kapabilitas</a>
+            <a href="#lini-produksi">Lini Produksi</a>
+            <a href="#industri">Industri</a>
+            <a href="#fasilitas">Fasilitas</a>
+            <a href="#testimoni">Testimoni</a>
+            <a href="#kontak">Kontak</a>
+        </div>
+        <div class="nav-cta">
+            <a href="#rfq" class="btn btn-primary">Ajukan RFQ</a>
+            <button class="burger" id="burger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<div class="menu-overlay" id="menuOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#kapabilitas">Kapabilitas</a>
+    <a href="#lini-produksi">Lini Produksi</a>
+    <a href="#industri">Industri</a>
+    <a href="#sertifikasi">Sertifikasi</a>
+    <a href="#fasilitas">Fasilitas</a>
+    <a href="#testimoni">Testimoni</a>
+    <a href="#kontak">Kontak</a>
+    <a href="#rfq" class="btn btn-primary" style="margin-top: 10px;">Ajukan RFQ</a>
+</div>
+
+<header class="hero" id="home">
+    <div class="container">
+        <div class="hero-copy">
+            <div class="eyebrow">Precision Contract Manufacturing</div>
+            <h1>Mitra Manufaktur Presisi untuk <span>Kebutuhan Produksi</span> Industri Anda</h1>
+            <p>Karya Presisi melayani CNC machining, fabrikasi dan pengelasan logam, plastic injection molding, hingga assembly line untuk perusahaan manufaktur di kawasan Bekasi, Cikarang, dan Karawang, dengan standar kualitas yang terukur di setiap tahap produksi.</p>
+            <div class="hero-actions">
+                <a href="#rfq" class="btn btn-primary">Ajukan RFQ Sekarang</a>
+                <a href="#kapabilitas" class="btn btn-outline-light">Lihat Kapabilitas</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="num" data-count="8">0</div>
+                    <div class="label">Tahun Beroperasi</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num"><span data-count="120">0</span>+</div>
+                    <div class="label">Ton Kapasitas Produksi/Bulan</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="num"><span data-count="60">0</span>+</div>
+                    <div class="label">Klien Industri Terlayani</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-media">
+            <div class="hero-img-wrap">
+                <img src="https://images.unsplash.com/photo-1598302936625-6075fbd98dd7?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" alt="Teknisi Karya Presisi menggerinda material logam" loading="eager">
+            </div>
+            <div class="hero-badge">
+                <div class="icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                </div>
+                <div>
+                    <strong>Bersertifikat ISO 9001:2015</strong>
+                    <span>Sistem manajemen mutu terverifikasi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="trust-strip">
+    <div class="container">
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"></path><circle cx="12" cy="12" r="10"></circle></svg></div>
+            <div><strong>Kualitas Terukur</strong><p>Inspeksi di tiap tahap</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 3"></path></svg></div>
+            <div><strong>Pengiriman Tepat Waktu</strong><p>Lead time yang jelas</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M3 10h18M8 4v2m8-2v2"></path></svg></div>
+            <div><strong>Kapasitas Fleksibel</strong><p>Skala kecil hingga besar</p></div>
+        </div>
+        <div class="trust-item">
+            <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg></div>
+            <div><strong>Dukungan Teknis</strong><p>Tim engineering siap bantu</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="kapabilitas" id="kapabilitas">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Kapabilitas Produksi</div>
+            <h2>Satu Mitra untuk Berbagai Kebutuhan Produksi</h2>
+            <p>Dari machining presisi hingga assembly akhir, kami menangani setiap tahap produksi dengan mesin dan tenaga kerja terlatih.</p>
+        </div>
+        <div class="kap-grid">
+            <div class="kap-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.6 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.6a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"></path></svg></div>
+                <h3>CNC Machining</h3>
+                <p>Milling dan turning presisi untuk komponen logam dengan toleransi ketat sesuai gambar teknik pelanggan.</p>
+                <span class="spec-tag">Toleransi hingga 0.01mm</span>
+            </div>
+            <div class="kap-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg></div>
+                <h3>Fabrikasi &amp; Pengelasan Logam</h3>
+                <p>Cutting, bending, dan pengelasan untuk komponen struktural, rangka, dan sheet metal custom.</p>
+                <span class="spec-tag">MIG, TIG, Spot Welding</span>
+            </div>
+            <div class="kap-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></div>
+                <h3>Plastic Injection Molding</h3>
+                <p>Produksi komponen plastik massal dengan mold custom untuk kebutuhan otomotif hingga consumer goods.</p>
+                <span class="spec-tag">Mold hingga 500 ton clamping</span>
+            </div>
+            <div class="kap-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"></path><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"></path></svg></div>
+                <h3>Assembly Line Services</h3>
+                <p>Perakitan sub komponen menjadi produk jadi dengan jalur kerja yang terstandar dan terdokumentasi.</p>
+                <span class="spec-tag">Line kustom sesuai volume</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="lini-produksi" id="lini-produksi">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">Alur Kerja</div>
+            <h2>Lini Produksi yang Transparan</h2>
+            <p>Klik setiap tahap untuk melihat proses yang kami jalankan, dari bahan baku masuk hingga produk siap dikirim.</p>
+        </div>
+        <div class="flow-track" id="flowTrack">
+            <div class="flow-line"><div class="flow-line-fill" id="flowLineFill"></div></div>
+            <button class="flow-step active" data-step="1">
+                <span class="num">01</span>
+                <span class="title">Bahan Baku</span>
+            </button>
+            <button class="flow-step" data-step="2">
+                <span class="num">02</span>
+                <span class="title">Processing</span>
+            </button>
+            <button class="flow-step" data-step="3">
+                <span class="num">03</span>
+                <span class="title">Quality Control</span>
+            </button>
+            <button class="flow-step" data-step="4">
+                <span class="num">04</span>
+                <span class="title">Assembly</span>
+            </button>
+            <button class="flow-step" data-step="5">
+                <span class="num">05</span>
+                <span class="title">Pengiriman</span>
+            </button>
+        </div>
+        <div class="flow-panel reveal">
+            <div class="flow-panel-img">
+                <img class="flow-img active" data-step="1" src="https://images.unsplash.com/photo-1697698532634-ea59b636ccea?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" alt="Gulungan bahan baku logam di area penyimpanan">
+                <img class="flow-img" data-step="2" src="https://images.unsplash.com/photo-1666634157070-6fd830fb5672?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" alt="Proses machining pada mesin lathe">
+                <img class="flow-img" data-step="3" src="https://images.unsplash.com/photo-1745571479807-8a0dda362f94?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" alt="Pemeriksaan dimensi komponen dengan alat ukur presisi">
+                <img class="flow-img" data-step="4" src="https://images.unsplash.com/photo-1598299803204-b73796f43289?q=80&amp;w=1000&amp;auto=format&amp;fit=crop" alt="Proses assembly komponen pada jalur produksi">
+                <img class="flow-img" data-step="5" src="https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&amp;w=1000&amp;auto=format&amp;fit=crop&amp;crop=focalpoint&amp;fp-x=0.65&amp;fp-y=0.5" alt="Produk jadi siap dikirim dari gudang penyimpanan">
+            </div>
+            <div class="flow-panel-body">
+                <span class="step-tag active" data-step="1">Tahap 01</span>
+                <span class="step-tag" data-step="2">Tahap 02</span>
+                <span class="step-tag" data-step="3">Tahap 03</span>
+                <span class="step-tag" data-step="4">Tahap 04</span>
+                <span class="step-tag" data-step="5">Tahap 05</span>
+
+                <h3 class="step-title active" data-step="1">Bahan Baku</h3>
+                <h3 class="step-title" data-step="2">Processing &amp; Machining</h3>
+                <h3 class="step-title" data-step="3">Quality Control</h3>
+                <h3 class="step-title" data-step="4">Assembly</h3>
+                <h3 class="step-title" data-step="5">Packaging &amp; Pengiriman</h3>
+
+                <p class="step-desc active" data-step="1">Material logam dan plastik yang masuk diperiksa kesesuaiannya dengan spesifikasi sebelum disimpan di area bahan baku, memastikan setiap batch produksi dimulai dari material yang tepat.</p>
+                <p class="step-desc" data-step="2">Bahan baku diproses melalui CNC machining, cutting, atau injection molding sesuai jenis produk, mengikuti gambar teknik dan parameter proses yang sudah ditetapkan.</p>
+                <p class="step-desc" data-step="3">Setiap komponen melewati pemeriksaan dimensi dan visual menggunakan alat ukur presisi untuk memastikan hasil produksi sesuai toleransi yang disepakati.</p>
+                <p class="step-desc" data-step="4">Komponen yang lolos quality control dirakit menjadi produk jadi mengikuti jalur assembly yang terstandar dan terdokumentasi.</p>
+                <p class="step-desc" data-step="5">Produk jadi dikemas sesuai standar pengiriman dan disiapkan di area gudang sebelum dikirim ke lokasi pelanggan sesuai jadwal yang disepakati.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="industri" id="industri">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Industri yang Dilayani</div>
+            <h2>Dipercaya Lintas Sektor Manufaktur</h2>
+            <p>Pengalaman menangani berbagai jenis komponen membuat kami memahami standar dan kebutuhan tiap sektor industri.</p>
+        </div>
+        <div class="industri-grid">
+            <div class="industri-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17a2 2 0 01-2-2v-2l2-5h10l3 5v2a2 2 0 01-2 2M5 17v2a1 1 0 001 1h1a1 1 0 001-1v-1h8v1a1 1 0 001 1h1a1 1 0 001-1v-2"></path><circle cx="7.5" cy="14.5" r="1.5"></circle><circle cx="16.5" cy="14.5" r="1.5"></circle></svg></div>
+                <div><strong>Otomotif</strong><p>Komponen kendaraan dan sparepart</p></div>
+            </div>
+            <div class="industri-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"></rect><path d="M9 9h6v6H9z"></path><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"></path></svg></div>
+                <div><strong>Elektronik &amp; Elektrikal</strong><p>Housing dan komponen presisi</p></div>
+            </div>
+            <div class="industri-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20M4 20V10l4-3 4 3v10M12 20v-6l4-3 4 3v6"></path></svg></div>
+                <div><strong>Alat Berat &amp; Konstruksi</strong><p>Fabrikasi rangka dan struktural</p></div>
+            </div>
+            <div class="industri-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9m0 0l3-3m-3 3l3 3M4 17h9m0 0l-3 3m3-3l-3-3"></path></svg></div>
+                <div><strong>Consumer Goods</strong><p>Komponen plastik produksi massal</p></div>
+            </div>
+            <div class="industri-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 9h1M9 13h1M14 9h1M14 13h1M9 21v-4h6v4"></path></svg></div>
+                <div><strong>Furnitur &amp; Metal Works</strong><p>Rangka dan aksesoris logam</p></div>
+            </div>
+            <div class="industri-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8z"></path></svg></div>
+                <div><strong>Energi &amp; Utilitas</strong><p>Komponen panel dan enclosure</p></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="sertifikasi" id="sertifikasi">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Sertifikasi</div>
+            <h2>Standar yang Terverifikasi</h2>
+            <p>Sistem produksi dan keselamatan kerja kami mengikuti standar yang diakui secara industri.</p>
+        </div>
+        <div class="sert-grid">
+            <div class="sert-card reveal">
+                <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 4v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-4z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+                <div>
+                    <h3>ISO 9001:2015</h3>
+                    <p>Sertifikasi sistem manajemen mutu yang memastikan konsistensi proses produksi dan kepuasan pelanggan pada setiap batch pengerjaan.</p>
+                </div>
+            </div>
+            <div class="sert-card reveal">
+                <div class="badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div>
+                <div>
+                    <h3>Sistem Manajemen K3</h3>
+                    <p>Prosedur keselamatan dan kesehatan kerja yang diterapkan di seluruh area produksi untuk melindungi tenaga kerja dan menjaga kelancaran operasional.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="fasilitas" id="fasilitas">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Fasilitas Produksi</div>
+            <h2>Galeri Area Kerja Kami</h2>
+            <p>Sekilas suasana lantai produksi, area machining, hingga gudang penyimpanan Karya Presisi.</p>
+        </div>
+        <div class="fasilitas-grid">
+            <div class="fasilitas-item big reveal">
+                <img src="https://images.unsplash.com/photo-1681407979977-ea6060c802f6?q=80&amp;w=1200&amp;auto=format&amp;fit=crop" alt="Area pengelasan dan fabrikasi logam">
+                <span class="fasilitas-cap">Area Pengelasan</span>
+            </div>
+            <div class="fasilitas-item reveal">
+                <img src="https://images.unsplash.com/photo-1666634157070-6fd830fb5672?q=80&amp;w=700&amp;auto=format&amp;fit=crop" alt="Mesin CNC lathe sedang beroperasi">
+                <span class="fasilitas-cap">CNC Machining</span>
+            </div>
+            <div class="fasilitas-item reveal">
+                <img src="https://images.unsplash.com/photo-1598299803204-b73796f43289?q=80&amp;w=700&amp;auto=format&amp;fit=crop" alt="Operator menjalankan mesin produksi">
+                <span class="fasilitas-cap">Lini Produksi</span>
+            </div>
+            <div class="fasilitas-item reveal">
+                <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&amp;w=700&amp;auto=format&amp;fit=crop&amp;crop=focalpoint&amp;fp-x=0.65&amp;fp-y=0.5" alt="Gudang penyimpanan produk jadi">
+                <span class="fasilitas-cap">Gudang</span>
+            </div>
+            <div class="fasilitas-item reveal">
+                <img src="https://images.unsplash.com/photo-1745571479807-8a0dda362f94?q=80&amp;w=700&amp;auto=format&amp;fit=crop" alt="Pemeriksaan kualitas komponen dengan alat ukur">
+                <span class="fasilitas-cap">Quality Control</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="testimoni" id="testimoni">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Testimoni</div>
+            <h2>Apa Kata Mitra Industri Kami</h2>
+            <p>Pengalaman tim procurement dan operasional yang bekerja sama dengan Karya Presisi.</p>
+        </div>
+        <div class="testi-grid">
+            <div class="testi-card reveal">
+                <div class="testi-quote-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 7c-2.2 0-4 1.8-4 4v6h6v-6H6.2c0-1 .8-1.8 1.8-1.8V7zm10 0c-2.2 0-4 1.8-4 4v6h6v-6h-2.8c0-1 .8-1.8 1.8-1.8V7z"></path></svg></div>
+                <p class="quote">Toleransi dimensi hasil machining dari Karya Presisi konsisten dari batch ke batch, sangat membantu proses assembly di lini kami tanpa banyak rework.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">RK</div>
+                    <div><strong>Rendy Kurniawan</strong><span>Procurement Manager, PT Adiwarna Komponen</span></div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="testi-quote-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 7c-2.2 0-4 1.8-4 4v6h6v-6H6.2c0-1 .8-1.8 1.8-1.8V7zm10 0c-2.2 0-4 1.8-4 4v6h6v-6h-2.8c0-1 .8-1.8 1.8-1.8V7z"></path></svg></div>
+                <p class="quote">Komunikasi soal lead time selalu jelas sejak awal, jadi tim purchasing kami bisa menyusun jadwal produksi dengan lebih tenang.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">DA</div>
+                    <div><strong>Dewi Anggraini</strong><span>Purchasing Lead, PT Cipta Elektrindo</span></div>
+                </div>
+            </div>
+            <div class="testi-card reveal">
+                <div class="testi-quote-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 7c-2.2 0-4 1.8-4 4v6h6v-6H6.2c0-1 .8-1.8 1.8-1.8V7zm10 0c-2.2 0-4 1.8-4 4v6h6v-6h-2.8c0-1 .8-1.8 1.8-1.8V7z"></path></svg></div>
+                <p class="quote">Untuk komponen fabrikasi custom yang cukup rumit, tim engineering Karya Presisi cukup responsif memberi masukan sebelum produksi jalan.</p>
+                <div class="testi-person">
+                    <div class="testi-avatar">BS</div>
+                    <div><strong>Bayu Saputra</strong><span>Operations Manager, PT Sentra Alat Berat</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="rfq" id="rfq">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Request for Quotation</div>
+            <h2>Ajukan Kebutuhan Produksi Anda</h2>
+            <p>Isi form berikut dan tim kami akan menghubungi Anda untuk membahas spesifikasi dan estimasi biaya.</p>
+        </div>
+        <div class="rfq-wrap reveal">
+            <div class="rfq-info">
+                <div class="eyebrow">Proses RFQ</div>
+                <h3>Bagaimana Kami Memproses Permintaan Anda</h3>
+                <p>Setelah form diterima, tim engineering kami akan meninjau kebutuhan Anda dan memberikan estimasi dalam waktu 2x24 jam kerja.</p>
+                <div class="rfq-info-list">
+                    <div class="rfq-info-item">
+                        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"></path></svg></div>
+                        <div><strong>Tinjauan Spesifikasi</strong><span>Gambar teknik dan kebutuhan volume dianalisis tim engineering</span></div>
+                    </div>
+                    <div class="rfq-info-item">
+                        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"></path></svg></div>
+                        <div><strong>Estimasi Biaya dan Lead Time</strong><span>Penawaran dikirim lengkap dengan estimasi waktu pengerjaan</span></div>
+                    </div>
+                    <div class="rfq-info-item">
+                        <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path></svg></div>
+                        <div><strong>Konfirmasi dan Produksi</strong><span>Setelah disetujui, jadwal produksi langsung disusun</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="rfq-form-wrap">
+                <form id="rfqForm" novalidate>
+                    <div class="form-row">
+                        <div class="form-group" id="group-perusahaan">
+                            <label for="perusahaan">Nama Perusahaan</label>
+                            <input type="text" id="perusahaan" placeholder="PT Contoh Industri">
+                            <span class="err-msg">Nama perusahaan wajib diisi</span>
+                        </div>
+                        <div class="form-group" id="group-pic">
+                            <label for="pic">Nama PIC</label>
+                            <input type="text" id="pic" placeholder="Nama lengkap Anda">
+                            <span class="err-msg">Nama PIC wajib diisi</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" id="group-email">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" placeholder="nama@perusahaan.com">
+                            <span class="err-msg">Format email tidak valid</span>
+                        </div>
+                        <div class="form-group" id="group-hp">
+                            <label for="hp">No. HP / WhatsApp</label>
+                            <input type="text" id="hp" placeholder="08xxxxxxxxxx">
+                            <span class="err-msg">Nomor HP tidak valid</span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group" id="group-jenis">
+                            <label for="jenis">Jenis Kebutuhan</label>
+                            <select id="jenis">
+                                <option value="">Pilih jenis kebutuhan</option>
+                                <option value="cnc">CNC Machining</option>
+                                <option value="fabrikasi">Fabrikasi &amp; Pengelasan Logam</option>
+                                <option value="injection">Plastic Injection Molding</option>
+                                <option value="assembly">Assembly Line</option>
+                                <option value="lainnya">Lainnya</option>
+                            </select>
+                            <span class="err-msg">Pilih jenis kebutuhan</span>
+                        </div>
+                        <div class="form-group" id="group-volume">
+                            <label for="volume">Estimasi Volume</label>
+                            <input type="text" id="volume" placeholder="Contoh: 5.000 pcs/bulan">
+                            <span class="err-msg">Estimasi volume wajib diisi</span>
+                        </div>
+                    </div>
+                    <div class="form-group full" id="group-catatan">
+                        <label for="catatan">Deadline / Catatan Tambahan</label>
+                        <textarea id="catatan" placeholder="Target deadline, spesifikasi material, atau catatan lain"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Kirim RFQ</button>
+                </form>
+                <div class="form-success" id="formSuccess">
+                    <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path></svg></div>
+                    <h3>RFQ Berhasil Dikirim</h3>
+                    <p>Terima kasih, tim kami akan meninjau permintaan Anda dan menghubungi Anda dalam 2x24 jam kerja.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="faq" id="faq">
+    <div class="container">
+        <div class="section-head center reveal">
+            <div class="eyebrow">FAQ</div>
+            <h2>Pertanyaan yang Sering Diajukan</h2>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item active reveal">
+                <button class="faq-question">
+                    <h4>Berapa minimum order quantity (MOQ) untuk produksi?</h4>
+                    <span class="plus"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>MOQ berbeda tergantung jenis proses. Untuk CNC machining dan fabrikasi, kami bisa menerima volume kecil untuk kebutuhan prototipe. Untuk injection molding, MOQ menyesuaikan biaya pembuatan mold. Detail MOQ akan disampaikan saat proses RFQ.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    <h4>Apakah bisa membuat sample atau prototipe terlebih dahulu?</h4>
+                    <span class="plus"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Bisa. Kami menyediakan layanan pembuatan sample sebelum masuk ke produksi massal, terutama untuk komponen dengan spesifikasi baru atau desain custom.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    <h4>Berapa lama lead time produksi umumnya?</h4>
+                    <span class="plus"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Lead time bervariasi tergantung jenis proses, kompleksitas komponen, dan volume pesanan. Estimasi lead time akan disertakan dalam penawaran RFQ setelah spesifikasi ditinjau tim kami.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    <h4>Apakah Karya Presisi bisa membuat tooling atau mold custom?</h4>
+                    <span class="plus"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Ya, untuk kebutuhan injection molding dan fabrikasi tertentu kami dapat membantu proses pembuatan tooling atau mold custom sesuai desain dan spesifikasi yang diberikan.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    <h4>Apakah hasil produksi disertai laporan quality control?</h4>
+                    <span class="plus"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Setiap batch produksi melewati inspeksi kualitas internal. Laporan hasil pemeriksaan dapat disertakan sesuai kesepakatan dengan pelanggan.</p>
+                </div>
+            </div>
+            <div class="faq-item reveal">
+                <button class="faq-question">
+                    <h4>Apakah pengiriman hanya melayani area Bekasi?</h4>
+                    <span class="plus"></span>
+                </button>
+                <div class="faq-answer">
+                    <p>Fasilitas produksi kami berada di kawasan Bekasi, namun pengiriman melayani area Jabodetabek dan sekitarnya sesuai kesepakatan dengan pelanggan.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="kontak" id="kontak">
+    <div class="container">
+        <div class="section-head reveal">
+            <div class="eyebrow">Kontak</div>
+            <h2>Hubungi Tim Kami</h2>
+            <p>Diskusikan kebutuhan produksi Anda langsung dengan tim Karya Presisi.</p>
+        </div>
+        <div class="kontak-grid">
+            <div class="kontak-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                <h3>Alamat Fasilitas</h3>
+                <p>Kawasan Industri Bekasi, Jawa Barat, Indonesia</p>
+            </div>
+            <div class="kontak-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"></path></svg></div>
+                <h3>Telepon &amp; WhatsApp</h3>
+                <p>Senin - Sabtu, 08.00 - 17.00 WIB</p>
+                <a href="https://wa.me/6281255557994" class="link" target="_blank" rel="noopener">+62 812-5555-7994</a>
+            </div>
+            <div class="kontak-card reveal">
+                <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><path d="M22 6l-10 7L2 6"></path></svg></div>
+                <h3>Email</h3>
+                <p>Untuk pertanyaan umum dan RFQ</p>
+                <a href="mailto:bagasativa@gmail.com" class="link">bagasativa@gmail.com</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#home" class="logo"><span class="logo-mark">KP</span> Karya Presisi</a>
+                <p>Mitra contract manufacturing untuk CNC machining, fabrikasi logam, plastic injection molding, dan assembly line di kawasan industri Bekasi.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Navigasi</h4>
+                <ul>
+                    <li><a href="#kapabilitas">Kapabilitas</a></li>
+                    <li><a href="#lini-produksi">Lini Produksi</a></li>
+                    <li><a href="#industri">Industri</a></li>
+                    <li><a href="#fasilitas">Fasilitas</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Perusahaan</h4>
+                <ul>
+                    <li><a href="#sertifikasi">Sertifikasi</a></li>
+                    <li><a href="#testimoni">Testimoni</a></li>
+                    <li><a href="#rfq">Ajukan RFQ</a></li>
+                    <li><a href="#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Kontak</h4>
+                <ul>
+                    <li>Kawasan Industri Bekasi, Jawa Barat</li>
+                    <li>+62 812-5555-7994</li>
+                    <li>bagasativa@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; 2026 Karya Presisi. Seluruh hak cipta dilindungi.</span>
+            <span>Demo project by <a href="https://bagasaria93.github.io" target="_blank" rel="noopener">Bagas Aria Sativa</a></span>
+        </div>
+    </div>
+</footer>
+
+<a href="https://wa.me/6281255557994" class="wa-float" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M17.6 6.32A8.86 8.86 0 0012.05 4a8.94 8.94 0 00-7.75 13.4L3 21l3.7-1.28A8.94 8.94 0 0012.05 21h.004a8.94 8.94 0 008.94-8.94 8.87 8.87 0 00-3.35-5.74zM12.05 19.4a7.4 7.4 0 01-3.78-1.03l-.27-.16-2.8.97.94-2.73-.18-.28a7.4 7.4 0 1113.7-3.9 7.4 7.4 0 01-7.6 7.13zm4.06-5.54c-.22-.11-1.3-.64-1.5-.72-.2-.07-.35-.11-.5.11-.15.22-.57.72-.7.87-.13.15-.26.16-.48.05-.22-.11-.94-.35-1.79-1.1-.66-.59-1.11-1.32-1.24-1.54-.13-.22-.01-.34.1-.45.1-.1.22-.26.33-.4.11-.13.15-.22.22-.37.07-.15.04-.28-.02-.4-.07-.11-.5-1.21-.69-1.65-.18-.44-.36-.38-.5-.38-.13-.01-.28-.01-.43-.01-.15 0-.4.06-.6.28-.2.22-.8.78-.8 1.9 0 1.12.82 2.2.93 2.35.11.15 1.6 2.45 3.89 3.43.54.24.97.38 1.3.48.55.17 1.04.15 1.44.09.44-.07 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.05-.1-.2-.15-.42-.26z"></path></svg>
+</a>
+
+<script>
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+});
+
+// Mobile menu
+const burger = document.getElementById('burger');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuOverlay = document.getElementById('menuOverlay');
+function closeMenu() {
+    burger.classList.remove('active');
+    mobileMenu.classList.remove('active');
+    menuOverlay.classList.remove('active');
+}
+burger.addEventListener('click', () => {
+    burger.classList.toggle('active');
+    mobileMenu.classList.toggle('active');
+    menuOverlay.classList.toggle('active');
+});
+menuOverlay.addEventListener('click', closeMenu);
+document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', closeMenu);
+});
+
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObserver.observe(el));
+
+// Animated counters
+const counters = document.querySelectorAll('[data-count]');
+let countersStarted = false;
+function animateCounters() {
+    counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-count'), 10);
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const value = Math.floor(progress * target);
+            counter.textContent = value.toLocaleString('id-ID');
+            if (progress < 1) requestAnimationFrame(tick);
+            else counter.textContent = target.toLocaleString('id-ID');
+        }
+        requestAnimationFrame(tick);
+    });
+}
+const heroStatsEl = document.querySelector('.hero-stats');
+if (heroStatsEl) {
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !countersStarted) {
+                countersStarted = true;
+                animateCounters();
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.4 });
+    statsObserver.observe(heroStatsEl);
+}
+
+// Lini Produksi step flow
+const flowSteps = document.querySelectorAll('.flow-step');
+const flowImgs = document.querySelectorAll('.flow-img');
+const flowTags = document.querySelectorAll('.step-tag');
+const flowTitles = document.querySelectorAll('.step-title');
+const flowDescs = document.querySelectorAll('.step-desc');
+const flowLineFill = document.getElementById('flowLineFill');
+const totalSteps = flowSteps.length;
+
+function setFlowStep(step) {
+    flowSteps.forEach(el => el.classList.toggle('active', el.getAttribute('data-step') === step));
+    flowImgs.forEach(el => el.classList.toggle('active', el.getAttribute('data-step') === step));
+    flowTags.forEach(el => el.classList.toggle('active', el.getAttribute('data-step') === step));
+    flowTitles.forEach(el => el.classList.toggle('active', el.getAttribute('data-step') === step));
+    flowDescs.forEach(el => el.classList.toggle('active', el.getAttribute('data-step') === step));
+    const pct = ((parseInt(step, 10) - 1) / (totalSteps - 1)) * 100;
+    flowLineFill.style.width = pct + '%';
+}
+flowSteps.forEach(btn => {
+    btn.addEventListener('click', () => setFlowStep(btn.getAttribute('data-step')));
+});
+
+// FAQ accordion
+document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const wasActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!wasActive) item.classList.add('active');
+    });
+});
+
+// RFQ form validation
+const rfqForm = document.getElementById('rfqForm');
+const formSuccess = document.getElementById('formSuccess');
+
+function showError(id) {
+    document.getElementById('group-' + id).classList.add('error');
+}
+function clearError(id) {
+    document.getElementById('group-' + id).classList.remove('error');
+}
+
+rfqForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+
+    const perusahaan = document.getElementById('perusahaan').value.trim();
+    if (perusahaan.length < 2) { showError('perusahaan'); valid = false; } else { clearError('perusahaan'); }
+
+    const pic = document.getElementById('pic').value.trim();
+    if (pic.length < 2) { showError('pic'); valid = false; } else { clearError('pic'); }
+
+    const email = document.getElementById('email').value.trim();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) { showError('email'); valid = false; } else { clearError('email'); }
+
+    const hp = document.getElementById('hp').value.trim();
+    const hpPattern = /^[0-9+\s-]{9,15}$/;
+    if (!hpPattern.test(hp)) { showError('hp'); valid = false; } else { clearError('hp'); }
+
+    const jenis = document.getElementById('jenis').value;
+    if (!jenis) { showError('jenis'); valid = false; } else { clearError('jenis'); }
+
+    const volume = document.getElementById('volume').value.trim();
+    if (volume.length < 1) { showError('volume'); valid = false; } else { clearError('volume'); }
+
+    if (valid) {
+        rfqForm.style.display = 'none';
+        formSuccess.classList.add('active');
+    }
+});
+</script>
+
+</body>
+</html>
