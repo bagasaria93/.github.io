@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tinta &amp; Kertas - Digital, Offset &amp; Large Format Printing</title>
+<meta name="description" content="Tinta & Kertas melayani cetak digital, offset, large format banner, kartu nama, stiker, dan kemasan custom dengan jaminan akurasi warna dan tepat waktu.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cyan:#00aeef;
+  --magenta:#e5007d;
+  --yellow:#ffd400;
+  --key:#131313;
+  --paper:#f7f5ef;
+  --paper-deep:#eeeadf;
+  --paper-line:#e2ddd0;
+  --ink:#2a2a28;
+  --ink-dim:#6f6a5f;
+  --white:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--paper);
+  color:var(--ink);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacing:-0.01em;color:var(--key);}
+.mono{font-family:'IBM Plex Mono',monospace;}
+
+/* ===== registration mark / crop mark utility ===== */
+.regmark{position:relative;}
+.regmark::before,.regmark::after{
+  content:'';position:absolute;width:22px;height:22px;
+  border:1.5px solid rgba(19,19,19,0.55);border-radius:50%;
+  background:
+    linear-gradient(rgba(19,19,19,0.55),rgba(19,19,19,0.55)) center/1.5px 100% no-repeat,
+    linear-gradient(90deg,rgba(19,19,19,0.55),rgba(19,19,19,0.55)) center/100% 1.5px no-repeat;
+  pointer-events:none;
+}
+.regmark::before{top:-11px;left:-11px;}
+.regmark::after{bottom:-11px;right:-11px;}
+
+/* ===== cmyk color bar ===== */
+.cmykbar{display:flex;height:5px;width:100%;}
+.cmykbar span{flex:1;}
+.cmykbar .c{background:var(--cyan);}
+.cmykbar .m{background:var(--magenta);}
+.cmykbar .y{background:var(--yellow);}
+.cmykbar .k{background:var(--key);}
+
+/* ===== reveal animation ===== */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+/* ===== header ===== */
+header.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--paper);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;color:var(--key);}
+.brand-mark{width:34px;height:34px;border-radius:8px;background:var(--key);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;flex-shrink:0;}
+.brand-mark span{position:absolute;width:50%;height:50%;}
+.brand-mark .bc{background:var(--cyan);top:0;left:0;}
+.brand-mark .bm{background:var(--magenta);top:0;right:0;}
+.brand-mark .by{background:var(--yellow);bottom:0;left:0;}
+.brand-mark .bk{background:var(--white);bottom:0;right:0;}
+.main-nav{display:flex;align-items:center;gap:34px;}
+.main-nav a{font-size:.95rem;font-weight:500;color:var(--ink);position:relative;padding:4px 0;}
+.main-nav a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--magenta);transition:width .25s ease;}
+.main-nav a:hover::after{width:100%;}
+.header-actions{display:flex;align-items:center;gap:18px;}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.92rem;padding:12px 24px;border-radius:4px;border:1.5px solid var(--key);cursor:pointer;transition:transform .2s ease,background .2s ease,color .2s ease;}
+.btn-solid{background:var(--key);color:var(--white);}
+.btn-solid:hover{background:var(--magenta);border-color:var(--magenta);transform:translateY(-2px);}
+.btn-line{background:transparent;color:var(--key);}
+.btn-line:hover{background:var(--key);color:var(--white);}
+.burger{display:none;width:44px;height:44px;border-radius:4px;border:1.5px solid var(--key);background:transparent;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+.burger span{width:20px;height:2px;background:var(--key);transition:transform .25s ease,opacity .25s ease;}
+.burger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.burger.active span:nth-child(2){opacity:0;}
+.burger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.side-panel{position:fixed;top:0;right:0;bottom:0;width:82%;max-width:340px;background:var(--key);z-index:1200;transform:translateX(100%);transition:transform .4s cubic-bezier(.77,0,.18,1);display:flex;flex-direction:column;padding:100px 34px 34px;}
+.side-panel.open{transform:translateX(0);}
+.side-panel a{color:var(--white);font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:600;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.12);}
+.side-panel .btn{margin-top:26px;width:100%;justify-content:center;}
+.side-panel-close{position:absolute;top:26px;right:26px;width:40px;height:40px;border-radius:4px;border:1.5px solid rgba(255,255,255,0.4);background:transparent;color:var(--white);font-size:1.3rem;cursor:pointer;}
+.scrim{position:fixed;inset:0;background:rgba(19,19,19,0.4);z-index:1100;opacity:0;pointer-events:none;transition:opacity .35s ease;}
+.scrim.show{opacity:1;pointer-events:auto;}
+
+/* ===== hero ===== */
+.hero{padding:150px 0 90px;position:relative;}
+.hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'IBM Plex Mono',monospace;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--magenta);font-weight:600;margin-bottom:18px;}
+.eyebrow::before{content:'';width:8px;height:8px;background:var(--magenta);border-radius:50%;}
+.hero h1{font-size:3.1rem;line-height:1.12;margin-bottom:22px;}
+.hero h1 em{font-style:normal;color:var(--magenta);}
+.hero p.lead{font-size:1.08rem;color:var(--ink-dim);max-width:480px;margin-bottom:32px;}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:40px;}
+.spec-readout{display:grid;grid-template-columns:repeat(4,auto);gap:0;border-top:1px solid var(--paper-line);padding-top:20px;}
+.spec-item{padding-right:22px;border-right:1px solid var(--paper-line);}
+.spec-item:last-child{border-right:none;}
+.spec-item .val{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:1.05rem;color:var(--key);}
+.spec-item .lbl{font-size:.72rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.05em;margin-top:3px;}
+
+.hero-visual{position:relative;}
+.proof-stack{position:relative;width:100%;padding-top:20px;padding-right:20px;}
+.proof-card{position:absolute;inset:20px 20px 0 0;background:var(--white);border-radius:10px;box-shadow:0 30px 60px -20px rgba(19,19,19,0.25);}
+.proof-card.p1{transform:rotate(-6deg);z-index:1;}
+.proof-card.p2{transform:rotate(3deg);z-index:2;}
+.proof-photo{position:relative;z-index:3;border-radius:10px;overflow:hidden;box-shadow:0 30px 60px -18px rgba(19,19,19,0.35);margin:20px 20px 0 0;}
+.proof-photo img{width:100%;height:380px;object-fit:cover;}
+.proof-tag{position:absolute;bottom:-18px;left:-18px;z-index:4;background:var(--key);color:var(--white);padding:14px 18px;border-radius:8px;display:flex;align-items:center;gap:12px;box-shadow:0 16px 30px -10px rgba(19,19,19,0.4);}
+.proof-tag .dot-row{display:flex;gap:5px;}
+.proof-tag .dot-row span{width:10px;height:10px;border-radius:50%;}
+.proof-tag .dot-row .c{background:var(--cyan);}
+.proof-tag .dot-row .m{background:var(--magenta);}
+.proof-tag .dot-row .y{background:var(--yellow);}
+.proof-tag .dot-row .k{background:var(--white);}
+.proof-tag .txt{font-family:'IBM Plex Mono',monospace;font-size:.78rem;line-height:1.3;}
+.proof-tag .txt b{display:block;font-size:.86rem;}
+
+/* ===== section shared ===== */
+section{padding:100px 0;position:relative;}
+.section-head{max-width:640px;margin:0 auto 56px;text-align:center;}
+.section-head h2{font-size:2.2rem;margin-top:14px;}
+.section-head p{color:var(--ink-dim);margin-top:14px;font-size:1rem;}
+.section-alt{background:var(--white);}
+
+/* ===== kategori ===== */
+.kat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.kat-card{background:var(--white);border-radius:10px;overflow:hidden;border:1px solid var(--paper-line);transition:transform .3s ease,box-shadow .3s ease;position:relative;}
+.kat-card:hover{transform:translateY(-6px);box-shadow:0 24px 40px -20px rgba(19,19,19,0.2);}
+.kat-tab{position:absolute;top:0;left:24px;font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.06em;color:var(--white);padding:6px 12px;border-radius:0 0 6px 6px;z-index:2;}
+.kat-photo{height:170px;overflow:hidden;}
+.kat-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.kat-card:hover .kat-photo img{transform:scale(1.07);}
+.kat-body{padding:22px 22px 26px;}
+.kat-body h3{font-size:1.12rem;margin-bottom:8px;}
+.kat-body p{font-size:.9rem;color:var(--ink-dim);}
+
+/* ===== keunggulan ===== */
+.keunggulan-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.keunggulan-photo{position:relative;border-radius:12px;overflow:hidden;box-shadow:0 30px 60px -24px rgba(19,19,19,0.3);}
+.keunggulan-photo img{width:100%;height:440px;object-fit:cover;}
+.keunggulan-photo .capchip{position:absolute;bottom:18px;left:18px;background:rgba(19,19,19,0.82);color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:.76rem;padding:8px 14px;border-radius:5px;}
+.k-list{display:flex;flex-direction:column;gap:22px;margin-top:26px;}
+.k-item{display:flex;gap:16px;align-items:flex-start;}
+.k-num{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.85rem;color:var(--white);background:var(--key);width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.k-item h4{font-size:1rem;margin-bottom:4px;}
+.k-item p{font-size:.9rem;color:var(--ink-dim);}
+
+/* ===== proses ===== */
+.proses-strip{display:flex;justify-content:space-between;position:relative;margin-top:20px;}
+.proses-strip::before{content:'';position:absolute;top:26px;left:5%;right:5%;border-top:2px dashed var(--paper-line);z-index:0;}
+.proses-step{position:relative;z-index:1;flex:1;text-align:center;padding:0 10px;}
+.proses-circle{width:52px;height:52px;border-radius:50%;background:var(--paper);border:2px solid var(--key);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--key);position:relative;}
+.proses-step.active .proses-circle{background:var(--key);color:var(--white);}
+.proses-step h4{font-size:.96rem;margin-bottom:6px;}
+.proses-step p{font-size:.83rem;color:var(--ink-dim);}
+
+/* ===== galeri ===== */
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:150px;gap:14px;}
+.gal-item{position:relative;border-radius:8px;overflow:hidden;}
+.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.gal-item:hover img{transform:scale(1.08);}
+.gal-item .g-cap{position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(0deg,rgba(19,19,19,0.78),transparent);color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:.72rem;}
+.gal-item.g1{grid-column:span 2;grid-row:span 2;}
+.gal-item.g4{grid-column:span 2;}
+
+/* ===== paket ===== */
+.paket-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.paket-card{background:var(--white);border:1px solid var(--paper-line);border-radius:10px;padding:32px 28px;position:relative;}
+.paket-card.highlight{border-color:var(--key);box-shadow:0 24px 50px -22px rgba(19,19,19,0.28);transform:translateY(-10px);}
+.paket-flag{position:absolute;top:-13px;right:24px;background:var(--magenta);color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:600;padding:5px 12px;border-radius:4px;letter-spacing:.04em;}
+.paket-card h3{font-size:1.1rem;margin-bottom:6px;}
+.paket-card .harga{font-family:'IBM Plex Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--key);margin:14px 0 4px;}
+.paket-card .harga span{font-size:.72rem;color:var(--ink-dim);font-weight:500;}
+.paket-note{font-size:.78rem;color:var(--ink-dim);margin-bottom:20px;}
+.paket-items{display:flex;flex-direction:column;gap:0;margin-bottom:26px;}
+.paket-line{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px dotted var(--paper-line);font-size:.86rem;}
+.paket-line:last-child{border-bottom:none;}
+.paket-line span:first-child{color:var(--ink);}
+.paket-line span:last-child{font-family:'IBM Plex Mono',monospace;color:var(--ink-dim);font-size:.78rem;}
+
+/* ===== testimoni ===== */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.testi-card{background:var(--paper);border:1px solid var(--paper-line);border-radius:10px;padding:30px 26px;position:relative;}
+.stamp{position:absolute;top:-16px;right:20px;width:58px;height:58px;border-radius:50%;border:2px solid var(--cyan);color:var(--cyan);display:flex;align-items:center;justify-content:center;flex-direction:column;transform:rotate(-14deg);font-family:'IBM Plex Mono',monospace;background:var(--paper);}
+.stamp span{font-size:.58rem;font-weight:600;letter-spacing:.03em;}
+.stamp b{font-size:.8rem;}
+.testi-text{font-size:.94rem;color:var(--ink);margin-bottom:20px;margin-top:10px;}
+.testi-who{display:flex;align-items:center;gap:12px;}
+.testi-avatar{width:42px;height:42px;border-radius:50%;background:var(--key);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.95rem;}
+.testi-who .nm{font-weight:600;font-size:.92rem;}
+.testi-who .role{font-size:.78rem;color:var(--ink-dim);}
+
+/* ===== faq ===== */
+.faq-list{max-width:760px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--paper-line);}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:22px 4px;cursor:pointer;gap:20px;}
+.faq-q h4{font-size:1rem;font-weight:600;color:var(--key);}
+.faq-plus{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--key);position:relative;flex-shrink:0;transition:background .25s ease;}
+.faq-plus::before,.faq-plus::after{content:'';position:absolute;background:var(--key);top:50%;left:50%;transform:translate(-50%,-50%);transition:transform .25s ease,background .25s ease;}
+.faq-plus::before{width:12px;height:1.6px;}
+.faq-plus::after{width:1.6px;height:12px;}
+.faq-item.active .faq-plus{background:var(--key);}
+.faq-item.active .faq-plus::before,.faq-item.active .faq-plus::after{background:var(--white);}
+.faq-item.active .faq-plus::after{transform:translate(-50%,-50%) rotate(90deg) scaleY(0);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-a p{padding:0 4px 22px;font-size:.9rem;color:var(--ink-dim);max-width:640px;}
+
+/* ===== kontak ===== */
+.kontak-section{background:var(--key);color:var(--white);}
+.kontak-section .section-head h2{color:var(--white);}
+.kontak-section .section-head p{color:rgba(255,255,255,0.65);}
+.kontak-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;}
+.kontak-info{display:flex;flex-direction:column;gap:22px;}
+.ki-item{display:flex;gap:14px;}
+.ki-icon{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.05rem;}
+.ki-item h4{font-size:.92rem;margin-bottom:4px;color:var(--white);}
+.ki-item p{font-size:.86rem;color:rgba(255,255,255,0.62);}
+.form-card{background:var(--white);border-radius:12px;padding:36px;color:var(--ink);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.form-group{display:flex;flex-direction:column;gap:7px;}
+.form-group.full{grid-column:1/-1;}
+.form-group label{font-size:.82rem;font-weight:600;color:var(--key);}
+.form-group input,.form-group select,.form-group textarea{border:1.5px solid var(--paper-line);border-radius:6px;padding:11px 13px;font-family:'Inter',sans-serif;font-size:.92rem;background:var(--paper);color:var(--ink);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--key);}
+.form-group textarea{resize:vertical;min-height:88px;}
+.field-error{display:none;color:var(--magenta);font-size:.76rem;}
+.form-group.invalid input,.form-group.invalid select,.form-group.invalid textarea{border-color:var(--magenta);}
+.form-group.invalid .field-error{display:block;}
+.form-submit{width:100%;justify-content:center;padding:15px;font-size:.98rem;margin-top:6px;}
+.form-success{display:none;background:#eaf7ee;border:1px solid #bfe6c9;color:#1c6b34;padding:14px 16px;border-radius:6px;font-size:.88rem;margin-top:16px;}
+.form-success.show{display:block;}
+
+/* ===== footer ===== */
+footer{background:var(--paper-deep);padding:56px 0 26px;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px;}
+.footer-brand p{font-size:.88rem;color:var(--ink-dim);margin-top:14px;max-width:280px;}
+.footer-col h5{font-family:'IBM Plex Mono',monospace;font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;color:var(--ink-dim);}
+.footer-col a,.footer-col p{display:block;font-size:.88rem;color:var(--ink);margin-bottom:10px;}
+.footer-bottom{border-top:1px solid var(--paper-line);padding-top:22px;display:flex;justify-content:space-between;font-size:.8rem;color:var(--ink-dim);flex-wrap:wrap;gap:10px;}
+
+/* ===== whatsapp float ===== */
+.wa-float{position:fixed;bottom:26px;right:26px;width:58px;height:58px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px -8px rgba(37,211,102,0.6);z-index:900;transition:transform .25s ease;}
+.wa-float:hover{transform:scale(1.08);}
+.wa-float svg{width:28px;height:28px;fill:var(--white);}
+
+@media(max-width:1024px){
+  .kat-grid{grid-template-columns:repeat(2,1fr);}
+  .keunggulan-grid{grid-template-columns:1fr;}
+  .keunggulan-photo img{height:340px;}
+  .paket-grid{grid-template-columns:1fr 1fr;}
+  .paket-card.highlight{transform:none;}
+  .testi-grid{grid-template-columns:1fr 1fr;}
+  .kontak-grid{grid-template-columns:1fr;}
+  .gal-grid{grid-template-columns:repeat(3,1fr);}
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-visual{max-width:480px;}
+}
+@media(max-width:760px){
+  .main-nav{display:none;}
+  .header-actions .btn-line{display:none;}
+  .burger{display:flex;}
+  .hero{padding:130px 0 60px;}
+  .hero h1{font-size:2.2rem;}
+  .spec-readout{grid-template-columns:repeat(2,1fr);row-gap:16px;}
+  .spec-item{border-right:none;padding-right:0;}
+  section{padding:70px 0;}
+  .section-head h2{font-size:1.7rem;}
+  .kat-grid{grid-template-columns:1fr;}
+  .paket-grid{grid-template-columns:1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .gal-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:130px;}
+  .gal-item.g1{grid-column:span 2;grid-row:span 1;}
+  .gal-item.g4{grid-column:span 1;}
+  .proses-strip{flex-direction:column;gap:30px;}
+  .proses-strip::before{display:none;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .proof-photo img{height:280px;}
+}
+</style>
+</head>
+<body>
+
+<div class="scrim" id="scrim"></div>
+<div class="side-panel" id="sidePanel">
+  <button class="side-panel-close" id="panelClose">&times;</button>
+  <a href="#kategori">Layanan</a>
+  <a href="#keunggulan">Kenapa Kami</a>
+  <a href="#galeri">Fasilitas</a>
+  <a href="#paket">Paket</a>
+  <a href="#faq">FAQ</a>
+  <a href="#kontak">Kontak</a>
+  <a href="#kontak" class="btn btn-solid">Pesan Sekarang</a>
+</div>
+
+<header class="site-header">
+  <div class="cmykbar"><span class="c"></span><span class="m"></span><span class="y"></span><span class="k"></span></div>
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <span class="brand-mark"><span class="bc"></span><span class="bm"></span><span class="by"></span><span class="bk"></span></span>
+      Tinta &amp; Kertas
+    </a>
+    <nav class="main-nav">
+      <a href="#kategori">Layanan</a>
+      <a href="#keunggulan">Kenapa Kami</a>
+      <a href="#galeri">Fasilitas</a>
+      <a href="#paket">Paket</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#kontak" class="btn btn-line">Konsultasi</a>
+      <a href="#kontak" class="btn btn-solid">Pesan Sekarang</a>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal in-view">
+      <div class="eyebrow">Percetakan Digital &amp; Offset</div>
+      <h1>Dari File ke Cetakan,<br>Tanpa Meleset <em>Warna.</em></h1>
+      <p class="lead">Tinta &amp; Kertas melayani cetak digital, offset, large format, kartu nama, stiker, hingga kemasan custom. Proofing warna sebelum produksi massal, jadi hasil cetak sesuai file asli.</p>
+      <div class="hero-ctas">
+        <a href="#kontak" class="btn btn-solid">Konsultasi Pesanan</a>
+        <a href="#kategori" class="btn btn-line">Lihat Layanan</a>
+      </div>
+      <div class="spec-readout">
+        <div class="spec-item"><div class="val">CMYK 4C</div><div class="lbl">Mode Warna</div></div>
+        <div class="spec-item"><div class="val">1-3 Hari</div><div class="lbl">Estimasi Produksi</div></div>
+        <div class="spec-item"><div class="val">1200 DPI</div><div class="lbl">Resolusi Cetak</div></div>
+        <div class="spec-item"><div class="val">Jabodetabek</div><div class="lbl">Area Kirim</div></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal in-view">
+      <div class="proof-stack">
+        <div class="proof-card p1"></div>
+        <div class="proof-card p2"></div>
+        <div class="proof-photo regmark">
+          <img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=900&q=80" alt="Mesin cetak digital large format sedang mencetak banner di Tinta dan Kertas">
+        </div>
+        <div class="proof-tag">
+          <div class="dot-row"><span class="c"></span><span class="m"></span><span class="y"></span><span class="k"></span></div>
+          <div class="txt"><b>Color Matched</b>Approved sebelum cetak massal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kategori" class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Layanan Kami</div>
+      <h2>Satu Tempat untuk Semua Kebutuhan Cetak</h2>
+      <p>Dari kebutuhan cetak cepat jumlah kecil sampai produksi massal berkualitas konsisten.</p>
+    </div>
+    <div class="kat-grid">
+      <div class="kat-card reveal">
+        <span class="kat-tab" style="background:var(--cyan);">DG.01</span>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=700&q=80" alt="Mesin cetak digital sedang memproses dokumen"></div>
+        <div class="kat-body"><h3>Cetak Digital</h3><p>Brosur, flyer, undangan, dan dokumen dalam jumlah kecil dengan waktu produksi cepat.</p></div>
+      </div>
+      <div class="kat-card reveal">
+        <span class="kat-tab" style="background:var(--magenta);">OF.02</span>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=700&q=80" alt="Mesin cetak offset dan large format di lantai produksi"></div>
+        <div class="kat-body"><h3>Cetak Offset &amp; Large Format</h3><p>Katalog, majalah, banner, spanduk, dan baliho dengan warna konsisten untuk jumlah besar.</p></div>
+      </div>
+      <div class="kat-card reveal">
+        <span class="kat-tab" style="background:var(--yellow);color:var(--key);">KN.03</span>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1623305463957-df17547327cb?auto=format&fit=crop&w=700&q=80" alt="Tumpukan kartu nama hasil cetak"></div>
+        <div class="kat-body"><h3>Kartu Nama &amp; Stationery</h3><p>Kartu nama, kop surat, amplop, nota, dan map perusahaan dengan finishing rapi.</p></div>
+      </div>
+      <div class="kat-card reveal">
+        <span class="kat-tab" style="background:var(--key);">ST.04</span>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1540651810471-5699df74834f?auto=format&fit=crop&w=700&q=80" alt="Kumpulan stiker warna warni hasil cetak dan cutting"></div>
+        <div class="kat-body"><h3>Stiker &amp; Label</h3><p>Stiker produk, label kemasan, dan cutting sticker custom bentuk sesuai desain.</p></div>
+      </div>
+      <div class="kat-card reveal">
+        <span class="kat-tab" style="background:var(--cyan);">KM.05</span>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1716193348750-9e22b67718c6?auto=format&fit=crop&w=700&q=80" alt="Kotak kemasan custom hasil cetak dengan logo"></div>
+        <div class="kat-body"><h3>Kemasan Custom</h3><p>Box packaging, paper bag, dan kemasan retail dengan cetak logo dan branding.</p></div>
+      </div>
+      <div class="kat-card reveal">
+        <span class="kat-tab" style="background:var(--magenta);">CW.06</span>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1581079289196-67865ea83118?auto=format&fit=crop&w=700&q=80" alt="Kartu warna dan proofing sebelum cetak massal"></div>
+        <div class="kat-body"><h3>Color Matching &amp; Proofing</h3><p>Pengecekan warna dengan swatch resmi sebelum produksi massal dijalankan.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="keunggulan">
+  <div class="wrap keunggulan-grid">
+    <div class="keunggulan-photo reveal">
+      <img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=900&q=80" alt="Mesin cetak offset di lantai produksi Tinta dan Kertas">
+      <div class="capchip">Lantai Produksi Kami</div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">Kenapa Tinta &amp; Kertas</div>
+      <h2 style="font-size:2.1rem;">Mesin Sendiri, Bukan Makloon</h2>
+      <div class="k-list">
+        <div class="k-item">
+          <div class="k-num">1</div>
+          <div><h4>Produksi di Mesin Sendiri</h4><p>Mesin digital dan offset milik sendiri sehingga jadwal produksi lebih terkontrol dan bisa dipantau langsung.</p></div>
+        </div>
+        <div class="k-item">
+          <div class="k-num">2</div>
+          <div><h4>Proofing Sebelum Cetak Massal</h4><p>Sample warna dicocokkan dengan swatch resmi lebih dulu, baru dilanjutkan ke produksi jumlah besar.</p></div>
+        </div>
+        <div class="k-item">
+          <div class="k-num">3</div>
+          <div><h4>Tim Desain Bantu Revisi File</h4><p>File yang belum siap cetak dibantu dirapikan tanpa biaya tambahan untuk revisi minor.</p></div>
+        </div>
+        <div class="k-item">
+          <div class="k-num">4</div>
+          <div><h4>Pengiriman Area Jabodetabek</h4><p>Hasil cetak bisa diambil di tempat atau dikirim langsung ke lokasi klien.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="proses" class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Alur Kerja</div>
+      <h2>Dari Konsultasi Sampai Barang Jadi</h2>
+      <p>Setiap pesanan melewati tahap proofing warna sebelum masuk produksi massal.</p>
+    </div>
+    <div class="proses-strip reveal">
+      <div class="proses-step active"><div class="proses-circle">1</div><h4>Konsultasi &amp; Kirim File</h4><p>Diskusi kebutuhan dan kirim file desain atau bantuan desain dari tim kami.</p></div>
+      <div class="proses-step"><div class="proses-circle">2</div><h4>Proofing Warna</h4><p>Cetak sample untuk dicek dan disetujui sebelum lanjut ke produksi massal.</p></div>
+      <div class="proses-step"><div class="proses-circle">3</div><h4>Produksi</h4><p>Proses cetak dijalankan sesuai jumlah dan spesifikasi yang disepakati.</p></div>
+      <div class="proses-step"><div class="proses-circle">4</div><h4>Quality Check</h4><p>Setiap batch dicek ulang untuk memastikan warna dan potongan sesuai.</p></div>
+      <div class="proses-step"><div class="proses-circle">5</div><h4>Kirim / Ambil</h4><p>Barang jadi dikirim ke lokasi atau siap diambil di tempat.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="galeri">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Fasilitas Kami</div>
+      <h2>Lihat Langsung Tempat Cetakan Anda Diproses</h2>
+      <p>Mesin dan proses produksi yang menangani setiap pesanan, bukan hanya hasil jadinya.</p>
+    </div>
+    <div class="gal-grid reveal">
+      <div class="gal-item g1"><img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=800&q=80" alt="Mesin cetak large format sedang mencetak banner"><div class="g-cap">Mesin Large Format</div></div>
+      <div class="gal-item g2"><img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=500&q=80" alt="Mesin cetak offset di lantai produksi"><div class="g-cap">Mesin Offset</div></div>
+      <div class="gal-item g3"><img src="https://images.unsplash.com/photo-1581079289196-67865ea83118?auto=format&fit=crop&w=500&q=80" alt="Kartu warna untuk proofing sebelum cetak massal"><div class="g-cap">Meja Proofing Warna</div></div>
+      <div class="gal-item g4"><img src="https://images.unsplash.com/photo-1623305463957-df17547327cb?auto=format&fit=crop&w=800&q=80" alt="Hasil cetak kartu nama"><div class="g-cap">Hasil Cetak Stationery</div></div>
+      <div class="gal-item g5"><img src="https://images.unsplash.com/photo-1540651810471-5699df74834f?auto=format&fit=crop&w=500&q=80" alt="Hasil cetak stiker warna warni"><div class="g-cap">Hasil Cetak Stiker</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="paket" class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Simulasi Paket</div>
+      <h2>Paket Cetak Siap Pakai</h2>
+      <p>Estimasi harga paket populer. Harga akhir menyesuaikan spesifikasi bahan dan jumlah.</p>
+    </div>
+    <div class="paket-grid">
+      <div class="paket-card reveal">
+        <h3>Paket Kartu Nama</h3>
+        <div class="harga">Rp 85rb <span>/ box isi 100</span></div>
+        <div class="paket-note">Cocok untuk kebutuhan personal atau tim kecil.</div>
+        <div class="paket-items">
+          <div class="paket-line"><span>Kartu nama 2 sisi</span><span>1 box</span></div>
+          <div class="paket-line"><span>Bahan art carton 260gsm</span><span>termasuk</span></div>
+          <div class="paket-line"><span>Revisi desain minor</span><span>gratis</span></div>
+          <div class="paket-line"><span>Estimasi produksi</span><span>1-2 hari</span></div>
+        </div>
+        <a href="#kontak" class="btn btn-line" style="width:100%;justify-content:center;">Pilih Paket</a>
+      </div>
+      <div class="paket-card highlight reveal">
+        <span class="paket-flag">Paling Laris</span>
+        <h3>Paket Buka Usaha</h3>
+        <div class="harga">Rp 650rb <span>/ paket</span></div>
+        <div class="paket-note">Kebutuhan branding awal untuk usaha baru buka.</div>
+        <div class="paket-items">
+          <div class="paket-line"><span>Kartu nama 2 sisi</span><span>2 box</span></div>
+          <div class="paket-line"><span>Banner outdoor 1x2m</span><span>1 pcs</span></div>
+          <div class="paket-line"><span>Stiker logo custom</span><span>50 pcs</span></div>
+          <div class="paket-line"><span>Nota / kwitansi</span><span>2 rangkap</span></div>
+          <div class="paket-line"><span>Estimasi produksi</span><span>2-3 hari</span></div>
+        </div>
+        <a href="#kontak" class="btn btn-solid" style="width:100%;justify-content:center;">Pilih Paket</a>
+      </div>
+      <div class="paket-card reveal">
+        <h3>Paket Korporat</h3>
+        <div class="harga">Rp 1,4jt <span>/ paket</span></div>
+        <div class="paket-note">Kebutuhan identitas cetak lengkap untuk kantor.</div>
+        <div class="paket-items">
+          <div class="paket-line"><span>Kop surat &amp; amplop</span><span>500 lbr</span></div>
+          <div class="paket-line"><span>Kartu nama tim</span><span>5 box</span></div>
+          <div class="paket-line"><span>Map perusahaan</span><span>200 pcs</span></div>
+          <div class="paket-line"><span>Color matching logo</span><span>termasuk</span></div>
+          <div class="paket-line"><span>Estimasi produksi</span><span>3-5 hari</span></div>
+        </div>
+        <a href="#kontak" class="btn btn-line" style="width:100%;justify-content:center;">Pilih Paket</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimoni">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Testimoni</div>
+      <h2>Kata Klien Kami</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="stamp"><span>QC</span><b>OK</b></div>
+        <p class="testi-text">Warna hasil cetak banner sesuai banget sama file yang saya kirim, padahal biasanya suka meleset di tempat lain.</p>
+        <div class="testi-who"><div class="testi-avatar">R</div><div><div class="nm">Rangga P.</div><div class="role">Pemilik Kedai Kopi Lokal</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stamp"><span>QC</span><b>OK</b></div>
+        <p class="testi-text">Paket buka usaha sangat membantu, semua kebutuhan cetak awal buka toko selesai dalam satu tempat.</p>
+        <div class="testi-who"><div class="testi-avatar">D</div><div><div class="nm">Dina S.</div><div class="role">Pemilik Toko Retail</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="stamp"><span>QC</span><b>OK</b></div>
+        <p class="testi-text">Tim desainnya bantu rapikan file undangan kami tanpa biaya tambahan, hasil cetaknya juga rapi.</p>
+        <div class="testi-who"><div class="testi-avatar">A</div><div><div class="nm">Andi W.</div><div class="role">Klien Cetak Undangan</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">FAQ</div>
+      <h2>Pertanyaan yang Sering Ditanyakan</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item active">
+        <div class="faq-q"><h4>Berapa minimum jumlah pesanan?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Untuk cetak digital minimum bisa satu lembar. Untuk cetak offset dan kemasan custom, minimum pesanan menyesuaikan jenis bahan dan akan diinfokan saat konsultasi.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><h4>Format file apa saja yang diterima?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>File PDF, AI, dan CDR dengan resolusi minimal 300 DPI. File JPG atau PNG juga bisa diterima untuk kebutuhan yang tidak terlalu detail.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><h4>Bagaimana jika belum punya desain?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Tim kami bisa bantu membuatkan atau merapikan desain sederhana. Untuk desain dari nol dengan konsep khusus akan dikenakan biaya desain terpisah.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><h4>Apakah ada jaminan jika warna hasil cetak meleset?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Setiap pesanan produksi massal melalui tahap proofing warna dan disetujui klien terlebih dahulu, sehingga hasil akhir mengikuti sample yang sudah disepakati.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><h4>Apakah bisa ambil di tempat?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Bisa. Klien juga bisa memilih pengiriman untuk area Jabodetabek dengan biaya kirim menyesuaikan jarak dan volume barang.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontak" class="kontak-section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;color:var(--yellow);">Konsultasi Pesanan</div>
+      <h2>Ceritakan Kebutuhan Cetak Anda</h2>
+      <p>Isi form berikut dan tim kami akan menghubungi untuk konfirmasi spesifikasi dan estimasi harga.</p>
+    </div>
+    <div class="kontak-grid">
+      <div class="kontak-info reveal">
+        <div class="ki-item"><div class="ki-icon">&#128205;</div><div><h4>Alamat Workshop</h4><p>Jl. Percetakan Raya No. 8, Jatinegara, Jakarta Timur</p></div></div>
+        <div class="ki-item"><div class="ki-icon">&#128222;</div><div><h4>Telepon / WhatsApp</h4><p>0812-3456-7890</p></div></div>
+        <div class="ki-item"><div class="ki-icon">&#9993;</div><div><h4>Email</h4><p>halo@tintakertas.demo</p></div></div>
+        <div class="ki-item"><div class="ki-icon">&#128337;</div><div><h4>Jam Operasional</h4><p>Senin - Sabtu, 08.00 - 17.00 WIB</p></div></div>
+      </div>
+      <div class="form-card reveal">
+        <form id="orderForm" novalidate>
+          <div class="form-row">
+            <div class="form-group" data-field="nama">
+              <label>Nama Lengkap</label>
+              <input type="text" name="nama">
+              <span class="field-error">Nama wajib diisi.</span>
+            </div>
+            <div class="form-group" data-field="instansi">
+              <label>Perusahaan / Instansi</label>
+              <input type="text" name="instansi">
+              <span class="field-error">Boleh diisi "Perorangan" jika tidak ada.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" data-field="whatsapp">
+              <label>Nomor WhatsApp</label>
+              <input type="tel" name="whatsapp">
+              <span class="field-error">Nomor WhatsApp wajib diisi.</span>
+            </div>
+            <div class="form-group" data-field="jenis">
+              <label>Jenis Cetakan</label>
+              <select name="jenis">
+                <option value="">Pilih jenis cetakan</option>
+                <option>Cetak Digital</option>
+                <option>Cetak Offset / Large Format</option>
+                <option>Kartu Nama &amp; Stationery</option>
+                <option>Stiker &amp; Label</option>
+                <option>Kemasan Custom</option>
+                <option>Lainnya</option>
+              </select>
+              <span class="field-error">Pilih salah satu jenis cetakan.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" data-field="jumlah">
+              <label>Perkiraan Jumlah</label>
+              <input type="text" name="jumlah" placeholder="Contoh: 500 lembar">
+              <span class="field-error">Perkiraan jumlah wajib diisi.</span>
+            </div>
+            <div class="form-group" data-field="deadline">
+              <label>Target Selesai</label>
+              <input type="date" name="deadline">
+              <span class="field-error">Target selesai wajib diisi.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full" data-field="catatan">
+              <label>Catatan Tambahan (opsional)</label>
+              <textarea name="catatan" placeholder="Detail ukuran, bahan, atau referensi desain"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-solid form-submit">Kirim Permintaan Konsultasi</button>
+          <div class="form-success" id="formSuccess">Terima kasih, permintaan Anda sudah kami terima. Tim kami akan menghubungi melalui WhatsApp secepatnya.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand"><span class="brand-mark"><span class="bc"></span><span class="bm"></span><span class="by"></span><span class="bk"></span></span>Tinta &amp; Kertas</a>
+        <p>Layanan cetak digital, offset, large format, kartu nama, stiker, dan kemasan custom dengan jaminan akurasi warna dan tepat waktu.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Layanan</h5>
+        <a href="#kategori">Cetak Digital</a>
+        <a href="#kategori">Cetak Offset</a>
+        <a href="#kategori">Kartu Nama</a>
+        <a href="#kategori">Kemasan Custom</a>
+      </div>
+      <div class="footer-col">
+        <h5>Perusahaan</h5>
+        <a href="#keunggulan">Kenapa Kami</a>
+        <a href="#galeri">Fasilitas</a>
+        <a href="#paket">Paket</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h5>Kontak</h5>
+        <p>0812-3456-7890</p>
+        <p>halo@tintakertas.demo</p>
+        <p>Jatinegara, Jakarta Timur</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Tinta &amp; Kertas. Demo project untuk portofolio.</span>
+      <span>Dibuat oleh <a href="https://bagasaria93.github.io" style="text-decoration:underline;">Bagas Aria Sativa</a></span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/6281234567890" class="wa-float" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.48 1.32 5.01L2.05 22l5.25-1.38a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.85 14.15c-.25.7-1.45 1.34-2 1.42-.53.08-1.16.11-1.87-.12-.43-.14-.98-.32-1.7-.63-2.98-1.29-4.92-4.3-5.07-4.5-.15-.2-1.22-1.62-1.22-3.09 0-1.47.77-2.19 1.05-2.49.27-.3.6-.37.8-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.85 2.07.92 2.22.07.15.12.33.02.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.77 1.27 1.65 2.06 1.14 1.02 2.1 1.33 2.4 1.48.3.15.47.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.08.13.08.7-.17 1.4z"/></svg>
+</a>
+
+<script>
+// Mobile side panel
+const burger=document.getElementById('burger');
+const sidePanel=document.getElementById('sidePanel');
+const scrim=document.getElementById('scrim');
+const panelClose=document.getElementById('panelClose');
+function openPanel(){sidePanel.classList.add('open');scrim.classList.add('show');burger.classList.add('active');}
+function closePanel(){sidePanel.classList.remove('open');scrim.classList.remove('show');burger.classList.remove('active');}
+burger.addEventListener('click',()=>{sidePanel.classList.contains('open')?closePanel():openPanel();});
+panelClose.addEventListener('click',closePanel);
+scrim.addEventListener('click',closePanel);
+document.querySelectorAll('.side-panel a').forEach(a=>a.addEventListener('click',closePanel));
+
+// Reveal on scroll
+const revealEls=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target);}
+  });
+},{threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  const q=item.querySelector('.faq-q');
+  const a=item.querySelector('.faq-a');
+  if(item.classList.contains('active')){a.style.maxHeight=a.scrollHeight+'px';}
+  q.addEventListener('click',()=>{
+    const isActive=item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(other=>{
+      other.classList.remove('active');
+      other.querySelector('.faq-a').style.maxHeight=null;
+    });
+    if(!isActive){
+      item.classList.add('active');
+      a.style.maxHeight=a.scrollHeight+'px';
+    }
+  });
+});
+
+// Proses step hover activation
+document.querySelectorAll('.proses-step').forEach(step=>{
+  step.addEventListener('mouseenter',()=>{
+    document.querySelectorAll('.proses-step').forEach(s=>s.classList.remove('active'));
+    step.classList.add('active');
+  });
+});
+
+// Form validation (inline, no alert)
+const form=document.getElementById('orderForm');
+const formSuccess=document.getElementById('formSuccess');
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  let valid=true;
+  const required=['nama','instansi','whatsapp','jenis','jumlah','deadline'];
+  required.forEach(name=>{
+    const field=form.querySelector(`[name="${name}"]`);
+    const group=field.closest('.form-group');
+    if(!field.value.trim()){
+      group.classList.add('invalid');
+      valid=false;
+    }else{
+      group.classList.remove('invalid');
+    }
+  });
+  if(valid){
+    formSuccess.classList.add('show');
+    form.reset();
+    document.querySelectorAll('.form-group').forEach(g=>g.classList.remove('invalid'));
+  }else{
+    formSuccess.classList.remove('show');
+  }
+});
+form.querySelectorAll('input,select,textarea').forEach(field=>{
+  field.addEventListener('input',()=>{
+    const group=field.closest('.form-group');
+    if(field.value.trim())group.classList.remove('invalid');
+  });
+});
+</script>
+</body>
+</html>

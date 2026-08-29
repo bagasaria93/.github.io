@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kriyatama - Atelier Konveksi Seragam, Jersey, dan Kaos Custom</title>
+<meta name="description" content="Kriyatama adalah atelier konveksi untuk produksi seragam kantor, seragam sekolah, jersey olahraga, dan kaos custom dengan jahitan rapi dan pengerjaan tepat waktu.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --charcoal:#191817;
+  --charcoal-deep:#0f0e0d;
+  --canvas:#efe8d8;
+  --canvas-deep:#e3d9c2;
+  --rust:#c1502e;
+  --rust-deep:#9c3c20;
+  --thread:#8a8168;
+  --white:#fbf9f3;
+  --ink-dim:#6f6a5c;
+  --font-display:'Anton',sans-serif;
+  --font-mono:'Space Mono',monospace;
+  --font-body:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);color:var(--charcoal);background:var(--canvas);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+button{font-family:inherit;}
+.wrap{max-width:1200px;margin:0 auto;padding:0 28px;}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;letter-spacing:0.01em;line-height:0.98;text-transform:uppercase;color:var(--charcoal-deep);}
+.tag-label{display:inline-flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:0.76rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--rust-deep);background:var(--white);border:1px solid var(--charcoal-deep);padding:6px 14px;border-radius:2px;margin-bottom:20px;}
+.tag-label::before{content:'';width:7px;height:7px;background:var(--rust);border-radius:50%;flex-shrink:0;}
+.section-title{font-size:2.6rem;margin-bottom:18px;}
+.section-desc{color:var(--ink-dim);font-size:1rem;max-width:520px;font-family:var(--font-body);}
+section{padding:100px 0;position:relative;}
+.center{text-align:center;margin-left:auto;margin-right:auto;}
+
+/* zigzag pinking shears divider */
+.zigzag{height:16px;width:100%;background:var(--canvas);
+  clip-path:polygon(0% 0%,4% 100%,8% 0%,12% 100%,16% 0%,20% 100%,24% 0%,28% 100%,32% 0%,36% 100%,40% 0%,44% 100%,48% 0%,52% 100%,56% 0%,60% 100%,64% 0%,68% 100%,72% 0%,76% 100%,80% 0%,84% 100%,88% 0%,92% 100%,96% 0%,100% 100%,100% 0%);
+}
+.zigzag.on-dark{background:var(--charcoal-deep);}
+.zigzag.to-dark{background:var(--charcoal-deep);}
+.zigzag.to-canvas{background:var(--canvas);}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 30px;font-family:var(--font-mono);font-weight:700;font-size:0.85rem;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;border:2px solid var(--charcoal-deep);white-space:nowrap;transition:transform .2s ease,background .2s ease,color .2s ease;border-radius:2px;}
+.btn-solid{background:var(--charcoal-deep);color:var(--white);}
+.btn-solid:hover{background:var(--rust);border-color:var(--rust);transform:translateY(-2px);}
+.btn-line{background:transparent;color:var(--charcoal-deep);}
+.btn-line:hover{background:var(--charcoal-deep);color:var(--white);}
+
+/* Nav: wordmark + round menu button, no bar */
+.topline{position:fixed;top:0;left:0;right:0;z-index:1000;padding:26px 0;pointer-events:none;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+.topline .wrap{display:flex;align-items:flex-start;justify-content:space-between;pointer-events:none;}
+.wordmark{font-family:var(--font-display);font-size:1.5rem;text-transform:uppercase;color:var(--charcoal-deep);pointer-events:auto;background:var(--canvas);padding:4px 10px;border:2px solid var(--charcoal-deep);}
+.menu-btn{pointer-events:auto;width:64px;height:64px;border-radius:50%;background:var(--charcoal-deep);color:var(--white);border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--font-mono);font-size:0.62rem;letter-spacing:0.05em;text-transform:uppercase;flex-shrink:0;transition:background .2s ease;}
+.menu-btn:hover{background:var(--rust);}
+.menu-btn .menu-lines{display:flex;flex-direction:column;gap:3px;margin-bottom:2px;}
+.menu-btn .menu-lines span{width:18px;height:2px;background:var(--white);transition:transform .3s ease,opacity .3s ease;}
+.menu-btn.active .menu-lines span:nth-child(1){transform:translateY(5px) rotate(45deg);}
+.menu-btn.active .menu-lines span:nth-child(2){opacity:0;}
+.menu-btn.active .menu-lines span:nth-child(3){transform:translateY(-5px) rotate(-45deg);}
+
+.fullmenu{position:fixed;inset:0;background:var(--charcoal-deep);z-index:1100;display:flex;flex-direction:column;justify-content:center;padding:100px 28px;transform:translateX(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);overflow-y:auto;}
+.fullmenu.active{transform:translateX(0);}
+.fullmenu-list{display:flex;flex-direction:column;gap:6px;max-width:1200px;margin:0 auto;width:100%;}
+.fullmenu-list a{display:flex;align-items:baseline;gap:20px;font-family:var(--font-display);font-size:2.6rem;text-transform:uppercase;color:var(--canvas);padding:14px 0;border-bottom:1px solid rgba(239,232,216,0.15);transition:color .2s ease,padding-left .2s ease;}
+.fullmenu-list a:hover{color:var(--rust);padding-left:14px;}
+.fullmenu-list a .idx{font-family:var(--font-mono);font-size:0.9rem;color:var(--rust);}
+.fullmenu-cta{margin-top:36px;}
+
+/* Hero */
+.hero{padding:170px 0 70px;position:relative;}
+.hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:20px;align-items:start;}
+.hero-tag{margin-bottom:24px;}
+.hero-title{font-size:4.4rem;margin-bottom:26px;}
+.hero-title .line-rust{color:var(--rust);}
+.hero-desc{font-family:var(--font-body);color:var(--ink-dim);font-size:1.04rem;max-width:480px;margin-bottom:36px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:40px;}
+.stitch-line{border:none;border-top:2px dashed var(--thread);margin:0 0 30px;}
+.hero-specs{font-family:var(--font-mono);font-size:0.86rem;display:flex;flex-wrap:wrap;gap:0;}
+.hero-specs div{padding:14px 22px 14px 0;margin-right:22px;border-right:1px solid var(--charcoal-deep);}
+.hero-specs div:last-child{border-right:none;}
+.hero-specs b{display:block;font-size:1.5rem;font-family:var(--font-display);color:var(--rust-deep);}
+
+.hero-visual{position:relative;}
+.hero-photo{position:relative;transform:rotate(3deg);border:10px solid var(--white);box-shadow:0 24px 50px rgba(15,14,13,0.25);}
+.hero-photo img{width:100%;height:400px;object-fit:cover;}
+.hero-tagcard{position:absolute;left:-30px;bottom:-26px;background:var(--rust);color:var(--white);padding:18px 20px 20px;transform:rotate(-4deg);box-shadow:0 16px 30px rgba(15,14,13,0.25);width:212px;border:2px solid var(--white);outline:1px solid var(--rust);outline-offset:-7px;}
+.hero-tagcard-label{font-family:var(--font-mono);font-size:0.64rem;letter-spacing:0.1em;text-transform:uppercase;opacity:0.85;margin-bottom:8px;}
+.hero-tagcard-title{font-family:var(--font-display);font-size:1.1rem;text-transform:uppercase;margin-bottom:6px;}
+.hero-tagcard-sub{font-family:var(--font-mono);font-size:0.72rem;opacity:0.9;}
+
+/* Trust strip - ticker as measuring tape */
+.tape-strip{background:var(--charcoal-deep);padding:14px 0;overflow:hidden;white-space:nowrap;border-top:3px solid var(--rust);border-bottom:3px solid var(--rust);}
+.tape-track{display:inline-flex;gap:0;animation:scrollx 30s linear infinite;}
+.tape-track span{font-family:var(--font-mono);color:var(--canvas);font-size:0.82rem;letter-spacing:0.04em;text-transform:uppercase;padding:0 26px;border-right:1px dashed rgba(239,232,216,0.35);}
+@keyframes scrollx{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* Layanan - horizontal scroll tag cards */
+.layanan-scroller{display:flex;gap:22px;overflow-x:auto;padding:48px 4px 20px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch;}
+.layanan-scroller::-webkit-scrollbar{height:6px;}
+.layanan-scroller::-webkit-scrollbar-thumb{background:var(--thread);border-radius:4px;}
+.tagcard{flex:0 0 260px;scroll-snap-align:start;background:var(--white);border:2px solid var(--charcoal-deep);padding:30px 24px 26px;position:relative;
+  clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%);
+}
+.tagcard::before{content:'';position:absolute;top:0;right:0;width:22px;height:22px;background:linear-gradient(135deg,transparent 50%,var(--canvas-deep) 50%);}
+.tagcard-num{font-family:var(--font-mono);font-size:0.76rem;color:var(--rust-deep);margin-bottom:14px;}
+.tagcard h3{font-size:1.3rem;margin-bottom:10px;letter-spacing:0;}
+.tagcard p{color:var(--ink-dim);font-size:0.88rem;font-family:var(--font-body);}
+.scroller-hint{font-family:var(--font-mono);font-size:0.76rem;color:var(--ink-dim);text-align:right;margin-top:-6px;}
+
+/* Proses - dark spec sheet */
+.proses-section{background:var(--charcoal-deep);color:var(--canvas);}
+.proses-section .tag-label{background:var(--charcoal-deep);color:var(--rust);border-color:var(--canvas);}
+.proses-section h2{color:var(--canvas);}
+.proses-section .section-desc{color:rgba(239,232,216,0.62);}
+.proses-list{margin-top:50px;border-top:1px solid rgba(239,232,216,0.2);}
+.proses-row{display:grid;grid-template-columns:80px 1fr 2fr;gap:24px;align-items:center;padding:26px 0;border-bottom:1px solid rgba(239,232,216,0.2);}
+.proses-row .pnum{font-family:var(--font-display);font-size:2.2rem;color:var(--rust);}
+.proses-row h3{color:var(--canvas);font-size:1.15rem;letter-spacing:0;}
+.proses-row p{font-family:var(--font-body);color:rgba(239,232,216,0.6);font-size:0.9rem;}
+
+/* Keunggulan */
+.keunggulan-grid{display:grid;grid-template-columns:0.95fr 1.05fr;gap:60px;align-items:center;}
+.keunggulan-photo{position:relative;transform:rotate(-2.5deg);border:10px solid var(--white);box-shadow:0 24px 50px rgba(15,14,13,0.2);}
+.keunggulan-photo img{width:100%;height:440px;object-fit:cover;}
+.keunggulan-list{display:flex;flex-direction:column;margin-top:30px;}
+.keunggulan-item{display:grid;grid-template-columns:40px 1fr;gap:16px;padding:20px 0;border-top:1px dashed var(--thread);}
+.keunggulan-item:last-child{border-bottom:1px dashed var(--thread);}
+.keunggulan-item .kicon{font-family:var(--font-mono);color:var(--rust-deep);font-weight:700;}
+.keunggulan-item h3{font-size:1.05rem;text-transform:none;font-family:var(--font-body);font-weight:700;margin-bottom:4px;letter-spacing:0;}
+.keunggulan-item p{color:var(--ink-dim);font-size:0.88rem;}
+
+/* Galeri - collage */
+.galeri-collage{display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:120px;gap:16px;margin-top:50px;}
+.gitem{grid-column:span 2;grid-row:span 2;border:8px solid var(--white);box-shadow:0 14px 30px rgba(15,14,13,0.18);overflow:hidden;position:relative;}
+.gitem img{width:100%;height:100%;object-fit:cover;}
+.gitem-cap{position:absolute;left:0;bottom:0;background:var(--charcoal-deep);color:var(--canvas);font-family:var(--font-mono);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.04em;padding:7px 14px;}
+.gitem:nth-child(1){transform:rotate(-2deg);grid-column:span 3;grid-row:span 2;}
+.gitem:nth-child(2){transform:rotate(1.5deg);grid-column:span 3;grid-row:span 2;}
+.gitem:nth-child(3){transform:rotate(1deg);}
+.gitem:nth-child(4){transform:rotate(-1.5deg);}
+.gitem:nth-child(5){transform:rotate(2deg);}
+
+/* Paket - spec table style */
+.paket-table{margin-top:50px;border-top:2px solid var(--charcoal-deep);}
+.paket-row{display:grid;grid-template-columns:1fr 1fr 2fr auto;gap:24px;align-items:center;padding:28px 0;border-bottom:2px solid var(--charcoal-deep);}
+.paket-row.featured{background:var(--charcoal-deep);color:var(--canvas);margin:0 -28px;padding:28px;}
+.paket-tag2{font-family:var(--font-mono);font-size:0.76rem;color:var(--rust-deep);text-transform:uppercase;}
+.paket-row.featured .paket-tag2{color:var(--rust);}
+.paket-vol{font-family:var(--font-display);font-size:1.7rem;}
+.paket-row.featured .paket-vol{color:var(--canvas);}
+.paket-feat{font-family:var(--font-body);font-size:0.86rem;color:var(--ink-dim);}
+.paket-row.featured .paket-feat{color:rgba(239,232,216,0.68);}
+
+/* Testimoni - clean ruled cards, referenced like a client job file */
+.testi-stack{position:relative;margin-top:60px;max-width:640px;margin-left:auto;margin-right:auto;}
+.testi-card2{background:var(--white);border:2px solid var(--charcoal-deep);border-left:6px solid var(--rust);padding:34px 32px;position:relative;margin-bottom:28px;}
+.testi-ref{position:absolute;top:0;right:0;font-family:var(--font-mono);font-size:0.68rem;color:var(--white);background:var(--charcoal-deep);padding:5px 12px;letter-spacing:0.06em;}
+.testi-mark{font-family:var(--font-display);font-size:3rem;color:var(--rust);line-height:0.5;margin-bottom:10px;display:block;}
+.testi-card2 p{font-size:0.98rem;margin-bottom:20px;}
+.testi-foot{display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.78rem;color:var(--ink-dim);border-top:1px dashed var(--thread);padding-top:14px;}
+.testi-foot b{color:var(--charcoal-deep);font-family:var(--font-body);}
+
+/* FAQ - plain ruled list */
+.faq-ruled{max-width:760px;margin:50px auto 0;}
+.faq-row{border-bottom:2px solid var(--charcoal-deep);padding:26px 0;cursor:pointer;}
+.faq-row:first-child{border-top:2px solid var(--charcoal-deep);}
+.faq-q2{display:flex;justify-content:space-between;align-items:center;gap:20px;font-family:var(--font-display);font-size:1.1rem;text-transform:uppercase;}
+.faq-plus{font-family:var(--font-mono);font-size:1.4rem;color:var(--rust);flex-shrink:0;transition:transform .3s ease;}
+.faq-row.active .faq-plus{transform:rotate(45deg);}
+.faq-a2{max-height:0;overflow:hidden;transition:max-height .35s ease,margin-top .35s ease;color:var(--ink-dim);font-family:var(--font-body);font-size:0.92rem;}
+.faq-row.active .faq-a2{max-height:220px;margin-top:14px;}
+
+/* Kontak */
+.kontak-section{background:var(--charcoal-deep);color:var(--canvas);}
+.kontak-section .tag-label{background:var(--charcoal-deep);color:var(--rust);border-color:var(--canvas);}
+.kontak-section h2{color:var(--canvas);}
+.kontak-section .section-desc{color:rgba(239,232,216,0.62);}
+.kontak-grid2{display:grid;grid-template-columns:0.85fr 1.15fr;gap:50px;margin-top:50px;}
+.kontak-spec{border-top:1px solid rgba(239,232,216,0.25);}
+.kontak-spec-row{display:grid;grid-template-columns:110px 1fr;gap:14px;padding:20px 0;border-bottom:1px solid rgba(239,232,216,0.25);font-family:var(--font-mono);font-size:0.8rem;}
+.kontak-spec-row span:first-child{color:var(--rust);text-transform:uppercase;}
+.kontak-spec-row span:last-child{color:var(--canvas);font-family:var(--font-body);font-size:0.92rem;}
+
+.form-card2{background:var(--canvas);color:var(--charcoal);padding:40px 36px;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-family:var(--font-mono);font-size:0.74rem;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:8px;color:var(--charcoal-deep);}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:13px 14px;border:2px solid var(--charcoal-deep);border-radius:0;font-family:var(--font-body);font-size:0.92rem;background:var(--white);transition:border-color .2s ease;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--rust);}
+.form-group textarea{resize:vertical;min-height:100px;}
+.field-error{color:var(--rust-deep);font-size:0.78rem;margin-top:6px;display:none;font-family:var(--font-mono);}
+.form-group.invalid input,.form-group.invalid select,.form-group.invalid textarea{border-color:var(--rust-deep);}
+.form-group.invalid .field-error{display:block;}
+.form-success{display:none;background:var(--charcoal-deep);color:var(--canvas);padding:16px 18px;font-size:0.9rem;margin-top:18px;font-family:var(--font-mono);}
+.form-success.show{display:block;}
+
+/* Footer */
+footer{background:var(--charcoal-deep);color:rgba(239,232,216,0.6);padding:0 0 30px;overflow:hidden;}
+.footer-word{font-family:var(--font-display);font-size:11vw;line-height:0.8;color:rgba(239,232,216,0.06);text-align:center;padding:40px 0 10px;text-transform:uppercase;white-space:nowrap;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;margin-bottom:40px;}
+.footer-col h4{font-family:var(--font-mono);color:var(--canvas);font-size:0.82rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:18px;}
+.footer-col a,.footer-col p{display:block;font-size:0.88rem;color:rgba(239,232,216,0.55);margin-bottom:12px;font-family:var(--font-body);}
+.footer-brand p{max-width:320px;font-size:0.88rem;color:rgba(239,232,216,0.55);}
+.footer-bottom{border-top:1px solid rgba(239,232,216,0.15);padding-top:22px;display:flex;justify-content:space-between;font-family:var(--font-mono);font-size:0.76rem;flex-wrap:wrap;gap:10px;}
+.footer-bottom a{color:var(--rust);}
+
+/* WhatsApp float */
+.wa-btn{position:fixed;bottom:24px;right:24px;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(37,211,102,0.5);z-index:900;}
+
+/* Responsive */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-title{font-size:3.2rem;}
+  .hero-visual{max-width:400px;margin:40px auto 0;}
+  .keunggulan-grid{grid-template-columns:1fr;}
+  .keunggulan-photo{max-width:420px;margin:0 auto;}
+  .proses-row{grid-template-columns:56px 1fr;}
+  .proses-row p{grid-column:2;}
+  .galeri-collage{grid-template-columns:repeat(2,1fr);grid-auto-rows:150px;}
+  .gitem{grid-column:span 1 !important;grid-row:span 2 !important;transform:none !important;}
+  .gitem:nth-child(1),.gitem:nth-child(2){grid-column:span 2 !important;}
+  .paket-row{grid-template-columns:1fr;gap:8px;text-align:left;}
+  .paket-row.featured{margin:0;}
+  .kontak-grid2{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr;gap:26px;}
+}
+@media (max-width:640px){
+  .wrap{padding:0 18px;}
+  section{padding:70px 0;}
+  .hero{padding:130px 0 50px;}
+  .hero-title{font-size:2.3rem;}
+  .hero-actions{flex-direction:column;align-items:stretch;}
+  .hero-specs{flex-direction:column;gap:14px;}
+  .hero-specs div{border-right:none;border-bottom:1px solid var(--charcoal-deep);padding:0 0 14px;margin-right:0;}
+  .hero-photo img{height:280px;}
+  .hero-tagcard{width:170px;padding:14px 16px;left:-14px;bottom:-20px;}
+  .layanan-scroller{padding:36px 4px 16px;}
+  .tagcard{flex-basis:220px;}
+  .proses-row{grid-template-columns:1fr;gap:8px;}
+  .proses-row .pnum{font-size:1.6rem;}
+  .galeri-collage{grid-template-columns:1fr 1fr;grid-auto-rows:130px;}
+  .form-row{grid-template-columns:1fr;}
+  .wordmark{font-size:1.1rem;}
+  .menu-btn{width:52px;height:52px;}
+  .fullmenu-list a{font-size:1.7rem;}
+  .topline{padding:20px 0;}
+  .footer-word{font-size:16vw;}
+}
+</style>
+</head>
+<body>
+
+<div class="topline">
+  <div class="wrap">
+    <a href="#top" class="wordmark">Kriyatama</a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">
+      <span class="menu-lines"><span></span><span></span><span></span></span>
+      Menu
+    </button>
+  </div>
+</div>
+
+<nav class="fullmenu" id="fullMenu">
+  <div class="fullmenu-list">
+    <a href="#layanan"><span class="idx">01</span>Layanan</a>
+    <a href="#proses"><span class="idx">02</span>Proses Produksi</a>
+    <a href="#keunggulan"><span class="idx">03</span>Keunggulan</a>
+    <a href="#galeri"><span class="idx">04</span>Portofolio</a>
+    <a href="#paket"><span class="idx">05</span>Simulasi Pesanan</a>
+    <a href="#testimoni"><span class="idx">06</span>Testimoni</a>
+    <a href="#faq"><span class="idx">07</span>FAQ</a>
+    <a href="#kontak"><span class="idx">08</span>Kontak</a>
+  </div>
+  <div class="fullmenu-cta wrap">
+    <a href="#kontak" class="btn btn-solid" style="background:var(--rust);border-color:var(--rust);">Ajukan Pesanan</a>
+  </div>
+</nav>
+
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <div class="tag-label hero-tag">Atelier Konveksi Sejak 2017</div>
+      <h1 class="hero-title">Jahit<br>Cerita<br><span class="line-rust">Anda.</span></h1>
+      <p class="hero-desc">Kriyatama memproduksi seragam kantor, seragam sekolah, jersey olahraga, dan kaos custom dengan jahitan rapi dan jadwal yang bisa dipegang, dari puluhan hingga ribuan pcs.</p>
+      <div class="hero-actions">
+        <a href="#kontak" class="btn btn-solid">Ajukan Pesanan</a>
+        <a href="#layanan" class="btn btn-line">Lihat Layanan</a>
+      </div>
+      <hr class="stitch-line">
+      <div class="hero-specs">
+        <div><b>9</b>Tahun Beroperasi</div>
+        <div><b>15K+</b>Pcs / Bulan</div>
+        <div><b>240+</b>Klien Korporat</div>
+        <div><b>30+</b>Kota Kirim</div>
+      </div>
+    </div>
+    <div class="hero-visual reveal" style="transition-delay:.15s;">
+      <div class="hero-photo">
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=900&auto=format&fit=crop" alt="Penjahit Kriyatama menjahit pakaian di atelier" loading="eager">
+      </div>
+      <div class="hero-tagcard">
+        <div class="hero-tagcard-label">&#9633; Kontrol Kualitas</div>
+        <div class="hero-tagcard-title">100% Sample Dulu</div>
+        <div class="hero-tagcard-sub">Approval sebelum produksi massal</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="tape-strip">
+  <div class="tape-track">
+    <span>Seragam Kantor</span><span>Seragam Sekolah</span><span>Jersey Olahraga</span><span>Kaos Event</span><span>Jaket Custom</span><span>Label Fashion</span>
+    <span>Seragam Kantor</span><span>Seragam Sekolah</span><span>Jersey Olahraga</span><span>Kaos Event</span><span>Jaket Custom</span><span>Label Fashion</span>
+  </div>
+</div>
+
+<section id="layanan">
+  <div class="wrap">
+    <div class="tag-label">Layanan Produksi</div>
+    <h2 class="section-title">Kami Konveksi<br>Apa Saja</h2>
+    <p class="section-desc">Satu tim produksi untuk berbagai kebutuhan, geser untuk lihat semua.</p>
+  </div>
+  <div class="wrap">
+    <div class="layanan-scroller">
+      <div class="tagcard">
+        <div class="tagcard-num">SPK.01</div>
+        <h3>Seragam Kantor</h3>
+        <p>Kemeja dan rompi identitas perusahaan dengan bordir logo.</p>
+      </div>
+      <div class="tagcard">
+        <div class="tagcard-num">SPK.02</div>
+        <h3>Seragam Sekolah</h3>
+        <p>Seragam harian dan olahraga dengan ukuran lengkap.</p>
+      </div>
+      <div class="tagcard">
+        <div class="tagcard-num">SPK.03</div>
+        <h3>Jersey Olahraga</h3>
+        <p>Sublimasi full print untuk tim futsal dan komunitas lari.</p>
+      </div>
+      <div class="tagcard">
+        <div class="tagcard-num">SPK.04</div>
+        <h3>Kaos Event</h3>
+        <p>Kaos gathering dan merchandise komunitas jumlah besar.</p>
+      </div>
+      <div class="tagcard">
+        <div class="tagcard-num">SPK.05</div>
+        <h3>Jaket Custom</h3>
+        <p>Jaket almamater dan hoodie dengan bordir atau sablon.</p>
+      </div>
+      <div class="tagcard">
+        <div class="tagcard-num">SPK.06</div>
+        <h3>Label Fashion</h3>
+        <p>Private label untuk brand pakaian Anda sendiri.</p>
+      </div>
+    </div>
+    <div class="scroller-hint">Geser ke kanan &rarr;</div>
+  </div>
+</section>
+
+<div class="zigzag to-dark"></div>
+<section class="proses-section" id="proses">
+  <div class="wrap">
+    <div class="tag-label">Alur Kerja</div>
+    <h2 class="section-title">Proses Produksi</h2>
+    <p class="section-desc">Setiap pesanan melewati tahapan yang sama supaya hasilnya konsisten.</p>
+    <div class="proses-list">
+      <div class="proses-row reveal">
+        <div class="pnum">01</div>
+        <h3>Konsultasi &amp; Desain</h3>
+        <p>Diskusi kebutuhan, jumlah, bahan, dan desain awal bersama tim kami.</p>
+      </div>
+      <div class="proses-row reveal">
+        <div class="pnum">02</div>
+        <h3>Sample Produksi</h3>
+        <p>Contoh dibuat lebih dulu untuk diperiksa dan disetujui sebelum lanjut.</p>
+      </div>
+      <div class="proses-row reveal">
+        <div class="pnum">03</div>
+        <h3>Produksi Massal</h3>
+        <p>Proses potong, jahit, dan finishing sesuai jadwal yang disepakati.</p>
+      </div>
+      <div class="proses-row reveal">
+        <div class="pnum">04</div>
+        <h3>Quality Control</h3>
+        <p>Setiap unit diperiksa jahitan dan ukurannya sebelum dikemas.</p>
+      </div>
+      <div class="proses-row reveal">
+        <div class="pnum">05</div>
+        <h3>Pengiriman</h3>
+        <p>Dikirim ke alamat Anda di seluruh Indonesia sesuai jadwal.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="zigzag to-canvas"></div>
+
+<section id="keunggulan">
+  <div class="wrap keunggulan-grid">
+    <div class="keunggulan-photo reveal">
+      <img src="https://images.unsplash.com/photo-1675176785803-bffbbb0cd2f4?q=80&w=900&auto=format&fit=crop" alt="Lini mesin jahit industrial di lantai produksi Kriyatama">
+    </div>
+    <div class="reveal" style="transition-delay:.1s;">
+      <div class="tag-label">Kenapa Kriyatama</div>
+      <h2 class="section-title">Bisa Dipercaya</h2>
+      <p class="section-desc">Kami membangun kepercayaan klien lewat konsistensi kualitas, bukan janji semata.</p>
+      <div class="keunggulan-list">
+        <div class="keunggulan-item">
+          <div class="kicon">01</div>
+          <div><h3>Bahan Pilihan</h3><p>Kain diseleksi dari supplier terpercaya untuk hasil nyaman dan tahan lama.</p></div>
+        </div>
+        <div class="keunggulan-item">
+          <div class="kicon">02</div>
+          <div><h3>Jahitan Rapi</h3><p>Tim penjahit berpengalaman dengan standar quality control tiap tahap.</p></div>
+        </div>
+        <div class="keunggulan-item">
+          <div class="kicon">03</div>
+          <div><h3>Tepat Waktu</h3><p>Jadwal produksi realistis dan dikomunikasikan sejak awal.</p></div>
+        </div>
+        <div class="keunggulan-item">
+          <div class="kicon">04</div>
+          <div><h3>MOQ Fleksibel</h3><p>Melayani pesanan dari puluhan hingga ribuan pcs.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="galeri">
+  <div class="wrap">
+    <div class="tag-label">Fasilitas &amp; Portofolio</div>
+    <h2 class="section-title">Tempat Pesanan Anda Dikerjakan</h2>
+    <p class="section-desc">Lantai produksi, mesin jahit industrial yang kami pakai, hingga sebagian hasil jadi dari klien Kriyatama.</p>
+    <div class="galeri-collage">
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1741183392804-a37864e6a6d9?q=80&w=900&auto=format&fit=crop" alt="Lantai produksi Kriyatama, tempat pesanan dikerjakan"><span class="gitem-cap">Lantai Produksi</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1772351721310-0aa6b2d5ee49?q=80&w=900&auto=format&fit=crop" alt="Operator menjahit di mesin industrial Kriyatama"><span class="gitem-cap">Mesin Jahit Industrial</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=700&auto=format&fit=crop" alt="Detail kontrol kualitas jahitan seragam"><span class="gitem-cap">Kontrol Kualitas</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1768746350424-ee28a364dcf5?q=80&w=700&auto=format&fit=crop" alt="Aktivitas produksi harian di workshop Kriyatama"><span class="gitem-cap">Workshop Kami</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=700&auto=format&fit=crop" alt="Jersey olahraga hasil produksi Kriyatama"><span class="gitem-cap">Hasil Jadi</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="zigzag to-dark"></div>
+<section class="proses-section" id="paket">
+  <div class="wrap">
+    <div class="tag-label">Simulasi Pesanan</div>
+    <h2 class="section-title">Skala Produksi</h2>
+    <p class="section-desc">Semakin besar jumlah pesanan, semakin ringan biaya per pcs. Angka di bawah estimasi awal.</p>
+    <div class="paket-table">
+      <div class="paket-row reveal">
+        <div class="paket-tag2">Starter</div>
+        <div class="paket-vol">50-100 Pcs</div>
+        <div class="paket-feat">1x sample, bahan standar, sablon atau bordir, 10-14 hari kerja.</div>
+        <a href="#kontak" class="btn btn-line" style="border-color:var(--canvas);color:var(--canvas);">Ajukan</a>
+      </div>
+      <div class="paket-row featured reveal">
+        <div class="paket-tag2">Paling Diminati</div>
+        <div class="paket-vol">100-500 Pcs</div>
+        <div class="paket-feat">2x revisi sample, bahan lebih lengkap, diskon per pcs, 14-21 hari kerja.</div>
+        <a href="#kontak" class="btn btn-solid" style="background:var(--rust);border-color:var(--rust);">Ajukan</a>
+      </div>
+      <div class="paket-row reveal">
+        <div class="paket-tag2">Korporat</div>
+        <div class="paket-vol">500+ Pcs</div>
+        <div class="paket-feat">Sample fleksibel, prioritas jadwal, dedicated contact person, harga khusus.</div>
+        <a href="#kontak" class="btn btn-line" style="border-color:var(--canvas);color:var(--canvas);">Diskusi</a>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="zigzag to-canvas"></div>
+
+<section id="testimoni">
+  <div class="wrap">
+    <div class="tag-label center">Testimoni</div>
+    <h2 class="section-title center">Kata Klien Kami</h2>
+    <div class="testi-stack">
+      <div class="testi-card2 reveal">
+        <span class="testi-ref">Job SPK.01</span>
+        <span class="testi-mark">&ldquo;</span>
+        <p>Seragam kantor kami selesai tepat waktu dan jahitannya rapi. Sample di awal sesuai dengan hasil akhirnya.</p>
+        <div class="testi-foot"><b>Rangga Pradipta</b><span>HR Manager, Distributor Elektronik</span></div>
+      </div>
+      <div class="testi-card2 reveal" style="transition-delay:.1s;">
+        <span class="testi-ref">Job SPK.03</span>
+        <span class="testi-mark">&ldquo;</span>
+        <p>Jersey futsal komunitas kami hasilnya bagus, warna sablonnya tahan lama walau sering dicuci.</p>
+        <div class="testi-foot"><b>Dimas Ardiansyah</b><span>Ketua Komunitas Futsal</span></div>
+      </div>
+      <div class="testi-card2 reveal" style="transition-delay:.2s;">
+        <span class="testi-ref">Job SPK.02</span>
+        <span class="testi-mark">&ldquo;</span>
+        <p>Sekolah kami pesan seragam untuk ratusan siswa, ukurannya lengkap dan pengirimannya sesuai jadwal.</p>
+        <div class="testi-foot"><b>Sri Wulandari</b><span>Bendahara Sekolah</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="tag-label center">Pertanyaan Umum</div>
+    <h2 class="section-title center">FAQ</h2>
+    <div class="faq-ruled">
+      <div class="faq-row">
+        <div class="faq-q2">Minimum order? <span class="faq-plus">+</span></div>
+        <div class="faq-a2">Minimum order mulai dari 50 pcs per desain. Untuk jumlah di bawah itu, silakan hubungi kami untuk didiskusikan.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q2">Bisa bawa desain sendiri? <span class="faq-plus">+</span></div>
+        <div class="faq-a2">Bisa. Anda dapat membawa desain, logo, atau referensi sendiri, atau berdiskusi dengan tim kami dari awal.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q2">Ada sample sebelum produksi massal? <span class="faq-plus">+</span></div>
+        <div class="faq-a2">Ya, setiap pesanan melewati tahap sample lebih dulu untuk disetujui sebelum masuk produksi massal.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q2">Berapa lama waktu produksi? <span class="faq-plus">+</span></div>
+        <div class="faq-a2">Estimasi 10 hingga 21 hari kerja tergantung jumlah dan kerumitan desain, dihitung sejak sample disetujui.</div>
+      </div>
+      <div class="faq-row">
+        <div class="faq-q2">Kirim ke luar kota? <span class="faq-plus">+</span></div>
+        <div class="faq-a2">Ya, kami melayani pengiriman ke seluruh Indonesia bekerja sama dengan ekspedisi pilihan Anda.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="zigzag to-dark"></div>
+<section class="kontak-section" id="kontak">
+  <div class="wrap">
+    <div class="tag-label">Kontak</div>
+    <h2 class="section-title">Diskusikan<br>Kebutuhan Anda</h2>
+    <p class="section-desc">Isi form di samping atau hubungi kami langsung, tim kami akan membalas dengan estimasi harga dan jadwal.</p>
+    <div class="kontak-grid2">
+      <div class="reveal">
+        <div class="kontak-spec">
+          <div class="kontak-spec-row"><span>Alamat</span><span>Jl. Industri Tekstil No. 21, Cimahi, Jawa Barat</span></div>
+          <div class="kontak-spec-row"><span>WhatsApp</span><span>+62 812 3300 5566</span></div>
+          <div class="kontak-spec-row"><span>Email</span><span>halo@kriyatama.id</span></div>
+          <div class="kontak-spec-row"><span>Jam Buka</span><span>Senin - Sabtu, 08.00 - 17.00 WIB</span></div>
+        </div>
+      </div>
+      <div class="form-card2 reveal" style="transition-delay:.1s;">
+        <form id="orderForm" novalidate>
+          <div class="form-row">
+            <div class="form-group" data-field="nama">
+              <label>Nama Lengkap</label>
+              <input type="text" name="nama" placeholder="Nama Anda">
+              <div class="field-error">Nama wajib diisi.</div>
+            </div>
+            <div class="form-group" data-field="perusahaan">
+              <label>Instansi / Komunitas</label>
+              <input type="text" name="perusahaan" placeholder="Opsional">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" data-field="wa">
+              <label>Nomor WhatsApp</label>
+              <input type="tel" name="wa" placeholder="08xxxxxxxxxx">
+              <div class="field-error">Nomor WhatsApp wajib diisi.</div>
+            </div>
+            <div class="form-group" data-field="produk">
+              <label>Jenis Produk</label>
+              <select name="produk">
+                <option value="">-- Pilih produk --</option>
+                <option>Seragam Kantor</option>
+                <option>Seragam Sekolah</option>
+                <option>Jersey Olahraga</option>
+                <option>Kaos Event</option>
+                <option>Jaket Custom</option>
+                <option>Label Fashion</option>
+              </select>
+              <div class="field-error">Silakan pilih jenis produk.</div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" data-field="jumlah">
+              <label>Estimasi Jumlah (pcs)</label>
+              <input type="number" name="jumlah" placeholder="Contoh: 200" min="1">
+              <div class="field-error">Estimasi jumlah wajib diisi.</div>
+            </div>
+            <div class="form-group" data-field="deadline">
+              <label>Target Selesai</label>
+              <input type="date" name="deadline">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Catatan Tambahan</label>
+            <textarea name="catatan" placeholder="Ceritakan desain, warna, atau kebutuhan khusus"></textarea>
+          </div>
+          <button type="submit" class="btn btn-solid" style="width:100%;background:var(--rust);border-color:var(--rust);">Kirim Pengajuan</button>
+          <div class="form-success" id="formSuccess">Terima kasih, pengajuan Anda sudah kami terima. Tim kami akan menghubungi Anda segera.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-word">Kriyatama</div>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <p>Atelier konveksi seragam, jersey, dan kaos custom dengan jahitan rapi dan pengerjaan tepat waktu untuk kebutuhan bisnis maupun komunitas Anda.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Jelajah</h4>
+        <a href="#layanan">Layanan</a>
+        <a href="#proses">Proses Produksi</a>
+        <a href="#galeri">Portofolio</a>
+        <a href="#testimoni">Testimoni</a>
+      </div>
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <p>Jl. Industri Tekstil No. 21, Cimahi</p>
+        <p>+62 812 3300 5566</p>
+        <p>halo@kriyatama.id</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Kriyatama. Seluruh hak cipta dilindungi.</span>
+      <span>Demo project by <a href="https://bagasaria93.github.io">Bagas Aria Sativa</a></span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/6281233005566" class="wa-btn" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.35 5.07L2 22l5.06-1.33A9.94 9.94 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm5.2 14.2c-.22.62-1.28 1.19-1.76 1.24-.45.05-.9.22-3.02-.63-2.55-1.02-4.2-3.62-4.33-3.79-.13-.17-1.03-1.37-1.03-2.62 0-1.25.66-1.86.89-2.11.23-.25.5-.31.67-.31.17 0 .33 0 .48.01.15.01.36-.06.56.43.22.53.75 1.83.81 1.96.06.13.1.29.02.46-.08.17-.13.28-.25.43-.13.15-.27.34-.38.46-.13.13-.26.27-.11.53.15.26.67 1.1 1.43 1.78.98.88 1.81 1.15 2.07 1.28.26.13.41.11.56-.06.15-.17.65-.75.82-1.01.17-.26.34-.21.56-.13.22.08 1.42.67 1.66.79.24.12.4.18.46.28.06.11.06.61-.16 1.23z"/></svg>
+</a>
+
+<script>
+const menuBtn = document.getElementById('menuBtn');
+const fullMenu = document.getElementById('fullMenu');
+function toggleMenu(){ menuBtn.classList.toggle('active'); fullMenu.classList.toggle('active'); }
+menuBtn.addEventListener('click', toggleMenu);
+fullMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>{ menuBtn.classList.remove('active'); fullMenu.classList.remove('active'); }));
+
+const revealEls = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){ entry.target.classList.add('in-view'); revealObserver.unobserve(entry.target); }
+  });
+}, {threshold:0.12});
+revealEls.forEach(el=>revealObserver.observe(el));
+
+document.querySelectorAll('.faq-row').forEach(item=>{
+  item.addEventListener('click', ()=>{
+    const isActive = item.classList.contains('active');
+    document.querySelectorAll('.faq-row').forEach(i=>i.classList.remove('active'));
+    if(!isActive){ item.classList.add('active'); }
+  });
+});
+
+const form = document.getElementById('orderForm');
+const formSuccess = document.getElementById('formSuccess');
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  let valid = true;
+  const required = ['nama','wa','produk','jumlah'];
+  required.forEach(name=>{
+    const field = form.querySelector(`[name="${name}"]`);
+    const group = field.closest('.form-group');
+    if(!field.value.trim()){ group.classList.add('invalid'); valid = false; }
+    else { group.classList.remove('invalid'); }
+  });
+  if(valid){
+    formSuccess.classList.add('show');
+    form.reset();
+    setTimeout(()=>formSuccess.classList.remove('show'), 6000);
+  }
+});
+</script>
+
+</body>
+</html>

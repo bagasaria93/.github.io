@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sekolah Cendekia Harapan - PAUD, SD, SMP, dan SMA</title>
+<meta name="description" content="Sekolah Cendekia Harapan menyelenggarakan pendidikan jenjang PAUD dan TK, SD, SMP, hingga SMA dengan fasilitas lengkap dan lingkungan belajar yang mendukung tumbuh kembang siswa.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --maroon:#7a1f2e;
+  --maroon-deep:#5c1521;
+  --navy:#14213d;
+  --gold:#c9972c;
+  --gold-soft:#e4c878;
+  --cream:#faf6ec;
+  --cream-deep:#f1ead9;
+  --line:#e4dcc8;
+  --ink:#24211d;
+  --ink-dim:#6c6558;
+  --white:#ffffff;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Manrope',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  line-height:1.65;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+h1,h2,h3,h4{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;color:var(--navy);}
+.serif{font-family:'Fraunces',serif;}
+
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in-view{opacity:1;transform:translateY(0);}
+
+/* ===== crest logo ===== */
+.crest{width:42px;height:46px;flex-shrink:0;}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-weight:700;font-size:1.18rem;color:var(--navy);}
+
+/* ===== header ===== */
+header.site-header{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--cream);border-bottom:1px solid var(--line);}
+.header-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0;}
+.main-nav{display:flex;align-items:center;gap:30px;}
+.main-nav a{font-size:.92rem;font-weight:600;color:var(--ink);position:relative;padding:4px 0;}
+.main-nav a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:2px;background:var(--gold);transition:width .25s ease;}
+.main-nav a:hover::after{width:100%;}
+.header-actions{display:flex;align-items:center;gap:16px;}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:'Manrope',sans-serif;font-weight:700;font-size:.9rem;padding:12px 24px;border-radius:6px;border:1.5px solid var(--maroon);cursor:pointer;transition:transform .2s ease,background .2s ease,color .2s ease;}
+.btn-solid{background:var(--maroon);color:var(--white);}
+.btn-solid:hover{background:var(--maroon-deep);border-color:var(--maroon-deep);transform:translateY(-2px);}
+.btn-line{background:transparent;color:var(--maroon);}
+.btn-line:hover{background:var(--maroon);color:var(--white);}
+.burger{display:none;width:44px;height:44px;border-radius:6px;border:1.5px solid var(--navy);background:transparent;cursor:pointer;flex-direction:column;align-items:center;justify-content:center;gap:5px;}
+.burger span{width:20px;height:2px;background:var(--navy);transition:transform .25s ease,opacity .25s ease;}
+.burger.active span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.burger.active span:nth-child(2){opacity:0;}
+.burger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* ===== mobile bottom sheet menu ===== */
+.scrim{position:fixed;inset:0;background:rgba(20,33,61,0.45);z-index:1100;opacity:0;pointer-events:none;transition:opacity .3s ease;}
+.scrim.show{opacity:1;pointer-events:auto;}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:1200;background:var(--cream);border-radius:22px 22px 0 0;padding:14px 30px 34px;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,.72,0,1);box-shadow:0 -20px 50px -10px rgba(20,33,61,0.3);}
+.sheet.open{transform:translateY(0);}
+.sheet-handle{width:44px;height:5px;background:var(--line);border-radius:3px;margin:0 auto 22px;}
+.sheet a{display:block;font-family:'Fraunces',serif;font-size:1.2rem;font-weight:600;color:var(--navy);padding:13px 0;border-bottom:1px solid var(--line);}
+.sheet .btn{margin-top:20px;width:100%;justify-content:center;}
+
+/* ===== hero ===== */
+.hero{padding:150px 0 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-120px;right:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(201,151,44,0.16),transparent 70%);}
+.hero-grid{display:grid;grid-template-columns:1fr 0.92fr;gap:56px;align-items:center;position:relative;z-index:1;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'Manrope',sans-serif;font-size:.78rem;letter-spacing:.09em;text-transform:uppercase;color:var(--maroon);font-weight:800;margin-bottom:18px;}
+.eyebrow::before{content:'';width:22px;height:2px;background:var(--gold);}
+.hero h1{font-size:2.9rem;line-height:1.18;margin-bottom:20px;}
+.hero h1 em{font-style:italic;color:var(--maroon);}
+.hero p.lead{font-size:1.05rem;color:var(--ink-dim);max-width:480px;margin-bottom:30px;}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:38px;}
+.report-strip{display:grid;grid-template-columns:repeat(4,auto);gap:0;border-top:2px solid var(--navy);padding-top:18px;}
+.report-item{padding-right:22px;border-right:1px solid var(--line);}
+.report-item:last-child{border-right:none;}
+.report-item .val{font-family:'Fraunces',serif;font-weight:700;font-size:1.3rem;color:var(--maroon);}
+.report-item .lbl{font-size:.72rem;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.04em;margin-top:3px;}
+
+.hero-visual{position:relative;}
+.hero-photo-frame{position:relative;border-radius:16px;overflow:hidden;box-shadow:0 34px 60px -22px rgba(20,33,61,0.35);}
+.hero-photo-frame img{width:100%;height:430px;object-fit:cover;}
+.hero-badge{position:absolute;bottom:-22px;left:-22px;background:var(--white);border-radius:14px;padding:16px 20px;box-shadow:0 20px 40px -14px rgba(20,33,61,0.3);display:flex;align-items:center;gap:14px;}
+.hero-badge .seal{width:46px;height:46px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--navy);font-family:'Fraunces',serif;font-weight:700;font-size:.95rem;flex-shrink:0;}
+.hero-badge .txt b{display:block;font-family:'Fraunces',serif;font-size:.95rem;color:var(--navy);}
+.hero-badge .txt span{font-size:.78rem;color:var(--ink-dim);}
+
+/* ===== section shared ===== */
+section{padding:96px 0;position:relative;}
+.section-head{max-width:640px;margin:0 auto 54px;text-align:center;}
+.section-head h2{font-size:2.1rem;margin-top:12px;}
+.section-head p{color:var(--ink-dim);margin-top:14px;font-size:1rem;}
+.section-alt{background:var(--white);}
+
+/* ===== jenjang roadmap ===== */
+.jenjang-path{position:relative;display:flex;justify-content:space-between;margin-top:10px;}
+.jenjang-path::before{content:'';position:absolute;top:34px;left:6%;right:6%;border-top:3px dashed var(--gold-soft);z-index:0;}
+.jenjang-step{position:relative;z-index:1;flex:1;text-align:center;padding:0 12px;}
+.jenjang-circle{width:68px;height:68px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.6rem;box-shadow:0 14px 28px -10px rgba(20,33,61,0.45);}
+.jenjang-step h4{font-size:1.05rem;margin-bottom:8px;}
+.jenjang-step p{font-size:.86rem;color:var(--ink-dim);}
+.jenjang-age{display:inline-block;font-size:.72rem;font-weight:700;color:var(--maroon);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px;}
+
+/* ===== fasilitas grid ===== */
+.fas-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.fas-card{background:var(--white);border-radius:12px;overflow:hidden;border:1px solid var(--line);transition:transform .3s ease,box-shadow .3s ease;position:relative;}
+.fas-card:hover{transform:translateY(-6px);box-shadow:0 24px 44px -22px rgba(20,33,61,0.25);}
+.fas-photo{height:175px;overflow:hidden;position:relative;}
+.fas-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.fas-card:hover .fas-photo img{transform:scale(1.07);}
+.fas-plaque{position:absolute;top:14px;left:14px;background:var(--navy);color:var(--gold-soft);font-family:'Fraunces',serif;font-weight:600;font-size:.72rem;padding:5px 11px;border-radius:4px;letter-spacing:.03em;box-shadow:0 8px 16px -6px rgba(0,0,0,0.4);}
+.fas-body{padding:22px 22px 26px;}
+.fas-body h3{font-size:1.1rem;margin-bottom:8px;}
+.fas-body p{font-size:.89rem;color:var(--ink-dim);}
+
+/* ===== keunggulan ===== */
+.keunggulan-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+.keunggulan-photo{position:relative;border-radius:14px;overflow:hidden;box-shadow:0 30px 60px -24px rgba(20,33,61,0.3);}
+.keunggulan-photo img{width:100%;height:440px;object-fit:cover;}
+.keunggulan-photo .capchip{position:absolute;bottom:18px;left:18px;background:rgba(20,33,61,0.85);color:var(--white);font-family:'Fraunces',serif;font-size:.8rem;padding:8px 16px;border-radius:6px;}
+.k-list{display:flex;flex-direction:column;gap:22px;margin-top:26px;}
+.k-item{display:flex;gap:16px;align-items:flex-start;}
+.k-check{width:30px;height:30px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:800;font-size:.95rem;}
+.k-item h4{font-size:1rem;margin-bottom:4px;}
+.k-item p{font-size:.9rem;color:var(--ink-dim);}
+
+/* ===== galeri ===== */
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:150px;gap:14px;}
+.gal-item{position:relative;border-radius:8px;overflow:hidden;}
+.gal-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.gal-item:hover img{transform:scale(1.08);}
+.gal-item .g-cap{position:absolute;bottom:0;left:0;right:0;padding:10px 12px;background:linear-gradient(0deg,rgba(20,33,61,0.82),transparent);color:var(--white);font-family:'Fraunces',serif;font-size:.78rem;}
+.gal-item.g1{grid-column:span 2;grid-row:span 2;}
+.gal-item.g4{grid-column:span 2;}
+
+/* ===== prestasi badges ===== */
+.prestasi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+.badge-card{background:var(--white);border:1px solid var(--line);border-radius:12px;padding:30px 20px 26px;text-align:center;position:relative;}
+.badge-ribbon{width:64px;height:64px;margin:0 auto 18px;position:relative;}
+.badge-ribbon svg{width:100%;height:100%;}
+.badge-card h4{font-size:.98rem;margin-bottom:8px;}
+.badge-card p{font-size:.82rem;color:var(--ink-dim);}
+
+/* ===== testimoni notebook style ===== */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;}
+.testi-card{background:
+    repeating-linear-gradient(var(--white),var(--white) 27px,var(--line) 28px);
+  border:1px solid var(--line);border-left:5px solid var(--maroon);border-radius:4px;padding:30px 26px;position:relative;}
+.testi-text{font-family:'Fraunces',serif;font-style:italic;font-size:1rem;color:var(--ink);margin-bottom:20px;line-height:1.6;}
+.testi-who{display:flex;align-items:center;gap:12px;}
+.testi-avatar{width:42px;height:42px;border-radius:50%;background:var(--navy);color:var(--white);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:700;font-size:.95rem;flex-shrink:0;}
+.testi-who .nm{font-weight:700;font-size:.92rem;color:var(--navy);}
+.testi-who .role{font-size:.78rem;color:var(--ink-dim);}
+
+/* ===== faq ===== */
+.faq-list{max-width:760px;margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--line);}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:22px 4px;cursor:pointer;gap:20px;}
+.faq-q h4{font-size:1rem;font-weight:700;color:var(--navy);}
+.faq-plus{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--navy);position:relative;flex-shrink:0;transition:background .25s ease;}
+.faq-plus::before,.faq-plus::after{content:'';position:absolute;background:var(--navy);top:50%;left:50%;transform:translate(-50%,-50%);transition:transform .25s ease,background .25s ease;}
+.faq-plus::before{width:12px;height:1.6px;}
+.faq-plus::after{width:1.6px;height:12px;}
+.faq-item.active .faq-plus{background:var(--navy);}
+.faq-item.active .faq-plus::before,.faq-item.active .faq-plus::after{background:var(--white);}
+.faq-item.active .faq-plus::after{transform:translate(-50%,-50%) rotate(90deg) scaleY(0);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-a p{padding:0 4px 22px;font-size:.9rem;color:var(--ink-dim);max-width:640px;}
+
+/* ===== kontak ===== */
+.kontak-section{background:var(--navy);color:var(--white);}
+.kontak-section .section-head h2{color:var(--white);}
+.kontak-section .section-head p{color:rgba(255,255,255,0.65);}
+.kontak-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;}
+.kontak-info{display:flex;flex-direction:column;gap:22px;}
+.ki-item{display:flex;gap:14px;}
+.ki-icon{width:40px;height:40px;border-radius:8px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.05rem;}
+.ki-item h4{font-size:.92rem;margin-bottom:4px;color:var(--white);}
+.ki-item p{font-size:.86rem;color:rgba(255,255,255,0.62);}
+.form-card{background:var(--white);border-radius:14px;padding:36px;color:var(--ink);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.form-group{display:flex;flex-direction:column;gap:7px;}
+.form-group.full{grid-column:1/-1;}
+.form-group label{font-size:.82rem;font-weight:700;color:var(--navy);}
+.form-group input,.form-group select,.form-group textarea{border:1.5px solid var(--line);border-radius:7px;padding:11px 13px;font-family:'Manrope',sans-serif;font-size:.92rem;background:var(--cream);color:var(--ink);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--navy);}
+.form-group textarea{resize:vertical;min-height:88px;}
+.field-error{display:none;color:var(--maroon);font-size:.76rem;}
+.form-group.invalid input,.form-group.invalid select,.form-group.invalid textarea{border-color:var(--maroon);}
+.form-group.invalid .field-error{display:block;}
+.form-submit{width:100%;justify-content:center;padding:15px;font-size:.98rem;margin-top:6px;}
+.form-success{display:none;background:#eaf3ea;border:1px solid #bcdcbf;color:#245c2b;padding:14px 16px;border-radius:8px;font-size:.88rem;margin-top:16px;}
+.form-success.show{display:block;}
+
+/* ===== footer ===== */
+footer{background:var(--cream-deep);padding:56px 0 26px;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:36px;margin-bottom:40px;}
+.footer-brand p{font-size:.88rem;color:var(--ink-dim);margin-top:14px;max-width:280px;}
+.footer-col h5{font-family:'Manrope',sans-serif;font-size:.76rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;color:var(--ink-dim);font-weight:800;}
+.footer-col a,.footer-col p{display:block;font-size:.88rem;color:var(--ink);margin-bottom:10px;}
+.footer-bottom{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;font-size:.8rem;color:var(--ink-dim);flex-wrap:wrap;gap:10px;}
+
+/* ===== whatsapp float ===== */
+.wa-float{position:fixed;bottom:26px;right:26px;width:58px;height:58px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px -8px rgba(37,211,102,0.6);z-index:900;transition:transform .25s ease;}
+.wa-float:hover{transform:scale(1.08);}
+.wa-float svg{width:28px;height:28px;fill:var(--white);}
+
+@media(max-width:1024px){
+  .fas-grid{grid-template-columns:repeat(2,1fr);}
+  .keunggulan-grid{grid-template-columns:1fr;}
+  .keunggulan-photo img{height:340px;}
+  .prestasi-grid{grid-template-columns:1fr 1fr;}
+  .testi-grid{grid-template-columns:1fr 1fr;}
+  .kontak-grid{grid-template-columns:1fr;}
+  .gal-grid{grid-template-columns:repeat(3,1fr);}
+  .hero-grid{grid-template-columns:1fr;}
+  .hero-visual{max-width:480px;}
+  .jenjang-path{flex-wrap:wrap;gap:30px;}
+  .jenjang-path::before{display:none;}
+  .jenjang-step{flex:0 0 45%;}
+}
+@media(max-width:760px){
+  .main-nav{display:none;}
+  .header-actions .btn-line{display:none;}
+  .burger{display:flex;}
+  .hero{padding:120px 0 56px;}
+  .hero h1{font-size:2.1rem;}
+  .report-strip{grid-template-columns:repeat(2,1fr);row-gap:16px;}
+  .report-item{border-right:none;padding-right:0;}
+  section{padding:66px 0;}
+  .section-head h2{font-size:1.6rem;}
+  .fas-grid{grid-template-columns:1fr;}
+  .prestasi-grid{grid-template-columns:1fr 1fr;}
+  .testi-grid{grid-template-columns:1fr;}
+  .gal-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:130px;}
+  .gal-item.g1{grid-column:span 2;grid-row:span 1;}
+  .gal-item.g4{grid-column:span 1;}
+  .jenjang-step{flex:0 0 100%;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .hero-photo-frame img{height:280px;}
+  .hero-badge{left:8px;bottom:-18px;padding:12px 16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet">
+  <div class="sheet-handle"></div>
+  <a href="#jenjang">Jenjang Pendidikan</a>
+  <a href="#fasilitas">Fasilitas</a>
+  <a href="#keunggulan">Kenapa Kami</a>
+  <a href="#prestasi">Prestasi</a>
+  <a href="#faq">FAQ</a>
+  <a href="#kontak">PPDB</a>
+  <a href="#kontak" class="btn btn-solid">Daftar Sekarang</a>
+</div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="#top" class="brand">
+      <svg class="crest" viewBox="0 0 42 46" fill="none">
+        <path d="M21 2 L39 10 V22 C39 33 31 41 21 44 C11 41 3 33 3 22 V10 Z" fill="#14213d"/>
+        <path d="M21 2 L39 10 V22 C39 33 31 41 21 44 C11 41 3 33 3 22 V10 Z" stroke="#c9972c" stroke-width="1.5"/>
+        <path d="M21 14 L30 18.5 L21 23 L12 18.5 Z" fill="#c9972c"/>
+        <rect x="16.5" y="24" width="9" height="10" fill="#faf6ec"/>
+      </svg>
+      Cendekia Harapan
+    </a>
+    <nav class="main-nav">
+      <a href="#jenjang">Jenjang Pendidikan</a>
+      <a href="#fasilitas">Fasilitas</a>
+      <a href="#keunggulan">Kenapa Kami</a>
+      <a href="#prestasi">Prestasi</a>
+      <a href="#faq">FAQ</a>
+      <a href="#kontak">PPDB</a>
+    </nav>
+    <div class="header-actions">
+      <a href="#kontak" class="btn btn-line">Tanya Sekolah</a>
+      <a href="#kontak" class="btn btn-solid">Daftar Sekarang</a>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal in-view">
+      <div class="eyebrow">Yayasan Pendidikan Cendekia Harapan</div>
+      <h1>Tumbuh Cerdas,<br>Berkarakter, dan <em>Berprestasi.</em></h1>
+      <p class="lead">Sekolah Cendekia Harapan menyelenggarakan pendidikan dari jenjang PAUD dan TK, SD, SMP, hingga SMA dalam satu lingkungan belajar yang nyaman, aman, dan mendukung tumbuh kembang setiap anak.</p>
+      <div class="hero-ctas">
+        <a href="#kontak" class="btn btn-solid">Daftar PPDB</a>
+        <a href="#jenjang" class="btn btn-line">Lihat Jenjang Pendidikan</a>
+      </div>
+      <div class="report-strip">
+        <div class="report-item"><div class="val">Akreditasi A</div><div class="lbl">Status Sekolah</div></div>
+        <div class="report-item"><div class="val">Sejak 2005</div><div class="lbl">Berdiri</div></div>
+        <div class="report-item"><div class="val">1.200+</div><div class="lbl">Siswa Aktif</div></div>
+        <div class="report-item"><div class="val">1 : 15</div><div class="lbl">Rasio Guru-Siswa</div></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal in-view">
+      <div class="hero-photo-frame">
+        <img src="https://images.unsplash.com/photo-1759643740737-9ba5a2e62332?auto=format&fit=crop&w=900&q=80" alt="Gedung Sekolah Cendekia Harapan tampak depan">
+      </div>
+      <div class="hero-badge">
+        <div class="seal">A</div>
+        <div class="txt"><b>Terakreditasi A</b><span>Diaudit setiap tahun</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="jenjang" class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Jenjang Pendidikan</div>
+      <h2>Satu Yayasan, Empat Jenjang Pendidikan</h2>
+      <p>Perjalanan belajar yang berkesinambungan dari usia dini hingga siap melanjutkan ke perguruan tinggi.</p>
+    </div>
+    <div class="jenjang-path reveal">
+      <div class="jenjang-step">
+        <div class="jenjang-circle">&#127793;</div>
+        <div class="jenjang-age">Usia 3-6 Tahun</div>
+        <h4>PAUD &amp; TK</h4>
+        <p>Bermain sambil belajar untuk melatih motorik, sosial, dan kemandirian dasar anak.</p>
+      </div>
+      <div class="jenjang-step">
+        <div class="jenjang-circle">&#128218;</div>
+        <div class="jenjang-age">Kelas 1-6</div>
+        <h4>Sekolah Dasar</h4>
+        <p>Penguatan literasi, numerasi, dan pembentukan karakter melalui pembiasaan harian.</p>
+      </div>
+      <div class="jenjang-step">
+        <div class="jenjang-circle">&#129514;</div>
+        <div class="jenjang-age">Kelas 7-9</div>
+        <h4>SMP</h4>
+        <p>Penguatan akademik sekaligus eksplorasi minat dan bakat melalui ekstrakurikuler.</p>
+      </div>
+      <div class="jenjang-step">
+        <div class="jenjang-circle">&#127891;</div>
+        <div class="jenjang-age">Kelas 10-12</div>
+        <h4>SMA</h4>
+        <p>Pendalaman peminatan dan persiapan menuju perguruan tinggi atau dunia kerja.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fasilitas">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Fasilitas Sekolah</div>
+      <h2>Lingkungan Belajar yang Lengkap</h2>
+      <p>Fasilitas fisik nyata yang menunjang proses belajar mengajar sehari-hari di kampus kami.</p>
+    </div>
+    <div class="fas-grid">
+      <div class="fas-card reveal">
+        <div class="fas-photo"><span class="fas-plaque">R. Kelas</span><img src="https://images.unsplash.com/photo-1758270705031-ebd46917a454?auto=format&fit=crop&w=700&q=80" alt="Guru mengajar di ruang kelas Cendekia Harapan"></div>
+        <div class="fas-body"><h3>Ruang Kelas Modern</h3><p>Ruang kelas ber-AC dengan rasio siswa terkontrol agar interaksi guru dan murid tetap optimal.</p></div>
+      </div>
+      <div class="fas-card reveal">
+        <div class="fas-photo"><span class="fas-plaque">Lab.Komputer</span><img src="https://images.unsplash.com/photo-1743834147172-37c12011b321?auto=format&fit=crop&w=700&q=80" alt="Siswa belajar di laboratorium komputer"></div>
+        <div class="fas-body"><h3>Laboratorium Komputer</h3><p>Perangkat komputer memadai untuk pembelajaran teknologi informasi dan literasi digital.</p></div>
+      </div>
+      <div class="fas-card reveal">
+        <div class="fas-photo"><span class="fas-plaque">Perpustakaan</span><img src="https://images.unsplash.com/photo-1760166699654-5d0e10f51994?auto=format&fit=crop&w=700&q=80" alt="Ruang perpustakaan sekolah dengan rak buku"></div>
+        <div class="fas-body"><h3>Perpustakaan</h3><p>Koleksi buku pelajaran dan bacaan umum untuk menumbuhkan minat baca siswa.</p></div>
+      </div>
+      <div class="fas-card reveal">
+        <div class="fas-photo"><span class="fas-plaque">Sarana Olahraga</span><img src="https://images.unsplash.com/flagged/photo-1572987337807-6174e06ba9d0?auto=format&fit=crop&w=700&q=80" alt="Gedung olahraga sekolah untuk kegiatan fisik siswa"></div>
+        <div class="fas-body"><h3>Sarana Olahraga</h3><p>Gedung olahraga indoor untuk kegiatan pendidikan jasmani dan ekstrakurikuler olahraga.</p></div>
+      </div>
+      <div class="fas-card reveal">
+        <div class="fas-photo"><span class="fas-plaque">Lingkungan</span><img src="https://images.unsplash.com/photo-1749828198068-b224469a39c4?auto=format&fit=crop&w=700&q=80" alt="Koridor sekolah yang bersih dan tertata"></div>
+        <div class="fas-body"><h3>Lingkungan Sekolah</h3><p>Area sekolah yang bersih, tertata, dan diawasi untuk kenyamanan serta keamanan siswa.</p></div>
+      </div>
+      <div class="fas-card reveal">
+        <div class="fas-photo"><span class="fas-plaque">Gedung Sekolah</span><img src="https://images.unsplash.com/photo-1759643740737-9ba5a2e62332?auto=format&fit=crop&w=700&q=80" alt="Gedung utama Sekolah Cendekia Harapan"></div>
+        <div class="fas-body"><h3>Gedung Sekolah</h3><p>Bangunan sekolah representatif dengan akses yang mudah dijangkau di tengah kota.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="keunggulan" class="section-alt">
+  <div class="wrap keunggulan-grid">
+    <div class="keunggulan-photo reveal">
+      <img src="https://images.unsplash.com/photo-1743834147172-37c12011b321?auto=format&fit=crop&w=900&q=80" alt="Kegiatan belajar mengajar di Sekolah Cendekia Harapan">
+      <div class="capchip">Kegiatan Belajar Sehari-hari</div>
+    </div>
+    <div class="reveal">
+      <div class="eyebrow">Kenapa Cendekia Harapan</div>
+      <h2 style="font-size:2.1rem;">Fokus pada Akademik dan Karakter</h2>
+      <div class="k-list">
+        <div class="k-item">
+          <div class="k-check">&#10003;</div>
+          <div><h4>Guru Berpengalaman dan Bersertifikasi</h4><p>Tenaga pengajar dengan latar belakang pendidikan sesuai bidang dan mengikuti pelatihan berkala.</p></div>
+        </div>
+        <div class="k-item">
+          <div class="k-check">&#10003;</div>
+          <div><h4>Rasio Guru dan Siswa Terkontrol</h4><p>Jumlah siswa per kelas dijaga agar setiap anak mendapat perhatian yang cukup dari guru.</p></div>
+        </div>
+        <div class="k-item">
+          <div class="k-check">&#10003;</div>
+          <div><h4>Program Ekstrakurikuler Beragam</h4><p>Pilihan kegiatan di bidang seni, olahraga, dan sains untuk mengembangkan minat dan bakat siswa.</p></div>
+        </div>
+        <div class="k-item">
+          <div class="k-check">&#10003;</div>
+          <div><h4>Laporan Perkembangan Berkala</h4><p>Orang tua menerima laporan perkembangan akademik dan sikap anak secara rutin setiap semester.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="galeri">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Galeri Sekolah</div>
+      <h2>Lihat Langsung Suasana Kampus Kami</h2>
+      <p>Dokumentasi fasilitas dan kegiatan yang menunjang keseharian belajar siswa.</p>
+    </div>
+    <div class="gal-grid reveal">
+      <div class="gal-item g1"><img src="https://images.unsplash.com/photo-1759643740737-9ba5a2e62332?auto=format&fit=crop&w=800&q=80" alt="Gedung utama sekolah"><div class="g-cap">Gedung Utama</div></div>
+      <div class="gal-item g2"><img src="https://images.unsplash.com/photo-1758270705031-ebd46917a454?auto=format&fit=crop&w=500&q=80" alt="Suasana ruang kelas"><div class="g-cap">Ruang Kelas</div></div>
+      <div class="gal-item g3"><img src="https://images.unsplash.com/photo-1760166699654-5d0e10f51994?auto=format&fit=crop&w=500&q=80" alt="Perpustakaan sekolah"><div class="g-cap">Perpustakaan</div></div>
+      <div class="gal-item g4"><img src="https://images.unsplash.com/flagged/photo-1572987337807-6174e06ba9d0?auto=format&fit=crop&w=800&q=80" alt="Kegiatan olahraga di gedung olahraga sekolah"><div class="g-cap">Sarana Olahraga</div></div>
+      <div class="gal-item g5"><img src="https://images.unsplash.com/photo-1749828198068-b224469a39c4?auto=format&fit=crop&w=500&q=80" alt="Koridor sekolah"><div class="g-cap">Lingkungan Sekolah</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="prestasi" class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Prestasi &amp; Akreditasi</div>
+      <h2>Pencapaian yang Kami Banggakan</h2>
+    </div>
+    <div class="prestasi-grid">
+      <div class="badge-card reveal">
+        <div class="badge-ribbon"><svg viewBox="0 0 64 64"><circle cx="32" cy="26" r="18" fill="#c9972c"/><circle cx="32" cy="26" r="18" fill="none" stroke="#14213d" stroke-width="2"/><path d="M22 40 L18 60 L32 52 L46 60 L42 40" fill="#7a1f2e"/><text x="32" y="31" font-family="Fraunces, serif" font-size="14" font-weight="700" fill="#14213d" text-anchor="middle">A</text></svg></div>
+        <h4>Akreditasi A</h4>
+        <p>Diberikan oleh Badan Akreditasi Nasional untuk seluruh jenjang pendidikan.</p>
+      </div>
+      <div class="badge-card reveal">
+        <div class="badge-ribbon"><svg viewBox="0 0 64 64"><circle cx="32" cy="26" r="18" fill="#c9972c"/><circle cx="32" cy="26" r="18" fill="none" stroke="#14213d" stroke-width="2"/><path d="M22 40 L18 60 L32 52 L46 60 L42 40" fill="#7a1f2e"/><text x="32" y="31" font-family="Fraunces, serif" font-size="22" font-weight="700" fill="#14213d" text-anchor="middle">&#127807;</text></svg></div>
+        <h4>Sekolah Adiwiyata</h4>
+        <p>Penghargaan sekolah peduli dan berbudaya lingkungan tingkat kota.</p>
+      </div>
+      <div class="badge-card reveal">
+        <div class="badge-ribbon"><svg viewBox="0 0 64 64"><circle cx="32" cy="26" r="18" fill="#c9972c"/><circle cx="32" cy="26" r="18" fill="none" stroke="#14213d" stroke-width="2"/><path d="M22 40 L18 60 L32 52 L46 60 L42 40" fill="#7a1f2e"/><text x="32" y="32" font-family="Fraunces, serif" font-size="20" font-weight="700" fill="#14213d" text-anchor="middle">&#128300;</text></svg></div>
+        <h4>Juara Olimpiade Sains</h4>
+        <p>Juara tingkat kota pada Olimpiade Sains Nasional tiga tahun berturut-turut.</p>
+      </div>
+      <div class="badge-card reveal">
+        <div class="badge-ribbon"><svg viewBox="0 0 64 64"><circle cx="32" cy="26" r="18" fill="#c9972c"/><circle cx="32" cy="26" r="18" fill="none" stroke="#14213d" stroke-width="2"/><path d="M22 40 L18 60 L32 52 L46 60 L42 40" fill="#7a1f2e"/><text x="32" y="32" font-family="Fraunces, serif" font-size="20" font-weight="700" fill="#14213d" text-anchor="middle">&#127893;</text></svg></div>
+        <h4>Lulusan Melanjutkan Studi</h4>
+        <p>Sebagian besar lulusan SMA diterima di perguruan tinggi negeri maupun swasta favorit.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimoni">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">Testimoni</div>
+      <h2>Kata Orang Tua dan Siswa</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <p class="testi-text">"Anak saya jadi lebih percaya diri sejak masuk TK di sini. Gurunya sabar dan selalu update perkembangan anak lewat laporan rutin."</p>
+        <div class="testi-who"><div class="testi-avatar">S</div><div><div class="nm">Ibu Sri W.</div><div class="role">Orang Tua Siswa TK</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-text">"Fasilitas lengkap dan lingkungannya aman. Anak saya yang SD jadi senang berangkat sekolah setiap hari."</p>
+        <div class="testi-who"><div class="testi-avatar">B</div><div><div class="nm">Bapak Budi H.</div><div class="role">Orang Tua Siswa SD</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-text">"Ekstrakurikulernya banyak pilihan, saya jadi bisa fokus di bidang yang saya suka sambil tetap mengejar nilai akademik."</p>
+        <div class="testi-who"><div class="testi-avatar">R</div><div><div class="nm">Rizky A.</div><div class="role">Siswa Kelas 11 SMA</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="section-alt">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;">FAQ</div>
+      <h2>Pertanyaan Seputar PPDB</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item active">
+        <div class="faq-q"><h4>Kapan pendaftaran peserta didik baru dibuka?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Pendaftaran gelombang pertama biasanya dibuka awal semester genap. Jadwal lengkap dapat ditanyakan langsung melalui form konsultasi di bawah.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><h4>Apa saja jalur PPDB yang tersedia?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Tersedia jalur reguler dan jalur prestasi akademik maupun non akademik. Ketentuan masing-masing jalur dijelaskan saat sesi konsultasi pendaftaran.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><h4>Apakah ada tes masuk untuk calon siswa?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Untuk jenjang PAUD dan TK tidak ada tes akademik, hanya sesi observasi singkat. Untuk jenjang SD ke atas ada tes penempatan sederhana.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><h4>Bagaimana dengan seragam dan buku pelajaran?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Seragam dan buku paket disediakan oleh sekolah dan termasuk dalam komponen biaya pendaftaran di awal tahun ajaran.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><h4>Apakah sekolah menyediakan layanan antar jemput?</h4><div class="faq-plus"></div></div>
+        <div class="faq-a"><p>Tersedia layanan antar jemput untuk area tertentu dengan biaya tambahan. Rute dan jadwal dapat ditanyakan saat pendaftaran.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontak" class="kontak-section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow" style="justify-content:center;display:inline-flex;color:var(--gold-soft);">Pendaftaran &amp; Konsultasi</div>
+      <h2>Daftarkan Putra Putri Anda</h2>
+      <p>Isi form berikut dan tim pendaftaran kami akan menghubungi untuk informasi lebih lanjut.</p>
+    </div>
+    <div class="kontak-grid">
+      <div class="kontak-info reveal">
+        <div class="ki-item"><div class="ki-icon">&#128205;</div><div><h4>Alamat Sekolah</h4><p>Jl. Pendidikan Raya No. 15, Bekasi, Jawa Barat</p></div></div>
+        <div class="ki-item"><div class="ki-icon">&#128222;</div><div><h4>Telepon / WhatsApp</h4><p>0812-9876-5432</p></div></div>
+        <div class="ki-item"><div class="ki-icon">&#9993;</div><div><h4>Email</h4><p>ppdb@cendekiaharapan.demo</p></div></div>
+        <div class="ki-item"><div class="ki-icon">&#128337;</div><div><h4>Jam Layanan Pendaftaran</h4><p>Senin - Jumat, 08.00 - 15.00 WIB</p></div></div>
+      </div>
+      <div class="form-card reveal">
+        <form id="ppdbForm" novalidate>
+          <div class="form-row">
+            <div class="form-group" data-field="ortu">
+              <label>Nama Orang Tua / Wali</label>
+              <input type="text" name="ortu">
+              <span class="field-error">Nama orang tua wajib diisi.</span>
+            </div>
+            <div class="form-group" data-field="siswa">
+              <label>Nama Calon Siswa</label>
+              <input type="text" name="siswa">
+              <span class="field-error">Nama calon siswa wajib diisi.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" data-field="whatsapp">
+              <label>Nomor WhatsApp</label>
+              <input type="tel" name="whatsapp">
+              <span class="field-error">Nomor WhatsApp wajib diisi.</span>
+            </div>
+            <div class="form-group" data-field="jenjang">
+              <label>Jenjang yang Diminati</label>
+              <select name="jenjang">
+                <option value="">Pilih jenjang</option>
+                <option>PAUD &amp; TK</option>
+                <option>SD</option>
+                <option>SMP</option>
+                <option>SMA</option>
+              </select>
+              <span class="field-error">Pilih salah satu jenjang.</span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" data-field="tahun">
+              <label>Tahun Ajaran</label>
+              <input type="text" name="tahun" placeholder="Contoh: 2027/2028">
+              <span class="field-error">Tahun ajaran wajib diisi.</span>
+            </div>
+            <div class="form-group" data-field="asal">
+              <label>Asal Sekolah Sebelumnya</label>
+              <input type="text" name="asal" placeholder="Boleh dikosongkan untuk PAUD/TK">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group full" data-field="catatan">
+              <label>Catatan atau Pertanyaan (opsional)</label>
+              <textarea name="catatan" placeholder="Pertanyaan seputar biaya, jalur pendaftaran, atau lainnya"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-solid form-submit">Kirim Formulir Pendaftaran</button>
+          <div class="form-success" id="formSuccess">Terima kasih, formulir Anda sudah kami terima. Tim pendaftaran akan menghubungi melalui WhatsApp secepatnya.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#top" class="brand">
+          <svg class="crest" viewBox="0 0 42 46" fill="none">
+            <path d="M21 2 L39 10 V22 C39 33 31 41 21 44 C11 41 3 33 3 22 V10 Z" fill="#14213d"/>
+            <path d="M21 2 L39 10 V22 C39 33 31 41 21 44 C11 41 3 33 3 22 V10 Z" stroke="#c9972c" stroke-width="1.5"/>
+            <path d="M21 14 L30 18.5 L21 23 L12 18.5 Z" fill="#c9972c"/>
+            <rect x="16.5" y="24" width="9" height="10" fill="#faf6ec"/>
+          </svg>
+          Cendekia Harapan
+        </a>
+        <p>Yayasan pendidikan yang menyelenggarakan jenjang PAUD, TK, SD, SMP, dan SMA dalam satu lingkungan belajar yang berkesinambungan.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Jenjang</h5>
+        <a href="#jenjang">PAUD &amp; TK</a>
+        <a href="#jenjang">Sekolah Dasar</a>
+        <a href="#jenjang">SMP</a>
+        <a href="#jenjang">SMA</a>
+      </div>
+      <div class="footer-col">
+        <h5>Sekolah</h5>
+        <a href="#fasilitas">Fasilitas</a>
+        <a href="#keunggulan">Kenapa Kami</a>
+        <a href="#prestasi">Prestasi</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-col">
+        <h5>Kontak</h5>
+        <p>0812-9876-5432</p>
+        <p>ppdb@cendekiaharapan.demo</p>
+        <p>Bekasi, Jawa Barat</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Sekolah Cendekia Harapan. Demo project untuk portofolio.</span>
+      <span>Dibuat oleh <a href="https://bagasaria93.github.io" style="text-decoration:underline;">Bagas Aria Sativa</a></span>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/6281298765432" class="wa-float" target="_blank" rel="noopener" aria-label="Chat WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.48 1.32 5.01L2.05 22l5.25-1.38a9.86 9.86 0 0 0 4.74 1.21h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2zm5.85 14.15c-.25.7-1.45 1.34-2 1.42-.53.08-1.16.11-1.87-.12-.43-.14-.98-.32-1.7-.63-2.98-1.29-4.92-4.3-5.07-4.5-.15-.2-1.22-1.62-1.22-3.09 0-1.47.77-2.19 1.05-2.49.27-.3.6-.37.8-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.85 2.07.92 2.22.07.15.12.33.02.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.6.17.3.77 1.27 1.65 2.06 1.14 1.02 2.1 1.33 2.4 1.48.3.15.47.13.65-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.03.97.3.15.5.22.57.35.08.13.08.7-.17 1.4z"/></svg>
+</a>
+
+<script>
+// Mobile bottom sheet menu
+const burger=document.getElementById('burger');
+const sheet=document.getElementById('sheet');
+const scrim=document.getElementById('scrim');
+function openSheet(){sheet.classList.add('open');scrim.classList.add('show');burger.classList.add('active');}
+function closeSheet(){sheet.classList.remove('open');scrim.classList.remove('show');burger.classList.remove('active');}
+burger.addEventListener('click',()=>{sheet.classList.contains('open')?closeSheet():openSheet();});
+scrim.addEventListener('click',closeSheet);
+document.querySelectorAll('.sheet a').forEach(a=>a.addEventListener('click',closeSheet));
+
+// Reveal on scroll
+const revealEls=document.querySelectorAll('.reveal');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target);}
+  });
+},{threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  const q=item.querySelector('.faq-q');
+  const a=item.querySelector('.faq-a');
+  if(item.classList.contains('active')){a.style.maxHeight=a.scrollHeight+'px';}
+  q.addEventListener('click',()=>{
+    const isActive=item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(other=>{
+      other.classList.remove('active');
+      other.querySelector('.faq-a').style.maxHeight=null;
+    });
+    if(!isActive){
+      item.classList.add('active');
+      a.style.maxHeight=a.scrollHeight+'px';
+    }
+  });
+});
+
+// Form validation (inline, no alert)
+const form=document.getElementById('ppdbForm');
+const formSuccess=document.getElementById('formSuccess');
+form.addEventListener('submit',function(e){
+  e.preventDefault();
+  let valid=true;
+  const required=['ortu','siswa','whatsapp','jenjang','tahun'];
+  required.forEach(name=>{
+    const field=form.querySelector(`[name="${name}"]`);
+    const group=field.closest('.form-group');
+    if(!field.value.trim()){
+      group.classList.add('invalid');
+      valid=false;
+    }else{
+      group.classList.remove('invalid');
+    }
+  });
+  if(valid){
+    formSuccess.classList.add('show');
+    form.reset();
+    document.querySelectorAll('.form-group').forEach(g=>g.classList.remove('invalid'));
+  }else{
+    formSuccess.classList.remove('show');
+  }
+});
+form.querySelectorAll('input,select,textarea').forEach(field=>{
+  field.addEventListener('input',()=>{
+    const group=field.closest('.form-group');
+    if(field.value.trim())group.classList.remove('invalid');
+  });
+});
+</script>
+</body>
+</html>
