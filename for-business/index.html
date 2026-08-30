@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Affordable company profile websites and custom business systems (cashier/POS, booking, HR, manufacturing, CRM, WhatsApp blast) for small and medium businesses, built by Bagas Aria Sativa, a developer based in Bekasi, Indonesia.">
+    <meta name="keywords" content="website jasa pembuatan website, custom system, POS, booking system, HRIS, ERP, CRM, WhatsApp blast, Bekasi, small business, UMKM">
+    <meta name="author" content="Bagas Aria Sativa">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://bagasaria93.github.io/for-business/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bagasaria93.github.io/for-business/">
+    <meta property="og:title" content="Website & Custom Systems for Your Business - Bagas Aria Sativa">
+    <meta property="og:description" content="Company profile websites and custom business systems (POS, booking, HR, manufacturing, CRM, WhatsApp blast) built for small and medium businesses.">
+    <meta property="og:image" content="https://bagasaria93.github.io/assets/img/profile.png">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="Bagas Aria Sativa - For Business">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Website & Custom Systems for Your Business - Bagas Aria Sativa">
+    <meta name="twitter:description" content="Company profile websites and custom business systems (POS, booking, HR, manufacturing, CRM, WhatsApp blast) built for small and medium businesses.">
+    <meta name="twitter:image" content="https://bagasaria93.github.io/assets/img/profile.png">
+
+    <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+
+    <noscript><style>body { cursor: auto !important; }</style></noscript>
+
+    <title>Website & Custom Systems for Your Business - Bagas Aria Sativa</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css?v=7">
+
+    <style>
+        /* This page reuses the same design tokens, fonts, and section/card
+           classes as the main portfolio (assets/css/style.css). Rules below
+           only cover things unique to this page and turn off the custom
+           cursor, since this page doesn't load the cursor-follow script. */
+
+        *, a, button, input, textarea, select, [role="button"] {
+            cursor: auto !important;
+        }
+        a, button, .btn-primary, .btn-secondary, .hamburger, .biz-service-demo-link,
+        .biz-card, .biz-industry-chip, .contact-item {
+            cursor: pointer !important;
+        }
+
+        .biz-hero {
+            padding: 210px 56px 100px;
+            position: relative;
+            overflow: hidden;
+        }
+        .biz-hero-bg {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 900px 500px at 15% 10%, rgba(201, 168, 76, 0.10), transparent 60%),
+                radial-gradient(ellipse 700px 500px at 90% 30%, rgba(79, 70, 229, 0.08), transparent 60%);
+            pointer-events: none;
+        }
+        .biz-hero-inner { position: relative; max-width: 1280px; margin: 0 auto; width: 100%; }
+        .biz-eyebrow {
+            display: inline-flex; align-items: center; gap: 12px;
+            font-size: 0.72rem; font-weight: 700; letter-spacing: 0.24em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 28px;
+        }
+        .biz-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+        .biz-hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.4rem, 6vw, 4.6rem);
+            line-height: 1.08;
+            color: var(--white);
+            max-width: 16ch;
+            margin-bottom: 28px;
+        }
+        .biz-hero-title em { font-style: italic; color: var(--gold); }
+        .biz-hero-desc {
+            font-size: 1.02rem;
+            line-height: 1.85;
+            color: var(--white-dim);
+            max-width: 620px;
+            margin-bottom: 40px;
+        }
+        .biz-hero-cta { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 64px; }
+        .biz-stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 640px;
+        }
+
+        .btn-whatsapp {
+            display: inline-flex; align-items: center; gap: 10px;
+            padding: 14px 32px;
+            background: #25d366;
+            color: #ffffff;
+            font-size: 0.72rem; font-weight: 800; letter-spacing: 0.15em;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: none;
+            clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+            transition: all 0.3s ease;
+        }
+        .btn-whatsapp:hover { background: #1ebe57; transform: translateY(-3px); box-shadow: 0 16px 40px rgba(37, 211, 102, 0.35); }
+        /* Higher specificity than the site's ".nav-links a" rule so the nav
+           copy of this button keeps white text on green instead of
+           inheriting the dim nav-link color. */
+        .nav-links a.btn-whatsapp {
+            padding: 11px 22px;
+            font-size: 0.68rem;
+            color: #ffffff;
+        }
+        .nav-links a.btn-whatsapp:hover { color: #ffffff; background: #1ebe57; }
+        .nav-links a.btn-whatsapp::after { content: none; }
+
+        #services { background: var(--black-2); }
+        .biz-services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+            background: rgba(201, 168, 76, 0.08);
+            margin-top: 64px;
+        }
+        .biz-service-card {
+            background: var(--black-2);
+            padding: 48px 44px;
+            display: flex;
+            flex-direction: column;
+        }
+        .biz-service-icon {
+            width: 52px; height: 52px;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(201, 168, 76, 0.3);
+            color: var(--gold);
+            margin-bottom: 28px;
+        }
+        .biz-service-title {
+            font-family: var(--font-display);
+            font-size: 1.7rem;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+        .biz-service-desc {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: var(--white-dim);
+            margin-bottom: 24px;
+        }
+        .biz-service-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 28px;
+            flex: 1;
+        }
+        .biz-service-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--white-dim);
+            line-height: 1.6;
+        }
+        .biz-service-list li svg { flex-shrink: 0; margin-top: 3px; color: var(--gold); }
+        .biz-service-list li strong { color: var(--white); font-weight: 600; }
+        .biz-service-demo-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            margin-top: auto;
+            transition: gap 0.25s ease;
+        }
+        .biz-service-demo-link:hover { gap: 14px; }
+
+        #proof { background: var(--black); }
+        .biz-impact-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: rgba(201, 168, 76, 0.08);
+            margin-top: 56px;
+            margin-bottom: 8px;
+        }
+        .biz-impact-item {
+            background: var(--black-3);
+            padding: 32px 24px;
+            text-align: center;
+        }
+        .biz-impact-number {
+            font-family: var(--font-display);
+            font-size: 2.6rem;
+            color: var(--gold);
+            display: block;
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        .biz-impact-label {
+            font-size: 0.78rem;
+            color: var(--white-dim);
+            line-height: 1.5;
+        }
+        .biz-impact-source {
+            font-size: 0.7rem;
+            color: var(--white-dim);
+            opacity: 0.6;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #demos { background: var(--black-2); }
+        .biz-demo-sub-label {
+            font-size: 0.68rem; font-weight: 800; letter-spacing: 0.18em;
+            text-transform: uppercase; color: var(--white-dim);
+            margin: 64px 0 24px;
+        }
+        .biz-demo-sub-label:first-of-type { margin-top: 64px; }
+
+        .biz-banner-card {
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            align-items: center;
+            gap: 0;
+            background: var(--black-3);
+            border: 1px solid rgba(201, 168, 76, 0.12);
+            overflow: hidden;
+            text-decoration: none;
+            transition: border-color 0.3s ease;
+        }
+        .biz-banner-card:hover { border-color: rgba(201, 168, 76, 0.4); }
+        .biz-banner-preview { overflow: hidden; aspect-ratio: 16 / 10; }
+        .biz-banner-preview img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transition: transform 0.5s ease; }
+        .biz-banner-card:hover .biz-banner-preview img { transform: scale(1.05); }
+        .biz-banner-body { padding: 40px 44px; display: flex; flex-direction: column; justify-content: center; }
+        .biz-banner-title { font-family: var(--font-display); font-size: 1.6rem; color: var(--white); margin-bottom: 14px; }
+        .biz-banner-desc { font-size: 0.88rem; color: var(--white-dim); line-height: 1.7; margin-bottom: 22px; }
+        .biz-industry-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+        .biz-industry-chip {
+            padding: 5px 12px;
+            font-size: 0.68rem; font-weight: 600;
+            color: var(--gold-light);
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            background: rgba(201, 168, 76, 0.05);
+        }
+        .biz-banner-cta {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.7rem; font-weight: 800; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--gold);
+        }
+
+        .biz-apps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .biz-app-card {
+            background: var(--black-3);
+            border: 1px solid rgba(201, 168, 76, 0.1);
+            padding: 26px 26px 28px;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+        .biz-app-card:hover { border-color: rgba(201, 168, 76, 0.4); transform: translateY(-4px); }
+        .biz-app-preview { aspect-ratio: 16/10; overflow: hidden; margin: -26px -26px 20px; background: var(--black-4); }
+        .biz-app-preview img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .biz-app-card:hover .biz-app-preview img { transform: scale(1.06); }
+        .biz-app-tag {
+            font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .biz-app-title { font-family: var(--font-display); font-size: 1.15rem; color: var(--white); margin-bottom: 4px; }
+        .biz-app-subtitle { font-size: 0.72rem; color: rgba(160, 152, 128, 0.6); margin-bottom: 12px; }
+        .biz-app-desc { font-size: 0.82rem; color: var(--white-dim); line-height: 1.65; margin-bottom: 18px; flex: 1; }
+        .biz-app-link {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 0.68rem; font-weight: 800; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--gold);
+            margin-top: auto;
+        }
+
+        #biz-contact { background: var(--black); }
+        .biz-contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 48px;
+        }
+        .biz-contact-card {
+            display: flex; align-items: center; gap: 20px;
+            padding: 30px 28px;
+            background: var(--black-2);
+            border-left: 2px solid var(--gold);
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .biz-contact-card:hover { background: var(--black-3); transform: translateX(4px); }
+        .biz-contact-icon {
+            width: 46px; height: 46px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(201, 168, 76, 0.25);
+            color: var(--gold);
+        }
+        .biz-contact-card-whatsapp { border-left-color: #25d366; }
+        .biz-contact-icon-whatsapp { color: #25d366; border-color: rgba(37, 211, 102, 0.35); }
+        .biz-contact-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--white-dim); margin-bottom: 4px; }
+        .biz-contact-value { font-size: 1rem; font-weight: 600; color: var(--white); }
+        .biz-contact-note { font-size: 0.8rem; color: var(--white-dim); margin-top: 32px; max-width: 560px; line-height: 1.7; }
+
+        @media (max-width: 900px) {
+            .biz-services-grid { grid-template-columns: 1fr; }
+            .biz-impact-row { grid-template-columns: 1fr; }
+            .biz-banner-card { grid-template-columns: 1fr; }
+            .biz-apps-grid { grid-template-columns: 1fr 1fr; }
+            .biz-contact-grid { grid-template-columns: 1fr; }
+            .biz-stats-row { max-width: 100%; }
+        }
+        @media (max-width: 600px) {
+            .biz-hero { padding: 155px 24px 60px; }
+            .biz-service-card { padding: 36px 24px; }
+            .biz-apps-grid { grid-template-columns: 1fr; }
+            section { padding: 80px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    <div class="noise-overlay"></div>
+
+    <nav id="navbar">
+        <a href="../index.html" class="nav-logo">B<span>.</span>A<span>.</span>S</a>
+        <ul class="nav-links">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#proof">Proof Of Work</a></li>
+            <li><a href="#demos">Live Demos</a></li>
+            <li><a href="#biz-contact">Contact</a></li>
+            <li><a href="https://wa.me/6281255557994?text=Hi%20Bagas%2C%20I%27m%20interested%20in%20a%20website%20or%20custom%20system%20for%20my%20business.%20Could%20we%20talk%3F" target="_blank" rel="noopener" class="btn-whatsapp">Chat on WhatsApp</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Toggle navigation menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#services" class="mobile-menu-link">Services</a>
+        <a href="#proof" class="mobile-menu-link">Proof Of Work</a>
+        <a href="#demos" class="mobile-menu-link">Live Demos</a>
+        <a href="#biz-contact" class="mobile-menu-link">Contact</a>
+        <a href="https://wa.me/6281255557994" target="_blank" rel="noopener" class="mobile-menu-link" style="color:#25d366;">WhatsApp</a>
+    </div>
+
+    <main id="main-content">
+
+    <section class="biz-hero" id="biz-hero">
+        <div class="biz-hero-bg"></div>
+        <div class="biz-hero-inner">
+            <div class="biz-eyebrow section-reveal">For Business Owners</div>
+            <h1 class="biz-hero-title section-reveal stagger-1">A website and system built around how <em>your</em> business actually works.</h1>
+            <p class="biz-hero-desc section-reveal stagger-2">I'm Bagas, a software developer based in Bekasi. I build company profile websites and custom business applications, cashier systems, booking systems, HR tools, and more, for small and medium businesses. No confusing tech talk, just something that works and helps you save time or bring in more customers.</p>
+            <div class="biz-hero-cta section-reveal stagger-3">
+                <a href="https://wa.me/6281255557994?text=Hi%20Bagas%2C%20I%27m%20interested%20in%20a%20website%20or%20custom%20system%20for%20my%20business.%20Could%20we%20talk%3F" target="_blank" rel="noopener" class="btn-whatsapp">
+                    <i data-lucide="message-circle" style="width:15px;height:15px;"></i>
+                    <span>Chat on WhatsApp</span>
+                </a>
+                <a href="#demos" class="btn-secondary">
+                    <i data-lucide="arrow-right" style="width:15px;height:15px;"></i>
+                    <span>See Live Demos</span>
+                </a>
+            </div>
+            <div class="biz-stats-row section-reveal stagger-4">
+                <div class="stat-item">
+                    <span class="stat-number">1+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2</span>
+                    <span class="stat-label">Industries Served</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">5+</span>
+                    <span class="stat-label">Systems Delivered</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label">Services</div>
+                <h2 class="section-title">Two Ways I Can Help</h2>
+                <p class="section-subtitle">Whether you need an online presence or you're tired of running your business on WhatsApp groups and spreadsheets, here's what I offer.</p>
+            </div>
+            <div class="biz-services-grid section-reveal stagger-1">
+
+                <div class="biz-service-card">
+                    <div class="biz-service-icon"><i data-lucide="globe" style="width:22px;height:22px;"></i></div>
+                    <h3 class="biz-service-title">Company Profile Website</h3>
+                    <p class="biz-service-desc">A professional website for your business. Shows who you are, what you offer, and makes it easy for people to reach you. Ideal if you don't have a website yet, or your current one looks outdated and isn't bringing in new customers.</p>
+                    <ul class="biz-service-list">
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span>Home, about, and services or product pages built around <strong>your</strong> business, not a generic template</span></li>
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span>Photo gallery, pricing, and a contact form or direct WhatsApp button</span></li>
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span>Looks good and works properly on phones, since that's how most customers will find you</span></li>
+                    </ul>
+                    <a href="#demos" class="biz-service-demo-link">
+                        <span>See Website Demos By Industry</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+                <div class="biz-service-card">
+                    <div class="biz-service-icon"><i data-lucide="layers" style="width:22px;height:22px;"></i></div>
+                    <h3 class="biz-service-title">Custom Application / System</h3>
+                    <p class="biz-service-desc">If managing your business by WhatsApp, Excel, or paper is starting to slow you down, I can build a system made specifically for how you operate. A few common examples:</p>
+                    <ul class="biz-service-list">
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span><strong>Cashier / POS</strong> for shops, cafes, and restaurants</span></li>
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span><strong>Booking / reservation</strong> so customers can pick their own schedule</span></li>
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span><strong>HR & payroll</strong> for attendance, leave, and salary calculation</span></li>
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span><strong>Manufacturing / production (ERP)</strong> to track orders, stock, and production in one place</span></li>
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span><strong>Customer management (CRM)</strong> so no lead or follow-up gets forgotten</span></li>
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span><strong>WhatsApp / email blast</strong> to reach many customers at once</span></li>
+                        <li><i data-lucide="check" style="width:15px;height:15px;"></i><span>...and other systems, depending on what your business actually needs</span></li>
+                    </ul>
+                    <a href="#demos" class="biz-service-demo-link">
+                        <span>See System Demos By Type</span>
+                        <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="proof">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label">Proof Of Work</div>
+                <h2 class="section-title">Real Results, Not Just Promises</h2>
+                <p class="section-subtitle">These are actual quotes and outcomes from businesses I've built systems for.</p>
+            </div>
+
+            <div class="biz-impact-row section-reveal stagger-1">
+                <div class="biz-impact-item">
+                    <span class="biz-impact-number">78%</span>
+                    <span class="biz-impact-label">of customers now leave feedback after a visit, up from 20% before</span>
+                </div>
+                <div class="biz-impact-item">
+                    <span class="biz-impact-number">85%</span>
+                    <span class="biz-impact-label">faster aftercare follow-up response time</span>
+                </div>
+                <div class="biz-impact-item">
+                    <span class="biz-impact-number">80%</span>
+                    <span class="biz-impact-label">faster recruitment processing time</span>
+                </div>
+            </div>
+            <p class="biz-impact-source section-reveal stagger-1">From the NailShade booking app and Rainbrow Management System, built for Rainbrow Sulam Alis.</p>
+
+            <div class="testi-grid section-reveal stagger-2">
+
+                <div class="testi-card">
+                    <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+                    <p class="testi-text">Bagas delivered the HRD Dashboard and NailShade Booking System well ahead of schedule. His ability to understand HR workflows and translate them into a clean, functional system impressed our entire team. Communication was professional throughout, and the results exceeded expectations.</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">DR</div>
+                        <div class="testi-author-info">
+                            <h3 class="testi-name">Dian Rahmawati</h3>
+                            <div class="testi-role">HR Supervisor, Rainbrow Sulam Alis</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+                    <p class="testi-text">The warehouse module Bagas built has made a significant difference in how we manage stock and delivery documentation. He took the time to understand our daily operational needs and built a system that actually fits how we work. Stock accuracy improved dramatically since implementation.</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">AP</div>
+                        <div class="testi-author-info">
+                            <h3 class="testi-name">Aprizal</h3>
+                            <div class="testi-role">Warehouse Supervisor, PT Ganzu Gisma Seiko</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testi-card">
+                    <div class="testi-quote-icon"><i data-lucide="quote" style="width:20px;height:20px;"></i></div>
+                    <p class="testi-text">Before the ERP system, our production planning process was manual and time-consuming. Bagas analyzed our PPC workflow thoroughly and built scheduling and work order modules that cut our planning time significantly. He was responsive and always open to adjustments during development.</p>
+                    <div class="testi-author">
+                        <div class="testi-avatar">YZ</div>
+                        <div class="testi-author-info">
+                            <h3 class="testi-name">Yuzrisal</h3>
+                            <div class="testi-role">PPIC Manager, PT Ganzu Gisma Seiko</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="demos">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label">Live Demos</div>
+                <h2 class="section-title">See It Before You Decide</h2>
+                <p class="section-subtitle">These are fully working demos you can click through yourself, no sign up needed.</p>
+            </div>
+
+            <div class="biz-demo-sub-label section-reveal stagger-1">Website Demos, By Industry</div>
+            <a href="../demo/company-profiles/" class="biz-banner-card section-reveal stagger-1">
+                <div class="biz-banner-preview">
+                    <img src="../demo/company-profiles/preview.jpg" alt="Preview of company profile website demos" loading="lazy">
+                </div>
+                <div class="biz-banner-body">
+                    <h3 class="biz-banner-title">15 Ready-Made Website Examples</h3>
+                    <p class="biz-banner-desc">Pick the field closest to your business and see what a real website for it could look like, before we build the actual one together.</p>
+                    <div class="biz-industry-chips">
+                        <span class="biz-industry-chip">Gym & Fitness</span>
+                        <span class="biz-industry-chip">Restaurant & Cafe</span>
+                        <span class="biz-industry-chip">Electronics & Gadgets</span>
+                        <span class="biz-industry-chip">Beauty & Skincare</span>
+                        <span class="biz-industry-chip">Clinic & Healthcare</span>
+                        <span class="biz-industry-chip">Contractor & Construction</span>
+                        <span class="biz-industry-chip">Automotive & Workshop</span>
+                        <span class="biz-industry-chip">Tutoring & Courses</span>
+                        <span class="biz-industry-chip">Manufacturing</span>
+                        <span class="biz-industry-chip">Fintech & Financing</span>
+                        <span class="biz-industry-chip">Garment & Apparel</span>
+                        <span class="biz-industry-chip">Building Materials Retail</span>
+                        <span class="biz-industry-chip">Printing & Publishing</span>
+                        <span class="biz-industry-chip">Education & Schools</span>
+                        <span class="biz-industry-chip">Laundry & Dry Cleaning</span>
+                    </div>
+                    <span class="biz-banner-cta">
+                        <span>Browse All 15 Industry Demos</span>
+                        <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+                    </span>
+                </div>
+            </a>
+
+            <div class="biz-demo-sub-label section-reveal stagger-2">System Demos, By Type</div>
+            <div class="biz-apps-grid section-reveal stagger-2">
+
+                <a href="../demo/pos-application/" class="biz-app-card">
+                    <div class="biz-app-preview"><img src="../demo/pos-application/preview.jpg" alt="Preview of KasirKu cashier system" loading="lazy"></div>
+                    <div class="biz-app-tag">Cashier / POS</div>
+                    <h3 class="biz-app-title">KasirKu</h3>
+                    <div class="biz-app-subtitle">Best for shops, cafes, restaurants</div>
+                    <p class="biz-app-desc">Ring up items, apply discounts, calculate tax, and print a receipt, all from one simple screen.</p>
+                    <span class="biz-app-link"><span>View Demo</span><i data-lucide="arrow-right" style="width:13px;height:13px;"></i></span>
+                </a>
+
+                <a href="../demo/booking-system/" class="biz-app-card">
+                    <div class="biz-app-preview"><img src="../demo/booking-system/preview.jpg" alt="Preview of BookinAja booking system" loading="lazy"></div>
+                    <div class="biz-app-tag">Booking / Reservation</div>
+                    <h3 class="biz-app-title">BookinAja</h3>
+                    <div class="biz-app-subtitle">Best for salons, spas, clinics, workshops</div>
+                    <p class="biz-app-desc">Let customers pick their own appointment time and get instant confirmation, no more juggling bookings over chat.</p>
+                    <span class="biz-app-link"><span>View Demo</span><i data-lucide="arrow-right" style="width:13px;height:13px;"></i></span>
+                </a>
+
+                <a href="../demo/hris-system/" class="biz-app-card">
+                    <div class="biz-app-preview"><img src="../demo/hris-system/preview.jpg" alt="Preview of CG HRIS human resource system" loading="lazy"></div>
+                    <div class="biz-app-tag">HR & Payroll</div>
+                    <h3 class="biz-app-title">CG HRIS</h3>
+                    <div class="biz-app-subtitle">Best for businesses with employees to manage</div>
+                    <p class="biz-app-desc">Attendance, leave requests, payroll, and employee records in one place instead of scattered across spreadsheets.</p>
+                    <span class="biz-app-link"><span>View Demo</span><i data-lucide="arrow-right" style="width:13px;height:13px;"></i></span>
+                </a>
+
+                <a href="../demo/erp-system/" class="biz-app-card">
+                    <div class="biz-app-preview"><img src="../demo/erp-system/preview.jpg" alt="Preview of ErpCore manufacturing system" loading="lazy"></div>
+                    <div class="biz-app-tag">Manufacturing / ERP</div>
+                    <h3 class="biz-app-title">ErpCore</h3>
+                    <div class="biz-app-subtitle">Best for factories and production businesses</div>
+                    <p class="biz-app-desc">Track sales orders, production, warehouse stock, and quality checks in one connected system instead of separate spreadsheets.</p>
+                    <span class="biz-app-link"><span>View Demo</span><i data-lucide="arrow-right" style="width:13px;height:13px;"></i></span>
+                </a>
+
+                <a href="https://bagasaria-mrp-flow.vercel.app/" target="_blank" rel="noopener" class="biz-app-card">
+                    <div class="biz-app-preview"><img src="../demo/mrp-flow/preview.jpg" alt="Preview of MRP Flow material planning system" loading="lazy"></div>
+                    <div class="biz-app-tag">Manufacturing / Planning</div>
+                    <h3 class="biz-app-title">MRP Flow</h3>
+                    <div class="biz-app-subtitle">Best for factories that need better material planning</div>
+                    <p class="biz-app-desc">Know exactly what raw materials to buy and when, based on real orders and current stock, instead of guesswork.</p>
+                    <span class="biz-app-link"><span>View Demo</span><i data-lucide="arrow-right" style="width:13px;height:13px;"></i></span>
+                </a>
+
+                <a href="../demo/crm-system/" class="biz-app-card">
+                    <div class="biz-app-preview"><img src="../demo/crm-system/preview.jpg" alt="Preview of MitraCRM customer management system" loading="lazy"></div>
+                    <div class="biz-app-tag">Customer Management</div>
+                    <h3 class="biz-app-title">MitraCRM</h3>
+                    <div class="biz-app-subtitle">Best for sales-driven businesses</div>
+                    <p class="biz-app-desc">Track every lead and customer, see who's close to buying, and make sure no follow-up gets forgotten.</p>
+                    <span class="biz-app-link"><span>View Demo</span><i data-lucide="arrow-right" style="width:13px;height:13px;"></i></span>
+                </a>
+
+                <a href="../demo/notifikasi/" class="biz-app-card">
+                    <div class="biz-app-preview"><img src="../demo/notifikasi/preview.jpg" alt="Preview of BlazeNotif WhatsApp and email blast system" loading="lazy"></div>
+                    <div class="biz-app-tag">WhatsApp & Email Blast</div>
+                    <h3 class="biz-app-title">BlazeNotif</h3>
+                    <div class="biz-app-subtitle">Best for promotions, reminders, announcements</div>
+                    <p class="biz-app-desc">Send a message to many customers at once by WhatsApp or email, with a complete record of what was sent and to whom.</p>
+                    <span class="biz-app-link"><span>View Demo</span><i data-lucide="arrow-right" style="width:13px;height:13px;"></i></span>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="biz-contact">
+        <div class="max-container">
+            <div class="section-reveal">
+                <div class="section-label">Contact</div>
+                <h2 class="section-title">Let's Talk About Your Business</h2>
+            </div>
+            <div class="contact-availability section-reveal stagger-1">
+                <div class="contact-availability-dot"></div>
+                <span>Open for new website and system projects. I usually reply within a few hours on WhatsApp.</span>
+            </div>
+
+            <div class="biz-contact-grid section-reveal stagger-2">
+                <a href="https://wa.me/6281255557994?text=Hi%20Bagas%2C%20I%27m%20interested%20in%20a%20website%20or%20custom%20system%20for%20my%20business.%20Could%20we%20talk%3F" target="_blank" rel="noopener" class="biz-contact-card biz-contact-card-whatsapp">
+                    <div class="biz-contact-icon biz-contact-icon-whatsapp"><i data-lucide="message-circle" style="width:20px;height:20px;"></i></div>
+                    <div>
+                        <div class="biz-contact-label">WhatsApp</div>
+                        <div class="biz-contact-value">+62-812-5555-7994</div>
+                    </div>
+                </a>
+                <a href="mailto:bagasativa@gmail.com" class="biz-contact-card">
+                    <div class="biz-contact-icon"><i data-lucide="mail" style="width:20px;height:20px;"></i></div>
+                    <div>
+                        <div class="biz-contact-label">Email</div>
+                        <div class="biz-contact-value">bagasativa@gmail.com</div>
+                    </div>
+                </a>
+            </div>
+            <p class="biz-contact-note section-reveal stagger-3">Not sure yet whether you need a website, a system, or both? Just send a message describing your business and how you currently manage it. I'll give you an honest answer on what would actually help, along with a price and timeline, before you decide anything.</p>
+        </div>
+    </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-brand">
+                <a href="../index.html" class="nav-logo">B<span>.</span>A<span>.</span>S</a>
+                <p class="footer-tagline">Websites & Custom Systems for Small and Medium Businesses · Bekasi, Indonesia</p>
+                <div style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;">
+                    <span style="width:6px;height:6px;border-radius:50%;background:#10b981;box-shadow:0 0 5px #10b981;display:inline-block;"></span>
+                    <span style="font-size:0.7rem;color:rgba(255,255,255,0.35);">Open for new business projects</span>
+                </div>
+            </div>
+            <div class="footer-divider-vertical"></div>
+            <div class="footer-nav">
+                <a href="#services">Services</a>
+                <a href="#proof">Proof Of Work</a>
+                <a href="#demos">Live Demos</a>
+                <a href="#biz-contact">Contact</a>
+            </div>
+        </div>
+        <div class="footer-divider"></div>
+        <div class="footer-bottom">
+            <div class="footer-copy" id="footerCopy"></div>
+            <div class="footer-links">
+                <a href="../index.html" class="footer-back">
+                    <span>Back to Portfolio</span>
+                    <i data-lucide="arrow-right" style="width:13px;height:13px;"></i>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/lucide@1.31.0/dist/umd/lucide.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var footerCopy = document.getElementById('footerCopy');
+            if (footerCopy) footerCopy.textContent = '© ' + new Date().getFullYear() + ' Bagas Aria Sativa. All rights reserved.';
+
+            var hamburger = document.getElementById('hamburger');
+            var mobileMenu = document.getElementById('mobileMenu');
+            function toggleMobileMenu() {
+                var isOpen = mobileMenu.classList.toggle('open');
+                hamburger.classList.toggle('open', isOpen);
+                hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            }
+            if (hamburger && mobileMenu) {
+                hamburger.addEventListener('click', toggleMobileMenu);
+                document.querySelectorAll('.mobile-menu-link').forEach(function (link) {
+                    link.addEventListener('click', toggleMobileMenu);
+                });
+            }
+
+            var navbar = document.getElementById('navbar');
+            if (navbar) {
+                window.addEventListener('scroll', function () {
+                    navbar.classList.toggle('scrolled', window.scrollY > 60);
+                });
+            }
+
+            var reveals = document.querySelectorAll('.section-reveal');
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px 15% 0px' });
+            reveals.forEach(function (el) { observer.observe(el); });
+
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

@@ -1,5 +1,35 @@
 # Changelog
 
+### For Business page - real root cause of the hero spacing bug, banner image fix
+
+**Fixed**
+- The hero padding fix from the previous pass never actually applied. Root cause: the hero section had id="hero", which collides with the shared stylesheet's own "#hero" rule used by the homepage (padding 0 56px 80px, min-height 100vh, display grid). An ID selector always beats a class selector no matter what, so "#hero" was silently overriding this page's own ".biz-hero" padding, including at both responsive breakpoints, which is why the heading kept rendering flush against the nav. Renamed the id to "biz-hero" so there is no collision; nothing on this page links to "#hero" so nothing else was affected
+- The industry demo preview image still wasn't centered because "align-self: stretch" on its container was overriding the aspect-ratio set in the previous fix (a stretched, definite height wins over aspect-ratio). Removed that property so the image now keeps its own 16:10 ratio and is centered by the card's existing "align-items: center" instead of being stretched
+- Confirmed the small gold line before "For Business Owners" and "Company Profile" is a CSS-drawn decorative bar (a ::before pseudo-element box), not an actual em dash character; re-ran the em/en dash scan on the file to confirm
+
+
+### For Business page - polish pass after first review
+
+**Fixed**
+- Hero heading was rendering too close to the fixed nav bar on shorter viewports, caused by centering the hero content inside a 92vh box instead of just anchoring it below a safe top padding; switched to a fixed top padding so the heading always clears the nav regardless of content height or screen height
+- All WhatsApp buttons (nav, hero, WhatsApp contact card) restyled to WhatsApp's own green with white text; the nav copy of the button was previously unreadable because the site's generic ".nav-links a" text color rule was overriding the button's own text color, fixed with a higher specificity selector scoped to that button plus removing the plain nav-link underline effect from it
+- The company profile demo preview image (the one showing "Pick an Industry, See the Demo") was stretching to match the height of the text column next to it, which varies a lot because of the 15 industry chips, so the crop looked off and not centered; fixed by giving the image a fixed 16:10 aspect ratio and centering the two columns against each other instead of stretching
+
+
+### New For Business landing page added, second entry point for freelance clients
+
+**Added**
+- New standalone page at /for-business/, a separate landing page aimed at small and medium business owners contacted for freelance work, kept fully independent from the homepage CV so the homepage still serves job seeking without any structural change
+- Written entirely in plain English with no technical jargon (no mentions of RBAC, SPA, ORM, or similar terms), explaining the two services offered: company profile websites and custom applications or systems such as POS, booking, HR, ERP or manufacturing, CRM, and WhatsApp or email blast
+- Proof of work section pulls the same three client testimonials already on the homepage About/Testimonials section verbatim, plus the two concrete impact numbers already on the homepage Achievements section (78% of customers now leaving feedback versus 20% before, 85% faster aftercare response, 80% faster recruitment processing), nothing invented
+- Links out to the existing company profile demo hub for a website example by industry, and to the existing KasirKu, BookinAja, CG HRIS, ErpCore, MRP Flow, MitraCRM, and BlazeNotif demos for a system example by type, each described in plain language instead of its technical tag list
+- Clear WhatsApp and email contact options, with a prefilled WhatsApp message for a faster first reply
+- Visual design reuses the homepage's own design tokens and section, button, stat, and testimonial card classes from assets/css/style.css so the look matches exactly (dark theme, gold accent, DM Serif Display plus Sora), with only page-specific layout added inline and the custom cursor turned off since this page does not load the cursor-follow script
+- Added one small "For Business" link to the homepage's main nav and mobile menu, the only change made to index.html, so visitors can also find it from the portfolio
+- Registered the new page in sitemap.xml
+- Verified HTML tag balance and zero em or en dash on every file touched before delivery
+
+
 ### Danamitra Finance - new company profile demo added, tenth in the collection, hub grid now 5x2
 
 **Added**
