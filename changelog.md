@@ -1,5 +1,12 @@
 # Changelog
 
+### For Business page - banner image crop actually fixed this time
+
+**Fixed**
+- The industry demo preview image (company-profiles/preview.jpg) still looked off after the previous fix. Turned out the source screenshot itself has a lot of dead black space above the "Pick an Industry" heading and very little below the paragraph, not symmetric, and the 16:10 box used before was almost the exact same ratio as the source image (900x563), so almost no cropping ever happened and that built-in imbalance just passed straight through
+- Simulated several crop ratios locally against the real image file before touching the code, to confirm the fix visually instead of guessing. Landed on a wider 2:1 box with the crop anchored to the bottom, which crops the excess top padding away while keeping the full heading and paragraph, so it now reads as centered instead of inheriting the source image's own imbalance
+
+
 ### For Business page - real root cause of the hero spacing bug, banner image fix
 
 **Fixed**
