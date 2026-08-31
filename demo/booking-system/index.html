@@ -39,8 +39,6 @@ body { font-family:'Plus Jakarta Sans', sans-serif; background:var(--bg); color:
 .btn-primary:hover { box-shadow:0 12px 28px rgba(160,18,69,0.4);transform:translateY(-1px); }
 .btn-secondary { background:var(--surface);color:var(--ink-soft);border:1.5px solid var(--line); }
 .btn-secondary:hover { border-color:var(--primary-3);color:var(--primary); }
-.btn-whatsapp { background:#1f9e56;color:#fff;box-shadow:0 8px 20px rgba(31,158,86,0.32); }
-.btn-whatsapp:hover { background:#188847; }
 .btn-icon { width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line-soft);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-soft);transition:all 0.2s; }
 .btn-icon:hover { border-color:var(--primary-3);color:var(--primary); }
 .btn-block { width:100%; }
@@ -351,15 +349,19 @@ function buildStep4() {
   html += '<div style="border-top:1px solid rgba(160,18,69,0.2);margin-top:6px;padding-top:10px;display:flex;justify-content:space-between;align-items:center;"><span style="font-size:14px;font-weight:700;color:var(--ink);">Total Pembayaran</span><span style="font-size:16px;font-weight:800;color:var(--primary);">' + (svc?fmtRupiah(svc.harga):'-') + '</span></div></div>';
   html += '<div class="card-surface" style="padding:18px;">';
   html += '<div style="font-size:11px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Data Diri</div>';
+  html += '<p style="font-size:11.5px;color:var(--muted);margin-bottom:14px;"><span style="color:var(--primary);font-weight:700;">*</span> Wajib diisi</p>';
   html += '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">';
   html += fldInp('Nama Lengkap','text','inp-nama',state.customer.nama,'nama','Nama lengkap Anda',true);
-  html += fldInp('No. WhatsApp','tel','inp-telp',state.customer.telp,'telp','08xxxxxxxxxx',true);
+  html += fldInp('No. WhatsApp','tel','inp-telp',state.customer.telp,'telp','08xxxxxxxxxx',true,true);
   html += '</div><div style="margin-bottom:10px;">' + fldInp('Email','email','inp-email',state.customer.email,'email','email@contoh.com',false) + '</div>';
-  html += '<div><label for="inp-catatan" style="font-size:12px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:6px;">Catatan Tambahan</label><textarea id="inp-catatan" oninput="updateCustomer(\'catatan\',this.value)" placeholder="Alergi, permintaan khusus, dll..." class="inp" style="resize:none;" rows="3">' + escapeHtml(state.customer.catatan) + '</textarea></div></div>';
+  html += '<div><label for="inp-catatan" style="font-size:12px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:6px;">Catatan Tambahan <span style="color:var(--muted);font-weight:500;">(Opsional)</span></label><textarea id="inp-catatan" oninput="updateCustomer(\'catatan\',this.value)" placeholder="Contoh: ada keluhan kulit sensitif, alergi produk tertentu, atau permintaan khusus lainnya" class="inp" style="resize:none;" rows="3">' + escapeHtml(state.customer.catatan) + '</textarea></div></div>';
   return html;
 }
-function fldInp(label, type, id, val, field, ph, req) {
-  return '<div><label for="' + id + '" style="font-size:12px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:6px;">' + label + (req?'<span style="color:var(--primary);"> *</span>':'') + '</label><input type="' + type + '" id="' + id + '" value="' + escapeHtml(val) + '" oninput="updateCustomer(\'' + field + '\',this.value)" placeholder="' + ph + '" class="inp"></div>';
+function fldInp(label, type, id, val, field, ph, req, numericOnly) {
+  var labelTag = req ? '<span style="color:var(--primary);"> *</span>' : ' <span style="color:var(--muted);font-weight:500;">(Opsional)</span>';
+  var onInput = numericOnly ? 'this.value=this.value.replace(/[^0-9]/g,\'\');updateCustomer(\'' + field + '\',this.value);' : 'updateCustomer(\'' + field + '\',this.value);';
+  var extraAttr = numericOnly ? ' inputmode="numeric" pattern="[0-9]*"' : '';
+  return '<div><label for="' + id + '" style="font-size:12px;font-weight:600;color:var(--ink-soft);display:block;margin-bottom:6px;">' + label + labelTag + '</label><input type="' + type + '" id="' + id + '" value="' + escapeHtml(val) + '" oninput="' + onInput + '" placeholder="' + ph + '" class="inp"' + extraAttr + '></div>';
 }
 function buildConfirmation() {
   var b=state.booking, svc=SERVICES.find(function(s){return s.id===b.serviceId;}), br=BRANCHES.find(function(x){return x.id===b.branchId;}), st=STAFF.find(function(t){return t.id===b.staffId;});
@@ -378,8 +380,8 @@ function buildConfirmation() {
     if (i<statuses.length-1) html += '<div style="width:18px;height:2px;flex-shrink:0;background:' + (i<curIdx?'var(--primary)':'var(--line)') + ';"></div>';
   });
   html += '</div></div>';
-  html += '<div class="flex gap-3 flex-wrap"><button onclick="shareWA()" class="btn btn-whatsapp" style="flex:1;"><svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.862L0 24l6.317-1.508A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.661-.498-5.193-1.369l-.371-.221-3.851.919.974-3.761-.242-.386A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>Bagikan via WhatsApp</button>';
-  html += '<button onclick="resetBooking()" class="btn btn-secondary">Booking Lagi</button></div>';
+  html += '<div style="display:flex;gap:10px;align-items:flex-start;background:var(--gold-pale);border:1.5px solid var(--gold-soft);border-radius:14px;padding:14px 16px;margin-bottom:20px;"><svg width="18" height="18" fill="none" stroke="var(--gold)" stroke-width="2" viewBox="0 0 24 24" style="flex-shrink:0;margin-top:1px;"><path d="M12 2l2.4 7.2H22l-6 4.6L18.4 22 12 17.3 5.6 22 8 13.8l-6-4.6h7.6z"/></svg><p style="font-size:12.5px;color:var(--wine);line-height:1.55;margin:0;">Simpan kode booking atau screenshot QR ini dengan baik, lalu tunjukkan saat tiba di cabang. Jangan bagikan kode booking Anda kepada orang lain.</p></div>';
+  html += '<div class="flex gap-3 flex-wrap"><button onclick="resetBooking()" class="btn btn-primary btn-block">Booking Lagi</button></div>';
   return html;
 }
 
@@ -584,12 +586,6 @@ function resetBooking(){
   state.step=1;state.service=null;state.branch=null;state.date=null;state.slot=null;state.staff=null;
   state.customer={nama:'',telp:'',email:'',catatan:''};state.booking=null;state.catFilter='';
   render();window.scrollTo(0,0);
-}
-function shareWA(){
-  if(!state.booking)return;
-  var svc=SERVICES.find(function(s){return s.id===state.booking.serviceId;}),br=BRANCHES.find(function(x){return x.id===state.booking.branchId;});
-  var msg='Halo! Saya baru saja booking di Seruni Beauty.\n\nKode Booking: '+state.booking.id+'\nLayanan: '+(svc?svc.nama:'-')+'\nCabang: '+(br?br.nama:'-')+(br?'\nTelp: '+br.telp:'')+'\nTanggal: '+fmtTglShort(state.booking.date)+'\nWaktu: '+state.booking.slot+'\n\nSampai jumpa di Seruni Beauty!';
-  window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');
 }
 function doTrack(){var inp=document.getElementById('track-id');if(inp)showTrackDetail(inp.value.trim().toUpperCase());}
 function showTrackDetail(id){
