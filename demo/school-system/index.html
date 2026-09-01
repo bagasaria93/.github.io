@@ -2065,7 +2065,7 @@ function drawTrendChart(canvasId, chartKey) {
   state.charts[chartKey] = new Chart(canvas.getContext('2d'), {
     type: 'line',
     data: { labels: data.labels, datasets: [{ label:'Kehadiran Siswa (%)', data: data.hadirPct, borderColor:'#0d9488', backgroundColor:'rgba(13,148,136,0.1)', tension:0.35, fill:true, pointRadius:2.5 }] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:false, min:70, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10.5}},grid:{display:false}} } }
+    options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:false, min:70, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10.5}},grid:{display:false}} } }
   });
 }
 function renderCharts() {
@@ -2090,7 +2090,7 @@ function renderCharts() {
       state.charts.kehadiranKelas = new Chart(kehadiranCanvas.getContext('2d'), {
         type: 'bar',
         data: { labels: kLabels, datasets: [{ label:'Kehadiran (%)', data: kPct, backgroundColor: kColors, borderRadius:6, maxBarThickness:34 }] },
-        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
+        options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
       });
     }
   }
@@ -2112,7 +2112,7 @@ function renderCharts() {
       state.charts.nilaiKelas = new Chart(nilaiCanvas.getContext('2d'), {
         type: 'bar',
         data: { labels: labels, datasets: [{ label:'Rata-rata Nilai', data: avgList, backgroundColor: colors, borderRadius:6, maxBarThickness:38 }] },
-        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
+        options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
       });
     }
     if (tuntasCanvas) {
@@ -2120,7 +2120,7 @@ function renderCharts() {
       state.charts.tuntasKelas = new Chart(tuntasCanvas.getContext('2d'), {
         type: 'bar',
         data: { labels: labels, datasets: [{ label:'% Tuntas KKM', data: pctList, backgroundColor: colors, borderRadius:6, maxBarThickness:38 }] },
-        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
+        options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
       });
     }
     var mount = document.getElementById('akademik-table-mount');
@@ -2135,7 +2135,7 @@ function renderCharts() {
           { label:'Rata-rata Nilai', data: tren.map(function(t){return t.nilai;}), borderColor:'#0d9488', backgroundColor:'rgba(13,148,136,0.08)', tension:0.3, fill:true, pointRadius:3 },
           { label:'% Tuntas KKM', data: tren.map(function(t){return t.tuntas;}), borderColor:'#a06f13', backgroundColor:'rgba(160,111,19,0.06)', tension:0.3, fill:true, pointRadius:3 }
         ] },
-        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true, position:'bottom', labels:{boxWidth:12, font:{size:11}}}}, scales:{ y:{beginAtZero:true, max:100, ticks:{font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10.5}},grid:{display:false}} } }
+        options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{legend:{display:true, position:'bottom', labels:{boxWidth:12, font:{size:11}}}}, scales:{ y:{beginAtZero:true, max:100, ticks:{font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10.5}},grid:{display:false}} } }
       });
     }
   }
@@ -2149,7 +2149,7 @@ function renderCharts() {
       state.charts.gajiGuru = new Chart(gajiCanvas.getContext('2d'), {
         type: 'bar',
         data: { labels: labels2, datasets: [{ label:'Gaji Bersih', data: data2, backgroundColor:'#0d9488', borderRadius:6, maxBarThickness:34 }] },
-        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){ return fmtRupiah(ctx.parsed.y); }}}}, scales:{ y:{beginAtZero:true, ticks:{callback:function(v){ return 'Rp' + (v/1000000).toFixed(1) + 'jt'; }, font:{size:10}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10}},grid:{display:false}} } }
+        options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){ return fmtRupiah(ctx.parsed.y); }}}}, scales:{ y:{beginAtZero:true, ticks:{callback:function(v){ return 'Rp' + (v/1000000).toFixed(1) + 'jt'; }, font:{size:10}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10}},grid:{display:false}} } }
       });
     }
   }
