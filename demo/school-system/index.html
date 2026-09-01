@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SekolahKu - SMA Bhakti Nusantara</title>
+<meta name="description" content="Demo sistem informasi sekolah SekolahKu untuk SMA Bhakti Nusantara. Data siswa dan guru, absensi, nilai dan rapor, penggajian guru, serta dashboard kepala sekolah.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1b2027; --ink-soft:#565f6d; --muted:#8a92a0; --line:#e3e7ee; --line-soft:#edf0f5;
+  --surface:#ffffff; --bg:#f6f7fb; --bg-tint:#eef1fb;
+  --forest:#0f3d2e; --primary:#0f766e; --primary-2:#0d9488; --primary-3:#2dd4bf;
+  --primary-wash:#e8f7f5; --primary-wash-2:#d7f2ee;
+  --gold:#b8860b; --gold-soft:#d4a017; --gold-pale:#f7ecd0;
+  --ok:#15803d; --ok-bg:#e9f7ee; --ok-soft:#22c55e;
+  --warn:#b45309; --warn-bg:#fef3e2; --warn-soft:#f59e0b;
+  --danger:#b91c1c; --danger-bg:#fdedec; --danger-soft:#ef4444;
+  --info:#0369a1; --info-bg:#e6f4fb;
+  --grad-primary:linear-gradient(135deg,var(--forest),var(--primary-2) 55%,var(--primary-3));
+  --grad-gold:linear-gradient(135deg,#8a6a10,var(--gold-soft));
+  --shadow-sm:0 2px 8px rgba(15,61,46,0.07);
+  --shadow-md:0 8px 24px rgba(15,61,46,0.10);
+  --shadow-lg:0 20px 48px rgba(15,61,46,0.16);
+  --shadow-primary:0 10px 24px rgba(13,148,136,0.30);
+  --r-sm:10px; --r-md:14px; --r-lg:20px; --r-pill:999px;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Plus Jakarta Sans', sans-serif; background:var(--bg); color:var(--ink); margin:0; -webkit-font-smoothing:antialiased; }
+.font-display { font-family:'Sora', sans-serif; }
+::selection { background:var(--primary-wash-2); color:var(--forest); }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-thumb { background:var(--primary-3); border-radius:4px; }
+.ic { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; display:inline-block; vertical-align:middle; flex-shrink:0; }
+.ic-primary { color:var(--primary); }
+.ic-ok { color:var(--ok); }
+.ic-warn { color:var(--warn); }
+.ic-muted { color:var(--muted); }
+.ic.spin { animation:icspin 1s linear infinite; }
+@keyframes icspin { to { transform:rotate(360deg); } }
+
+.wrap { max-width:1180px; margin:0 auto; padding:0 20px; }
+.card-surface { background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--r-lg); box-shadow:var(--shadow-sm); }
+.fade-in { animation:fadeIn 0.35s ease both; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+
+.btn { display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:14px;border:none;cursor:pointer;border-radius:var(--r-md);padding:11px 20px;transition:transform 0.18s ease,box-shadow 0.18s ease,background 0.18s ease,color 0.18s ease,border-color 0.18s ease;white-space:nowrap; }
+.btn:active { transform:translateY(1px); }
+.btn:disabled { opacity:0.5;cursor:not-allowed;transform:none !important; }
+.btn-primary { background:var(--grad-primary);color:#fff;box-shadow:var(--shadow-primary); }
+.btn-primary:hover:not(:disabled) { box-shadow:0 14px 30px rgba(13,148,136,0.4);transform:translateY(-1px); }
+.btn-gold { background:var(--grad-gold);color:#fff;box-shadow:0 8px 22px rgba(184,134,11,0.32); }
+.btn-gold:hover:not(:disabled) { box-shadow:0 12px 28px rgba(184,134,11,0.42);transform:translateY(-1px); }
+.btn-danger { background:var(--danger-soft);color:#fff;box-shadow:0 8px 20px rgba(239,68,68,0.3); }
+.btn-danger:hover:not(:disabled) { box-shadow:0 12px 26px rgba(239,68,68,0.4);transform:translateY(-1px); }
+.btn-secondary { background:var(--surface);color:var(--ink-soft);border:1.5px solid var(--line); }
+.btn-secondary:hover:not(:disabled) { border-color:var(--primary-3);color:var(--primary); }
+.btn-ghost { background:transparent;color:var(--ink-soft);border:1.5px solid transparent; }
+.btn-ghost:hover:not(:disabled) { background:var(--bg-tint);color:var(--primary); }
+.btn-sm { padding:7px 14px;font-size:12.5px;border-radius:9px; }
+.btn-block { width:100%; }
+.btn-icon { width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line-soft);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-soft);transition:all 0.2s;padding:0;flex-shrink:0; }
+.btn-icon:hover { border-color:var(--primary-3);color:var(--primary); }
+
+.topbar { position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft); }
+.tab-row { display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none; }
+.tab-row::-webkit-scrollbar { display:none; }
+.tab-btn { display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:var(--r-pill);font-size:13.5px;font-weight:700;color:var(--ink-soft);background:transparent;border:none;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:inherit; }
+.tab-btn:hover:not(.active) { background:var(--bg-tint);color:var(--primary); }
+.tab-btn.active { background:var(--grad-primary);color:#fff;box-shadow:0 4px 14px rgba(13,148,136,0.3); }
+
+.stat-tile { background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden; }
+.stat-tile::after { content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--grad-primary)); }
+.stat-icon-badge { width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+.badge { display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:var(--r-pill);font-size:11.5px;font-weight:700;letter-spacing:0.01em; }
+.badge-ok { background:var(--ok-bg);color:var(--ok); }
+.badge-warn { background:var(--warn-bg);color:var(--warn); }
+.badge-danger { background:var(--danger-bg);color:var(--danger); }
+.badge-info { background:var(--info-bg);color:var(--info); }
+.badge-muted { background:var(--bg-tint);color:var(--muted); }
+.chip { display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:var(--r-pill);font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-soft);transition:all 0.2s;white-space:nowrap;font-family:inherit; }
+.chip:hover:not(.active) { border-color:var(--primary-3);color:var(--primary); }
+.chip.active { background:var(--grad-primary);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(13,148,136,0.3); }
+
+.inp { width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px 13px;font-size:14px;font-family:inherit;color:var(--ink);background:var(--surface);transition:border-color 0.2s,box-shadow 0.2s; }
+.inp:focus { outline:none;border-color:var(--primary-3);box-shadow:0 0 0 3.5px var(--primary-wash-2); }
+.inp::placeholder { color:var(--muted); }
+label.lbl { font-size:12.5px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:6px; }
+.req-mark { color:var(--danger-soft);font-weight:700; }
+.opt-mark { color:var(--muted);font-weight:500; }
+
+.tbl { width:100%;border-collapse:collapse;font-size:13.5px; }
+.tbl th { text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);font-weight:700;padding:10px 14px;border-bottom:1.5px solid var(--line);white-space:nowrap; }
+.tbl td { padding:12px 14px;border-bottom:1px solid var(--line-soft);color:var(--ink-soft);vertical-align:middle; }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl tr:hover td { background:var(--bg-tint); }
+.tbl-wrap { overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--line-soft); }
+
+.avatar { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0; }
+
+.hero-card { background:var(--grad-primary);border-radius:24px;padding:28px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg); }
+.hero-card::before { content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.06);top:-120px;right:-80px; }
+.hero-card::after { content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.05);bottom:-90px;left:-40px; }
+
+.modal-backdrop { position:fixed;inset:0;background:rgba(15,32,26,0.55);backdrop-filter:blur(2px);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn 0.2s ease; }
+.modal-box { background:var(--surface);border-radius:var(--r-lg);max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg); }
+
+#toast-wrap { position:fixed;top:86px;right:18px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:calc(100vw - 36px); }
+.toast { background:var(--forest);color:#fff;padding:13px 18px;border-radius:12px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;animation:toastIn 0.3s ease both;max-width:340px; }
+.toast.ok { background:linear-gradient(135deg,#166534,#22c55e); }
+.toast.warn { background:linear-gradient(135deg,#92400e,#f59e0b); }
+.toast.err { background:linear-gradient(135deg,#991b1b,#ef4444); }
+@keyframes toastIn { from{opacity:0;transform:translateX(24px);} to{opacity:1;transform:translateX(0);} }
+
+.divider { height:1px;background:var(--line-soft);margin:18px 0; }
+.progress-track { height:8px;border-radius:99px;background:var(--line-soft);overflow:hidden; }
+.progress-fill { height:100%;border-radius:99px;background:var(--grad-gold); }
+.emp-row { display:flex;align-items:center;gap:12px; }
+.attend-pill { display:inline-flex;align-items:center;justify-content:center;padding:6px 4px;border-radius:9px;font-size:11.5px;font-weight:700;cursor:pointer;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-soft);transition:all 0.15s;font-family:inherit;min-width:56px; }
+.attend-pill:hover:not(.active) { border-color:var(--primary-3);color:var(--primary); }
+.attend-pill.active-hadir { background:var(--ok-bg);border-color:var(--ok-soft);color:var(--ok); }
+.attend-pill.active-sakit { background:var(--info-bg);border-color:#7dd3fc;color:var(--info); }
+.attend-pill.active-izin { background:var(--warn-bg);border-color:var(--warn-soft);color:var(--warn); }
+.attend-pill.active-alpha { background:var(--danger-bg);border-color:var(--danger-soft);color:var(--danger); }
+
+.split-grid { display:grid; gap:18px; }
+@media (max-width:860px) {
+  .split-grid { grid-template-columns:1fr !important; }
+  .stat-grid-4 { grid-template-columns:repeat(3,1fr) !important; }
+}
+@media (max-width:640px) {
+  .wrap { padding:0 14px; }
+  .stat-grid-4 { grid-template-columns:repeat(2,1fr) !important; }
+}
+@media (max-width:480px) {
+  .tab-btn { padding:8px 12px;font-size:12px; }
+}
+html, body { overflow-x:hidden; max-width:100vw; }
+</style>
+</head>
+<body>
+<div id="toast-wrap"></div>
+<div id="app"></div>
+
+<script>
+/* ============================= ICONS ============================= */
+var ICONS = {
+  home:'<path d="M3.5 11.5L12 4l8.5 7.5"/><path d="M5.5 10v9.5a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1V10"/>',
+  users:'<circle cx="9" cy="8" r="3.3"/><path d="M2.7 20c0-3.3 2.8-6 6.3-6s6.3 2.7 6.3 6"/><circle cx="17" cy="9" r="2.6"/><path d="M15.8 14.3c2.5.5 4.4 2.6 4.4 5.2"/>',
+  user:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c0-4.1 3.4-7.5 7.5-7.5s7.5 3.4 7.5 7.5"/>',
+  book:'<path d="M4 4.5h11a3 3 0 0 1 3 3V20H7a3 3 0 0 1-3-3V4.5z"/><path d="M18 20H7a3 3 0 0 1-3-3"/><line x1="8" y1="9" x2="15" y2="9"/><line x1="8" y1="12.5" x2="13" y2="12.5"/>',
+  graduation:'<path d="M2.5 9.5L12 5l9.5 4.5L12 14z"/><path d="M6.5 11.6v5.1c0 1.5 2.5 3 5.5 3s5.5-1.5 5.5-3v-5.1"/><path d="M21.5 9.5v6"/>',
+  clipboard:'<rect x="5" y="4.5" width="14" height="16.5" rx="2"/><rect x="8.5" y="2.5" width="7" height="4" rx="1.3"/><line x1="8.5" y1="11" x2="15.5" y2="11"/><line x1="8.5" y1="15" x2="15.5" y2="15"/>',
+  checkCircle:'<circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.3 2.3 4.7-4.8"/>',
+  xCircle:'<circle cx="12" cy="12" r="9"/><line x1="9.2" y1="9.2" x2="14.8" y2="14.8"/><line x1="14.8" y1="9.2" x2="9.2" y2="14.8"/>',
+  check:'<polyline points="20 6 9 17 4 12"/>',
+  x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  calendar:'<rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><line x1="3.5" y1="9.5" x2="20.5" y2="9.5"/><line x1="8" y1="2.5" x2="8" y2="6.5"/><line x1="16" y1="2.5" x2="16" y2="6.5"/>',
+  briefcase:'<rect x="3" y="7.5" width="18" height="12.5" rx="2.2"/><path d="M8.5 7.5V6a2.5 2.5 0 0 1 2.5-2.5h2A2.5 2.5 0 0 1 15.5 6v1.5"/><line x1="3" y1="12.5" x2="21" y2="12.5"/>',
+  trend:'<polyline points="3 17 9.5 10.5 14 15 21 7"/><polyline points="15 7 21 7 21 13"/>',
+  wallet:'<rect x="3" y="6" width="18" height="13" rx="2.3"/><path d="M3 10h18"/><circle cx="16.5" cy="14" r="1" fill="currentColor" stroke="none"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  chevronR:'<polyline points="9 6 15 12 9 18"/>',
+  chevronL:'<polyline points="15 6 9 12 15 18"/>',
+  filter:'<polygon points="4 4 20 4 14 12.5 14 19 10 21 10 12.5 4 4"/>',
+  download:'<path d="M12 3v13"/><polyline points="6.5 11 12 16.5 17.5 11"/><path d="M4 19.5h16"/>',
+  print:'<polyline points="6 9 6 3 18 3 18 9"/><rect x="6" y="13" width="12" height="8"/><path d="M6 17H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-2"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.3" y1="15.3" x2="20.5" y2="20.5"/>',
+  bell:'<path d="M6 9.5a6 6 0 0 1 12 0c0 5 2 6.3 2 6.3H4s2-1.3 2-6.3z"/><path d="M10 19a2 2 0 0 0 4 0"/>',
+  school:'<path d="M3 21h18"/><path d="M5 21V9.5L12 5l7 4.5V21"/><path d="M9.5 21v-6h5v6"/><line x1="9" y1="12.2" x2="9.01" y2="12.2"/><line x1="15" y1="12.2" x2="15.01" y2="12.2"/>',
+  history:'<path d="M3.5 12a8.5 8.5 0 1 0 2.7-6.2"/><polyline points="3.5 4.5 3.5 9 8 9"/><path d="M12 8v4.3l3.2 2"/>',
+  edit:'<path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><line x1="14" y1="6.5" x2="17.5" y2="10"/>',
+  award:'<circle cx="12" cy="8.5" r="5.3"/><path d="M8.3 13l-1.6 7.5 5.3-2.8 5.3 2.8-1.6-7.5"/>',
+  refresh:'<polyline points="3.5 4 3.5 9 8.5 9"/><polyline points="20.5 20 20.5 15 15.5 15"/><path d="M4.6 15a8 8 0 0 0 13.9 3.1l1.5-1.6M19.4 9A8 8 0 0 0 5.5 5.9L4 7.5"/>'
+};
+function icon(name, cls) { return '<svg class="ic '+(cls||'')+'" viewBox="0 0 24 24">'+(ICONS[name]||'')+'</svg>'; }
+
+/* ============================= UTIL ============================= */
+function uid(p) { return (p||'ID') + '-' + Date.now().toString(36).slice(-5) + Math.random().toString(36).slice(2,6); }
+function escapeHtml(s) { s = (s==null?'':String(s)); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function pad2(n) { return n < 10 ? '0'+n : ''+n; }
+var HARI_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+var BULAN_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function fmtDateLong(d) { d = new Date(d); return HARI_ID[d.getDay()] + ', ' + d.getDate() + ' ' + BULAN_ID[d.getMonth()] + ' ' + d.getFullYear(); }
+function fmtDateShort(d) { d = new Date(d); return pad2(d.getDate()) + ' ' + BULAN_ID[d.getMonth()].slice(0,3) + ' ' + d.getFullYear(); }
+function fmtDateISO(d) { d = new Date(d); return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()); }
+function addDays(d, n) { var r = new Date(d); r.setDate(r.getDate()+n); return r; }
+function isWeekend(d) { var day = new Date(d).getDay(); return day === 0 || day === 6; }
+function seededRand(seedStr) { var h = 0; for (var i=0;i<seedStr.length;i++) { h = (Math.imul(31,h) + seedStr.charCodeAt(i)) | 0; } var x = Math.sin(h) * 10000; return x - Math.floor(x); }
+function fmtRupiah(n) { return 'Rp' + Math.round(n).toLocaleString('id-ID'); }
+function showToast(msg, type) {
+  var wrap = document.getElementById('toast-wrap');
+  var el = document.createElement('div');
+  el.className = 'toast ' + (type || '');
+  var iconName = type === 'ok' ? 'checkCircle' : (type === 'err' ? 'xCircle' : (type === 'warn' ? 'bell' : 'bell'));
+  el.innerHTML = icon(iconName) + '<span>' + escapeHtml(msg) + '</span>';
+  wrap.appendChild(el);
+  setTimeout(function() { el.style.transition = 'opacity 0.3s, transform 0.3s'; el.style.opacity = '0'; el.style.transform = 'translateX(24px)'; setTimeout(function(){ el.remove(); }, 300); }, 3200);
+}
+function initialsOf(name) { var parts = name.replace(/^(Dr\.|Drs\.|H\.|Hj\.)\s*/,'').trim().split(/\s+/); return ((parts[0]||'')[0]||'') + ((parts[1]||'')[0]||''); }
+
+/* ============================= DATA MODEL ============================= */
+var SCHOOL = { nama:'SMA Bhakti Nusantara', alamat:'Jl. Cihampelas No. 88, Bandung, Jawa Barat', tahunAjaran:'2026/2027', semester:'Ganjil', jamMasuk:'07:00', batasTelat:'07:15' };
+
+var DEPT_COLORS = { 'X':'#0d9488', 'XI MIPA':'#4338ca', 'XI IPS':'#c2410c', 'XII MIPA':'#7c3aed', 'XII IPS':'#be185d' };
+
+var KELAS = [
+  { id:'K1', nama:'X-1', jenjang:'X', jurusan:null, waliId:'G1' },
+  { id:'K2', nama:'X-2', jenjang:'X', jurusan:null, waliId:'G2' },
+  { id:'K3', nama:'XI MIPA 1', jenjang:'XI', jurusan:'MIPA', waliId:'G3' },
+  { id:'K4', nama:'XI IPS 1', jenjang:'XI', jurusan:'IPS', waliId:'G4' },
+  { id:'K5', nama:'XII MIPA 1', jenjang:'XII', jurusan:'MIPA', waliId:'G5' },
+  { id:'K6', nama:'XII IPS 1', jenjang:'XII', jurusan:'IPS', waliId:'G6' }
+];
+function kelasDeptKey(k) { return k.jurusan ? (k.jenjang + ' ' + k.jurusan) : k.jenjang; }
+function kelasColor(k) { return DEPT_COLORS[kelasDeptKey(k)] || '#0d9488'; }
+
+var MAPEL = [
+  { id:'M1', nama:'Matematika' }, { id:'M2', nama:'Bahasa Indonesia' }, { id:'M3', nama:'Bahasa Inggris' },
+  { id:'M4', nama:'Fisika' }, { id:'M5', nama:'Kimia' }, { id:'M6', nama:'Biologi' },
+  { id:'M7', nama:'Ekonomi' }, { id:'M8', nama:'Sejarah' }, { id:'M9', nama:'PJOK' }
+];
+function getMapel(id) { for (var i=0;i<MAPEL.length;i++) { if (MAPEL[i].id === id) return MAPEL[i]; } return null; }
+
+/* guru: jadwal = daftar {kelasId, mapelId, jpPerMinggu} */
+var GURU = [
+  { id:'G1', nama:'Siti Nurhaliza, S.Pd.', gelar:'Guru Matematika', golongan:'III/c', gajiPokok:5200000, jadwal:[
+      {kelasId:'K1', mapelId:'M1', jp:4}, {kelasId:'K2', mapelId:'M1', jp:4}, {kelasId:'K3', mapelId:'M1', jp:4}, {kelasId:'K5', mapelId:'M1', jp:4}
+    ] },
+  { id:'G2', nama:'Bambang Wijaya, S.Pd.', gelar:'Guru Bahasa Indonesia', golongan:'III/b', gajiPokok:5000000, jadwal:[
+      {kelasId:'K1', mapelId:'M2', jp:4}, {kelasId:'K2', mapelId:'M2', jp:4}, {kelasId:'K4', mapelId:'M2', jp:4}, {kelasId:'K6', mapelId:'M2', jp:4}
+    ] },
+  { id:'G3', nama:'Dewi Anggraini, S.Pd.', gelar:'Guru Fisika', golongan:'III/c', gajiPokok:5200000, jadwal:[
+      {kelasId:'K3', mapelId:'M4', jp:5}, {kelasId:'K5', mapelId:'M4', jp:5}
+    ] },
+  { id:'G4', nama:'Rudi Hartono, S.Pd.', gelar:'Guru Ekonomi', golongan:'III/b', gajiPokok:5000000, jadwal:[
+      {kelasId:'K4', mapelId:'M7', jp:5}, {kelasId:'K6', mapelId:'M7', jp:5}
+    ] },
+  { id:'G5', nama:'Maya Puspita, S.Pd.', gelar:'Guru Kimia', golongan:'III/d', gajiPokok:5500000, jadwal:[
+      {kelasId:'K3', mapelId:'M5', jp:4}, {kelasId:'K5', mapelId:'M5', jp:4}
+    ] },
+  { id:'G6', nama:'Agus Setiawan, S.Pd.', gelar:'Guru Sejarah', golongan:'III/b', gajiPokok:5000000, jadwal:[
+      {kelasId:'K1', mapelId:'M8', jp:3}, {kelasId:'K2', mapelId:'M8', jp:3}, {kelasId:'K4', mapelId:'M8', jp:3}, {kelasId:'K6', mapelId:'M8', jp:3}
+    ] },
+  { id:'G7', nama:'Indah Permata, S.Pd.', gelar:'Guru Bahasa Inggris', golongan:'III/c', gajiPokok:5200000, jadwal:[
+      {kelasId:'K1', mapelId:'M3', jp:3}, {kelasId:'K2', mapelId:'M3', jp:3}, {kelasId:'K3', mapelId:'M3', jp:3}, {kelasId:'K4', mapelId:'M3', jp:3}, {kelasId:'K5', mapelId:'M3', jp:3}, {kelasId:'K6', mapelId:'M3', jp:3}
+    ] },
+  { id:'G8', nama:'Hendra Gunawan, S.Pd.', gelar:'Guru Biologi', golongan:'III/b', gajiPokok:5000000, jadwal:[
+      {kelasId:'K3', mapelId:'M6', jp:4}, {kelasId:'K5', mapelId:'M6', jp:4}
+    ] },
+  { id:'G9', nama:'Rina Kusuma, S.Pd.', gelar:'Guru PJOK', golongan:'III/a', gajiPokok:4700000, jadwal:[
+      {kelasId:'K1', mapelId:'M9', jp:2}, {kelasId:'K2', mapelId:'M9', jp:2}, {kelasId:'K3', mapelId:'M9', jp:2}, {kelasId:'K4', mapelId:'M9', jp:2}, {kelasId:'K5', mapelId:'M9', jp:2}, {kelasId:'K6', mapelId:'M9', jp:2}
+    ] }
+];
+var KEPSEK = { id:'KS1', nama:'Dr. H. Ahmad Fauzan Ridwan, S.Pd., M.Pd.', gelar:'Kepala Sekolah', role:'kepsek' };
+
+function getGuru(id) { for (var i=0;i<GURU.length;i++) { if (GURU[i].id === id) return GURU[i]; } return null; }
+function getKelas(id) { for (var i=0;i<KELAS.length;i++) { if (KELAS[i].id === id) return KELAS[i]; } return null; }
+function waliOf(kelasId) { var k = getKelas(kelasId); return k ? getGuru(k.waliId) : null; }
+function totalJpGuru(guru) { var t = 0; guru.jadwal.forEach(function(j){ t += j.jp; }); return t; }
+function isWaliKelas(guruId) { for (var i=0;i<KELAS.length;i++) { if (KELAS[i].waliId === guruId) return KELAS[i]; } return null; }
+function TUNJANGAN_WALI() { return 500000; }
+function TUNJANGAN_FUNGSIONAL() { return 350000; }
+function RATE_PER_JAM() { return 38000; }
+function hitungGaji(guru) {
+  var jp = totalJpGuru(guru);
+  var tunjJp = jp * 4 * RATE_PER_JAM();
+  var tunjWali = isWaliKelas(guru.id) ? TUNJANGAN_WALI() : 0;
+  var tunjFungsional = TUNJANGAN_FUNGSIONAL();
+  var kotor = guru.gajiPokok + tunjJp + tunjWali + tunjFungsional;
+  var potBpjs = Math.round(guru.gajiPokok * 0.02);
+  var bersih = kotor - potBpjs;
+  return { gajiPokok:guru.gajiPokok, jp:jp, tunjJp:tunjJp, tunjWali:tunjWali, tunjFungsional:tunjFungsional, kotor:kotor, potBpjs:potBpjs, bersih:bersih };
+}
+
+var NAMA_L = ['Ahmad','Budi','Chandra','Dimas','Eko','Fajar','Galih','Hafiz','Irfan','Joko','Krisna','Lukman','Muklis','Nanda','Oscar','Putra','Rafi','Satria','Teguh','Umar','Vino','Wahyu','Yudha','Zaki'];
+var NAMA_P = ['Anisa','Bella','Citra','Devi','Eka','Fitri','Gita','Hana','Indah','Jasmine','Kirana','Laila','Mira','Nadia','Olivia','Putri','Rani','Salsa','Tania','Ulfa','Vira','Wulan','Yuni','Zahra'];
+var MARGA = ['Pratama','Wijaya','Santoso','Kusuma','Saputra','Ramadhan','Hidayat','Setiawan','Nugraha','Permana','Firmansyah','Utami','Lestari','Handayani','Anggraeni','Maharani','Wibowo','Suryana','Gunawan','Fauzi'];
+
+function genSiswa() {
+  var list = [];
+  var counter = 1;
+  KELAS.forEach(function(k) {
+    var n = 6;
+    for (var i = 0; i < n; i++) {
+      var r = seededRand(k.id + 'siswa' + i);
+      var isL = r < 0.5;
+      var firstNames = isL ? NAMA_L : NAMA_P;
+      var fi = Math.floor(seededRand(k.id+i+'fn') * firstNames.length);
+      var mi = Math.floor(seededRand(k.id+i+'mn') * MARGA.length);
+      var nama = firstNames[fi] + ' ' + MARGA[mi];
+      var nis = '2026' + pad2(counter);
+      var nisn = '00' + (30000000 + counter * 137);
+      list.push({ id:'S' + counter, nama:nama, nis:nis, nisn:nisn, kelasId:k.id, jk: isL ? 'L' : 'P' });
+      counter++;
+    }
+  });
+  return list;
+}
+var SISWA = genSiswa();
+function getSiswa(id) { for (var i=0;i<SISWA.length;i++) { if (SISWA[i].id === id) return SISWA[i]; } return null; }
+function siswaByKelas(kelasId) { return SISWA.filter(function(s){ return s.kelasId === kelasId; }); }
+
+function mapelForKelas(kelasId) {
+  var out = [];
+  GURU.forEach(function(g) {
+    g.jadwal.forEach(function(j) {
+      if (j.kelasId === kelasId) out.push({ mapelId:j.mapelId, guruId:g.id, jp:j.jp });
+    });
+  });
+  return out;
+}
+function guruTeachesKelas(guruId, kelasId) {
+  var g = getGuru(guruId);
+  if (!g) return null;
+  for (var i=0;i<g.jadwal.length;i++) { if (g.jadwal[i].kelasId === kelasId) return g.jadwal[i]; }
+  return null;
+}
+function kelasOfGuru(guruId) {
+  var g = getGuru(guruId);
+  if (!g) return [];
+  var seen = {}, out = [];
+  g.jadwal.forEach(function(j) { if (!seen[j.kelasId]) { seen[j.kelasId] = true; out.push(getKelas(j.kelasId)); } });
+  return out;
+}
+
+/* ============================= SEEDING ============================= */
+function seedIfNeeded() {
+  if (localStorage.getItem('sekolahku_seeded_v1')) return;
+  var today = new Date();
+  var todayIso = fmtDateISO(today);
+
+  /* --- absensi siswa: 30 hari terakhir per siswa --- */
+  var absSiswa = [];
+  SISWA.forEach(function(s) {
+    for (var back = 30; back >= 0; back--) {
+      var day = addDays(today, -back);
+      if (isWeekend(day)) continue;
+      var iso = fmtDateISO(day);
+      if (iso === todayIso) continue; /* hari ini sengaja dikosongkan agar terasa interaktif */
+      var r = seededRand(s.id + iso + 'as');
+      var status = r < 0.03 ? 'Alpha' : (r < 0.06 ? 'Sakit' : (r < 0.09 ? 'Izin' : 'Hadir'));
+      absSiswa.push({ id: uid('AS'), siswaId: s.id, kelasId: s.kelasId, tanggal: iso, status: status });
+    }
+  });
+  localStorage.setItem('sekolahku_absensi_siswa', JSON.stringify(absSiswa));
+
+  /* --- absensi guru: 30 hari terakhir, hanya di hari guru punya jadwal --- */
+  var absGuru = [];
+  GURU.forEach(function(g) {
+    for (var back = 30; back >= 0; back--) {
+      var day = addDays(today, -back);
+      if (isWeekend(day)) continue;
+      var iso = fmtDateISO(day);
+      if (iso === todayIso && g.id !== 'G9') continue; /* sisakan hari ini kosong utk sesi demo, kecuali satu contoh */
+      var r = seededRand(g.id + iso + 'ag');
+      var status, jamMasuk;
+      if (r < 0.04) { status = 'Alpha'; jamMasuk = null; }
+      else if (r < 0.07) { status = 'Sakit'; jamMasuk = null; }
+      else if (r < 0.10) { status = 'Izin'; jamMasuk = null; }
+      else {
+        var lateRoll = seededRand(g.id + iso + 'lg');
+        var isLate = lateRoll < 0.12;
+        status = isLate ? 'Terlambat' : 'Hadir';
+        var mh = isLate ? 7 : 6;
+        var mm = isLate ? (16 + Math.floor(lateRoll*300)%35) : (45 + Math.floor(lateRoll*200)%14);
+        if (mm >= 60) { mm -= 60; mh += 1; }
+        var mDate = new Date(day); mDate.setHours(mh, mm, 0, 0);
+        jamMasuk = mDate.toISOString();
+      }
+      absGuru.push({ id: uid('AG'), guruId: g.id, tanggal: iso, status: status, jamMasuk: jamMasuk });
+    }
+  });
+  localStorage.setItem('sekolahku_absensi_guru', JSON.stringify(absGuru));
+
+  /* --- nilai: tugas & uts terisi, uas belum (baru pertengahan semester) --- */
+  var nilai = [];
+  KELAS.forEach(function(k) {
+    var mapels = mapelForKelas(k.id);
+    var siswaList = siswaByKelas(k.id);
+    siswaList.forEach(function(s) {
+      mapels.forEach(function(m) {
+        var seed = s.id + m.mapelId;
+        var tugas = 70 + Math.floor(seededRand(seed+'t') * 28);
+        var uts = 65 + Math.floor(seededRand(seed+'u') * 32);
+        nilai.push({ id: uid('NL'), siswaId: s.id, kelasId: k.id, mapelId: m.mapelId, guruId: m.guruId, tahunAjaran: SCHOOL.tahunAjaran, semester: SCHOOL.semester, tugas: tugas, uts: uts, uas: null });
+      });
+    });
+  });
+  localStorage.setItem('sekolahku_nilai', JSON.stringify(nilai));
+
+  /* --- status gaji: bulan lalu sudah dibayar, bulan ini belum --- */
+  var gajiStatus = {};
+  var lastMonth = new Date(today.getFullYear(), today.getMonth() - 1, 1);
+  var lastKey = lastMonth.getFullYear() + '-' + pad2(lastMonth.getMonth()+1);
+  var curKey = today.getFullYear() + '-' + pad2(today.getMonth()+1);
+  GURU.forEach(function(g) {
+    gajiStatus[g.id + '_' + lastKey] = 'Sudah Dibayar';
+    gajiStatus[g.id + '_' + curKey] = 'Belum Dibayar';
+  });
+  localStorage.setItem('sekolahku_gaji_status', JSON.stringify(gajiStatus));
+
+  localStorage.setItem('sekolahku_seeded_v1', '1');
+}
+function getAbsensiSiswa() { return JSON.parse(localStorage.getItem('sekolahku_absensi_siswa') || '[]'); }
+function saveAbsensiSiswa(a) { localStorage.setItem('sekolahku_absensi_siswa', JSON.stringify(a)); }
+function getAbsensiGuru() { return JSON.parse(localStorage.getItem('sekolahku_absensi_guru') || '[]'); }
+function saveAbsensiGuru(a) { localStorage.setItem('sekolahku_absensi_guru', JSON.stringify(a)); }
+function getNilai() { return JSON.parse(localStorage.getItem('sekolahku_nilai') || '[]'); }
+function saveNilai(n) { localStorage.setItem('sekolahku_nilai', JSON.stringify(n)); }
+function getGajiStatus() { return JSON.parse(localStorage.getItem('sekolahku_gaji_status') || '{}'); }
+function setGajiStatus(guruId, key, val) { var gs = getGajiStatus(); gs[guruId + '_' + key] = val; localStorage.setItem('sekolahku_gaji_status', JSON.stringify(gs)); }
+function nilaiAkhir(n) { if (n.uas == null) return null; return Math.round(n.tugas*0.2 + n.uts*0.3 + n.uas*0.5); }
+var KKM = 75;
+
+/* ============================= STATE ============================= */
+var state = {
+  currentUser: null,
+  role: null, /* 'admin' | 'guru' | 'kepsek' */
+  view: 'login',
+  tab: 'ringkasan',
+  siswaFilterKelas: 'Semua',
+  siswaSearch: '',
+  absGuruFilterDate: fmtDateISO(new Date()),
+  gajiBulan: (function(){ var d = new Date(); return d.getFullYear() + '-' + pad2(d.getMonth()+1); })(),
+  absKelasId: null,
+  absTanggal: fmtDateISO(new Date()),
+  nilaiKelasId: null,
+  nilaiMapelId: null,
+  raporKelasId: null,
+  charts: {}
+};
+
+/* ============================= SHARED UI ============================= */
+function avatarHtml(person, size, colorOverride) {
+  size = size || 40;
+  var color = colorOverride || 'var(--primary)';
+  return '<div class="avatar" style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';font-size:' + Math.round(size*0.36) + 'px;">' + escapeHtml(initialsOf(person.nama).toUpperCase()) + '</div>';
+}
+function statusBadge(status) {
+  var map = {
+    'Hadir':'badge-ok', 'Terlambat':'badge-warn', 'Alpha':'badge-danger',
+    'Izin':'badge-info', 'Sakit':'badge-info', 'Sudah Dibayar':'badge-ok', 'Belum Dibayar':'badge-warn',
+    'Tuntas':'badge-ok', 'Belum Tuntas':'badge-danger', 'Belum Dinilai':'badge-muted'
+  };
+  return '<span class="badge ' + (map[status] || 'badge-muted') + '">' + escapeHtml(status) + '</span>';
+}
+
+/* ============================= ACTIONS ============================= */
+function loginAsGuru(id) {
+  state.currentUser = getGuru(id); state.role = 'guru'; state.view = 'app'; state.tab = 'beranda';
+  render();
+  showToast('Masuk sebagai ' + state.currentUser.nama, 'ok');
+}
+function loginAsAdmin() {
+  state.currentUser = { id:'ADM1', nama:'Yuli Astuti, S.Pd.', gelar:'Kepala Tata Usaha' }; state.role = 'admin'; state.view = 'app'; state.tab = 'ringkasan';
+  render();
+  showToast('Masuk sebagai Admin TU', 'ok');
+}
+function loginAsKepsek() {
+  state.currentUser = KEPSEK; state.role = 'kepsek'; state.view = 'app'; state.tab = 'ringkasan';
+  render();
+  showToast('Masuk sebagai Kepala Sekolah', 'ok');
+}
+function logout() { state.currentUser = null; state.role = null; state.view = 'login'; render(); }
+function setTab(tab) {
+  state.tab = tab;
+  if (tab === 'absensi' && state.role === 'guru' && !state.absKelasId) {
+    var kls = kelasOfGuru(state.currentUser.id);
+    state.absKelasId = kls.length ? kls[0].id : null;
+  }
+  if (tab === 'nilai' && state.role === 'guru' && !state.nilaiKelasId) {
+    var g = state.currentUser;
+    if (g.jadwal.length) { state.nilaiKelasId = g.jadwal[0].kelasId; state.nilaiMapelId = g.jadwal[0].mapelId; }
+  }
+  if (tab === 'rapor' && state.role === 'guru') {
+    var wk = isWaliKelas(state.currentUser.id);
+    state.raporKelasId = wk ? wk.id : null;
+  }
+  render();
+  if (tab === 'ringkasan' || tab === 'akademik' || tab === 'kepegawaian') { setTimeout(renderCharts, 60); }
+}
+
+function markAbsenSiswa(siswaId, status) {
+  var all = getAbsensiSiswa();
+  var found = null;
+  for (var i=0;i<all.length;i++) { if (all[i].siswaId === siswaId && all[i].tanggal === state.absTanggal) { found = all[i]; break; } }
+  if (found) { found.status = status; }
+  else { all.push({ id: uid('AS'), siswaId: siswaId, kelasId: getSiswa(siswaId).kelasId, tanggal: state.absTanggal, status: status }); }
+  saveAbsensiSiswa(all);
+  renderAbsensiTable();
+}
+function absenSemuaHadir() {
+  var siswaList = siswaByKelas(state.absKelasId);
+  var all = getAbsensiSiswa();
+  siswaList.forEach(function(s) {
+    var found = null;
+    for (var i=0;i<all.length;i++) { if (all[i].siswaId === s.id && all[i].tanggal === state.absTanggal) { found = all[i]; break; } }
+    if (found) { found.status = 'Hadir'; }
+    else { all.push({ id: uid('AS'), siswaId: s.id, kelasId: s.kelasId, tanggal: state.absTanggal, status: 'Hadir' }); }
+  });
+  saveAbsensiSiswa(all);
+  showToast('Semua siswa ditandai Hadir. Sesuaikan jika ada pengecualian.', 'ok');
+  renderAbsensiTable();
+}
+function changeAbsTanggal(delta) {
+  state.absTanggal = fmtDateISO(addDays(state.absTanggal, delta));
+  render();
+}
+function setAbsKelas(id) { state.absKelasId = id; render(); }
+
+function setNilaiContext(kelasId, mapelId) { state.nilaiKelasId = kelasId; state.nilaiMapelId = mapelId; render(); }
+function updateNilai(siswaId, field, val) {
+  val = val === '' ? null : Math.max(0, Math.min(100, parseInt(val, 10) || 0));
+  var all = getNilai();
+  for (var i=0;i<all.length;i++) {
+    if (all[i].siswaId === siswaId && all[i].mapelId === state.nilaiMapelId && all[i].kelasId === state.nilaiKelasId) {
+      all[i][field] = val;
+      saveNilai(all);
+      /* Patch only the affected row's computed cells rather than rebuilding the whole
+         table, so the input the user is editing (and its focus) is never destroyed. */
+      var na = nilaiAkhir(all[i]);
+      var status = na == null ? 'Belum Dinilai' : (na >= KKM ? 'Tuntas' : 'Belum Tuntas');
+      var naCell = document.getElementById('na-' + siswaId);
+      var statCell = document.getElementById('stat-' + siswaId);
+      if (naCell) naCell.textContent = na == null ? '-' : na;
+      if (statCell) statCell.innerHTML = statusBadge(status);
+      return;
+    }
+  }
+}
+function setRaporKelas(id) { state.raporKelasId = id; render(); }
+
+function toggleGajiStatus(guruId) {
+  var gs = getGajiStatus();
+  var key = guruId + '_' + state.gajiBulan;
+  var cur = gs[key] || 'Belum Dibayar';
+  setGajiStatus(guruId, state.gajiBulan, cur === 'Belum Dibayar' ? 'Sudah Dibayar' : 'Belum Dibayar');
+  showToast(cur === 'Belum Dibayar' ? 'Gaji ditandai sudah dibayar.' : 'Status dikembalikan ke belum dibayar.', 'ok');
+  render();
+}
+function changeGajiBulan(delta) {
+  var d = new Date(state.gajiBulan + '-01T00:00:00');
+  d.setMonth(d.getMonth() + delta);
+  state.gajiBulan = d.getFullYear() + '-' + pad2(d.getMonth()+1);
+  render();
+}
+
+var slipGajiTarget = null;
+function openSlipGaji(guruId) {
+  slipGajiTarget = guruId;
+  var g = getGuru(guruId);
+  var gaji = hitungGaji(g);
+  var d = new Date(state.gajiBulan + '-01T00:00:00');
+  var bulanLabel = BULAN_ID[d.getMonth()] + ' ' + d.getFullYear();
+  var gs = getGajiStatus();
+  var status = gs[guruId + '_' + state.gajiBulan] || 'Belum Dibayar';
+  var wk = isWaliKelas(g.id);
+  var modal = document.getElementById('modal-root');
+  modal.innerHTML =
+    '<div class="modal-backdrop" onclick="if(event.target===this) closeModal();">' +
+    '<div class="modal-box fade-in">' +
+    '<div style="padding:22px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">' +
+    '<div><div style="font-weight:800;font-size:15px;">Slip Gaji</div><div style="font-size:12px;color:var(--muted);">' + bulanLabel + '</div></div>' +
+    statusBadge(status) +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '<div class="emp-row" style="margin-bottom:14px;">' + avatarHtml(g, 44) + '<div><div style="font-weight:800;font-size:14px;">' + escapeHtml(g.nama) + '</div><div style="font-size:12px;color:var(--muted);">' + escapeHtml(g.gelar) + (wk ? ' &middot; Wali ' + wk.nama : '') + '</div></div></div>' +
+    '<div style="font-size:13.5px;">' +
+    rowGaji('Gaji Pokok (Gol. ' + g.golongan + ')', fmtRupiah(gaji.gajiPokok)) +
+    rowGaji('Tunjangan Jam Mengajar (' + gaji.jp + ' JP/minggu)', fmtRupiah(gaji.tunjJp)) +
+    (gaji.tunjWali ? rowGaji('Tunjangan Wali Kelas', fmtRupiah(gaji.tunjWali)) : '') +
+    rowGaji('Tunjangan Fungsional', fmtRupiah(gaji.tunjFungsional)) +
+    '<div class="divider" style="margin:10px 0;"></div>' +
+    rowGaji('Total Pendapatan', fmtRupiah(gaji.kotor), true) +
+    rowGaji('Potongan BPJS (2%)', '-' + fmtRupiah(gaji.potBpjs)) +
+    '<div class="divider" style="margin:10px 0;"></div>' +
+    rowGaji('Gaji Bersih Diterima', fmtRupiah(gaji.bersih), true, true) +
+    '</div>' +
+    '<div style="display:flex;gap:10px;margin-top:18px;">' +
+    '<button class="btn btn-secondary" style="flex:1;" onclick="window.print()">' + icon('print') + ' Cetak</button>' +
+    (state.role === 'admin' ? '<button class="btn btn-primary" style="flex:1;" onclick="toggleGajiStatus(\'' + g.id + '\');closeModal();">' + icon('check') + ' ' + (status === 'Belum Dibayar' ? 'Tandai Dibayar' : 'Batalkan Status') + '</button>' : '') +
+    '</div>' +
+    '</div></div></div>';
+}
+function rowGaji(label, val, bold, big) {
+  return '<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;' + (bold ? 'font-weight:800;' : '') + (big ? 'font-size:16px;color:var(--primary);' : '') + '"><span style="color:' + (bold ? 'var(--ink)' : 'var(--ink-soft)') + ';">' + label + '</span><span>' + val + '</span></div>';
+}
+function closeModal() { document.getElementById('modal-root').innerHTML = ''; slipGajiTarget = null; }
+
+/* ============================= LOGIN ============================= */
+function buildLogin() {
+  var guruCards = GURU.map(function(g) {
+    var wk = isWaliKelas(g.id);
+    return '<button onclick="loginAsGuru(\'' + g.id + '\')" style="text-align:left;background:var(--surface);border:1.5px solid var(--line-soft);border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s;font-family:inherit;width:100%;" onmouseover="this.style.borderColor=\'var(--primary-3)\';this.style.boxShadow=\'var(--shadow-md)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--line-soft)\';this.style.boxShadow=\'none\';this.style.transform=\'none\';">' +
+      avatarHtml(g, 44) +
+      '<div style="min-width:0;flex:1;"><div style="font-weight:700;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(g.nama) + '</div><div style="font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(g.gelar) + (wk ? ' &middot; Wali ' + wk.nama : '') + '</div></div>' +
+      icon('chevronR', 'ic-muted') +
+      '</button>';
+  }).join('');
+  return '<div style="min-height:100vh;background:var(--forest);position:relative;overflow:hidden;display:flex;align-items:center;padding:40px 0;">' +
+    '<div style="position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,0.20),transparent 70%);top:-220px;right:-160px;"></div>' +
+    '<div style="position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(184,134,11,0.16),transparent 70%);bottom:-180px;left:-120px;"></div>' +
+    '<div class="wrap" style="position:relative;z-index:1;">' +
+    '<div style="max-width:920px;margin:0 auto;">' +
+    '<div style="text-align:center;margin-bottom:30px;">' +
+    '<a href="https://bagasaria93.github.io" style="display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.55);font-size:12.5px;font-weight:600;text-decoration:none;margin-bottom:22px;">' + icon('chevronL') + ' Kembali ke Portfolio</a>' +
+    '<div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);padding:8px 16px;border-radius:99px;margin-bottom:18px;">' +
+    '<span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;box-shadow:0 0 0 3px rgba(34,197,94,0.25);"></span>' +
+    '<span style="color:rgba(255,255,255,0.75);font-size:12.5px;font-weight:600;">Demo Interaktif &middot; ' + SCHOOL.nama + '</span></div>' +
+    '<h1 class="font-display" style="color:#fff;font-size:36px;font-weight:800;margin:0 0 10px;letter-spacing:-0.01em;">Sekolah<span style="color:var(--gold-soft);">Ku</span></h1>' +
+    '<p style="color:rgba(255,255,255,0.6);font-size:15px;max-width:520px;margin:0 auto;line-height:1.6;">Sistem informasi sekolah untuk data siswa dan guru, absensi, nilai dan rapor, serta penggajian guru. Pilih akun demo di bawah untuk menjelajahi aplikasi.</p>' +
+    '</div>' +
+    '<div class="card-surface fade-in" style="padding:22px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">' + icon('users','ic-primary') + '<span style="font-weight:800;font-size:14px;">Masuk sebagai Guru</span></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;">' + guruCards + '</div>' +
+    '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;" class="split-grid">' +
+    '<button onclick="loginAsAdmin()" class="card-surface fade-in" style="width:100%;padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;border:1.5px solid var(--line-soft);font-family:inherit;text-align:left;transition:all 0.2s;" onmouseover="this.style.borderColor=\'var(--primary-3)\';this.style.boxShadow=\'var(--shadow-md)\';" onmouseout="this.style.borderColor=\'var(--line-soft)\';this.style.boxShadow=\'var(--shadow-sm)\';">' +
+    '<div style="width:44px;height:44px;border-radius:50%;background:var(--grad-primary);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">' + icon('clipboard') + '</div>' +
+    '<div style="flex:1;min-width:0;"><div style="font-weight:800;font-size:14px;">Masuk sebagai Admin TU</div><div style="font-size:12px;color:var(--muted);">Yuli Astuti, S.Pd. &middot; Tata Usaha</div></div>' +
+    icon('chevronR', 'ic-muted') +
+    '</button>' +
+    '<button onclick="loginAsKepsek()" class="card-surface fade-in" style="width:100%;padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;border:1.5px solid var(--line-soft);font-family:inherit;text-align:left;transition:all 0.2s;" onmouseover="this.style.borderColor=\'var(--gold-soft)\';this.style.boxShadow=\'var(--shadow-md)\';" onmouseout="this.style.borderColor=\'var(--line-soft)\';this.style.boxShadow=\'var(--shadow-sm)\';">' +
+    '<div style="width:44px;height:44px;border-radius:50%;background:var(--grad-gold);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">' + icon('award') + '</div>' +
+    '<div style="flex:1;min-width:0;"><div style="font-weight:800;font-size:14px;">Masuk sebagai Kepala Sekolah</div><div style="font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(KEPSEK.nama) + '</div></div>' +
+    icon('chevronR', 'ic-muted') +
+    '</button>' +
+    '</div>' +
+    '<p style="text-align:center;color:rgba(255,255,255,0.35);font-size:11.5px;margin-top:24px;">Ini adalah demo portfolio. Seluruh data siswa, guru, dan sekolah bersifat fiktif dan tersimpan lokal di browser Anda.</p>' +
+    '</div></div></div>';
+}
+
+/* ============================= TOPBAR & FOOTER ============================= */
+function buildTopbar() {
+  var user = state.currentUser;
+  var tabsByRole = {
+    admin: [['ringkasan','home','Ringkasan'],['siswa','users','Data Siswa'],['guru','user','Data Guru'],['kelas','school','Data Kelas'],['absguru','calendar','Absensi Guru'],['gaji','wallet','Penggajian']],
+    guru: [['beranda','home','Beranda'],['absensi','calendar','Absensi Siswa'],['nilai','edit','Input Nilai']].concat(isWaliKelas(user.id) ? [['rapor','clipboard','Rapor Kelas']] : []).concat([['slipgaji','wallet','Slip Gaji']]),
+    kepsek: [['ringkasan','home','Ringkasan'],['akademik','graduation','Akademik'],['kepegawaian','briefcase','Kepegawaian'],['keuangan','wallet','Keuangan']]
+  };
+  var tabs = tabsByRole[state.role];
+  var subtitle = state.role === 'admin' ? user.gelar : (state.role === 'kepsek' ? user.gelar : user.gelar);
+  var tabsHtml = tabs.map(function(t) {
+    return '<button class="tab-btn ' + (state.tab === t[0] ? 'active' : '') + '" onclick="setTab(\'' + t[0] + '\')">' + icon(t[1]) + '<span>' + t[2] + '</span></button>';
+  }).join('');
+  return '<div class="topbar">' +
+    '<div class="wrap" style="padding-top:14px;padding-bottom:0;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">' +
+    '<a href="https://bagasaria93.github.io" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);">' +
+    '<div style="width:34px;height:34px;border-radius:10px;background:var(--grad-primary);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">' + icon('school') + '</div>' +
+    '<span class="font-display" style="font-weight:800;font-size:16.5px;">Sekolah<span style="color:var(--primary);">Ku</span></span>' +
+    '</a>' +
+    '<div style="display:flex;align-items:center;gap:10px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' +
+    avatarHtml(user, 34) +
+    '<div style="text-align:right;">' +
+    '<div style="font-weight:700;font-size:13px;line-height:1.2;white-space:nowrap;max-width:38vw;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(user.nama) + '</div>' +
+    '<div style="font-size:11px;color:var(--muted);line-height:1.2;">' + escapeHtml(subtitle) + '</div>' +
+    '</div>' +
+    '</div>' +
+    '<button class="btn-icon" onclick="logout()" title="Keluar">' + icon('logout') + '</button>' +
+    '</div>' +
+    '</div>' +
+    '<div class="tab-row" style="padding-bottom:11px;">' + tabsHtml + '</div>' +
+    '</div></div>';
+}
+function buildFooter() {
+  return '<div class="wrap" style="padding:34px 20px 44px;text-align:center;">' +
+    '<div class="divider" style="max-width:280px;margin:0 auto 18px;"></div>' +
+    '<p style="font-size:12px;color:var(--muted);margin:0 0 6px;">SekolahKu &middot; Demo sistem informasi sekolah untuk ' + SCHOOL.nama + ' (fiktif)</p>' +
+    '<a href="https://bagasaria93.github.io" style="font-size:12px;color:var(--primary);font-weight:700;text-decoration:none;">Demo Portfolio oleh Bagas Aria Sativa</a>' +
+    '</div>';
+}
+
+/* ============================= GURU: BERANDA ============================= */
+function buildGuruBeranda() {
+  var g = state.currentUser;
+  var wk = isWaliKelas(g.id);
+  var todayIso = fmtDateISO(new Date());
+  var jadwalRows = g.jadwal.map(function(j) {
+    var k = getKelas(j.kelasId), m = getMapel(j.mapelId);
+    return '<tr><td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:' + kelasColor(k) + ';display:inline-block;"></span>' + escapeHtml(k.nama) + '</span></td><td>' + escapeHtml(m.nama) + '</td><td>' + j.jp + ' JP/minggu</td></tr>';
+  }).join('');
+
+  var absGuru = getAbsensiGuru().filter(function(a){ return a.guruId === g.id; });
+  var thisMonth = absGuru.filter(function(a){ return a.tanggal.slice(0,7) === todayIso.slice(0,7); });
+  var hadirCount = thisMonth.filter(function(a){ return a.status === 'Hadir' || a.status === 'Terlambat'; }).length;
+  var telatCount = thisMonth.filter(function(a){ return a.status === 'Terlambat'; }).length;
+
+  var statTile = function(label, value, iconName, accent) {
+    return '<div class="stat-tile" style="--accent:' + accent + ';">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+      '<div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.03em;">' + label + '</div>' +
+      '<div class="font-display" style="font-size:24px;font-weight:800;margin-top:3px;">' + value + '</div></div>' +
+      '<div class="stat-icon-badge" style="background:' + accent + '1a;color:' + accent + ';">' + icon(iconName) + '</div></div></div>';
+  };
+
+  return '<div class="fade-in">' +
+    '<div class="hero-card" style="margin-bottom:18px;">' +
+    '<div style="position:relative;z-index:1;">' +
+    '<div style="color:rgba(255,255,255,0.65);font-size:12.5px;font-weight:600;">' + fmtDateLong(new Date()) + '</div>' +
+    '<div class="font-display" style="color:#fff;font-size:22px;font-weight:800;margin-top:4px;">Selamat datang, ' + escapeHtml(g.nama.split(',')[0]) + '</div>' +
+    '<div style="color:rgba(255,255,255,0.75);font-size:13.5px;margin-top:4px;">' + escapeHtml(g.gelar) + (wk ? ' &middot; Wali Kelas ' + wk.nama : '') + '</div>' +
+    '<div style="display:flex;gap:20px;margin-top:18px;flex-wrap:wrap;">' +
+    '<div><div style="color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;text-transform:uppercase;">Total Jam Mengajar</div><div style="color:#fff;font-weight:800;font-size:20px;">' + totalJpGuru(g) + ' JP/minggu</div></div>' +
+    '<div><div style="color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;text-transform:uppercase;">Kelas Diampu</div><div style="color:#fff;font-weight:800;font-size:20px;">' + kelasOfGuru(g.id).length + ' kelas</div></div>' +
+    '</div></div></div>' +
+    '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:18px;">' +
+    statTile('Hadir Mengajar Bulan Ini', hadirCount, 'checkCircle', '#15803d') +
+    statTile('Terlambat', telatCount, 'bell', '#b45309') +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('calendar','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Jadwal Mengajar</span></div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Kelas</th><th>Mata Pelajaran</th><th>Beban</th></tr></thead><tbody>' + jadwalRows + '</tbody></table></div>' +
+    '</div></div>';
+}
+
+/* ============================= GURU: ABSENSI SISWA ============================= */
+function changeAbsTanggalGuard(delta) {
+  var d = fmtDateISO(addDays(state.absTanggal, delta));
+  if (d > fmtDateISO(new Date())) { showToast('Tidak dapat mengisi absensi untuk tanggal yang akan datang.', 'warn'); return; }
+  state.absTanggal = d;
+  render();
+}
+function buildGuruAbsensi() {
+  var g = state.currentUser;
+  var kelasList = kelasOfGuru(g.id);
+  if (!kelasList.length) return '<div class="card-surface" style="padding:30px;text-align:center;color:var(--muted);">Anda belum memiliki kelas yang diampu.</div>';
+  var chips = kelasList.map(function(k) {
+    return '<button class="chip ' + (state.absKelasId === k.id ? 'active' : '') + '" onclick="setAbsKelas(\'' + k.id + '\')">' + escapeHtml(k.nama) + '</button>';
+  }).join('');
+  var d = new Date(state.absTanggal);
+  var isToday = state.absTanggal === fmtDateISO(new Date());
+  return '<div class="fade-in">' +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('calendar','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Absensi Siswa</span></div>' +
+    '<div style="display:flex;align-items:center;gap:6px;">' +
+    '<button class="btn-icon" onclick="changeAbsTanggalGuard(-1)">' + icon('chevronL') + '</button>' +
+    '<span style="font-weight:700;font-size:13.5px;min-width:150px;text-align:center;">' + fmtDateShort(d) + (isToday ? ' (Hari Ini)' : '') + '</span>' +
+    '<button class="btn-icon" onclick="changeAbsTanggalGuard(1)" ' + (isToday ? 'disabled' : '') + '>' + icon('chevronR') + '</button>' +
+    '</div></div>' +
+    '<div class="tab-row">' + chips + '</div>' +
+    '</div>' +
+    '<div id="absensi-table-mount"></div>' +
+    '</div>';
+}
+function renderAbsensiTable() {
+  var mount = document.getElementById('absensi-table-mount');
+  if (!mount || !state.absKelasId) return;
+  var siswaList = siswaByKelas(state.absKelasId).slice().sort(function(a,b){ return a.nama.localeCompare(b.nama); });
+  var all = getAbsensiSiswa();
+  var recFor = function(sid) { for (var i=0;i<all.length;i++) { if (all[i].siswaId === sid && all[i].tanggal === state.absTanggal) return all[i]; } return null; };
+  var count = { Hadir:0, Sakit:0, Izin:0, Alpha:0, belum:0 };
+  var rows = siswaList.map(function(s, idx) {
+    var rec = recFor(s.id);
+    var st = rec ? rec.status : null;
+    if (st && count[st] != null) count[st]++; else if (!st) count.belum++;
+    var pill = function(label, val) {
+      var cls = st === val ? ' active-' + val.toLowerCase() + ' active' : '';
+      return '<button class="attend-pill' + cls + '" onclick="markAbsenSiswa(\'' + s.id + '\',\'' + val + '\')">' + label + '</button>';
+    };
+    return '<tr><td>' + (idx+1) + '</td><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(s.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + s.nis + '</div></td>' +
+      '<td><div style="display:flex;gap:6px;flex-wrap:wrap;">' + pill('Hadir','Hadir') + pill('Sakit','Sakit') + pill('Izin','Izin') + pill('Alpha','Alpha') + '</div></td></tr>';
+  }).join('');
+  var summary = '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">' +
+    '<span class="badge badge-ok">Hadir ' + count.Hadir + '</span>' +
+    '<span class="badge badge-info">Sakit ' + count.Sakit + '</span>' +
+    '<span class="badge badge-warn">Izin ' + count.Izin + '</span>' +
+    '<span class="badge badge-danger">Alpha ' + count.Alpha + '</span>' +
+    (count.belum ? '<span class="badge badge-muted">Belum diisi ' + count.belum + '</span>' : '') +
+    '</div>';
+  mount.innerHTML = '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:6px;">' +
+    summary +
+    '<button class="btn btn-secondary btn-sm" onclick="absenSemuaHadir()">' + icon('checkCircle') + ' Tandai Semua Hadir</button>' +
+    '</div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>No</th><th>Nama Siswa</th><th>Kehadiran</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= GURU: INPUT NILAI ============================= */
+function buildGuruNilai() {
+  var g = state.currentUser;
+  if (!g.jadwal.length) return '<div class="card-surface" style="padding:30px;text-align:center;color:var(--muted);">Anda belum mengampu mata pelajaran apa pun.</div>';
+  var chips = g.jadwal.map(function(j) {
+    var k = getKelas(j.kelasId), m = getMapel(j.mapelId);
+    var active = state.nilaiKelasId === j.kelasId && state.nilaiMapelId === j.mapelId;
+    return '<button class="chip ' + (active ? 'active' : '') + '" onclick="setNilaiContext(\'' + j.kelasId + '\',\'' + j.mapelId + '\')">' + escapeHtml(k.nama) + ' &middot; ' + escapeHtml(m.nama) + '</button>';
+  }).join('');
+  return '<div class="fade-in">' +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('edit','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Input Nilai</span></div>' +
+    '<p style="font-size:12px;color:var(--muted);margin:0 0 12px;">Pilih kelas dan mata pelajaran yang Anda ampu.</p>' +
+    '<div class="tab-row">' + chips + '</div>' +
+    '</div>' +
+    '<div id="nilai-table-mount"></div>' +
+    '</div>';
+}
+function renderNilaiTable() {
+  var mount = document.getElementById('nilai-table-mount');
+  if (!mount || !state.nilaiKelasId || !state.nilaiMapelId) return;
+  var siswaList = siswaByKelas(state.nilaiKelasId).slice().sort(function(a,b){ return a.nama.localeCompare(b.nama); });
+  var all = getNilai();
+  var recFor = function(sid) { for (var i=0;i<all.length;i++) { if (all[i].siswaId === sid && all[i].mapelId === state.nilaiMapelId && all[i].kelasId === state.nilaiKelasId) return all[i]; } return null; };
+  var rows = siswaList.map(function(s, idx) {
+    var n = recFor(s.id);
+    if (!n) return '';
+    var na = nilaiAkhir(n);
+    var status = na == null ? 'Belum Dinilai' : (na >= KKM ? 'Tuntas' : 'Belum Tuntas');
+    return '<tr><td>' + (idx+1) + '</td><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(s.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + s.nis + '</div></td>' +
+      '<td><input type="number" min="0" max="100" class="inp" style="width:70px;padding:7px 9px;" value="' + (n.tugas==null?'':n.tugas) + '" onchange="updateNilai(\'' + s.id + '\',\'tugas\',this.value)"></td>' +
+      '<td><input type="number" min="0" max="100" class="inp" style="width:70px;padding:7px 9px;" value="' + (n.uts==null?'':n.uts) + '" onchange="updateNilai(\'' + s.id + '\',\'uts\',this.value)"></td>' +
+      '<td><input type="number" min="0" max="100" class="inp" style="width:70px;padding:7px 9px;" value="' + (n.uas==null?'':n.uas) + '" onchange="updateNilai(\'' + s.id + '\',\'uas\',this.value)"></td>' +
+      '<td id="na-' + s.id + '" style="font-weight:800;color:var(--ink);">' + (na==null?'-':na) + '</td>' +
+      '<td id="stat-' + s.id + '">' + statusBadge(status) + '</td></tr>';
+  }).join('');
+  mount.innerHTML = '<div class="card-surface" style="padding:20px;">' +
+    '<p style="font-size:11.5px;color:var(--muted);margin-bottom:14px;">Bobot nilai akhir: Tugas 20%, UTS 30%, UAS 50%. KKM ' + KKM + '. Nilai akhir otomatis terhitung setelah UAS diisi.</p>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>No</th><th>Nama Siswa</th><th>Tugas</th><th>UTS</th><th>UAS</th><th>Nilai Akhir</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= GURU: RAPOR KELAS ============================= */
+function buildGuruRapor() {
+  var g = state.currentUser;
+  var wk = isWaliKelas(g.id);
+  if (!wk) return '<div class="card-surface" style="padding:30px;text-align:center;color:var(--muted);">Fitur ini khusus untuk wali kelas.</div>';
+  var siswaList = siswaByKelas(wk.id).slice().sort(function(a,b){ return a.nama.localeCompare(b.nama); });
+  var mapels = mapelForKelas(wk.id);
+  var all = getNilai();
+  var headerCols = mapels.map(function(m) { return '<th>' + escapeHtml(getMapel(m.mapelId).nama) + '</th>'; }).join('');
+  var rows = siswaList.map(function(s, idx) {
+    var total = 0, count = 0, belum = 0;
+    var cols = mapels.map(function(m) {
+      var n = null;
+      for (var i=0;i<all.length;i++) { if (all[i].siswaId === s.id && all[i].mapelId === m.mapelId && all[i].kelasId === wk.id) { n = all[i]; break; } }
+      var na = n ? nilaiAkhir(n) : null;
+      if (na == null) { belum++; return '<td style="color:var(--muted);">-</td>'; }
+      total += na; count++;
+      return '<td style="font-weight:700;color:' + (na >= KKM ? 'var(--ok)' : 'var(--danger)') + ';">' + na + '</td>';
+    }).join('');
+    var avg = count ? Math.round(total / count) : null;
+    return '<tr><td>' + (idx+1) + '</td><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(s.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + s.nis + '</div></td>' + cols +
+      '<td style="font-weight:800;">' + (avg==null?'-':avg) + '</td>' +
+      '<td>' + (belum > 0 ? '<span class="badge badge-muted">' + belum + ' belum UAS</span>' : (avg >= KKM ? statusBadge('Tuntas') : statusBadge('Belum Tuntas'))) + '</td></tr>';
+  }).join('');
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">' + icon('clipboard','ic-primary') + '<h2 class="font-display" style="font-size:16.5px;font-weight:800;margin:0;">Rapor Kelas ' + escapeHtml(wk.nama) + '</h2></div>' +
+    '<p style="font-size:12.5px;color:var(--muted);margin:2px 0 16px;">' + SCHOOL.semester + ' &middot; Tahun Ajaran ' + SCHOOL.tahunAjaran + ' &middot; ' + siswaList.length + ' siswa</p>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>No</th><th>Nama Siswa</th>' + headerCols + '<th>Rata-rata</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= GURU: SLIP GAJI ============================= */
+function buildGuruSlipGaji() {
+  var g = state.currentUser;
+  var gaji = hitungGaji(g);
+  var wk = isWaliKelas(g.id);
+  var d = new Date(state.gajiBulan + '-01T00:00:00');
+  var bulanLabel = BULAN_ID[d.getMonth()] + ' ' + d.getFullYear();
+  var gs = getGajiStatus();
+  var status = gs[g.id + '_' + state.gajiBulan] || 'Belum Dibayar';
+  return '<div class="fade-in" style="max-width:480px;">' +
+    '<div class="card-surface" style="padding:22px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px;">' +
+    '<div style="display:flex;align-items:center;gap:6px;"><button class="btn-icon" onclick="changeGajiBulan(-1)">' + icon('chevronL') + '</button><span style="font-weight:800;font-size:14.5px;min-width:130px;text-align:center;">' + bulanLabel + '</span><button class="btn-icon" onclick="changeGajiBulan(1)">' + icon('chevronR') + '</button></div>' +
+    statusBadge(status) +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '<div class="emp-row" style="margin-bottom:14px;">' + avatarHtml(g, 44) + '<div><div style="font-weight:800;font-size:14px;">' + escapeHtml(g.nama) + '</div><div style="font-size:12px;color:var(--muted);">' + escapeHtml(g.gelar) + (wk ? ' &middot; Wali ' + wk.nama : '') + '</div></div></div>' +
+    '<div style="font-size:13.5px;">' +
+    rowGaji('Gaji Pokok (Gol. ' + g.golongan + ')', fmtRupiah(gaji.gajiPokok)) +
+    rowGaji('Tunjangan Jam Mengajar (' + gaji.jp + ' JP/minggu)', fmtRupiah(gaji.tunjJp)) +
+    (gaji.tunjWali ? rowGaji('Tunjangan Wali Kelas', fmtRupiah(gaji.tunjWali)) : '') +
+    rowGaji('Tunjangan Fungsional', fmtRupiah(gaji.tunjFungsional)) +
+    '<div class="divider" style="margin:10px 0;"></div>' +
+    rowGaji('Total Pendapatan', fmtRupiah(gaji.kotor), true) +
+    rowGaji('Potongan BPJS (2%)', '-' + fmtRupiah(gaji.potBpjs)) +
+    '<div class="divider" style="margin:10px 0;"></div>' +
+    rowGaji('Gaji Bersih Diterima', fmtRupiah(gaji.bersih), true, true) +
+    '</div>' +
+    '<button class="btn btn-secondary btn-block" style="margin-top:18px;" onclick="window.print()">' + icon('print') + ' Cetak Slip Gaji</button>' +
+    '</div></div>';
+}
+
+/* ============================= ADMIN: RINGKASAN ============================= */
+function buildAdminRingkasan() {
+  var todayIso = fmtDateISO(new Date());
+  var absSiswa = getAbsensiSiswa().filter(function(a){ return a.tanggal === todayIso; });
+  var hadirSiswa = absSiswa.filter(function(a){ return a.status === 'Hadir'; }).length;
+  var absGuru = getAbsensiGuru().filter(function(a){ return a.tanggal === todayIso; });
+  var hadirGuru = absGuru.filter(function(a){ return a.status === 'Hadir' || a.status === 'Terlambat'; }).length;
+
+  var statTile = function(label, value, iconName, accent) {
+    return '<div class="stat-tile" style="--accent:' + accent + ';">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+      '<div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.03em;">' + label + '</div>' +
+      '<div class="font-display" style="font-size:26px;font-weight:800;margin-top:3px;">' + value + '</div></div>' +
+      '<div class="stat-icon-badge" style="background:' + accent + '1a;color:' + accent + ';">' + icon(iconName) + '</div></div></div>';
+  };
+
+  var kelasRows = KELAS.map(function(k) {
+    var wali = getGuru(k.waliId);
+    var n = siswaByKelas(k.id).length;
+    return '<div style="display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line-soft);">' +
+      '<span style="width:10px;height:10px;border-radius:3px;background:' + kelasColor(k) + ';display:inline-block;flex-shrink:0;"></span>' +
+      '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13px;">' + escapeHtml(k.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">Wali: ' + escapeHtml(wali.nama) + '</div></div>' +
+      '<span class="badge badge-muted">' + n + ' siswa</span></div>';
+  }).join('');
+
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">' +
+    '<div><h2 class="font-display" style="font-size:19px;font-weight:800;margin:0;">Ringkasan Sekolah</h2><p style="font-size:12.5px;color:var(--muted);margin:3px 0 0;">' + fmtDateLong(new Date()) + '</p></div>' +
+    '</div>' +
+    '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">' +
+    statTile('Total Siswa', SISWA.length, 'users', '#0d9488') +
+    statTile('Total Guru', GURU.length, 'user', '#4338ca') +
+    statTile('Hadir Hari Ini (Siswa)', hadirSiswa, 'checkCircle', '#15803d') +
+    statTile('Hadir Hari Ini (Guru)', hadirGuru, 'briefcase', '#b45309') +
+    '</div>' +
+    '<div class="split-grid" style="grid-template-columns:1.3fr 1fr;">' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('trend','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Tren Kehadiran Siswa 14 Hari Terakhir</span></div>' +
+    '<div style="height:230px;"><canvas id="chart-trend-siswa"></canvas></div>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('school','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Daftar Kelas</span></div>' +
+    kelasRows +
+    '</div></div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN: DATA SISWA ============================= */
+function setSiswaFilterKelas(id) { state.siswaFilterKelas = id; render(); }
+function setSiswaSearch(v) { state.siswaSearch = v; renderSiswaTable(); }
+function buildAdminSiswa() {
+  var chips = ['Semua'].concat(KELAS.map(function(k){ return k.id; })).map(function(id) {
+    var label = id === 'Semua' ? 'Semua' : getKelas(id).nama;
+    return '<button class="chip ' + (state.siswaFilterKelas === id ? 'active' : '') + '" onclick="setSiswaFilterKelas(\'' + id + '\')">' + escapeHtml(label) + '</button>';
+  }).join('');
+  return '<div class="fade-in">' +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('users','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Data Siswa</span></div>' +
+    '<input type="text" class="inp" style="width:220px;" placeholder="Cari nama atau NIS" oninput="setSiswaSearch(this.value)">' +
+    '</div>' +
+    '<div class="tab-row">' + chips + '</div>' +
+    '</div>' +
+    '<div id="siswa-table-mount"></div>' +
+    '</div>';
+}
+function renderSiswaTable() {
+  var mount = document.getElementById('siswa-table-mount');
+  if (!mount) return;
+  var list = state.siswaFilterKelas === 'Semua' ? SISWA.slice() : siswaByKelas(state.siswaFilterKelas).slice();
+  var q = state.siswaSearch.trim().toLowerCase();
+  if (q) { list = list.filter(function(s){ return s.nama.toLowerCase().indexOf(q) !== -1 || s.nis.indexOf(q) !== -1; }); }
+  list.sort(function(a,b){ return a.nama.localeCompare(b.nama); });
+  var rows = list.length ? list.map(function(s) {
+    var k = getKelas(s.kelasId);
+    return '<tr><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(s.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">NISN ' + s.nisn + '</div></td><td>' + s.nis + '</td><td><span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:8px;height:8px;border-radius:50%;background:' + kelasColor(k) + ';display:inline-block;"></span>' + escapeHtml(k.nama) + '</span></td><td>' + (s.jk === 'L' ? 'Laki-laki' : 'Perempuan') + '</td></tr>';
+  }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:30px;">Tidak ada siswa yang sesuai pencarian.</td></tr>';
+  mount.innerHTML = '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Nama</th><th>NIS</th><th>Kelas</th><th>Jenis Kelamin</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '<p style="font-size:12px;color:var(--muted);margin-top:10px;">Menampilkan ' + list.length + ' dari ' + SISWA.length + ' siswa.</p>';
+}
+
+/* ============================= ADMIN: DATA GURU ============================= */
+function buildAdminGuru() {
+  var rows = GURU.map(function(g) {
+    var wk = isWaliKelas(g.id);
+    return '<tr><td><div class="emp-row">' + avatarHtml(g, 36) + '<div><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(g.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">Gol. ' + g.golongan + '</div></div></div></td>' +
+      '<td>' + escapeHtml(g.gelar) + '</td>' +
+      '<td>' + (wk ? '<span class="badge badge-ok">Wali ' + escapeHtml(wk.nama) + '</span>' : '<span class="badge badge-muted">-</span>') + '</td>' +
+      '<td>' + totalJpGuru(g) + ' JP/minggu</td>' +
+      '<td>' + fmtRupiah(hitungGaji(g).bersih) + '</td></tr>';
+  }).join('');
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">' +
+    '<div><h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Data Guru</h2><p style="font-size:12.5px;color:var(--muted);margin:3px 0 0;">' + GURU.length + ' guru aktif</p></div>' +
+    '</div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Guru</th><th>Bidang Studi</th><th>Wali Kelas</th><th>Beban Mengajar</th><th>Gaji Bersih</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN: DATA KELAS ============================= */
+function buildAdminKelas() {
+  var cards = KELAS.map(function(k) {
+    var wali = getGuru(k.waliId);
+    var siswaList = siswaByKelas(k.id);
+    var mapels = mapelForKelas(k.id);
+    return '<div class="card-surface" style="padding:18px;">' +
+      '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">' +
+      '<span style="width:38px;height:38px;border-radius:11px;background:' + kelasColor(k) + '1a;color:' + kelasColor(k) + ';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0;">' + escapeHtml(k.jenjang) + '</span>' +
+      '<div><div style="font-weight:800;font-size:14.5px;">' + escapeHtml(k.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + siswaList.length + ' siswa &middot; ' + mapels.length + ' mata pelajaran</div></div>' +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:9px;padding:10px 12px;background:var(--bg-tint);border-radius:10px;">' + avatarHtml(wali, 30) + '<div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;">Wali Kelas</div><div style="font-weight:700;font-size:12.5px;">' + escapeHtml(wali.nama) + '</div></div></div>' +
+      '</div>';
+  }).join('');
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('school','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Data Kelas</h2></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">' + cards + '</div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN: ABSENSI GURU ============================= */
+function setAbsGuruDate(v) { state.absGuruFilterDate = v; render(); }
+function buildAdminAbsGuru() {
+  var recs = getAbsensiGuru().filter(function(a){ return a.tanggal === state.absGuruFilterDate; });
+  var recFor = function(gid) { for (var i=0;i<recs.length;i++) { if (recs[i].guruId === gid) return recs[i]; } return null; };
+  var rows = GURU.map(function(g) {
+    var r = recFor(g.id);
+    var jamMasuk = r && r.jamMasuk ? (new Date(r.jamMasuk)).toTimeString().slice(0,5) : '-';
+    var status = r ? r.status : 'Belum Ada Jadwal';
+    return '<tr><td><div class="emp-row">' + avatarHtml(g, 32) + '<div><div style="font-weight:700;color:var(--ink);font-size:13px;">' + escapeHtml(g.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + escapeHtml(g.gelar) + '</div></div></div></td><td>' + jamMasuk + '</td><td>' + statusBadge(status) + '</td></tr>';
+  }).join('');
+  return '<div class="fade-in">' +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('briefcase','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Absensi Mengajar Guru</span></div>' +
+    '<input type="date" class="inp" style="width:auto;" value="' + state.absGuruFilterDate + '" max="' + fmtDateISO(new Date()) + '" onchange="setAbsGuruDate(this.value)">' +
+    '</div></div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Guru</th><th>Jam Masuk</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN & GURU shared: PENGGAJIAN ============================= */
+function buildAdminGaji() {
+  var d = new Date(state.gajiBulan + '-01T00:00:00');
+  var bulanLabel = BULAN_ID[d.getMonth()] + ' ' + d.getFullYear();
+  var gs = getGajiStatus();
+  var totalBersih = 0;
+  var rows = GURU.map(function(g) {
+    var gaji = hitungGaji(g);
+    totalBersih += gaji.bersih;
+    var status = gs[g.id + '_' + state.gajiBulan] || 'Belum Dibayar';
+    return '<tr><td><div class="emp-row">' + avatarHtml(g, 34) + '<div><div style="font-weight:700;color:var(--ink);font-size:13px;">' + escapeHtml(g.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">Gol. ' + g.golongan + '</div></div></div></td>' +
+      '<td>' + fmtRupiah(gaji.kotor) + '</td><td style="font-weight:700;color:var(--ink);">' + fmtRupiah(gaji.bersih) + '</td>' +
+      '<td>' + statusBadge(status) + '</td>' +
+      '<td><button class="btn btn-secondary btn-sm" onclick="openSlipGaji(\'' + g.id + '\')">' + icon('wallet') + ' Slip Gaji</button></td></tr>';
+  }).join('');
+  return '<div class="fade-in">' +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('wallet','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Penggajian Guru</span></div>' +
+    '<div style="display:flex;align-items:center;gap:6px;"><button class="btn-icon" onclick="changeGajiBulan(-1)">' + icon('chevronL') + '</button><span style="font-weight:700;font-size:13.5px;min-width:130px;text-align:center;">' + bulanLabel + '</span><button class="btn-icon" onclick="changeGajiBulan(1)">' + icon('chevronR') + '</button></div>' +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;"><span style="font-size:13px;color:var(--ink-soft);">Total Anggaran Gaji Bulan Ini</span><span class="font-display" style="font-weight:800;font-size:20px;color:var(--primary);">' + fmtRupiah(totalBersih) + '</span></div>' +
+    '</div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Guru</th><th>Total Pendapatan</th><th>Gaji Bersih</th><th>Status</th><th></th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= KEPSEK: RINGKASAN ============================= */
+function rataRataKehadiranSiswa30Hari() {
+  var all = getAbsensiSiswa();
+  var thirty = [];
+  for (var i = 29; i >= 0; i--) { thirty.push(fmtDateISO(addDays(new Date(), -i))); }
+  var recs = all.filter(function(a){ return thirty.indexOf(a.tanggal) !== -1; });
+  if (!recs.length) return 0;
+  var hadir = recs.filter(function(a){ return a.status === 'Hadir'; }).length;
+  return Math.round((hadir / recs.length) * 100);
+}
+function rataRataNilaiSekolah() {
+  var all = getNilai();
+  var withFinal = all.map(function(n){ return nilaiAkhir(n); }).filter(function(v){ return v != null; });
+  if (!withFinal.length) return null;
+  var sum = withFinal.reduce(function(a,b){ return a+b; }, 0);
+  return Math.round(sum / withFinal.length);
+}
+function buildKepsekRingkasan() {
+  var avgHadir = rataRataKehadiranSiswa30Hari();
+  var avgNilai = rataRataNilaiSekolah();
+  var statTile = function(label, value, iconName, accent) {
+    return '<div class="stat-tile" style="--accent:' + accent + ';">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+      '<div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.03em;">' + label + '</div>' +
+      '<div class="font-display" style="font-size:26px;font-weight:800;margin-top:3px;">' + value + '</div></div>' +
+      '<div class="stat-icon-badge" style="background:' + accent + '1a;color:' + accent + ';">' + icon(iconName) + '</div></div></div>';
+  };
+  return '<div class="fade-in">' +
+    '<div class="hero-card" style="margin-bottom:18px;">' +
+    '<div style="position:relative;z-index:1;">' +
+    '<div style="color:rgba(255,255,255,0.65);font-size:12.5px;font-weight:600;">' + fmtDateLong(new Date()) + '</div>' +
+    '<div class="font-display" style="color:#fff;font-size:22px;font-weight:800;margin-top:4px;">' + SCHOOL.nama + '</div>' +
+    '<div style="color:rgba(255,255,255,0.75);font-size:13.5px;margin-top:4px;">Tahun Ajaran ' + SCHOOL.tahunAjaran + ' &middot; Semester ' + SCHOOL.semester + '</div>' +
+    '</div></div>' +
+    '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">' +
+    statTile('Total Siswa', SISWA.length, 'users', '#0d9488') +
+    statTile('Total Guru', GURU.length, 'user', '#4338ca') +
+    statTile('Rata-rata Kehadiran (30 Hari)', avgHadir + '%', 'checkCircle', '#15803d') +
+    statTile('Rata-rata Nilai Sekolah', avgNilai == null ? '-' : avgNilai, 'graduation', '#b45309') +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('trend','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Tren Kehadiran Siswa 14 Hari Terakhir</span></div>' +
+    '<div style="height:240px;"><canvas id="chart-trend-kepsek"></canvas></div>' +
+    '</div></div>';
+}
+
+/* ============================= KEPSEK: AKADEMIK ============================= */
+function buildKepsekAkademik() {
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('graduation','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Kinerja Akademik</h2></div>' +
+    '<div class="split-grid" style="grid-template-columns:1fr 1fr;margin-bottom:18px;">' +
+    '<div class="card-surface" style="padding:20px;"><div style="font-weight:800;font-size:14px;margin-bottom:12px;">Rata-rata Nilai per Kelas</div><div style="height:230px;"><canvas id="chart-nilai-kelas"></canvas></div></div>' +
+    '<div class="card-surface" style="padding:20px;"><div style="font-weight:800;font-size:14px;margin-bottom:12px;">Persentase Tuntas KKM per Kelas</div><div style="height:230px;"><canvas id="chart-tuntas-kelas"></canvas></div></div>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:14px;">Ringkasan per Kelas</div>' +
+    '<div id="akademik-table-mount"></div>' +
+    '</div></div>';
+}
+function buildAkademikTable() {
+  var rows = KELAS.map(function(k) {
+    var wali = getGuru(k.waliId);
+    var all = getNilai().filter(function(n){ return n.kelasId === k.id; });
+    var finals = all.map(function(n){ return nilaiAkhir(n); }).filter(function(v){ return v != null; });
+    var avg = finals.length ? Math.round(finals.reduce(function(a,b){return a+b;},0) / finals.length) : null;
+    var tuntas = finals.filter(function(v){ return v >= KKM; }).length;
+    var pct = finals.length ? Math.round((tuntas / finals.length) * 100) : null;
+    return '<tr><td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:' + kelasColor(k) + ';display:inline-block;"></span>' + escapeHtml(k.nama) + '</span></td><td>' + escapeHtml(wali.nama) + '</td><td>' + siswaByKelas(k.id).length + '</td><td>' + (avg==null?'Belum ada UAS':avg) + '</td><td>' + (pct==null?'-':pct+'%') + '</td></tr>';
+  }).join('');
+  return '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Kelas</th><th>Wali Kelas</th><th>Jumlah Siswa</th><th>Rata-rata Nilai</th><th>% Tuntas KKM</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+}
+
+/* ============================= KEPSEK: KEPEGAWAIAN ============================= */
+function buildKepsekKepegawaian() {
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('briefcase','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Kepegawaian Guru</h2></div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:14px;">Peringkat Ketepatan Waktu Mengajar (30 Hari Terakhir)</div>' +
+    '<div id="punctuality-list"></div>' +
+    '</div></div>';
+}
+function buildPunctualityList() {
+  var all = getAbsensiGuru();
+  var stats = GURU.map(function(g) {
+    var recs = all.filter(function(a){ return a.guruId === g.id && (a.status === 'Hadir' || a.status === 'Terlambat'); });
+    var telat = recs.filter(function(a){ return a.status === 'Terlambat'; }).length;
+    var rate = recs.length ? Math.round(((recs.length - telat) / recs.length) * 100) : 100;
+    return { g: g, rate: rate, total: recs.length };
+  }).sort(function(a,b){ return b.rate - a.rate; });
+  var html = stats.map(function(s, i) {
+    var color = s.rate >= 90 ? 'var(--ok)' : (s.rate >= 75 ? 'var(--warn)' : 'var(--danger)');
+    return '<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-soft);">' +
+      '<div style="width:22px;text-align:center;font-weight:800;color:var(--muted);font-size:12.5px;">' + (i+1) + '</div>' +
+      avatarHtml(s.g, 34) +
+      '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(s.g.nama) + '</div>' +
+      '<div class="progress-track" style="margin-top:5px;"><div class="progress-fill" style="width:' + s.rate + '%;background:' + color + ';"></div></div></div>' +
+      '<div style="font-weight:800;font-size:14px;color:' + color + ';min-width:42px;text-align:right;">' + s.rate + '%</div>' +
+      '</div>';
+  }).join('');
+  var mount = document.getElementById('punctuality-list');
+  if (mount) mount.innerHTML = html;
+}
+
+/* ============================= KEPSEK: KEUANGAN ============================= */
+function buildKepsekKeuangan() {
+  var totalBersih = 0, totalKotor = 0;
+  GURU.forEach(function(g) { var gaji = hitungGaji(g); totalBersih += gaji.bersih; totalKotor += gaji.kotor; });
+  var d = new Date(state.gajiBulan + '-01T00:00:00');
+  var bulanLabel = BULAN_ID[d.getMonth()] + ' ' + d.getFullYear();
+  var gs = getGajiStatus();
+  var dibayar = GURU.filter(function(g){ return (gs[g.id+'_'+state.gajiBulan]||'Belum Dibayar') === 'Sudah Dibayar'; }).length;
+  var statTile = function(label, value, iconName, accent) {
+    return '<div class="stat-tile" style="--accent:' + accent + ';">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+      '<div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.03em;">' + label + '</div>' +
+      '<div class="font-display" style="font-size:24px;font-weight:800;margin-top:3px;">' + value + '</div></div>' +
+      '<div class="stat-icon-badge" style="background:' + accent + '1a;color:' + accent + ';">' + icon(iconName) + '</div></div></div>';
+  };
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('wallet','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Ringkasan Keuangan Gaji Guru</h2></div>' +
+    '<div style="display:flex;align-items:center;gap:6px;"><button class="btn-icon" onclick="changeGajiBulan(-1)">' + icon('chevronL') + '</button><span style="font-weight:700;font-size:13.5px;min-width:130px;text-align:center;">' + bulanLabel + '</span><button class="btn-icon" onclick="changeGajiBulan(1)">' + icon('chevronR') + '</button></div>' +
+    '</div>' +
+    '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;">' +
+    statTile('Total Anggaran Kotor', fmtRupiah(totalKotor), 'wallet', '#0d9488') +
+    statTile('Total Dibayarkan Bersih', fmtRupiah(totalBersih), 'checkCircle', '#4338ca') +
+    statTile('Status Pembayaran', dibayar + ' / ' + GURU.length + ' guru', 'bell', '#b45309') +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:14px;">Anggaran Gaji per Guru</div>' +
+    '<div style="height:280px;"><canvas id="chart-gaji-guru"></canvas></div>' +
+    '</div></div>';
+}
+
+/* ============================= CHARTS ============================= */
+function destroyChart(key) { if (state.charts[key]) { state.charts[key].destroy(); delete state.charts[key]; } }
+function trendKehadiranData() {
+  var all = getAbsensiSiswa();
+  var labels = [], hadirPct = [];
+  for (var i = 13; i >= 0; i--) {
+    var day = addDays(new Date(), -i);
+    var iso = fmtDateISO(day);
+    labels.push(pad2(day.getDate()) + '/' + pad2(day.getMonth()+1));
+    var dayRecs = all.filter(function(a){ return a.tanggal === iso; });
+    var hadir = dayRecs.filter(function(a){ return a.status === 'Hadir'; }).length;
+    hadirPct.push(dayRecs.length ? Math.round((hadir/dayRecs.length)*100) : null);
+  }
+  return { labels: labels, hadirPct: hadirPct };
+}
+function drawTrendChart(canvasId, chartKey) {
+  var canvas = document.getElementById(canvasId);
+  if (!canvas || typeof Chart === 'undefined') return;
+  destroyChart(chartKey);
+  var data = trendKehadiranData();
+  state.charts[chartKey] = new Chart(canvas.getContext('2d'), {
+    type: 'line',
+    data: { labels: data.labels, datasets: [{ label:'Kehadiran Siswa (%)', data: data.hadirPct, borderColor:'#0d9488', backgroundColor:'rgba(13,148,136,0.1)', tension:0.35, fill:true, pointRadius:2.5 }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:false, min:70, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10.5}},grid:{display:false}} } }
+  });
+}
+function renderCharts() {
+  if (typeof Chart === 'undefined') return;
+  if (state.role === 'admin' && state.tab === 'ringkasan') { drawTrendChart('chart-trend-siswa', 'trendSiswa'); }
+  if (state.role === 'kepsek' && state.tab === 'ringkasan') { drawTrendChart('chart-trend-kepsek', 'trendKepsek'); }
+  if (state.role === 'kepsek' && state.tab === 'akademik') {
+    var nilaiCanvas = document.getElementById('chart-nilai-kelas');
+    var tuntasCanvas = document.getElementById('chart-tuntas-kelas');
+    var avgList = [], pctList = [];
+    KELAS.forEach(function(k) {
+      var all = getNilai().filter(function(n){ return n.kelasId === k.id; });
+      var finals = all.map(function(n){ return nilaiAkhir(n); }).filter(function(v){ return v != null; });
+      avgList.push(finals.length ? Math.round(finals.reduce(function(a,b){return a+b;},0)/finals.length) : 0);
+      var tuntas = finals.filter(function(v){ return v >= KKM; }).length;
+      pctList.push(finals.length ? Math.round((tuntas/finals.length)*100) : 0);
+    });
+    var labels = KELAS.map(function(k){ return k.nama; });
+    var colors = KELAS.map(function(k){ return kelasColor(k); });
+    if (nilaiCanvas) {
+      destroyChart('nilaiKelas');
+      state.charts.nilaiKelas = new Chart(nilaiCanvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label:'Rata-rata Nilai', data: avgList, backgroundColor: colors, borderRadius:6, maxBarThickness:38 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
+      });
+    }
+    if (tuntasCanvas) {
+      destroyChart('tuntasKelas');
+      state.charts.tuntasKelas = new Chart(tuntasCanvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: labels, datasets: [{ label:'% Tuntas KKM', data: pctList, backgroundColor: colors, borderRadius:6, maxBarThickness:38 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
+      });
+    }
+    var mount = document.getElementById('akademik-table-mount');
+    if (mount) mount.innerHTML = buildAkademikTable();
+  }
+  if (state.role === 'kepsek' && state.tab === 'kepegawaian') { buildPunctualityList(); }
+  if (state.role === 'kepsek' && state.tab === 'keuangan') {
+    var gajiCanvas = document.getElementById('chart-gaji-guru');
+    if (gajiCanvas) {
+      destroyChart('gajiGuru');
+      var labels2 = GURU.map(function(g){ return g.nama.split(',')[0].split(' ')[0]; });
+      var data2 = GURU.map(function(g){ return hitungGaji(g).bersih; });
+      state.charts.gajiGuru = new Chart(gajiCanvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: labels2, datasets: [{ label:'Gaji Bersih', data: data2, backgroundColor:'#0d9488', borderRadius:6, maxBarThickness:34 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}, tooltip:{callbacks:{label:function(ctx){ return fmtRupiah(ctx.parsed.y); }}}}, scales:{ y:{beginAtZero:true, ticks:{callback:function(v){ return 'Rp' + (v/1000000).toFixed(1) + 'jt'; }, font:{size:10}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10}},grid:{display:false}} } }
+      });
+    }
+  }
+}
+
+/* ============================= MAIN RENDER ============================= */
+function render() {
+  var app = document.getElementById('app');
+  if (state.view === 'login') { app.innerHTML = buildLogin() + '<div id="modal-root"></div>'; return; }
+  var body = '';
+  if (state.role === 'guru') {
+    if (state.tab === 'beranda') body = buildGuruBeranda();
+    else if (state.tab === 'absensi') body = buildGuruAbsensi();
+    else if (state.tab === 'nilai') body = buildGuruNilai();
+    else if (state.tab === 'rapor') body = buildGuruRapor();
+    else if (state.tab === 'slipgaji') body = buildGuruSlipGaji();
+  } else if (state.role === 'admin') {
+    if (state.tab === 'ringkasan') body = buildAdminRingkasan();
+    else if (state.tab === 'siswa') body = buildAdminSiswa();
+    else if (state.tab === 'guru') body = buildAdminGuru();
+    else if (state.tab === 'kelas') body = buildAdminKelas();
+    else if (state.tab === 'absguru') body = buildAdminAbsGuru();
+    else if (state.tab === 'gaji') body = buildAdminGaji();
+  } else if (state.role === 'kepsek') {
+    if (state.tab === 'ringkasan') body = buildKepsekRingkasan();
+    else if (state.tab === 'akademik') body = buildKepsekAkademik();
+    else if (state.tab === 'kepegawaian') body = buildKepsekKepegawaian();
+    else if (state.tab === 'keuangan') body = buildKepsekKeuangan();
+  }
+  app.innerHTML = buildTopbar() + '<div class="wrap" style="padding-top:22px;padding-bottom:8px;min-height:60vh;">' + body + '</div>' + buildFooter() + '<div id="modal-root"></div>';
+  if (state.role === 'guru' && state.tab === 'absensi') { renderAbsensiTable(); }
+  if (state.role === 'guru' && state.tab === 'nilai') { renderNilaiTable(); }
+  if (state.role === 'admin' && state.tab === 'siswa') { renderSiswaTable(); }
+  var needsChart = (state.role === 'admin' && state.tab === 'ringkasan') ||
+    (state.role === 'kepsek' && (state.tab === 'ringkasan' || state.tab === 'akademik' || state.tab === 'kepegawaian' || state.tab === 'keuangan'));
+  if (needsChart) { setTimeout(renderCharts, 50); }
+}
+
+/* ============================= INIT ============================= */
+seedIfNeeded();
+render();
+</script>
+</body>
+</html>

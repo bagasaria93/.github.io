@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AbsenKu - PT Karya Sinergi</title>
+<meta name="description" content="Demo aplikasi absensi karyawan AbsenKu untuk PT Karya Sinergi. Clock in/out, riwayat kehadiran, pengajuan izin dan cuti, serta dashboard admin dengan analitik kehadiran.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1a1d29; --ink-soft:#565b70; --muted:#8b90a3; --line:#e4e6f0; --line-soft:#eef0f7;
+  --surface:#ffffff; --bg:#f7f8fc; --bg-tint:#eef0fb;
+  --navy:#141731; --primary:#3730a3; --primary-2:#4338ca; --primary-3:#6366f1;
+  --primary-wash:#eef0fd; --primary-wash-2:#e0e3fb;
+  --gold:#b8860b; --gold-soft:#d4a017; --gold-pale:#f7ecd0;
+  --ok:#15803d; --ok-bg:#e9f7ee; --ok-soft:#22c55e;
+  --warn:#b45309; --warn-bg:#fef3e2; --warn-soft:#f59e0b;
+  --danger:#b91c1c; --danger-bg:#fdedec; --danger-soft:#ef4444;
+  --info:#0369a1; --info-bg:#e6f4fb;
+  --grad-primary:linear-gradient(135deg,var(--navy),var(--primary-2) 55%,var(--primary-3));
+  --grad-gold:linear-gradient(135deg,#8a6a10,var(--gold-soft));
+  --shadow-sm:0 2px 8px rgba(20,23,49,0.06);
+  --shadow-md:0 8px 24px rgba(20,23,49,0.10);
+  --shadow-lg:0 20px 48px rgba(20,23,49,0.16);
+  --shadow-primary:0 10px 24px rgba(55,48,163,0.30);
+  --r-sm:10px; --r-md:14px; --r-lg:20px; --r-pill:999px;
+}
+* { box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body { font-family:'Plus Jakarta Sans', sans-serif; background:var(--bg); color:var(--ink); margin:0; -webkit-font-smoothing:antialiased; }
+.font-display { font-family:'Sora', sans-serif; }
+::selection { background:var(--primary-wash-2); color:var(--navy); }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-thumb { background:var(--primary-3); border-radius:4px; }
+.ic { width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; display:inline-block; vertical-align:middle; flex-shrink:0; }
+.ic-primary { color:var(--primary); }
+.ic-ok { color:var(--ok); }
+.ic-warn { color:var(--warn); }
+.ic-muted { color:var(--muted); }
+.ic.spin { animation:icspin 1s linear infinite; }
+@keyframes icspin { to { transform:rotate(360deg); } }
+
+/* ---- layout helpers ---- */
+.wrap { max-width:1180px; margin:0 auto; padding:0 20px; }
+.card-surface { background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--r-lg); box-shadow:var(--shadow-sm); }
+.fade-in { animation:fadeIn 0.35s ease both; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
+
+/* ---- buttons ---- */
+.btn { display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:700;font-size:14px;border:none;cursor:pointer;border-radius:var(--r-md);padding:11px 20px;transition:transform 0.18s ease,box-shadow 0.18s ease,background 0.18s ease,color 0.18s ease,border-color 0.18s ease;white-space:nowrap; }
+.btn:active { transform:translateY(1px); }
+.btn:disabled { opacity:0.5;cursor:not-allowed;transform:none !important; }
+.btn-primary { background:var(--grad-primary);color:#fff;box-shadow:var(--shadow-primary); }
+.btn-primary:hover:not(:disabled) { box-shadow:0 14px 30px rgba(55,48,163,0.4);transform:translateY(-1px); }
+.btn-gold { background:var(--grad-gold);color:#fff;box-shadow:0 8px 22px rgba(184,134,11,0.32); }
+.btn-gold:hover:not(:disabled) { box-shadow:0 12px 28px rgba(184,134,11,0.42);transform:translateY(-1px); }
+.btn-danger { background:var(--danger-soft);color:#fff;box-shadow:0 8px 20px rgba(239,68,68,0.3); }
+.btn-danger:hover:not(:disabled) { box-shadow:0 12px 26px rgba(239,68,68,0.4);transform:translateY(-1px); }
+.btn-secondary { background:var(--surface);color:var(--ink-soft);border:1.5px solid var(--line); }
+.btn-secondary:hover:not(:disabled) { border-color:var(--primary-3);color:var(--primary); }
+.btn-ghost { background:transparent;color:var(--ink-soft);border:1.5px solid transparent; }
+.btn-ghost:hover:not(:disabled) { background:var(--bg-tint);color:var(--primary); }
+.btn-sm { padding:7px 14px;font-size:12.5px;border-radius:9px; }
+.btn-block { width:100%; }
+.btn-icon { width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line-soft);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-soft);transition:all 0.2s;padding:0;flex-shrink:0; }
+.btn-icon:hover { border-color:var(--primary-3);color:var(--primary); }
+
+/* ---- nav ---- */
+.topbar { position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft); }
+.tab-row { display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none; }
+.tab-row::-webkit-scrollbar { display:none; }
+.tab-btn { display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:var(--r-pill);font-size:13.5px;font-weight:700;color:var(--ink-soft);background:transparent;border:none;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:inherit; }
+.tab-btn:hover:not(.active) { background:var(--bg-tint);color:var(--primary); }
+.tab-btn.active { background:var(--grad-primary);color:#fff;box-shadow:0 4px 14px rgba(55,48,163,0.3); }
+
+/* ---- stat tiles ---- */
+.stat-tile { background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden; }
+.stat-tile::after { content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--grad-primary)); }
+.stat-icon-badge { width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+/* ---- badges & chips ---- */
+.badge { display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:var(--r-pill);font-size:11.5px;font-weight:700;letter-spacing:0.01em; }
+.badge-ok { background:var(--ok-bg);color:var(--ok); }
+.badge-warn { background:var(--warn-bg);color:var(--warn); }
+.badge-danger { background:var(--danger-bg);color:var(--danger); }
+.badge-info { background:var(--info-bg);color:var(--info); }
+.badge-muted { background:var(--bg-tint);color:var(--muted); }
+.chip { display:inline-flex;align-items:center;gap:6px;padding:8px 15px;border-radius:var(--r-pill);font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid var(--line);background:var(--surface);color:var(--ink-soft);transition:all 0.2s;white-space:nowrap;font-family:inherit; }
+.chip:hover:not(.active) { border-color:var(--primary-3);color:var(--primary); }
+.chip.active { background:var(--grad-primary);color:#fff;border-color:transparent;box-shadow:0 4px 12px rgba(55,48,163,0.3); }
+
+/* ---- form controls ---- */
+.inp { width:100%;border:1.5px solid var(--line);border-radius:var(--r-sm);padding:10px 13px;font-size:14px;font-family:inherit;color:var(--ink);background:var(--surface);transition:border-color 0.2s,box-shadow 0.2s; }
+.inp:focus { outline:none;border-color:var(--primary-3);box-shadow:0 0 0 3.5px var(--primary-wash-2); }
+.inp::placeholder { color:var(--muted); }
+label.lbl { font-size:12.5px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:6px; }
+.req-mark { color:var(--danger-soft);font-weight:700; }
+.opt-mark { color:var(--muted);font-weight:500; }
+
+/* ---- table ---- */
+.tbl { width:100%;border-collapse:collapse;font-size:13.5px; }
+.tbl th { text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);font-weight:700;padding:10px 14px;border-bottom:1.5px solid var(--line);white-space:nowrap; }
+.tbl td { padding:12px 14px;border-bottom:1px solid var(--line-soft);color:var(--ink-soft);vertical-align:middle; }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl tr:hover td { background:var(--bg-tint); }
+.tbl-wrap { overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--line-soft); }
+
+/* ---- avatar ---- */
+.avatar { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0; }
+
+/* ---- clock card ---- */
+.clock-card { background:var(--grad-primary);border-radius:24px;padding:28px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg); }
+.clock-card::before { content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.06);top:-120px;right:-80px; }
+.clock-card::after { content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.05);bottom:-90px;left:-40px; }
+.clock-digits { font-family:'Sora',sans-serif;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:0.01em; }
+
+/* ---- attendance status ring button ---- */
+.punch-btn { width:100%;border:none;border-radius:18px;padding:18px;cursor:pointer;font-family:inherit;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;box-shadow:0 10px 26px rgba(0,0,0,0.18); }
+.punch-btn:active { transform:translateY(1px); }
+.punch-btn:disabled { opacity:0.55;cursor:not-allowed; }
+
+/* ---- modal ---- */
+.modal-backdrop { position:fixed;inset:0;background:rgba(20,23,49,0.55);backdrop-filter:blur(2px);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn 0.2s ease; }
+.modal-box { background:var(--surface);border-radius:var(--r-lg);max-width:480px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg); }
+
+/* ---- toast ---- */
+#toast-wrap { position:fixed;top:86px;right:18px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:calc(100vw - 36px); }
+.toast { background:var(--navy);color:#fff;padding:13px 18px;border-radius:12px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;animation:toastIn 0.3s ease both;max-width:340px; }
+.toast.ok { background:linear-gradient(135deg,#166534,#22c55e); }
+.toast.warn { background:linear-gradient(135deg,#92400e,#f59e0b); }
+.toast.err { background:linear-gradient(135deg,#991b1b,#ef4444); }
+@keyframes toastIn { from{opacity:0;transform:translateX(24px);} to{opacity:1;transform:translateX(0);} }
+
+/* ---- misc ---- */
+.divider { height:1px;background:var(--line-soft);margin:18px 0; }
+.scroll-x { overflow-x:auto; }
+.progress-track { height:8px;border-radius:99px;background:var(--line-soft);overflow:hidden; }
+.progress-fill { height:100%;border-radius:99px;background:var(--grad-gold); }
+.emp-row { display:flex;align-items:center;gap:12px; }
+
+.split-grid { display:grid; gap:18px; }
+@media (max-width:860px) {
+  .split-grid { grid-template-columns:1fr !important; }
+  .stat-grid-4 { grid-template-columns:repeat(3,1fr) !important; }
+}
+@media (max-width:640px) {
+  .wrap { padding:0 14px; }
+  .clock-digits { font-size:34px !important; }
+  .stat-grid-4 { grid-template-columns:repeat(2,1fr) !important; }
+}
+@media (max-width:480px) {
+  .tab-btn { padding:8px 12px;font-size:12px; }
+}
+html, body { overflow-x:hidden; max-width:100vw; }
+</style>
+</head>
+<body>
+<div id="toast-wrap"></div>
+<div id="app"></div>
+
+<script>
+/* ============================= ICONS ============================= */
+var ICONS = {
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/>',
+  clockIn:'<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/>',
+  clockOut:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/>',
+  check:'<polyline points="20 6 9 17 4 12"/>',
+  checkCircle:'<circle cx="12" cy="12" r="9"/><path d="M8.5 12.2l2.3 2.3 4.7-4.8"/>',
+  x:'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  xCircle:'<circle cx="12" cy="12" r="9"/><line x1="9.2" y1="9.2" x2="14.8" y2="14.8"/><line x1="14.8" y1="9.2" x2="9.2" y2="14.8"/>',
+  calendar:'<rect x="3.5" y="4.5" width="17" height="16" rx="2.5"/><line x1="3.5" y1="9.5" x2="20.5" y2="9.5"/><line x1="8" y1="2.5" x2="8" y2="6.5"/><line x1="16" y1="2.5" x2="16" y2="6.5"/>',
+  users:'<circle cx="9" cy="8" r="3.3"/><path d="M2.7 20c0-3.3 2.8-6 6.3-6s6.3 2.7 6.3 6"/><circle cx="17" cy="9" r="2.6"/><path d="M15.8 14.3c2.5.5 4.4 2.6 4.4 5.2"/>',
+  briefcase:'<rect x="3" y="7.5" width="18" height="12.5" rx="2.2"/><path d="M8.5 7.5V6a2.5 2.5 0 0 1 2.5-2.5h2A2.5 2.5 0 0 1 15.5 6v1.5"/><line x1="3" y1="12.5" x2="21" y2="12.5"/>',
+  trend:'<polyline points="3 17 9.5 10.5 14 15 21 7"/><polyline points="15 7 21 7 21 13"/>',
+  alert:'<path d="M12 3.5l9.5 16.5H2.5z"/><line x1="12" y1="9.5" x2="12" y2="14"/><circle cx="12" cy="17" r="0.6" fill="currentColor" stroke="none"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>',
+  chevronR:'<polyline points="9 6 15 12 9 18"/>',
+  chevronL:'<polyline points="15 6 9 12 15 18"/>',
+  mapPin:'<path d="M20 10.5c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10.5" r="2.7"/>',
+  file:'<path d="M6 3h8l5 5v13a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><polyline points="14 3 14 8 19 8"/>',
+  filter:'<polygon points="4 4 20 4 14 12.5 14 19 10 21 10 12.5 4 4"/>',
+  download:'<path d="M12 3v13"/><polyline points="6.5 11 12 16.5 17.5 11"/><path d="M4 19.5h16"/>',
+  plus:'<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>',
+  search:'<circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.3" y1="15.3" x2="20.5" y2="20.5"/>',
+  bell:'<path d="M6 9.5a6 6 0 0 1 12 0c0 5 2 6.3 2 6.3H4s2-1.3 2-6.3z"/><path d="M10 19a2 2 0 0 0 4 0"/>',
+  building:'<rect x="4" y="3" width="16" height="18" rx="1.5"/><line x1="8" y1="7.5" x2="8" y2="7.51"/><line x1="12" y1="7.5" x2="12" y2="7.51"/><line x1="16" y1="7.5" x2="16" y2="7.51"/><line x1="8" y1="11.5" x2="8" y2="11.51"/><line x1="12" y1="11.5" x2="12" y2="11.51"/><line x1="16" y1="11.5" x2="16" y2="11.51"/><line x1="8" y1="15.5" x2="8" y2="15.51"/><line x1="16" y1="15.5" x2="16" y2="15.51"/><path d="M10 21v-3.5a2 2 0 0 1 4 0V21"/>',
+  shield:'<path d="M12 3l7.5 3v5.5c0 5-3.2 8.3-7.5 9.5-4.3-1.2-7.5-4.5-7.5-9.5V6z"/><path d="M8.7 12.2l2.3 2.3 4.3-4.5"/>',
+  home:'<path d="M3.5 11.5L12 4l8.5 7.5"/><path d="M5.5 10v9.5a1 1 0 0 0 1 1H10v-6h4v6h3.5a1 1 0 0 0 1-1V10"/>',
+  history:'<path d="M3.5 12a8.5 8.5 0 1 0 2.7-6.2"/><polyline points="3.5 4.5 3.5 9 8 9"/><path d="M12 8v4.3l3.2 2"/>',
+  edit:'<path d="M4 20h4l10.5-10.5a2.1 2.1 0 0 0-3-3L5 17v3z"/><line x1="14" y1="6.5" x2="17.5" y2="10"/>',
+  refresh:'<polyline points="3.5 4 3.5 9 8.5 9"/><polyline points="20.5 20 20.5 15 15.5 15"/><path d="M4.6 15a8 8 0 0 0 13.9 3.1l1.5-1.6M19.4 9A8 8 0 0 0 5.5 5.9L4 7.5"/>'
+};
+function icon(name, cls) { return '<svg class="ic '+(cls||'')+'" viewBox="0 0 24 24">'+(ICONS[name]||'')+'</svg>'; }
+
+/* ============================= UTIL ============================= */
+function uid(p) { return (p||'ID') + '-' + Date.now().toString(36).slice(-5) + Math.random().toString(36).slice(2,6); }
+function escapeHtml(s) { s = (s==null?'':String(s)); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function pad2(n) { return n < 10 ? '0'+n : ''+n; }
+var HARI_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+var BULAN_ID = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+function fmtDateLong(d) { d = new Date(d); return HARI_ID[d.getDay()] + ', ' + d.getDate() + ' ' + BULAN_ID[d.getMonth()] + ' ' + d.getFullYear(); }
+function fmtDateShort(d) { d = new Date(d); return pad2(d.getDate()) + ' ' + BULAN_ID[d.getMonth()].slice(0,3) + ' ' + d.getFullYear(); }
+function fmtDateISO(d) { d = new Date(d); return d.getFullYear() + '-' + pad2(d.getMonth()+1) + '-' + pad2(d.getDate()); }
+function fmtTime(d) { d = new Date(d); return pad2(d.getHours()) + ':' + pad2(d.getMinutes()) + ':' + pad2(d.getSeconds()); }
+function fmtTimeShort(iso) { if (!iso) return '-'; var d = new Date(iso); return pad2(d.getHours()) + ':' + pad2(d.getMinutes()); }
+function addDays(d, n) { var r = new Date(d); r.setDate(r.getDate()+n); return r; }
+function isWeekend(d) { var day = new Date(d).getDay(); return day === 0 || day === 6; }
+function seededRand(seedStr) { var h = 0; for (var i=0;i<seedStr.length;i++) { h = (Math.imul(31,h) + seedStr.charCodeAt(i)) | 0; } var x = Math.sin(h) * 10000; return x - Math.floor(x); }
+function showToast(msg, type) {
+  var wrap = document.getElementById('toast-wrap');
+  var el = document.createElement('div');
+  el.className = 'toast ' + (type || '');
+  var iconName = type === 'ok' ? 'checkCircle' : (type === 'err' ? 'xCircle' : (type === 'warn' ? 'alert' : 'bell'));
+  el.innerHTML = icon(iconName) + '<span>' + escapeHtml(msg) + '</span>';
+  wrap.appendChild(el);
+  setTimeout(function() { el.style.transition = 'opacity 0.3s, transform 0.3s'; el.style.opacity = '0'; el.style.transform = 'translateX(24px)'; setTimeout(function(){ el.remove(); }, 300); }, 3200);
+}
+function initialsOf(name) { var parts = name.trim().split(/\s+/); return ((parts[0]||'')[0]||'') + ((parts[1]||'')[0]||''); }
+var AVATAR_COLORS = { 'IT & Engineering':'#4338ca','Marketing':'#c2410c','Keuangan':'#0f766e','Operasional':'#7c3aed','Human Resources':'#be185d' };
+
+/* ============================= DATA MODEL ============================= */
+var COMPANY = { nama:'PT Karya Sinergi', alamat:'Menara Sinergi Lt. 14, Jl. Jend. Sudirman Kav. 52, Jakarta Selatan', jamMasuk:'08:00', batasTelat:'08:15', jamPulang:'17:00' };
+var DEPARTEMEN = ['IT & Engineering','Marketing','Keuangan','Operasional','Human Resources'];
+
+var EMPLOYEES = [
+  { id:'EMP01', nama:'Dimas Prayoga', departemen:'IT & Engineering', jabatan:'Backend Developer', email:'dimas.prayoga@karyasinergi.co.id', gabung:'2023-03-10' },
+  { id:'EMP02', nama:'Sarah Amelia', departemen:'Marketing', jabatan:'Marketing Specialist', email:'sarah.amelia@karyasinergi.co.id', gabung:'2022-07-18' },
+  { id:'EMP03', nama:'Rizky Ramadhan', departemen:'Keuangan', jabatan:'Staff Finance', email:'rizky.ramadhan@karyasinergi.co.id', gabung:'2021-11-02' },
+  { id:'EMP04', nama:'Putri Wulandari', departemen:'Operasional', jabatan:'Staff Operasional', email:'putri.wulandari@karyasinergi.co.id', gabung:'2023-01-23' },
+  { id:'EMP05', nama:'Andika Saputra', departemen:'Human Resources', jabatan:'HR Generalist', email:'andika.saputra@karyasinergi.co.id', gabung:'2020-09-14' },
+  { id:'EMP06', nama:'Melati Kusuma', departemen:'IT & Engineering', jabatan:'UI/UX Designer', email:'melati.kusuma@karyasinergi.co.id', gabung:'2022-04-05' },
+  { id:'EMP07', nama:'Fajar Nugroho', departemen:'Marketing', jabatan:'Content Creator', email:'fajar.nugroho@karyasinergi.co.id', gabung:'2023-08-29' },
+  { id:'EMP08', nama:'Nadia Anggraini', departemen:'Keuangan', jabatan:'Finance Analyst', email:'nadia.anggraini@karyasinergi.co.id', gabung:'2021-05-17' }
+];
+var ADMIN_USER = { id:'ADM01', nama:'Yuni Hartati', departemen:'Human Resources', jabatan:'HR Manager', email:'yuni.hartati@karyasinergi.co.id', role:'admin' };
+
+function getEmployee(id) { for (var i=0;i<EMPLOYEES.length;i++) { if (EMPLOYEES[i].id === id) return EMPLOYEES[i]; } return null; }
+
+/* ============================= SEEDING ============================= */
+function seedIfNeeded() {
+  if (localStorage.getItem('absku_seeded_v1')) return;
+  var attendance = [];
+  var today = new Date();
+  for (var e = 0; e < EMPLOYEES.length; e++) {
+    var emp = EMPLOYEES[e];
+    for (var back = 30; back >= 1; back--) {
+      var day = addDays(today, -back);
+      if (isWeekend(day)) continue;
+      var iso = fmtDateISO(day);
+      var r = seededRand(emp.id + iso);
+      var status, jamMasuk, jamPulang, telat;
+      if (r < 0.05) { status = 'Alpha'; jamMasuk = null; jamPulang = null; }
+      else if (r < 0.09) { status = 'Sakit'; jamMasuk = null; jamPulang = null; }
+      else if (r < 0.12) { status = 'Izin'; jamMasuk = null; jamPulang = null; }
+      else if (r < 0.14) { status = 'Cuti'; jamMasuk = null; jamPulang = null; }
+      else {
+        var lateRoll = seededRand(emp.id + iso + 'L');
+        var isLate = lateRoll < 0.16;
+        status = isLate ? 'Telat' : 'Hadir';
+        var mh = isLate ? (8) : (7);
+        var mm = isLate ? (16 + Math.floor(lateRoll*400)%40) : (40 + Math.floor(lateRoll*300)%20);
+        if (mm >= 60) { mm = mm % 60; mh += 1; }
+        var mDate = new Date(day); mDate.setHours(mh, mm, Math.floor(r*50), 0);
+        jamMasuk = mDate.toISOString();
+        var ph = 17; var pm = Math.floor(seededRand(emp.id+iso+'P')*35);
+        var pDate = new Date(day); pDate.setHours(ph, pm, 0, 0);
+        jamPulang = pDate.toISOString();
+      }
+      attendance.push({ id: uid('ATT'), employeeId: emp.id, tanggal: iso, jamMasuk: jamMasuk, jamPulang: jamPulang, status: status, lokasi: jamMasuk ? 'Kantor Pusat' : null });
+    }
+    var todayIso = fmtDateISO(today);
+    if (!isWeekend(today) && emp.id !== 'EMP01') {
+      var tr = seededRand(emp.id + todayIso + 'T');
+      if (tr > 0.15) {
+        var isLateT = seededRand(emp.id+todayIso+'LT') < 0.18;
+        var mh2 = isLateT ? 8 : 7;
+        var mm2 = isLateT ? (17 + Math.floor(tr*200)%35) : (42 + Math.floor(tr*200)%18);
+        var mDate2 = new Date(today); mDate2.setHours(mh2, mm2, 10, 0);
+        attendance.push({ id: uid('ATT'), employeeId: emp.id, tanggal: todayIso, jamMasuk: mDate2.toISOString(), jamPulang: null, status: isLateT ? 'Telat' : 'Hadir', lokasi:'Kantor Pusat' });
+      } else if (tr > 0.06) {
+        attendance.push({ id: uid('ATT'), employeeId: emp.id, tanggal: todayIso, jamMasuk: null, jamPulang: null, status:'Izin', lokasi:null });
+      }
+    }
+  }
+  var leaves = [];
+  var lv = function(empId, jenis, startOffset, endOffset, alasan, status, catatan) {
+    var s = addDays(today, startOffset), en = addDays(today, endOffset);
+    leaves.push({ id: uid('LV'), employeeId: empId, jenis: jenis, tanggalMulai: fmtDateISO(s), tanggalSelesai: fmtDateISO(en), alasan: alasan, status: status, catatanAdmin: catatan || '', diajukanPada: addDays(today, startOffset - 3).toISOString() });
+  };
+  lv('EMP02', 'Cuti', 5, 7, 'Menghadiri acara keluarga di luar kota.', 'Menunggu', '');
+  lv('EMP06', 'Sakit', -1, 0, 'Demam dan perlu istirahat sesuai anjuran dokter.', 'Menunggu', '');
+  lv('EMP03', 'Izin', 2, 2, 'Mengurus dokumen kependudukan di kantor kelurahan.', 'Menunggu', '');
+  lv('EMP04', 'Cuti', -10, -8, 'Cuti tahunan, liburan bersama keluarga.', 'Disetujui', 'Disetujui, pastikan serah terima tugas sebelum cuti.');
+  lv('EMP07', 'Izin', -6, -6, 'Menghadiri wisuda adik kandung.', 'Disetujui', 'Silakan, jangan lupa isi form kehadiran susulan jika diperlukan.');
+  lv('EMP08', 'Cuti', -15, -14, 'Keperluan pribadi mendesak.', 'Ditolak', 'Bertepatan dengan periode tutup buku bulanan, mohon ajukan di tanggal lain.');
+
+  /* Reconcile: an approved leave (or a pending one covering today) must match the
+     attendance record for the same date, so the Kehadiran and Approval tabs never
+     contradict each other for the same employee on the same day. */
+  var todayIso2 = fmtDateISO(today);
+  leaves.forEach(function(l) {
+    if (l.status === 'Ditolak') return;
+    if (l.status === 'Menunggu' && !(todayIso2 >= l.tanggalMulai && todayIso2 <= l.tanggalSelesai)) return;
+    var cursor = new Date(l.tanggalMulai);
+    var end = new Date(l.tanggalSelesai);
+    while (cursor <= end) {
+      var iso = fmtDateISO(cursor);
+      if (iso <= todayIso2 && !isWeekend(cursor)) {
+        var rec = null;
+        for (var k = 0; k < attendance.length; k++) { if (attendance[k].employeeId === l.employeeId && attendance[k].tanggal === iso) { rec = attendance[k]; break; } }
+        if (rec) { rec.status = l.jenis; rec.jamMasuk = null; rec.jamPulang = null; rec.lokasi = null; }
+        else { attendance.push({ id: uid('ATT'), employeeId: l.employeeId, tanggal: iso, jamMasuk: null, jamPulang: null, status: l.jenis, lokasi: null }); }
+      }
+      cursor = addDays(cursor, 1);
+    }
+  });
+
+  localStorage.setItem('absku_attendance', JSON.stringify(attendance));
+  localStorage.setItem('absku_leaves', JSON.stringify(leaves));
+  localStorage.setItem('absku_leave_balance', JSON.stringify({ 'EMP01':12,'EMP02':9,'EMP03':12,'EMP04':7,'EMP05':10,'EMP06':11,'EMP07':10,'EMP08':6 }));
+  localStorage.setItem('absku_seeded_v1', '1');
+}
+function getAttendance() { return JSON.parse(localStorage.getItem('absku_attendance') || '[]'); }
+function saveAttendance(a) { localStorage.setItem('absku_attendance', JSON.stringify(a)); }
+function getLeaves() { return JSON.parse(localStorage.getItem('absku_leaves') || '[]'); }
+function saveLeaves(l) { localStorage.setItem('absku_leaves', JSON.stringify(l)); }
+function getLeaveBalance(empId) { var b = JSON.parse(localStorage.getItem('absku_leave_balance') || '{}'); return b[empId] != null ? b[empId] : 12; }
+function setLeaveBalance(empId, val) { var b = JSON.parse(localStorage.getItem('absku_leave_balance') || '{}'); b[empId] = val; localStorage.setItem('absku_leave_balance', JSON.stringify(b)); }
+
+/* ============================= STATE ============================= */
+var state = {
+  currentUser: null,
+  view: 'login',
+  empTab: 'dashboard',
+  adminTab: 'ringkasan',
+  historyMonth: fmtDateISO(new Date()).slice(0,7),
+  kehadiranFilterDept: 'Semua',
+  kehadiranFilterStatus: 'Semua',
+  kehadiranFilterDate: fmtDateISO(new Date()),
+  locVerified: null,
+  charts: {}
+};
+
+function todayAttendanceOf(empId) {
+  var iso = fmtDateISO(new Date());
+  var all = getAttendance();
+  for (var i=0;i<all.length;i++) { if (all[i].employeeId === empId && all[i].tanggal === iso) return all[i]; }
+  return null;
+}
+
+/* ============================= ACTIONS ============================= */
+function loginAs(id) {
+  if (id === 'ADM01') { state.currentUser = ADMIN_USER; state.view = 'admin'; state.adminTab = 'ringkasan'; }
+  else { state.currentUser = getEmployee(id); state.view = 'employee'; state.empTab = 'dashboard'; }
+  state.locVerified = null;
+  render();
+  showToast('Masuk sebagai ' + state.currentUser.nama, 'ok');
+}
+function logout() {
+  state.currentUser = null; state.view = 'login';
+  render();
+}
+function switchTo(target) {
+  if (target === 'admin') { state.currentUser = ADMIN_USER; state.view = 'admin'; state.adminTab = 'ringkasan'; }
+  else { state.currentUser = EMPLOYEES[0]; state.view = 'employee'; state.empTab = 'dashboard'; }
+  render();
+}
+function setEmpTab(tab) { state.empTab = tab; render(); }
+function setAdminTab(tab) { state.adminTab = tab; render(); if (tab === 'ringkasan' || tab === 'analitik') { setTimeout(renderCharts, 60); } }
+
+function verifyLocation() {
+  var btn = document.getElementById('btn-verify-loc');
+  if (btn) { btn.disabled = true; btn.innerHTML = icon('refresh','spin') + ' Mendeteksi lokasi...'; }
+  var finish = function(ok, label) {
+    state.locVerified = ok;
+    var box = document.getElementById('loc-status-box');
+    if (box) {
+      box.className = 'card-surface fade-in';
+      box.style.padding = '13px 16px';
+      box.style.display = 'flex'; box.style.alignItems = 'center'; box.style.gap = '10px';
+      box.style.borderColor = ok ? 'var(--ok-soft)' : 'var(--warn-soft)';
+      box.innerHTML = icon(ok ? 'checkCircle' : 'alert', ok ? 'ic-ok' : 'ic-warn') +
+        '<div><div style="font-weight:700;font-size:13.5px;color:' + (ok ? 'var(--ok)' : 'var(--warn)') + ';">' + label + '</div>' +
+        '<div style="font-size:12px;color:var(--muted);">' + COMPANY.alamat + '</div></div>';
+    }
+    renderPunchArea();
+  };
+  if (!navigator.geolocation) { finish(true, 'Lokasi kantor terverifikasi via jaringan kantor'); return; }
+  navigator.geolocation.getCurrentPosition(
+    function() { finish(true, 'Lokasi berada dalam radius kantor'); },
+    function() { finish(true, 'Lokasi terverifikasi via jaringan kantor'); },
+    { timeout: 4000 }
+  );
+}
+
+function clockIn() {
+  var emp = state.currentUser;
+  var existing = todayAttendanceOf(emp.id);
+  if (existing && existing.jamMasuk) { showToast('Anda sudah absen masuk hari ini.', 'warn'); return; }
+  var now = new Date();
+  var all = getAttendance();
+  var limitH = 8, limitM = 15;
+  var isLate = (now.getHours() > limitH) || (now.getHours() === limitH && now.getMinutes() > limitM);
+  var status = isLate ? 'Telat' : 'Hadir';
+  if (existing) {
+    existing.jamMasuk = now.toISOString(); existing.status = status; existing.lokasi = 'Kantor Pusat';
+  } else {
+    all.push({ id: uid('ATT'), employeeId: emp.id, tanggal: fmtDateISO(now), jamMasuk: now.toISOString(), jamPulang: null, status: status, lokasi:'Kantor Pusat' });
+  }
+  saveAttendance(all);
+  showToast(isLate ? 'Absen masuk tercatat (Telat). Semangat menjalani hari!' : 'Absen masuk berhasil. Selamat bekerja!', isLate ? 'warn' : 'ok');
+  render();
+}
+function clockOut() {
+  var emp = state.currentUser;
+  var existing = todayAttendanceOf(emp.id);
+  if (!existing || !existing.jamMasuk) { showToast('Anda belum absen masuk hari ini.', 'err'); return; }
+  if (existing.jamPulang) { showToast('Anda sudah absen pulang hari ini.', 'warn'); return; }
+  var all = getAttendance();
+  for (var i=0;i<all.length;i++) { if (all[i].id === existing.id) { all[i].jamPulang = new Date().toISOString(); break; } }
+  saveAttendance(all);
+  showToast('Absen pulang berhasil. Sampai jumpa besok!', 'ok');
+  render();
+}
+
+function submitLeave(ev) {
+  ev.preventDefault();
+  var emp = state.currentUser;
+  var jenis = document.getElementById('lv-jenis').value;
+  var mulai = document.getElementById('lv-mulai').value;
+  var selesai = document.getElementById('lv-selesai').value;
+  var alasan = document.getElementById('lv-alasan').value.trim();
+  if (!mulai || !selesai || !alasan) { showToast('Mohon lengkapi seluruh kolom wajib.', 'err'); return false; }
+  if (new Date(selesai) < new Date(mulai)) { showToast('Tanggal selesai tidak boleh sebelum tanggal mulai.', 'err'); return false; }
+  if (jenis === 'Cuti') {
+    var days = Math.round((new Date(selesai) - new Date(mulai)) / 86400000) + 1;
+    if (days > getLeaveBalance(emp.id)) { showToast('Sisa cuti tidak mencukupi untuk ' + days + ' hari.', 'err'); return false; }
+  }
+  var leaves = getLeaves();
+  leaves.unshift({ id: uid('LV'), employeeId: emp.id, jenis: jenis, tanggalMulai: mulai, tanggalSelesai: selesai, alasan: alasan, status:'Menunggu', catatanAdmin:'', diajukanPada: new Date().toISOString() });
+  saveLeaves(leaves);
+  showToast('Pengajuan ' + jenis.toLowerCase() + ' berhasil dikirim, menunggu persetujuan.', 'ok');
+  state.empTab = 'pengajuan';
+  render();
+  return false;
+}
+
+var pendingLeaveAction = null;
+function openLeaveReview(id) {
+  var leaves = getLeaves();
+  var lv = null; for (var i=0;i<leaves.length;i++) { if (leaves[i].id === id) lv = leaves[i]; }
+  if (!lv) return;
+  pendingLeaveAction = id;
+  var emp = getEmployee(lv.employeeId);
+  var modal = document.getElementById('modal-root');
+  modal.innerHTML =
+    '<div class="modal-backdrop" onclick="if(event.target===this) closeModal();">' +
+    '<div class="modal-box fade-in">' +
+    '<div style="padding:22px 22px 6px;">' +
+    '<div style="display:flex;align-items:center;justify-content:between;gap:10px;">' +
+    '<div class="emp-row">' + avatarHtml(emp) + '<div><div style="font-weight:800;font-size:15px;">' + escapeHtml(emp.nama) + '</div><div style="font-size:12px;color:var(--muted);">' + escapeHtml(emp.jabatan) + '</div></div></div>' +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px;margin-bottom:10px;">' +
+    '<div><div style="color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;">Jenis</div><div style="font-weight:700;">' + lv.jenis + '</div></div>' +
+    '<div><div style="color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;">Durasi</div><div style="font-weight:700;">' + fmtDateShort(lv.tanggalMulai) + ' - ' + fmtDateShort(lv.tanggalSelesai) + '</div></div>' +
+    '</div>' +
+    '<div style="margin-bottom:14px;"><div style="color:var(--muted);font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:4px;">Alasan</div><div style="font-size:13.5px;line-height:1.55;background:var(--bg-tint);border-radius:10px;padding:11px 13px;">' + escapeHtml(lv.alasan) + '</div></div>' +
+    '<label class="lbl" for="lv-catatan">Catatan untuk karyawan <span class="opt-mark">(Opsional)</span></label>' +
+    '<textarea id="lv-catatan" class="inp" rows="2" placeholder="Contoh: disetujui, pastikan koordinasi dengan tim sebelum tanggal mulai" style="resize:none;margin-bottom:16px;"></textarea>' +
+    '</div>' +
+    '<div style="display:flex;gap:10px;padding:0 22px 22px;">' +
+    '<button class="btn btn-danger" style="flex:1;" onclick="resolveLeave(\'Ditolak\')">' + icon('x') + ' Tolak</button>' +
+    '<button class="btn btn-primary" style="flex:1;" onclick="resolveLeave(\'Disetujui\')">' + icon('check') + ' Setujui</button>' +
+    '</div>' +
+    '</div></div>';
+}
+function closeModal() { document.getElementById('modal-root').innerHTML = ''; pendingLeaveAction = null; }
+function resolveLeave(decision) {
+  if (!pendingLeaveAction) return;
+  var catatan = document.getElementById('lv-catatan') ? document.getElementById('lv-catatan').value.trim() : '';
+  var leaves = getLeaves();
+  var target = null;
+  for (var i=0;i<leaves.length;i++) { if (leaves[i].id === pendingLeaveAction) { leaves[i].status = decision; leaves[i].catatanAdmin = catatan; target = leaves[i]; break; } }
+  saveLeaves(leaves);
+  if (decision === 'Disetujui' && target && target.jenis === 'Cuti') {
+    var days = Math.round((new Date(target.tanggalSelesai) - new Date(target.tanggalMulai)) / 86400000) + 1;
+    var bal = getLeaveBalance(target.employeeId);
+    setLeaveBalance(target.employeeId, Math.max(0, bal - days));
+  }
+  closeModal();
+  showToast('Pengajuan telah ' + decision.toLowerCase() + '.', decision === 'Disetujui' ? 'ok' : 'warn');
+  render();
+  if (state.adminTab === 'ringkasan' || state.adminTab === 'analitik') setTimeout(renderCharts, 60);
+}
+
+function exportCsv() {
+  var all = getAttendance();
+  var rows = [['Nama','Departemen','Tanggal','Jam Masuk','Jam Pulang','Status']];
+  all.slice().sort(function(a,b){ return a.tanggal < b.tanggal ? 1 : -1; }).forEach(function(r) {
+    var emp = getEmployee(r.employeeId); if (!emp) return;
+    rows.push([emp.nama, emp.departemen, r.tanggal, fmtTimeShort(r.jamMasuk), fmtTimeShort(r.jamPulang), r.status]);
+  });
+  var csv = rows.map(function(r) { return r.map(function(c) { return '"' + String(c).replace(/"/g,'""') + '"'; }).join(','); }).join('\n');
+  var blob = new Blob([csv], { type:'text/csv;charset=utf-8;' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'rekap-kehadiran-absenku.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Rekap kehadiran berhasil diunduh.', 'ok');
+}
+
+/* ============================= SHARED UI PIECES ============================= */
+function avatarHtml(emp, size) {
+  size = size || 40;
+  var color = AVATAR_COLORS[emp.departemen] || 'var(--primary)';
+  return '<div class="avatar" style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';font-size:' + Math.round(size*0.36) + 'px;">' + escapeHtml(initialsOf(emp.nama).toUpperCase()) + '</div>';
+}
+function statusBadge(status) {
+  var map = {
+    'Hadir': 'badge-ok', 'Telat': 'badge-warn', 'Alpha': 'badge-danger',
+    'Izin': 'badge-info', 'Sakit': 'badge-info', 'Cuti': 'badge-info',
+    'Menunggu': 'badge-warn', 'Disetujui': 'badge-ok', 'Ditolak': 'badge-danger'
+  };
+  return '<span class="badge ' + (map[status] || 'badge-muted') + '">' + escapeHtml(status) + '</span>';
+}
+
+function buildLogin() {
+  var empCards = EMPLOYEES.map(function(emp) {
+    return '<button onclick="loginAs(\'' + emp.id + '\')" style="text-align:left;background:var(--surface);border:1.5px solid var(--line-soft);border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s;font-family:inherit;width:100%;" onmouseover="this.style.borderColor=\'var(--primary-3)\';this.style.boxShadow=\'var(--shadow-md)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--line-soft)\';this.style.boxShadow=\'none\';this.style.transform=\'none\';">' +
+      avatarHtml(emp, 44) +
+      '<div style="min-width:0;flex:1;"><div style="font-weight:700;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(emp.nama) + '</div><div style="font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(emp.jabatan) + '</div></div>' +
+      icon('chevronR', 'ic-muted') +
+      '</button>';
+  }).join('');
+  return '<div style="min-height:100vh;background:var(--navy);position:relative;overflow:hidden;display:flex;align-items:center;padding:40px 0;">' +
+    '<div style="position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(99,102,241,0.22),transparent 70%);top:-220px;right:-160px;"></div>' +
+    '<div style="position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(184,134,11,0.16),transparent 70%);bottom:-180px;left:-120px;"></div>' +
+    '<div class="wrap" style="position:relative;z-index:1;">' +
+    '<div style="max-width:920px;margin:0 auto;">' +
+    '<div style="text-align:center;margin-bottom:34px;">' +
+    '<a href="https://bagasaria93.github.io" style="display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.55);font-size:12.5px;font-weight:600;text-decoration:none;margin-bottom:22px;">' + icon('chevronL') + ' Kembali ke Portfolio</a>' +
+    '<div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);padding:8px 16px;border-radius:99px;margin-bottom:18px;">' +
+    '<span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;box-shadow:0 0 0 3px rgba(34,197,94,0.25);"></span>' +
+    '<span style="color:rgba(255,255,255,0.75);font-size:12.5px;font-weight:600;">Demo Interaktif &middot; ' + COMPANY.nama + '</span></div>' +
+    '<h1 class="font-display" style="color:#fff;font-size:38px;font-weight:800;margin:0 0 10px;letter-spacing:-0.01em;">Absen<span style="color:var(--gold-soft);">Ku</span></h1>' +
+    '<p style="color:rgba(255,255,255,0.6);font-size:15px;max-width:480px;margin:0 auto;line-height:1.6;">Sistem absensi dan manajemen izin/cuti karyawan. Pilih akun demo di bawah untuk menjelajahi aplikasi dari sisi karyawan atau admin HR.</p>' +
+    '</div>' +
+    '<div class="card-surface fade-in" style="padding:22px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">' + icon('users','ic-primary') + '<span style="font-weight:800;font-size:14px;">Masuk sebagai Karyawan</span></div>' +
+    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;">' + empCards + '</div>' +
+    '</div>' +
+    '<button onclick="loginAs(\'ADM01\')" class="card-surface fade-in" style="width:100%;padding:16px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;border:1.5px solid var(--line-soft);font-family:inherit;text-align:left;transition:all 0.2s;" onmouseover="this.style.borderColor=\'var(--gold-soft)\';this.style.boxShadow=\'var(--shadow-md)\';" onmouseout="this.style.borderColor=\'var(--line-soft)\';this.style.boxShadow=\'var(--shadow-sm)\';">' +
+    '<div style="width:44px;height:44px;border-radius:50%;background:var(--grad-gold);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">' + icon('shield') + '</div>' +
+    '<div style="flex:1;min-width:0;"><div style="font-weight:800;font-size:14.5px;">Masuk sebagai Admin HR</div><div style="font-size:12.5px;color:var(--muted);">' + ADMIN_USER.nama + ' &middot; ' + ADMIN_USER.jabatan + '</div></div>' +
+    icon('chevronR', 'ic-muted') +
+    '</button>' +
+    '<p style="text-align:center;color:rgba(255,255,255,0.35);font-size:11.5px;margin-top:24px;">Ini adalah demo portfolio. Seluruh data karyawan dan kehadiran bersifat fiktif dan tersimpan lokal di browser Anda.</p>' +
+    '</div></div></div>';
+}
+
+function buildTopbar() {
+  var emp = state.currentUser;
+  var isAdmin = state.view === 'admin';
+  var empTabs = [
+    ['dashboard','home','Beranda'],['riwayat','history','Riwayat'],['pengajuan','file','Pengajuan']
+  ];
+  var adminTabs = [
+    ['ringkasan','home','Ringkasan'],['kehadiran','calendar','Kehadiran'],['approval','file','Approval'],['karyawan','users','Karyawan'],['analitik','trend','Analitik']
+  ];
+  var tabs = isAdmin ? adminTabs : empTabs;
+  var activeTab = isAdmin ? state.adminTab : state.empTab;
+  var tabsHtml = tabs.map(function(t) {
+    var pendingCount = 0;
+    if (isAdmin && t[0] === 'approval') { pendingCount = getLeaves().filter(function(l){ return l.status === 'Menunggu'; }).length; }
+    return '<button class="tab-btn ' + (activeTab === t[0] ? 'active' : '') + '" onclick="' + (isAdmin ? 'setAdminTab' : 'setEmpTab') + '(\'' + t[0] + '\')">' + icon(t[1]) + '<span>' + t[2] + '</span>' + (pendingCount ? '<span class="badge badge-danger" style="padding:1px 7px;font-size:10.5px;margin-left:2px;">' + pendingCount + '</span>' : '') + '</button>';
+  }).join('');
+  return '<div class="topbar">' +
+    '<div class="wrap" style="padding-top:14px;padding-bottom:0;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">' +
+    '<a href="https://bagasaria93.github.io" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);">' +
+    '<div style="width:34px;height:34px;border-radius:10px;background:var(--grad-primary);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">' + icon('clockIn') + '</div>' +
+    '<span class="font-display" style="font-weight:800;font-size:16.5px;">Absen<span style="color:var(--primary);">Ku</span></span>' +
+    '</a>' +
+    '<div style="display:flex;align-items:center;gap:10px;">' +
+    '<button class="btn btn-ghost btn-sm" onclick="switchTo(\'' + (isAdmin ? 'employee' : 'admin') + '\')" style="display:none;" id="btn-role-switch"></button>' +
+    '<div style="display:flex;align-items:center;gap:9px;">' +
+    avatarHtml(emp, 34) +
+    '<div style="display:none;" class="sm-only"></div>' +
+    '<div style="text-align:right;">' +
+    '<div style="font-weight:700;font-size:13px;line-height:1.2;">' + escapeHtml(emp.nama) + '</div>' +
+    '<div style="font-size:11px;color:var(--muted);line-height:1.2;">' + escapeHtml(isAdmin ? 'Admin HR' : emp.jabatan) + '</div>' +
+    '</div>' +
+    '</div>' +
+    '<button class="btn-icon" onclick="logout()" title="Keluar">' + icon('logout') + '</button>' +
+    '</div>' +
+    '</div>' +
+    '<div class="tab-row" style="padding-bottom:11px;">' + tabsHtml + '</div>' +
+    '</div></div>';
+}
+
+function buildFooter() {
+  return '<div class="wrap" style="padding:34px 20px 44px;text-align:center;">' +
+    '<div class="divider" style="max-width:280px;margin:0 auto 18px;"></div>' +
+    '<p style="font-size:12px;color:var(--muted);margin:0 0 6px;">AbsenKu &middot; Demo aplikasi absensi karyawan untuk ' + COMPANY.nama + ' (fiktif)</p>' +
+    '<a href="https://bagasaria93.github.io" style="font-size:12px;color:var(--primary);font-weight:700;text-decoration:none;">Demo Portfolio oleh Bagas Aria Sativa</a>' +
+    '</div>';
+}
+
+/* ============================= EMPLOYEE: DASHBOARD ============================= */
+function renderPunchArea() {
+  var mount = document.getElementById('punch-area');
+  if (!mount) return;
+  var emp = state.currentUser;
+  var att = todayAttendanceOf(emp.id);
+  var html = '';
+  if (att && att.status !== 'Hadir' && att.status !== 'Telat') {
+    html = '<div style="text-align:center;padding:6px 0 2px;">' + icon('checkCircle','') + '</div>' +
+      '<div style="text-align:center;color:#fff;font-weight:700;font-size:14.5px;margin-bottom:4px;">Anda mengajukan ' + att.status + ' hari ini</div>' +
+      '<div style="text-align:center;color:rgba(255,255,255,0.65);font-size:12.5px;">Tidak perlu melakukan absen masuk/pulang.</div>';
+  } else if (!att || !att.jamMasuk) {
+    html = '<button class="punch-btn" style="background:#fff;color:var(--navy);" onclick="clockIn()">' + icon('clockIn') + ' Absen Masuk</button>' +
+      '<div id="loc-status-box" style="margin-top:12px;"></div>' +
+      '<button id="btn-verify-loc" class="btn btn-ghost btn-sm" style="color:rgba(255,255,255,0.75);width:100%;margin-top:8px;" onclick="verifyLocation()">' + icon('mapPin') + ' Verifikasi lokasi kantor</button>';
+  } else if (!att.jamPulang) {
+    html = '<div style="background:rgba(255,255,255,0.12);border-radius:14px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">' +
+      '<div><div style="color:rgba(255,255,255,0.65);font-size:11px;font-weight:700;text-transform:uppercase;">Jam Masuk</div><div style="color:#fff;font-weight:800;font-size:18px;">' + fmtTimeShort(att.jamMasuk) + '</div></div>' +
+      statusBadge(att.status) +
+      '</div>' +
+      '<button class="punch-btn" style="background:var(--grad-gold);color:#fff;" onclick="clockOut()">' + icon('clockOut') + ' Absen Pulang</button>';
+  } else {
+    html = '<div style="display:flex;gap:10px;margin-bottom:6px;">' +
+      '<div style="flex:1;background:rgba(255,255,255,0.12);border-radius:14px;padding:12px 14px;"><div style="color:rgba(255,255,255,0.65);font-size:10.5px;font-weight:700;text-transform:uppercase;">Masuk</div><div style="color:#fff;font-weight:800;font-size:17px;">' + fmtTimeShort(att.jamMasuk) + '</div></div>' +
+      '<div style="flex:1;background:rgba(255,255,255,0.12);border-radius:14px;padding:12px 14px;"><div style="color:rgba(255,255,255,0.65);font-size:10.5px;font-weight:700;text-transform:uppercase;">Pulang</div><div style="color:#fff;font-weight:800;font-size:17px;">' + fmtTimeShort(att.jamPulang) + '</div></div>' +
+      '</div>' +
+      '<div style="text-align:center;color:#fff;font-weight:700;font-size:14px;margin-top:10px;">' + icon('checkCircle') + ' Absensi hari ini selesai. Sampai jumpa besok!</div>';
+  }
+  mount.innerHTML = html;
+}
+
+function buildClockCard() {
+  var now = new Date();
+  return '<div class="clock-card">' +
+    '<div style="position:relative;z-index:1;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">' +
+    '<div><div style="color:rgba(255,255,255,0.65);font-size:12.5px;font-weight:600;">' + fmtDateLong(now) + '</div>' +
+    '<div id="live-clock" class="clock-digits" style="color:#fff;font-size:40px;margin-top:2px;">' + fmtTime(now) + '</div></div>' +
+    '<div style="width:46px;height:46px;border-radius:50%;background:rgba(255,255,255,0.14);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">' + icon('building') + '</div>' +
+    '</div>' +
+    '<div id="punch-area"></div>' +
+    '</div></div>';
+}
+
+function buildEmployeeDashboard() {
+  var emp = state.currentUser;
+  var all = getAttendance().filter(function(a){ return a.employeeId === emp.id; });
+  var ym = fmtDateISO(new Date()).slice(0,7);
+  var thisMonth = all.filter(function(a){ return a.tanggal.slice(0,7) === ym; });
+  var count = function(st) { return thisMonth.filter(function(a){ return a.status === st; }).length; };
+  var hadir = count('Hadir') + count('Telat');
+  var telat = count('Telat');
+  var izin = count('Izin') + count('Sakit') + count('Cuti');
+  var alpha = count('Alpha');
+  var recent = all.slice().sort(function(a,b){ return a.tanggal < b.tanggal ? 1 : -1; }).slice(0,5);
+  var balance = getLeaveBalance(emp.id);
+
+  var statTile = function(label, value, iconName, accent) {
+    return '<div class="stat-tile" style="--accent:' + accent + ';">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+      '<div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.03em;">' + label + '</div>' +
+      '<div class="font-display" style="font-size:26px;font-weight:800;margin-top:3px;">' + value + '</div></div>' +
+      '<div class="stat-icon-badge" style="background:' + accent + '1a;color:' + accent + ';">' + icon(iconName) + '</div>' +
+      '</div></div>';
+  };
+
+  var recentRows = recent.length ? recent.map(function(a) {
+    return '<tr><td>' + fmtDateShort(a.tanggal) + '</td><td>' + fmtTimeShort(a.jamMasuk) + '</td><td>' + fmtTimeShort(a.jamPulang) + '</td><td>' + statusBadge(a.status) + '</td></tr>';
+  }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:24px;">Belum ada riwayat kehadiran.</td></tr>';
+
+  return '<div class="fade-in">' +
+    '<div class="split-grid" style="grid-template-columns:1.1fr 0.9fr;margin-bottom:18px;">' +
+    '<div>' + buildClockCard() + '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('mapPin','ic-primary') + '<span style="font-weight:800;font-size:14px;">Lokasi Kantor</span></div>' +
+    '<div style="font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:14px;">' + escapeHtml(COMPANY.alamat) + '</div>' +
+    '<div class="divider"></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><span style="font-size:13px;color:var(--ink-soft);">Jam Masuk</span><span style="font-weight:700;font-size:13.5px;">' + COMPANY.jamMasuk + ' WIB</span></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;"><span style="font-size:13px;color:var(--ink-soft);">Batas Terlambat</span><span style="font-weight:700;font-size:13.5px;">' + COMPANY.batasTelat + ' WIB</span></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;"><span style="font-size:13px;color:var(--ink-soft);">Jam Pulang</span><span style="font-weight:700;font-size:13.5px;">' + COMPANY.jamPulang + ' WIB</span></div>' +
+    '<div class="divider"></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+    '<div><div style="font-size:12px;color:var(--muted);font-weight:700;">Sisa Cuti Tahunan</div><div class="font-display" style="font-size:22px;font-weight:800;color:var(--gold);">' + balance + ' hari</div></div>' +
+    '<div style="width:44px;height:44px;border-radius:50%;background:var(--gold-pale);display:flex;align-items:center;justify-content:center;color:var(--gold);">' + icon('calendar') + '</div>' +
+    '</div></div></div>' +
+    '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">' +
+    statTile('Hadir Bulan Ini', hadir, 'checkCircle', '#15803d') +
+    statTile('Terlambat', telat, 'alert', '#b45309') +
+    statTile('Izin/Sakit/Cuti', izin, 'file', '#0369a1') +
+    statTile('Tanpa Keterangan', alpha, 'xCircle', '#b91c1c') +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('history','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Aktivitas Terbaru</span></div>' +
+    '<button class="btn btn-ghost btn-sm" onclick="setEmpTab(\'riwayat\')">Lihat Semua ' + icon('chevronR') + '</button>' +
+    '</div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Tanggal</th><th>Masuk</th><th>Pulang</th><th>Status</th></tr></thead><tbody>' + recentRows + '</tbody></table></div>' +
+    '</div>' +
+    '</div>';
+}
+
+/* ============================= EMPLOYEE: RIWAYAT ============================= */
+function changeHistoryMonth(delta) {
+  var d = new Date(state.historyMonth + '-01T00:00:00');
+  d.setMonth(d.getMonth() + delta);
+  state.historyMonth = d.getFullYear() + '-' + pad2(d.getMonth()+1);
+  render();
+}
+function buildRiwayat() {
+  var emp = state.currentUser;
+  var all = getAttendance().filter(function(a){ return a.employeeId === emp.id && a.tanggal.slice(0,7) === state.historyMonth; });
+  all.sort(function(a,b){ return a.tanggal < b.tanggal ? 1 : -1; });
+  var d = new Date(state.historyMonth + '-01T00:00:00');
+  var monthLabel = BULAN_ID[d.getMonth()] + ' ' + d.getFullYear();
+  var count = function(st) { return all.filter(function(a){ return a.status === st; }).length; };
+  var rows = all.length ? all.map(function(a) {
+    return '<tr><td style="font-weight:600;color:var(--ink);">' + fmtDateShort(a.tanggal) + '</td><td>' + HARI_ID[new Date(a.tanggal).getDay()] + '</td><td>' + fmtTimeShort(a.jamMasuk) + '</td><td>' + fmtTimeShort(a.jamPulang) + '</td><td>' + statusBadge(a.status) + '</td><td>' + (a.lokasi ? ('<span style="display:inline-flex;align-items:center;gap:4px;font-size:12px;">' + icon('mapPin','') + a.lokasi + '</span>') : '<span style="color:var(--muted);">-</span>') + '</td></tr>';
+  }).join('') : '<tr><td colspan="6" style="text-align:center;color:var(--muted);padding:30px;">Tidak ada data kehadiran pada bulan ini.</td></tr>';
+
+  var miniStat = function(label, value, color) {
+    return '<div style="flex:1;min-width:90px;background:var(--bg-tint);border-radius:12px;padding:10px 12px;"><div style="font-size:10.5px;color:var(--muted);font-weight:700;text-transform:uppercase;">' + label + '</div><div style="font-weight:800;font-size:19px;color:' + color + ';">' + value + '</div></div>';
+  };
+
+  return '<div class="fade-in">' +
+    '<div class="card-surface" style="padding:20px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('calendar','ic-primary') + '<span style="font-weight:800;font-size:15px;">Riwayat Kehadiran</span></div>' +
+    '<div style="display:flex;align-items:center;gap:6px;">' +
+    '<button class="btn-icon" onclick="changeHistoryMonth(-1)">' + icon('chevronL') + '</button>' +
+    '<span style="font-weight:700;font-size:13.5px;min-width:130px;text-align:center;">' + monthLabel + '</span>' +
+    '<button class="btn-icon" onclick="changeHistoryMonth(1)">' + icon('chevronR') + '</button>' +
+    '</div></div>' +
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px;">' +
+    miniStat('Hadir', count('Hadir'), 'var(--ok)') + miniStat('Telat', count('Telat'), 'var(--warn)') +
+    miniStat('Izin', count('Izin'), 'var(--info)') + miniStat('Sakit', count('Sakit'), 'var(--info)') +
+    miniStat('Cuti', count('Cuti'), 'var(--info)') + miniStat('Alpha', count('Alpha'), 'var(--danger)') +
+    '</div></div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Tanggal</th><th>Hari</th><th>Masuk</th><th>Pulang</th><th>Status</th><th>Lokasi</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= EMPLOYEE: PENGAJUAN ============================= */
+function buildPengajuan() {
+  var emp = state.currentUser;
+  var myLeaves = getLeaves().filter(function(l){ return l.employeeId === emp.id; }).sort(function(a,b){ return new Date(b.diajukanPada) - new Date(a.diajukanPada); });
+  var balance = getLeaveBalance(emp.id);
+  var todayIso = fmtDateISO(new Date());
+
+  var listHtml = myLeaves.length ? myLeaves.map(function(l) {
+    return '<div class="card-surface" style="padding:15px 17px;margin-bottom:10px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap;">' +
+      '<div style="display:flex;align-items:center;gap:8px;"><span style="font-weight:800;font-size:13.5px;">' + l.jenis + '</span>' + statusBadge(l.status) + '</div>' +
+      '<span style="font-size:12px;color:var(--muted);">' + fmtDateShort(l.tanggalMulai) + ' - ' + fmtDateShort(l.tanggalSelesai) + '</span>' +
+      '</div>' +
+      '<p style="font-size:13px;color:var(--ink-soft);margin:0 0 6px;line-height:1.5;">' + escapeHtml(l.alasan) + '</p>' +
+      (l.catatanAdmin ? '<div style="background:var(--bg-tint);border-radius:9px;padding:9px 11px;font-size:12.5px;color:var(--ink-soft);margin-top:8px;"><strong style="color:var(--ink);">Catatan HR:</strong> ' + escapeHtml(l.catatanAdmin) + '</div>' : '') +
+      '</div>';
+  }).join('') : '<div class="card-surface" style="padding:30px;text-align:center;color:var(--muted);font-size:13.5px;">Belum ada riwayat pengajuan.</div>';
+
+  return '<div class="fade-in split-grid" style="grid-template-columns:0.85fr 1.15fr;">' +
+    '<div class="card-surface" style="padding:20px;height:fit-content;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">' + icon('file','ic-primary') + '<span style="font-weight:800;font-size:15px;">Ajukan Izin / Cuti</span></div>' +
+    '<p style="font-size:12.5px;color:var(--muted);margin:2px 0 16px;">Sisa cuti tahunan Anda: <strong style="color:var(--gold);">' + balance + ' hari</strong></p>' +
+    '<p style="font-size:11.5px;color:var(--muted);margin-bottom:14px;"><span class="req-mark">*</span> Wajib diisi</p>' +
+    '<form onsubmit="return submitLeave(event)">' +
+    '<div style="margin-bottom:12px;"><label class="lbl" for="lv-jenis">Jenis Pengajuan<span class="req-mark"> *</span></label>' +
+    '<select id="lv-jenis" class="inp"><option value="Izin">Izin</option><option value="Sakit">Sakit</option><option value="Cuti">Cuti Tahunan</option></select></div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">' +
+    '<div><label class="lbl" for="lv-mulai">Tanggal Mulai<span class="req-mark"> *</span></label><input type="date" id="lv-mulai" class="inp" min="' + todayIso + '" value="' + todayIso + '"></div>' +
+    '<div><label class="lbl" for="lv-selesai">Tanggal Selesai<span class="req-mark"> *</span></label><input type="date" id="lv-selesai" class="inp" min="' + todayIso + '" value="' + todayIso + '"></div>' +
+    '</div>' +
+    '<div style="margin-bottom:16px;"><label class="lbl" for="lv-alasan">Alasan<span class="req-mark"> *</span></label>' +
+    '<textarea id="lv-alasan" class="inp" rows="3" placeholder="Jelaskan alasan pengajuan Anda" style="resize:none;"></textarea></div>' +
+    '<button type="submit" class="btn btn-primary btn-block">' + icon('check') + ' Kirim Pengajuan</button>' +
+    '</form></div>' +
+    '<div>' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('history','ic-primary') + '<span style="font-weight:800;font-size:15px;">Riwayat Pengajuan Saya</span></div>' +
+    listHtml +
+    '</div></div>';
+}
+
+/* ============================= ADMIN: RINGKASAN ============================= */
+function buildAdminRingkasan() {
+  var todayIso = fmtDateISO(new Date());
+  var all = getAttendance();
+  var todayAtt = all.filter(function(a){ return a.tanggal === todayIso; });
+  var count = function(st) { return todayAtt.filter(function(a){ return a.status === st; }).length; };
+  var hadir = count('Hadir') + count('Telat');
+  var telat = count('Telat');
+  var cuti = count('Izin') + count('Sakit') + count('Cuti');
+  var belum = EMPLOYEES.length - todayAtt.length;
+  var leaves = getLeaves();
+  var pending = leaves.filter(function(l){ return l.status === 'Menunggu'; });
+
+  var statTile = function(label, value, iconName, accent) {
+    return '<div class="stat-tile" style="--accent:' + accent + ';">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+      '<div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.03em;">' + label + '</div>' +
+      '<div class="font-display" style="font-size:26px;font-weight:800;margin-top:3px;">' + value + '</div></div>' +
+      '<div class="stat-icon-badge" style="background:' + accent + '1a;color:' + accent + ';">' + icon(iconName) + '</div></div></div>';
+  };
+
+  var pendingHtml = pending.length ? pending.slice(0,4).map(function(l) {
+    var emp = getEmployee(l.employeeId);
+    return '<div style="display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line-soft);">' +
+      avatarHtml(emp, 36) +
+      '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(emp.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + l.jenis + ' &middot; ' + fmtDateShort(l.tanggalMulai) + '</div></div>' +
+      '<button class="btn btn-secondary btn-sm" onclick="openLeaveReview(\'' + l.id + '\')">Tinjau</button>' +
+      '</div>';
+  }).join('') : '<div style="text-align:center;color:var(--muted);font-size:13px;padding:24px 0;">Tidak ada pengajuan menunggu persetujuan.</div>';
+
+  var deptCounts = {};
+  DEPARTEMEN.forEach(function(d){ deptCounts[d] = 0; });
+  todayAtt.forEach(function(a){ var emp = getEmployee(a.employeeId); if (emp && (a.status === 'Hadir' || a.status === 'Telat')) deptCounts[emp.departemen]++; });
+
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;">' +
+    '<div><h2 class="font-display" style="font-size:19px;font-weight:800;margin:0;">Ringkasan Hari Ini</h2><p style="font-size:12.5px;color:var(--muted);margin:3px 0 0;">' + fmtDateLong(new Date()) + '</p></div>' +
+    '<button class="btn btn-secondary btn-sm" onclick="exportCsv()">' + icon('download') + ' Ekspor CSV</button>' +
+    '</div>' +
+    '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px;">' +
+    statTile('Hadir', hadir, 'checkCircle', '#15803d') +
+    statTile('Terlambat', telat, 'alert', '#b45309') +
+    statTile('Izin/Sakit/Cuti', cuti, 'file', '#0369a1') +
+    statTile('Belum Absen', belum, 'clock', '#565b70') +
+    statTile('Total Karyawan', EMPLOYEES.length, 'users', '#3730a3') +
+    '</div>' +
+    '<div class="split-grid" style="grid-template-columns:1.4fr 1fr;">' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('trend','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Tren Kehadiran 14 Hari Terakhir</span></div>' +
+    '<div style="height:230px;"><canvas id="chart-trend"></canvas></div>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('file','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Perlu Persetujuan</span></div>' +
+    (pending.length ? '<span class="badge badge-warn">' + pending.length + '</span>' : '') +
+    '</div>' +
+    pendingHtml +
+    (pending.length > 4 ? '<button class="btn btn-ghost btn-sm btn-block" style="margin-top:8px;" onclick="setAdminTab(\'approval\')">Lihat semua pengajuan ' + icon('chevronR') + '</button>' : '') +
+    '</div></div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN: KEHADIRAN ============================= */
+function setKehadiranFilter(key, val) { state[key] = val; render(); }
+function buildAdminKehadiran() {
+  var all = getAttendance().filter(function(a){ return a.tanggal === state.kehadiranFilterDate; });
+  if (state.kehadiranFilterDept !== 'Semua') { all = all.filter(function(a){ var e = getEmployee(a.employeeId); return e && e.departemen === state.kehadiranFilterDept; }); }
+  if (state.kehadiranFilterStatus !== 'Semua') { all = all.filter(function(a){ return a.status === state.kehadiranFilterStatus; }); }
+  var attendedIds = getAttendance().filter(function(a){ return a.tanggal === state.kehadiranFilterDate; }).map(function(a){ return a.employeeId; });
+  var belumList = EMPLOYEES.filter(function(e){ return attendedIds.indexOf(e.id) === -1; });
+  var showBelum = state.kehadiranFilterStatus === 'Semua' || state.kehadiranFilterStatus === 'Belum Absen';
+  if (state.kehadiranFilterDept !== 'Semua') { belumList = belumList.filter(function(e){ return e.departemen === state.kehadiranFilterDept; }); }
+
+  var deptChips = ['Semua'].concat(DEPARTEMEN).map(function(d) {
+    return '<button class="chip ' + (state.kehadiranFilterDept === d ? 'active' : '') + '" onclick="setKehadiranFilter(\'kehadiranFilterDept\',\'' + d + '\')">' + d + '</button>';
+  }).join('');
+  var statusOpts = ['Semua','Hadir','Telat','Izin','Sakit','Cuti','Alpha','Belum Absen'];
+
+  var rows = all.slice().sort(function(a,b){ var ea=getEmployee(a.employeeId), eb=getEmployee(b.employeeId); return ea.nama.localeCompare(eb.nama); }).map(function(a) {
+    var emp = getEmployee(a.employeeId);
+    return '<tr><td><div class="emp-row">' + avatarHtml(emp, 32) + '<div><div style="font-weight:700;color:var(--ink);font-size:13px;">' + escapeHtml(emp.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + emp.departemen + '</div></div></div></td><td>' + fmtTimeShort(a.jamMasuk) + '</td><td>' + fmtTimeShort(a.jamPulang) + '</td><td>' + statusBadge(a.status) + '</td></tr>';
+  }).join('');
+  var belumRows = showBelum ? belumList.map(function(emp) {
+    return '<tr><td><div class="emp-row">' + avatarHtml(emp, 32) + '<div><div style="font-weight:700;color:var(--ink);font-size:13px;">' + escapeHtml(emp.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + emp.departemen + '</div></div></div></td><td>-</td><td>-</td><td>' + statusBadge('Belum Absen') + '</td></tr>';
+  }).join('') : '';
+  var allRows = rows + belumRows;
+  if (!allRows) allRows = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:30px;">Tidak ada data yang sesuai filter.</td></tr>';
+
+  return '<div class="fade-in">' +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('filter','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Data Kehadiran</span></div>' +
+    '<div style="display:flex;align-items:center;gap:10px;">' +
+    '<input type="date" class="inp" style="width:auto;" value="' + state.kehadiranFilterDate + '" onchange="setKehadiranFilter(\'kehadiranFilterDate\',this.value)">' +
+    '<button class="btn btn-secondary btn-sm" onclick="exportCsv()">' + icon('download') + ' CSV</button>' +
+    '</div></div>' +
+    '<div class="tab-row" style="margin-bottom:10px;">' + deptChips + '</div>' +
+    '<div class="tab-row">' + statusOpts.map(function(s) { return '<button class="chip ' + (state.kehadiranFilterStatus === s ? 'active' : '') + '" style="font-size:12px;padding:6px 12px;" onclick="setKehadiranFilter(\'kehadiranFilterStatus\',\'' + s + '\')">' + s + '</button>'; }).join('') + '</div>' +
+    '</div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Karyawan</th><th>Masuk</th><th>Pulang</th><th>Status</th></tr></thead><tbody>' + allRows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN: APPROVAL ============================= */
+function buildAdminApproval() {
+  var leaves = getLeaves().sort(function(a,b){ return new Date(b.diajukanPada) - new Date(a.diajukanPada); });
+  var pending = leaves.filter(function(l){ return l.status === 'Menunggu'; });
+  var resolved = leaves.filter(function(l){ return l.status !== 'Menunggu'; });
+
+  var cardOf = function(l, showActions) {
+    var emp = getEmployee(l.employeeId);
+    return '<div class="card-surface" style="padding:16px 18px;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;flex-wrap:wrap;">' +
+      '<div class="emp-row">' + avatarHtml(emp, 38) + '<div><div style="font-weight:700;font-size:13.5px;">' + escapeHtml(emp.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + emp.departemen + '</div></div></div>' +
+      '<div style="display:flex;align-items:center;gap:8px;">' + statusBadge(l.jenis) + statusBadge(l.status) + '</div>' +
+      '</div>' +
+      '<div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;"><strong style="color:var(--ink);">Durasi:</strong> ' + fmtDateShort(l.tanggalMulai) + ' - ' + fmtDateShort(l.tanggalSelesai) + '</div>' +
+      '<p style="font-size:13px;color:var(--ink-soft);margin:0 0 10px;line-height:1.5;">' + escapeHtml(l.alasan) + '</p>' +
+      (l.catatanAdmin ? '<div style="background:var(--bg-tint);border-radius:9px;padding:9px 11px;font-size:12.5px;color:var(--ink-soft);margin-bottom:10px;"><strong style="color:var(--ink);">Catatan:</strong> ' + escapeHtml(l.catatanAdmin) + '</div>' : '') +
+      (showActions ? '<button class="btn btn-primary btn-sm" onclick="openLeaveReview(\'' + l.id + '\')">' + icon('edit') + ' Tinjau Pengajuan</button>' : '') +
+      '</div>';
+  };
+
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">' + icon('file','ic-primary') + '<h2 class="font-display" style="font-size:16.5px;font-weight:800;margin:0;">Menunggu Persetujuan</h2>' + (pending.length ? '<span class="badge badge-warn">' + pending.length + '</span>' : '') + '</div>' +
+    '<p style="font-size:12.5px;color:var(--muted);margin:2px 0 14px;">Tinjau dan berikan keputusan atas pengajuan izin, sakit, atau cuti karyawan.</p>' +
+    (pending.length ? pending.map(function(l){ return cardOf(l, true); }).join('') : '<div class="card-surface" style="padding:30px;text-align:center;color:var(--muted);font-size:13.5px;margin-bottom:20px;">Tidak ada pengajuan yang menunggu persetujuan.</div>') +
+    '<div class="divider" style="margin:24px 0;"></div>' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('history','ic-primary') + '<h2 class="font-display" style="font-size:16.5px;font-weight:800;margin:0;">Riwayat Keputusan</h2></div>' +
+    (resolved.length ? resolved.map(function(l){ return cardOf(l, false); }).join('') : '<div class="card-surface" style="padding:30px;text-align:center;color:var(--muted);font-size:13.5px;">Belum ada riwayat keputusan.</div>') +
+    '</div>';
+}
+
+/* ============================= ADMIN: KARYAWAN ============================= */
+function buildAdminKaryawan() {
+  var todayIso = fmtDateISO(new Date());
+  var rows = EMPLOYEES.map(function(emp) {
+    var att = todayAttendanceOf(emp.id);
+    var joinDate = new Date(emp.gabung);
+    var years = ((new Date() - joinDate) / (1000*60*60*24*365.25)).toFixed(1);
+    return '<tr><td><div class="emp-row">' + avatarHtml(emp, 36) + '<div><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(emp.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + escapeHtml(emp.email) + '</div></div></div></td>' +
+      '<td>' + emp.departemen + '</td><td>' + escapeHtml(emp.jabatan) + '</td>' +
+      '<td>' + fmtDateShort(emp.gabung) + '<div style="font-size:11px;color:var(--muted);">' + years + ' tahun</div></td>' +
+      '<td>' + statusBadge(att ? att.status : 'Belum Absen') + '</td>' +
+      '<td>' + getLeaveBalance(emp.id) + ' hari</td></tr>';
+  }).join('');
+
+  var deptSummary = DEPARTEMEN.map(function(d) {
+    var n = EMPLOYEES.filter(function(e){ return e.departemen === d; }).length;
+    return '<div class="chip" style="cursor:default;" onmouseover="" ><span style="width:8px;height:8px;border-radius:50%;background:' + AVATAR_COLORS[d] + ';display:inline-block;"></span>' + d + ' (' + n + ')</div>';
+  }).join('');
+
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;">' +
+    '<div><h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Direktori Karyawan</h2><p style="font-size:12.5px;color:var(--muted);margin:3px 0 0;">' + EMPLOYEES.length + ' karyawan aktif di ' + DEPARTEMEN.length + ' departemen</p></div>' +
+    '</div>' +
+    '<div class="tab-row" style="margin-bottom:16px;">' + deptSummary + '</div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Karyawan</th><th>Departemen</th><th>Jabatan</th><th>Bergabung</th><th>Status Hari Ini</th><th>Sisa Cuti</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN: ANALITIK ============================= */
+function buildAdminAnalitik() {
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('trend','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Analitik Kehadiran</h2></div>' +
+    '<div class="split-grid" style="grid-template-columns:1fr 1fr;margin-bottom:18px;">' +
+    '<div class="card-surface" style="padding:20px;"><div style="font-weight:800;font-size:14px;margin-bottom:12px;">Distribusi Status 30 Hari Terakhir</div><div style="height:220px;"><canvas id="chart-status-dist"></canvas></div></div>' +
+    '<div class="card-surface" style="padding:20px;"><div style="font-weight:800;font-size:14px;margin-bottom:12px;">Kehadiran per Departemen (Hari Ini)</div><div style="height:220px;"><canvas id="chart-dept"></canvas></div></div>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:14px;">Peringkat Ketepatan Waktu (30 Hari Terakhir)</div>' +
+    '<div id="punctuality-list"></div>' +
+    '</div></div>';
+}
+function buildPunctualityList() {
+  var all = getAttendance();
+  var stats = EMPLOYEES.map(function(emp) {
+    var recs = all.filter(function(a){ return a.employeeId === emp.id && (a.status === 'Hadir' || a.status === 'Telat'); });
+    var telat = recs.filter(function(a){ return a.status === 'Telat'; }).length;
+    var rate = recs.length ? Math.round(((recs.length - telat) / recs.length) * 100) : 100;
+    return { emp: emp, rate: rate, total: recs.length };
+  }).sort(function(a,b){ return b.rate - a.rate; });
+  var html = stats.map(function(s, i) {
+    var color = s.rate >= 90 ? 'var(--ok)' : (s.rate >= 75 ? 'var(--warn)' : 'var(--danger)');
+    return '<div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line-soft);">' +
+      '<div style="width:22px;text-align:center;font-weight:800;color:var(--muted);font-size:12.5px;">' + (i+1) + '</div>' +
+      avatarHtml(s.emp, 34) +
+      '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(s.emp.nama) + '</div>' +
+      '<div class="progress-track" style="margin-top:5px;"><div class="progress-fill" style="width:' + s.rate + '%;background:' + color + ';"></div></div></div>' +
+      '<div style="font-weight:800;font-size:14px;color:' + color + ';min-width:42px;text-align:right;">' + s.rate + '%</div>' +
+      '</div>';
+  }).join('');
+  var mount = document.getElementById('punctuality-list');
+  if (mount) mount.innerHTML = html;
+}
+
+/* ============================= CHARTS ============================= */
+function destroyChart(key) { if (state.charts[key]) { state.charts[key].destroy(); delete state.charts[key]; } }
+function renderCharts() {
+  if (typeof Chart === 'undefined') return;
+  var all = getAttendance();
+  if (state.view === 'admin' && state.adminTab === 'ringkasan') {
+    var trendCanvas = document.getElementById('chart-trend');
+    if (trendCanvas) {
+      destroyChart('trend');
+      var labels = [], hadirData = [], telatData = [], cutiData = [];
+      for (var i = 13; i >= 0; i--) {
+        var day = addDays(new Date(), -i);
+        var iso = fmtDateISO(day);
+        labels.push(pad2(day.getDate()) + '/' + pad2(day.getMonth()+1));
+        var dayRecs = all.filter(function(a){ return a.tanggal === iso; });
+        hadirData.push(dayRecs.filter(function(a){ return a.status === 'Hadir'; }).length);
+        telatData.push(dayRecs.filter(function(a){ return a.status === 'Telat'; }).length);
+        cutiData.push(dayRecs.filter(function(a){ return a.status === 'Izin' || a.status === 'Sakit' || a.status === 'Cuti'; }).length);
+      }
+      state.charts.trend = new Chart(trendCanvas.getContext('2d'), {
+        type: 'line',
+        data: { labels: labels, datasets: [
+          { label: 'Hadir', data: hadirData, borderColor:'#4338ca', backgroundColor:'rgba(67,56,202,0.1)', tension:0.35, fill:true, pointRadius:2.5 },
+          { label: 'Telat', data: telatData, borderColor:'#d97706', backgroundColor:'rgba(217,119,6,0.08)', tension:0.35, fill:true, pointRadius:2.5 },
+          { label: 'Izin/Sakit/Cuti', data: cutiData, borderColor:'#0369a1', backgroundColor:'rgba(3,105,161,0.08)', tension:0.35, fill:true, pointRadius:2.5 }
+        ] },
+        options: { responsive:true, maintainAspectRatio:false, interaction:{mode:'index',intersect:false}, plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:11},usePointStyle:true}}}, scales:{ y:{beginAtZero:true,ticks:{precision:0,font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10.5}},grid:{display:false}} } }
+      });
+    }
+  }
+  if (state.view === 'admin' && state.adminTab === 'analitik') {
+    var thirty = [];
+    for (var i2 = 29; i2 >= 0; i2--) { thirty.push(fmtDateISO(addDays(new Date(), -i2))); }
+    var recs30 = all.filter(function(a){ return thirty.indexOf(a.tanggal) !== -1; });
+    var statusCanvas = document.getElementById('chart-status-dist');
+    if (statusCanvas) {
+      destroyChart('statusDist');
+      var statuses = ['Hadir','Telat','Izin','Sakit','Cuti','Alpha'];
+      var colors = ['#15803d','#d97706','#0369a1','#6366f1','#7c3aed','#b91c1c'];
+      var data = statuses.map(function(s) { return recs30.filter(function(a){ return a.status === s; }).length; });
+      state.charts.statusDist = new Chart(statusCanvas.getContext('2d'), {
+        type: 'doughnut',
+        data: { labels: statuses, datasets: [{ data: data, backgroundColor: colors, borderWidth:2, borderColor:'#fff' }] },
+        options: { responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10.5},usePointStyle:true,padding:10}}} }
+      });
+    }
+    var deptCanvas = document.getElementById('chart-dept');
+    if (deptCanvas) {
+      destroyChart('dept');
+      var todayIso2 = fmtDateISO(new Date());
+      var deptData = DEPARTEMEN.map(function(d) {
+        var deptEmps = EMPLOYEES.filter(function(e){ return e.departemen === d; }).map(function(e){ return e.id; });
+        return all.filter(function(a){ return a.tanggal === todayIso2 && deptEmps.indexOf(a.employeeId) !== -1 && (a.status === 'Hadir' || a.status === 'Telat'); }).length;
+      });
+      state.charts.dept = new Chart(deptCanvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: DEPARTEMEN.map(function(d){ var short = { 'IT & Engineering':'IT & Eng.', 'Human Resources':'HR' }; return short[d] || d; }), datasets: [{ label:'Hadir', data: deptData, backgroundColor:'#4338ca', borderRadius:6, maxBarThickness:38 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true,ticks:{precision:0,font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10}},grid:{display:false}} } }
+      });
+    }
+    buildPunctualityList();
+  }
+}
+
+/* ============================= MAIN RENDER ============================= */
+function render() {
+  var app = document.getElementById('app');
+  if (state.view === 'login') { app.innerHTML = buildLogin() + '<div id="modal-root"></div>'; return; }
+  var body = '';
+  if (state.view === 'employee') {
+    if (state.empTab === 'dashboard') body = buildEmployeeDashboard();
+    else if (state.empTab === 'riwayat') body = buildRiwayat();
+    else if (state.empTab === 'pengajuan') body = buildPengajuan();
+  } else if (state.view === 'admin') {
+    if (state.adminTab === 'ringkasan') body = buildAdminRingkasan();
+    else if (state.adminTab === 'kehadiran') body = buildAdminKehadiran();
+    else if (state.adminTab === 'approval') body = buildAdminApproval();
+    else if (state.adminTab === 'karyawan') body = buildAdminKaryawan();
+    else if (state.adminTab === 'analitik') body = buildAdminAnalitik();
+  }
+  app.innerHTML = buildTopbar() + '<div class="wrap" style="padding-top:22px;padding-bottom:8px;min-height:60vh;">' + body + '</div>' + buildFooter() + '<div id="modal-root"></div>';
+  if (state.view === 'employee' && state.empTab === 'dashboard') { renderPunchArea(); }
+  if (state.view === 'admin' && (state.adminTab === 'ringkasan' || state.adminTab === 'analitik')) { setTimeout(renderCharts, 50); }
+}
+
+/* ============================= INIT ============================= */
+seedIfNeeded();
+render();
+setInterval(function() {
+  var el = document.getElementById('live-clock');
+  if (el) el.textContent = fmtTime(new Date());
+}, 1000);
+</script>
+</body>
+</html>
