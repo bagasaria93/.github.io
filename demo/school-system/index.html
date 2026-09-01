@@ -69,11 +69,16 @@ body { font-family:'Figtree', sans-serif; background:var(--bg); color:var(--ink)
 .topbar-sep { width:1px;align-self:stretch;background:rgba(255,255,255,0.14);flex-shrink:0;margin:2px 0; }
 .topbar-link { display:flex;align-items:center;gap:9px;text-decoration:none;color:#fff;flex-shrink:0; }
 .topbar-mark { width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;color:var(--gold-soft);flex-shrink:0; }
-.topbar-nav { display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none; }
+.topbar-nav-wrap::before, .topbar-nav-wrap::after { content:'';position:absolute;top:0;bottom:0;width:18px;z-index:2;pointer-events:none; }
+.topbar-nav-wrap::before { left:0;background:linear-gradient(90deg,var(--forest),transparent); }
+.topbar-nav-wrap::after { right:0;background:linear-gradient(270deg,var(--forest),transparent); }
+.topbar-nav { display:flex;align-items:center;gap:2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:smooth; }
 .topbar-nav::-webkit-scrollbar { display:none; }
-.tab-btn { display:inline-flex;align-items:center;gap:6px;padding:9px 13px 8px;border-radius:0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.62);background:transparent;border:none;border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:inherit; }
+.topbar-nav-sep { width:1px;align-self:stretch;background:rgba(255,255,255,0.14);flex-shrink:0;margin:8px 6px; }
+.tab-btn { position:relative;display:inline-flex;align-items:center;gap:6px;padding:9px 13px 8px;border-radius:0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.62);background:transparent;border:none;border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:inherit;flex-shrink:0; }
 .tab-btn:hover:not(.active) { color:#fff; }
 .tab-btn.active { color:#fff;font-weight:700;border-bottom-color:var(--gold-soft); }
+.tab-dot { width:7px;height:7px;border-radius:50%;background:var(--danger-soft);flex-shrink:0;margin-left:-2px; }
 .topbar-name { font-weight:700;font-size:12.5px;line-height:1.2;white-space:nowrap;max-width:26vw;overflow:hidden;text-overflow:ellipsis;color:#fff; }
 .topbar-role { font-size:10.5px;line-height:1.2;white-space:nowrap;max-width:26vw;overflow:hidden;text-overflow:ellipsis;color:rgba(255,255,255,0.55); }
 .topbar .btn-icon { border-color:rgba(255,255,255,0.18);background:transparent;color:rgba(255,255,255,0.7); }
@@ -86,6 +91,24 @@ body { font-family:'Figtree', sans-serif; background:var(--bg); color:var(--ink)
   .topbar-wordmark, .topbar-sep { display:none; }
   .topbar .tab-btn .tab-label { display:none; }
   .topbar .tab-btn { padding:9px 10px; }
+}
+.search-wrap { position:relative;display:flex;align-items:center;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.16);border-radius:var(--r-pill);padding:0 12px 0 4px;gap:4px; }
+.search-inp { width:118px;padding:7px 0;border:none;background:transparent;color:#fff;font-family:inherit;font-size:12.5px; }
+.search-inp:focus { outline:none; }
+.search-inp::placeholder { color:rgba(255,255,255,0.45); }
+.search-wrap .ic { color:rgba(255,255,255,0.6);flex-shrink:0;order:-1; }
+.search-results { position:absolute;top:calc(100% + 10px);right:0;width:280px;max-height:360px;overflow-y:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow-lg);z-index:60;padding:6px; }
+.search-result-row { display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:transparent;border:none;padding:8px 8px;border-radius:8px;cursor:pointer;font-family:inherit; }
+.search-result-row:hover { background:var(--bg-tint); }
+@media (max-width:900px) { .search-wrap { display:none; } }
+.jadwal-grid { display:grid;grid-template-columns:70px repeat(5,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:var(--r-md);overflow:hidden;font-size:11.5px; }
+.jadwal-cell { background:var(--surface);padding:8px 6px;min-height:52px; }
+.jadwal-head { background:var(--bg-tint);font-weight:800;text-align:center;padding:8px 4px;font-size:11.5px; }
+@media print {
+  .topbar, #toast-wrap, .no-print, .btn, .modal-backdrop > .modal-box .btn { display:none !important; }
+  body, .wrap { background:#fff !important; }
+  .modal-backdrop { position:static !important;background:none !important;padding:0 !important; }
+  .modal-box { box-shadow:none !important;max-height:none !important;max-width:none !important; }
 }
 
 .stat-tile { background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 18px 18px 22px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden; }
@@ -274,6 +297,20 @@ var GURU = [
 ];
 var KEPSEK = { id:'KS1', nama:'Dr. H. Ahmad Fauzan Ridwan, S.Pd., M.Pd.', gelar:'Kepala Sekolah', role:'kepsek' };
 
+/* --- Jadwal pelajaran: setiap kombinasi guru-kelas-mapel diberi slot hari & jam
+   secara deterministik (seeded), sehingga tidak ada guru atau kelas yang bentrok
+   pada hari dan jam yang sama. --- */
+var HARI_SEKOLAH = ['Senin','Selasa','Rabu','Kamis','Jumat'];
+var JAM_SLOTS = [
+  { slot:1, mulai:'07:00', selesai:'07:40' },
+  { slot:2, mulai:'07:40', selesai:'08:20' },
+  { slot:3, mulai:'08:20', selesai:'09:00' },
+  { slot:4, mulai:'09:15', selesai:'09:55' },
+  { slot:5, mulai:'09:55', selesai:'10:35' },
+  { slot:6, mulai:'10:35', selesai:'11:15' }
+];
+function jamOfSlot(slotNum) { for (var i=0;i<JAM_SLOTS.length;i++) { if (JAM_SLOTS[i].slot === slotNum) return JAM_SLOTS[i]; } return null; }
+
 function getGuru(id) { for (var i=0;i<GURU.length;i++) { if (GURU[i].id === id) return GURU[i]; } return null; }
 function getKelas(id) { for (var i=0;i<KELAS.length;i++) { if (KELAS[i].id === id) return KELAS[i]; } return null; }
 function waliOf(kelasId) { var k = getKelas(kelasId); return k ? getGuru(k.waliId) : null; }
@@ -319,7 +356,8 @@ function genSiswa() {
 }
 var SISWA = genSiswa();
 function getSiswa(id) { for (var i=0;i<SISWA.length;i++) { if (SISWA[i].id === id) return SISWA[i]; } return null; }
-function siswaByKelas(kelasId) { return SISWA.filter(function(s){ return s.kelasId === kelasId; }); }
+function siswaByKelas(kelasId) { return SISWA.filter(function(s){ return siswaKelasEfektif(s) === kelasId; }); }
+function siswaAktif() { return SISWA.filter(function(s){ return !isSiswaLulus(s); }); }
 
 function mapelForKelas(kelasId) {
   var out = [];
@@ -343,6 +381,237 @@ function kelasOfGuru(guruId) {
   g.jadwal.forEach(function(j) { if (!seen[j.kelasId]) { seen[j.kelasId] = true; out.push(getKelas(j.kelasId)); } });
   return out;
 }
+
+function buildJadwalSlots() {
+  var guruUsed = {}, kelasUsed = {}, result = {};
+  KELAS.forEach(function(k) {
+    var entries = mapelForKelas(k.id);
+    entries.forEach(function(e) {
+      var order = [];
+      HARI_SEKOLAH.forEach(function(h) { JAM_SLOTS.forEach(function(s) { order.push(h + '-' + s.slot); }); });
+      var seed = k.id + e.guruId + e.mapelId;
+      order.sort(function(a, b) { return seededRand(seed + a) - seededRand(seed + b); });
+      for (var i = 0; i < order.length; i++) {
+        var key = order[i];
+        guruUsed[e.guruId] = guruUsed[e.guruId] || {};
+        kelasUsed[k.id] = kelasUsed[k.id] || {};
+        if (!guruUsed[e.guruId][key] && !kelasUsed[k.id][key]) {
+          guruUsed[e.guruId][key] = true;
+          kelasUsed[k.id][key] = true;
+          var parts = key.split('-');
+          result[e.guruId + '|' + k.id + '|' + e.mapelId] = { hari: parts[0], slot: parseInt(parts[1], 10) };
+          break;
+        }
+      }
+    });
+  });
+  return result;
+}
+var JADWAL_SLOTS = buildJadwalSlots();
+function getJadwalSlot(guruId, kelasId, mapelId) { return JADWAL_SLOTS[guruId + '|' + kelasId + '|' + mapelId] || null; }
+function jadwalGuruList(guruId) {
+  var g = getGuru(guruId);
+  if (!g) return [];
+  var out = [];
+  g.jadwal.forEach(function(j) {
+    var slot = getJadwalSlot(guruId, j.kelasId, j.mapelId);
+    if (slot) out.push({ kelasId:j.kelasId, mapelId:j.mapelId, jp:j.jp, hari:slot.hari, slot:slot.slot });
+  });
+  out.sort(function(a, b) { var hd = HARI_SEKOLAH.indexOf(a.hari) - HARI_SEKOLAH.indexOf(b.hari); return hd !== 0 ? hd : a.slot - b.slot; });
+  return out;
+}
+function jadwalKelasList(kelasId) {
+  var entries = mapelForKelas(kelasId);
+  var out = [];
+  entries.forEach(function(e) {
+    var slot = getJadwalSlot(e.guruId, kelasId, e.mapelId);
+    if (slot) out.push({ guruId:e.guruId, mapelId:e.mapelId, jp:e.jp, hari:slot.hari, slot:slot.slot });
+  });
+  out.sort(function(a, b) { var hd = HARI_SEKOLAH.indexOf(a.hari) - HARI_SEKOLAH.indexOf(b.hari); return hd !== 0 ? hd : a.slot - b.slot; });
+  return out;
+}
+
+/* --- Pengumuman sekolah --- */
+var PENGUMUMAN_SEED = [
+  { judul:'Ujian Akhir Semester Ganjil', isi:'UAS akan dilaksanakan sesuai jadwal pada kalender akademik. Mohon seluruh guru menyiapkan soal paling lambat satu minggu sebelum pelaksanaan.', penulisNama:'Yuli Astuti, S.Pd.', penulisRole:'Tata Usaha', hariLalu:1, penting:true },
+  { judul:'Rapat Koordinasi Wali Kelas', isi:'Rapat koordinasi seluruh wali kelas membahas persiapan pembagian rapor akan diadakan di ruang guru.', penulisNama:'Dr. H. Ahmad Fauzan Ridwan, S.Pd., M.Pd.', penulisRole:'Kepala Sekolah', hariLalu:3, penting:false },
+  { judul:'Libur Peringatan Hari Nasional', isi:'Kegiatan belajar mengajar diliburkan sesuai kalender akademik. Kegiatan belajar mengajar kembali normal pada hari berikutnya.', penulisNama:'Yuli Astuti, S.Pd.', penulisRole:'Tata Usaha', hariLalu:6, penting:false },
+  { judul:'Pengumpulan Nilai Tugas dan UTS', isi:'Mohon seluruh guru mata pelajaran melengkapi input nilai tugas dan UTS pada sistem sebelum periode UAS dimulai.', penulisNama:'Dr. H. Ahmad Fauzan Ridwan, S.Pd., M.Pd.', penulisRole:'Kepala Sekolah', hariLalu:9, penting:true }
+];
+function getPengumuman() {
+  var raw = localStorage.getItem('sekolahku_pengumuman');
+  if (!raw) return [];
+  return JSON.parse(raw).sort(function(a, b) { return b.tanggal.localeCompare(a.tanggal); });
+}
+function savePengumuman(list) { localStorage.setItem('sekolahku_pengumuman', JSON.stringify(list)); }
+function tambahPengumuman(judul, isi, penting) {
+  var list = getPengumuman();
+  var user = state.currentUser;
+  var roleLabel = state.role === 'admin' ? 'Tata Usaha' : (state.role === 'kepsek' ? 'Kepala Sekolah' : user.gelar);
+  list.push({ id: uid('PG'), judul: judul, isi: isi, penulisNama: user.nama, penulisRole: roleLabel, tanggal: fmtDateISO(new Date()), penting: !!penting });
+  savePengumuman(list);
+  logActivity('Membuat pengumuman "' + judul + '"');
+}
+function hapusPengumuman(id) {
+  savePengumuman(getPengumuman().filter(function(p) { return p.id !== id; }));
+  logActivity('Menghapus sebuah pengumuman');
+  render();
+}
+
+/* --- Kalender akademik --- */
+var KALENDER_KATEGORI = { ujian:{label:'Ujian', color:'#b91c1c'}, libur:{label:'Libur', color:'#0369a1'}, rapat:{label:'Rapat', color:'#a06f13'}, lainnya:{label:'Lainnya', color:'#4338ca'} };
+function seedKalenderEvents() {
+  var today = new Date();
+  return [
+    { id: uid('EV'), judul:'Ujian Akhir Semester Ganjil', tanggal: fmtDateISO(addDays(today, 12)), kategori:'ujian' },
+    { id: uid('EV'), judul:'Rapat Koordinasi Wali Kelas', tanggal: fmtDateISO(addDays(today, 4)), kategori:'rapat' },
+    { id: uid('EV'), judul:'Libur Peringatan Hari Nasional', tanggal: fmtDateISO(addDays(today, 7)), kategori:'libur' },
+    { id: uid('EV'), judul:'Pembagian Rapor Semester Ganjil', tanggal: fmtDateISO(addDays(today, 21)), kategori:'lainnya' },
+    { id: uid('EV'), judul:'Rapat Pleno Kenaikan Kelas', tanggal: fmtDateISO(addDays(today, 25)), kategori:'rapat' },
+    { id: uid('EV'), judul:'Libur Semester Ganjil', tanggal: fmtDateISO(addDays(today, 30)), kategori:'libur' }
+  ];
+}
+function getKalenderEvents() { return JSON.parse(localStorage.getItem('sekolahku_kalender') || '[]').sort(function(a, b) { return a.tanggal.localeCompare(b.tanggal); }); }
+function saveKalenderEvents(list) { localStorage.setItem('sekolahku_kalender', JSON.stringify(list)); }
+function tambahEvent(judul, tanggal, kategori) {
+  var list = getKalenderEvents();
+  list.push({ id: uid('EV'), judul: judul, tanggal: tanggal, kategori: kategori });
+  saveKalenderEvents(list);
+  logActivity('Menambahkan agenda "' + judul + '" pada kalender akademik');
+}
+function hapusEvent(id) {
+  saveKalenderEvents(getKalenderEvents().filter(function(e) { return e.id !== id; }));
+  logActivity('Menghapus sebuah agenda kalender akademik');
+  render();
+}
+
+/* --- Log aktivitas (Admin TU) --- */
+function logActivity(desc) {
+  var log = JSON.parse(localStorage.getItem('sekolahku_log') || '[]');
+  var user = state.currentUser;
+  var pelaku = user ? user.nama : 'Sistem';
+  log.unshift({ id: uid('LG'), pelaku: pelaku, deskripsi: desc, waktu: new Date().toISOString() });
+  if (log.length > 200) log = log.slice(0, 200);
+  localStorage.setItem('sekolahku_log', JSON.stringify(log));
+}
+function getLog() { return JSON.parse(localStorage.getItem('sekolahku_log') || '[]'); }
+
+/* --- Pesan/catatan antar peran --- */
+function penerimaLabel(target) {
+  if (target === 'admin') return 'Admin TU';
+  if (target === 'kepsek') return 'Kepala Sekolah';
+  var g = getGuru(target);
+  return g ? g.nama : target;
+}
+function getPesan() { return JSON.parse(localStorage.getItem('sekolahku_pesan') || '[]').sort(function(a, b) { return b.tanggal.localeCompare(a.tanggal); }); }
+function savePesan(list) { localStorage.setItem('sekolahku_pesan', JSON.stringify(list)); }
+function kirimPesan(untuk, isi) {
+  var list = getPesan();
+  var user = state.currentUser;
+  var dariLabel = state.role === 'admin' ? 'Admin TU' : (state.role === 'kepsek' ? 'Kepala Sekolah' : user.nama);
+  list.push({ id: uid('MS'), dariId: user.id, dariRole: state.role, dariLabel: dariLabel, untuk: untuk, isi: isi, tanggal: new Date().toISOString(), dibaca: false });
+  savePesan(list);
+  logActivity('Mengirim pesan kepada ' + penerimaLabel(untuk));
+}
+function pesanUntukSaya() {
+  var list = getPesan();
+  var target = state.role === 'guru' ? state.currentUser.id : state.role;
+  return list.filter(function(m) { return m.untuk === target; });
+}
+function tandaiPesanDibaca(id) {
+  var list = getPesan();
+  for (var i = 0; i < list.length; i++) { if (list[i].id === id) { list[i].dibaca = true; break; } }
+  savePesan(list);
+}
+function pesanBelumDibaca() {
+  if (!state.currentUser) return 0;
+  return pesanUntukSaya().filter(function(m) { return !m.dibaca; }).length;
+}
+function seenKey() { return 'sekolahku_pengumuman_seen_' + state.role + (state.role === 'guru' ? ('_' + state.currentUser.id) : ''); }
+function pengumumanBelumDibaca() {
+  if (!state.currentUser) return 0;
+  var list = getPengumuman();
+  if (!list.length) return 0;
+  var seen = localStorage.getItem(seenKey());
+  if (!seen) return list.length;
+  return list.filter(function(p) { return p.tanggal > seen; }).length;
+}
+function tandaiPengumumanDibaca() {
+  var list = getPengumuman();
+  if (list.length) localStorage.setItem(seenKey(), list[0].tanggal);
+}
+
+/* --- Perpustakaan & inventaris --- */
+var BUKU_SEED = [
+  { judul:'Matematika untuk SMA Kelas X-XII', penulis:'Tim Kemdikbud', kategori:'Pelajaran', stok:40, dipinjam:12 },
+  { judul:'Fisika Dasar SMA', penulis:'Tim Kemdikbud', kategori:'Pelajaran', stok:35, dipinjam:9 },
+  { judul:'Kimia untuk SMA', penulis:'Tim Kemdikbud', kategori:'Pelajaran', stok:30, dipinjam:14 },
+  { judul:'Sejarah Indonesia', penulis:'Tim Kemdikbud', kategori:'Pelajaran', stok:32, dipinjam:6 },
+  { judul:'Laskar Pelangi', penulis:'Andrea Hirata', kategori:'Fiksi', stok:15, dipinjam:8 },
+  { judul:'Bumi Manusia', penulis:'Pramoedya Ananta Toer', kategori:'Fiksi', stok:12, dipinjam:5 },
+  { judul:'Kamus Besar Bahasa Indonesia', penulis:'Badan Bahasa', kategori:'Referensi', stok:10, dipinjam:2 },
+  { judul:'Atlas Dunia', penulis:'Tim Kartografi', kategori:'Referensi', stok:8, dipinjam:1 }
+];
+var INVENTARIS_SEED = [
+  { nama:'Meja Siswa', kategori:'Furnitur', jumlah:220, kondisi:'Baik' },
+  { nama:'Kursi Siswa', kategori:'Furnitur', jumlah:220, kondisi:'Baik' },
+  { nama:'Proyektor', kategori:'Elektronik', jumlah:8, kondisi:'Baik' },
+  { nama:'Komputer Lab', kategori:'Elektronik', jumlah:24, kondisi:'Perlu Perbaikan' },
+  { nama:'Papan Tulis', kategori:'Furnitur', jumlah:12, kondisi:'Baik' },
+  { nama:'AC Ruang Kelas', kategori:'Elektronik', jumlah:12, kondisi:'Baik' },
+  { nama:'Alat Praktikum IPA', kategori:'Laboratorium', jumlah:60, kondisi:'Baik' },
+  { nama:'Bola Olahraga', kategori:'Olahraga', jumlah:35, kondisi:'Perlu Perbaikan' }
+];
+function getBuku() { return JSON.parse(localStorage.getItem('sekolahku_buku') || '[]'); }
+function getInventaris() { return JSON.parse(localStorage.getItem('sekolahku_inventaris') || '[]'); }
+
+/* --- Statistik prestasi tahunan (untuk Kepsek) --- */
+function getTrenTahunan() {
+  var thisYear = parseInt(SCHOOL.tahunAjaran.slice(0, 4), 10);
+  var avgNow = rataRataNilaiSekolah();
+  var years = [];
+  for (var i = 4; i >= 1; i--) {
+    var yr = thisYear - i;
+    var seed = 'tren' + yr;
+    var nilai = 76 + Math.floor(seededRand(seed + 'n') * 10);
+    var tuntas = 78 + Math.floor(seededRand(seed + 't') * 15);
+    var lulus = 96 + Math.floor(seededRand(seed + 'l') * 4);
+    years.push({ label: yr + '/' + (yr + 1), nilai: nilai, tuntas: tuntas, lulus: lulus });
+  }
+  var finals = getNilai().map(function(n) { return nilaiAkhir(n); }).filter(function(v) { return v != null; });
+  var tuntasNow = finals.length ? Math.round((finals.filter(function(v){ return v >= KKM; }).length / finals.length) * 100) : null;
+  years.push({ label: SCHOOL.tahunAjaran, nilai: avgNow == null ? 0 : avgNow, tuntas: tuntasNow == null ? 0 : tuntasNow, lulus: 98 });
+  return years;
+}
+
+/* --- Kenaikan kelas / tahun ajaran --- */
+var PROMOSI_MAP = { K1:'K3', K2:'K4', K3:'K5', K4:'K6' };
+function getKenaikanOverride() { return JSON.parse(localStorage.getItem('sekolahku_kenaikan_override') || '{}'); }
+function siswaKelasEfektif(s) { var ov = getKenaikanOverride(); return ov[s.id] || s.kelasId; }
+function isSiswaLulus(s) { var ov = getKenaikanOverride(); return ov[s.id] === 'LULUS'; }
+function prosesKenaikanKelas() {
+  var ov = {};
+  SISWA.forEach(function(s) {
+    if (PROMOSI_MAP[s.kelasId]) ov[s.id] = PROMOSI_MAP[s.kelasId];
+    else if (s.kelasId === 'K5' || s.kelasId === 'K6') ov[s.id] = 'LULUS';
+  });
+  localStorage.setItem('sekolahku_kenaikan_override', JSON.stringify(ov));
+  logActivity('Memproses kenaikan kelas untuk tahun ajaran berikutnya');
+}
+function resetKenaikanKelas() {
+  localStorage.removeItem('sekolahku_kenaikan_override');
+  logActivity('Mengembalikan data kenaikan kelas ke kondisi awal');
+}
+
+/* --- Pengaturan akun (nama tampilan & warna avatar per pengguna, tersimpan lokal) --- */
+function getAkunPrefs() { return JSON.parse(localStorage.getItem('sekolahku_akun_prefs') || '{}'); }
+function setAkunPref(userId, field, val) {
+  var prefs = getAkunPrefs();
+  prefs[userId] = prefs[userId] || {};
+  prefs[userId][field] = val;
+  localStorage.setItem('sekolahku_akun_prefs', JSON.stringify(prefs));
+}
+function akunPrefColor(userId) { var p = getAkunPrefs()[userId]; return p ? p.warna : null; }
 
 /* ============================= SEEDING ============================= */
 function seedIfNeeded() {
@@ -424,6 +693,17 @@ function seedIfNeeded() {
   });
   localStorage.setItem('sekolahku_gaji_status', JSON.stringify(gajiStatus));
 
+  /* --- pengumuman, kalender akademik, perpustakaan, inventaris --- */
+  var pengumuman = PENGUMUMAN_SEED.map(function(p) {
+    return { id: uid('PG'), judul:p.judul, isi:p.isi, penulisNama:p.penulisNama, penulisRole:p.penulisRole, tanggal: fmtDateISO(addDays(today, -p.hariLalu)), penting:p.penting };
+  });
+  localStorage.setItem('sekolahku_pengumuman', JSON.stringify(pengumuman));
+  localStorage.setItem('sekolahku_kalender', JSON.stringify(seedKalenderEvents()));
+  localStorage.setItem('sekolahku_buku', JSON.stringify(BUKU_SEED.map(function(b){ return Object.assign({id: uid('BK')}, b); })));
+  localStorage.setItem('sekolahku_inventaris', JSON.stringify(INVENTARIS_SEED.map(function(v){ return Object.assign({id: uid('IV')}, v); })));
+  localStorage.setItem('sekolahku_log', JSON.stringify([]));
+  localStorage.setItem('sekolahku_pesan', JSON.stringify([]));
+
   localStorage.setItem('sekolahku_seeded_v1', '1');
 }
 function getAbsensiSiswa() { return JSON.parse(localStorage.getItem('sekolahku_absensi_siswa') || '[]'); }
@@ -452,13 +732,21 @@ var state = {
   nilaiKelasId: null,
   nilaiMapelId: null,
   raporKelasId: null,
-  charts: {}
+  charts: {},
+  jadwalKelasId: KELAS[0].id,
+  kelasView: 'daftar',
+  siswaView: 'daftar',
+  perpusView: 'buku',
+  kalenderBulan: (function(){ var d = new Date(); return d.getFullYear() + '-' + pad2(d.getMonth()+1); })(),
+  pesanTujuan: null,
+  searchQuery: '',
+  kenaikanKelasId: KELAS[0].id
 };
 
 /* ============================= SHARED UI ============================= */
 function avatarHtml(person, size, colorOverride) {
   size = size || 40;
-  var color = colorOverride || 'var(--primary)';
+  var color = colorOverride || akunPrefColor(person.id) || 'var(--primary)';
   return '<div class="avatar" style="width:' + size + 'px;height:' + size + 'px;background:' + color + ';font-size:' + Math.round(size*0.36) + 'px;">' + escapeHtml(initialsOf(person.nama).toUpperCase()) + '</div>';
 }
 function statusBadge(status) {
@@ -501,6 +789,12 @@ function setTab(tab) {
     var wk = isWaliKelas(state.currentUser.id);
     state.raporKelasId = wk ? wk.id : null;
   }
+  if (tab === 'pesan') {
+    pesanUntukSaya().forEach(function(m) { if (!m.dibaca) tandaiPesanDibaca(m.id); });
+  }
+  if (tab === 'pengumuman') {
+    tandaiPengumumanDibaca();
+  }
   render();
   if (tab === 'ringkasan' || tab === 'akademik' || tab === 'kepegawaian') { setTimeout(renderCharts, 60); }
 }
@@ -525,6 +819,7 @@ function absenSemuaHadir() {
   });
   saveAbsensiSiswa(all);
   showToast('Semua siswa ditandai Hadir. Sesuaikan jika ada pengecualian.', 'ok');
+  logActivity('Menandai seluruh siswa ' + getKelas(state.absKelasId).nama + ' hadir pada ' + fmtDateShort(state.absTanggal));
   renderAbsensiTable();
 }
 function changeAbsTanggal(delta) {
@@ -561,6 +856,7 @@ function toggleGajiStatus(guruId) {
   var cur = gs[key] || 'Belum Dibayar';
   setGajiStatus(guruId, state.gajiBulan, cur === 'Belum Dibayar' ? 'Sudah Dibayar' : 'Belum Dibayar');
   showToast(cur === 'Belum Dibayar' ? 'Gaji ditandai sudah dibayar.' : 'Status dikembalikan ke belum dibayar.', 'ok');
+  logActivity((cur === 'Belum Dibayar' ? 'Menandai gaji ' : 'Membatalkan status gaji ') + getGuru(guruId).nama + ' sebagai ' + (cur === 'Belum Dibayar' ? 'sudah dibayar' : 'belum dibayar'));
   render();
 }
 function changeGajiBulan(delta) {
@@ -611,7 +907,88 @@ function openSlipGaji(guruId) {
 function rowGaji(label, val, bold, big) {
   return '<div style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;' + (bold ? 'font-weight:800;' : '') + (big ? 'font-size:16px;color:var(--primary);' : '') + '"><span style="color:' + (bold ? 'var(--ink)' : 'var(--ink-soft)') + ';">' + label + '</span><span>' + val + '</span></div>';
 }
-function closeModal() { document.getElementById('modal-root').innerHTML = ''; slipGajiTarget = null; }
+function closeModal() { document.getElementById('modal-root').innerHTML = ''; slipGajiTarget = null; clearSearchDropdown(); }
+function clearSearchDropdown() {
+  state.searchQuery = '';
+  var wrap = document.querySelector('.search-wrap');
+  if (!wrap) return;
+  var inp = document.getElementById('global-search-inp');
+  if (inp) inp.value = '';
+  var old = wrap.querySelector('.search-results');
+  if (old) old.remove();
+}
+
+function openSiswaProfile(siswaId) {
+  var s = getSiswa(siswaId);
+  if (!s) return;
+  var k = getKelas(siswaKelasEfektif(s)) || getKelas(s.kelasId);
+  var lulus = isSiswaLulus(s);
+  var nilaiList = getNilai().filter(function(n) { return n.siswaId === siswaId; });
+  var nilaiRows = nilaiList.map(function(n) {
+    var m = getMapel(n.mapelId);
+    var na = nilaiAkhir(n);
+    var status = na == null ? 'Belum Dinilai' : (na >= KKM ? 'Tuntas' : 'Belum Tuntas');
+    return '<tr><td>' + escapeHtml(m.nama) + '</td><td>' + (n.tugas==null?'-':n.tugas) + '</td><td>' + (n.uts==null?'-':n.uts) + '</td><td>' + (n.uas==null?'-':n.uas) + '</td><td style="font-weight:800;">' + (na==null?'-':na) + '</td><td>' + statusBadge(status) + '</td></tr>';
+  }).join('');
+  var absAll = getAbsensiSiswa().filter(function(a) { return a.siswaId === siswaId; });
+  var last30 = [];
+  for (var i = 29; i >= 0; i--) { last30.push(fmtDateISO(addDays(new Date(), -i))); }
+  var recent = absAll.filter(function(a) { return last30.indexOf(a.tanggal) !== -1; });
+  var cAbs = { Hadir:0, Sakit:0, Izin:0, Alpha:0 };
+  recent.forEach(function(a) { if (cAbs[a.status] != null) cAbs[a.status]++; });
+  var recentRows = absAll.slice().sort(function(a,b){ return b.tanggal.localeCompare(a.tanggal); }).slice(0, 8).map(function(a) {
+    return '<tr><td>' + fmtDateShort(a.tanggal) + '</td><td>' + statusBadge(a.status) + '</td></tr>';
+  }).join('');
+  var modal = document.getElementById('modal-root');
+  modal.innerHTML =
+    '<div class="modal-backdrop" onclick="if(event.target===this) closeModal();">' +
+    '<div class="modal-box fade-in" style="max-width:640px;">' +
+    '<div style="padding:22px;">' +
+    '<div style="display:flex;align-items:center;gap:13px;margin-bottom:4px;">' + avatarHtml(s, 48) +
+    '<div style="flex:1;min-width:0;"><div style="font-weight:800;font-size:15.5px;">' + escapeHtml(s.nama) + '</div>' +
+    '<div style="font-size:12px;color:var(--muted);">' + (k ? escapeHtml(k.nama) : '-') + (lulus ? ' &middot; Lulus' : '') + ' &middot; ' + (s.jk === 'L' ? 'Laki-laki' : 'Perempuan') + '</div></div>' +
+    '<button class="btn-icon" onclick="closeModal()">' + icon('x') + '</button>' +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12.5px;margin-bottom:16px;">' +
+    '<div><div style="color:var(--muted);font-weight:700;text-transform:uppercase;font-size:10.5px;">NIS</div><div style="font-weight:700;">' + s.nis + '</div></div>' +
+    '<div><div style="color:var(--muted);font-weight:700;text-transform:uppercase;font-size:10.5px;">NISN</div><div style="font-weight:700;">' + s.nisn + '</div></div>' +
+    '</div>' +
+    '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">' +
+    '<span class="badge badge-ok">Hadir ' + cAbs.Hadir + '</span><span class="badge badge-info">Sakit ' + cAbs.Sakit + '</span><span class="badge badge-warn">Izin ' + cAbs.Izin + '</span><span class="badge badge-danger">Alpha ' + cAbs.Alpha + '</span>' +
+    '<span style="font-size:11px;color:var(--muted);align-self:center;">30 hari terakhir</span>' +
+    '</div>' +
+    '<div style="font-weight:800;font-size:13px;margin-bottom:8px;">Riwayat Nilai</div>' +
+    (nilaiRows ? '<div class="tbl-wrap" style="margin-bottom:16px;"><table class="tbl"><thead><tr><th>Mapel</th><th>Tugas</th><th>UTS</th><th>UAS</th><th>Akhir</th><th>Status</th></tr></thead><tbody>' + nilaiRows + '</tbody></table></div>' : '<p style="font-size:12px;color:var(--muted);margin-bottom:16px;">Belum ada data nilai.</p>') +
+    '<div style="font-weight:800;font-size:13px;margin-bottom:8px;">Riwayat Kehadiran Terbaru</div>' +
+    (recentRows ? '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Tanggal</th><th>Status</th></tr></thead><tbody>' + recentRows + '</tbody></table></div>' : '<p style="font-size:12px;color:var(--muted);">Belum ada data kehadiran.</p>') +
+    '</div></div></div>';
+}
+
+function openGuruInfo(guruId) {
+  var g = getGuru(guruId);
+  if (!g) return;
+  var wk = isWaliKelas(g.id);
+  var jadwal = jadwalGuruList(g.id);
+  var jadwalRows = jadwal.map(function(j) {
+    var k = getKelas(j.kelasId), m = getMapel(j.mapelId), jm = jamOfSlot(j.slot);
+    return '<tr><td>' + j.hari + '</td><td>' + jm.mulai + '-' + jm.selesai + '</td><td>' + escapeHtml(k.nama) + '</td><td>' + escapeHtml(m.nama) + '</td></tr>';
+  }).join('');
+  var modal = document.getElementById('modal-root');
+  modal.innerHTML =
+    '<div class="modal-backdrop" onclick="if(event.target===this) closeModal();">' +
+    '<div class="modal-box fade-in" style="max-width:560px;">' +
+    '<div style="padding:22px;">' +
+    '<div style="display:flex;align-items:center;gap:13px;margin-bottom:4px;">' + avatarHtml(g, 48) +
+    '<div style="flex:1;min-width:0;"><div style="font-weight:800;font-size:15.5px;">' + escapeHtml(g.nama) + '</div>' +
+    '<div style="font-size:12px;color:var(--muted);">' + escapeHtml(g.gelar) + (wk ? ' &middot; Wali ' + wk.nama : '') + '</div></div>' +
+    '<button class="btn-icon" onclick="closeModal()">' + icon('x') + '</button>' +
+    '</div>' +
+    '<div class="divider"></div>' +
+    '<div style="font-weight:800;font-size:13px;margin-bottom:8px;">Jadwal Mengajar</div>' +
+    (jadwalRows ? '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Hari</th><th>Jam</th><th>Kelas</th><th>Mapel</th></tr></thead><tbody>' + jadwalRows + '</tbody></table></div>' : '<p style="font-size:12px;color:var(--muted);">Belum ada jadwal.</p>') +
+    '</div></div></div>';
+}
 
 /* ============================= LOGIN ============================= */
 function buildLogin() {
@@ -661,15 +1038,20 @@ function buildLogin() {
 function buildTopbar() {
   var user = state.currentUser;
   var tabsByRole = {
-    admin: [['ringkasan','home','Ringkasan'],['siswa','users','Data Siswa'],['guru','user','Data Guru'],['kelas','school','Data Kelas'],['absguru','calendar','Absensi Guru'],['gaji','wallet','Penggajian']],
-    guru: [['beranda','home','Beranda'],['absensi','calendar','Absensi Siswa'],['nilai','edit','Input Nilai']].concat(isWaliKelas(user.id) ? [['rapor','clipboard','Rapor Kelas']] : []).concat([['slipgaji','wallet','Slip Gaji']]),
+    admin: [['ringkasan','home','Ringkasan'],['siswa','users','Data Siswa'],['guru','user','Data Guru'],['kelas','school','Data Kelas'],['absguru','calendar','Absensi Guru'],['gaji','wallet','Penggajian'],['perpustakaan','book','Perpustakaan']],
+    guru: [['beranda','home','Beranda'],['absensi','calendar','Absensi Siswa'],['nilai','edit','Input Nilai']].concat(isWaliKelas(user.id) ? [['rapor','clipboard','Rapor Kelas']] : []).concat([['slipgaji','wallet','Slip Gaji'],['jadwal','calendar','Jadwal Saya']]),
     kepsek: [['ringkasan','home','Ringkasan'],['akademik','graduation','Akademik'],['kepegawaian','briefcase','Kepegawaian'],['keuangan','wallet','Keuangan']]
   };
+  var utilTabsByRole = [['pengumuman','bell','Pengumuman', pengumumanBelumDibaca() > 0]]
+    .concat([['pesan','users','Pesan', pesanBelumDibaca() > 0]])
+    .concat(state.role === 'admin' ? [['log','history','Log Aktivitas', false]] : [])
+    .concat([['pengaturan','user','Pengaturan', false]]);
   var tabs = tabsByRole[state.role];
   var subtitle = state.role === 'admin' ? user.gelar : (state.role === 'kepsek' ? user.gelar : user.gelar);
-  var tabsHtml = tabs.map(function(t) {
-    return '<button class="tab-btn ' + (state.tab === t[0] ? 'active' : '') + '" onclick="setTab(\'' + t[0] + '\')">' + icon(t[1]) + '<span class="tab-label">' + t[2] + '</span></button>';
-  }).join('');
+  var tabBtn = function(t) {
+    return '<button class="tab-btn ' + (state.tab === t[0] ? 'active' : '') + '" data-tab="' + t[0] + '" onclick="setTab(\'' + t[0] + '\')">' + icon(t[1]) + '<span class="tab-label">' + t[2] + '</span>' + (t[3] ? '<span class="tab-dot"></span>' : '') + '</button>';
+  };
+  var tabsHtml = tabs.map(tabBtn).join('') + '<span class="topbar-nav-sep"></span>' + utilTabsByRole.map(tabBtn).join('');
   return '<div class="topbar">' +
     '<div class="wrap" style="padding-top:11px;padding-bottom:11px;">' +
     '<div style="display:flex;align-items:center;gap:16px;">' +
@@ -678,8 +1060,11 @@ function buildTopbar() {
     '<span class="font-display topbar-wordmark" style="font-weight:700;font-size:16px;">Sekolah<span style="color:var(--gold-soft);">Ku</span></span>' +
     '</a>' +
     '<div class="topbar-sep"></div>' +
-    '<nav class="topbar-nav" style="flex:1;min-width:0;">' + tabsHtml + '</nav>' +
-    '<div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">' +
+    '<div class="topbar-nav-wrap" style="flex:1;min-width:0;position:relative;">' +
+    '<nav class="topbar-nav" id="topbar-nav">' + tabsHtml + '</nav>' +
+    '</div>' +
+    '<div style="display:flex;align-items:center;gap:8px;flex-shrink:0;position:relative;">' +
+    buildGlobalSearch() +
     '<div class="topbar-user" style="display:flex;align-items:center;gap:9px;">' +
     avatarHtml(user, 32) +
     '<div class="topbar-user-text" style="text-align:right;">' +
@@ -692,11 +1077,81 @@ function buildTopbar() {
     '</div>' +
     '</div></div>';
 }
+function buildGlobalSearch() {
+  return '<div class="search-wrap">' +
+    '<input type="text" class="search-inp" id="global-search-inp" placeholder="Cari siswa atau guru" value="' + escapeHtml(state.searchQuery) + '" oninput="setSearchQuery(this.value)" onfocus="setSearchQuery(this.value)">' +
+    icon('search', 'ic-muted') +
+    (state.searchQuery.trim() ? buildSearchResults() : '') +
+    '</div>';
+}
+function setSearchQuery(v) {
+  state.searchQuery = v;
+  var wrap = document.querySelector('.search-wrap');
+  if (!wrap) return;
+  var old = wrap.querySelector('.search-results');
+  if (old) old.remove();
+  if (v.trim()) wrap.insertAdjacentHTML('beforeend', buildSearchResults());
+}
+function buildSearchResults() {
+  var q = state.searchQuery.trim().toLowerCase();
+  if (!q) return '';
+  var siswaMatches = [], guruMatches = [];
+  if (state.role === 'admin' || state.role === 'kepsek') {
+    siswaMatches = SISWA.filter(function(s){ return s.nama.toLowerCase().indexOf(q) !== -1 || s.nis.indexOf(q) !== -1; }).slice(0, 5);
+    guruMatches = GURU.filter(function(g){ return g.nama.toLowerCase().indexOf(q) !== -1; }).slice(0, 4);
+  } else if (state.role === 'guru') {
+    var myKelas = kelasOfGuru(state.currentUser.id).map(function(k){ return k.id; });
+    siswaMatches = SISWA.filter(function(s){ return myKelas.indexOf(s.kelasId) !== -1 && (s.nama.toLowerCase().indexOf(q) !== -1 || s.nis.indexOf(q) !== -1); }).slice(0, 6);
+  }
+  var rows = siswaMatches.map(function(s) {
+    var k = getKelas(s.kelasId);
+    return '<button class="search-result-row" onclick="openSiswaProfile(\'' + s.id + '\')">' + avatarHtml(s, 28) + '<div style="min-width:0;flex:1;text-align:left;"><div style="font-weight:700;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(s.nama) + '</div><div style="font-size:11px;color:var(--muted);">' + escapeHtml(k.nama) + ' &middot; ' + s.nis + '</div></div></button>';
+  }).join('');
+  var rowsGuru = guruMatches.map(function(g) {
+    return '<button class="search-result-row" onclick="openGuruInfo(\'' + g.id + '\')">' + avatarHtml(g, 28) + '<div style="min-width:0;flex:1;text-align:left;"><div style="font-weight:700;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(g.nama) + '</div><div style="font-size:11px;color:var(--muted);">' + escapeHtml(g.gelar) + '</div></div></button>';
+  }).join('');
+  var body = rows + rowsGuru;
+  if (!body) body = '<div style="padding:16px;text-align:center;color:var(--muted);font-size:12.5px;">Tidak ditemukan.</div>';
+  var sectionLabel = function(label) { return '<div style="padding:9px 12px 4px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--muted);">' + label + '</div>'; };
+  return '<div class="search-results">' + (rows ? sectionLabel('Siswa') + rows : '') + (rowsGuru ? sectionLabel('Guru') + rowsGuru : '') + (!rows && !rowsGuru ? body : '') + '</div>';
+}
 function buildFooter() {
-  return '<div class="wrap" style="padding:34px 20px 44px;text-align:center;">' +
+  return '<div class="wrap no-print" style="padding:34px 20px 44px;text-align:center;">' +
     '<div class="divider" style="max-width:280px;margin:0 auto 18px;"></div>' +
     '<p style="font-size:12px;color:var(--muted);margin:0 0 6px;">SekolahKu &middot; Demo sistem informasi sekolah untuk ' + SCHOOL.nama + ' (fiktif)</p>' +
     '<a href="https://bagasaria93.github.io" style="font-size:12px;color:var(--primary);font-weight:700;text-decoration:none;">Demo Portfolio oleh Bagas Aria Sativa</a>' +
+    '</div>';
+}
+
+/* ============================= WIDGET: INFO SEKOLAH (dipakai di semua beranda) ============================= */
+function buildInfoSekolahWidget() {
+  var pg = getPengumuman().slice(0, 2);
+  var todayIso = fmtDateISO(new Date());
+  var ev = getKalenderEvents().filter(function(e) { return e.tanggal >= todayIso; }).slice(0, 2);
+  if (!pg.length && !ev.length) return '';
+  var pgRows = pg.map(function(p) {
+    return '<div style="padding:9px 0;border-bottom:1px solid var(--line-soft);">' +
+      '<div style="display:flex;align-items:center;gap:7px;">' + (p.penting ? '<span class="badge badge-danger" style="padding:2px 8px;font-size:10px;">Penting</span>' : '') + '<span style="font-weight:700;font-size:12.5px;">' + escapeHtml(p.judul) + '</span></div>' +
+      '<div style="font-size:11px;color:var(--muted);margin-top:2px;">' + timeAgoLabel(p.tanggal) + '</div></div>';
+  }).join('');
+  var evRows = ev.map(function(e) {
+    var kat = KALENDER_KATEGORI[e.kategori] || KALENDER_KATEGORI.lainnya;
+    return '<div style="display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line-soft);">' +
+      '<span style="width:7px;height:7px;border-radius:50%;background:' + kat.color + ';flex-shrink:0;"></span>' +
+      '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(e.judul) + '</div></div>' +
+      '<div style="font-size:11px;color:var(--muted);flex-shrink:0;">' + fmtDateShort(e.tanggal) + '</div></div>';
+  }).join('');
+  return '<div class="split-grid" style="grid-template-columns:1fr 1fr;margin-bottom:18px;">' +
+    '<div class="card-surface" style="padding:18px 20px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">' +
+    '<div style="display:flex;align-items:center;gap:8px;">' + icon('bell','ic-primary') + '<span style="font-weight:800;font-size:13.5px;">Pengumuman Terbaru</span></div>' +
+    '<button class="btn-ghost btn-sm" style="border-radius:99px;" onclick="setTab(\'pengumuman\')">Lihat semua</button>' +
+    '</div>' + (pgRows || '<p style="font-size:12px;color:var(--muted);padding:8px 0;">Belum ada pengumuman.</p>') + '</div>' +
+    '<div class="card-surface" style="padding:18px 20px;">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">' +
+    '<div style="display:flex;align-items:center;gap:8px;">' + icon('calendar','ic-primary') + '<span style="font-weight:800;font-size:13.5px;">Agenda Mendatang</span></div>' +
+    '<button class="btn-ghost btn-sm" style="border-radius:99px;" onclick="setTab(\'kalender\')">Lihat semua</button>' +
+    '</div>' + (evRows || '<p style="font-size:12px;color:var(--muted);padding:8px 0;">Tidak ada agenda mendatang.</p>') + '</div>' +
     '</div>';
 }
 
@@ -738,8 +1193,12 @@ function buildGuruBeranda() {
     statTile('Hadir Mengajar (30 Hari)', hadirCount, 'checkCircle', '#15803d') +
     statTile('Terlambat (30 Hari)', telatCount, 'bell', '#b45309') +
     '</div>' +
+    buildInfoSekolahWidget() +
     '<div class="card-surface" style="padding:20px;">' +
-    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('calendar','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Jadwal Mengajar</span></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('calendar','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Jadwal Mengajar</span></div>' +
+    '<button class="btn-ghost btn-sm" style="border-radius:99px;" onclick="setTab(\'jadwal\')">Lihat jadwal mingguan</button>' +
+    '</div>' +
     '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Kelas</th><th>Mata Pelajaran</th><th>Beban</th></tr></thead><tbody>' + jadwalRows + '</tbody></table></div>' +
     '</div></div>';
 }
@@ -870,12 +1329,15 @@ function buildGuruRapor() {
       return '<td style="font-weight:700;color:' + (na >= KKM ? 'var(--ok)' : 'var(--danger)') + ';">' + na + '</td>';
     }).join('');
     var avg = count ? Math.round(total / count) : null;
-    return '<tr><td>' + (idx+1) + '</td><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(s.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + s.nis + '</div></td>' + cols +
+    return '<tr style="cursor:pointer;" onclick="openSiswaProfile(\'' + s.id + '\')"><td>' + (idx+1) + '</td><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(s.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">' + s.nis + '</div></td>' + cols +
       '<td style="font-weight:800;">' + (avg==null?'-':avg) + '</td>' +
       '<td>' + (belum > 0 ? '<span class="badge badge-muted">' + belum + ' belum UAS</span>' : (avg >= KKM ? statusBadge('Tuntas') : statusBadge('Belum Tuntas'))) + '</td></tr>';
   }).join('');
   return '<div class="fade-in">' +
-    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">' + icon('clipboard','ic-primary') + '<h2 class="font-display" style="font-size:16.5px;font-weight:800;margin:0;">Rapor Kelas ' + escapeHtml(wk.nama) + '</h2></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:4px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('clipboard','ic-primary') + '<h2 class="font-display" style="font-size:16.5px;font-weight:800;margin:0;">Rapor Kelas ' + escapeHtml(wk.nama) + '</h2></div>' +
+    '<button class="btn btn-secondary btn-sm no-print" onclick="window.print()">' + icon('print') + ' Cetak Rapor</button>' +
+    '</div>' +
     '<p style="font-size:12.5px;color:var(--muted);margin:2px 0 16px;">' + SCHOOL.semester + ' &middot; Tahun Ajaran ' + SCHOOL.tahunAjaran + ' &middot; ' + siswaList.length + ' siswa</p>' +
     '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>No</th><th>Nama Siswa</th>' + headerCols + '<th>Rata-rata</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
     '</div>';
@@ -934,6 +1396,51 @@ function buildGuruSlipGaji() {
     '</div>';
 }
 
+/* ============================= GURU: JADWAL MINGGUAN ============================= */
+function jadwalGridHtml(entries, labelFn, colorFn) {
+  var byCell = {};
+  entries.forEach(function(e) { byCell[e.hari + '-' + e.slot] = e; });
+  var head = '<div class="jadwal-cell jadwal-head">Jam</div>' + HARI_SEKOLAH.map(function(h) { return '<div class="jadwal-cell jadwal-head">' + h + '</div>'; }).join('');
+  var rows = JAM_SLOTS.map(function(js) {
+    var timeCell = '<div class="jadwal-cell" style="font-weight:700;color:var(--muted);display:flex;flex-direction:column;justify-content:center;">' + js.mulai + '<br>' + js.selesai + '</div>';
+    var dayCells = HARI_SEKOLAH.map(function(h) {
+      var e = byCell[h + '-' + js.slot];
+      if (!e) return '<div class="jadwal-cell"></div>';
+      var color = colorFn(e);
+      return '<div class="jadwal-cell" style="background:' + color + '1a;border-left:3px solid ' + color + ';"><div style="font-weight:800;color:' + color + ';">' + labelFn(e) + '</div></div>';
+    }).join('');
+    return timeCell + dayCells;
+  }).join('');
+  return '<div class="jadwal-grid">' + head + rows + '</div>';
+}
+function buildGuruJadwal() {
+  var g = state.currentUser;
+  var entries = jadwalGuruList(g.id);
+  if (!entries.length) return '<div class="card-surface" style="padding:30px;text-align:center;color:var(--muted);">Anda belum memiliki jadwal mengajar.</div>';
+  var grid = jadwalGridHtml(entries, function(e) { var k = getKelas(e.kelasId); return escapeHtml(k.nama); }, function(e) { return kelasColor(getKelas(e.kelasId)); });
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:4px;">' + icon('calendar','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Jadwal Mengajar Mingguan</h2></div>' +
+    '<p style="font-size:12.5px;color:var(--muted);margin:2px 0 16px;">Tahun Ajaran ' + SCHOOL.tahunAjaran + ' &middot; Semester ' + SCHOOL.semester + '</p>' +
+    '<div class="card-surface" style="padding:16px;overflow-x:auto;">' + grid + '</div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN: JADWAL PER KELAS ============================= */
+function setJadwalKelas(id) { state.jadwalKelasId = id; render(); }
+function buildAdminJadwal() {
+  var chips = KELAS.map(function(k) {
+    return '<button class="chip ' + (state.jadwalKelasId === k.id ? 'active' : '') + '" onclick="setJadwalKelas(\'' + k.id + '\')">' + escapeHtml(k.nama) + '</button>';
+  }).join('');
+  var entries = jadwalKelasList(state.jadwalKelasId);
+  var grid = entries.length ? jadwalGridHtml(entries, function(e) { var m = getMapel(e.mapelId); return escapeHtml(m.nama); }, function(e) { return kelasColor(getKelas(state.jadwalKelasId)); }) : '<div style="padding:30px;text-align:center;color:var(--muted);">Belum ada jadwal untuk kelas ini.</div>';
+  return '<div>' +
+    '<div class="card-surface" style="padding:16px 20px;margin-bottom:16px;">' +
+    '<div class="tab-row" style="margin:0;">' + chips + '</div>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:16px;overflow-x:auto;">' + grid + '</div>' +
+    '</div>';
+}
+
 /* ============================= ADMIN: RINGKASAN ============================= */
 function buildAdminRingkasan() {
   var todayIso = fmtDateISO(new Date());
@@ -964,11 +1471,12 @@ function buildAdminRingkasan() {
     '<div><h2 class="font-display" style="font-size:19px;font-weight:800;margin:0;">Ringkasan Sekolah</h2><p style="font-size:12.5px;color:var(--muted);margin:3px 0 0;">' + fmtDateLong(new Date()) + '</p></div>' +
     '</div>' +
     '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">' +
-    statTile('Total Siswa', SISWA.length, 'users', '#0d9488') +
+    statTile('Total Siswa', siswaAktif().length, 'users', '#0d9488') +
     statTile('Total Guru', GURU.length, 'user', '#4338ca') +
     statTile('Hadir Hari Ini (Siswa)', hadirSiswa, 'checkCircle', '#15803d') +
     statTile('Hadir Hari Ini (Guru)', hadirGuru, 'briefcase', '#b45309') +
     '</div>' +
+    buildInfoSekolahWidget() +
     '<div class="split-grid" style="grid-template-columns:1.3fr 1fr;">' +
     '<div class="card-surface" style="padding:20px;">' +
     '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('trend','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Tren Kehadiran Siswa 14 Hari Terakhir</span></div>' +
@@ -984,15 +1492,32 @@ function buildAdminRingkasan() {
 /* ============================= ADMIN: DATA SISWA ============================= */
 function setSiswaFilterKelas(id) { state.siswaFilterKelas = id; render(); }
 function setSiswaSearch(v) { state.siswaSearch = v; renderSiswaTable(); }
+function setSiswaView(v) { state.siswaView = v; render(); }
 function buildAdminSiswa() {
+  var isDaftar = state.siswaView === 'daftar';
+  var viewToggle = '<div class="tab-row" style="margin:0;">' +
+    '<button class="chip ' + (isDaftar ? 'active' : '') + '" onclick="setSiswaView(\'daftar\')">Daftar Siswa</button>' +
+    '<button class="chip ' + (!isDaftar ? 'active' : '') + '" onclick="setSiswaView(\'kenaikan\')">Kenaikan Kelas</button>' +
+    '</div>';
+  if (!isDaftar) {
+    return '<div class="fade-in">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">' +
+      '<div style="display:flex;align-items:center;gap:9px;">' + icon('users','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Data Siswa</h2></div>' +
+      viewToggle + '</div>' +
+      buildAdminKenaikan() +
+      '</div>';
+  }
   var chips = ['Semua'].concat(KELAS.map(function(k){ return k.id; })).map(function(id) {
     var label = id === 'Semua' ? 'Semua' : getKelas(id).nama;
     return '<button class="chip ' + (state.siswaFilterKelas === id ? 'active' : '') + '" onclick="setSiswaFilterKelas(\'' + id + '\')">' + escapeHtml(label) + '</button>';
   }).join('');
   return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('users','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Data Siswa</h2></div>' +
+    viewToggle + '</div>' +
     '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
     '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px;">' +
-    '<div style="display:flex;align-items:center;gap:9px;">' + icon('users','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Data Siswa</span></div>' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('search','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Cari &amp; Filter</span></div>' +
     '<input type="text" class="inp" style="width:220px;" placeholder="Cari nama atau NIS" oninput="setSiswaSearch(this.value)">' +
     '</div>' +
     '<div class="tab-row">' + chips + '</div>' +
@@ -1003,16 +1528,16 @@ function buildAdminSiswa() {
 function renderSiswaTable() {
   var mount = document.getElementById('siswa-table-mount');
   if (!mount) return;
-  var list = state.siswaFilterKelas === 'Semua' ? SISWA.slice() : siswaByKelas(state.siswaFilterKelas).slice();
+  var list = state.siswaFilterKelas === 'Semua' ? siswaAktif().slice() : siswaByKelas(state.siswaFilterKelas).slice();
   var q = state.siswaSearch.trim().toLowerCase();
   if (q) { list = list.filter(function(s){ return s.nama.toLowerCase().indexOf(q) !== -1 || s.nis.indexOf(q) !== -1; }); }
   list.sort(function(a,b){ return a.nama.localeCompare(b.nama); });
   var rows = list.length ? list.map(function(s) {
     var k = getKelas(s.kelasId);
-    return '<tr><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(s.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">NISN ' + s.nisn + '</div></td><td>' + s.nis + '</td><td><span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:8px;height:8px;border-radius:50%;background:' + kelasColor(k) + ';display:inline-block;"></span>' + escapeHtml(k.nama) + '</span></td><td>' + (s.jk === 'L' ? 'Laki-laki' : 'Perempuan') + '</td></tr>';
+    return '<tr style="cursor:pointer;" onclick="openSiswaProfile(\'' + s.id + '\')"><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(s.nama) + '</div><div style="font-size:11.5px;color:var(--muted);">NISN ' + s.nisn + '</div></td><td>' + s.nis + '</td><td><span style="display:inline-flex;align-items:center;gap:7px;"><span style="width:8px;height:8px;border-radius:50%;background:' + kelasColor(k) + ';display:inline-block;"></span>' + escapeHtml(k.nama) + '</span></td><td>' + (s.jk === 'L' ? 'Laki-laki' : 'Perempuan') + '</td></tr>';
   }).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:30px;">Tidak ada siswa yang sesuai pencarian.</td></tr>';
   mount.innerHTML = '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Nama</th><th>NIS</th><th>Kelas</th><th>Jenis Kelamin</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
-    '<p style="font-size:12px;color:var(--muted);margin-top:10px;">Menampilkan ' + list.length + ' dari ' + SISWA.length + ' siswa.</p>';
+    '<p style="font-size:12px;color:var(--muted);margin-top:10px;">Menampilkan ' + list.length + ' dari ' + siswaAktif().length + ' siswa aktif.</p>';
 }
 
 /* ============================= ADMIN: DATA GURU ============================= */
@@ -1047,11 +1572,18 @@ function buildAdminKelas() {
       '<div style="display:flex;align-items:center;gap:9px;padding:10px 12px;background:var(--bg-tint);border-radius:10px;">' + avatarHtml(wali, 30) + '<div><div style="font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;">Wali Kelas</div><div style="font-weight:700;font-size:12.5px;">' + escapeHtml(wali.nama) + '</div></div></div>' +
       '</div>';
   }).join('');
+  var isDaftar = state.kelasView === 'daftar';
   return '<div class="fade-in">' +
-    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('school','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Data Kelas</h2></div>' +
-    '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">' + cards + '</div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;">' + icon('school','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Data Kelas</h2></div>' +
+    '<div class="tab-row" style="margin:0;">' +
+    '<button class="chip ' + (isDaftar ? 'active' : '') + '" onclick="setKelasView(\'daftar\')">Daftar Kelas</button>' +
+    '<button class="chip ' + (!isDaftar ? 'active' : '') + '" onclick="setKelasView(\'jadwal\')">Jadwal Pelajaran</button>' +
+    '</div></div>' +
+    (isDaftar ? '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">' + cards + '</div>' : buildAdminJadwal()) +
     '</div>';
 }
+function setKelasView(v) { state.kelasView = v; if (v === 'jadwal' && !state.jadwalKelasId) state.jadwalKelasId = KELAS[0].id; render(); }
 
 /* ============================= ADMIN: ABSENSI GURU ============================= */
 function setAbsGuruDate(v) { state.absGuruFilterDate = v; render(); }
@@ -1102,6 +1634,71 @@ function buildAdminGaji() {
     '</div>';
 }
 
+/* ============================= ADMIN: PERPUSTAKAAN & INVENTARIS ============================= */
+function setPerpusView(v) { state.perpusView = v; render(); }
+function buildAdminPerpustakaan() {
+  var isBuku = state.perpusView === 'buku';
+  var body;
+  if (isBuku) {
+    var buku = getBuku();
+    var rows = buku.map(function(b) {
+      var tersedia = b.stok - b.dipinjam;
+      return '<tr><td><div style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(b.judul) + '</div><div style="font-size:11.5px;color:var(--muted);">' + escapeHtml(b.penulis) + '</div></td><td>' + escapeHtml(b.kategori) + '</td><td>' + b.stok + '</td><td>' + b.dipinjam + '</td><td>' + (tersedia > 0 ? '<span class="badge badge-ok">' + tersedia + ' tersedia</span>' : '<span class="badge badge-danger">Habis</span>') + '</td></tr>';
+    }).join('');
+    body = '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Judul Buku</th><th>Kategori</th><th>Stok</th><th>Dipinjam</th><th>Ketersediaan</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+  } else {
+    var inv = getInventaris();
+    var rows2 = inv.map(function(v) {
+      return '<tr><td style="font-weight:700;color:var(--ink);font-size:13.5px;">' + escapeHtml(v.nama) + '</td><td>' + escapeHtml(v.kategori) + '</td><td>' + v.jumlah + '</td><td>' + (v.kondisi === 'Baik' ? '<span class="badge badge-ok">Baik</span>' : '<span class="badge badge-warn">' + escapeHtml(v.kondisi) + '</span>') + '</td></tr>';
+    }).join('');
+    body = '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Nama Barang</th><th>Kategori</th><th>Jumlah</th><th>Kondisi</th></tr></thead><tbody>' + rows2 + '</tbody></table></div>';
+  }
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('book','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Perpustakaan &amp; Inventaris</h2></div>' +
+    '<div class="tab-row" style="margin-bottom:14px;">' +
+    '<button class="chip ' + (isBuku ? 'active' : '') + '" onclick="setPerpusView(\'buku\')">Buku</button>' +
+    '<button class="chip ' + (!isBuku ? 'active' : '') + '" onclick="setPerpusView(\'inventaris\')">Inventaris</button>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' + body + '</div>' +
+    '</div>';
+}
+
+/* ============================= ADMIN: KENAIKAN KELAS ============================= */
+function setKenaikanKelas(id) { state.kenaikanKelasId = id; render(); }
+function buildAdminKenaikan() {
+  var sudahDiproses = Object.keys(getKenaikanOverride()).length > 0;
+  var chips = KELAS.map(function(k) {
+    return '<button class="chip ' + (state.kenaikanKelasId === k.id ? 'active' : '') + '" onclick="setKenaikanKelas(\'' + k.id + '\')">' + escapeHtml(k.nama) + '</button>';
+  }).join('');
+  var k = getKelas(state.kenaikanKelasId);
+  var tujuan = PROMOSI_MAP[k.id] ? getKelas(PROMOSI_MAP[k.id]) : null;
+  var isLulusTarget = !tujuan && (k.id === 'K5' || k.id === 'K6');
+  var siswaList = SISWA.filter(function(s) { return s.kelasId === k.id; }).slice().sort(function(a,b){ return a.nama.localeCompare(b.nama); });
+  var rows = siswaList.map(function(s) {
+    var current = siswaKelasEfektif(s);
+    var status = isSiswaLulus(s) ? '<span class="badge badge-ok">Lulus</span>' : (current !== s.kelasId ? '<span class="badge badge-info">' + escapeHtml(getKelas(current).nama) + '</span>' : '<span class="badge badge-muted">Belum diproses</span>');
+    return '<tr><td>' + escapeHtml(s.nama) + '</td><td>' + s.nis + '</td><td>' + status + '</td></tr>';
+  }).join('');
+  return '<div>' +
+    '<div style="display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-bottom:14px;">' +
+    (sudahDiproses ? '<button class="btn btn-secondary btn-sm" onclick="resetKenaikanKelas();render();showToast(\'Data kenaikan kelas dikembalikan ke kondisi awal.\',\'ok\');">' + icon('refresh') + ' Reset ke Kondisi Awal</button>' : '') +
+    '<button class="btn btn-primary btn-sm" onclick="if(confirm(\'Proses kenaikan kelas untuk seluruh siswa ke tahun ajaran berikutnya? Tindakan ini dapat dikembalikan lewat tombol Reset.\')){ prosesKenaikanKelas(); render(); showToast(\'Kenaikan kelas berhasil diproses.\',\'ok\'); }">' + icon('checkCircle') + ' Proses Kenaikan Kelas</button>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:16px 18px;margin-bottom:16px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;">Memproses kenaikan kelas akan memindahkan siswa kelas X ke kelas XI, kelas XI ke kelas XII, dan meluluskan siswa kelas XII, sesuai skema kenaikan sekolah. Data nilai dan kehadiran yang sudah tercatat tidak berubah. Proses ini dapat dibatalkan kapan saja dengan tombol Reset.</div>' +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="font-weight:800;font-size:13.5px;margin-bottom:12px;">Skema Kenaikan</div>' +
+    '<div class="tab-row">' + chips + '</div>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:13.5px;">' +
+    '<span style="font-weight:800;">' + escapeHtml(k.nama) + '</span>' + icon('chevronR','ic-muted') +
+    '<span style="font-weight:800;color:' + (isLulusTarget ? 'var(--gold)' : 'var(--primary)') + ';">' + (isLulusTarget ? 'Lulus' : (tujuan ? escapeHtml(tujuan.nama) : '-')) + '</span>' +
+    '<span class="badge badge-muted">' + siswaList.length + ' siswa</span>' +
+    '</div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Nama Siswa</th><th>NIS</th><th>Status</th></tr></thead><tbody>' + rows + '</tbody></table></div>' +
+    '</div></div>';
+}
+
 /* ============================= KEPSEK: RINGKASAN ============================= */
 function rataRataKehadiranSiswa30Hari() {
   var all = getAbsensiSiswa();
@@ -1137,15 +1734,21 @@ function buildKepsekRingkasan() {
     '<div style="color:rgba(255,255,255,0.75);font-size:13.5px;margin-top:4px;">Tahun Ajaran ' + SCHOOL.tahunAjaran + ' &middot; Semester ' + SCHOOL.semester + '</div>' +
     '</div></div>' +
     '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;">' +
-    statTile('Total Siswa', SISWA.length, 'users', '#0d9488') +
+    statTile('Total Siswa', siswaAktif().length, 'users', '#0d9488') +
     statTile('Total Guru', GURU.length, 'user', '#4338ca') +
     statTile('Rata-rata Kehadiran (30 Hari)', avgHadir + '%', 'checkCircle', '#15803d') +
     statTile('Rata-rata Nilai Sekolah', avgNilai == null ? '-' : avgNilai, 'graduation', '#b45309') +
     '</div>' +
+    buildInfoSekolahWidget() +
+    '<div class="split-grid" style="grid-template-columns:1.2fr 1fr;">' +
     '<div class="card-surface" style="padding:20px;">' +
     '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('trend','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Tren Kehadiran Siswa 14 Hari Terakhir</span></div>' +
     '<div style="height:240px;"><canvas id="chart-trend-kepsek"></canvas></div>' +
-    '</div></div>';
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('users','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Kehadiran Siswa per Kelas (30 Hari)</span></div>' +
+    '<div style="height:240px;"><canvas id="chart-kehadiran-kelas"></canvas></div>' +
+    '</div></div></div>';
 }
 
 /* ============================= KEPSEK: AKADEMIK ============================= */
@@ -1156,9 +1759,14 @@ function buildKepsekAkademik() {
     '<div class="card-surface" style="padding:20px;"><div style="font-weight:800;font-size:14px;margin-bottom:12px;">Rata-rata Nilai per Kelas</div><div style="height:230px;"><canvas id="chart-nilai-kelas"></canvas></div></div>' +
     '<div class="card-surface" style="padding:20px;"><div style="font-weight:800;font-size:14px;margin-bottom:12px;">Persentase Tuntas KKM per Kelas</div><div style="height:230px;"><canvas id="chart-tuntas-kelas"></canvas></div></div>' +
     '</div>' +
-    '<div class="card-surface" style="padding:20px;">' +
+    '<div class="card-surface" style="padding:20px;margin-bottom:18px;">' +
     '<div style="font-weight:800;font-size:14px;margin-bottom:14px;">Ringkasan per Kelas</div>' +
     '<div id="akademik-table-mount"></div>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:4px;">Tren Prestasi Akademik Antar Tahun Ajaran</div>' +
+    '<p style="font-size:11.5px;color:var(--muted);margin:0 0 12px;">Tahun-tahun sebelumnya bersifat ilustratif untuk keperluan demo. Data tahun ajaran berjalan dihitung dari nilai aktual pada sistem.</p>' +
+    '<div style="height:230px;"><canvas id="chart-tren-tahunan"></canvas></div>' +
     '</div></div>';
 }
 function buildAkademikTable() {
@@ -1236,6 +1844,204 @@ function buildKepsekKeuangan() {
     '</div></div>';
 }
 
+/* ============================= PENGUMUMAN (semua peran) ============================= */
+function canKelolaPengumuman() { return state.role === 'admin' || state.role === 'kepsek'; }
+function timeAgoLabel(iso) {
+  var d = new Date(iso + (iso.indexOf('T') === -1 ? 'T00:00:00' : ''));
+  var days = Math.floor((new Date(fmtDateISO(new Date())) - new Date(fmtDateISO(d))) / 86400000);
+  if (days <= 0) return 'Hari ini';
+  if (days === 1) return 'Kemarin';
+  return days + ' hari lalu';
+}
+function submitPengumuman() {
+  var judul = document.getElementById('pg-judul').value.trim();
+  var isi = document.getElementById('pg-isi').value.trim();
+  var penting = document.getElementById('pg-penting').checked;
+  if (!judul || !isi) { showToast('Judul dan isi pengumuman wajib diisi.', 'warn'); return; }
+  tambahPengumuman(judul, isi, penting);
+  showToast('Pengumuman berhasil dipublikasikan.', 'ok');
+  render();
+}
+function buildPengumuman() {
+  var list = getPengumuman();
+  var formHtml = canKelolaPengumuman() ? (
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:12px;">Buat Pengumuman Baru</div>' +
+    '<div style="display:flex;flex-direction:column;gap:10px;">' +
+    '<input type="text" id="pg-judul" class="inp" placeholder="Judul pengumuman">' +
+    '<textarea id="pg-isi" class="inp" rows="3" placeholder="Isi pengumuman" style="resize:vertical;font-family:inherit;"></textarea>' +
+    '<label style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-soft);cursor:pointer;"><input type="checkbox" id="pg-penting" style="width:16px;height:16px;"> Tandai sebagai penting</label>' +
+    '<button class="btn btn-primary" style="align-self:flex-start;" onclick="submitPengumuman()">' + icon('bell') + ' Publikasikan</button>' +
+    '</div></div>'
+  ) : '';
+  var items = list.length ? list.map(function(p) {
+    return '<div class="card-surface" style="padding:18px 20px;margin-bottom:12px;">' +
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">' +
+      '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">' +
+      (p.penting ? '<span class="badge badge-danger">Penting</span>' : '') +
+      '<span style="font-weight:800;font-size:14px;">' + escapeHtml(p.judul) + '</span>' +
+      '</div>' +
+      (canKelolaPengumuman() ? '<button class="btn-icon" onclick="if(confirm(\'Hapus pengumuman ini?\')) hapusPengumuman(\'' + p.id + '\')" title="Hapus">' + icon('x') + '</button>' : '') +
+      '</div>' +
+      '<p style="font-size:13px;color:var(--ink-soft);line-height:1.6;margin:8px 0 10px;">' + escapeHtml(p.isi) + '</p>' +
+      '<div style="font-size:11.5px;color:var(--muted);">' + escapeHtml(p.penulisNama) + ' &middot; ' + escapeHtml(p.penulisRole) + ' &middot; ' + timeAgoLabel(p.tanggal) + '</div>' +
+      '</div>';
+  }).join('') : '<div class="card-surface" style="padding:30px;text-align:center;color:var(--muted);">Belum ada pengumuman.</div>';
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('bell','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Pengumuman Sekolah</h2></div>' +
+    formHtml + items +
+    '</div>';
+}
+
+/* ============================= KALENDER AKADEMIK (semua peran) ============================= */
+function submitEvent() {
+  var judul = document.getElementById('ev-judul').value.trim();
+  var tanggal = document.getElementById('ev-tanggal').value;
+  var kategori = document.getElementById('ev-kategori').value;
+  if (!judul || !tanggal) { showToast('Judul dan tanggal agenda wajib diisi.', 'warn'); return; }
+  tambahEvent(judul, tanggal, kategori);
+  showToast('Agenda berhasil ditambahkan ke kalender.', 'ok');
+  render();
+}
+function buildKalender() {
+  var events = getKalenderEvents();
+  var todayIso = fmtDateISO(new Date());
+  var mendatang = events.filter(function(e) { return e.tanggal >= todayIso; });
+  var lampau = events.filter(function(e) { return e.tanggal < todayIso; });
+  var formHtml = canKelolaPengumuman() ? (
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:12px;">Tambah Agenda</div>' +
+    '<div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px;align-items:end;" class="split-grid">' +
+    '<div><label class="lbl">Judul Agenda</label><input type="text" id="ev-judul" class="inp" placeholder="Nama agenda"></div>' +
+    '<div><label class="lbl">Tanggal</label><input type="date" id="ev-tanggal" class="inp" value="' + todayIso + '"></div>' +
+    '<div><label class="lbl">Kategori</label><select id="ev-kategori" class="inp">' + Object.keys(KALENDER_KATEGORI).map(function(k){ return '<option value="' + k + '">' + KALENDER_KATEGORI[k].label + '</option>'; }).join('') + '</select></div>' +
+    '<button class="btn btn-primary" onclick="submitEvent()">' + icon('calendar') + ' Tambah</button>' +
+    '</div></div>'
+  ) : '';
+  var eventRow = function(e) {
+    var kat = KALENDER_KATEGORI[e.kategori] || KALENDER_KATEGORI.lainnya;
+    return '<div style="display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft);">' +
+      '<div style="width:52px;text-align:center;flex-shrink:0;"><div style="font-weight:800;font-size:16px;color:var(--ink);">' + fmtDateShort(e.tanggal).split(' ')[0] + '</div><div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;">' + BULAN_ID[new Date(e.tanggal).getMonth()].slice(0,3) + '</div></div>' +
+      '<span style="width:8px;height:8px;border-radius:50%;background:' + kat.color + ';flex-shrink:0;"></span>' +
+      '<div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:13.5px;">' + escapeHtml(e.judul) + '</div><div style="font-size:11.5px;color:var(--muted);">' + fmtDateLong(e.tanggal) + ' &middot; ' + kat.label + '</div></div>' +
+      (canKelolaPengumuman() ? '<button class="btn-icon" onclick="if(confirm(\'Hapus agenda ini?\')) hapusEvent(\'' + e.id + '\')" title="Hapus">' + icon('x') + '</button>' : '') +
+      '</div>';
+  };
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('calendar','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Kalender Akademik</h2></div>' +
+    formHtml +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:6px;">Agenda Mendatang</div>' +
+    (mendatang.length ? mendatang.map(eventRow).join('') : '<p style="font-size:12.5px;color:var(--muted);padding:10px 0;">Tidak ada agenda mendatang.</p>') +
+    '</div>' +
+    (lampau.length ? '<div class="card-surface" style="padding:18px 20px;opacity:0.75;">' +
+      '<div style="font-weight:800;font-size:14px;margin-bottom:6px;">Agenda Lampau</div>' +
+      lampau.slice().reverse().map(eventRow).join('') +
+      '</div>' : '') +
+    '</div>';
+}
+
+/* ============================= PESAN ANTAR PERAN (semua peran) ============================= */
+function submitPesan() {
+  var untuk = document.getElementById('ps-untuk').value;
+  var isi = document.getElementById('ps-isi').value.trim();
+  if (!isi) { showToast('Isi pesan tidak boleh kosong.', 'warn'); return; }
+  kirimPesan(untuk, isi);
+  showToast('Pesan terkirim kepada ' + penerimaLabel(untuk) + '.', 'ok');
+  render();
+}
+function buildPesan() {
+  var opsiTujuan = [];
+  if (state.role !== 'admin') opsiTujuan.push(['admin', 'Admin TU']);
+  if (state.role !== 'kepsek') opsiTujuan.push(['kepsek', 'Kepala Sekolah']);
+  if (state.role !== 'guru') { GURU.forEach(function(g) { opsiTujuan.push([g.id, g.nama]); }); }
+  var masuk = pesanUntukSaya();
+  var terkirim = getPesan().filter(function(m) { return m.dariId === state.currentUser.id; });
+  var pesanRow = function(m, showDari) {
+    return '<div style="padding:12px 0;border-bottom:1px solid var(--line-soft);">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">' +
+      '<span style="font-weight:700;font-size:13px;">' + (showDari ? escapeHtml(m.dariLabel) : escapeHtml(penerimaLabel(m.untuk))) + '</span>' +
+      '<span style="font-size:11px;color:var(--muted);">' + fmtDateShort(m.tanggal) + '</span>' +
+      '</div>' +
+      '<p style="font-size:13px;color:var(--ink-soft);margin:5px 0 0;line-height:1.5;">' + escapeHtml(m.isi) + '</p>' +
+      '</div>';
+  };
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('users','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Pesan Antar Peran</h2></div>' +
+    '<div class="card-surface" style="padding:18px 20px;margin-bottom:16px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:12px;">Tulis Pesan</div>' +
+    '<div style="display:flex;flex-direction:column;gap:10px;">' +
+    '<select id="ps-untuk" class="inp">' + opsiTujuan.map(function(o){ return '<option value="' + o[0] + '">' + escapeHtml(o[1]) + '</option>'; }).join('') + '</select>' +
+    '<textarea id="ps-isi" class="inp" rows="3" placeholder="Tulis pesan atau catatan singkat" style="resize:vertical;font-family:inherit;"></textarea>' +
+    '<button class="btn btn-primary" style="align-self:flex-start;" onclick="submitPesan()">' + icon('checkCircle') + ' Kirim Pesan</button>' +
+    '</div></div>' +
+    '<div class="split-grid" style="grid-template-columns:1fr 1fr;">' +
+    '<div class="card-surface" style="padding:18px 20px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:4px;">Pesan Masuk</div>' +
+    (masuk.length ? masuk.map(function(m){ return pesanRow(m, true); }).join('') : '<p style="font-size:12.5px;color:var(--muted);padding:10px 0;">Belum ada pesan masuk.</p>') +
+    '</div>' +
+    '<div class="card-surface" style="padding:18px 20px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:4px;">Pesan Terkirim</div>' +
+    (terkirim.length ? terkirim.map(function(m){ return pesanRow(m, false); }).join('') : '<p style="font-size:12.5px;color:var(--muted);padding:10px 0;">Belum ada pesan terkirim.</p>') +
+    '</div></div>' +
+    '</div>';
+}
+
+/* ============================= LOG AKTIVITAS (Admin TU) ============================= */
+function buildLog() {
+  var log = getLog();
+  var rows = log.length ? log.map(function(l) {
+    var d = new Date(l.waktu);
+    var jam = pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+    return '<div style="display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft);">' +
+      '<div class="stat-icon-badge" style="width:32px;height:32px;background:var(--primary-wash);color:var(--primary);flex-shrink:0;">' + icon('history') + '</div>' +
+      '<div style="flex:1;min-width:0;"><div style="font-size:13px;color:var(--ink);"><span style="font-weight:700;">' + escapeHtml(l.pelaku) + '</span> ' + escapeHtml(l.deskripsi) + '</div>' +
+      '<div style="font-size:11px;color:var(--muted);margin-top:2px;">' + fmtDateShort(l.waktu) + ' &middot; ' + jam + '</div></div>' +
+      '</div>';
+  }).join('') : '<div style="padding:30px;text-align:center;color:var(--muted);">Belum ada aktivitas tercatat.</div>';
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('history','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Log Aktivitas</h2></div>' +
+    '<p style="font-size:12.5px;color:var(--muted);margin:-10px 0 16px;">Mencatat perubahan data yang dilakukan melalui sistem, seperti input nilai, absensi, status gaji, dan pengumuman.</p>' +
+    '<div class="card-surface" style="padding:18px 20px;">' + rows + '</div>' +
+    '</div>';
+}
+
+/* ============================= PENGATURAN AKUN (semua peran) ============================= */
+var AVATAR_COLOR_OPTIONS = ['#0d6b52','#4338ca','#c2410c','#7c3aed','#be185d','#0369a1','#a06f13','#15803d'];
+function pilihWarnaAvatar(color) {
+  setAkunPref(state.currentUser.id, 'warna', color);
+  render();
+  showToast('Warna avatar diperbarui.', 'ok');
+}
+function simpanKataSandiDemo() {
+  showToast('Ini demo portfolio, perubahan kata sandi tidak benar-benar disimpan ke server.', 'warn');
+}
+function buildPengaturan() {
+  var user = state.currentUser;
+  var currentColor = akunPrefColor(user.id) || 'var(--primary)';
+  var swatches = AVATAR_COLOR_OPTIONS.map(function(c) {
+    var active = currentColor === c;
+    return '<button onclick="pilihWarnaAvatar(\'' + c + '\')" style="width:34px;height:34px;border-radius:50%;background:' + c + ';border:2.5px solid ' + (active ? 'var(--ink)' : 'transparent') + ';cursor:pointer;padding:0;box-shadow:' + (active ? '0 0 0 2px var(--surface), 0 0 0 3.5px ' + c : 'none') + ';"></button>';
+  }).join('');
+  return '<div class="fade-in">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:16px;">' + icon('user','ic-primary') + '<h2 class="font-display" style="font-size:17px;font-weight:800;margin:0;">Pengaturan Akun</h2></div>' +
+    '<div class="split-grid" style="grid-template-columns:1fr 1fr;">' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="display:flex;align-items:center;gap:13px;margin-bottom:18px;">' + avatarHtml(user, 52) + '<div><div style="font-weight:800;font-size:14.5px;">' + escapeHtml(user.nama) + '</div><div style="font-size:12px;color:var(--muted);">' + escapeHtml(user.gelar || '') + '</div></div></div>' +
+    '<label class="lbl">Warna Avatar</label>' +
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;">' + swatches + '</div>' +
+    '</div>' +
+    '<div class="card-surface" style="padding:20px;">' +
+    '<div style="font-weight:800;font-size:14px;margin-bottom:14px;">Keamanan Akun</div>' +
+    '<label class="lbl">Kata Sandi Baru</label>' +
+    '<input type="password" class="inp" placeholder="Masukkan kata sandi baru" style="margin-bottom:12px;">' +
+    '<label class="lbl">Konfirmasi Kata Sandi</label>' +
+    '<input type="password" class="inp" placeholder="Ulangi kata sandi baru" style="margin-bottom:16px;">' +
+    '<button class="btn btn-secondary" onclick="simpanKataSandiDemo()">' + icon('checkCircle') + ' Simpan Perubahan</button>' +
+    '<p style="font-size:11.5px;color:var(--muted);margin-top:12px;">Fitur ini bersifat simulasi untuk keperluan demo portfolio.</p>' +
+    '</div></div></div>';
+}
+
 /* ============================= CHARTS ============================= */
 function destroyChart(key) { if (state.charts[key]) { state.charts[key].destroy(); delete state.charts[key]; } }
 function trendKehadiranData() {
@@ -1265,7 +2071,29 @@ function drawTrendChart(canvasId, chartKey) {
 function renderCharts() {
   if (typeof Chart === 'undefined') return;
   if (state.role === 'admin' && state.tab === 'ringkasan') { drawTrendChart('chart-trend-siswa', 'trendSiswa'); }
-  if (state.role === 'kepsek' && state.tab === 'ringkasan') { drawTrendChart('chart-trend-kepsek', 'trendKepsek'); }
+  if (state.role === 'kepsek' && state.tab === 'ringkasan') {
+    drawTrendChart('chart-trend-kepsek', 'trendKepsek');
+    var kehadiranCanvas = document.getElementById('chart-kehadiran-kelas');
+    if (kehadiranCanvas) {
+      destroyChart('kehadiranKelas');
+      var thirty = [];
+      for (var ti = 29; ti >= 0; ti--) { thirty.push(fmtDateISO(addDays(new Date(), -ti))); }
+      var absAll = getAbsensiSiswa().filter(function(a){ return thirty.indexOf(a.tanggal) !== -1; });
+      var kLabels = KELAS.map(function(k){ return k.nama; });
+      var kColors = KELAS.map(function(k){ return kelasColor(k); });
+      var kPct = KELAS.map(function(k) {
+        var recs = absAll.filter(function(a){ return a.kelasId === k.id; });
+        if (!recs.length) return 0;
+        var hadir = recs.filter(function(a){ return a.status === 'Hadir'; }).length;
+        return Math.round((hadir / recs.length) * 100);
+      });
+      state.charts.kehadiranKelas = new Chart(kehadiranCanvas.getContext('2d'), {
+        type: 'bar',
+        data: { labels: kLabels, datasets: [{ label:'Kehadiran (%)', data: kPct, backgroundColor: kColors, borderRadius:6, maxBarThickness:34 }] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false}}, scales:{ y:{beginAtZero:true, max:100, ticks:{callback:function(v){return v+'%';}, font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:9.5}},grid:{display:false}} } }
+      });
+    }
+  }
   if (state.role === 'kepsek' && state.tab === 'akademik') {
     var nilaiCanvas = document.getElementById('chart-nilai-kelas');
     var tuntasCanvas = document.getElementById('chart-tuntas-kelas');
@@ -1297,6 +2125,19 @@ function renderCharts() {
     }
     var mount = document.getElementById('akademik-table-mount');
     if (mount) mount.innerHTML = buildAkademikTable();
+    var trenCanvas = document.getElementById('chart-tren-tahunan');
+    if (trenCanvas) {
+      destroyChart('trenTahunan');
+      var tren = getTrenTahunan();
+      state.charts.trenTahunan = new Chart(trenCanvas.getContext('2d'), {
+        type: 'line',
+        data: { labels: tren.map(function(t){return t.label;}), datasets: [
+          { label:'Rata-rata Nilai', data: tren.map(function(t){return t.nilai;}), borderColor:'#0d9488', backgroundColor:'rgba(13,148,136,0.08)', tension:0.3, fill:true, pointRadius:3 },
+          { label:'% Tuntas KKM', data: tren.map(function(t){return t.tuntas;}), borderColor:'#a06f13', backgroundColor:'rgba(160,111,19,0.06)', tension:0.3, fill:true, pointRadius:3 }
+        ] },
+        options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:true, position:'bottom', labels:{boxWidth:12, font:{size:11}}}}, scales:{ y:{beginAtZero:true, max:100, ticks:{font:{size:10.5}},grid:{color:'#eef0f7'}}, x:{ticks:{font:{size:10.5}},grid:{display:false}} } }
+      });
+    }
   }
   if (state.role === 'kepsek' && state.tab === 'kepegawaian') { buildPunctualityList(); }
   if (state.role === 'kepsek' && state.tab === 'keuangan') {
@@ -1320,12 +2161,18 @@ function render() {
   var app = document.getElementById('app');
   if (state.view === 'login') { app.innerHTML = buildLogin() + '<div id="modal-root"></div>'; return; }
   var body = '';
-  if (state.role === 'guru') {
+  if (state.tab === 'pengumuman') { body = buildPengumuman(); }
+  else if (state.tab === 'kalender') { body = buildKalender(); }
+  else if (state.tab === 'pesan') { body = buildPesan(); }
+  else if (state.tab === 'pengaturan') { body = buildPengaturan(); }
+  else if (state.tab === 'log' && state.role === 'admin') { body = buildLog(); }
+  else if (state.role === 'guru') {
     if (state.tab === 'beranda') body = buildGuruBeranda();
     else if (state.tab === 'absensi') body = buildGuruAbsensi();
     else if (state.tab === 'nilai') body = buildGuruNilai();
     else if (state.tab === 'rapor') body = buildGuruRapor();
     else if (state.tab === 'slipgaji') body = buildGuruSlipGaji();
+    else if (state.tab === 'jadwal') body = buildGuruJadwal();
   } else if (state.role === 'admin') {
     if (state.tab === 'ringkasan') body = buildAdminRingkasan();
     else if (state.tab === 'siswa') body = buildAdminSiswa();
@@ -1333,6 +2180,7 @@ function render() {
     else if (state.tab === 'kelas') body = buildAdminKelas();
     else if (state.tab === 'absguru') body = buildAdminAbsGuru();
     else if (state.tab === 'gaji') body = buildAdminGaji();
+    else if (state.tab === 'perpustakaan') body = buildAdminPerpustakaan();
   } else if (state.role === 'kepsek') {
     if (state.tab === 'ringkasan') body = buildKepsekRingkasan();
     else if (state.tab === 'akademik') body = buildKepsekAkademik();
@@ -1346,9 +2194,35 @@ function render() {
   var needsChart = (state.role === 'admin' && state.tab === 'ringkasan') ||
     (state.role === 'kepsek' && (state.tab === 'ringkasan' || state.tab === 'akademik' || state.tab === 'kepegawaian' || state.tab === 'keuangan'));
   if (needsChart) { setTimeout(renderCharts, 50); }
+  scrollActiveTabIntoView();
+}
+function scrollActiveTabIntoView() {
+  var nav = document.getElementById('topbar-nav');
+  var btn = nav ? nav.querySelector('.tab-btn.active') : null;
+  if (!nav || !btn) return;
+  /* Adjust only the nav strip's own horizontal scroll position (never the page's
+     vertical scroll) so the active tab is visible without disturbing scroll-to-top. */
+  var navRect = nav.getBoundingClientRect();
+  var btnRect = btn.getBoundingClientRect();
+  if (btnRect.left < navRect.left) {
+    nav.scrollLeft -= (navRect.left - btnRect.left) + 16;
+  } else if (btnRect.right > navRect.right) {
+    nav.scrollLeft += (btnRect.right - navRect.right) + 16;
+  }
 }
 
 /* ============================= INIT ============================= */
+document.addEventListener('click', function(e) {
+  var wrap = document.querySelector('.search-wrap');
+  if (wrap && !wrap.contains(e.target)) { clearSearchDropdown(); }
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    clearSearchDropdown();
+    var modalRoot = document.getElementById('modal-root');
+    if (modalRoot && modalRoot.innerHTML.trim()) closeModal();
+  }
+});
 seedIfNeeded();
 render();
 </script>
