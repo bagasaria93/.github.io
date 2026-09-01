@@ -7,30 +7,30 @@
 <title>SekolahKu - SMA Bhakti Nusantara</title>
 <meta name="description" content="Demo sistem informasi sekolah SekolahKu untuk SMA Bhakti Nusantara. Data siswa dan guru, absensi, nilai dan rapor, penggajian guru, serta dashboard kepala sekolah.">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --ink:#1b2027; --ink-soft:#565f6d; --muted:#8a92a0; --line:#e3e7ee; --line-soft:#edf0f5;
-  --surface:#ffffff; --bg:#f6f7fb; --bg-tint:#eef1fb;
-  --forest:#0f3d2e; --primary:#0f766e; --primary-2:#0d9488; --primary-3:#2dd4bf;
-  --primary-wash:#e8f7f5; --primary-wash-2:#d7f2ee;
-  --gold:#b8860b; --gold-soft:#d4a017; --gold-pale:#f7ecd0;
+  --ink:#2a2418; --ink-soft:#6b5d47; --muted:#a0937b; --line:#e6dac2; --line-soft:#f1e8d6;
+  --surface:#fffdf8; --bg:#f5efe1; --bg-tint:#ece0c6;
+  --forest:#15392b; --primary:#0d6b52; --primary-2:#0f8a68; --primary-3:#5cbd9a;
+  --primary-wash:#e6f3ec; --primary-wash-2:#d1ead9;
+  --gold:#a06f13; --gold-soft:#c4901f; --gold-pale:#f5e6c4;
   --ok:#15803d; --ok-bg:#e9f7ee; --ok-soft:#22c55e;
   --warn:#b45309; --warn-bg:#fef3e2; --warn-soft:#f59e0b;
   --danger:#b91c1c; --danger-bg:#fdedec; --danger-soft:#ef4444;
   --info:#0369a1; --info-bg:#e6f4fb;
   --grad-primary:linear-gradient(135deg,var(--forest),var(--primary-2) 55%,var(--primary-3));
-  --grad-gold:linear-gradient(135deg,#8a6a10,var(--gold-soft));
-  --shadow-sm:0 2px 8px rgba(15,61,46,0.07);
-  --shadow-md:0 8px 24px rgba(15,61,46,0.10);
-  --shadow-lg:0 20px 48px rgba(15,61,46,0.16);
-  --shadow-primary:0 10px 24px rgba(13,148,136,0.30);
-  --r-sm:10px; --r-md:14px; --r-lg:20px; --r-pill:999px;
+  --grad-gold:linear-gradient(135deg,#7a5209,var(--gold-soft));
+  --shadow-sm:0 1px 3px rgba(42,36,24,0.06);
+  --shadow-md:0 6px 18px rgba(42,36,24,0.09);
+  --shadow-lg:0 18px 42px rgba(21,57,43,0.18);
+  --shadow-primary:0 10px 22px rgba(13,107,82,0.28);
+  --r-sm:6px; --r-md:9px; --r-lg:14px; --r-pill:999px;
 }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; }
-body { font-family:'Plus Jakarta Sans', sans-serif; background:var(--bg); color:var(--ink); margin:0; -webkit-font-smoothing:antialiased; }
-.font-display { font-family:'Sora', sans-serif; }
+body { font-family:'Figtree', sans-serif; background:var(--bg); color:var(--ink); margin:0; -webkit-font-smoothing:antialiased; }
+.font-display { font-family:'Fraunces', serif; font-optical-sizing:auto; }
 ::selection { background:var(--primary-wash-2); color:var(--forest); }
 ::-webkit-scrollbar { width:6px; height:6px; }
 ::-webkit-scrollbar-thumb { background:var(--primary-3); border-radius:4px; }
@@ -43,7 +43,7 @@ body { font-family:'Plus Jakarta Sans', sans-serif; background:var(--bg); color:
 @keyframes icspin { to { transform:rotate(360deg); } }
 
 .wrap { max-width:1180px; margin:0 auto; padding:0 20px; }
-.card-surface { background:var(--surface); border:1px solid var(--line-soft); border-radius:var(--r-lg); box-shadow:var(--shadow-sm); }
+.card-surface { background:var(--surface); border:1.5px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--shadow-sm); }
 .fade-in { animation:fadeIn 0.35s ease both; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(6px);} to{opacity:1;transform:translateY(0);} }
 
@@ -65,16 +65,32 @@ body { font-family:'Plus Jakarta Sans', sans-serif; background:var(--bg); color:
 .btn-icon { width:38px;height:38px;border-radius:50%;border:1.5px solid var(--line-soft);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-soft);transition:all 0.2s;padding:0;flex-shrink:0; }
 .btn-icon:hover { border-color:var(--primary-3);color:var(--primary); }
 
-.topbar { position:sticky;top:0;z-index:40;background:rgba(255,255,255,0.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line-soft); }
-.tab-row { display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none; }
-.tab-row::-webkit-scrollbar { display:none; }
-.tab-btn { display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:var(--r-pill);font-size:13.5px;font-weight:700;color:var(--ink-soft);background:transparent;border:none;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:inherit; }
-.tab-btn:hover:not(.active) { background:var(--bg-tint);color:var(--primary); }
-.tab-btn.active { background:var(--grad-primary);color:#fff;box-shadow:0 4px 14px rgba(13,148,136,0.3); }
+.topbar { position:sticky;top:0;z-index:40;background:var(--forest);border-bottom:1px solid rgba(255,255,255,0.08); }
+.topbar-sep { width:1px;align-self:stretch;background:rgba(255,255,255,0.14);flex-shrink:0;margin:2px 0; }
+.topbar-link { display:flex;align-items:center;gap:9px;text-decoration:none;color:#fff;flex-shrink:0; }
+.topbar-mark { width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.16);display:flex;align-items:center;justify-content:center;color:var(--gold-soft);flex-shrink:0; }
+.topbar-nav { display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none; }
+.topbar-nav::-webkit-scrollbar { display:none; }
+.tab-btn { display:inline-flex;align-items:center;gap:6px;padding:9px 13px 8px;border-radius:0;font-size:13px;font-weight:600;color:rgba(255,255,255,0.62);background:transparent;border:none;border-bottom:2.5px solid transparent;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:inherit; }
+.tab-btn:hover:not(.active) { color:#fff; }
+.tab-btn.active { color:#fff;font-weight:700;border-bottom-color:var(--gold-soft); }
+.topbar-name { font-weight:700;font-size:12.5px;line-height:1.2;white-space:nowrap;max-width:26vw;overflow:hidden;text-overflow:ellipsis;color:#fff; }
+.topbar-role { font-size:10.5px;line-height:1.2;white-space:nowrap;max-width:26vw;overflow:hidden;text-overflow:ellipsis;color:rgba(255,255,255,0.55); }
+.topbar .btn-icon { border-color:rgba(255,255,255,0.18);background:transparent;color:rgba(255,255,255,0.7); }
+.topbar .btn-icon:hover { border-color:var(--gold-soft);color:var(--gold-soft); }
+.topbar .avatar { box-shadow:0 0 0 2px rgba(255,255,255,0.22); }
+@media (max-width:900px) {
+  .topbar-user-text { display:none; }
+}
+@media (max-width:640px) {
+  .topbar-wordmark, .topbar-sep { display:none; }
+  .topbar .tab-btn .tab-label { display:none; }
+  .topbar .tab-btn { padding:9px 10px; }
+}
 
-.stat-tile { background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--r-lg);padding:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden; }
-.stat-tile::after { content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent,var(--grad-primary)); }
-.stat-icon-badge { width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.stat-tile { background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 18px 18px 22px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden; }
+.stat-tile::after { content:'';position:absolute;top:0;left:0;bottom:0;width:4px;background:var(--accent,var(--grad-primary)); }
+.stat-icon-badge { width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0; }
 
 .badge { display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:var(--r-pill);font-size:11.5px;font-weight:700;letter-spacing:0.01em; }
 .badge-ok { background:var(--ok-bg);color:var(--ok); }
@@ -102,14 +118,14 @@ label.lbl { font-size:12.5px;font-weight:700;color:var(--ink-soft);display:block
 
 .avatar { width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;color:#fff;flex-shrink:0; }
 
-.hero-card { background:var(--grad-primary);border-radius:24px;padding:28px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg); }
-.hero-card::before { content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.06);top:-120px;right:-80px; }
-.hero-card::after { content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.05);bottom:-90px;left:-40px; }
+.hero-card { background:var(--grad-primary);border-radius:var(--r-lg);padding:28px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg); }
+.hero-card::before { content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.18) 1.4px,transparent 1.4px);background-size:15px 15px;-webkit-mask-image:linear-gradient(120deg,transparent 38%,#000 92%);mask-image:linear-gradient(120deg,transparent 38%,#000 92%); }
+.hero-card::after { content:'';position:absolute;width:3px;height:56%;background:rgba(196,144,31,0.4);right:9%;top:22%;transform:rotate(11deg);border-radius:2px; }
 
 .modal-backdrop { position:fixed;inset:0;background:rgba(15,32,26,0.55);backdrop-filter:blur(2px);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;animation:fadeIn 0.2s ease; }
 .modal-box { background:var(--surface);border-radius:var(--r-lg);max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg); }
 
-#toast-wrap { position:fixed;top:86px;right:18px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:calc(100vw - 36px); }
+#toast-wrap { position:fixed;bottom:22px;right:18px;z-index:200;display:flex;flex-direction:column;gap:10px;max-width:calc(100vw - 36px); }
 .toast { background:var(--forest);color:#fff;padding:13px 18px;border-radius:12px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:10px;animation:toastIn 0.3s ease both;max-width:340px; }
 .toast.ok { background:linear-gradient(135deg,#166534,#22c55e); }
 .toast.warn { background:linear-gradient(135deg,#92400e,#f59e0b); }
@@ -356,7 +372,6 @@ function seedIfNeeded() {
       var day = addDays(today, -back);
       if (isWeekend(day)) continue;
       var iso = fmtDateISO(day);
-      if (iso === todayIso && g.id !== 'G9') continue; /* sisakan hari ini kosong utk sesi demo, kecuali satu contoh */
       var r = seededRand(g.id + iso + 'ag');
       var status, jamMasuk;
       if (r < 0.04) { status = 'Alpha'; jamMasuk = null; }
@@ -377,7 +392,10 @@ function seedIfNeeded() {
   });
   localStorage.setItem('sekolahku_absensi_guru', JSON.stringify(absGuru));
 
-  /* --- nilai: tugas & uts terisi, uas belum (baru pertengahan semester) --- */
+  /* --- nilai: tugas, uts, dan uas terisi penuh agar rapor & dashboard akademik langsung
+     menunjukkan data lengkap. Kelas X-1 sengaja disisakan tanpa UAS pada mapel Matematika
+     saja, supaya pengunjung yang login sebagai wali kelasnya (Siti Nurhaliza) tetap bisa
+     mencoba fitur input nilai secara langsung dan melihat nilai akhir terhitung otomatis. --- */
   var nilai = [];
   KELAS.forEach(function(k) {
     var mapels = mapelForKelas(k.id);
@@ -387,7 +405,9 @@ function seedIfNeeded() {
         var seed = s.id + m.mapelId;
         var tugas = 70 + Math.floor(seededRand(seed+'t') * 28);
         var uts = 65 + Math.floor(seededRand(seed+'u') * 32);
-        nilai.push({ id: uid('NL'), siswaId: s.id, kelasId: k.id, mapelId: m.mapelId, guruId: m.guruId, tahunAjaran: SCHOOL.tahunAjaran, semester: SCHOOL.semester, tugas: tugas, uts: uts, uas: null });
+        var uas = 70 + Math.floor(seededRand(seed+'a') * 28);
+        var isDemoKosong = (k.id === 'K1' && m.mapelId === 'M1');
+        nilai.push({ id: uid('NL'), siswaId: s.id, kelasId: k.id, mapelId: m.mapelId, guruId: m.guruId, tahunAjaran: SCHOOL.tahunAjaran, semester: SCHOOL.semester, tugas: tugas, uts: uts, uas: isDemoKosong ? null : uas });
       });
     });
   });
@@ -597,19 +617,20 @@ function closeModal() { document.getElementById('modal-root').innerHTML = ''; sl
 function buildLogin() {
   var guruCards = GURU.map(function(g) {
     var wk = isWaliKelas(g.id);
-    return '<button onclick="loginAsGuru(\'' + g.id + '\')" style="text-align:left;background:var(--surface);border:1.5px solid var(--line-soft);border-radius:16px;padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s;font-family:inherit;width:100%;" onmouseover="this.style.borderColor=\'var(--primary-3)\';this.style.boxShadow=\'var(--shadow-md)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--line-soft)\';this.style.boxShadow=\'none\';this.style.transform=\'none\';">' +
+    return '<button onclick="loginAsGuru(\'' + g.id + '\')" style="text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:var(--r-lg);padding:14px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all 0.2s;font-family:inherit;width:100%;" onmouseover="this.style.borderColor=\'var(--primary-3)\';this.style.boxShadow=\'var(--shadow-md)\';this.style.transform=\'translateY(-2px)\';" onmouseout="this.style.borderColor=\'var(--line)\';this.style.boxShadow=\'none\';this.style.transform=\'none\';">' +
       avatarHtml(g, 44) +
       '<div style="min-width:0;flex:1;"><div style="font-weight:700;font-size:14px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(g.nama) + '</div><div style="font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(g.gelar) + (wk ? ' &middot; Wali ' + wk.nama : '') + '</div></div>' +
       icon('chevronR', 'ic-muted') +
       '</button>';
   }).join('');
   return '<div style="min-height:100vh;background:var(--forest);position:relative;overflow:hidden;display:flex;align-items:center;padding:40px 0;">' +
-    '<div style="position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(45,212,191,0.20),transparent 70%);top:-220px;right:-160px;"></div>' +
-    '<div style="position:absolute;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(184,134,11,0.16),transparent 70%);bottom:-180px;left:-120px;"></div>' +
+    '<div style="position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.09) 1.4px,transparent 1.4px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse 60% 55% at 50% 0%,#000 0%,transparent 72%);mask-image:radial-gradient(ellipse 60% 55% at 50% 0%,#000 0%,transparent 72%);"></div>' +
+    '<div style="position:absolute;width:3px;height:220px;background:linear-gradient(rgba(196,144,31,0.35),transparent);top:0;left:14%;transform:rotate(14deg);"></div>' +
+    '<div style="position:absolute;width:3px;height:180px;background:linear-gradient(rgba(92,189,154,0.3),transparent);top:0;right:18%;transform:rotate(-11deg);"></div>' +
     '<div class="wrap" style="position:relative;z-index:1;">' +
     '<div style="max-width:920px;margin:0 auto;">' +
     '<div style="text-align:center;margin-bottom:30px;">' +
-    '<a href="https://bagasaria93.github.io" style="display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.55);font-size:12.5px;font-weight:600;text-decoration:none;margin-bottom:22px;">' + icon('chevronL') + ' Kembali ke Portfolio</a>' +
+    '<div style="margin-bottom:16px;"><a href="https://bagasaria93.github.io" style="display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.55);font-size:12.5px;font-weight:600;text-decoration:none;">' + icon('chevronL') + ' Kembali ke Portfolio</a></div>' +
     '<div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.14);padding:8px 16px;border-radius:99px;margin-bottom:18px;">' +
     '<span style="width:8px;height:8px;border-radius:50%;background:#22c55e;display:inline-block;box-shadow:0 0 0 3px rgba(34,197,94,0.25);"></span>' +
     '<span style="color:rgba(255,255,255,0.75);font-size:12.5px;font-weight:600;">Demo Interaktif &middot; ' + SCHOOL.nama + '</span></div>' +
@@ -647,27 +668,28 @@ function buildTopbar() {
   var tabs = tabsByRole[state.role];
   var subtitle = state.role === 'admin' ? user.gelar : (state.role === 'kepsek' ? user.gelar : user.gelar);
   var tabsHtml = tabs.map(function(t) {
-    return '<button class="tab-btn ' + (state.tab === t[0] ? 'active' : '') + '" onclick="setTab(\'' + t[0] + '\')">' + icon(t[1]) + '<span>' + t[2] + '</span></button>';
+    return '<button class="tab-btn ' + (state.tab === t[0] ? 'active' : '') + '" onclick="setTab(\'' + t[0] + '\')">' + icon(t[1]) + '<span class="tab-label">' + t[2] + '</span></button>';
   }).join('');
   return '<div class="topbar">' +
-    '<div class="wrap" style="padding-top:14px;padding-bottom:0;">' +
-    '<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;">' +
-    '<a href="https://bagasaria93.github.io" style="display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--ink);">' +
-    '<div style="width:34px;height:34px;border-radius:10px;background:var(--grad-primary);display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;">' + icon('school') + '</div>' +
-    '<span class="font-display" style="font-weight:800;font-size:16.5px;">Sekolah<span style="color:var(--primary);">Ku</span></span>' +
+    '<div class="wrap" style="padding-top:11px;padding-bottom:11px;">' +
+    '<div style="display:flex;align-items:center;gap:16px;">' +
+    '<a href="https://bagasaria93.github.io" class="topbar-link">' +
+    '<div class="topbar-mark">' + icon('school') + '</div>' +
+    '<span class="font-display topbar-wordmark" style="font-weight:700;font-size:16px;">Sekolah<span style="color:var(--gold-soft);">Ku</span></span>' +
     '</a>' +
-    '<div style="display:flex;align-items:center;gap:10px;">' +
-    '<div style="display:flex;align-items:center;gap:9px;">' +
-    avatarHtml(user, 34) +
-    '<div style="text-align:right;">' +
-    '<div style="font-weight:700;font-size:13px;line-height:1.2;white-space:nowrap;max-width:38vw;overflow:hidden;text-overflow:ellipsis;">' + escapeHtml(user.nama) + '</div>' +
-    '<div style="font-size:11px;color:var(--muted);line-height:1.2;">' + escapeHtml(subtitle) + '</div>' +
+    '<div class="topbar-sep"></div>' +
+    '<nav class="topbar-nav" style="flex:1;min-width:0;">' + tabsHtml + '</nav>' +
+    '<div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">' +
+    '<div class="topbar-user" style="display:flex;align-items:center;gap:9px;">' +
+    avatarHtml(user, 32) +
+    '<div class="topbar-user-text" style="text-align:right;">' +
+    '<div class="topbar-name">' + escapeHtml(user.nama) + '</div>' +
+    '<div class="topbar-role">' + escapeHtml(subtitle) + '</div>' +
     '</div>' +
     '</div>' +
     '<button class="btn-icon" onclick="logout()" title="Keluar">' + icon('logout') + '</button>' +
     '</div>' +
     '</div>' +
-    '<div class="tab-row" style="padding-bottom:11px;">' + tabsHtml + '</div>' +
     '</div></div>';
 }
 function buildFooter() {
@@ -682,16 +704,17 @@ function buildFooter() {
 function buildGuruBeranda() {
   var g = state.currentUser;
   var wk = isWaliKelas(g.id);
-  var todayIso = fmtDateISO(new Date());
   var jadwalRows = g.jadwal.map(function(j) {
     var k = getKelas(j.kelasId), m = getMapel(j.mapelId);
     return '<tr><td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:' + kelasColor(k) + ';display:inline-block;"></span>' + escapeHtml(k.nama) + '</span></td><td>' + escapeHtml(m.nama) + '</td><td>' + j.jp + ' JP/minggu</td></tr>';
   }).join('');
 
   var absGuru = getAbsensiGuru().filter(function(a){ return a.guruId === g.id; });
-  var thisMonth = absGuru.filter(function(a){ return a.tanggal.slice(0,7) === todayIso.slice(0,7); });
-  var hadirCount = thisMonth.filter(function(a){ return a.status === 'Hadir' || a.status === 'Terlambat'; }).length;
-  var telatCount = thisMonth.filter(function(a){ return a.status === 'Terlambat'; }).length;
+  var last30 = [];
+  for (var bi = 29; bi >= 0; bi--) { last30.push(fmtDateISO(addDays(new Date(), -bi))); }
+  var recent = absGuru.filter(function(a){ return last30.indexOf(a.tanggal) !== -1; });
+  var hadirCount = recent.filter(function(a){ return a.status === 'Hadir' || a.status === 'Terlambat'; }).length;
+  var telatCount = recent.filter(function(a){ return a.status === 'Terlambat'; }).length;
 
   var statTile = function(label, value, iconName, accent) {
     return '<div class="stat-tile" style="--accent:' + accent + ';">' +
@@ -712,8 +735,8 @@ function buildGuruBeranda() {
     '<div><div style="color:rgba(255,255,255,0.6);font-size:11px;font-weight:700;text-transform:uppercase;">Kelas Diampu</div><div style="color:#fff;font-weight:800;font-size:20px;">' + kelasOfGuru(g.id).length + ' kelas</div></div>' +
     '</div></div></div>' +
     '<div class="stat-grid-4" style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:18px;">' +
-    statTile('Hadir Mengajar Bulan Ini', hadirCount, 'checkCircle', '#15803d') +
-    statTile('Terlambat', telatCount, 'bell', '#b45309') +
+    statTile('Hadir Mengajar (30 Hari)', hadirCount, 'checkCircle', '#15803d') +
+    statTile('Terlambat (30 Hari)', telatCount, 'bell', '#b45309') +
     '</div>' +
     '<div class="card-surface" style="padding:20px;">' +
     '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('calendar','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Jadwal Mengajar</span></div>' +
@@ -867,7 +890,13 @@ function buildGuruSlipGaji() {
   var bulanLabel = BULAN_ID[d.getMonth()] + ' ' + d.getFullYear();
   var gs = getGajiStatus();
   var status = gs[g.id + '_' + state.gajiBulan] || 'Belum Dibayar';
-  return '<div class="fade-in" style="max-width:480px;">' +
+
+  var jadwalRows = g.jadwal.map(function(j) {
+    var k = getKelas(j.kelasId), m = getMapel(j.mapelId);
+    return '<tr><td><span style="display:inline-flex;align-items:center;gap:8px;"><span style="width:8px;height:8px;border-radius:50%;background:' + kelasColor(k) + ';display:inline-block;"></span>' + escapeHtml(k.nama) + '</span></td><td>' + escapeHtml(m.nama) + '</td><td style="text-align:right;">' + j.jp + ' JP</td></tr>';
+  }).join('');
+
+  return '<div class="fade-in split-grid" style="grid-template-columns:1.05fr 0.95fr;align-items:start;">' +
     '<div class="card-surface" style="padding:22px;">' +
     '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px;">' +
     '<div style="display:flex;align-items:center;gap:6px;"><button class="btn-icon" onclick="changeGajiBulan(-1)">' + icon('chevronL') + '</button><span style="font-weight:800;font-size:14.5px;min-width:130px;text-align:center;">' + bulanLabel + '</span><button class="btn-icon" onclick="changeGajiBulan(1)">' + icon('chevronR') + '</button></div>' +
@@ -887,7 +916,22 @@ function buildGuruSlipGaji() {
     rowGaji('Gaji Bersih Diterima', fmtRupiah(gaji.bersih), true, true) +
     '</div>' +
     '<button class="btn btn-secondary btn-block" style="margin-top:18px;" onclick="window.print()">' + icon('print') + ' Cetak Slip Gaji</button>' +
-    '</div></div>';
+    '</div>' +
+    '<div class="card-surface" style="padding:22px;">' +
+    '<div style="display:flex;align-items:center;gap:9px;margin-bottom:14px;">' + icon('calendar','ic-primary') + '<span style="font-weight:800;font-size:14.5px;">Rincian Jam Mengajar</span></div>' +
+    '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Kelas</th><th>Mata Pelajaran</th><th style="text-align:right;">Beban</th></tr></thead><tbody>' + jadwalRows + '</tbody></table></div>' +
+    '<div class="divider" style="margin:14px 0;"></div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;font-size:13.5px;">' +
+    '<span style="color:var(--ink-soft);">Total Beban Mengajar</span>' +
+    '<span style="font-weight:800;">' + gaji.jp + ' JP/minggu</span>' +
+    '</div>' +
+    '<div style="display:flex;align-items:center;justify-content:space-between;font-size:13.5px;margin-top:8px;">' +
+    '<span style="color:var(--ink-soft);">Tarif per Jam Pelajaran</span>' +
+    '<span style="font-weight:800;">' + fmtRupiah(RATE_PER_JAM()) + '</span>' +
+    '</div>' +
+    '<p style="font-size:11.5px;color:var(--muted);margin-top:14px;">Tunjangan jam mengajar dihitung dari total beban mengajar per minggu dikali 4 minggu dikali tarif per jam pelajaran.</p>' +
+    '</div>' +
+    '</div>';
 }
 
 /* ============================= ADMIN: RINGKASAN ============================= */
@@ -1272,6 +1316,7 @@ function renderCharts() {
 
 /* ============================= MAIN RENDER ============================= */
 function render() {
+  window.scrollTo(0, 0);
   var app = document.getElementById('app');
   if (state.view === 'login') { app.innerHTML = buildLogin() + '<div id="modal-root"></div>'; return; }
   var body = '';
