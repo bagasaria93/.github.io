@@ -88,6 +88,16 @@ padding: 0;
 box-sizing: border-box;
 }
 
+/* Every image carries intrinsic width and height attributes so the
+   browser can reserve layout space before it loads. Those attributes
+   also act as presentational hints for the height property, so height
+   is handed back to the aspect ratio here. Components that need a
+   fixed height still set it themselves. */
+img {
+max-width: 100%;
+height: auto;
+}
+
 html {
 scroll-behavior: smooth;
 }

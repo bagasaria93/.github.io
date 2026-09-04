@@ -1,5 +1,13 @@
 # Changelog
 
+### About Me photo frame stretched - regression fix
+
+**Fixed**
+- Bagas reported the About Me photo frame rendering far taller than the photo, with a large empty box below it
+- Cause was mine: when width and height attributes were added to every image to prevent layout shift, those attributes also act as presentational hints for the CSS height property. The .about-photo rule sets width and aspect-ratio but never height, so the hint won and locked the image height to 600px, while the carousel track stretched to 1080px to match the taller second slide
+- Fixed with a base img rule setting height auto, which hands height back to the aspect ratio. Components that need a fixed height, such as the project card previews, still set it themselves and are unaffected
+- Verified the photo now renders at the intended 3:4 ratio at 1440, 1024, 768, 390 and 360 widths, project preview images still measure 160px, page height returned to normal, and there are no console errors
+
 ### Portfolio homepage - CSS architecture overhaul and robustness fixes
 
 **Fixed**
