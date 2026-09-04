@@ -1,5 +1,35 @@
 # Changelog
 
+### Portfolio homepage - CSS architecture overhaul and robustness fixes
+
+**Fixed**
+- Critical: without JavaScript, or if any JS error occurred, everything below the hero was invisible because every .section-reveal element sat at opacity 0 and only the IntersectionObserver ever revealed it. Verified by loading the page with JS disabled: the whole page below the hero rendered blank. The reveal is now opt-in through a .js class set by an inline script in the head, so the content is readable even when scripts never run
+- Critical: main.js had no guards, so a single missing element would throw and kill every feature registered after it, including the reveal observer, which meant one small DOM change could blank the entire page. Every feature now initialises in isolation and a failure in one is logged and skipped
+- lucide.createIcons() was called unguarded, so a blocked or slow icon CDN threw an error. It is now guarded, retried briefly, and falls back to hiding the empty icon placeholders instead of leaving hollow boxes
+- Certifications grid showed a visible empty cell because it has 3 items in a 2 column grid, and the Projects grid did the same with 19 items in 4 columns. The tinted grid background was showing through the unfilled cells. Hairlines are now drawn on the cards themselves, so an unfilled cell is simply invisible, and the nth-child hacks that tried to work around it were removed
+- The frosted navbar had no -webkit-backdrop-filter, so the blur never appeared in Safari
+- Duplicate .footer-links rule inside the 768px media query removed
+- All 21 images were missing width and height attributes, which causes layout shift while they load. Intrinsic dimensions were added to every one
+
+**Changed**
+- Replaced the 14 loose variables with a real design token system: fluid type scale, 8pt spacing scale, radius scale, dark UI elevation scale, motion tokens, and semantic status colours. 92 hardcoded brand colour values across the file now resolve through --gold-rgb, --accent-rgb and --success-rgb, so the accent colour can be changed in one place
+- The custom cursor was writing style.left and style.top on every mousemove event, forcing layout constantly. Position is now handed to CSS as custom properties, flushed once per animation frame, and applied through the independent translate property so it is composited on the GPU. The two per element hover listeners were replaced with one delegated pair
+- Scroll spy was calling getBoundingClientRect on seven sections on every scroll event. It is now throttled to one read per frame, and all scroll and pointer listeners are passive
+- The typing animation was reparsing HTML on every keystroke. It now writes to a text node with a real caret element, and pauses along with the clock when the tab is hidden
+- Whole card project clicks now pass noopener, and the reveal observer unobserves elements once they have appeared
+- Contact form now validates the email before handing off to the mail client instead of always reporting success
+
+**Added**
+- Focus visible rings on every interactive element, which matters more here because the native cursor is replaced by a custom one
+- Custom cursor is now gated to precise pointers and to JS being present, so touch and keyboard users always keep a usable cursor
+- Premium card treatment: gradient hairline edge drawn with a two layer mask, animated through a registered @property so the edge light can interpolate, plus layered dark UI elevation on hover
+- Container queries on project cards, so a card responds to its own width rather than the viewport
+- A :has() rule that eases back sibling cards when one is hovered
+- Scroll driven animation on the ghost numbers via animation-timeline, wrapped in @supports so unsupported browsers simply skip it
+- text-wrap balance on headings and pretty on body copy
+- prefers-contrast support, and the reduced motion block extended to cover all the new animations
+- Verified across 1440, 1024, 768, 390 and 360 widths with no horizontal overflow, no console errors, balanced HTML tags, balanced CSS braces, and zero em or en dash
+
 ### For Business page - banner image crop actually fixed this time
 
 **Fixed**
