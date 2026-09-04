@@ -192,6 +192,80 @@ html,body { height: 100%; font-family: var(--font); background: var(--body-bg); 
     #page-content { padding: 1rem; }
     .m-grid { grid-template-columns: 1fr; }
 }
+
+/* ---- table wrap (mobile horizontal scroll instead of clipping) ---- */
+.tbl-wrap { overflow-x: auto; border-radius: 0 0 12px 12px; -webkit-overflow-scrolling: touch; }
+.tbl th.sortable { cursor: pointer; user-select: none; white-space: nowrap; }
+.tbl th.sortable:hover { color: var(--text-primary); }
+.sort-arrow { font-size: 0.6rem; margin-left: 3px; opacity: 0.5; }
+.sort-arrow.active { opacity: 1; color: var(--primary); }
+
+/* ---- global search (topbar) ---- */
+.gsearch-wrap { position: relative; flex-shrink: 0; }
+.gsearch-inp-box { display: flex; align-items: center; background: var(--body-bg); border: 1.5px solid var(--border); border-radius: 8px; padding: 0.42rem 0.75rem; gap: 0.5rem; transition: border-color 0.2s; }
+.gsearch-inp-box:focus-within { border-color: var(--primary); background: #fff; }
+.gsearch-inp-box input { background: transparent; border: none; outline: none; font-size: 0.83rem; font-family: var(--font); color: var(--text-primary); width: 190px; }
+.gsearch-results { position: absolute; top: calc(100% + 8px); right: 0; width: 300px; max-height: 380px; overflow-y: auto; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 20px 48px rgba(0,0,0,0.16); z-index: 950; padding: 6px; }
+.gsearch-row { display: flex; align-items: center; gap: 10px; padding: 8px 9px; border-radius: 8px; cursor: pointer; background: transparent; border: none; width: 100%; text-align: left; font-family: var(--font); }
+.gsearch-row:hover { background: var(--body-bg); }
+.gsearch-sec-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-secondary); padding: 6px 9px 2px; }
+.gsearch-icon-btn { display: none; background: transparent; border: 1.5px solid var(--border); border-radius: 8px; width: 36px; height: 36px; align-items: center; justify-content: center; cursor: pointer; font-size: 0.95rem; flex-shrink: 0; }
+@media (max-width: 720px) {
+    .gsearch-inp-box { display: none; }
+    .gsearch-icon-btn { display: flex; }
+    .gsearch-wrap.expanded > .gsearch-icon-btn:not(.gsearch-close-mobile) { display: none; }
+    .gsearch-wrap.expanded .gsearch-inp-box { display: flex; position: fixed; top: 10px; left: 10px; right: 10px; z-index: 960; background: #fff; box-shadow: 0 8px 30px rgba(0,0,0,0.2); }
+    .gsearch-wrap.expanded .gsearch-inp-box input { width: 100%; }
+    .gsearch-wrap.expanded .gsearch-close-mobile { display: flex; }
+    .gsearch-wrap.expanded .gsearch-results { position: fixed; top: 58px; left: 10px; right: 10px; width: auto; }
+    /* ---- topbar reflow (avoid multi-button actions overlapping title) ---- */
+    #topbar { flex-wrap: wrap; height: auto; min-height: 60px; padding: 0.6rem 1rem; row-gap: 0.55rem; }
+    .topbar-right { flex-wrap: wrap; justify-content: flex-end; }
+    #tb-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-end; }
+    #tb-actions .btn { padding: 0.4rem 0.65rem; font-size: 0.72rem; }
+}
+
+/* ---- owner avatar mini ---- */
+.owner-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 0.68rem; color: var(--text-secondary); }
+.owner-dot { width: 16px; height: 16px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.5rem; font-weight: 800; color: #fff; flex-shrink: 0; }
+
+/* ---- task list ---- */
+.task-item { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.75rem 0; border-bottom: 1px solid var(--border); }
+.task-item:last-child { border-bottom: none; }
+.task-check { width: 20px; height: 20px; border-radius: 6px; border: 1.5px solid var(--border); flex-shrink: 0; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #fff; margin-top: 1px; }
+.task-check.done { background: #16a34a; border-color: #16a34a; }
+.task-title { font-size: 0.82rem; font-weight: 500; line-height: 1.4; }
+.task-title.done { text-decoration: line-through; color: var(--text-secondary); }
+.task-meta { font-size: 0.7rem; color: var(--text-secondary); margin-top: 2px; }
+.task-due-badge { font-size: 0.65rem; font-weight: 700; padding: 1px 7px; border-radius: 10px; white-space: nowrap; }
+
+/* ---- company card ---- */
+.company-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 1rem; }
+.company-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; }
+.company-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.07); transform: translateY(-2px); }
+.company-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1rem; margin-bottom: 0.6rem; }
+
+/* ---- kanban drag & drop ---- */
+.deal-card[draggable="true"] { cursor: grab; }
+.deal-card.dragging { opacity: 0.4; }
+.k-cards.drag-over { background: var(--primary-light); border-radius: 8px; }
+
+/* ---- avatar swatch (pengaturan) ---- */
+.avatar-swatch { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2.5px solid transparent; flex-shrink: 0; }
+.avatar-swatch.selected { border-color: var(--text-primary); }
+
+/* ---- modal large variant ---- */
+.modal.modal-lg { max-width: 640px; }
+.profile-tab-row { display: flex; gap: 0.4rem; border-bottom: 1px solid var(--border); margin: 0 1.5rem; }
+.profile-tab { padding: 0.6rem 0.2rem; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.profile-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+@media print {
+    #sidebar, #topbar, #sidebar-backdrop, .btn, .no-print, footer { display: none !important; }
+    body { background: #fff; }
+    #app, #main-wrap, #page-content { overflow: visible !important; height: auto !important; display: block !important; }
+    .card { box-shadow: none !important; border: 1px solid #ddd !important; }
+}
 </style>
 </head>
 <body>
@@ -237,22 +311,34 @@ html,body { height: 100%; font-family: var(--font); background: var(--body-bg); 
       <div class="nav-item" data-page="contacts" tabindex="0" role="button" aria-label="Menu Kontak" onclick="go('contacts')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('contacts');}">
         <span class="nav-icon">👥</span>Kontak
       </div>
+      <div class="nav-item" data-page="companies" tabindex="0" role="button" aria-label="Menu Perusahaan" onclick="go('companies')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('companies');}">
+        <span class="nav-icon">🏢</span>Perusahaan
+      </div>
       <div class="nav-item" data-page="pipeline" tabindex="0" role="button" aria-label="Menu Pipeline" onclick="go('pipeline')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('pipeline');}">
         <span class="nav-icon">🔀</span>Pipeline
+      </div>
+      <div class="nav-item" data-page="tasks" tabindex="0" role="button" aria-label="Menu Tugas" onclick="go('tasks')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('tasks');}">
+        <span class="nav-icon">✅</span>Tugas
       </div>
       <div class="nav-section-label">Analitik</div>
       <div class="nav-item" data-page="reports" tabindex="0" role="button" aria-label="Menu Laporan" onclick="go('reports')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('reports');}">
         <span class="nav-icon">📈</span>Laporan
       </div>
+      <div class="nav-section-label">Lainnya</div>
+      <div class="nav-item" data-page="settings" tabindex="0" role="button" aria-label="Menu Pengaturan" onclick="go('settings')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('settings');}">
+        <span class="nav-icon">⚙️</span>Pengaturan
+      </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="user-card" tabindex="0" role="button" aria-label="Logout dari MitraCRM" onclick="doLogout()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();doLogout();}">
-        <div class="user-avatar">AS</div>
-        <div style="flex:1;min-width:0;">
-          <div class="user-name">Ahmad Santoso</div>
-          <div class="user-role">Sales Manager</div>
+      <div style="display:flex;align-items:center;gap:0.5rem;">
+        <div class="user-card" style="flex:1;min-width:0;" tabindex="0" role="button" aria-label="Buka Pengaturan" onclick="go('settings')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();go('settings');}">
+          <div class="user-avatar" id="sidebar-user-avatar">AS</div>
+          <div style="flex:1;min-width:0;">
+            <div class="user-name">Ahmad Santoso</div>
+            <div class="user-role">Sales Manager</div>
+          </div>
         </div>
-        <span style="font-size:0.75rem;color:rgba(255,255,255,0.55);" aria-hidden="true">⎋</span>
+        <button class="btn-icon" style="width:32px;height:32px;border-radius:8px;border:none;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);cursor:pointer;flex-shrink:0;" aria-label="Logout dari MitraCRM" onclick="doLogout()">⎋</button>
       </div>
     </div>
   </aside>
@@ -260,14 +346,25 @@ html,body { height: 100%; font-family: var(--font); background: var(--body-bg); 
 
   <div id="main-wrap">
     <div id="topbar">
-      <div style="display:flex;align-items:center;">
+      <div style="display:flex;align-items:center;min-width:0;">
         <button class="menu-toggle" aria-label="Buka menu navigasi" onclick="toggleSidebar()">☰</button>
-        <div>
+        <div style="min-width:0;">
           <div class="topbar-title" id="tb-title">Dashboard</div>
           <div class="topbar-sub" id="tb-sub">Ringkasan performa sales & pipeline</div>
         </div>
       </div>
-      <div class="topbar-right" id="tb-actions"></div>
+      <div class="topbar-right">
+        <div class="gsearch-wrap" id="gsearch-wrap">
+          <button class="gsearch-icon-btn" aria-label="Buka pencarian" onclick="toggleGlobalSearch()">🔍</button>
+          <div class="gsearch-inp-box">
+            <span style="font-size:0.85rem;color:var(--text-secondary);">🔍</span>
+            <input type="text" id="gsearch-inp" aria-label="Cari kontak atau deal" placeholder="Cari kontak, perusahaan, deal..." oninput="onGlobalSearch(this.value)" autocomplete="off">
+            <button class="gsearch-icon-btn gsearch-close-mobile" id="gsearch-close-mobile" aria-label="Tutup pencarian" onclick="toggleGlobalSearch(false)">✕</button>
+          </div>
+          <div id="gsearch-results-mount"></div>
+        </div>
+        <div id="tb-actions"></div>
+      </div>
     </div>
     <div id="page-content"></div>
   </div>
@@ -287,53 +384,92 @@ html,body { height: 100%; font-family: var(--font); background: var(--body-bg); 
 // ══════════════════════════════════════════
 // DATA
 // ══════════════════════════════════════════
-const KEY = 'crm_mitra_v1';
+const KEY = 'crm_mitra_v2';
+
+const USERS = [
+  {id:'u01',name:'Ahmad Santoso',role:'Sales Manager',avatarColor:'#2563eb'},
+  {id:'u02',name:'Fitri Handayani',role:'Sales Executive',avatarColor:'#7c3aed'},
+  {id:'u03',name:'Bagus Wirawan',role:'Sales Executive',avatarColor:'#16a34a'},
+  {id:'u04',name:'Citra Melati',role:'Sales Executive',avatarColor:'#d97706'},
+];
+const CURRENT_USER_ID = 'u01';
 
 const SEED = {
+  companies: [
+    {id:'co01',name:'PT Sentosa Makmur',industry:'Manufaktur',phone:'021-5551234',website:'sentosamakmur.co.id',address:'Jl. Industri Raya No. 12, Bekasi'},
+    {id:'co02',name:'CV Mitra Prima',industry:'Perdagangan',phone:'021-5552345',website:'mitraprimatek.co.id',address:'Jl. Sudirman No. 45, Jakarta Selatan'},
+    {id:'co03',name:'PT Jaya Abadi',industry:'Konstruksi',phone:'021-5553456',website:'jayaabadi.co.id',address:'Jl. Gatot Subroto No. 8, Jakarta'},
+    {id:'co04',name:'PT Anugerah Sejahtera',industry:'Retail',phone:'021-5554567',website:'anugerah.co.id',address:'Jl. Thamrin No. 20, Jakarta Pusat'},
+    {id:'co05',name:'UD Sumber Rejeki',industry:'Agribisnis',phone:'0274-551122',website:'sumberrejeki.co.id',address:'Jl. Magelang No. 5, Yogyakarta'},
+    {id:'co06',name:'PT Karya Digital',industry:'Teknologi',phone:'021-5556789',website:'karyadigital.co.id',address:'Jl. HR Rasuna Said No. 33, Jakarta'},
+    {id:'co07',name:'PT Global Nusantara',industry:'Logistik',phone:'021-5557890',website:'globalnusantara.co.id',address:'Jl. Yos Sudarso No. 10, Jakarta Utara'},
+    {id:'co08',name:'CV Sukses Bersama',industry:'Pendidikan',phone:'022-6601122',website:'suksesbersama.co.id',address:'Jl. Asia Afrika No. 7, Bandung'},
+    {id:'co09',name:'PT Megah Lestari',industry:'Properti',phone:'021-5559012',website:'megahlestari.co.id',address:'Jl. TB Simatupang No. 15, Jakarta Selatan'},
+    {id:'co10',name:'PT Bintang Timur',industry:'FMCG',phone:'031-7701122',website:'bintangtimur.co.id',address:'Jl. Basuki Rahmat No. 22, Surabaya'},
+    {id:'co11',name:'PT Prima Teknologi',industry:'Teknologi',phone:'021-5551122',website:'primatek.co.id',address:'Jl. Kuningan No. 9, Jakarta Selatan'},
+    {id:'co12',name:'CV Maju Jalan',industry:'Perdagangan',phone:'024-8801122',website:'majujalan.co.id',address:'Jl. Pandanaran No. 3, Semarang'},
+  ],
   contacts: [
-    {id:'c01',name:'Ahmad Fauzi',company:'PT Sentosa Makmur',email:'ahmad@sentosa.co.id',phone:'0812-1111-2222',status:'customer',source:'referral',industry:'Manufaktur',createdAt:'2025-11-10',lastActivity:'2026-05-20'},
-    {id:'c02',name:'Dinda Rahayu',company:'CV Mitra Prima',email:'dinda@mitraprimatek.co.id',phone:'0813-2222-3333',status:'prospect',source:'website',industry:'Perdagangan',createdAt:'2025-12-05',lastActivity:'2026-05-18'},
-    {id:'c03',name:'Budi Kurniawan',company:'PT Jaya Abadi',email:'budi@jayaabadi.co.id',phone:'0822-3333-4444',status:'lead',source:'cold-call',industry:'Konstruksi',createdAt:'2026-01-20',lastActivity:'2026-05-22'},
-    {id:'c04',name:'Sari Wulandari',company:'PT Anugerah Sejahtera',email:'sari@anugerah.co.id',phone:'0821-4444-5555',status:'customer',source:'event',industry:'Retail',createdAt:'2025-10-15',lastActivity:'2026-05-19'},
-    {id:'c05',name:'Reza Firmansyah',company:'UD Sumber Rejeki',email:'reza@sumberrejeki.co.id',phone:'0815-5555-6666',status:'prospect',source:'social',industry:'Agribisnis',createdAt:'2026-02-08',lastActivity:'2026-05-15'},
-    {id:'c06',name:'Nina Saraswati',company:'PT Karya Digital',email:'nina@karyadigital.co.id',phone:'0856-6666-7777',status:'lead',source:'website',industry:'Teknologi',createdAt:'2026-03-14',lastActivity:'2026-05-21'},
-    {id:'c07',name:'Arif Hidayat',company:'PT Global Nusantara',email:'arif@globalnusantara.co.id',phone:'0878-7777-8888',status:'customer',source:'referral',industry:'Logistik',createdAt:'2025-09-22',lastActivity:'2026-05-17'},
-    {id:'c08',name:'Maya Pertiwi',company:'CV Sukses Bersama',email:'maya@suksesbersama.co.id',phone:'0812-8888-9999',status:'prospect',source:'event',industry:'Pendidikan',createdAt:'2026-02-28',lastActivity:'2026-05-14'},
-    {id:'c09',name:'Dimas Prayoga',company:'PT Megah Lestari',email:'dimas@megahlestari.co.id',phone:'0877-9999-0000',status:'lead',source:'cold-call',industry:'Properti',createdAt:'2026-04-05',lastActivity:'2026-05-23'},
-    {id:'c10',name:'Tina Kusuma',company:'PT Bintang Timur',email:'tina@bintangtimur.co.id',phone:'0813-0000-1111',status:'customer',source:'referral',industry:'FMCG',createdAt:'2025-08-30',lastActivity:'2026-05-16'},
-    {id:'c11',name:'Hendra Wijaya',company:'PT Prima Teknologi',email:'hendra@primatek.co.id',phone:'0811-1122-3344',status:'prospect',source:'website',industry:'Teknologi',createdAt:'2026-03-20',lastActivity:'2026-05-20'},
-    {id:'c12',name:'Putri Anggraini',company:'CV Maju Jalan',email:'putri@majujalan.co.id',phone:'0852-2233-4455',status:'churned',source:'social',industry:'Perdagangan',createdAt:'2025-07-12',lastActivity:'2026-02-10'},
+    {id:'c01',name:'Ahmad Fauzi',companyId:'co01',email:'ahmad@sentosa.co.id',phone:'0812-1111-2222',status:'customer',source:'referral',createdAt:'2025-11-10',lastActivity:'2026-05-20'},
+    {id:'c02',name:'Dinda Rahayu',companyId:'co02',email:'dinda@mitraprimatek.co.id',phone:'0813-2222-3333',status:'prospect',source:'website',createdAt:'2025-12-05',lastActivity:'2026-05-18'},
+    {id:'c03',name:'Budi Kurniawan',companyId:'co03',email:'budi@jayaabadi.co.id',phone:'0822-3333-4444',status:'lead',source:'cold-call',createdAt:'2026-01-20',lastActivity:'2026-05-22'},
+    {id:'c04',name:'Sari Wulandari',companyId:'co04',email:'sari@anugerah.co.id',phone:'0821-4444-5555',status:'customer',source:'event',createdAt:'2025-10-15',lastActivity:'2026-05-19'},
+    {id:'c05',name:'Reza Firmansyah',companyId:'co05',email:'reza@sumberrejeki.co.id',phone:'0815-5555-6666',status:'prospect',source:'social',createdAt:'2026-02-08',lastActivity:'2026-05-15'},
+    {id:'c06',name:'Nina Saraswati',companyId:'co06',email:'nina@karyadigital.co.id',phone:'0856-6666-7777',status:'lead',source:'website',createdAt:'2026-03-14',lastActivity:'2026-05-21'},
+    {id:'c07',name:'Arif Hidayat',companyId:'co07',email:'arif@globalnusantara.co.id',phone:'0878-7777-8888',status:'customer',source:'referral',createdAt:'2025-09-22',lastActivity:'2026-05-17'},
+    {id:'c08',name:'Maya Pertiwi',companyId:'co08',email:'maya@suksesbersama.co.id',phone:'0812-8888-9999',status:'prospect',source:'event',createdAt:'2026-02-28',lastActivity:'2026-05-14'},
+    {id:'c09',name:'Dimas Prayoga',companyId:'co09',email:'dimas@megahlestari.co.id',phone:'0877-9999-0000',status:'lead',source:'cold-call',createdAt:'2026-04-05',lastActivity:'2026-05-23'},
+    {id:'c10',name:'Tina Kusuma',companyId:'co10',email:'tina@bintangtimur.co.id',phone:'0813-0000-1111',status:'customer',source:'referral',createdAt:'2025-08-30',lastActivity:'2026-05-16'},
+    {id:'c11',name:'Hendra Wijaya',companyId:'co11',email:'hendra@primatek.co.id',phone:'0811-1122-3344',status:'prospect',source:'website',createdAt:'2026-03-20',lastActivity:'2026-05-20'},
+    {id:'c12',name:'Putri Anggraini',companyId:'co12',email:'putri@majujalan.co.id',phone:'0852-2233-4455',status:'churned',source:'social',createdAt:'2025-07-12',lastActivity:'2026-02-10'},
+    {id:'c13',name:'Lina Marlina',companyId:'co01',email:'lina@sentosa.co.id',phone:'0813-1212-3434',status:'customer',source:'referral',createdAt:'2026-01-08',lastActivity:'2026-05-19'},
+    {id:'c14',name:'Yusuf Ramadhan',companyId:'co11',email:'yusuf@primatek.co.id',phone:'0857-4545-6767',status:'prospect',source:'event',createdAt:'2026-02-19',lastActivity:'2026-05-11'},
   ],
   deals: [
-    {id:'d01',title:'Lisensi Enterprise CRM – 50 User',contactId:'c01',value:48000000,stage:'won',probability:100,expectedClose:'2026-04-30',createdAt:'2026-02-15'},
-    {id:'d02',title:'Implementasi Modul Sales Automation',contactId:'c04',value:32000000,stage:'won',probability:100,expectedClose:'2026-03-31',createdAt:'2026-01-20'},
-    {id:'d03',title:'Support & Maintenance Annual',contactId:'c07',value:18000000,stage:'won',probability:100,expectedClose:'2026-05-15',createdAt:'2026-03-01'},
-    {id:'d04',title:'Upgrade Lisensi + 20 User Tambahan',contactId:'c02',value:25000000,stage:'proposal',probability:70,expectedClose:'2026-06-20',createdAt:'2026-04-10'},
-    {id:'d05',title:'Implementasi CRM untuk Tim Marketing',contactId:'c05',value:35000000,stage:'proposal',probability:60,expectedClose:'2026-06-30',createdAt:'2026-04-22'},
-    {id:'d06',title:'Paket Starter 15 User',contactId:'c08',value:15000000,stage:'proposal',probability:65,expectedClose:'2026-07-10',createdAt:'2026-05-01'},
-    {id:'d07',title:'Konsultasi & Setup Custom Report',contactId:'c11',value:12000000,stage:'proposal',probability:55,expectedClose:'2026-06-15',createdAt:'2026-05-05'},
-    {id:'d08',title:'Migrasi Data dari Sistem Lama',contactId:'c03',value:22000000,stage:'negosiasi',probability:80,expectedClose:'2026-06-05',createdAt:'2026-04-01'},
-    {id:'d09',title:'Integrasi API dengan ERP Existing',contactId:'c06',value:28000000,stage:'negosiasi',probability:75,expectedClose:'2026-06-25',createdAt:'2026-04-18'},
-    {id:'d10',title:'Lisensi Pro 30 User + Training',contactId:'c09',value:38000000,stage:'negosiasi',probability:85,expectedClose:'2026-06-10',createdAt:'2026-04-28'},
-    {id:'d11',title:'Demo & Proof of Concept',contactId:'c06',value:0,stage:'prospek',probability:20,expectedClose:'2026-07-30',createdAt:'2026-05-10'},
-    {id:'d12',title:'Penawaran Paket Tim Sales 10 User',contactId:'c09',value:14000000,stage:'prospek',probability:30,expectedClose:'2026-08-15',createdAt:'2026-05-15'},
-    {id:'d13',title:'Evaluasi Sistem CRM Baru',contactId:'c03',value:0,stage:'prospek',probability:15,expectedClose:'2026-09-01',createdAt:'2026-05-20'},
-    {id:'d14',title:'Renewal Lisensi Tahunan',contactId:'c10',value:18000000,stage:'lost',probability:0,expectedClose:'2026-04-01',createdAt:'2026-02-01'},
-    {id:'d15',title:'Ekspansi ke 3 Cabang Baru',contactId:'c12',value:45000000,stage:'lost',probability:0,expectedClose:'2026-03-15',createdAt:'2026-01-15'},
+    {id:'d01',title:'Lisensi Enterprise CRM - 50 User',contactId:'c01',ownerId:'u02',value:48000000,stage:'won',probability:100,expectedClose:'2026-04-30',createdAt:'2026-02-15'},
+    {id:'d02',title:'Implementasi Modul Sales Automation',contactId:'c04',ownerId:'u03',value:32000000,stage:'won',probability:100,expectedClose:'2026-03-31',createdAt:'2026-01-20'},
+    {id:'d03',title:'Support & Maintenance Annual',contactId:'c07',ownerId:'u01',value:18000000,stage:'won',probability:100,expectedClose:'2026-05-15',createdAt:'2026-03-01'},
+    {id:'d04',title:'Upgrade Lisensi + 20 User Tambahan',contactId:'c02',ownerId:'u02',value:25000000,stage:'proposal',probability:70,expectedClose:'2026-06-20',createdAt:'2026-04-10'},
+    {id:'d05',title:'Implementasi CRM untuk Tim Marketing',contactId:'c05',ownerId:'u03',value:35000000,stage:'proposal',probability:60,expectedClose:'2026-06-30',createdAt:'2026-04-22'},
+    {id:'d06',title:'Paket Starter 15 User',contactId:'c08',ownerId:'u04',value:15000000,stage:'proposal',probability:65,expectedClose:'2026-07-10',createdAt:'2026-05-01'},
+    {id:'d07',title:'Konsultasi & Setup Custom Report',contactId:'c11',ownerId:'u01',value:12000000,stage:'proposal',probability:55,expectedClose:'2026-06-15',createdAt:'2026-05-05'},
+    {id:'d08',title:'Migrasi Data dari Sistem Lama',contactId:'c03',ownerId:'u02',value:22000000,stage:'negosiasi',probability:80,expectedClose:'2026-06-05',createdAt:'2026-04-01'},
+    {id:'d09',title:'Integrasi API dengan ERP Existing',contactId:'c06',ownerId:'u03',value:28000000,stage:'negosiasi',probability:75,expectedClose:'2026-06-25',createdAt:'2026-04-18'},
+    {id:'d10',title:'Lisensi Pro 30 User + Training',contactId:'c09',ownerId:'u04',value:38000000,stage:'negosiasi',probability:85,expectedClose:'2026-06-10',createdAt:'2026-04-28'},
+    {id:'d11',title:'Demo & Proof of Concept',contactId:'c06',ownerId:'u02',value:0,stage:'prospek',probability:20,expectedClose:'2026-07-30',createdAt:'2026-05-10'},
+    {id:'d12',title:'Penawaran Paket Tim Sales 10 User',contactId:'c09',ownerId:'u03',value:14000000,stage:'prospek',probability:30,expectedClose:'2026-08-15',createdAt:'2026-05-15'},
+    {id:'d13',title:'Evaluasi Sistem CRM Baru',contactId:'c03',ownerId:'u04',value:0,stage:'prospek',probability:15,expectedClose:'2026-09-01',createdAt:'2026-05-20'},
+    {id:'d14',title:'Renewal Lisensi Tahunan',contactId:'c10',ownerId:'u01',value:18000000,stage:'lost',probability:0,expectedClose:'2026-04-01',createdAt:'2026-02-01',lostReason:'Klien beralih ke kompetitor dengan harga lebih rendah'},
+    {id:'d15',title:'Ekspansi ke 3 Cabang Baru',contactId:'c12',ownerId:'u02',value:45000000,stage:'lost',probability:0,expectedClose:'2026-03-15',createdAt:'2026-01-15',lostReason:'Anggaran klien dipangkas untuk tahun berjalan'},
   ],
   activities: [
-    {id:'a01',type:'call',dealId:'d04',contactId:'c02',desc:'Follow-up telepon — sudah review proposal, ada pertanyaan harga',date:'2026-05-22'},
-    {id:'a02',type:'meeting',dealId:'d08',contactId:'c03',desc:'Meeting negosiasi kontrak — diskusi timeline implementasi',date:'2026-05-21'},
+    {id:'a01',type:'call',dealId:'d04',contactId:'c02',desc:'Follow-up telepon: sudah review proposal, ada pertanyaan harga',date:'2026-05-22'},
+    {id:'a02',type:'meeting',dealId:'d08',contactId:'c03',desc:'Meeting negosiasi kontrak: diskusi timeline implementasi',date:'2026-05-21'},
     {id:'a03',type:'email',dealId:'d05',contactId:'c05',desc:'Kirim proposal revisi sesuai permintaan klien',date:'2026-05-20'},
-    {id:'a04',type:'call',dealId:'d10',contactId:'c09',desc:'Tindak lanjut demo — klien sangat tertarik, minta referensi',date:'2026-05-20'},
+    {id:'a04',type:'call',dealId:'d10',contactId:'c09',desc:'Tindak lanjut demo: klien sangat tertarik, minta referensi',date:'2026-05-20'},
     {id:'a05',type:'meeting',dealId:'d09',contactId:'c06',desc:'Presentasi teknis integrasi API ke tim IT klien',date:'2026-05-19'},
-    {id:'a06',type:'note',dealId:'d01',contactId:'c01',desc:'Deal won — kontrak ditandatangani, kick-off dijadwalkan 1 Juni',date:'2026-05-15'},
+    {id:'a06',type:'note',dealId:'d01',contactId:'c01',desc:'Deal won: kontrak ditandatangani, kick-off dijadwalkan 1 Juni',date:'2026-05-15'},
     {id:'a07',type:'email',dealId:'d06',contactId:'c08',desc:'Kirim demo link dan credential sandbox ke klien',date:'2026-05-14'},
-    {id:'a08',type:'call',dealId:'d11',contactId:'c06',desc:'Cold discovery call — identifikasi pain point sistem lama',date:'2026-05-13'},
-  ]
+    {id:'a08',type:'call',dealId:'d11',contactId:'c06',desc:'Cold discovery call: identifikasi pain point sistem lama',date:'2026-05-13'},
+  ],
 };
 
-function initDB(){ if(!localStorage.getItem(KEY)) localStorage.setItem(KEY,JSON.stringify(SEED)); }
+function addDays(d,n){ const r=new Date(d); r.setDate(r.getDate()+n); return r; }
+function isoDate(d){ return d.toISOString().slice(0,10); }
+
+function seedTasks(){
+  const today=new Date();
+  return [
+    {id:'t01',title:'Follow-up proposal harga ke Dinda Rahayu',dueDate:isoDate(addDays(today,2)),contactId:'c02',dealId:'d04',done:false,createdAt:isoDate(addDays(today,-3))},
+    {id:'t02',title:'Kirim kontrak final ke Budi Kurniawan',dueDate:isoDate(addDays(today,-1)),contactId:'c03',dealId:'d08',done:false,createdAt:isoDate(addDays(today,-2))},
+    {id:'t03',title:'Jadwalkan demo lanjutan untuk Nina Saraswati',dueDate:isoDate(addDays(today,4)),contactId:'c06',dealId:'d09',done:false,createdAt:isoDate(addDays(today,-4))},
+    {id:'t04',title:'Cek referensi klien dari Dimas Prayoga',dueDate:isoDate(addDays(today,0)),contactId:'c09',dealId:'d10',done:false,createdAt:isoDate(addDays(today,-3))},
+    {id:'t05',title:'Kirim ucapan terima kasih ke Ahmad Fauzi',dueDate:isoDate(addDays(today,-6)),contactId:'c01',dealId:'d01',done:true,createdAt:isoDate(addDays(today,-9))},
+    {id:'t06',title:'Follow-up perpanjangan lisensi Tina Kusuma',dueDate:isoDate(addDays(today,7)),contactId:'c10',dealId:null,done:false,createdAt:isoDate(addDays(today,-1))},
+  ];
+}
+
+function initDB(){ if(!localStorage.getItem(KEY)) localStorage.setItem(KEY,JSON.stringify({...SEED,tasks:seedTasks()})); }
 function getDB(){ return JSON.parse(localStorage.getItem(KEY)); }
 function saveDB(d){ localStorage.setItem(KEY,JSON.stringify(d)); }
 
@@ -352,11 +488,16 @@ function toggleSidebar(force){
     sb.classList.toggle('open', open);
     bd.classList.toggle('open', open);
 }
-function fc(n){ if(n===0)return'Rp —'; if(n>=1e9)return'Rp '+(n/1e9).toFixed(1)+'M'; if(n>=1e6)return'Rp '+(n/1e6).toFixed(0)+' jt'; return'Rp '+n.toLocaleString('id-ID'); }
-function fd(d){ if(!d)return'—'; const[y,m,day]=d.split('-'); return`${+day} ${['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'][+m-1]} ${y}`; }
+function fc(n){ if(n===0)return'Rp -'; if(n>=1e9)return'Rp '+(n/1e9).toFixed(1)+'M'; if(n>=1e6)return'Rp '+(n/1e6).toFixed(0)+' jt'; return'Rp '+n.toLocaleString('id-ID'); }
+function fd(d){ if(!d)return'-'; const[y,m,day]=d.split('-'); return`${+day} ${['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agt','Sep','Okt','Nov','Des'][+m-1]} ${y}`; }
 function initials(n){ return n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase(); }
 function avatarColor(s){ const c=['#2563eb','#7c3aed','#16a34a','#d97706','#dc2626','#0891b2']; let h=0; for(const x of s)h=((h<<5)-h)+x.charCodeAt(0); return c[Math.abs(h)%c.length]; }
 function gc(id){ return getDB().contacts.find(c=>c.id===id)||{}; }
+function gcompany(id){ return getDB().companies.find(co=>co.id===id)||{}; }
+function companyOf(contact){ return contact&&contact.companyId?gcompany(contact.companyId):{}; }
+function guser(id){ return USERS.find(u=>u.id===id)||{name:'-',avatarColor:'#94a3b8',role:''}; }
+function currentUser(){ return guser(CURRENT_USER_ID); }
+function gtask(id){ return (getDB().tasks||[]).find(t=>t.id===id)||{}; }
 function badge(s){
   const m={lead:['b-blue','Lead'],prospect:['b-orange','Prospect'],customer:['b-green','Customer'],churned:['b-gray','Churned']};
   const[cls,l]=m[s]||['b-gray',s]; return`<span class="badge ${cls}">${l}</span>`;
@@ -369,6 +510,17 @@ function stageBadge(s){
 function stageLabel(s){ return{prospek:'Prospek',proposal:'Proposal',negosiasi:'Negosiasi',won:'Won',lost:'Lost'}[s]||s; }
 function srcLabel(s){ return{referral:'Referral',website:'Website','cold-call':'Cold Call',event:'Event',social:'Social Media'}[s]||s; }
 function actIcon(t){ const m={call:['📞','#eff6ff'],email:['✉️','#f0fdf4'],meeting:['🤝','#fff7ed'],note:['📝','#f5f3ff']}; const[i,bg]=m[t]||['📌','#f8fafc']; return`<div class="act-dot" style="background:${bg}">${i}</div>`; }
+function actTypeLabel(t){ return{call:'Telepon',email:'Email',meeting:'Meeting',note:'Catatan'}[t]||t; }
+function ownerChip(ownerId){ const u=guser(ownerId); if(!u||!ownerId) return '<span class="owner-chip">-</span>'; return`<span class="owner-chip"><span class="owner-dot" style="background:${u.avatarColor}">${escapeHtml(initials(u.name))}</span>${escapeHtml(u.name.split(' ')[0])}</span>`; }
+function daysUntil(dateStr){ const now=new Date(); now.setHours(0,0,0,0); const d=new Date(dateStr+'T00:00:00'); return Math.round((d-now)/86400000); }
+function taskDueBadge(dueDate,done){
+  if(done) return '<span class="task-due-badge b-green">Selesai</span>';
+  const diff=daysUntil(dueDate);
+  if(diff<0) return `<span class="task-due-badge b-red">Terlambat ${Math.abs(diff)} hari</span>`;
+  if(diff===0) return `<span class="task-due-badge b-orange">Hari ini</span>`;
+  if(diff<=3) return `<span class="task-due-badge b-orange">${diff} hari lagi</span>`;
+  return `<span class="task-due-badge b-gray">${diff} hari lagi</span>`;
+}
 
 let _charts = {};
 function destroyChart(id){ if(_charts[id]){ _charts[id].destroy(); delete _charts[id]; } }
@@ -414,29 +566,40 @@ document.addEventListener('keydown',e=>{
 const PAGES = {
   dashboard:{title:'Dashboard',sub:'Ringkasan performa sales & pipeline',action:null},
   contacts:{title:'Kontak',sub:'Kelola data kontak, leads & prospek',action:'kontak'},
+  companies:{title:'Perusahaan',sub:'Akun perusahaan dan kelompok kontak',action:null},
   pipeline:{title:'Pipeline',sub:'Pantau perjalanan deal di setiap tahap',action:'deal'},
-  reports:{title:'Laporan',sub:'Analitik performa tim sales',action:null},
+  tasks:{title:'Tugas',sub:'Pengingat follow-up dan agenda sales',action:'task'},
+  reports:{title:'Laporan',sub:'Analitik performa tim sales',action:'print'},
+  settings:{title:'Pengaturan',sub:'Profil akun dan preferensi',action:null},
 };
 
+let CUR_PAGE='dashboard';
 function go(page){
+  CUR_PAGE=page;
   document.querySelectorAll('.nav-item').forEach(el=>{ el.classList.remove('active'); el.removeAttribute('aria-current'); });
   const activeItem=document.querySelector(`[data-page="${page}"]`);
   activeItem?.classList.add('active');
   activeItem?.setAttribute('aria-current','page');
   toggleSidebar(false);
+  closeGlobalSearch();
   const cfg=PAGES[page]||PAGES.dashboard;
   document.getElementById('tb-title').textContent=cfg.title;
   document.getElementById('tb-sub').textContent=cfg.sub;
   const acts=document.getElementById('tb-actions');
   acts.innerHTML='';
-  if(cfg.action==='kontak') acts.innerHTML=`<button class="btn btn-primary" onclick="openContactModal()">+ Tambah Kontak</button>`;
-  if(cfg.action==='deal') acts.innerHTML=`<button class="btn btn-primary" onclick="openDealModal()">+ Tambah Deal</button>`;
+  if(cfg.action==='kontak') acts.innerHTML=`<button class="btn btn-primary" onclick="openContactModal()">+ Tambah Kontak</button><button class="btn btn-ghost" onclick="exportContactsCsv()">⬇ CSV</button>`;
+  if(cfg.action==='deal') acts.innerHTML=`<button class="btn btn-primary" onclick="openDealModal()">+ Tambah Deal</button><button class="btn btn-ghost" onclick="exportDealsCsv()">⬇ CSV</button>`;
+  if(cfg.action==='task') acts.innerHTML=`<button class="btn btn-primary" onclick="openTaskModal()">+ Tambah Tugas</button>`;
+  if(cfg.action==='print') acts.innerHTML=`<button class="btn btn-ghost" onclick="window.print()">🖨️ Cetak Laporan</button>`;
   document.getElementById('page-content').innerHTML=`<div style="display:flex;align-items:center;justify-content:center;height:180px;color:var(--text-secondary);font-size:0.85rem;">Memuat...</div>`;
   setTimeout(()=>{
     if(page==='dashboard')renderDashboard();
     else if(page==='contacts')renderContacts();
+    else if(page==='companies')renderCompanies();
     else if(page==='pipeline')renderPipeline();
+    else if(page==='tasks')renderTasks();
     else if(page==='reports')renderReports();
+    else if(page==='settings')renderSettings();
   },40);
 }
 
@@ -491,19 +654,37 @@ function renderDashboard(){
     </div>
   </div>
 
-  <div class="two-equal">
+  <div class="two-equal" style="margin-bottom:1.5rem;">
     <div class="card">
       <div class="card-header"><span class="card-title">Aktivitas Terbaru</span></div>
       <div class="card-body" style="padding-top:0.5rem;padding-bottom:0.5rem;">
-        ${db.activities.slice(0,5).map(a=>{ const c=gc(a.contactId); return`<div class="act-item">${actIcon(a.type)}<div><div class="act-title">${escapeHtml(a.desc)}</div><div class="act-meta">${escapeHtml(c.name||'—')} · ${escapeHtml(c.company||'')} · ${fd(a.date)}</div></div></div>`; }).join('')}
+        ${db.activities.slice(0,5).map(a=>{ const c=gc(a.contactId); return`<div class="act-item">${actIcon(a.type)}<div><div class="act-title">${escapeHtml(a.desc)}</div><div class="act-meta">${escapeHtml(c.name||'-')} · ${escapeHtml(companyOf(c).name||'')} · ${fd(a.date)}</div></div></div>`; }).join('')}
       </div>
     </div>
     <div class="card">
       <div class="card-header"><span class="card-title">Deal Terbesar</span></div>
-      <div style="overflow:hidden;border-radius:0 0 12px 12px;">
+      <div class="tbl-wrap">
         <table class="tbl"><thead><tr><th>Deal</th><th>Tahap</th><th>Nilai</th></tr></thead><tbody>
-        ${deals.filter(d=>d.value>0).sort((a,b)=>b.value-a.value).slice(0,5).map(d=>{ const c=gc(d.contactId); const t=d.title.length>28?d.title.slice(0,28)+'…':d.title; return`<tr><td><div style="font-weight:600;font-size:0.8rem;">${escapeHtml(t)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${escapeHtml(c.company||'—')}</div></td><td>${stageBadge(d.stage)}</td><td style="font-weight:700;font-size:0.8rem;color:var(--primary);">${fc(d.value)}</td></tr>`; }).join('')}
+        ${deals.filter(d=>d.value>0).sort((a,b)=>b.value-a.value).slice(0,5).map(d=>{ const c=gc(d.contactId); const t=d.title.length>28?d.title.slice(0,28)+'…':d.title; return`<tr><td><div style="font-weight:600;font-size:0.8rem;">${escapeHtml(t)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${escapeHtml(companyOf(c).name||'-')}</div></td><td>${stageBadge(d.stage)}</td><td style="font-weight:700;font-size:0.8rem;color:var(--primary);">${fc(d.value)}</td></tr>`; }).join('')}
         </tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-equal">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Tugas Mendatang</span><button class="btn btn-ghost" style="padding:0.3rem 0.7rem;" onclick="go('tasks')">Lihat semua</button></div>
+      <div class="card-body" style="padding-top:0.5rem;padding-bottom:0.5rem;">
+        ${(()=>{ const upcoming=(db.tasks||[]).filter(t=>!t.done).sort((a,b)=>a.dueDate<b.dueDate?-1:1).slice(0,5);
+          if(!upcoming.length) return `<div style="text-align:center;padding:1.5rem;color:var(--text-secondary);font-size:0.8rem;">Tidak ada tugas mendatang</div>`;
+          return upcoming.map(t=>{ const c=gc(t.contactId); return`<div class="task-item"><div class="task-check" onclick="toggleTaskDone('${t.id}')">✓</div><div style="flex:1;min-width:0;"><div class="task-title">${escapeHtml(t.title)}</div><div class="task-meta">${escapeHtml(c.name||'')} · ${taskDueBadge(t.dueDate,t.done)}</div></div></div>`; }).join(''); })()}
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Top Performer Bulan Ini</span></div>
+      <div class="card-body" style="padding-top:0.5rem;padding-bottom:0.5rem;">
+        ${(()=>{ const stats=USERS.map(u=>{ const uw=won.filter(d=>d.ownerId===u.id); return{u,rev:uw.reduce((s,d)=>s+d.value,0),cnt:uw.length}; }).sort((a,b)=>b.rev-a.rev);
+          return stats.map((s,i)=>`<div style="display:flex;align-items:center;gap:0.7rem;padding:0.6rem 0;${i<stats.length-1?'border-bottom:1px solid var(--border);':''}"><div style="font-weight:800;color:var(--text-secondary);font-size:0.75rem;width:16px;">${i+1}</div><div class="owner-dot" style="background:${s.u.avatarColor};width:26px;height:26px;font-size:0.62rem;">${escapeHtml(initials(s.u.name))}</div><div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:0.8rem;">${escapeHtml(s.u.name)}</div><div style="font-size:0.68rem;color:var(--text-secondary);">${s.cnt} deal won</div></div><div style="font-weight:700;font-size:0.78rem;color:var(--primary);">${fc(s.rev)}</div></div>`).join(''); })()}
       </div>
     </div>
   </div>
@@ -517,7 +698,7 @@ function renderDashboard(){
       datasets:[{label:'Nilai (jt)',data:stg.map(s=>+(stgVal[s]/1e6).toFixed(1)),
         backgroundColor:['rgba(37,99,235,0.12)','rgba(217,119,6,0.12)','rgba(124,58,237,0.12)'],
         borderColor:['#2563eb','#d97706','#7c3aed'],borderWidth:2,borderRadius:6}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{display:false}},
       scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:11}}},x:{grid:{display:false},ticks:{font:{size:11}}}}}
   });
 
@@ -532,12 +713,22 @@ function renderDashboard(){
 // CONTACTS
 // ══════════════════════════════════════════
 let cSearch='', cFilter='all';
+let cSort={key:'name',dir:1};
+
+function sortArrow(key){ return cSort.key===key?`<span class="sort-arrow active">${cSort.dir===1?'▲':'▼'}</span>`:'<span class="sort-arrow">▲</span>'; }
+function setCSort(key){ if(cSort.key===key)cSort.dir*=-1; else cSort={key,dir:1}; renderContacts(); }
 
 function renderContacts(){
   const db=getDB();
   let list=db.contacts;
-  if(cSearch){ const q=cSearch.toLowerCase(); list=list.filter(c=>c.name.toLowerCase().includes(q)||c.company.toLowerCase().includes(q)||c.email.toLowerCase().includes(q)); }
+  if(cSearch){ const q=cSearch.toLowerCase(); list=list.filter(c=>c.name.toLowerCase().includes(q)||companyOf(c).name.toLowerCase().includes(q)||c.email.toLowerCase().includes(q)); }
   if(cFilter!=='all') list=list.filter(c=>c.status===cFilter);
+  list=[...list].sort((a,b)=>{
+    let av,bv;
+    if(cSort.key==='company'){ av=companyOf(a).name||''; bv=companyOf(b).name||''; }
+    else{ av=a[cSort.key]||''; bv=b[cSort.key]||''; }
+    return av.toString().localeCompare(bv.toString())*cSort.dir;
+  });
 
   document.getElementById('page-content').innerHTML=`
 <div class="page-sec">
@@ -555,25 +746,34 @@ function renderContacts(){
     </select>
     <span style="margin-left:auto;font-size:0.78rem;color:var(--text-secondary);">${list.length} kontak</span>
   </div>
-  <div class="card" style="overflow:hidden;">
+  <div class="card tbl-wrap">
     <table class="tbl">
-      <thead><tr><th>Nama</th><th>Perusahaan</th><th>Kontak</th><th>Status</th><th>Sumber</th><th>Terakhir Aktif</th><th></th></tr></thead>
+      <thead><tr>
+        <th class="sortable" onclick="setCSort('name')">Nama ${sortArrow('name')}</th>
+        <th class="sortable" onclick="setCSort('company')">Perusahaan ${sortArrow('company')}</th>
+        <th>Kontak</th>
+        <th class="sortable" onclick="setCSort('status')">Status ${sortArrow('status')}</th>
+        <th>Sumber</th>
+        <th class="sortable" onclick="setCSort('lastActivity')">Terakhir Aktif ${sortArrow('lastActivity')}</th>
+        <th></th>
+      </tr></thead>
       <tbody>
       ${list.length===0?`<tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--text-secondary);">Tidak ada kontak ditemukan</td></tr>`
-      :list.map(c=>`<tr>
-        <td><div style="display:flex;align-items:center;gap:0.6rem;">
+      :list.map(c=>{ const co=companyOf(c); return`<tr>
+        <td><div style="display:flex;align-items:center;gap:0.6rem;cursor:pointer;" onclick="openContactProfile('${c.id}')">
           <div class="avatar" style="background:${avatarColor(c.name)}">${escapeHtml(initials(c.name))}</div>
-          <div><div style="font-weight:600;">${escapeHtml(c.name)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${escapeHtml(c.industry)}</div></div></div></td>
-        <td style="font-weight:500;">${escapeHtml(c.company)}</td>
+          <div><div style="font-weight:600;">${escapeHtml(c.name)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${escapeHtml(co.industry||'-')}</div></div></div></td>
+        <td style="font-weight:500;">${escapeHtml(co.name||'-')}</td>
         <td><div style="font-size:0.8rem;">${escapeHtml(c.email)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${escapeHtml(c.phone)}</div></td>
         <td>${badge(c.status)}</td>
         <td style="font-size:0.78rem;color:var(--text-secondary);">${srcLabel(c.source)}</td>
         <td style="font-size:0.78rem;color:var(--text-secondary);">${fd(c.lastActivity)}</td>
         <td><div style="display:flex;gap:0.35rem;">
+          <button class="btn btn-ghost" style="padding:0.3rem 0.6rem;" aria-label="Lihat profil" onclick="openContactProfile('${c.id}')">👁️</button>
           <button class="btn btn-ghost" style="padding:0.3rem 0.6rem;" onclick="openContactModal('${c.id}')">✏️</button>
           <button class="btn btn-danger" style="padding:0.3rem 0.6rem;" onclick="delContact('${c.id}')">🗑️</button>
         </div></td>
-      </tr>`).join('')}
+      </tr>`;}).join('')}
       </tbody>
     </table>
   </div>
@@ -582,13 +782,13 @@ function renderContacts(){
 
 function openContactModal(id=null){
   const db=getDB(), c=id?db.contacts.find(x=>x.id===id):null;
+  const coOpts=db.companies.map(co=>`<option value="${co.id}" ${c?.companyId===co.id?'selected':''}>${escapeHtml(co.name)}</option>`).join('');
   openMod(`
 <div class="modal-head"><div class="modal-ttl">${c?'Edit':'Tambah'} Kontak</div><button class="modal-x" aria-label="Tutup" onclick="closeMod()">×</button></div>
 <div class="modal-body">
   <div class="m-grid">
     <div class="m-full"><div class="form-group"><label class="form-label" for="cn-name">Nama Lengkap</label><input class="form-input" id="cn-name" value="${escapeHtml(c?.name||'')}" placeholder="Nama kontak"></div></div>
-    <div><div class="form-group"><label class="form-label" for="cn-co">Perusahaan</label><input class="form-input" id="cn-co" value="${escapeHtml(c?.company||'')}" placeholder="Nama perusahaan"></div></div>
-    <div><div class="form-group"><label class="form-label" for="cn-ind">Industri</label><input class="form-input" id="cn-ind" value="${escapeHtml(c?.industry||'')}" placeholder="Industri"></div></div>
+    <div class="m-full"><div class="form-group"><label class="form-label" for="cn-co">Perusahaan</label><select class="form-select" id="cn-co"><option value="">Tidak ada</option>${coOpts}</select></div></div>
     <div><div class="form-group"><label class="form-label" for="cn-email">Email</label><input class="form-input" type="email" id="cn-email" value="${escapeHtml(c?.email||'')}" placeholder="email@co.id"></div></div>
     <div><div class="form-group"><label class="form-label" for="cn-phone">Telepon</label><input class="form-input" id="cn-phone" value="${escapeHtml(c?.phone||'')}" placeholder="08xx-xxxx-xxxx"></div></div>
     <div><div class="form-group"><label class="form-label" for="cn-status">Status</label>
@@ -605,8 +805,8 @@ function openContactModal(id=null){
 
 function saveContact(id){
   const db=getDB();
-  const d={name:document.getElementById('cn-name').value.trim(),company:document.getElementById('cn-co').value.trim(),industry:document.getElementById('cn-ind').value.trim(),email:document.getElementById('cn-email').value.trim(),phone:document.getElementById('cn-phone').value.trim(),status:document.getElementById('cn-status').value,source:document.getElementById('cn-src').value};
-  if(!d.name||!d.company){alert('Nama dan perusahaan wajib diisi.');return;}
+  const d={name:document.getElementById('cn-name').value.trim(),companyId:document.getElementById('cn-co').value||null,email:document.getElementById('cn-email').value.trim(),phone:document.getElementById('cn-phone').value.trim(),status:document.getElementById('cn-status').value,source:document.getElementById('cn-src').value};
+  if(!d.name){alert('Nama wajib diisi.');return;}
   const today=new Date().toISOString().slice(0,10);
   if(id){ const i=db.contacts.findIndex(c=>c.id===id); db.contacts[i]={...db.contacts[i],...d,lastActivity:today}; toast('Kontak diperbarui'); }
   else{ db.contacts.push({...d,id:'c'+(Date.now()%1e6),createdAt:today,lastActivity:today}); toast('Kontak ditambahkan'); }
@@ -621,36 +821,42 @@ function delContact(id){
 // ══════════════════════════════════════════
 // PIPELINE
 // ══════════════════════════════════════════
+const PIPE_STAGES=[
+  {key:'prospek',label:'Prospek',color:'#2563eb'},
+  {key:'proposal',label:'Proposal',color:'#d97706'},
+  {key:'negosiasi',label:'Negosiasi',color:'#7c3aed'},
+  {key:'won',label:'Won ✓',color:'#16a34a'},
+  {key:'lost',label:'Lost ✗',color:'#dc2626'},
+];
+let dragDealId=null;
+
 function renderPipeline(){
   const db=getDB();
-  const stages=[
-    {key:'prospek',label:'Prospek',color:'#2563eb'},
-    {key:'proposal',label:'Proposal',color:'#d97706'},
-    {key:'negosiasi',label:'Negosiasi',color:'#7c3aed'},
-    {key:'won',label:'Won ✓',color:'#16a34a'},
-    {key:'lost',label:'Lost ✗',color:'#dc2626'},
-  ];
-
   document.getElementById('page-content').innerHTML=`
 <div class="page-sec">
   <div class="kanban">
-    ${stages.map(s=>{
+    ${PIPE_STAGES.map(s=>{
       const ds=db.deals.filter(d=>d.stage===s.key);
       const tot=ds.reduce((sum,d)=>sum+d.value,0);
       return`<div class="k-col">
         <div class="k-col-head" style="border-top:3px solid ${s.color};">
           <div class="k-col-label">${s.label}</div>
-          <div class="k-col-meta"><span>${tot>0?fc(tot):'—'}</span><span class="k-count">${ds.length}</span></div>
+          <div class="k-col-meta"><span>${tot>0?fc(tot):'-'}</span><span class="k-count">${ds.length}</span></div>
         </div>
-        <div class="k-cards">
-          ${ds.map(d=>{ const c=gc(d.contactId); return`<div class="deal-card" tabindex="0" role="button" aria-label="Deal: ${escapeHtml(d.title)}" onclick="openDealModal('${d.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openDealModal('${d.id}');}">
+        <div class="k-cards" data-stage="${s.key}" ondragover="onKanbanDragOver(event)" ondragleave="onKanbanDragLeave(event)" ondrop="onKanbanDrop(event,'${s.key}')">
+          ${ds.map(d=>{ const c=gc(d.contactId), co=companyOf(c); return`<div class="deal-card" draggable="true" tabindex="0" role="button" aria-label="Deal: ${escapeHtml(d.title)}" ondragstart="onDealDragStart(event,'${d.id}')" ondragend="onDealDragEnd(event)" onclick="openDealModal('${d.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openDealModal('${d.id}');}">
             <div class="deal-title">${escapeHtml(d.title)}</div>
-            <div class="deal-co">🏢 ${escapeHtml(c.company||'—')}</div>
+            <div class="deal-co">🏢 ${escapeHtml(co.name||'-')}</div>
             <div class="deal-val">${d.value>0?fc(d.value):'<span style="color:var(--text-secondary);font-weight:400;">Nilai TBD</span>'}</div>
             <div class="deal-foot">
+              ${ownerChip(d.ownerId)}
               <span class="deal-prob">${d.probability}% prob.</span>
-              ${s.key!=='won'&&s.key!=='lost'?`<button class="btn-advance" onclick="event.stopPropagation();advDeal('${d.id}')">→ Maju</button>`:''}
             </div>
+            ${s.key!=='won'&&s.key!=='lost'?`<div style="margin-top:0.4rem;display:flex;gap:0.4rem;justify-content:flex-end;">
+              <button class="btn-advance" style="background:#fee2e2;color:#dc2626;" onclick="event.stopPropagation();markLost('${d.id}')">✗ Lost</button>
+              <button class="btn-advance" onclick="event.stopPropagation();advDeal('${d.id}')">→ Maju</button>
+            </div>`:''}
+            ${s.key==='lost'&&d.lostReason?`<div style="font-size:0.68rem;color:var(--text-secondary);margin-top:0.4rem;font-style:italic;">"${escapeHtml(d.lostReason)}"</div>`:''}
           </div>`; }).join('')}
           ${ds.length===0?`<div style="text-align:center;padding:1.5rem 0.5rem;color:var(--text-secondary);font-size:0.75rem;">Tidak ada deal</div>`:''}
         </div>
@@ -660,6 +866,22 @@ function renderPipeline(){
 </div>`;
 }
 
+function onDealDragStart(e,id){ dragDealId=id; e.currentTarget.classList.add('dragging'); e.dataTransfer.effectAllowed='move'; }
+function onDealDragEnd(e){ e.currentTarget.classList.remove('dragging'); }
+function onKanbanDragOver(e){ e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+function onKanbanDragLeave(e){ e.currentTarget.classList.remove('drag-over'); }
+function onKanbanDrop(e,stage){
+  e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+  if(!dragDealId)return;
+  moveDealToStage(dragDealId,stage); dragDealId=null;
+}
+function moveDealToStage(id,stage){
+  const db=getDB(), deal=db.deals.find(d=>d.id===id);
+  if(!deal||deal.stage===stage)return;
+  deal.stage=stage; deal.probability={prospek:20,proposal:50,negosiasi:75,won:100,lost:0}[stage]??deal.probability;
+  saveDB(db); toast(`Deal dipindah ke ${stageLabel(stage)}`); renderPipeline();
+}
+
 function advDeal(id){
   const db=getDB(), order=['prospek','proposal','negosiasi','won'], deal=db.deals.find(d=>d.id===id);
   if(!deal)return; const i=order.indexOf(deal.stage); if(i<0||i>=order.length-1)return;
@@ -667,9 +889,19 @@ function advDeal(id){
   saveDB(db); toast(`Deal dipindah ke ${stageLabel(deal.stage)}`); renderPipeline();
 }
 
+function markLost(id){
+  const reason=prompt('Alasan deal ini kalah/gagal (opsional):');
+  if(reason===null)return;
+  const db=getDB(), deal=db.deals.find(d=>d.id===id);
+  if(!deal)return;
+  deal.stage='lost'; deal.probability=0; deal.lostReason=reason.trim()||deal.lostReason||'';
+  saveDB(db); toast('Deal ditandai Lost','err'); renderPipeline();
+}
+
 function openDealModal(id=null){
   const db=getDB(), d=id?db.deals.find(x=>x.id===id):null;
-  const coOpts=db.contacts.map(c=>`<option value="${c.id}" ${d?.contactId===c.id?'selected':''}>${escapeHtml(c.name)} – ${escapeHtml(c.company)}</option>`).join('');
+  const coOpts=db.contacts.map(c=>`<option value="${c.id}" ${d?.contactId===c.id?'selected':''}>${escapeHtml(c.name)} - ${escapeHtml(companyOf(c).name||'-')}</option>`).join('');
+  const ownerOpts=USERS.map(u=>`<option value="${u.id}" ${(d?.ownerId||CURRENT_USER_ID)===u.id?'selected':''}>${escapeHtml(u.name)}</option>`).join('');
   openMod(`
 <div class="modal-head"><div class="modal-ttl">${d?'Edit':'Tambah'} Deal</div><button class="modal-x" aria-label="Tutup" onclick="closeMod()">×</button></div>
 <div class="modal-body">
@@ -677,10 +909,12 @@ function openDealModal(id=null){
     <div class="m-full"><div class="form-group"><label class="form-label" for="dm-title">Nama Deal</label><input class="form-input" id="dm-title" value="${escapeHtml(d?.title||'')}" placeholder="Nama deal / peluang"></div></div>
     <div class="m-full"><div class="form-group"><label class="form-label" for="dm-contact">Kontak</label><select class="form-select" id="dm-contact">${coOpts}</select></div></div>
     <div><div class="form-group"><label class="form-label" for="dm-val">Nilai (Rp)</label><input class="form-input" type="number" id="dm-val" value="${d?.value||''}" placeholder="0"></div></div>
+    <div><div class="form-group"><label class="form-label" for="dm-owner">Pemilik Deal</label><select class="form-select" id="dm-owner">${ownerOpts}</select></div></div>
     <div><div class="form-group"><label class="form-label" for="dm-stage">Tahap</label>
       <select class="form-select" id="dm-stage">${['prospek','proposal','negosiasi','won','lost'].map(s=>`<option value="${s}" ${d?.stage===s?'selected':''}>${stageLabel(s)}</option>`).join('')}</select></div></div>
     <div><div class="form-group"><label class="form-label" for="dm-prob">Probability (%)</label><input class="form-input" type="number" id="dm-prob" value="${d?.probability||30}" min="0" max="100"></div></div>
     <div><div class="form-group"><label class="form-label" for="dm-close">Expected Close</label><input class="form-input" type="date" id="dm-close" value="${d?.expectedClose||''}"></div></div>
+    <div class="m-full" id="dm-lost-wrap" style="${d?.stage==='lost'?'':'display:none;'}"><div class="form-group"><label class="form-label" for="dm-lost">Alasan Won/Lost</label><input class="form-input" id="dm-lost" value="${escapeHtml(d?.lostReason||'')}" placeholder="Contoh: kalah harga dari kompetitor"></div></div>
   </div>
 </div>
 <div class="modal-foot">
@@ -688,11 +922,12 @@ function openDealModal(id=null){
   <button class="btn btn-ghost" onclick="closeMod()">Batal</button>
   <button class="btn btn-primary" onclick="saveDeal('${id||''}')">💾 Simpan</button>
 </div>`);
+  document.getElementById('dm-stage').addEventListener('change',function(){ document.getElementById('dm-lost-wrap').style.display=this.value==='lost'?'':'none'; });
 }
 
 function saveDeal(id){
   const db=getDB();
-  const d={title:document.getElementById('dm-title').value.trim(),contactId:document.getElementById('dm-contact').value,value:parseInt(document.getElementById('dm-val').value)||0,stage:document.getElementById('dm-stage').value,probability:parseInt(document.getElementById('dm-prob').value)||0,expectedClose:document.getElementById('dm-close').value};
+  const d={title:document.getElementById('dm-title').value.trim(),contactId:document.getElementById('dm-contact').value,value:parseInt(document.getElementById('dm-val').value)||0,ownerId:document.getElementById('dm-owner').value,stage:document.getElementById('dm-stage').value,probability:parseInt(document.getElementById('dm-prob').value)||0,expectedClose:document.getElementById('dm-close').value,lostReason:document.getElementById('dm-lost').value.trim()};
   if(!d.title){alert('Nama deal wajib diisi.');return;}
   if(id){ const i=db.deals.findIndex(x=>x.id===id); db.deals[i]={...db.deals[i],...d}; toast('Deal diperbarui'); }
   else{ db.deals.push({...d,id:'d'+(Date.now()%1e6),createdAt:new Date().toISOString().slice(0,10)}); toast('Deal ditambahkan'); }
@@ -730,6 +965,13 @@ function renderReports(){
   const months=windowKeys.map(monthLabel);
   const mRev=windowKeys.map(k=>Math.round((wonByMonth[k]||0)/1e6));
 
+  const leaderboard=USERS.map(u=>{
+    const uDeals=deals.filter(d=>d.ownerId===u.id);
+    const uWon=uDeals.filter(d=>d.stage==='won'), uLost=uDeals.filter(d=>d.stage==='lost');
+    const uClosed=uWon.length+uLost.length;
+    return{u,rev:uWon.reduce((s,d)=>s+d.value,0),cnt:uWon.length,wr:uClosed>0?Math.round(uWon.length/uClosed*100):0,active:uDeals.filter(d=>!['won','lost'].includes(d.stage)).length};
+  }).sort((a,b)=>b.rev-a.rev);
+
   document.getElementById('page-content').innerHTML=`
 <div class="page-sec">
   <div class="kpi-grid" style="margin-bottom:1.5rem;">
@@ -750,18 +992,37 @@ function renderReports(){
     </div>
   </div>
 
-  <div class="card">
+  <div class="card" style="margin-bottom:1.5rem;">
     <div class="card-header"><span class="card-title">Ringkasan per Tahap</span></div>
-    <div style="overflow:hidden;border-radius:0 0 12px 12px;">
+    <div class="tbl-wrap">
       <table class="tbl">
         <thead><tr><th>Tahap</th><th>Jumlah Deal</th><th>Total Nilai</th><th>Rata-rata Nilai</th><th>Porsi Pipeline</th></tr></thead>
         <tbody>
         ${['prospek','proposal','negosiasi','won','lost'].map(s=>{
           const sl=deals.filter(d=>d.stage===s), tot=sl.reduce((x,d)=>x+d.value,0), avgs=sl.length>0?Math.round(tot/sl.length):0;
           const totalAll=rev+pipe+lostVal; const pct=totalAll>0?Math.round(tot/totalAll*100):0;
-          return`<tr><td>${stageBadge(s)}</td><td style="font-weight:700;">${sl.length}</td><td style="font-weight:600;">${tot>0?fc(tot):'—'}</td><td style="color:var(--text-secondary);">${avgs>0?fc(avgs):'—'}</td>
+          return`<tr><td>${stageBadge(s)}</td><td style="font-weight:700;">${sl.length}</td><td style="font-weight:600;">${tot>0?fc(tot):'-'}</td><td style="color:var(--text-secondary);">${avgs>0?fc(avgs):'-'}</td>
           <td><div style="display:flex;align-items:center;gap:0.5rem;"><div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${pct}%;background:var(--primary);border-radius:3px;"></div></div><span style="font-size:0.72rem;color:var(--text-secondary);min-width:28px;">${pct}%</span></div></td></tr>`;
         }).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header"><span class="card-title">Peringkat Tim Sales</span></div>
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead><tr><th>#</th><th>Sales</th><th>Revenue (Won)</th><th>Deal Won</th><th>Win Rate</th><th>Deal Aktif</th></tr></thead>
+        <tbody>
+        ${leaderboard.map((s,i)=>`<tr>
+          <td style="font-weight:700;color:var(--text-secondary);">${i+1}</td>
+          <td><div class="owner-chip" style="font-size:0.78rem;"><span class="owner-dot" style="background:${s.u.avatarColor};width:22px;height:22px;font-size:0.62rem;">${escapeHtml(initials(s.u.name))}</span><div><div style="font-weight:600;color:var(--text-primary);">${escapeHtml(s.u.name)}</div><div style="font-size:0.68rem;">${escapeHtml(s.u.role)}</div></div></div></td>
+          <td style="font-weight:700;">${s.rev>0?fc(s.rev):'-'}</td>
+          <td>${s.cnt}</td>
+          <td>${s.wr}%</td>
+          <td style="color:var(--text-secondary);">${s.active}</td>
+        </tr>`).join('')}
         </tbody>
       </table>
     </div>
@@ -784,9 +1045,379 @@ function renderReports(){
 }
 
 // ══════════════════════════════════════════
+// GLOBAL SEARCH
+// ══════════════════════════════════════════
+function toggleGlobalSearch(force){
+  const wrap=document.getElementById('gsearch-wrap');
+  const open=force!==undefined?force:!wrap.classList.contains('expanded');
+  wrap.classList.toggle('expanded',open);
+  if(open) setTimeout(()=>document.getElementById('gsearch-inp').focus(),50);
+  else closeGlobalSearch();
+}
+function closeGlobalSearch(){
+  const mount=document.getElementById('gsearch-results-mount'); if(mount)mount.innerHTML='';
+  const inp=document.getElementById('gsearch-inp'); if(inp)inp.value='';
+  const wrap=document.getElementById('gsearch-wrap'); if(wrap)wrap.classList.remove('expanded');
+}
+function closeGlobalSearchAnd(fn){ toggleGlobalSearch(false); fn(); }
+function onGlobalSearch(q){
+  const mount=document.getElementById('gsearch-results-mount');
+  q=q.trim().toLowerCase();
+  if(!q){ mount.innerHTML=''; return; }
+  const db=getDB();
+  const contacts=db.contacts.filter(c=>c.name.toLowerCase().includes(q)||companyOf(c).name.toLowerCase().includes(q)).slice(0,5);
+  const companies=db.companies.filter(co=>co.name.toLowerCase().includes(q)).slice(0,4);
+  const deals=db.deals.filter(d=>d.title.toLowerCase().includes(q)).slice(0,5);
+  if(contacts.length===0&&companies.length===0&&deals.length===0){
+    mount.innerHTML=`<div class="gsearch-results"><div style="padding:1rem;text-align:center;font-size:0.78rem;color:var(--text-secondary);">Tidak ditemukan</div></div>`;
+    return;
+  }
+  mount.innerHTML=`<div class="gsearch-results">
+    ${contacts.length?`<div class="gsearch-sec-label">Kontak</div>${contacts.map(c=>`<button class="gsearch-row" onclick="closeGlobalSearchAnd(()=>openContactProfile('${c.id}'))"><div class="avatar" style="width:28px;height:28px;font-size:0.65rem;background:${avatarColor(c.name)}">${escapeHtml(initials(c.name))}</div><div style="min-width:0;"><div style="font-size:0.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(c.name)}</div><div style="font-size:0.68rem;color:var(--text-secondary);">${escapeHtml(companyOf(c).name||'-')}</div></div></button>`).join('')}`:''}
+    ${companies.length?`<div class="gsearch-sec-label">Perusahaan</div>${companies.map(co=>`<button class="gsearch-row" onclick="closeGlobalSearchAnd(()=>go('companies'))"><div class="company-icon" style="width:28px;height:28px;font-size:0.75rem;margin:0;">🏢</div><div style="min-width:0;"><div style="font-size:0.8rem;font-weight:600;">${escapeHtml(co.name)}</div><div style="font-size:0.68rem;color:var(--text-secondary);">${escapeHtml(co.industry)}</div></div></button>`).join('')}`:''}
+    ${deals.length?`<div class="gsearch-sec-label">Deal</div>${deals.map(d=>`<button class="gsearch-row" onclick="closeGlobalSearchAnd(()=>{go('pipeline');setTimeout(()=>openDealModal('${d.id}'),450);})"><div style="width:28px;height:28px;border-radius:8px;background:var(--primary-light);color:var(--primary);display:flex;align-items:center;justify-content:center;font-size:0.75rem;flex-shrink:0;">💼</div><div style="min-width:0;"><div style="font-size:0.8rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(d.title)}</div><div style="font-size:0.68rem;color:var(--text-secondary);">${stageLabel(d.stage)} · ${d.value>0?fc(d.value):'-'}</div></div></button>`).join('')}`:''}
+  </div>`;
+}
+document.addEventListener('click',e=>{
+  const wrap=document.getElementById('gsearch-wrap');
+  if(wrap && !wrap.contains(e.target)){ const m=document.getElementById('gsearch-results-mount'); if(m)m.innerHTML=''; }
+});
+
+// ══════════════════════════════════════════
+// CSV EXPORT
+// ══════════════════════════════════════════
+function downloadCsv(filename,rows){
+  const csv=rows.map(r=>r.map(v=>{ v=String(v??''); if(v.includes(',')||v.includes('"')||v.includes('\n')) v='"'+v.replace(/"/g,'""')+'"'; return v; }).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+function exportContactsCsv(){
+  const db=getDB();
+  const rows=[['Nama','Perusahaan','Industri','Email','Telepon','Status','Sumber','Terakhir Aktif']];
+  db.contacts.forEach(c=>{ const co=companyOf(c); rows.push([c.name,co.name||'-',co.industry||'-',c.email,c.phone,c.status,srcLabel(c.source),c.lastActivity]); });
+  downloadCsv('kontak-mitracrm.csv',rows);
+  toast('Kontak diekspor ke CSV');
+}
+function exportDealsCsv(){
+  const db=getDB();
+  const rows=[['Deal','Kontak','Perusahaan','Nilai','Tahap','Probability','Pemilik','Expected Close']];
+  db.deals.forEach(d=>{ const c=gc(d.contactId), co=companyOf(c); rows.push([d.title,c.name||'-',co.name||'-',d.value,stageLabel(d.stage),d.probability+'%',guser(d.ownerId).name,d.expectedClose||'-']); });
+  downloadCsv('deal-mitracrm.csv',rows);
+  toast('Deal diekspor ke CSV');
+}
+
+// ══════════════════════════════════════════
+// TASKS
+// ══════════════════════════════════════════
+let tFilter='pending';
+function renderTasks(){
+  const db=getDB();
+  let list=(db.tasks||[]).slice().sort((a,b)=>a.dueDate<b.dueDate?-1:1);
+  if(tFilter==='pending') list=list.filter(t=>!t.done);
+  else if(tFilter==='done') list=list.filter(t=>t.done);
+  document.getElementById('page-content').innerHTML=`
+<div class="page-sec">
+  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;">
+    <select class="form-select" style="width:auto;padding:0.42rem 0.75rem;" onchange="tFilter=this.value;renderTasks()">
+      <option value="pending" ${tFilter==='pending'?'selected':''}>Belum Selesai</option>
+      <option value="done" ${tFilter==='done'?'selected':''}>Selesai</option>
+      <option value="all" ${tFilter==='all'?'selected':''}>Semua Tugas</option>
+    </select>
+    <span style="margin-left:auto;font-size:0.78rem;color:var(--text-secondary);">${list.length} tugas</span>
+  </div>
+  <div class="card" style="padding:0.2rem 1.25rem;">
+    ${list.length===0?`<div style="text-align:center;padding:3rem;color:var(--text-secondary);">Tidak ada tugas</div>`
+    :list.map(t=>{ const c=gc(t.contactId); return`<div class="task-item">
+      <div class="task-check ${t.done?'done':''}" role="checkbox" aria-checked="${t.done}" tabindex="0" aria-label="Tandai tugas selesai" onclick="toggleTaskDone('${t.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTaskDone('${t.id}');}">${t.done?'✓':''}</div>
+      <div style="flex:1;min-width:0;">
+        <div class="task-title ${t.done?'done':''}">${escapeHtml(t.title)}</div>
+        <div class="task-meta">${c.name?escapeHtml(c.name)+(companyOf(c).name?' · '+escapeHtml(companyOf(c).name):''):'Tidak terkait kontak'}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;flex-shrink:0;">
+        ${taskDueBadge(t.dueDate,t.done)}
+        <button class="btn btn-ghost" style="padding:0.25rem 0.5rem;" aria-label="Edit tugas" onclick="openTaskModal('${t.id}')">✏️</button>
+        <button class="btn btn-danger" style="padding:0.25rem 0.5rem;" aria-label="Hapus tugas" onclick="deleteTask('${t.id}')">🗑️</button>
+      </div>
+    </div>`; }).join('')}
+  </div>
+</div>`;
+}
+
+function toggleTaskDone(id){
+  const db=getDB(); const t=(db.tasks||[]).find(x=>x.id===id); if(!t)return;
+  t.done=!t.done; saveDB(db);
+  if(CUR_PAGE==='tasks')renderTasks(); else renderDashboard();
+}
+
+function openTaskModal(id=null){
+  const db=getDB(), t=id?(db.tasks||[]).find(x=>x.id===id):null;
+  const contactOpts=db.contacts.map(c=>`<option value="${c.id}" ${t?.contactId===c.id?'selected':''}>${escapeHtml(c.name)}</option>`).join('');
+  openMod(`
+<div class="modal-head"><div class="modal-ttl">${t?'Edit':'Tambah'} Tugas</div><button class="modal-x" aria-label="Tutup" onclick="closeMod()">×</button></div>
+<div class="modal-body">
+  <div class="m-grid">
+    <div class="m-full"><div class="form-group"><label class="form-label" for="tk-title">Judul Tugas</label><input class="form-input" id="tk-title" value="${escapeHtml(t?.title||'')}" placeholder="Contoh: Follow-up proposal ke..."></div></div>
+    <div><div class="form-group"><label class="form-label" for="tk-due">Jatuh Tempo</label><input class="form-input" type="date" id="tk-due" value="${t?.dueDate||isoDate(new Date())}"></div></div>
+    <div><div class="form-group"><label class="form-label" for="tk-contact">Kontak Terkait</label><select class="form-select" id="tk-contact"><option value="">Tidak ada</option>${contactOpts}</select></div></div>
+  </div>
+</div>
+<div class="modal-foot">
+  ${t?`<button class="btn btn-danger" onclick="deleteTask('${t.id}')">🗑️ Hapus</button>`:''}
+  <button class="btn btn-ghost" onclick="closeMod()">Batal</button>
+  <button class="btn btn-primary" onclick="saveTask('${id||''}')">💾 Simpan</button>
+</div>`);
+}
+
+function saveTask(id){
+  const db=getDB(); if(!db.tasks)db.tasks=[];
+  const d={title:document.getElementById('tk-title').value.trim(),dueDate:document.getElementById('tk-due').value,contactId:document.getElementById('tk-contact').value||null};
+  if(!d.title||!d.dueDate){alert('Judul dan jatuh tempo wajib diisi.');return;}
+  if(id){ const i=db.tasks.findIndex(x=>x.id===id); db.tasks[i]={...db.tasks[i],...d}; toast('Tugas diperbarui'); }
+  else{ db.tasks.push({...d,id:'t'+(Date.now()%1e6),dealId:null,done:false,createdAt:isoDate(new Date())}); toast('Tugas ditambahkan'); }
+  saveDB(db); closeMod(); renderTasks();
+}
+
+function deleteTask(id){
+  if(!confirm('Hapus tugas ini?'))return;
+  const db=getDB(); db.tasks=(db.tasks||[]).filter(t=>t.id!==id); saveDB(db); toast('Tugas dihapus','err'); closeMod(); renderTasks();
+}
+
+// ══════════════════════════════════════════
+// COMPANIES
+// ══════════════════════════════════════════
+let coSearch='';
+function renderCompanies(){
+  const db=getDB();
+  let list=db.companies;
+  if(coSearch){ const q=coSearch.toLowerCase(); list=list.filter(co=>co.name.toLowerCase().includes(q)||co.industry.toLowerCase().includes(q)); }
+  document.getElementById('page-content').innerHTML=`
+<div class="page-sec">
+  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1.25rem;flex-wrap:wrap;">
+    <div class="search-wrap">
+      <span style="font-size:0.9rem;color:var(--text-secondary);">🔍</span>
+      <input type="text" aria-label="Cari perusahaan" placeholder="Cari nama atau industri..." value="${escapeHtml(coSearch)}" oninput="coSearch=this.value;renderCompanies()">
+    </div>
+    <button class="btn btn-primary" style="margin-left:auto;" onclick="openCompanyModal()">+ Tambah Perusahaan</button>
+  </div>
+  <div class="company-grid">
+    ${list.length===0?`<div style="text-align:center;padding:3rem;color:var(--text-secondary);grid-column:1/-1;">Tidak ada perusahaan ditemukan</div>`
+    :list.map(co=>{ const n=db.contacts.filter(c=>c.companyId===co.id).length; return`<div class="company-card" tabindex="0" role="button" aria-label="Lihat ${escapeHtml(co.name)}" onclick="openCompanyProfile('${co.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openCompanyProfile('${co.id}');}">
+      <div class="company-icon">🏢</div>
+      <div style="font-weight:700;font-size:0.9rem;margin-bottom:0.2rem;">${escapeHtml(co.name)}</div>
+      <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:0.6rem;">${escapeHtml(co.industry)}</div>
+      <div style="font-size:0.72rem;color:var(--text-secondary);display:flex;align-items:center;gap:0.3rem;">👤 ${n} kontak</div>
+    </div>`; }).join('')}
+  </div>
+</div>`;
+}
+
+function openCompanyProfile(id){
+  const db=getDB(), co=db.companies.find(x=>x.id===id); if(!co)return;
+  const contacts=db.contacts.filter(c=>c.companyId===id);
+  const deals=db.deals.filter(d=>contacts.some(c=>c.id===d.contactId));
+  openMod(`
+<div class="modal-head"><div class="modal-ttl">${escapeHtml(co.name)}</div><button class="modal-x" aria-label="Tutup" onclick="closeMod()">×</button></div>
+<div class="modal-body">
+  <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem;line-height:1.9;">
+    <div>🏭 ${escapeHtml(co.industry)}</div>
+    <div>📞 ${escapeHtml(co.phone||'-')}</div>
+    <div>🌐 ${escapeHtml(co.website||'-')}</div>
+    <div>📍 ${escapeHtml(co.address||'-')}</div>
+  </div>
+  <div style="font-weight:700;font-size:0.82rem;margin-bottom:0.5rem;">Kontak (${contacts.length})</div>
+  ${contacts.length===0?`<div style="font-size:0.78rem;color:var(--text-secondary);margin-bottom:1rem;">Belum ada kontak di perusahaan ini</div>`
+  :contacts.map(c=>`<div style="display:flex;align-items:center;gap:0.6rem;padding:0.5rem 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="closeMod();openContactProfile('${c.id}')">
+    <div class="avatar" style="width:30px;height:30px;font-size:0.68rem;background:${avatarColor(c.name)}">${escapeHtml(initials(c.name))}</div>
+    <div><div style="font-size:0.8rem;font-weight:600;">${escapeHtml(c.name)}</div><div style="font-size:0.68rem;color:var(--text-secondary);">${escapeHtml(c.email)}</div></div>
+  </div>`).join('')}
+  <div style="font-weight:700;font-size:0.82rem;margin:1rem 0 0.5rem;">Deal (${deals.length})</div>
+  ${deals.length===0?`<div style="font-size:0.78rem;color:var(--text-secondary);">Belum ada deal terkait</div>`
+  :deals.map(d=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border);">
+    <div style="font-size:0.8rem;">${escapeHtml(d.title)}</div>${stageBadge(d.stage)}
+  </div>`).join('')}
+</div>
+<div class="modal-foot">
+  <button class="btn btn-ghost" onclick="closeMod()">Tutup</button>
+  <button class="btn btn-danger" onclick="delCompany('${co.id}')">🗑️ Hapus</button>
+  <button class="btn btn-primary" onclick="openCompanyModal('${co.id}')">✏️ Edit</button>
+</div>`);
+}
+
+function openCompanyModal(id=null){
+  const db=getDB(), co=id?db.companies.find(x=>x.id===id):null;
+  openMod(`
+<div class="modal-head"><div class="modal-ttl">${co?'Edit':'Tambah'} Perusahaan</div><button class="modal-x" aria-label="Tutup" onclick="closeMod()">×</button></div>
+<div class="modal-body">
+  <div class="m-grid">
+    <div class="m-full"><div class="form-group"><label class="form-label" for="co-name">Nama Perusahaan</label><input class="form-input" id="co-name" value="${escapeHtml(co?.name||'')}" placeholder="Nama perusahaan"></div></div>
+    <div><div class="form-group"><label class="form-label" for="co-ind">Industri</label><input class="form-input" id="co-ind" value="${escapeHtml(co?.industry||'')}" placeholder="Industri"></div></div>
+    <div><div class="form-group"><label class="form-label" for="co-phone">Telepon</label><input class="form-input" id="co-phone" value="${escapeHtml(co?.phone||'')}" placeholder="021-xxxxxxx"></div></div>
+    <div><div class="form-group"><label class="form-label" for="co-web">Website</label><input class="form-input" id="co-web" value="${escapeHtml(co?.website||'')}" placeholder="perusahaan.co.id"></div></div>
+    <div class="m-full"><div class="form-group"><label class="form-label" for="co-addr">Alamat</label><input class="form-input" id="co-addr" value="${escapeHtml(co?.address||'')}" placeholder="Alamat kantor"></div></div>
+  </div>
+</div>
+<div class="modal-foot">
+  <button class="btn btn-ghost" onclick="closeMod()">Batal</button>
+  <button class="btn btn-primary" onclick="saveCompany('${id||''}')">💾 Simpan</button>
+</div>`);
+}
+
+function saveCompany(id){
+  const db=getDB();
+  const d={name:document.getElementById('co-name').value.trim(),industry:document.getElementById('co-ind').value.trim(),phone:document.getElementById('co-phone').value.trim(),website:document.getElementById('co-web').value.trim(),address:document.getElementById('co-addr').value.trim()};
+  if(!d.name){alert('Nama perusahaan wajib diisi.');return;}
+  if(id){ const i=db.companies.findIndex(x=>x.id===id); db.companies[i]={...db.companies[i],...d}; toast('Perusahaan diperbarui'); }
+  else{ db.companies.push({...d,id:'co'+(Date.now()%1e6)}); toast('Perusahaan ditambahkan'); }
+  saveDB(db); closeMod(); renderCompanies();
+}
+
+function delCompany(id){
+  const db=getDB();
+  const used=db.contacts.some(c=>c.companyId===id);
+  if(used && !confirm('Perusahaan ini masih terhubung ke beberapa kontak. Hapus tetap dilanjutkan?'))return;
+  if(!used && !confirm('Hapus perusahaan ini?'))return;
+  db.companies=db.companies.filter(co=>co.id!==id);
+  db.contacts.forEach(c=>{ if(c.companyId===id)c.companyId=null; });
+  saveDB(db); toast('Perusahaan dihapus','err'); closeMod(); renderCompanies();
+}
+
+// ══════════════════════════════════════════
+// CONTACT PROFILE (modal, tabbed)
+// ══════════════════════════════════════════
+let profileTab='info';
+function openContactProfile(id){ profileTab='info'; renderContactProfile(id); }
+function switchProfileTab(id,tab){ profileTab=tab; renderContactProfile(id); }
+function renderContactProfile(id){
+  const db=getDB(), c=db.contacts.find(x=>x.id===id); if(!c)return;
+  const co=companyOf(c);
+  const deals=db.deals.filter(d=>d.contactId===id);
+  const acts=db.activities.filter(a=>a.contactId===id).slice().sort((a,b)=>a.date<b.date?1:-1);
+  const relTasks=(db.tasks||[]).filter(t=>t.contactId===id);
+  openMod(`
+<div class="modal-head"><div class="modal-ttl">Profil Kontak</div><button class="modal-x" aria-label="Tutup" onclick="closeMod()">×</button></div>
+<div style="padding:1.5rem 1.5rem 0;display:flex;align-items:center;gap:0.85rem;">
+  <div class="avatar" style="width:52px;height:52px;font-size:1.1rem;background:${avatarColor(c.name)}">${escapeHtml(initials(c.name))}</div>
+  <div style="min-width:0;">
+    <div style="font-weight:700;font-size:1rem;">${escapeHtml(c.name)}</div>
+    <div style="font-size:0.78rem;color:var(--text-secondary);">${escapeHtml(co.name||'-')}${co.industry?' · '+escapeHtml(co.industry):''}</div>
+  </div>
+  <div style="margin-left:auto;">${badge(c.status)}</div>
+</div>
+<div class="profile-tab-row">
+  <div class="profile-tab ${profileTab==='info'?'active':''}" role="button" tabindex="0" onclick="switchProfileTab('${id}','info')">Info</div>
+  <div class="profile-tab ${profileTab==='activity'?'active':''}" role="button" tabindex="0" onclick="switchProfileTab('${id}','activity')">Aktivitas (${acts.length})</div>
+  <div class="profile-tab ${profileTab==='deals'?'active':''}" role="button" tabindex="0" onclick="switchProfileTab('${id}','deals')">Deal (${deals.length})</div>
+</div>
+<div class="modal-body">
+  ${profileTab==='info'?`
+    <div style="font-size:0.82rem;line-height:2;">
+      <div>✉️ ${escapeHtml(c.email)}</div>
+      <div>📞 ${escapeHtml(c.phone)}</div>
+      <div>🏢 ${escapeHtml(co.name||'-')}</div>
+      <div>📌 Sumber: ${srcLabel(c.source)}</div>
+      <div>🕐 Terakhir aktif: ${fd(c.lastActivity)}</div>
+    </div>
+    ${relTasks.length?`<div style="font-weight:700;font-size:0.8rem;margin:1rem 0 0.4rem;">Tugas Terkait</div>${relTasks.map(t=>`<div class="task-item"><div class="task-check ${t.done?'done':''}" role="checkbox" aria-checked="${t.done}" tabindex="0" onclick="toggleTaskDoneInProfile('${t.id}','${id}')">${t.done?'✓':''}</div><div style="flex:1;min-width:0;"><div class="task-title ${t.done?'done':''}">${escapeHtml(t.title)}</div></div>${taskDueBadge(t.dueDate,t.done)}</div>`).join('')}`:''}
+  `:''}
+  ${profileTab==='activity'?`
+    <div class="m-grid" style="margin-bottom:1rem;">
+      <div><div class="form-group"><label class="form-label" for="pa-type">Jenis</label><select class="form-select" id="pa-type"><option value="call">Telepon</option><option value="email">Email</option><option value="meeting">Meeting</option><option value="note">Catatan</option></select></div></div>
+      <div><div class="form-group"><label class="form-label" for="pa-desc">Catatan</label><input class="form-input" id="pa-desc" placeholder="Ringkasan aktivitas..."></div></div>
+    </div>
+    <button class="btn btn-primary" style="margin-bottom:1rem;" onclick="addActivityToContact('${id}')">+ Catat Aktivitas</button>
+    ${acts.length===0?`<div style="font-size:0.78rem;color:var(--text-secondary);">Belum ada aktivitas tercatat</div>`
+    :acts.map(a=>`<div class="act-item">${actIcon(a.type)}<div><div class="act-title">${escapeHtml(a.desc)}</div><div class="act-meta">${actTypeLabel(a.type)} · ${fd(a.date)}</div></div></div>`).join('')}
+  `:''}
+  ${profileTab==='deals'?`
+    ${deals.length===0?`<div style="font-size:0.78rem;color:var(--text-secondary);">Belum ada deal untuk kontak ini</div>`
+    :deals.map(d=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:0.6rem 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="closeMod();go('pipeline');setTimeout(()=>openDealModal('${d.id}'),450);">
+      <div><div style="font-size:0.82rem;font-weight:600;">${escapeHtml(d.title)}</div><div style="font-size:0.7rem;color:var(--text-secondary);">${d.value>0?fc(d.value):'Nilai TBD'}</div></div>${stageBadge(d.stage)}
+    </div>`).join('')}
+  `:''}
+</div>
+<div class="modal-foot">
+  <button class="btn btn-ghost" onclick="closeMod()">Tutup</button>
+  <button class="btn btn-primary" onclick="closeMod();openContactModal('${id}')">✏️ Edit Kontak</button>
+</div>`);
+}
+
+function toggleTaskDoneInProfile(taskId,contactId){
+  const db=getDB(); const t=(db.tasks||[]).find(x=>x.id===taskId); if(!t)return;
+  t.done=!t.done; saveDB(db); renderContactProfile(contactId);
+}
+
+function addActivityToContact(contactId){
+  const type=document.getElementById('pa-type').value;
+  const desc=document.getElementById('pa-desc').value.trim();
+  if(!desc){alert('Catatan aktivitas wajib diisi.');return;}
+  const db=getDB();
+  db.activities.unshift({id:'a'+(Date.now()%1e6),type,dealId:null,contactId,desc,date:isoDate(new Date())});
+  const c=db.contacts.find(x=>x.id===contactId); if(c)c.lastActivity=isoDate(new Date());
+  saveDB(db); toast('Aktivitas dicatat'); renderContactProfile(contactId);
+}
+
+// ══════════════════════════════════════════
+// SETTINGS
+// ══════════════════════════════════════════
+const AVATAR_COLORS=['#2563eb','#7c3aed','#16a34a','#d97706','#dc2626','#0891b2','#db2777','#4f46e5'];
+function getSettings(){ return JSON.parse(localStorage.getItem('crm_mitra_settings_v1')||'{}'); }
+function saveSettings(s){ localStorage.setItem('crm_mitra_settings_v1',JSON.stringify(s)); }
+function syncUserAvatar(){
+  const s=getSettings(), u=currentUser();
+  const el=document.getElementById('sidebar-user-avatar');
+  if(el){ el.textContent=initials(u.name); el.style.background=s.avatarColor||u.avatarColor; }
+}
+function renderSettings(){
+  const s=getSettings(), u=currentUser();
+  const activeColor=s.avatarColor||u.avatarColor;
+  document.getElementById('page-content').innerHTML=`
+<div class="page-sec">
+  <div class="two-col">
+    <div class="card">
+      <div class="card-header"><span class="card-title">Profil Akun</span></div>
+      <div class="card-body">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+          <div class="avatar" style="width:56px;height:56px;font-size:1.2rem;background:${activeColor};">${escapeHtml(initials(u.name))}</div>
+          <div><div style="font-weight:700;font-size:0.95rem;">${escapeHtml(u.name)}</div><div style="font-size:0.78rem;color:var(--text-secondary);">${escapeHtml(u.role)}</div></div>
+        </div>
+        <div style="font-size:0.78rem;font-weight:600;margin-bottom:0.5rem;color:var(--text-secondary);">Warna Avatar</div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+          ${AVATAR_COLORS.map(c=>`<div class="avatar-swatch ${c===activeColor?'selected':''}" style="background:${c};" role="button" tabindex="0" aria-label="Pilih warna avatar" onclick="chooseAvatarColor('${c}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();chooseAvatarColor('${c}');}"></div>`).join('')}
+        </div>
+        <div class="form-group"><label class="form-label" for="st-email">Email</label><input class="form-input" id="st-email" value="sales@nusantaradigital.co.id" disabled></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-title">Ubah Kata Sandi</span></div>
+      <div class="card-body">
+        <div class="form-group"><label class="form-label" for="st-pass1">Kata Sandi Baru</label><input class="form-input" type="password" id="st-pass1" placeholder="••••••••"></div>
+        <div class="form-group"><label class="form-label" for="st-pass2">Konfirmasi Kata Sandi</label><input class="form-input" type="password" id="st-pass2" placeholder="••••••••"></div>
+        <button class="btn btn-primary" onclick="simulatePasswordChange()">💾 Simpan Kata Sandi</button>
+        <div style="font-size:0.7rem;color:var(--text-secondary);margin-top:0.6rem;">*Fitur ini simulasi untuk keperluan demo, tidak benar-benar mengubah kredensial login.</div>
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+function chooseAvatarColor(c){
+  const s=getSettings(); s.avatarColor=c; saveSettings(s);
+  syncUserAvatar(); toast('Warna avatar diperbarui'); renderSettings();
+}
+function simulatePasswordChange(){
+  const p1=document.getElementById('st-pass1').value, p2=document.getElementById('st-pass2').value;
+  if(!p1||p1.length<6){alert('Kata sandi minimal 6 karakter.');return;}
+  if(p1!==p2){alert('Konfirmasi kata sandi tidak cocok.');return;}
+  toast('Kata sandi diperbarui (simulasi)');
+  document.getElementById('st-pass1').value=''; document.getElementById('st-pass2').value='';
+}
+
+// ══════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════
 initDB();
+syncUserAvatar();
 </script>
 </body>
 </html>
