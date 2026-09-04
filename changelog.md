@@ -1,5 +1,13 @@
 # Changelog
 
+### Brand colours - CV button and WhatsApp links
+
+**Changed**
+- Download CV button recoloured to #4C6DC9 at Bagas's request. Because the accent is a token and was only ever used by that button, this was a single value change, with a matching lighter tint derived for the hover state and the pulsing glow following automatically
+- Everything that points at WhatsApp now carries the WhatsApp brand colour #25D366: the WhatsApp link in the hero social column and the phone contact row that links to wa.me. Targeted by link destination rather than by adding classes, so the markup stayed untouched and any WhatsApp link added later picks it up on its own. Gold styling on the other contact rows is unaffected
+- Removed eight leftover cursor: none declarations still sitting on individual components (buttons, carousel controls, hamburger, footer links). They bypassed the pointer and JS gating added earlier, which would have hidden the cursor for touch and keyboard users on those elements
+- Verified the computed colours in the browser: CV button rgb(76, 109, 201), both WhatsApp icons rgb(37, 211, 102), other contact icons still gold, and no console errors
+
 ### About Me photo frame stretched - regression fix
 
 **Fixed**

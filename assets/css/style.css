@@ -9,10 +9,14 @@
 --gold-light: #e8c97a;
 --gold-dark: #8a6f2e;
 
---accent-rgb: 79, 70, 229;
+--accent-rgb: 76, 109, 201;
 --accent: rgb(var(--accent-rgb));
---accent-light: #818cf8;
---accent-dark: #3730a3;
+--accent-light: #8299d9;
+--accent-dark: #395297;
+
+/* Brand colour of the service a link points at. */
+--whatsapp-rgb: 37, 211, 102;
+--whatsapp: rgb(var(--whatsapp-rgb));
 
 /* Semantic status ------------------------------------------ */
 --success-rgb: 74, 222, 128;
@@ -326,7 +330,6 @@ width: 100%;
 display: none;
 flex-direction: column;
 gap: 5px;
-cursor: none;
 padding: 4px;
 background: transparent;
 border: none;
@@ -780,7 +783,6 @@ letter-spacing: 0.15em;
 text-transform: uppercase;
 text-decoration: none;
 border: none;
-cursor: none;
 transition: all 0.3s ease;
 font-family: var(--font-body);
 position: relative;
@@ -822,7 +824,6 @@ letter-spacing: 0.15em;
 text-transform: uppercase;
 text-decoration: none;
 border: none;
-cursor: none;
 transition: all 0.3s ease;
 font-family: var(--font-body);
 position: relative;
@@ -1143,7 +1144,6 @@ color: var(--gold);
 display: flex;
 align-items: center;
 justify-content: center;
-cursor: none;
 transition: all 0.3s ease;
 z-index: 10;
 padding: 0;
@@ -1183,7 +1183,6 @@ height: 6px;
 border-radius: 50%;
 background: rgba(var(--gold-rgb), 0.3);
 border: 1px solid rgba(var(--gold-rgb), 0.4);
-cursor: none;
 transition: all 0.3s ease;
 padding: 0;
 }
@@ -1986,7 +1985,6 @@ font-weight: 800;
 letter-spacing: 0.16em;
 text-transform: uppercase;
 border: none;
-cursor: none;
 transition: all 0.3s ease;
 font-family: var(--font-body);
 clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
@@ -2118,8 +2116,7 @@ footer {
     color: var(--white-dim);
     text-decoration: none;
     transition: color 0.25s ease;
-    cursor: none;
-}
+    }
 
 .footer-source-link:hover {
     color: var(--gold);
@@ -2136,8 +2133,7 @@ footer {
     color: var(--gold);
     text-decoration: none;
     transition: gap 0.25s ease;
-    cursor: none;
-}
+    }
 
 .footer-back:hover {
     gap: 12px;
@@ -2461,6 +2457,38 @@ animation-range: entry 10% cover 70%;
 @keyframes numberDrift {
 from { transform: translateY(14px); opacity: 0.02; }
 to   { transform: translateY(-10px); opacity: 0.07; }
+}
+
+/* ============================================================
+   WhatsApp links carry the WhatsApp brand colour. Matched on the
+   destination rather than a class, so the markup stays untouched
+   and any future WhatsApp link picks this up automatically.
+   ============================================================ */
+
+.hero-social-link[href*="wa.me"] .hero-social-icon,
+.contact-item[href*="wa.me"] .contact-icon {
+color: var(--whatsapp);
+border-color: rgba(var(--whatsapp-rgb), 0.35);
+}
+
+.hero-social-link[href*="wa.me"]:hover {
+color: var(--whatsapp);
+}
+
+.hero-social-link[href*="wa.me"]:hover .hero-social-icon,
+.contact-item[href*="wa.me"]:hover .contact-icon {
+color: var(--whatsapp);
+border-color: var(--whatsapp);
+background: rgba(var(--whatsapp-rgb), 0.12);
+}
+
+.contact-item[href*="wa.me"]:hover {
+border-left-color: var(--whatsapp);
+}
+
+.hero-social-link[href*="wa.me"]:focus-visible,
+.contact-item[href*="wa.me"]:focus-visible {
+outline-color: rgba(var(--whatsapp-rgb), 0.9);
 }
 
 /* ============================================================
