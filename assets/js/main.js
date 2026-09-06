@@ -155,6 +155,7 @@
             var trail  = $('cursorTrail');
             if (!cursor || !trail || !hasFinePointer || prefersReducedMotion) return;
 
+            var badge = $('cursorBadge');
             var x = 0, y = 0, queued = false;
 
             function flush() {
@@ -164,6 +165,10 @@
                 cursor.style.setProperty('--cy', py);
                 trail.style.setProperty('--cx', px);
                 trail.style.setProperty('--cy', py);
+                if (badge) {
+                    badge.style.setProperty('--cx', px);
+                    badge.style.setProperty('--cy', py);
+                }
             }
 
             document.addEventListener('mousemove', function (e) {
@@ -191,6 +196,62 @@
                     trail.classList.remove('hovering');
                 }
             }, { passive: true });
+
+            /* Over a project card the pointer says what a click will do. */
+            if (badge) {
+                document.addEventListener('mouseover', function (e) {
+                    if (e.target.closest && e.target.closest('.project-card')) {
+                        badge.classList.add('is-on');
+                        cursor.classList.add('is-hidden');
+                        trail.classList.add('is-hidden');
+                    }
+                }, { passive: true });
+
+                document.addEventListener('mouseout', function (e) {
+                    if (e.target.closest && e.target.closest('.project-card')) {
+                        badge.classList.remove('is-on');
+                        cursor.classList.remove('is-hidden');
+                        trail.classList.remove('is-hidden');
+                    }
+                }, { passive: true });
+            }
+        });
+
+        /* Primary buttons lean slightly toward the pointer as it
+           approaches, then spring back when it leaves. */
+        feature('magnetic buttons', function () {
+            if (!hasFinePointer || prefersReducedMotion) return;
+
+            var magnets = $$('.btn-primary, .btn-secondary');
+            if (!magnets.length) return;
+
+            var STRENGTH = 0.28;
+            var RADIUS = 70;
+
+            magnets.forEach(function (el) {
+                var queued = false, mx = 0, my = 0;
+
+                function apply() {
+                    queued = false;
+                    el.style.setProperty('--mx', mx.toFixed(1) + 'px');
+                    el.style.setProperty('--my', my.toFixed(1) + 'px');
+                }
+
+                el.addEventListener('mousemove', function (e) {
+                    var r = el.getBoundingClientRect();
+                    mx = (e.clientX - (r.left + r.width / 2)) * STRENGTH;
+                    my = (e.clientY - (r.top + r.height / 2)) * STRENGTH;
+                    var cap = RADIUS * STRENGTH;
+                    mx = Math.max(-cap, Math.min(cap, mx));
+                    my = Math.max(-cap, Math.min(cap, my));
+                    if (!queued) { queued = true; requestAnimationFrame(apply); }
+                }, { passive: true });
+
+                el.addEventListener('mouseleave', function () {
+                    mx = 0; my = 0;
+                    apply();
+                }, { passive: true });
+            });
         });
 
         feature('hero spotlight', function () {
@@ -336,6 +397,100 @@
             });
         });
 
+        /* Numbers count up once they scroll into view. The original
+           text is restored at the end so the markup stays the source
+           of truth for the final value. */
+        feature('count up', function () {
+            function countUp(el) {
+                var raw = el.textContent.trim();
+                var parts = raw.match(/^([^\d]*)([\d.,]+)(.*)$/);
+                if (!parts) return;
+
+                var prefix = parts[1];
+                var numStr = parts[2].replace(/,/g, '');
+                var suffix = parts[3];
+                var target = parseFloat(numStr);
+                if (isNaN(target)) return;
+
+                var decimals = (numStr.split('.')[1] || '').length;
+                var duration = 1500;
+                var start = null;
+
+                function tick(now) {
+                    if (start === null) start = now;
+                    var t = Math.min((now - start) / duration, 1);
+                    var eased = 1 - Math.pow(1 - t, 3);
+                    el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+                    if (t < 1) requestAnimationFrame(tick);
+                    else el.textContent = raw;
+                }
+                requestAnimationFrame(tick);
+            }
+
+            var numbers = $$('.stat-number, .hero-stat-number');
+            if (!numbers.length || prefersReducedMotion) return;
+
+            if (!('IntersectionObserver' in window)) return;
+
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) return;
+                    countUp(entry.target);
+                    obs.unobserve(entry.target);
+                });
+            }, { threshold: 0.6 });
+
+            numbers.forEach(function (el) { obs.observe(el); });
+        });
+
+        /* Tag the containers whose children should arrive one after the
+           other, and hand each child its index so CSS can turn that into
+           a delay. Must run before the reveal observer is wired up. */
+        feature('stagger children', function () {
+            var containers = $$(
+                '.projects-grid, .testi-grid, .contact-info, ' +
+                '.edu-grid.section-reveal, .stats-grid, .skills-container'
+            );
+
+            containers.forEach(function (el) {
+                el.classList.add('stagger-children');
+                if (!el.classList.contains('section-reveal')) {
+                    el.classList.add('section-reveal');
+                }
+                Array.prototype.forEach.call(el.children, function (child, i) {
+                    child.style.setProperty('--i', i);
+                });
+            });
+        });
+
+        /* Scroll progress. Modern browsers drive this straight from CSS,
+           so the script only steps in where that is unsupported. */
+        feature('scroll progress', function () {
+            var bar = $('scrollProgress');
+            if (!bar) return;
+
+            var native = window.CSS && CSS.supports &&
+                CSS.supports('animation-timeline', 'scroll()');
+            if (native) return;
+
+            var queued = false;
+
+            function update() {
+                queued = false;
+                var doc = document.documentElement;
+                var max = doc.scrollHeight - doc.clientHeight;
+                var ratio = max > 0 ? window.scrollY / max : 0;
+                bar.style.setProperty('--progress', Math.min(Math.max(ratio, 0), 1));
+            }
+
+            window.addEventListener('scroll', function () {
+                if (!queued) { queued = true; requestAnimationFrame(update); }
+            }, { passive: true });
+
+            window.addEventListener('resize', update, { passive: true });
+            update();
+        });
+
         /* Reveal on scroll. The CSS only hides these once the .js class
            is present, so this is an enhancement rather than a
            requirement for the content to be readable. */
@@ -357,6 +512,100 @@
             }, { threshold: 0.1, rootMargin: '0px 0px 15% 0px' });
 
             reveals.forEach(function (el) { observer.observe(el); });
+        });
+
+        /* Images ease in once they have actually decoded. A failsafe
+           reveals everything after a few seconds so a stalled image can
+           never leave a permanent blank. */
+        feature('image fade in', function () {
+            var imgs = $$('img');
+            if (!imgs.length || prefersReducedMotion) return;
+
+            imgs.forEach(function (img) {
+                if (img.complete && img.naturalWidth > 0) return;
+                img.classList.add('img-fade');
+                var show = function () { img.classList.add('is-loaded'); };
+                img.addEventListener('load', show, { once: true });
+                img.addEventListener('error', show, { once: true });
+            });
+
+            /* Catches an image that finished before its listener was
+               attached, without cancelling the fade for lazy images
+               further down that legitimately load later. */
+            setTimeout(function () {
+                $$('img.img-fade').forEach(function (img) {
+                    if (img.complete) img.classList.add('is-loaded');
+                });
+            }, 2000);
+
+            /* Absolute safety net: nothing stays hidden, whatever happens. */
+            setTimeout(function () {
+                $$('img.img-fade').forEach(function (img) {
+                    img.classList.add('is-loaded');
+                });
+            }, 10000);
+        });
+
+        feature('back to top', function () {
+            var btn = $('toTop');
+            if (!btn) return;
+
+            var queued = false;
+
+            function update() {
+                queued = false;
+                btn.classList.toggle('is-visible', window.scrollY > 700);
+            }
+
+            window.addEventListener('scroll', function () {
+                if (!queued) { queued = true; requestAnimationFrame(update); }
+            }, { passive: true });
+
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                window.scrollTo({
+                    top: 0,
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth'
+                });
+            });
+
+            update();
+        });
+
+        /* A single underline that slides to whichever section is in
+           view, rather than one underline per link blinking on and off. */
+        feature('nav indicator', function () {
+            var list = document.querySelector('.nav-links');
+            if (!list) return;
+
+            var indicator = document.createElement('span');
+            indicator.className = 'nav-indicator';
+            indicator.setAttribute('aria-hidden', 'true');
+            list.appendChild(indicator);
+
+            function move() {
+                var active = list.querySelector('a.active');
+                if (!active) {
+                    indicator.classList.remove('is-on');
+                    return;
+                }
+                var host = active.offsetParent === list ? active : active;
+                var left = host.offsetLeft;
+                var width = host.offsetWidth;
+                indicator.style.setProperty('--nav-x', left + 'px');
+                indicator.style.setProperty('--nav-w', width + 'px');
+                indicator.classList.add('is-on');
+            }
+
+            /* The scroll spy swaps the active class, so watch for that
+               instead of duplicating its logic here. */
+            var mo = new MutationObserver(move);
+            $$('.nav-links a').forEach(function (a) {
+                mo.observe(a, { attributes: true, attributeFilter: ['class'] });
+            });
+
+            window.addEventListener('resize', move, { passive: true });
+            setTimeout(move, 200);
         });
 
         feature('project card click', function () {

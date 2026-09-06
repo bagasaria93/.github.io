@@ -2516,6 +2516,488 @@ outline-color: rgba(var(--gold-rgb), 0.35);
 }
 }
 
+
+/* ============================================================
+   BATCH 1
+   ============================================================ */
+
+/* Anchor targets clear the fixed navbar instead of hiding
+   their own heading behind it. */
+section[id],
+[id^="main"] {
+scroll-margin-top: 104px;
+}
+
+/* ---------- Scroll progress ---------- */
+
+.scroll-progress {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 2px;
+z-index: 100000;
+pointer-events: none;
+transform-origin: 0 50%;
+transform: scaleX(var(--progress, 0));
+background: linear-gradient(90deg,
+    var(--gold-dark) 0%,
+    var(--gold) 55%,
+    var(--gold-light) 100%);
+}
+
+/* Where the browser can drive an animation straight from scroll
+   position, no script is involved at all. */
+@supports (animation-timeline: scroll()) {
+.scroll-progress {
+transform: scaleX(0);
+animation: scrollProgressGrow linear both;
+animation-timeline: scroll(root block);
+}
+}
+
+@keyframes scrollProgressGrow {
+to { transform: scaleX(1); }
+}
+
+/* ---------- Staggered children ---------- */
+
+/* When a container drives its children, the container itself stops
+   animating so the two movements never compound. */
+html.js .section-reveal.stagger-children {
+opacity: 1;
+transform: none;
+transition: none;
+}
+
+html.js .stagger-children > * {
+opacity: 0;
+transform: translateY(20px);
+transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+transition-delay: calc(var(--i, 0) * 55ms);
+}
+
+html.js .stagger-children.visible > * {
+opacity: 1;
+transform: translateY(0);
+}
+
+/* ---------- Timeline draws itself ---------- */
+
+html.js .timeline-item .timeline-line {
+transform: scaleY(0);
+transform-origin: top center;
+transition: transform 0.9s var(--ease-out) 0.18s;
+}
+
+html.js .timeline-item.visible .timeline-line {
+transform: scaleY(1);
+}
+
+html.js .timeline-item .timeline-dot {
+transform: scale(0);
+transition: transform 0.5s var(--ease-out) 0.1s, box-shadow 0.5s ease 0.4s;
+}
+
+html.js .timeline-item.visible .timeline-dot {
+transform: scale(1);
+box-shadow: 0 0 0 4px rgba(var(--gold-rgb), 0.12);
+}
+
+/* Timeline entries were the only block on the page with no hover
+   feedback at all. */
+.timeline-right {
+transition: transform var(--dur-2) var(--ease-out);
+}
+
+.timeline-item:hover .timeline-right {
+transform: translateX(4px);
+}
+
+.timeline-item:hover .timeline-dot {
+box-shadow: 0 0 0 6px rgba(var(--gold-rgb), 0.18);
+}
+
+
+/* ============================================================
+   BATCH 2
+   ============================================================ */
+
+/* ---------- Text selection ---------- */
+
+::selection {
+background: rgba(var(--gold-rgb), 0.85);
+color: var(--black);
+text-shadow: none;
+}
+
+/* ---------- Scrollbar, so the page furniture matches the page ---------- */
+
+html {
+scrollbar-width: thin;
+scrollbar-color: rgba(var(--gold-rgb), 0.38) var(--black-2);
+}
+
+::-webkit-scrollbar {
+width: 10px;
+height: 10px;
+}
+
+::-webkit-scrollbar-track {
+background: var(--black-2);
+}
+
+::-webkit-scrollbar-thumb {
+background: rgba(var(--gold-rgb), 0.32);
+border-radius: var(--radius-pill);
+border: 2px solid var(--black-2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+background: rgba(var(--gold-rgb), 0.6);
+}
+
+/* ---------- Form fields respond as you focus them ---------- */
+
+.form-input,
+.form-textarea {
+transition: border-color var(--dur-2) ease,
+            background var(--dur-2) ease,
+            box-shadow var(--dur-2) ease;
+}
+
+.form-input:focus,
+.form-textarea:focus {
+box-shadow: 0 0 0 3px rgba(var(--gold-rgb), 0.1);
+}
+
+.form-label {
+transition: color var(--dur-2) ease;
+}
+
+.form-group:focus-within .form-label {
+color: var(--gold);
+}
+
+/* ---------- Mobile menu can finally animate ----------
+   display cannot normally be transitioned, which is why this menu
+   used to appear instantly. allow-discrete plus @starting-style
+   lets it fade and settle in both directions. Browsers without
+   support simply get the old instant behaviour. */
+
+.mobile-menu {
+opacity: 0;
+transition: opacity var(--dur-2) var(--ease-out),
+            display var(--dur-2) allow-discrete;
+}
+
+.mobile-menu.open {
+opacity: 1;
+}
+
+@starting-style {
+.mobile-menu.open {
+opacity: 0;
+}
+}
+
+/* Menu items arrive one after another once the panel is open. */
+.mobile-menu.open a {
+animation: menuItemIn 0.45s var(--ease-out) both;
+}
+
+.mobile-menu.open a:nth-child(1) { animation-delay: 0.06s; }
+.mobile-menu.open a:nth-child(2) { animation-delay: 0.10s; }
+.mobile-menu.open a:nth-child(3) { animation-delay: 0.14s; }
+.mobile-menu.open a:nth-child(4) { animation-delay: 0.18s; }
+.mobile-menu.open a:nth-child(5) { animation-delay: 0.22s; }
+.mobile-menu.open a:nth-child(6) { animation-delay: 0.26s; }
+.mobile-menu.open a:nth-child(7) { animation-delay: 0.30s; }
+.mobile-menu.open a:nth-child(8) { animation-delay: 0.34s; }
+
+@keyframes menuItemIn {
+from { opacity: 0; transform: translateY(14px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ============================================================
+   BATCH 3
+   ============================================================ */
+
+/* ---------- Section headings uncover themselves ---------- */
+
+html.js .section-reveal .section-title {
+clip-path: inset(0 0 108% 0);
+transition: clip-path 0.9s var(--ease-out) 0.08s;
+}
+
+html.js .section-reveal.visible .section-title {
+clip-path: inset(0 0 -25% 0);
+}
+
+/* The rule before the section label draws itself out. */
+html.js .section-reveal .section-label::before {
+width: 0;
+transition: width 0.6s var(--ease-out) 0.2s;
+}
+
+html.js .section-reveal.visible .section-label::before {
+width: 28px;
+}
+
+/* ---------- Project preview settles instead of just appearing ---------- */
+
+.card-preview-wrap img {
+transform: scale(1.12);
+transition: transform 0.7s var(--ease-out), filter 0.7s ease;
+}
+
+.project-card:hover .card-preview-wrap img {
+transform: scale(1);
+filter: saturate(1) brightness(1);
+}
+
+/* ---------- Oversized background type drifts against the scroll ---------- */
+
+@supports (animation-timeline: view()) {
+@media (prefers-reduced-motion: no-preference) {
+.about-bg-number,
+.experience-bg-text {
+animation: bgParallax linear both;
+animation-timeline: view();
+animation-range: entry 0% exit 100%;
+}
+}
+}
+
+/* Animating `translate` rather than `transform` leaves the existing
+   centring and rotation on these elements untouched. */
+@keyframes bgParallax {
+from { translate: 0 60px; }
+to { translate: 0 -60px; }
+}
+
+/* ---------- Images ease in once decoded ---------- */
+
+html.js img.img-fade {
+opacity: 0;
+transition: opacity 0.6s var(--ease-out);
+}
+
+html.js img.img-fade.is-loaded {
+opacity: 1;
+}
+
+/* ---------- Back to top ---------- */
+
+.to-top {
+position: fixed;
+right: 28px;
+bottom: 28px;
+width: 44px;
+height: 44px;
+display: flex;
+align-items: center;
+justify-content: center;
+color: var(--gold);
+background: rgba(10, 10, 10, 0.82);
+-webkit-backdrop-filter: blur(10px);
+backdrop-filter: blur(10px);
+border: 1px solid rgba(var(--gold-rgb), 0.25);
+border-radius: 50%;
+z-index: 9000;
+opacity: 0;
+visibility: hidden;
+transform: translateY(12px) scale(0.9);
+transition: opacity var(--dur-2) var(--ease-out),
+            transform var(--dur-2) var(--ease-out),
+            visibility var(--dur-2),
+            border-color var(--dur-2) ease,
+            background var(--dur-2) ease;
+}
+
+.to-top svg {
+width: 17px;
+height: 17px;
+}
+
+.to-top.is-visible {
+opacity: 1;
+visibility: visible;
+transform: translateY(0) scale(1);
+}
+
+.to-top:hover {
+border-color: var(--gold);
+background: rgba(var(--gold-rgb), 0.14);
+}
+
+/* ---------- The premium edge now covers every card, not just projects ---------- */
+
+.edu-card,
+.testi-card {
+position: relative;
+}
+
+.edu-card::after,
+.testi-card::after {
+content: "";
+position: absolute;
+inset: 0;
+z-index: 3;
+padding: 1px;
+pointer-events: none;
+opacity: 0;
+background: linear-gradient(135deg,
+    rgba(var(--gold-rgb), 0.7) 0%,
+    rgba(var(--gold-rgb), 0.16) var(--edge-light),
+    rgba(var(--gold-rgb), 0) 70%);
+-webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+-webkit-mask-composite: xor;
+mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+mask-composite: exclude;
+transition: opacity var(--dur-2) var(--ease-out), --edge-light var(--dur-3) var(--ease-out);
+}
+
+.edu-card:hover::after,
+.testi-card:hover::after,
+.edu-card:focus-within::after,
+.testi-card:focus-within::after {
+opacity: 1;
+--edge-light: 78%;
+}
+
+/* ---------- Nav indicator slides between sections ---------- */
+
+.nav-links {
+position: relative;
+}
+
+.nav-indicator {
+position: absolute;
+bottom: -4px;
+left: 0;
+height: 1px;
+width: var(--nav-w, 0);
+background: var(--gold);
+opacity: 0;
+transform: translateX(var(--nav-x, 0));
+transition: transform 0.45s var(--ease-out),
+            width 0.45s var(--ease-out),
+            opacity var(--dur-2) ease;
+pointer-events: none;
+}
+
+.nav-indicator.is-on {
+opacity: 1;
+}
+
+/* With the sliding indicator present the active link no longer draws
+   its own underline, but hover feedback stays. */
+html.js .nav-links a.active:not(:hover)::after {
+width: 0;
+}
+
+
+/* ============================================================
+   BATCH 4
+   ============================================================ */
+
+/* ---------- Cursor changes meaning over a project card ---------- */
+
+.cursor-badge {
+position: fixed;
+top: 0;
+left: 0;
+width: 74px;
+height: 74px;
+border-radius: 50%;
+display: grid;
+place-items: center;
+background: var(--gold);
+color: var(--black);
+font-family: var(--font-body);
+font-size: 0.58rem;
+font-weight: 800;
+letter-spacing: 0.18em;
+pointer-events: none;
+z-index: 99997;
+translate: var(--cx, -300px) var(--cy, -300px);
+transform: translate(-50%, -50%) scale(0);
+transition: transform var(--dur-2) var(--ease-out);
+will-change: translate;
+}
+
+.cursor-badge.is-on {
+transform: translate(-50%, -50%) scale(1);
+}
+
+/* The arrow steps aside while the badge is showing. */
+.cursor.is-hidden,
+.cursor-trail.is-hidden {
+opacity: 0;
+}
+
+/* ---------- Magnetic buttons ----------
+   The pull is applied through `translate` so the hover lift, which
+   lives on `transform`, keeps working alongside it. */
+
+.btn-primary,
+.btn-secondary {
+translate: var(--mx, 0) var(--my, 0);
+transition: all 0.3s ease, translate 0.25s var(--ease-out);
+}
+
+/* ---------- Skill chips catch the light on hover ---------- */
+
+.skill-tag::after {
+content: "";
+position: absolute;
+top: 0;
+left: -80%;
+width: 55%;
+height: 100%;
+pointer-events: none;
+background: linear-gradient(100deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0) 100%);
+transform: skewX(-18deg);
+}
+
+.skill-tag:hover::after {
+animation: chipShine 0.75s var(--ease-out);
+}
+
+@keyframes chipShine {
+to { left: 130%; }
+}
+
+/* ---------- Cross document view transitions ----------
+   Turns the jump into a demo page into a fade instead of a flash.
+   Browsers without support ignore this block entirely. */
+
+@view-transition {
+navigation: auto;
+}
+
+::view-transition-old(root) {
+animation: vtFadeOut 0.28s var(--ease-in-out) both;
+}
+
+::view-transition-new(root) {
+animation: vtFadeIn 0.34s var(--ease-out) both;
+}
+
+@keyframes vtFadeOut {
+to { opacity: 0; }
+}
+
+@keyframes vtFadeIn {
+from { opacity: 0; }
+}
+
 @media (min-width: 1281px) {
 .project-card { padding: 32px 26px; }
 .project-number { font-size: 6.5rem; right: 20px; }
@@ -2651,6 +3133,59 @@ display: none;
 transition: none;
 }
 .project-number {
+animation: none;
+}
+.mobile-menu.open a {
+animation: none;
+}
+html.js .stagger-children > * {
+opacity: 1;
+transform: none;
+transition: none;
+}
+html.js .timeline-item .timeline-line {
+transform: scaleY(1);
+transition: none;
+}
+html.js .timeline-item .timeline-dot {
+transform: scale(1);
+transition: none;
+}
+.scroll-progress {
+animation: none;
+}
+html.js .section-reveal .section-title {
+clip-path: none;
+transition: none;
+}
+html.js .section-reveal .section-label::before {
+width: 28px;
+transition: none;
+}
+.about-bg-number,
+.experience-bg-text {
+animation: none;
+}
+html.js img.img-fade {
+opacity: 1;
+transition: none;
+}
+.card-preview-wrap img {
+transform: none;
+transition: none;
+}
+.cursor-badge {
+display: none;
+}
+.skill-tag:hover::after {
+animation: none;
+}
+.btn-primary,
+.btn-secondary {
+translate: none;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
 animation: none;
 }
 .projects-grid:has(.project-card:hover) .project-card:not(:hover) {

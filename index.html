@@ -62,7 +62,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css?v=10">
+    <link rel="stylesheet" href="assets/css/style.css?v=11">
 </head>
 <body>
 
@@ -72,7 +72,12 @@
         <path d="M3 2 L3 19 L7.5 15.3 L10.8 21.5 L13.9 20 L10.7 13.9 L17.5 13.9 Z"></path>
     </svg>
     <div class="cursor-trail" id="cursorTrail"></div>
+    <div class="cursor-badge" id="cursorBadge" aria-hidden="true">VIEW</div>
     <div class="noise-overlay"></div>
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <a href="#hero" class="to-top" id="toTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </a>
 
     <nav id="navbar">
         <a href="#hero" class="nav-logo">B<span>.</span>A<span>.</span>S</a>
@@ -1215,7 +1220,7 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/lucide@1.31.0/dist/umd/lucide.min.js"></script>
-    <script src="assets/js/main.js?v=7"></script>
+    <script src="assets/js/main.js?v=8"></script>
 
 </body>
 </html>

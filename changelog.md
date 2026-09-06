@@ -1,5 +1,35 @@
 # Changelog
 
+### Portfolio homepage - motion and interaction pass, 21 items
+
+**Fixed**
+- Clicking any nav link left the section heading hidden behind the fixed navbar. Measured it: the navbar is 75px tall but sections were landing at 0, so the label and part of every section title sat underneath it. All nine links were affected. Sections now keep clearance above them
+- The mobile menu could not animate at all because it toggled between hidden and shown, a property that cannot be transitioned, so it appeared instantly. It now fades and settles in both directions using allow-discrete together with a starting style, with browsers that lack support falling back to the old instant behaviour
+
+**Added**
+- Statistics count up from zero when they scroll into view, in both the hero and the about section. The original text is restored at the end so the markup stays the source of truth
+- Grid contents now arrive one after another instead of all at once. Applies to the project grid, testimonials, contact details, achievement and certification cards, the stats row, and the skill categories. Each child is handed an index and CSS turns that into a delay, so a 19 card grid reads as a sequence rather than a block
+- The experience timeline draws itself: the connecting line grows downward and each dot pops and picks up a glow as its entry arrives. Timeline entries also gained hover feedback, having been the only block on the page with none
+- A scroll progress line across the top, driven straight from scroll position by CSS where supported, with a scripted fallback elsewhere
+- Section titles uncover themselves from behind a mask, and the small rule before each section label draws outward
+- Project preview images settle from a slight zoom instead of simply appearing
+- The oversized background type in the about and experience sections drifts against the scroll, again driven by CSS rather than script
+- Images ease in once decoded, with two safety nets so nothing can stay hidden
+- A floating back to top button that appears once you are past the fold, useful on a page this long
+- The premium gradient edge now covers education, certification and testimonial cards, not just project cards, so the page no longer has two classes of card
+- A single underline that slides between nav items to mark the section in view, replacing the per link underline blinking on and off. Hover feedback is unchanged
+- Over a project card the pointer becomes a circle reading VIEW, so the whole card clearly reads as clickable
+- Primary buttons lean slightly toward the pointer as it approaches and spring back on leave, applied through translate so the existing hover lift still works
+- Skill chips catch a sweep of light on hover
+- Cross document view transitions, so moving to a demo page fades instead of flashing white
+- Text selection, scrollbar, and form focus states now match the site rather than using browser defaults, and form labels light up with their field
+
+**Verified**
+- Every new animation is switched off under reduced motion, confirmed by loading the page in that mode: reveals sit at full opacity, the timeline line is drawn, the custom cursor badge is disabled and the native cursor returns
+- No horizontal overflow and no console errors at 1440, 1024, 768, 390 and 360
+- Content still renders in full with JavaScript disabled, and the scroll progress line keeps working there because it is pure CSS
+- Balanced HTML tags, balanced CSS braces, and zero em or en dash
+
 ### Brand colours - CV button and WhatsApp links
 
 **Changed**
