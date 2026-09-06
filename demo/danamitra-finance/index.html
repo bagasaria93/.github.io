@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script>document.documentElement.classList.add('js');</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Danamitra Finance - Pembiayaan Kendaraan dan Elektronik</title>
@@ -205,7 +206,7 @@ section { padding: 92px 0; }
 .menu-overlay.active { opacity: 1; pointer-events: auto; }
 
 /* Reveal */
-.reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
+html.js .reveal { opacity: 0; transform: translateY(24px); transition: all 0.6s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* Hero */
@@ -706,7 +707,7 @@ footer { background: var(--teal-deep); color: rgba(255,255,255,0.6); padding: 68
                     <span class="cap">Jumlah Pinjaman</span>
                     <span class="val" id="calcAmountLabel">Rp 25.000.000</span>
                 </div>
-                <input type="range" class="calc-slider" id="calcAmount" min="2000000" max="300000000" step="1000000" value="25000000">
+                <input type="range" class="calc-slider" id="calcAmount" min="2000000" max="300000000" step="1000000" value="25000000" aria-label="Jumlah pinjaman">
                 <div class="calc-range-hints"><span>Rp 2 jt</span><span>Rp 300 jt</span></div>
             </div>
 
@@ -794,7 +795,7 @@ footer { background: var(--teal-deep); color: rgba(255,255,255,0.6); padding: 68
 <section class="keunggulan" id="keunggulan">
     <div class="container">
         <div class="keunggulan-media reveal">
-            <img src="images/consultation.jpg" alt="Petugas Danamitra Finance mendampingi nasabah saat konsultasi pembiayaan" loading="lazy">
+            <img src="images/consultation.jpg" width="1340" height="893" alt="Petugas Danamitra Finance mendampingi nasabah saat konsultasi pembiayaan" loading="lazy">
             <div class="float-badge">
                 <div class="big">1 hari</div>
                 <span>Rata-rata proses persetujuan kredit</span>

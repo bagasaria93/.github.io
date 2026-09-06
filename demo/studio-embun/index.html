@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script>document.documentElement.classList.add('js');</script>
 <meta charset="UTF-8">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,7 +49,7 @@ ul { list-style: none; }
 
 .wrap { max-width: 1220px; margin: 0 auto; padding: 0 1.75rem; }
 
-.reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
+html.js .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.in-view { opacity: 1; transform: translateY(0); }
 
 .eyebrow {
@@ -479,7 +480,7 @@ footer { padding: 4.5rem 0 2rem; }
         <div class="hero-visual reveal" style="transition-delay:0.15s;">
             <div class="hero-blob-ring"></div>
             <div class="hero-blob-img">
-                <img src="https://images.unsplash.com/photo-1600428853876-fb5a850b444f?q=80&w=1000&auto=format&fit=crop" alt="Skincare tools dan serum di Studio Embun" loading="eager">
+                <img src="https://images.unsplash.com/photo-1600428853876-fb5a850b444f?q=80&w=1000&auto=format&fit=crop" width="1000" height="1500" alt="Skincare tools dan serum di Studio Embun" loading="eager">
             </div>
         </div>
     </div>
@@ -534,16 +535,16 @@ footer { padding: 4.5rem 0 2rem; }
             </div>
             <div class="cat-panel" id="catPanel">
                 <div class="cat-panel-img active" data-panel="0">
-                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=900&auto=format&fit=crop" alt="Facial and Skincare treatment" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=900&auto=format&fit=crop" width="900" height="600" alt="Facial and Skincare treatment" loading="lazy">
                 </div>
                 <div class="cat-panel-img" data-panel="1">
-                    <img src="https://images.unsplash.com/photo-1622336889416-8d790ad807d7?q=80&w=700&auto=format&fit=crop" alt="Makeup and Styling" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1622336889416-8d790ad807d7?q=80&w=700&auto=format&fit=crop" width="700" height="467" alt="Makeup and Styling" loading="lazy">
                 </div>
                 <div class="cat-panel-img" data-panel="2">
-                    <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?q=80&w=700&auto=format&fit=crop" alt="Brow and Lash treatment" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1519415387722-a1c3bbef716c?q=80&w=700&auto=format&fit=crop" width="700" height="467" alt="Brow and Lash treatment" loading="lazy">
                 </div>
                 <div class="cat-panel-img" data-panel="3">
-                    <img src="https://images.unsplash.com/photo-1693578538512-fc66f318c833?q=80&w=1400&auto=format&fit=crop" alt="Body and Spa treatment room" loading="lazy">
+                    <img src="https://images.unsplash.com/photo-1693578538512-fc66f318c833?q=80&w=1400&auto=format&fit=crop" width="1400" height="788" alt="Body and Spa treatment room" loading="lazy">
                 </div>
                 <div class="cat-panel-tag active" data-tag="0">Facial &amp; Skincare</div>
                 <div class="cat-panel-tag" data-tag="1">Makeup &amp; Styling</div>
@@ -563,7 +564,7 @@ footer { padding: 4.5rem 0 2rem; }
         </div>
         <div class="treat-list reveal">
             <div class="treat-row">
-                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1531299244174-d247dd4e5a66?q=80&w=700&auto=format&fit=crop" alt="Detox Facial Glow" loading="lazy"></div>
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1531299244174-d247dd4e5a66?q=80&w=700&auto=format&fit=crop" width="700" height="947" alt="Detox Facial Glow" loading="lazy"></div>
                 <div class="treat-info">
                     <div class="treat-row-name">Detox Facial Glow</div>
                     <p class="treat-row-desc">Pembersihan mendalam dan masker detox untuk kulit yang terasa kusam dan lelah.</p>
@@ -575,7 +576,7 @@ footer { padding: 4.5rem 0 2rem; }
                 </div>
             </div>
             <div class="treat-row">
-                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=700&auto=format&fit=crop" alt="Hair Spa and Styling" loading="lazy"></div>
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1580618672591-eb180b1a973f?q=80&w=700&auto=format&fit=crop" width="700" height="467" alt="Hair Spa and Styling" loading="lazy"></div>
                 <div class="treat-info">
                     <div class="treat-row-name">Hair Spa &amp; Styling</div>
                     <p class="treat-row-desc">Perawatan rambut dan penataan untuk tampilan yang rapi dan sehat berkilau.</p>
@@ -587,7 +588,7 @@ footer { padding: 4.5rem 0 2rem; }
                 </div>
             </div>
             <div class="treat-row">
-                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1709477542149-f4e0e21d590b?q=80&w=700&auto=format&fit=crop" alt="Bridal and Event Makeup" loading="lazy"></div>
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1709477542149-f4e0e21d590b?q=80&w=700&auto=format&fit=crop" width="700" height="1050" alt="Bridal and Event Makeup" loading="lazy"></div>
                 <div class="treat-info">
                     <div class="treat-row-name">Bridal &amp; Event Makeup</div>
                     <p class="treat-row-desc">Riasan tahan lama untuk hari pernikahan, wisuda, atau acara penting lainnya.</p>
@@ -599,7 +600,7 @@ footer { padding: 4.5rem 0 2rem; }
                 </div>
             </div>
             <div class="treat-row">
-                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?q=80&w=700&auto=format&fit=crop" alt="Body Massage Aromaterapi" loading="lazy"></div>
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?q=80&w=700&auto=format&fit=crop" width="700" height="1050" alt="Body Massage Aromaterapi" loading="lazy"></div>
                 <div class="treat-info">
                     <div class="treat-row-name">Body Massage Aromaterapi</div>
                     <p class="treat-row-desc">Pijat relaksasi dengan minyak esensial pilihan untuk melepas ketegangan tubuh.</p>
@@ -611,7 +612,7 @@ footer { padding: 4.5rem 0 2rem; }
                 </div>
             </div>
             <div class="treat-row">
-                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=700&auto=format&fit=crop" alt="Manicure and Nail Care" loading="lazy"></div>
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1632345031435-8727f6897d53?q=80&w=700&auto=format&fit=crop" width="700" height="467" alt="Manicure and Nail Care" loading="lazy"></div>
                 <div class="treat-info">
                     <div class="treat-row-name">Manicure &amp; Nail Care</div>
                     <p class="treat-row-desc">Perawatan kuku lengkap dengan pilihan warna dan finishing sesuai selera.</p>
@@ -623,7 +624,7 @@ footer { padding: 4.5rem 0 2rem; }
                 </div>
             </div>
             <div class="treat-row">
-                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1587910234573-d6fc84743bc8?q=80&w=700&auto=format&fit=crop" alt="Brow Sculpting and Lamination" loading="lazy"></div>
+                <div class="treat-thumb"><img src="https://images.unsplash.com/photo-1587910234573-d6fc84743bc8?q=80&w=700&auto=format&fit=crop" width="700" height="1048" alt="Brow Sculpting and Lamination" loading="lazy"></div>
                 <div class="treat-info">
                     <div class="treat-row-name">Brow Sculpting &amp; Lamination</div>
                     <p class="treat-row-desc">Membentuk dan merapikan alis agar terlihat natural dan tahan lama.</p>
@@ -688,7 +689,7 @@ footer { padding: 4.5rem 0 2rem; }
     <div class="wrap story-grid">
         <div class="story-img-wrap reveal">
             <div class="story-img-frame"></div>
-            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=900&auto=format&fit=crop" alt="Terapis Studio Embun sedang menangani klien" loading="lazy">
+            <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=900&auto=format&fit=crop" width="900" height="600" alt="Terapis Studio Embun sedang menangani klien" loading="lazy">
         </div>
         <div class="reveal" style="transition-delay:0.1s;">
             <div class="eyebrow">Cerita Kami</div>
@@ -723,19 +724,19 @@ footer { padding: 4.5rem 0 2rem; }
         </div>
         <div class="gallery-mosaic reveal">
             <div class="gallery-item g-item-1">
-                <img src="https://images.unsplash.com/photo-1676536162793-faa565d976d4?q=80&w=1100&auto=format&fit=crop" alt="Display produk nail care di Studio Embun" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1676536162793-faa565d976d4?q=80&w=1100&auto=format&fit=crop" width="1100" height="1571" alt="Display produk nail care di Studio Embun" loading="lazy">
                 <div class="gallery-tag">Nail Care Corner</div>
             </div>
             <div class="gallery-item g-item-2">
-                <img src="https://images.unsplash.com/photo-1706795033849-7ca391f007c5?q=80&w=700&auto=format&fit=crop" alt="Vignette handuk, lilin, dan madu di ruang perawatan" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1706795033849-7ca391f007c5?q=80&w=700&auto=format&fit=crop" width="700" height="1050" alt="Vignette handuk, lilin, dan madu di ruang perawatan" loading="lazy">
                 <div class="gallery-tag">Ruang Perawatan</div>
             </div>
             <div class="gallery-item g-item-3">
-                <img src="https://images.unsplash.com/photo-1619596663253-a296b155aae8?q=80&w=700&auto=format&fit=crop" alt="Meja rias dengan kursi blush pink" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1619596663253-a296b155aae8?q=80&w=700&auto=format&fit=crop" width="700" height="875" alt="Meja rias dengan kursi blush pink" loading="lazy">
                 <div class="gallery-tag">Meja Rias</div>
             </div>
             <div class="gallery-item g-item-4">
-                <img src="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?q=80&w=1400&auto=format&fit=crop" alt="Ruang body massage Studio Embun" loading="lazy">
+                <img src="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?q=80&w=1400&auto=format&fit=crop" width="1400" height="2100" alt="Ruang body massage Studio Embun" loading="lazy">
                 <div class="gallery-tag">Ruang Body Spa</div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script>document.documentElement.classList.add('js');</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kriyatama - Atelier Konveksi Seragam, Jersey, dan Kaos Custom</title>
@@ -48,7 +49,7 @@ section{padding:100px 0;position:relative;}
 .zigzag.to-canvas{background:var(--canvas);}
 
 /* Reveal */
-.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+html.js .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
 .reveal.in-view{opacity:1;transform:translateY(0);}
 
 /* Buttons */
@@ -308,7 +309,7 @@ footer{background:var(--charcoal-deep);color:rgba(239,232,216,0.6);padding:0 0 3
     </div>
     <div class="hero-visual reveal" style="transition-delay:.15s;">
       <div class="hero-photo">
-        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=900&auto=format&fit=crop" alt="Penjahit Kriyatama menjahit pakaian di atelier" loading="eager">
+        <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=900&auto=format&fit=crop" width="900" height="675" alt="Penjahit Kriyatama menjahit pakaian di atelier" loading="eager">
       </div>
       <div class="hero-tagcard">
         <div class="hero-tagcard-label">&#9633; Kontrol Kualitas</div>
@@ -409,7 +410,7 @@ footer{background:var(--charcoal-deep);color:rgba(239,232,216,0.6);padding:0 0 3
 <section id="keunggulan">
   <div class="wrap keunggulan-grid">
     <div class="keunggulan-photo reveal">
-      <img src="https://images.unsplash.com/photo-1675176785803-bffbbb0cd2f4?q=80&w=900&auto=format&fit=crop" alt="Lini mesin jahit industrial di lantai produksi Kriyatama">
+      <img src="https://images.unsplash.com/photo-1675176785803-bffbbb0cd2f4?q=80&w=900&auto=format&fit=crop" width="900" height="600" alt="Lini mesin jahit industrial di lantai produksi Kriyatama" loading="lazy">
     </div>
     <div class="reveal" style="transition-delay:.1s;">
       <div class="tag-label">Kenapa Kriyatama</div>
@@ -443,11 +444,11 @@ footer{background:var(--charcoal-deep);color:rgba(239,232,216,0.6);padding:0 0 3
     <h2 class="section-title">Tempat Pesanan Anda Dikerjakan</h2>
     <p class="section-desc">Lantai produksi, mesin jahit industrial yang kami pakai, hingga sebagian hasil jadi dari klien Kriyatama.</p>
     <div class="galeri-collage">
-      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1741183392804-a37864e6a6d9?q=80&w=900&auto=format&fit=crop" alt="Lantai produksi Kriyatama, tempat pesanan dikerjakan"><span class="gitem-cap">Lantai Produksi</span></div>
-      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1772351721310-0aa6b2d5ee49?q=80&w=900&auto=format&fit=crop" alt="Operator menjahit di mesin industrial Kriyatama"><span class="gitem-cap">Mesin Jahit Industrial</span></div>
-      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=700&auto=format&fit=crop" alt="Detail kontrol kualitas jahitan seragam"><span class="gitem-cap">Kontrol Kualitas</span></div>
-      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1768746350424-ee28a364dcf5?q=80&w=700&auto=format&fit=crop" alt="Aktivitas produksi harian di workshop Kriyatama"><span class="gitem-cap">Workshop Kami</span></div>
-      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=700&auto=format&fit=crop" alt="Jersey olahraga hasil produksi Kriyatama"><span class="gitem-cap">Hasil Jadi</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1741183392804-a37864e6a6d9?q=80&w=900&auto=format&fit=crop" width="900" height="600" alt="Lantai produksi Kriyatama, tempat pesanan dikerjakan" loading="lazy"><span class="gitem-cap">Lantai Produksi</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1772351721310-0aa6b2d5ee49?q=80&w=900&auto=format&fit=crop" width="900" height="1350" alt="Operator menjahit di mesin industrial Kriyatama" loading="lazy"><span class="gitem-cap">Mesin Jahit Industrial</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=700&auto=format&fit=crop" width="700" height="467" alt="Detail kontrol kualitas jahitan seragam" loading="lazy"><span class="gitem-cap">Kontrol Kualitas</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1768746350424-ee28a364dcf5?q=80&w=700&auto=format&fit=crop" width="700" height="467" alt="Aktivitas produksi harian di workshop Kriyatama" loading="lazy"><span class="gitem-cap">Workshop Kami</span></div>
+      <div class="gitem reveal"><img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=700&auto=format&fit=crop" width="700" height="933" alt="Jersey olahraga hasil produksi Kriyatama" loading="lazy"><span class="gitem-cap">Hasil Jadi</span></div>
     </div>
   </div>
 </section>

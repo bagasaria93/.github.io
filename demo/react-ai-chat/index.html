@@ -6,37 +6,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ChatCerdas - AI Chat Interface</title>
 <meta name="description" content="ChatCerdas, antarmuka chat AI berbasis React dan Anthropic API dengan efek typewriter, riwayat percakapan, dan panel arsitektur production.">
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="tailwind.min.css">
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/@babel/standalone@8.0.4/babel.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
-      },
-      colors: {
-        bg: '#0d0f14',
-        surface: '#151820',
-        surfaceHover: '#1c2030',
-        border: '#252a38',
-        accent: '#4f8ef7',
-        accentDim: '#3a6fd4',
-        muted: '#6b7280',
-        textPrimary: '#e8eaf0',
-        textSecondary: '#9aa3b5',
-        userBubble: '#1a2540',
-        aiBubble: '#131720',
-      }
-    }
-  }
-}
-</script>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', sans-serif; background: #0d0f14; color: #e8eaf0; height: 100vh; overflow: hidden; }

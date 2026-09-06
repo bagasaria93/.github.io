@@ -445,13 +445,13 @@ select option {
                 </div>
             </div>
             <div style="max-width:440px;">
-                <label class="form-label">ID Player</label>
+                <label class="form-label" for="player-id-input">ID Player</label>
                 <input type="text" class="form-input" id="player-id-input" placeholder="Masukkan ID Player..." oninput="validatePlayerID()">
                 <div style="font-size:0.7rem;color:rgba(255,255,255,0.5);margin-top:6px;" id="player-id-hint"></div>
                 <div style="font-size:0.72rem;margin-top:6px;" id="player-id-validation"></div>
 
                 <div id="server-field" style="margin-top:14px;display:none;">
-                    <label class="form-label">Server</label>
+                    <label class="form-label" for="server-select">Server</label>
                     <select class="form-input" id="server-select" style="cursor:pointer;">
                         <option value="">Pilih Server</option>
                     </select>
@@ -643,8 +643,8 @@ select option {
         <div id="admin-transactions" style="display:none;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
                 <div style="display:flex;gap:8px;">
-                    <input type="text" class="form-input" id="tx-search" placeholder="Cari ID / Game / Player..." style="width:260px;" oninput="renderTransactionTable()">
-                    <select class="form-input" id="tx-filter-status" style="width:140px;cursor:pointer;" onchange="renderTransactionTable()">
+                    <input type="text" class="form-input" id="tx-search" placeholder="Cari ID / Game / Player..." aria-label="Cari transaksi berdasarkan ID, game, atau player" style="width:260px;" oninput="renderTransactionTable()">
+                    <select class="form-input" id="tx-filter-status" aria-label="Filter status transaksi" style="width:140px;cursor:pointer;" onchange="renderTransactionTable()">
                         <option value="">Semua Status</option>
                         <option value="success">Sukses</option>
                         <option value="pending">Pending</option>
@@ -679,17 +679,17 @@ select option {
         </div>
         <div style="display:flex;flex-direction:column;gap:12px;">
             <div>
-                <label class="form-label">Game</label>
+                <label class="form-label" for="pf-game">Game</label>
                 <select class="form-input" id="pf-game" style="cursor:pointer;" onchange="updateProductModalCurrency()">
                     <option value="">Pilih Game</option>
                 </select>
             </div>
             <div>
-                <label class="form-label">Jumlah <span id="pf-currency-label" style="color:#c9a84c;"></span></label>
+                <label class="form-label" for="pf-amount">Jumlah <span id="pf-currency-label" style="color:#c9a84c;"></span></label>
                 <input type="number" class="form-input" id="pf-amount" placeholder="Contoh: 86">
             </div>
             <div>
-                <label class="form-label">Harga (Rp)</label>
+                <label class="form-label" for="pf-price">Harga (Rp)</label>
                 <input type="number" class="form-input" id="pf-price" placeholder="Contoh: 20000">
             </div>
             <div style="display:flex;align-items:center;gap:10px;">

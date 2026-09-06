@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script>document.documentElement.classList.add('js');</script>
     <meta charset="UTF-8">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -252,7 +253,7 @@
         .section-heading-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem; margin-bottom: 3rem; }
 
         /* Reveal animation */
-        .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+        html.js .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
         .reveal.in { opacity: 1; transform: translateY(0); }
 
         /* Menu section */
@@ -526,7 +527,7 @@
 
             <div class="menu-grid">
                 <div class="menu-card reveal" style="transition-delay:0.05s;">
-                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1666239308345-c4c12ef3e177?auto=format&fit=crop&w=500&q=80" alt="Nasi Bakar Rimba" loading="lazy"></div>
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1666239308345-c4c12ef3e177?auto=format&fit=crop&w=500&q=80" width="500" height="333" alt="Nasi Bakar Rimba" loading="lazy"></div>
                     <div class="menu-card-body">
                         <div class="menu-card-tag">Signature</div>
                         <div class="menu-card-title">Nasi Bakar Rimba</div>
@@ -537,7 +538,7 @@
                     </div>
                 </div>
                 <div class="menu-card reveal" style="transition-delay:0.1s;">
-                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1751212352288-d5811798804c?auto=format&fit=crop&w=500&q=80" alt="Sate Rempah Nusantara" loading="lazy"></div>
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1751212352288-d5811798804c?auto=format&fit=crop&w=500&q=80" width="500" height="333" alt="Sate Rempah Nusantara" loading="lazy"></div>
                     <div class="menu-card-body">
                         <div class="menu-card-tag">Best Seller</div>
                         <div class="menu-card-title">Sate Rempah Nusantara</div>
@@ -548,7 +549,7 @@
                     </div>
                 </div>
                 <div class="menu-card reveal" style="transition-delay:0.15s;">
-                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1600175074394-f2f4c500f7ea?auto=format&fit=crop&w=500&q=80" alt="Ikan Bakar Sambal Matah" loading="lazy"></div>
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1600175074394-f2f4c500f7ea?auto=format&fit=crop&w=500&q=80" width="500" height="667" alt="Ikan Bakar Sambal Matah" loading="lazy"></div>
                     <div class="menu-card-body">
                         <div class="menu-card-tag">Signature</div>
                         <div class="menu-card-title">Ikan Bakar Sambal Matah</div>
@@ -559,7 +560,7 @@
                     </div>
                 </div>
                 <div class="menu-card reveal" style="transition-delay:0.2s;">
-                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1606143704849-eb181ba1543a?auto=format&fit=crop&w=500&q=80" alt="Rendang Daging Sapi" loading="lazy"></div>
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1606143704849-eb181ba1543a?auto=format&fit=crop&w=500&q=80" width="500" height="699" alt="Rendang Daging Sapi" loading="lazy"></div>
                     <div class="menu-card-body">
                         <div class="menu-card-tag">Signature</div>
                         <div class="menu-card-title">Rendang Daging Sapi</div>
@@ -570,7 +571,7 @@
                     </div>
                 </div>
                 <div class="menu-card reveal" style="transition-delay:0.25s;">
-                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1561962880-6001fa04d2c1?auto=format&fit=crop&w=500&q=80" alt="Es Kelapa Kopyor Gula Aren" loading="lazy"></div>
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1561962880-6001fa04d2c1?auto=format&fit=crop&w=500&q=80" width="500" height="333" alt="Es Kelapa Kopyor Gula Aren" loading="lazy"></div>
                     <div class="menu-card-body">
                         <div class="menu-card-tag">Minuman</div>
                         <div class="menu-card-title">Es Kelapa Kopyor Gula Aren</div>
@@ -581,7 +582,7 @@
                     </div>
                 </div>
                 <div class="menu-card reveal" style="transition-delay:0.3s;">
-                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" alt="Kopi Susu Gula Aren" loading="lazy"></div>
+                    <div class="menu-card-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=500&q=80" width="500" height="334" alt="Kopi Susu Gula Aren" loading="lazy"></div>
                     <div class="menu-card-body">
                         <div class="menu-card-tag">Minuman</div>
                         <div class="menu-card-title">Kopi Susu Gula Aren</div>
@@ -605,10 +606,10 @@
                 <p class="section-desc">Ruang makan indoor dan outdoor dengan sentuhan kayu dan tanaman hijau, cocok untuk santai maupun acara khusus.</p>
             </div>
             <div class="gallery-grid">
-                <div class="gallery-item reveal" style="transition-delay:0.05s;"><img src="https://images.unsplash.com/photo-1622140739492-f82f386260b5?auto=format&fit=crop&w=500&q=80" alt="Suasana ruang makan Rimba Kitchen" loading="lazy"></div>
-                <div class="gallery-item reveal" style="transition-delay:0.1s;"><img src="https://images.unsplash.com/photo-1558473399-6773c890474c?auto=format&fit=crop&w=500&q=80" alt="Meja outdoor Rimba Kitchen" loading="lazy"></div>
-                <div class="gallery-item reveal" style="transition-delay:0.15s;"><img src="https://images.unsplash.com/photo-1770991966683-472a770d0ebf?auto=format&fit=crop&w=500&q=80" alt="Sudut kopi Rimba Kitchen" loading="lazy"></div>
-                <div class="gallery-item reveal" style="transition-delay:0.2s;"><img src="https://images.unsplash.com/photo-1667388968964-4aa652df0a9b?auto=format&fit=crop&w=500&q=80" alt="Interior Rimba Kitchen" loading="lazy"></div>
+                <div class="gallery-item reveal" style="transition-delay:0.05s;"><img src="https://images.unsplash.com/photo-1622140739492-f82f386260b5?auto=format&fit=crop&w=500&q=80" width="500" height="333" alt="Suasana ruang makan Rimba Kitchen" loading="lazy"></div>
+                <div class="gallery-item reveal" style="transition-delay:0.1s;"><img src="https://images.unsplash.com/photo-1558473399-6773c890474c?auto=format&fit=crop&w=500&q=80" width="500" height="331" alt="Meja outdoor Rimba Kitchen" loading="lazy"></div>
+                <div class="gallery-item reveal" style="transition-delay:0.15s;"><img src="https://images.unsplash.com/photo-1770991966683-472a770d0ebf?auto=format&fit=crop&w=500&q=80" width="500" height="375" alt="Sudut kopi Rimba Kitchen" loading="lazy"></div>
+                <div class="gallery-item reveal" style="transition-delay:0.2s;"><img src="https://images.unsplash.com/photo-1667388968964-4aa652df0a9b?auto=format&fit=crop&w=500&q=80" width="500" height="333" alt="Interior Rimba Kitchen" loading="lazy"></div>
             </div>
         </div>
     </section>

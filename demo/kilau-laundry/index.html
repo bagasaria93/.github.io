@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script>document.documentElement.classList.add('js');</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kilau Laundry - Cuci Kiloan, Setrika, dan Dry Clean</title>
@@ -41,7 +42,7 @@ ul{list-style:none;}
 h1,h2,h3,h4{font-family:'Fredoka',sans-serif;font-weight:600;letter-spacing:-0.005em;color:var(--ink);}
 .mono{font-family:'JetBrains Mono',monospace;}
 
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+html.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
 .reveal.in-view{opacity:1;transform:translateY(0);}
 
 /* ===== floating pill header ===== */
@@ -346,7 +347,7 @@ footer{background:var(--white);padding:52px 0 26px;}
       <div class="bubble b3"></div>
       <div class="porthole-ring">
         <div class="porthole-photo">
-          <img src="https://images.unsplash.com/photo-1757252872525-01d7703533d9?auto=format&fit=crop&w=800&q=80" alt="Interior laundry Kilau yang bersih dengan mesin cuci">
+          <img src="https://images.unsplash.com/photo-1757252872525-01d7703533d9?auto=format&fit=crop&w=800&q=80" width="800" height="1200" alt="Interior laundry Kilau yang bersih dengan mesin cuci" loading="eager">
         </div>
       </div>
       <div class="hero-badge">
@@ -369,15 +370,15 @@ footer{background:var(--white);padding:52px 0 26px;}
     </div>
     <div class="layanan-grid">
       <div class="layanan-card reveal">
-        <div class="layanan-photo"><span class="layanan-tag">Kiloan</span><img src="https://images.unsplash.com/photo-1757233285714-4de702bb8a56?auto=format&fit=crop&w=700&q=80" alt="Mesin cuci untuk layanan cuci kiloan"></div>
+        <div class="layanan-photo"><span class="layanan-tag">Kiloan</span><img src="https://images.unsplash.com/photo-1757233285714-4de702bb8a56?auto=format&fit=crop&w=700&q=80" width="700" height="1044" alt="Mesin cuci untuk layanan cuci kiloan" loading="lazy"></div>
         <div class="layanan-body"><h3>Cuci Kiloan</h3><p>Cuci dan kering tanpa setrika, cocok untuk cucian harian dalam jumlah banyak.</p><div class="layanan-price">Mulai Rp 7.000/kg</div></div>
       </div>
       <div class="layanan-card reveal">
-        <div class="layanan-photo"><span class="layanan-tag">Setrika</span><img src="https://images.unsplash.com/photo-1635274605638-d44babc08a4f?auto=format&fit=crop&w=700&q=80" alt="Tumpukan pakaian bersih hasil cuci setrika"></div>
+        <div class="layanan-photo"><span class="layanan-tag">Setrika</span><img src="https://images.unsplash.com/photo-1635274605638-d44babc08a4f?auto=format&fit=crop&w=700&q=80" width="700" height="467" alt="Tumpukan pakaian bersih hasil cuci setrika" loading="lazy"></div>
         <div class="layanan-body"><h3>Cuci + Setrika</h3><p>Cucian dicuci, dikeringkan, disetrika rapi, dan dilipat siap simpan di lemari.</p><div class="layanan-price">Mulai Rp 9.000/kg</div></div>
       </div>
       <div class="layanan-card reveal">
-        <div class="layanan-photo"><span class="layanan-tag">Setrika Saja</span><img src="https://images.unsplash.com/photo-1540544093-b0880061e1a5?auto=format&fit=crop&w=700&q=80" alt="Setrika uap untuk layanan setrika saja"></div>
+        <div class="layanan-photo"><span class="layanan-tag">Setrika Saja</span><img src="https://images.unsplash.com/photo-1540544093-b0880061e1a5?auto=format&fit=crop&w=700&q=80" width="700" height="1006" alt="Setrika uap untuk layanan setrika saja" loading="lazy"></div>
         <div class="layanan-body"><h3>Setrika Saja</h3><p>Untuk pakaian yang sudah dicuci sendiri, tinggal disetrika rapi dan dilipat.</p><div class="layanan-price">Mulai Rp 6.000/kg</div></div>
       </div>
     </div>
@@ -416,11 +417,11 @@ footer{background:var(--white);padding:52px 0 26px;}
       <p>Outlet dan proses kerja yang menangani cucian Anda setiap hari, bukan hanya hasil akhirnya.</p>
     </div>
     <div class="gal-grid reveal">
-      <div class="gal-item g1"><img src="https://images.unsplash.com/photo-1757252872525-01d7703533d9?auto=format&fit=crop&w=800&q=80" alt="Interior outlet Kilau Laundry"><div class="g-cap">Outlet Kilau Laundry</div></div>
-      <div class="gal-item g2"><img src="https://images.unsplash.com/photo-1757233285714-4de702bb8a56?auto=format&fit=crop&w=500&q=80" alt="Deretan mesin cuci di outlet"><div class="g-cap">Mesin Cuci</div></div>
-      <div class="gal-item g3"><img src="https://images.unsplash.com/photo-1540544093-b0880061e1a5?auto=format&fit=crop&w=500&q=80" alt="Proses setrika pakaian"><div class="g-cap">Stasiun Setrika</div></div>
-      <div class="gal-item g4"><img src="https://images.unsplash.com/photo-1741176504815-75b0b79dc3c6?auto=format&fit=crop&w=800&q=80" alt="Staf melipat dan menumpuk cucian bersih"><div class="g-cap">Staf Melipat Cucian</div></div>
-      <div class="gal-item g5"><img src="https://images.unsplash.com/photo-1635274605638-d44babc08a4f?auto=format&fit=crop&w=500&q=80" alt="Cucian bersih siap diambil"><div class="g-cap">Siap Diambil</div></div>
+      <div class="gal-item g1"><img src="https://images.unsplash.com/photo-1757252872525-01d7703533d9?auto=format&fit=crop&w=800&q=80" width="800" height="1200" alt="Interior outlet Kilau Laundry" loading="lazy"><div class="g-cap">Outlet Kilau Laundry</div></div>
+      <div class="gal-item g2"><img src="https://images.unsplash.com/photo-1757233285714-4de702bb8a56?auto=format&fit=crop&w=500&q=80" width="500" height="746" alt="Deretan mesin cuci di outlet" loading="lazy"><div class="g-cap">Mesin Cuci</div></div>
+      <div class="gal-item g3"><img src="https://images.unsplash.com/photo-1540544093-b0880061e1a5?auto=format&fit=crop&w=500&q=80" width="500" height="719" alt="Proses setrika pakaian" loading="lazy"><div class="g-cap">Stasiun Setrika</div></div>
+      <div class="gal-item g4"><img src="https://images.unsplash.com/photo-1741176504815-75b0b79dc3c6?auto=format&fit=crop&w=800&q=80" width="800" height="533" alt="Staf melipat dan menumpuk cucian bersih" loading="lazy"><div class="g-cap">Staf Melipat Cucian</div></div>
+      <div class="gal-item g5"><img src="https://images.unsplash.com/photo-1635274605638-d44babc08a4f?auto=format&fit=crop&w=500&q=80" width="500" height="333" alt="Cucian bersih siap diambil" loading="lazy"><div class="g-cap">Siap Diambil</div></div>
     </div>
   </div>
 </section>
@@ -428,7 +429,7 @@ footer{background:var(--white);padding:52px 0 26px;}
 <section id="keunggulan">
   <div class="wrap keunggulan-grid">
     <div class="keunggulan-photo reveal">
-      <img src="https://images.unsplash.com/photo-1741176504815-75b0b79dc3c6?auto=format&fit=crop&w=900&q=80" alt="Staf Kilau Laundry melipat dan menumpuk cucian bersih">
+      <img src="https://images.unsplash.com/photo-1741176504815-75b0b79dc3c6?auto=format&fit=crop&w=900&q=80" width="900" height="600" alt="Staf Kilau Laundry melipat dan menumpuk cucian bersih" loading="lazy">
       <div class="capchip">Proses Kerja Sehari-hari</div>
     </div>
     <div class="reveal">

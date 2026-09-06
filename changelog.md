@@ -1,5 +1,47 @@
 # Changelog
 
+### Demo audit Fase 5 - lazy loading, form accessibility, meta description, and lucide version pinning
+
+**Fixed**
+- Eight demos (cendekia-harapan, gudang-bata, karsa-bangun, karya-presisi, kilau-laundry, klinik-nirmala, kriyatama, tinta-kertas) had images with no loading attribute at all. Added loading lazy to every image below the hero, and loading eager to the one true above the fold hero image where one exists, matching the same pattern already used elsewhere in the repo
+- Twelve form inputs across seven demos (crm-system, danamitra-finance, erp-system, pocket-wallet, pos-application, rest-api-explorer, topup) had no programmatic label a screen reader could read out. Added an aria-label to inputs that only had a placeholder, and connected five existing visible labels in topup to their inputs with a proper for attribute, instead of duplicating the label text
+- Two pages (hris-system/app.html, klinik-nirmala) had no meta description tag. Added one to each based only on what is actually on the page
+- Five lucide icon script tags across four demos (hris-system, pocket-wallet, portal-akademik) loaded lucide at whatever version happened to be current that day through the at latest CDN tag, so the icons could change or break without warning. Pinned all five to the exact version already being served today, and added an automatic fallback to a second CDN if the first one fails to load
+
+**Verified**
+- Re-ran the audit tool on every changed file, all still balanced, all clean of em dash and en dash, image lazy loading gap closed on all eight demos, meta description present on both pages
+- Confirmed the aria-label and label for changes by reading each input back from the file, all twelve now carry a real accessible name
+- Tested the lucide CDN fallback logic in an isolated browser test simulating both a working and a failing primary CDN, in both cases lucide loaded successfully and the icon rendering call ran with no script errors
+- Looked into a small unrelated question raised during Fase 4, whether nexbyte/images/phonecase.jpg ever loads. It sits in a horizontally scrolling product carousel and is lazy loaded on purpose, so it only loads once a visitor scrolls the carousel to it, this is expected behavior and not a bug, no change made
+
+
+### Demo audit Fase 4 - Tailwind CDN replaced with local builds, image dimensions added across 16 demos
+
+**Fixed**
+- Four demos (booking-system, iq-test, predikml, react-ai-chat) loaded Tailwind CSS from the public play CDN at runtime instead of using a compiled local file like the rest of the repo already does. Built a project specific compiled Tailwind CSS file for each of the four, matching the same Tailwind version already used elsewhere in the repo, and swapped the CDN script tag for a local stylesheet link. For react-ai-chat, which customized its theme through an inline runtime config, translated that same configuration into a build time config file so the compiled output keeps all of its custom fonts and colors, then removed the now unnecessary inline config block from the page
+- Sixteen demos (the fifteen from Fase 2 plus company-profiles) were missing width and height attributes on their images, which can cause layout shift while a page loads. Measured the real pixel dimensions of every image on the live deployed site and added matching width and height attributes to each image tag across all sixteen files
+
+**Verified**
+- Confirmed the compiled Tailwind file for each of the four demos still contains every custom utility class actually used in that page, and checked there is no dynamic class name construction in the source that a compiled build could miss
+- Re-ran the full audit tool on all sixteen image dimension demos, every image now has both width and height, all files remain balanced and clean of em dash or en dash
+- Noted one small unrelated issue while measuring images: nexbyte/images/phonecase.jpg is a valid file but never finishes loading as a real image on the live page even after normal browsing time, worth a look separately from this audit
+
+### Demo audit Fase 3 - cleanup em dash, en dash, and a leftover folder
+
+**Fixed**
+- Removed 3 leftover en dash and em dash characters that slipped past the never use them rule: the page title in crm-system, a shift time range in pos-application, and the offline status banner text in pocket-wallet. All replaced with plain punctuation, checked and confirmed zero remaining in each file
+- Deleted demo/hris-system/_to_delete, a leftover folder holding 3 old test scripts (test_rbac.js, test_runner.js, test_utils.js) that had no reason to still be in the live repo
+
+### Demo audit Fase 2 - fixed content invisible without JavaScript across 15 company profile demos
+
+**Fixed**
+- Fifteen company profile demos hid almost their entire page behind a scroll reveal animation that only ever ran through JavaScript, so any visitor without JavaScript, or hit by a script error, saw nothing past the hero section. Confirmed the failure visually before fixing it: a full page screenshot with JavaScript disabled showed only the hero and footer, everything else was blank. Added the same html.js activation pattern already used on the main portfolio homepage, so the hiding rule only applies once JavaScript has actually run, and content is visible by default otherwise. Affected demos: cendekia-harapan, cendekia-prima, company-profile, danamitra-finance, gudang-bata, karsa-bangun, karya-presisi, kilau-laundry, klinik-nirmala, kriyatama, nexbyte, rimba-kitchen, studio-embun, tinta-kertas, torsi-garage
+
+**Verified**
+- Re-ran the same no-JavaScript test after the fix on all fifteen files, every reveal element is now visible without JavaScript
+- Confirmed the scroll reveal animation still behaves exactly as before when JavaScript is enabled, elements still start hidden and animate in on scroll
+- Checked brace balance and em dash or en dash usage on all fifteen files after editing, all clean
+
 ### Portfolio homepage - motion and interaction pass, 21 items
 
 **Fixed**

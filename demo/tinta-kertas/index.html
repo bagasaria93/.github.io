@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <script>document.documentElement.classList.add('js');</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tinta &amp; Kertas - Digital, Offset &amp; Large Format Printing</title>
@@ -61,7 +62,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif;font-weight:700;letter-spacin
 .cmykbar .k{background:var(--key);}
 
 /* ===== reveal animation ===== */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
+html.js .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease;}
 .reveal.in-view{opacity:1;transform:translateY(0);}
 
 /* ===== header ===== */
@@ -355,7 +356,7 @@ footer{background:var(--paper-deep);padding:56px 0 26px;}
         <div class="proof-card p1"></div>
         <div class="proof-card p2"></div>
         <div class="proof-photo regmark">
-          <img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=900&q=80" alt="Mesin cetak digital large format sedang mencetak banner di Tinta dan Kertas">
+          <img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=900&q=80" width="900" height="600" alt="Mesin cetak digital large format sedang mencetak banner di Tinta dan Kertas" loading="eager">
         </div>
         <div class="proof-tag">
           <div class="dot-row"><span class="c"></span><span class="m"></span><span class="y"></span><span class="k"></span></div>
@@ -376,32 +377,32 @@ footer{background:var(--paper-deep);padding:56px 0 26px;}
     <div class="kat-grid">
       <div class="kat-card reveal">
         <span class="kat-tab" style="background:var(--cyan);">DG.01</span>
-        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=700&q=80" alt="Mesin cetak digital sedang memproses dokumen"></div>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=700&q=80" width="700" height="467" alt="Mesin cetak digital sedang memproses dokumen" loading="lazy"></div>
         <div class="kat-body"><h3>Cetak Digital</h3><p>Brosur, flyer, undangan, dan dokumen dalam jumlah kecil dengan waktu produksi cepat.</p></div>
       </div>
       <div class="kat-card reveal">
         <span class="kat-tab" style="background:var(--magenta);">OF.02</span>
-        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=700&q=80" alt="Mesin cetak offset dan large format di lantai produksi"></div>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=700&q=80" width="700" height="467" alt="Mesin cetak offset dan large format di lantai produksi" loading="lazy"></div>
         <div class="kat-body"><h3>Cetak Offset &amp; Large Format</h3><p>Katalog, majalah, banner, spanduk, dan baliho dengan warna konsisten untuk jumlah besar.</p></div>
       </div>
       <div class="kat-card reveal">
         <span class="kat-tab" style="background:var(--yellow);color:var(--key);">KN.03</span>
-        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1623305463957-df17547327cb?auto=format&fit=crop&w=700&q=80" alt="Tumpukan kartu nama hasil cetak"></div>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1623305463957-df17547327cb?auto=format&fit=crop&w=700&q=80" width="700" height="467" alt="Tumpukan kartu nama hasil cetak" loading="lazy"></div>
         <div class="kat-body"><h3>Kartu Nama &amp; Stationery</h3><p>Kartu nama, kop surat, amplop, nota, dan map perusahaan dengan finishing rapi.</p></div>
       </div>
       <div class="kat-card reveal">
         <span class="kat-tab" style="background:var(--key);">ST.04</span>
-        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1540651810471-5699df74834f?auto=format&fit=crop&w=700&q=80" alt="Kumpulan stiker warna warni hasil cetak dan cutting"></div>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1540651810471-5699df74834f?auto=format&fit=crop&w=700&q=80" width="700" height="394" alt="Kumpulan stiker warna warni hasil cetak dan cutting" loading="lazy"></div>
         <div class="kat-body"><h3>Stiker &amp; Label</h3><p>Stiker produk, label kemasan, dan cutting sticker custom bentuk sesuai desain.</p></div>
       </div>
       <div class="kat-card reveal">
         <span class="kat-tab" style="background:var(--cyan);">KM.05</span>
-        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1716193348750-9e22b67718c6?auto=format&fit=crop&w=700&q=80" alt="Kotak kemasan custom hasil cetak dengan logo"></div>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1716193348750-9e22b67718c6?auto=format&fit=crop&w=700&q=80" width="700" height="700" alt="Kotak kemasan custom hasil cetak dengan logo" loading="lazy"></div>
         <div class="kat-body"><h3>Kemasan Custom</h3><p>Box packaging, paper bag, dan kemasan retail dengan cetak logo dan branding.</p></div>
       </div>
       <div class="kat-card reveal">
         <span class="kat-tab" style="background:var(--magenta);">CW.06</span>
-        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1581079289196-67865ea83118?auto=format&fit=crop&w=700&q=80" alt="Kartu warna dan proofing sebelum cetak massal"></div>
+        <div class="kat-photo"><img src="https://images.unsplash.com/photo-1581079289196-67865ea83118?auto=format&fit=crop&w=700&q=80" width="700" height="468" alt="Kartu warna dan proofing sebelum cetak massal" loading="lazy"></div>
         <div class="kat-body"><h3>Color Matching &amp; Proofing</h3><p>Pengecekan warna dengan swatch resmi sebelum produksi massal dijalankan.</p></div>
       </div>
     </div>
@@ -411,7 +412,7 @@ footer{background:var(--paper-deep);padding:56px 0 26px;}
 <section id="keunggulan">
   <div class="wrap keunggulan-grid">
     <div class="keunggulan-photo reveal">
-      <img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=900&q=80" alt="Mesin cetak offset di lantai produksi Tinta dan Kertas">
+      <img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=900&q=80" width="900" height="601" alt="Mesin cetak offset di lantai produksi Tinta dan Kertas" loading="lazy">
       <div class="capchip">Lantai Produksi Kami</div>
     </div>
     <div class="reveal">
@@ -464,11 +465,11 @@ footer{background:var(--paper-deep);padding:56px 0 26px;}
       <p>Mesin dan proses produksi yang menangani setiap pesanan, bukan hanya hasil jadinya.</p>
     </div>
     <div class="gal-grid reveal">
-      <div class="gal-item g1"><img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=800&q=80" alt="Mesin cetak large format sedang mencetak banner"><div class="g-cap">Mesin Large Format</div></div>
-      <div class="gal-item g2"><img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=500&q=80" alt="Mesin cetak offset di lantai produksi"><div class="g-cap">Mesin Offset</div></div>
-      <div class="gal-item g3"><img src="https://images.unsplash.com/photo-1581079289196-67865ea83118?auto=format&fit=crop&w=500&q=80" alt="Kartu warna untuk proofing sebelum cetak massal"><div class="g-cap">Meja Proofing Warna</div></div>
-      <div class="gal-item g4"><img src="https://images.unsplash.com/photo-1623305463957-df17547327cb?auto=format&fit=crop&w=800&q=80" alt="Hasil cetak kartu nama"><div class="g-cap">Hasil Cetak Stationery</div></div>
-      <div class="gal-item g5"><img src="https://images.unsplash.com/photo-1540651810471-5699df74834f?auto=format&fit=crop&w=500&q=80" alt="Hasil cetak stiker warna warni"><div class="g-cap">Hasil Cetak Stiker</div></div>
+      <div class="gal-item g1"><img src="https://images.unsplash.com/photo-1693031630369-bd429a57f115?auto=format&fit=crop&w=800&q=80" width="800" height="533" alt="Mesin cetak large format sedang mencetak banner" loading="lazy"><div class="g-cap">Mesin Large Format</div></div>
+      <div class="gal-item g2"><img src="https://images.unsplash.com/photo-1503694978374-8a2fa686963a?auto=format&fit=crop&w=500&q=80" width="500" height="334" alt="Mesin cetak offset di lantai produksi" loading="lazy"><div class="g-cap">Mesin Offset</div></div>
+      <div class="gal-item g3"><img src="https://images.unsplash.com/photo-1581079289196-67865ea83118?auto=format&fit=crop&w=500&q=80" width="500" height="334" alt="Kartu warna untuk proofing sebelum cetak massal" loading="lazy"><div class="g-cap">Meja Proofing Warna</div></div>
+      <div class="gal-item g4"><img src="https://images.unsplash.com/photo-1623305463957-df17547327cb?auto=format&fit=crop&w=800&q=80" width="800" height="533" alt="Hasil cetak kartu nama" loading="lazy"><div class="g-cap">Hasil Cetak Stationery</div></div>
+      <div class="gal-item g5"><img src="https://images.unsplash.com/photo-1540651810471-5699df74834f?auto=format&fit=crop&w=500&q=80" width="500" height="281" alt="Hasil cetak stiker warna warni" loading="lazy"><div class="g-cap">Hasil Cetak Stiker</div></div>
     </div>
   </div>
 </section>

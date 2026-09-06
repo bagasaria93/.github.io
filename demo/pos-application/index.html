@@ -490,7 +490,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
     <div class="topbar-divider"></div>
     <div><span class="topbar-label">Kasir: </span><span class="topbar-value">Rina Pratiwi</span></div>
     <div class="topbar-shift-divider topbar-divider"></div>
-    <div class="topbar-shift"><span class="topbar-label">Shift: </span><span style="font-size:0.73rem;color:rgba(255,255,255,0.65);font-weight:600;">Pagi 07.00–15.00</span></div>
+    <div class="topbar-shift"><span class="topbar-label">Shift: </span><span style="font-size:0.73rem;color:rgba(255,255,255,0.65);font-weight:600;">Pagi 07.00-15.00</span></div>
   </div>
 </div>
 
@@ -499,7 +499,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
     <div style="display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap;">
       <div class="search-wrap" style="flex:1;min-width:180px;">
         <span class="search-icon">🔍</span>
-        <input type="text" class="search-bar" id="search-input" placeholder="Cari menu..." oninput="searchProducts(this.value)">
+        <input type="text" class="search-bar" id="search-input" placeholder="Cari menu..." aria-label="Cari menu" oninput="searchProducts(this.value)">
       </div>
       <div style="font-size:0.73rem;color:rgba(255,255,255,0.5);" id="search-result-info"></div>
     </div>
@@ -543,7 +543,7 @@ body { font-family: 'Inter', sans-serif; background: #0f0f1a; color: #e2e8f0; }
           <span id="subtotal">Rp 0</span>
         </div>
         <div class="coupon-row">
-          <input type="text" class="coupon-input" id="coupon-input" placeholder="Kode kupon (cth: KOPI10)" maxlength="10">
+          <input type="text" class="coupon-input" id="coupon-input" placeholder="Kode kupon (cth: KOPI10)" maxlength="10" aria-label="Kode kupon">
           <button class="coupon-btn" onclick="applyCoupon()">Pakai</button>
         </div>
         <div class="calc-row" id="discount-row" style="display:none;color:#10b981;">

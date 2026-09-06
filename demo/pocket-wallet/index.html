@@ -17,7 +17,8 @@
 <meta name="description" content="PocketWallet - Installable expense & budget tracker PWA. Works offline, installable to home screen.">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/lucide@1.41.0/dist/umd/lucide.js"></script>
+<script>if(typeof lucide==="undefined"){document.write('<script src="https://cdn.jsdelivr.net/npm/lucide@1.41.0/dist/umd/lucide.js"><\/script>');}</script>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
 
 <style>
@@ -104,7 +105,7 @@ html.dark .pill-expense{color:#fb7185;}
 
   <div class="offline-banner" id="offlineBanner">
     <i data-lucide="wifi-off" style="width:13px;height:13px;"></i>
-    <span>Mode Offline — data tetap tersimpan di perangkatmu</span>
+    <span>Mode Offline, data tetap tersimpan di perangkatmu</span>
   </div>
 
   <!-- HOME -->
@@ -181,7 +182,7 @@ html.dark .pill-expense{color:#fb7185;}
     <div style="padding:0 18px;">
       <div class="inp" style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
         <i data-lucide="search" style="width:15px;height:15px;color:var(--ink-dim);"></i>
-        <input id="txSearch" type="text" placeholder="Cari transaksi..." style="border:none;outline:none;background:none;flex:1;font-family:inherit;font-size:13.5px;color:var(--ink);" oninput="renderTransactions()">
+        <input id="txSearch" type="text" placeholder="Cari transaksi..." aria-label="Cari transaksi" style="border:none;outline:none;background:none;flex:1;font-family:inherit;font-size:13.5px;color:var(--ink);" oninput="renderTransactions()">
       </div>
       <div style="display:flex;gap:8px;margin-bottom:14px;">
         <button class="type-toggle" style="flex:1;display:flex;padding:0;" id="txFilterWrap">
